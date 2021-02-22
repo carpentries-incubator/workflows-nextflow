@@ -12,7 +12,7 @@ keypoints:
 
 # Channels
 
-Channels are a key data structure of Nextflow that allows the implementation of reactive-functional oriented computational workflows based on the Dataflow programming paradigm.
+Channels are a key data structure of Nextflow that allows the implementation of reactive-functional oriented computational workflows based on the [Dataflow programming paradigm](https://en.wikipedia.org/wiki/Dataflow_programming).
 
 They are used to logically connect tasks each other or to implement functional style data transformations.
 
