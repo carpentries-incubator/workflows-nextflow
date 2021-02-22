@@ -36,7 +36,7 @@ A queue channel is implicitly created by process output definitions or using cha
 Try the following snippets:
 
 
-> ## Challenge Title
+> ## View Channel contents
 > ~~~
 > ch = Channel.from(1,2,3)
 > ~~~
@@ -47,6 +47,7 @@ Try the following snippets:
 > > ~~~
 > > println(ch)  
 > > ch.view() 
+> > ~~~
 > {: .solution}
 {: .challenge}
 
