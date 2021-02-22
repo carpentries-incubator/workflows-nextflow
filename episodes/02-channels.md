@@ -3,18 +3,26 @@ title: "Channels"
 teaching: 15
 exercises: 0
 questions:
-- "Key question (FIXME)"
+- "Define what a Nextflow Channel is"
+- "Define the different types of Nextflow Channels"
+- "Create a Channel"
 objectives:
-- "First learning objective. (FIXME)"
+- "Understand what a Nextflow Channel is"
 keypoints:
-- "First key point. Brief Answer to questions. (FIXME)"
+- "Channels are a key data structure of Nextflow that allows the implementation of reactive-functional oriented computational workflows"
+- "Nextflow distinguish two different kinds of channels: queue channels and value channels."
+- 
 ---
 
 # Channels
 
-Channels are a key data structure of Nextflow that allows the implementation of reactive-functional oriented computational workflows based on the [Dataflow programming paradigm](https://en.wikipedia.org/wiki/Dataflow_programming).
+Channels are a key data structure of Nextflow that allows the implementation of [reactive-functional](https://en.wikipedia.org/wiki/Functional_reactive_programming) oriented computational workflows based on the [Dataflow programming paradigm](https://en.wikipedia.org/wiki/Dataflow_programming).
 
 They are used to logically connect tasks each other or to implement functional style data transformations.
+
+> Reactive programming is often explained with an analogy to a spreadsheet: Imagine a cell that calculates the input of two other cells. Once you change one of the inputs, the sum updates as well. The cell reacts to the changes and updates itself.
+This is very similar to dataflow programming. Conceptually, the focus here lies on the flow of the data instead of on the flow of control.[more here](https://itnext.io/demystifying-functional-reactive-programming-67767dbe520b)
+{: .callout}
 
 
 ## Channel types
