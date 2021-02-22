@@ -1,14 +1,6 @@
-# FIXME Lesson title
+# Introduction to workflows with Nextflow and nf-core
 
-[![Create a Slack Account with us](https://img.shields.io/badge/Create_Slack_Account-The_Carpentries-071159.svg)](https://swc-slack-invite.herokuapp.com/)
 
-**Thanks for contributing to The Carpentries Incubator!**
-This repository provides a blank starting point for lessons to be developed here.
-
-A member of the [Carpentries Curriculum Team](https://carpentries.org/team/)
-will work with you to get your lesson listed on the
-[Community Developed Lessons page][community-lessons]
-and make sure you have everything you need to begin developing your new lesson.
 
 ## What to do next
 
@@ -57,9 +49,8 @@ Look for the tag ![good_first_issue](https://img.shields.io/badge/-good%20first%
 
 Current maintainers of this lesson are
 
-* FIXME
-* FIXME
-* FIXME
+* Graeme R, Grimes
+
 
 
 ## Authors
