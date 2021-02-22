@@ -3,6 +3,10 @@ layout: page
 title: "Licenses"
 root: .
 ---
+
+This lesson is derived from work that is Copyright © Seqera Labs (https://www.seqera.io/).
+
+
 ## Instructional Material
 
 All Software Carpentry, Data Carpentry, and Library Carpentry instructional material is
