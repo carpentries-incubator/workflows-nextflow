@@ -122,6 +122,7 @@ process convertToUpper {
 result.view{ it.trim() }
 
 ~~~~
+{: .source}
 
 This script defines two processes. The first splits a string into files containing chunks of 6 characters. The second receives these files and transforms their contents to uppercase letters. The resulting strings are emitted on the result channel and the final output is printed by the view operator.
 
@@ -130,6 +131,7 @@ Execute the script by entering the following command in your terminal:
 ~~~
 nextflow run hello.nf
 ~~~
+{: .source}
 
 It will output something similar to the text shown below:
 
@@ -143,6 +145,109 @@ executor >  local (3)
 HELLO
 WORLD!
 ~~~
+{: .output}
+
+You can see that the first process is executed once, and the second twice. Finally the result string is printed.
+
+It’s worth noting that the process convertToUpper is executed in parallel, so there’s no guarantee that the instance processing the first split (the chunk Hello) will be executed before before the one processing the second split (the chunk world!).
+
+Thus, it is perfectly possible that you will get the final result printed out in a different order:
+
+~~~
+
+WORLD!
+HELLO
+~~~
+{: .output}
+
+> The hexadecimal numbers, like 22/7548fa, identify the unique process execution. 
+> These numbers are also the prefix of the directories where each process is executed. 
+> You can inspect the files produced by them changing to the directory $PWD/work and 
+> using these numbers to find the process-specific execution path.
+{: .callout}
+
+## Modify and resume
+
+Nextflow keeps track of all the processes executed in your pipeline. If you modify some parts of your script, only the processes that are actually changed will be re-executed. The execution of the processes that are not changed will be skipped and the cached result used instead.
+
+This helps a lot when testing or modifying part of your pipeline without having to re-execute it from scratch.
+
+For the sake of this tutorial, modify the convertToUpper process in the previous example, replacing the process script with the string ~~~rev $x~~~, so that the process looks like this:
+
+~~~
+process convertToUpper {
+
+    input:
+    file y from letters.flatten()
+
+    output:
+    stdout into result
+
+    """
+    rev $y
+    """
+}
+~~~
+{: .source}
+
+Then save the file with the same name, and execute it by adding the -resume option to the command line:
+
+~~~
+nextflow run hello.nf -resume
+~~~
+{: .source}
+
+It will print output similar to this:
+
+~~~
+N E X T F L O W  ~  version 20.01.0
+Launching `hello.nf` [naughty_tuckerman] - revision: 22eaa07be4
+[warm up] executor > local
+executor >  local (2)
+[19/c2f873] process > splitLetters   [100%] 1 of 1, cached: 1 ✔
+[a7/a410d3] process > convertToUpper [100%] 2 of 2 ✔
+olleH
+!dlrow
+~~~
+{: .output}
+
+You will see that the execution of the process splitLetters is actually skipped (the process ID is the same), and its results are retrieved from the cache. The second process is executed as expected, printing the reversed strings.
+
+
+> The pipeline results are cached by default in the directory $PWD/work. 
+> Depending on your script, this folder can take of lot of disk space. 
+> If your are sure you won’t resume your pipeline execution, clean this folder periodically.
+{: .callout}
+
+## Pipeline parameters
+
+Pipeline parameters are simply declared by prepending to a variable name the prefix params, separated by dot character. Their value can be specified on the command line by prefixing the parameter name with a double dash character, i.e. --paramName
+
+For the sake of this tutorial, you can try to execute the previous example specifying a different input string parameter, as shown below:
+
+
+~~~
+nextflow run hello.nf --greeting 'Bonjour le monde!'
+~~~
+{: .source}
+
+The string specified on the command line will override the default value of the parameter. The output will look like this:
+
+~~~
+N E X T F L O W  ~  version 20.01.0
+Launching `hello.nf` [wise_stallman] - revision: 22eaa07be4
+[warm up] executor > local
+executor >  local (4)
+[48/e8315b] process > splitLetters   [100%] 1 of 1 ✔
+[01/840ca7] process > convertToUpper [100%] 3 of 3 ✔
+uojnoB
+m el r
+!edno
+
+~~~
+{: .output}
+
+
 
 
 {% include links.md %}
