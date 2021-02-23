@@ -18,8 +18,6 @@ keypoints:
 ---
 
 
-# Introduction
-
 ## What is nf-core
 
 nf-core is a community-led project to develop a set of best-practice pipelines built using Nextflow. Pipelines are governed by a set of guidelines, enforced by community code reviews and automatic linting (code testing). A suite of helper tools aim to help people run and develop pipelines.
@@ -43,12 +41,12 @@ If you supply additional keywords after the command, the listed pipeline will be
 
 > ## Exercise 2 listing pipelines
 >
-> * Use the `--help` flag to print the list command usage
-> * Sort pipelines alphabetically, then by popularity (stars)
-> * Fetch one of the pipelines using `nextflow pull`
-> * Use `nf-core list` to see if the pipeline you pulled is up to date
-> * Filter pipelines for those that work with RNA
-> * ave these pipeline details to a JSON file
+>  Use the `--help` flag to print the list command usage
+>  Sort pipelines alphabetically, then by popularity (stars)
+>  Fetch one of the pipelines using `nextflow pull`
+>  Use `nf-core list` to see if the pipeline you pulled is up to date
+>  Filter pipelines for those that work with RNA
+>  ave these pipeline details to a JSON file
 > > ## Solution
 > >
 > > This is the body of the solution.
