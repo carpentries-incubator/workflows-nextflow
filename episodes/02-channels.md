@@ -271,8 +271,8 @@ When true throws an exception of the specified path do not exist in the file sys
 > > ## Solution
 > >
 > > ~~~
-> > Channel.fromFilePairs('data/ggal/*_{1,2}.fastq').view()
-> > Channel.fromFilePairs('data/ggal/*_{1,2}.fastq', flat:true).view()
+> > Channel.fromFilePairs('data/ggal/*_{1,2}.fq').view()
+> > Channel.fromFilePairs('data/ggal/*_{1,2}.fq', flat:true).view()
 > > ~~~
 > > 
 > {: .solution}
@@ -280,7 +280,7 @@ When true throws an exception of the specified path do not exist in the file sys
 
 ### fromSRA
 
-The Channel.fromSRA method that makes it possible to query of [NCBI SRA](https://www.ncbi.nlm.nih.gov/sra) archive and returns a channel emitting the FASTQ files matching the specified selection criteria.
+The `Channel.fromSRA` method that makes it possible to query of [NCBI SRA](https://www.ncbi.nlm.nih.gov/sra) archive and returns a channel emitting the FASTQ files matching the specified selection criteria.
 
 The query can be project ID or accession number(s) supported by the [NCBI ESearch API](https://www.ncbi.nlm.nih.gov/books/NBK25499/#chapter4.ESearch). For example the following snippet:
 
@@ -304,7 +304,26 @@ prints:
 ~~~
 {: .output}
 
+Multiple accession IDs can be specified using a list object:
+
+~~~
+ids = ['ERR908507', 'ERR908506', 'ERR908505']
+Channel
+    .fromSRA(ids)
+    .view()
+~~~
+{: .source}
+
+~~~
+[ERR908507, [ftp://ftp.sra.ebi.ac.uk/vol1/fastq/ERR908/ERR908507/ERR908507_1.fastq.gz, ftp://ftp.sra.ebi.ac.uk/vol1/fastq/ERR908/ERR908507/ERR908507_2.fastq.gz]]
+[ERR908506, [ftp://ftp.sra.ebi.ac.uk/vol1/fastq/ERR908/ERR908506/ERR908506_1.fastq.gz, ftp://ftp.sra.ebi.ac.uk/vol1/fastq/ERR908/ERR908506/ERR908506_2.fastq.gz]]
+[ERR908505, [ftp://ftp.sra.ebi.ac.uk/vol1/fastq/ERR908/ERR908505/ERR908505_1.fastq.gz, ftp://ftp.sra.ebi.ac.uk/vol1/fastq/ERR908/ERR908505/ERR908505_2.fastq.gz]]
+~~~
+{: .output}  
+
+> ## Read pairs
 > Read pairs are implicitly managed are returned as a list of files.
+{: .callout} 
 
 It’s straightforward to use this channel as an input using the usual Nextflow syntax. For example:
 
