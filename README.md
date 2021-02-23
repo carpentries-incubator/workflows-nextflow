@@ -1,32 +1,32 @@
 # Introduction to workflows with Nextflow and nf-core
 
 
+This lesson is an introduction to Nextflow and nf-core . 
 
-## What to do next
+[Nextflow](https://www.nextflow.io/) enables scalable and reproducible scientific workflows using software containers such as Docker and Singularity. It allows the adaptation of pipelines written in the most common scripting languages suach as such as R and Python. Its has a  Domain Specific Language (DSL) that simplifies the implementation and the deployment of complex parallel and reactive workflows on clouds and clusters.
 
-Before you begin developing your new lesson,
-here are a few things we recommend you do:
+This leson will also introduce [nf-core](https://nf-co.re/): a framework that provides a community-driven, peerreviewed platform for the development of best practice analysis pipelines written in Nextflow. 
 
-* [ ] Decide on a title for your new lesson!
-  Once you've chosen a new title, you can set the value for `lesson_title`
-  in [`_config.yml`](_config.yml)
-* [ ] Add the URL to your built lesson pages to the repository description\*
-* [ ] Fill in the fields marked `FIXME` in:
-  * this README
-  * [`_config.yml`](_config.yml)
-* [ ] If you're going to be developing lesson material for the first time
-  according to our design principles,
-  consider reading the [Carpentries Curriculum Development Handbook][cdh]
-* [ ] Consult the [Lesson Example][lesson-example] website to find out more about
-  working with the lesson template
-* [ ] Update this README with relevant information about your lesson
-  and delete this section
+This lesson motivates the use of Nextflow and nf-core as a development tool for building and sharing 
+computational pipelines that facilitate reproducible (data) science workflows.
 
-\* To set the URL on GitHub, click the gear wheel button next to **About**
-on the right of the repository landing page.
-The lesson URL structure is **https://carpentries-incubator.github.io/<repository-slug\>**:
-a repository at https://github.com/carpentries-incubator/new-lesson/ will have pages at
-the lesson URL https://carpentries-incubator.github.io/new-lesson/.
+## Maintainer(s)
+
+Current maintainers of this lesson are 
+
+* Graeme R. Grimes
+
+
+## Authors
+
+A list of contributors to the lesson can be found in [AUTHORS](AUTHORS)
+
+## Citation
+
+To cite this lesson, please consult with [CITATION](CITATION)
+
+
+
 
 
 ## Contributing
@@ -50,7 +50,6 @@ Look for the tag ![good_first_issue](https://img.shields.io/badge/-good%20first%
 Current maintainers of this lesson are
 
 * Graeme R, Grimes
-
 
 
 ## Authors
