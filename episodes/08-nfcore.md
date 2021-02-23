@@ -35,7 +35,7 @@ One additional tool which we like a lot is TLDR - it gives concise command line 
 
 ## Listing available nf-core pipelines
 
-As you saw from the `--help` output, the tool has a range of sub-commands. The simplest is nf-core list, which lists all available nf-core pipelines. The output shows the latest version number, when that was released. If the pipeline has been pulled locally using Nextflow, it tells you when that was and whether you have the latest version.
+As you saw from the `--help` output, the tool has a range of sub-commands. The simplest is `nf-core list`, which lists all available nf-core pipelines. The output shows the latest version number, when that was released. If the pipeline has been pulled locally using Nextflow, it tells you when that was and whether you have the latest version.
 
 If you supply additional keywords after the command, the listed pipeline will be filtered. Note that this searches more than just the displayed output, including keywords and description text. The `--sort` flag allows you to sort the list (default is by most recently released) and `--json` gives JSON output for programmatic use.
 
@@ -122,4 +122,39 @@ nextflow run nf-core/<pipeline_name> -profile test
 {: .language-bash}
 
 Note that you will typically still need to combine this with a configuration profile for your system - e.g. `-profile test,docker`. Running with the test profile is a great way to confirm that you have Nextflow configured properly for your system before attempting to run with real data
+
+## The nf-core launch command
+
+Most nf-core pipelines have a number of flags that need to be passed on the command line: some mandatory, some optional. To make it easier to launch pipelines, these parameters are described in a JSON file bundled with the pipeline. The nf-core launch command uses this to build an interactive command-line wizard which walks through the different options with descriptions of each, showing the default value and prompting for values.
+
+Once all prompts have been answered, non-default values are saved to a `params.json` file which can be supplied to Nextflow to run the pipeline. Optionally, the Nextflow command can be launched there and then.
+
+To use the launch feature, just specify the pipeline name:
+
+~~~
+nf-core launch <pipeline_name>
+~~~
+{: .language-bash}
+
+## Using nf-core pipelines offline
+
+Many of the techniques and resources described above require an active internet connection at run time - pipeline files, configuration profiles and software containers are all dynamically fetched when the pipeline is launched. This can be a problem for people using secure computing resources that do not have connections to the internet.
+
+To help with this, the `nf-core download` command automates the fetching of required files for running nf-core pipelines offline. The command can download a specific release of a pipeline with `-r`/`--release` and fetch the singularity container if `--singularity` is passed (this needs Singularity to be installed). All files are saved to a single directory, ready to be transferred to the cluster where the pipeline will be executed.
+
+> ## Exercise 3 (using pipelines)
+>
+>  Print the command-line usage instructions for the nf-core/rnaseq pipeline
+>  In a new directory, run the nf-core/rnaseq pipeline with the provided test data
+>  Try launching the RNA pipeline using the nf-core launch command
+>  Download the nf-core/rnaseq pipeline for offline use using the nf-core download command
+> > ## Solution
+> >
+> > This is the body of the solution.
+> {: .solution}
+{: .challenge}
+
+
+
+
 
