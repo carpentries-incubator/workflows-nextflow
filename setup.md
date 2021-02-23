@@ -57,4 +57,25 @@ wget -q -O- https://s3-eu-west-1.amazonaws.com/seqeralabs.com/public/nf-training
 {: .language-bash}
 
 
+## nf-core/tools installation
+
+### Bioconda
+
+You can install nf-core/tools from bioconda.
+
+First, install conda and configure the channels to use bioconda (see the bioconda documentation). Then, just run the conda installation command:
+
+~~~
+conda install nf-core
+~~~
+{: .language-bash}
+
+Alternatively, you can create a new environment with both nf-core/tools and nextflow:
+
+~~~
+pip install nf-core
+~~~
+{: .language-bash}
+
+
 {% include links.md %}
