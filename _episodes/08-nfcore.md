@@ -34,11 +34,47 @@ The nf-core Slack organisation has channels dedicated for each pipeline, as well
 > One additional tool which we like a lot is [TLDR](https://tldr.sh/) - it gives concise command line reference through example commands for most linux tools, including nextflow, docker, singularity, conda, git and more. There are many clients, but [raylee/tldr](raylee/tldr ) is arguably the simplest - just a single bash script.
 {: .callout}
 
+## What is nf-core tools
+
+The nf-core tools package is written in Python and can be imported and used within other packages. 
+
+### Automatic version check
+
+nf-core/tools automatically checks the web to see if there is a new version of nf-core/tools available. If you would prefer to skip this check, set the environment variable NFCORE_NO_VERSION_CHECK. For example:
+
+~~~
+export NFCORE_NO_VERSION_CHECK=1
+~~~
+{: .language-bash}
+
+### nf-core tools sub-commands
+
+You can use the `--help` option to see the range  of sub-commands.
+
+~~~
+nf-core --help
+~~~
+
+
 ## Listing available nf-core pipelines
 
 As you saw from the `--help` output, the tool has a range of sub-commands. The simplest is `nf-core list`, which lists all available nf-core pipelines. The output shows the latest version number, when that was released. If the pipeline has been pulled locally using Nextflow, it tells you when that was and whether you have the latest version.
 
-If you supply additional keywords after the command, the listed pipeline will be filtered. Note that this searches more than just the displayed output, including keywords and description text. The `--sort` flag allows you to sort the list (default is by most recently released) and `--json` gives JSON output for programmatic use.
+~~~
+nf-core list
+~~~
+{: .language-bash}
+
+
+
+If you supply additional keywords after the command, the listed pipeline will be filtered. Note that this searches more than just the displayed output, including keywords and description text. 
+
+~~~
+nf-core list rna rna-seq
+~~~
+{: .language-bash}
+
+The `--sort` flag allows you to sort the list (default is by most recently released) and `--json` gives JSON output for programmatic use.
 
 > ## Exercise 2 listing pipelines
 >
@@ -58,7 +94,11 @@ If you supply additional keywords after the command, the listed pipeline will be
 
 ### Software requirements for nf-core pipelines
 
-In order to run nf-core pipelines, you will need to have Nextflow installed (https://www.nextflow.io). The only other requirement is a software packaging tool: Conda, Docker or Singularity. In theory it is possible to run the pipelines with software installed by other methods (e.g. environment modules, or manual installation), but this is not recommended. Most people find either Docker or Singularity the best options.
+In order to run nf-core pipelines, you will need to have [Nextflow](https://www.nextflow.io) installed . The only other requirement is a software packaging tool: Conda, Docker or Singularity. In theory it is possible to run the pipelines with software installed by other methods (e.g. environment modules, or manual installation), but this is not recommended. Most people find either Docker or Singularity the best options.
+
+## Fetching pipeline code
+
+Unless you are actively developing pipeline code, we recommend using the Nextflow [built-in functionality](https://www.nextflow.io/docs/latest/sharing.html) to fetch `nf-core pipelines`. Nextflow will automatically fetch the pipeline code when you run nextflow `run nf-core/PIPELINE`. For the best reproducibility, it is good to explicitly reference the pipeline version number that you wish to use with the `-revision`/`-r` flag. For example:
 
 ~~~
 nextflow run nf-core/rnaseq -revision 3.0
