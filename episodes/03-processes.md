@@ -4,15 +4,28 @@ title: "Processes"
 teaching: 0
 exercises: 0
 questions:
-- "Key question (FIXME)"
+- "What is a Nextflow process?"
+- "How do I create a Nextflow process?"
+- "How do I input data into processes|"
+- "How do I ouput data from a process?"
+- "How do I sepcify conditions for a process in order for it to execute?"
+- "What are process directives?"
+- "How do i save output from a process?"
 objectives:
-- "First learning objective. (FIXME)"
+- "Understand a Nextflow process."
+- "Create a nextflow process."
+- "Use values and files as inputs to a process."
+- "Use the when declaration to define a condition for process execution."
+- "Understand what process directives are." 
 keypoints:
-- "First key point. Brief Answer to questions. (FIXME)"
+- "A Nextflow process is an independent task/step in a workflow"
+- "Processes"
 
 # Processes
 
 A process is the basic Nextflow computing primitive to execute foreign function i.e. custom scripts or tools.
+
+*Processes can be thought of as a particular task/steps in a workflow, e.g. an alignment step in RNA-Seq analysis. Processes and are independent of each other (don't require another processes to execute) and can not communicate/write to each other . It is the Channels that pass the data from each process to another, and we do this by having the processes define input and output which are Channels*
 
 The process definition starts with keyword the process, followed by process name and finally the process body delimited by curly brackets. The process body must contain a string which represents the command or, more generally, a script that is executed by it.
 
@@ -25,7 +38,7 @@ process sayHello {
   """
 }
 ~~~
-
+{: .source}
 
 A process may contain five definition blocks, respectively: directives, inputs, outputs, when clause and finally the process script. The syntax is defined as follows:
 
@@ -42,6 +55,7 @@ process < name > {
   < user script to be executed >
 }
 ~~~
+{: .source}
 
 * Zero, one or more process directives
 * Zero, one or more process inputs
@@ -69,8 +83,9 @@ process example {
     """
 }
 ~~~
+{: .source}
 
-By default the process command is interpreted as a Bash script. However any other scripting language can be used just simply starting the script with the corresponding Shebang declaration. For example:
+By default the process command is interpreted as a **Bash** script. However any other scripting language can be used just simply starting the script with the corresponding [Shebang](https://en.wikipedia.org/wiki/Shebang_(Unix)) declaration. For example:
 
 ~~~
 process pyStuff {
@@ -103,12 +118,15 @@ process foo {
   """
 }
 ~~~
+{: .source}
 
-> A process script can contain any string format supported by the Groovy programming language. This allows us to use string interpolation or multiline string as in the script above. Refer to String interpolation for more information.
+> # String interpolation
+> A process script can contain any string format supported by the Groovy programming language. This allows us to use string interpolation or multiline string as in the script above. Refer to [String interpolation](https://seqera.io/training/#_string_interpolation) for more information.
 {: .callout}
 
-> Since Nextflow uses the same Bash syntax for variable substitutions in strings, Bash environment variables need to be escaped using \ character.
+> Since Nextflow uses the same Bash syntax for variable substitutions in strings, Bash environment variables need to be escaped using `\` character.
 {: .callout}
+
 ~~~
 process foo {
   script:
@@ -132,7 +150,7 @@ process foo {
 
 However this won’t allow any more the usage of Nextflow variables in the command script.
 
-Another alternative is to use a shell statement instead of script which uses a different syntax for Nextflow variable: !{..}. This allow to use both Nextflow and Bash variables in the same script.
+Another alternative is to use a `shell` statement instead of `script` which uses a different syntax for Nextflow variable: `!{..}`. This allow to use both Nextflow and Bash variables in the same script.
 
 ```
 params.data = 'le monde'
