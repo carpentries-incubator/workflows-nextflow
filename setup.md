@@ -1,6 +1,10 @@
 ---
-title: Setup
+layout: page
+title: "Setup"
+permalink: /setup/
+root: ..
 ---
+
 # Requirements
 
 Nextflow can be used on any POSIX compatible system (Linux, OS X, etc). It requires Bash and Java 8 (or later, up to 12) to be installed.
