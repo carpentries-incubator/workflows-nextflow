@@ -205,6 +205,70 @@ Nextflow processes are isolated from each other but can communicate between them
 
 Inputs implicitly determine the dependency and the parallel execution of the process. The process execution is fired each time a new data is ready to be consumed from the input channel:
 
+todo insert image channel-process
+
+The input block defines which channels the process is expecting to receive inputs data from. You can only define one input block at a time and it must contain one or more inputs declarations.
+
+The input block follows the syntax shown below:
+
+~~~
+input:
+  <input qualifier> <input name> from <source channel>
+~~~
+{: .source}
+
+### Input values
+
+The val qualifier allows you to receive data of any type as input. It can be accessed in the process script by using the specified input name, as shown in the following example:
+
+~~~
+num = Channel.from( 1, 2, 3 )
+
+process basicExample {
+  input:
+  val x from num
+
+  """
+  echo process job $x
+  """
+}
+~~~
+{: .source}
+
+In the above example the process is executed three times, each time a value is received from the channel num and used to process the script. Thus, it results in an output similar to the one shown below:
+
+~~~
+process job 3
+process job 1
+process job 2
+~~~
+{: .output}
+
+> ## Channel order
+> The channel guarantees that items are delivered in the same order as they have been sent - but - since the process is executed in a parallel manner, there is no guarantee that they are processed in the same order as they are received.
+{: .callout}
+
+### Input files
+
+The `file` qualifier allows the handling of file values in the process execution context. This means that Nextflow will stage it in the process execution directory, and it can be access in the script by using the name specified in the input declaration.
+
+~~~
+reads = Channel.fromPath( 'data/ggal/*.fq' )
+
+process foo {
+    input:
+    file 'sample.fastq' from reads
+    script:
+    """
+    your_command --reads sample.fastq
+    """
+}
+~~~
+{: .source}
+
+
+
+
 
 {% include links.md %}
 
