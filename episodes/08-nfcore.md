@@ -30,8 +30,9 @@ The nf-core Slack can be found at https://nfcore.slack.com (NB: no hyphen in nfc
 
 The nf-core Slack organisation has channels dedicated for each pipeline, as well as specific topics (eg. #help, #pipelines, #tools, #configs and much more).
 
-One additional tool which we like a lot is TLDR - it gives concise command line reference through example commands for most linux tools, including nextflow, docker, singularity, conda, git and more. There are many clients, but raylee/tldr is arguably the simplest - just a single bash script.
-
+> ## TLDR
+> One additional tool which we like a lot is [TLDR](https://tldr.sh/) - it gives concise command line reference through example commands for most linux tools, including nextflow, docker, singularity, conda, git and more. There are many clients, but [raylee/tldr](raylee/tldr ) is arguably the simplest - just a single bash script.
+{: .callout}
 
 ## Listing available nf-core pipelines
 
