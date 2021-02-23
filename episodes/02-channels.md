@@ -24,20 +24,22 @@ They are used to logically connect tasks each other or to implement functional s
 This is very similar to dataflow programming. Conceptually, the focus here lies on the flow of the data instead of on the flow of control.[more here](https://itnext.io/demystifying-functional-reactive-programming-67767dbe520b)
 {: .callout}
 
+![Channel files](../fig/channel-files.pmg)
+
 
 ## Channel types
 
-Nextflow distinguish two different kinds of channels: queue channels and value channels.
+Nextflow distinguish two different kinds of channels: **queue** channels and **value** channels.
 
 ### Queue channel
 
-A queue channel is a asynchronous unidirectional FIFO queue which connects two processes or operators.
+A *queue* channel is a *asynchronous* unidirectional FIFO queue which connects two processes or operators.
 
-* What asynchronous means? That operations are non-blocking.
+* What *asynchronous* means? That operations are non-blocking.
 
 * What unidirectional means? That data flow from a producer to a consumer.
 
-* What FIFO means? That the data is guaranteed to be delivered in the same order as it is produced.
+* What *FIFO* means? That the data is guaranteed to be delivered in the same order as it is produced.
 
 A queue channel is implicitly created by process output definitions or using channel factories methods such as [Channel.from](https://www.nextflow.io/docs/latest/channel.html#from) or [Channel.fromPath](https://www.nextflow.io/docs/latest/channel.html#frompath).
 
@@ -53,20 +55,21 @@ Try the following snippets:
 >
 > > ## Solution
 > > ~~~
+> > ch = Channel.from(1,2,3)
 > > println(ch)  
 > > ch.view() 
 > > ~~~
 > {: .solution}
 {: .challenge}
 
-> Queue channels usage
+> ## Queue channels usage
 > A queue channel can have one and exactly one producer and one and exactly one consumer.
 {: .callout}
 
 
 ### Value channels
 
-A value channel a.k.a. singleton channel by definition is bound to a single value and it can be read unlimited times without consuming its content.
+A **value** channel a.k.a. singleton channel by definition is bound to a single value and it can be read unlimited times without consuming its content.
 
 ~~~
 ch = Channel.value('Hello')
@@ -89,7 +92,7 @@ Hello
 
 ### value
 
-The value factory method is used to create a value channel. An optional not null argument can be specified to bind the channel to a specific value. For example:
+The `value` factory method is used to create a value channel. An optional not `null` argument can be specified to bind the channel to a specific value. For example:
 
 ~~~
 ch1 = Channel.value() 
@@ -104,7 +107,7 @@ ch2 = Channel.value( [1,2,3,4,5] )
 
 ### from
 
-The factory Channel.from allows the creation of a queue channel with the values specified as argumThe factory Channel.from allows the creation of a queue channel with the values specified as argument.
+The factory `Channel.from` allows the creation of a queue channel with the values specified as argument.
 
 
 ~~~
@@ -113,7 +116,7 @@ ch.view{ "value: $it" }
 ~~~
 {: .source}
 
-The first line in this example creates a variable ch which holds a channel object. This channel emits the values specified as a parameter in the from method. Thus the second line will print the following:
+The first line in this example creates a variable `ch` which holds a channel object. This channel emits the values specified as a parameter in the `from` method. Thus the second line will print the following:
 
 ~~~
 value: 1
@@ -123,12 +126,14 @@ value: 7
 ~~~
 {: .output}
 
-> Method Channel.from will be deprecated and replaced by Channel.of (see below).
+> ## Channel.from will be deprecated
+> Method `Channel.from` will be deprecated and replaced by `Channel.of` (see below).
 {: .callout}
 
 
 ### of
-The method Channel.of works in a similar manner to Channel.from, though it fixes some inconsistent behavior of the latter and provides a better handling for range of values. For example:
+
+The method `Channel.of` works in a similar manner to `Channel.from`, though it fixes some inconsistent behavior of the latter and provides a better handling for range of values. For example:
 
 ~~~
 Channel
@@ -139,7 +144,7 @@ Channel
 
 ### fromList
 
-The method Channel.fromList creates a channel emitting the elements provided by a list objects specified as argument:
+The method `Channel.fromList` creates a channel emitting the elements provided by a list objects specified as argument:
 
 ~~~
 list = ['hello', 'world']
@@ -152,23 +157,24 @@ Channel
 
 
 ### fromPath
-The fromPath factory method create a queue channel emitting one or more files matching the specified glob pattern.
+
+The `fromPath` factory method create a queue channel emitting one or more files matching the specified glob pattern.
 
 ~~~
 Channel.fromPath( '/data/big/*.txt' )
 ~~~
 {: .source}
 
-This example creates a channel and emits as many items as there are files with txt extension in the /data/big folder. Each element is a file object implementing the [Path](https://docs.oracle.com/javase/8/docs/api/java/nio/file/Paths.html) interface.
+This example creates a channel and emits as many items as there are files with `txt` extension in the `/data/big` folder. Each element is a file object implementing the [Path](https://docs.oracle.com/javase/8/docs/api/java/nio/file/Paths.html) interface.
 
+> ## asterisks
 > Two asterisks, i.e. **, works like * but crosses directory boundaries. This syntax is generally used for matching complete paths. Curly brackets specify a collection of sub-patterns.
 {: .callout}
 
 
 
 
-
-
+Table 1. Available options
 |Name|	Description|
 |-----|----------|
 |glob |When true interprets characters *, ?, [] and {} as glob wildcards, otherwise handles them as normal characters (default: true)|
@@ -177,24 +183,27 @@ This example creates a channel and emits as many items as there are files with t
 | maxDepth | Maximum number of directory levels to visit (default: no limit) |
 | followLinks | When true it follows symbolic links during directories tree traversal, otherwise they are managed as files (default: true) |
 | relative | When true returned paths are relative to the top-most common directory (default: false) |
-| checkIfExists | When true throws an exception of the specified path do not exist in the file system (default: false) |
+| checkIfExists | When true throws an exception of the specified path do not exist in the file system (default: false) | When true throws an exception of the specified path do not exist in the file system (default: false)|
 
-When true throws an exception of the specified path do not exist in the file system (default: false)
+Learn more about the glob patterns syntax at this [link](https://docs.oracle.com/javase/tutorial/essential/io/fileOps.html#glob).
 
-> ## Challenge Title
+> ## Using Channel.fromPath
 >
->  Use the Channel.fromPath method to create a channel emitting all files with the suffix .fq in the data/ggal/ and any subdirectory, then print the file name.
+>  Use the `Channel.fromPath` method to create a channel emitting all files with the suffix `.fq` in the `data/ggal/` and any subdirectory, then print the file name.
 >
 > > ## Solution
 > >
-> > This is the body of the solution.
+> > ~~~
+> > Channel.fromPath('data/data/ggal/*.fq').view()
+> > ~~~
+> > 
 > {: .solution}
 {: .challenge}
 
 
 ### fromFilePairs
 
-The fromFilePairs method creates a channel emitting the file pairs matching a glob pattern provided by the user. The matching files are emitted as tuples in which the first element is the grouping key of the matching pair and the second element is the list of files (sorted in lexicographical order).
+The `fromFilePairs` method creates a channel emitting the file pairs matching a glob pattern provided by the user. The matching files are emitted as tuples in which the first element is the grouping key of the matching pair and the second element is the list of files (sorted in lexicographical order).
 
 ~~~
 Channel
@@ -216,22 +225,56 @@ It will produce an output similar to the following:
 {: .output}
 
 
+> ## glob pattern
 > The glob pattern must contain at least a star wildcard character.
 {: .callout}
 
 
 
 
-fixme add table
+fixme format table
 
-> ## Challenge Title
+Name	Description
+type
+
+Type of paths returned, either file, dir or any (default: file)
+
+hidden
+
+When true includes hidden files in the resulting paths (default: false)
+
+maxDepth
+
+Maximum number of directory levels to visit (default: no limit)
+
+followLinks
+
+When true it follows symbolic links during directories tree traversal, otherwise they are managed as files (default: true)
+
+size
+
+Defines the number of files each emitted item is expected to hold (default: 2). Set to -1 for any.
+
+flat
+
+When true the matching files are produced as sole elements in the emitted tuples (default: false).
+
+checkIfExists
+
+When true throws an exception of the specified path do not exist in the file system (default: false)
+
+> ## fromFilePairs
 >
->  Use the fromFilePairs method to create a channel emitting all pairs of fastq read in the data/ggal/ directory and print them.
->  Then use the flat:true option and compare the output with the previous execution.
+>  Use the `fromFilePairs` method to create a channel emitting all pairs of fastq read in the `data/ggal/` directory and print them.
+>  Then use the `flat:true` option and compare the output with the previous execution.
 >
 > > ## Solution
 > >
-> > This is the body of the solution.
+> > ~~~
+> > Channel.fromFilePairs('data/ggal/*_{1,2}.fastq').view()
+> > Channel.fromFilePairs('data/ggal/*_{1,2}.fastq', flat:true).view()
+> > ~~~
+> > 
 > {: .solution}
 {: .challenge}
 
