@@ -3,15 +3,22 @@ title: "Channels"
 teaching: 15
 exercises: 0
 questions:
-- "Define what a Nextflow Channel is"
-- "Define the different types of Nextflow Channels"
-- "Create a Channel"
+- "What are Nextflow channels?"
+- "Define the different types of Nextflow channels?"
+- "How  do you create a channel?"
+- "How do you create a queue channel from a specified glob pattern?"
+- "How do you modify the behaviour of a channel factory?"
+- 
 objectives:
-- "Understand what a Nextflow Channel is"
+- "Understand what a Nextflow Channel is."
+- "Understand the differences between value and queue channels."
+- "Create a value and queue channel using Channel factory methods."
+- "Create a queue channel from a specified glob pattern."
+- "Modify the behaviour of a Channel factory"
 keypoints:
 - "Channels are a key data structure of Nextflow that allows the implementation of reactive-functional oriented computational workflows"
 - "Nextflow distinguish two different kinds of channels: queue channels and value channels."
-- 
+- "Channel factory methods are used to create value and queue channels."
 ---
 
 # Channels
@@ -231,37 +238,15 @@ It will produce an output similar to the following:
 
 
 
-
-fixme format table
-
-Name	Description
-type
-
-Type of paths returned, either file, dir or any (default: file)
-
-hidden
-
-When true includes hidden files in the resulting paths (default: false)
-
-maxDepth
-
-Maximum number of directory levels to visit (default: no limit)
-
-followLinks
-
-When true it follows symbolic links during directories tree traversal, otherwise they are managed as files (default: true)
-
-size
-
-Defines the number of files each emitted item is expected to hold (default: 2). Set to -1 for any.
-
-flat
-
-When true the matching files are produced as sole elements in the emitted tuples (default: false).
-
-checkIfExists
-
-When true throws an exception of the specified path do not exist in the file system (default: false)
+|Name|	Description|
+|-----|----------|
+|type|Type of paths returned, either file, dir or any (default: file)|
+|hidden|When true includes hidden files in the resulting paths (default: false)|
+|maxDepth|Maximum number of directory levels to visit (default: no limit)|
+|followLinks|When true it follows symbolic links during directories tree traversal, otherwise they are managed as files (default: true)|
+|size|Defines the number of files each emitted item is expected to hold (default: 2). Set to -1 for any.|
+|flat|When true the matching files are produced as sole elements in the emitted tuples (default: false).|
+|checkIfExists|When true throws an exception of the specified path do not exist in the file system (default: false)|
 
 > ## fromFilePairs
 >
