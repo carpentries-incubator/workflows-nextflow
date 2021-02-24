@@ -1,4 +1,3 @@
-
 ---
 title: "Processes"
 teaching: 0
@@ -20,6 +19,8 @@ objectives:
 keypoints:
 - "A Nextflow process is an independent task/step in a workflow"
 - "Processes"
+---
+
 
 # Processes
 
