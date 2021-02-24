@@ -587,7 +587,10 @@ Modify the script of the previous exercise so that the bam file is named as the 
 
 ## When
 
-The when declaration allows you to define a condition that must be verified in order to execute the process. This can be any expression that evaluates a boolean value.
+The `when` declaration allows you to define a condition that must be verified in order to execute the process. This can be any expression that evaluates a boolean value.
+
+It is useful to enable/disable the process execution depending the state of various inputs and parameters. For example:
+
 
 ~~~
 params.dbtype = 'nr'
@@ -610,7 +613,39 @@ process find {
 ~~~
 {: .source}
 
-It is useful to enable/disable the process execution depending the state of various inputs and parameters. For example:
+
+## Directives
+
+Directive declarations allow the definition of optional settings that affect the execution of the current process without affecting the semantic of the task itself.
+
+They must be entered at the top of the process body, before any other declaration blocks (i.e. `input`, `output`, etc).
+
+Directives are commonly used to define the amount of computing resources to be used or other meta directives like that allows the definition of extra information for configuration or logging purpose. For example:
+
+~~~
+process foo {
+  cpus 2
+  memory 8.GB
+  container 'image/name'
+
+  script:
+  """
+  your_command --this --that
+  """
+}
+~~~
+{: .bash}
+
+The complete list of directives is available at this [link](https://www.nextflow.io/docs/latest/process.html#directives).
+
+Exercise
+
+Modify the script of the previous exercise adding a `tag` directive logging the sample_id in the execution output.
+
+
+## Organise outputs
+
+
 
 
 > ## Nextflow Patterns
