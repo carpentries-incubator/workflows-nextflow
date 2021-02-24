@@ -6,7 +6,7 @@ questions:
 - "What is a Nextflow process?"
 - "How do I create a Nextflow process?"
 - "How do I input data into processes|"
-- "How do I ouput data from a process?"
+- "How do I output data from a process?"
 - "How do I sepcify conditions for a process in order for it to execute?"
 - "What are process directives?"
 - "How do i save output from a process?"
@@ -19,6 +19,7 @@ objectives:
 keypoints:
 - "A Nextflow process is an independent task/step in a workflow"
 - "Processes"
+- "Task output files are output from a process using the `PublishDir` directive"
 ---
 
 
@@ -634,7 +635,7 @@ process foo {
   """
 }
 ~~~
-{: .bash}
+{: .source}
 
 The complete list of directives is available at this [link](https://www.nextflow.io/docs/latest/process.html#directives).
 
@@ -645,8 +646,29 @@ Modify the script of the previous exercise adding a `tag` directive logging the 
 
 ## Organise outputs
 
+## PublishDir directive
 
+Nextflow manages independently workflow execution intermediate results from the pipeline expected outputs. Task output files are created in the task specific execution directory which is considered as a temporary directory that can be deleted upon completion.
 
+The pipeline result files need to be marked explicitly using the directive [publishDir](https://www.nextflow.io/docs/latest/process.html#publishdir) in the process that’s creating such file. For example:
+
+~~~
+process makeBams {
+    publishDir "/some/directory/bam_files", mode: 'copy'
+
+    input:
+    file index from index_ch
+    tuple val(name), file(reads) from reads_ch
+
+    output:
+    tuple val(name), file ('*.bam') into star_aligned
+
+    """
+    STAR --genomeDir $index --readFilesIn $reads
+    """
+}
+~~~
+{: .source}
 
 > ## Nextflow Patterns
 > The [Nextflow Patterns page](http://nextflow-io.github.io/patterns/) collects some recurrent implementation patterns used in Nextflow applications. 
