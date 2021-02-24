@@ -12,8 +12,9 @@ keypoints:
 
 # Operators
 
-* Built-in functions applied to channels
+Nextflow *operators* are methods that allow you to connect channels to each other or to transform values emitted by a channel applying some user provided rules.
 
+* Built-in functions applied to channels
 * Transform channels content
 * Can be used also to filter, fork and combine channels
 
