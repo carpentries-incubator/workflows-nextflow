@@ -1,13 +1,13 @@
 ---
-title:  Nextflow configuration"
-teaching: 0
-exercises: 0
+title:  "Nextflow configuration"
+teaching: 10
+exercises: 10
 questions:
 - "How do you configure Nextflow?"
 objectives:
 - "Understand who Nextflow is configured."
 keypoints:
-- "Nextflow configuration can be managed using a nextflow.config. "
+- "Nextflow configuration can be managed using a nextflow.config."
 ---
 
 
