@@ -14,9 +14,6 @@ keypoints:
 ---
 
 
-
-
-
 ## Basic concepts
 
 Nextflow is workflow orchestration engine and a programming domain specific language (DSL) that eases the writing of data-intensive computational pipelines.
