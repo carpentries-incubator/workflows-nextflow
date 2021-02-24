@@ -330,9 +330,7 @@ process foo {
 > The path qualifier should be preferred over file to handle process input files when using Nextflow 19.10.0 or later.
 {: .callout}
 
-> ## Nextflow Patterns
-> The [Nextflow Patterns page](http://nextflow-io.github.io/patterns/) collects some recurrent implementation patterns used in Nextflow applications. 
-{: .callout}
+
 
 Exercise
 Write a script that creates a channel containing all read files matching the pattern data/ggal/*_1.fq followed by a process that concatenates them into a single file and prints the first 20 lines.
@@ -424,7 +422,200 @@ Write a process that is executed for each read file matching the pattern data/gg
 
 {: .source}
 
+# Input repeaters
 
+The `each` qualifier allows you to repeat the execution of a process for each item in a collection, every time a new data is received. For example:
+
+~~~
+sequences = Channel.fromPath('data/prots/*.tfa')
+methods = ['regular', 'expresso', 'psicoffee']
+
+process alignSequences {
+  input:
+  path seq from sequences
+  each mode from methods
+
+  """
+  t_coffee -in $seq -mode $mode
+  """
+}
+~~~
+{: .source}
+
+In the above example every time a file of sequences is received as input by the process, it executes three tasks running an alignment with a different value for the `mode` option. This is useful when you need to repeat the same task for a given set of parameters.
+
+Exercise
+Extend the previous example so a task is executed for each read file matching the pattern data/ggal/*_1.fq and repeat the same task both with salmon and kallisto.
+
+## Outputs
+
+The `output` declaration block allows to define the channels used by the process to send out the results produced.
+
+There can be defined at most one output block and it can contain one or more outputs declarations. The output block follows the syntax shown below:
+
+~~~
+output:
+  <output qualifier> <output name> into <target channel>[,channel,..]
+~~~  
+{: .source}
+
+### Output values
+
+The `val` qualifier allows to output a value defined in the script context. In a common usage scenario, this is a value which has been defined in the *input* declaration block, as shown in the following example::
+
+
+~~~
+methods = ['prot','dna', 'rna']
+
+process foo {
+  input:
+  val x from methods
+
+  output:
+  val x into receiver
+
+  """
+  echo $x > file
+  """
+}
+
+receiver.view { "Received: $it" }
+~~~
+{: .source}
+
+### Output files
+
+The `file` qualifier allows to output one or more files, produced by the process, over the specified channel.
+
+~~~
+process randomNum {
+
+    output:
+    file 'result.txt' into numbers
+
+    '''
+    echo $RANDOM > result.txt
+    '''
+}
+
+numbers.view { "Received: " + it.text }
+~~~
+
+In the above example the process r`andomNum` creates a file named `result.txt` containing a random number.
+
+Since a file parameter using the same name is declared in the output block, when the task is completed that file is sent over the `numbers` channel. A downstream `process` declaring the same channel as input will be able to receive it.
+
+### Multiple output files
+
+When an output file name contains a `*` or `?` wildcard character it is interpreted as a [glob](http://docs.oracle.com/javase/tutorial/essential/io/fileOps.html#glob) path matcher. This allows to capture multiple files into a list object and output them as a sole emission. For example:
+
+~~~
+process splitLetters {
+
+    output:
+    file 'chunk_*' into letters
+    
+    script:
+    '''
+    printf 'Hola' | split -b 1 - chunk_
+    '''
+}
+/*
+*The flatMap operator applies a function of your choosing to every item emitted by a channel, and returns the items so obtained as a new channel
+*/
+letters
+    .flatMap()
+    .view { "File: ${it.name} => ${it.text}" }
+~~~
+{: .source}
+
+it prints:
+
+~~~
+File: chunk_aa => H
+File: chunk_ab => o
+File: chunk_ac => l
+File: chunk_ad => a
+~~~
+{: .output}
+
+Some caveats on glob pattern behavior:
+
+* Input files are not included in the list of possible matches.
+* Glob pattern matches against both files and directories path.
+* When a two stars pattern `**` is used to recourse across directories, only file paths are matched i.e. directories are not included in the result list.
+
+Exercise
+Remove the flatMap operator and see out the output change. The documentation for the flatMap operator is available at this [link](https://www.nextflow.io/docs/latest/operator.html#flatmap).
+
+### Dynamic output file names
+
+When an output file name needs to be expressed dynamically, it is possible to define it using a dynamic evaluated string which references values defined in the input declaration block or in the script global context. For example::
+
+~~~
+process align {
+  input:
+  val species_name from species
+  file seq from sequences
+
+  output:
+  file "${species_name}.aln" into genomes
+  
+  script:
+  """
+  t_coffee -in $seq > ${species_name}.aln
+  """
+}
+~~~
+{: .source}
+
+In the above example, each time the process is executed an alignment file is produced whose name depends on the actual value of the `species_name` input.
+
+### Composite inputs and outputs
+
+So far we have seen how to declare multiple input and output channels, but each channel was handling only one value at time. However Nextflow can handle groups of values using the `tuple` qualifiers.
+
+When using channel emitting tuple of values the corresponding input declaration must be declared with a `tuple` qualifier followed by definition of each single element in the tuple.
+
+In the same manner output channel emitting tuple of values can be declared using the `tuple` qualifier following by the definition of each tuple element in the tuple.
+
+
+
+
+Exercise
+Modify the script of the previous exercise so that the bam file is named as the given sample_id.
+
+## When
+
+The when declaration allows you to define a condition that must be verified in order to execute the process. This can be any expression that evaluates a boolean value.
+
+~~~
+params.dbtype = 'nr'
+params.prot = 'data/prots/*.tfa'
+proteins = Channel.fromPath(params.prot)
+
+process find {
+  input:
+  file fasta from proteins
+  val type from params.dbtype
+
+  when:
+  fasta.name =~ /^BB11.*/ && type == 'nr'
+
+  script:
+  """
+  blastp -query $fasta -db nr
+  """
+}
+~~~
+{: .source}
+
+It is useful to enable/disable the process execution depending the state of various inputs and parameters. For example:
+
+
+> ## Nextflow Patterns
+> The [Nextflow Patterns page](http://nextflow-io.github.io/patterns/) collects some recurrent implementation patterns used in Nextflow applications. 
+{: .callout}
 
 {% include links.md %}
 
