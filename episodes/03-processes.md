@@ -28,7 +28,7 @@ A process is the basic Nextflow computing primitive to execute foreign function 
 
 *Processes can be thought of as a particular task/steps in a workflow, e.g. an alignment step in RNA-Seq analysis. Processes and are independent of each other (don't require another processes to execute) and can not communicate/write to each other . It is the Channels that pass the data from each process to another, and we do this by having the processes define input and output which are Channels*
 
-The process definition starts with keyword the process, followed by process name and finally the process body delimited by curly brackets. The process body must contain a string which represents the command or, more generally, a script that is executed by it.
+The process definition starts with keyword the `process`, followed by process name and finally the process `body` delimited by curly brackets `{}`. The process body must contain a string which represents the command or, more generally, a script that is executed by it.
 
 A basic process looks like the following example:
 
@@ -67,7 +67,7 @@ process < name > {
 
 ## Script
 
-The script block is a string statement that defines the command that is executed by the process to carry out its task.
+The `script` block is a string statement that defines the command that is executed by the process to carry out its task.
 
 A process contains one and only one script block, and it must be the last statement when the process contains input and output declarations.
 
@@ -206,7 +206,8 @@ Nextflow processes are isolated from each other but can communicate between them
 
 Inputs implicitly determine the dependency and the parallel execution of the process. The process execution is fired each time a new data is ready to be consumed from the input channel:
 
-todo insert image channel-process
+![Process Flow](../figs/channel-process.png)
+
 
 The input block defines which channels the process is expecting to receive inputs data from. You can only define one input block at a time and it must contain one or more inputs declarations.
 
@@ -267,10 +268,162 @@ process foo {
 ~~~
 {: .source}
 
+The input file name can also be defined using a variable reference as shown below:
+
+~~~
+reads = Channel.fromPath( 'data/ggal/*.fq' )
+
+process foo {
+    input:
+    file sample from reads.collect()
+    script:
+    """
+    your_command --reads $sample
+    """
+}
+~~~
+{: .source}
+
+> # File Objects as inputs
+> When a process declares an input file the corresponding channel elements must be file objects i.e. created with the file helper function from the file specific channel factories e.g. Channel.fromPath or Channel.fromFilePairs.
+{: .callout}
+
+Consider the following snippet:
+
+
+~~~
+params.genome = 'data/ggal/transcriptome.fa'
+
+process foo {
+    input:
+    file genome from params.genome
+    script:
+    """
+    your_command --reads $genome
+    """
+}
+~~~
+{: .source}
+
+The above code creates a temporary file named input.1 with the string data/ggal/transcriptome.fa as content. That likely is not what you wanted to do.
+
+### Input path
+
+As of version 19.10.0, Nextflow introduced a new `path` input qualifier that simplifies the handling of cases such as the one shown above. In a nutshell the input path automatically handles string values as file objects. The following example works as expected:
+
+
+~~~
+params.genome = "$baseDir/data/ggal/transcriptome.fa"
+
+process foo {
+    input:
+    path genome from params.genome
+    script:
+    """
+    your_command --reads $genome
+    """
+}
+~~~
+{: .source}
+
+> # Path qualifier
+> The path qualifier should be preferred over file to handle process input files when using Nextflow 19.10.0 or later.
+{: .callout}
 
 > ## Nextflow Patterns
 > The [Nextflow Patterns page](http://nextflow-io.github.io/patterns/) collects some recurrent implementation patterns used in Nextflow applications. 
 {: .callout}
+
+Exercise
+Write a script that creates a channel containing all read files matching the pattern data/ggal/*_1.fq followed by a process that concatenates them into a single file and prints the first 20 lines.
+
+### Combine input channels
+
+A key feature of processes is the ability to handle inputs from multiple channels. However it’s important to understands how the content of channel and their semantic affect the execution of a process.
+
+Consider the following example:
+~~~
+process foo {
+  echo true
+  input:
+  val x from Channel.from(1,2,3)
+  val y from Channel.from('a','b','c')
+  script:
+   """
+   echo $x and $y
+   """
+}
+~~~
+{: .callout}
+
+Both channels emit three value, therefore the process is executed three times, each time with a different pair:
+
+~~~
+2 and b
+
+1 and a
+
+3 and c
+~~~
+{: .output}
+
+What is happening is that the process waits until there’s a complete input configuration i.e. it receives an input value from all the channels declared as input.
+
+When this condition is verified, it consumes the input values coming from the respective channels, and spawns a task execution, then repeat the same logic until one or more channels have no more content.
+
+This means channel values are consumed serially one after another and the first empty channel cause the process execution to stop even if there are other values in other channels.
+
+**What does it happen when not all channels have the same cardinality (i.e. they emit a different number of elements)?**
+
+For example:
+
+~~~
+process foo {
+  echo true
+  input:
+  val x from Channel.from(1,2)
+  val y from Channel.from('a','b','c','d')
+  script:
+   """
+   echo $x and $y
+   """
+}
+~~~
+{: .source}
+
+In the above example the process is executed only two time, because when a channel has no more data to be processed it stops the process execution.
+
+~~~
+2 and b
+
+1 and a
+~~~
+{: .output}
+
+> ## Value channels and process termination
+> Note however that value channel do not affect the process termination.
+> {: .output}
+
+To better understand this behavior compare the previous example with the following one:
+
+~~~
+process bar {
+  echo true
+  input:
+  val x from Channel.value(1)
+  val y from Channel.from('a','b','c')
+  script:
+   """
+   echo $x and $y
+   """
+}
+~~~
+
+Exercise
+Write a process that is executed for each read file matching the pattern data/ggal/*_1.fq and use the same data/ggal/transcriptome.fa in each execution.
+
+{: .source}
+
 
 
 {% include links.md %}
