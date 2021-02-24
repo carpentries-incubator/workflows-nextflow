@@ -64,7 +64,7 @@ Any process can define one or more channels as input and output. The interaction
 
 ### Execution abstraction
 
-While a process defines what command or script has to be executed, the executor determines how that script is actually run in the target system.
+While a `process` defines what command or script has to be executed, the `executor` determines how that script is actually run in the target system.
 
 If not otherwise specified, processes are executed on the local computer. The local executor is very useful for pipeline development and testing purposes, but for real world computational pipelines an HPC or cloud platform is often required.
 
@@ -190,7 +190,7 @@ Nextflow keeps track of all the processes executed in your pipeline. If you modi
 
 This helps a lot when testing or modifying part of your pipeline without having to re-execute it from scratch.
 
-For the sake of this tutorial, modify the convertToUpper process in the previous example, replacing the process script with the string ~~~rev $x~~~, so that the process looks like this:
+For the sake of this tutorial, modify the convertToUpper process in the previous example, replacing the process script with the string `rev $x`, so that the process looks like this:
 
 ~~~
 process convertToUpper {
