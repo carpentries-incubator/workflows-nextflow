@@ -84,7 +84,7 @@ An optional *closure* `{}` parameter can be specified to customize how items are
 Channel
       .from('foo', 'bar', 'baz')
       .view({ "- $it" })
-~~`
+~~~
 {: .source}
 
 It prints:
@@ -132,6 +132,137 @@ Channel
 > > ~~~    
 > {: .solution}
 {: .challenge}
+
+### into
+The `into` operator connects a source channel to two or more target channels in such a way the values emitted by the source channel are copied to the target channels. For example:
+
+
+~~~
+Channel
+     .from( 'a', 'b', 'c' )
+     .into{ foo; bar }
+
+foo.view{ "Foo emits: " + it }
+bar.view{ "Bar emits: " + it }
+~~~
+{: .source}
+
+> ## channel names separator
+> > Note the use in this example of curly brackets and the ; as channel names separator. This is needed because the actual parameter of into is a closure which defines the target channels to which the source one is connected.
+> > 
+
+### mix
+
+The `mix` operator combines the items emitted by two (or more) channels into a single channel.
+~~~
+c1 = Channel.from( 1,2,3 )
+c2 = Channel.from( 'a','b' )
+c3 = Channel.from( 'z' )
+
+c1 .mix(c2,c3).view()
+~~~
+{: .source}
+
+~~~
+1
+2
+a
+3
+b
+z
+~~~
+{: .output}
+
+The items in the resulting channel have the same order as in respective original channel, however there’s no guarantee that the element of the second channel are append after the elements of the first. Indeed in the above example the element a has been printed before 3.
+
+
+###  flatten
+The `flatten` operator transforms a channel in such a way that every *tuple* is flattened so that each single entry is emitted as a sole element by the resulting channel.
+
+~~~
+foo = [1,2,3]
+bar = [4, 5, 6]
+
+Channel
+    .from(foo, bar)
+    .flatten()
+    .view()
+
+~~~
+{: .source}
+The above snippet prints:
+~~~
+1
+2
+3
+4
+5
+6
+~~~
+{: .output}
+
+### collect
+
+The `collect` operator collects all the items emitted by a channel to a list and return the resulting object as a sole emission.
+
+~~~
+Channel
+    .from( 1, 2, 3, 4 )
+    .collect()
+    .view()
+~~~
+{: .source}
+
+
+It prints a single value: 
+
+The result of the collect operator is a value channel.
+
+~~~
+[1,2,3,4]
+~~~
+{: .output}
+
+### groupTuple
+
+The `groupTuple` operator collects *tuples* (or lists) of values emitted by the source channel grouping together the elements that share the same key. Finally it emits a new tuple object for each distinct key collected.
+
+Try the following example:
+
+~~~
+Channel
+     .from( [1,'A'], [1,'B'], [2,'C'], [3, 'B'], [1,'C'], [2, 'A'], [3, 'D'] )
+     .groupTuple()
+     .view()
+~~~~     
+{: .source} 
+
+It shows:
+~~~
+[1, [A, B, C]]
+[2, [C, A]]
+[3, [B, D]]
+~~~
+
+This operator is useful to process altogether all elements for which there’s a common property or a grouping key.
+
+Exercise
+
+
+> ## Challenge Title
+>
+> Use `fromPath` to create a channel emitting the fastq files matching the pattern `data/ggal/*.fq`, then use a map to associate to each file the name prefix. Finally group together all files having the same common prefix.
+>
+> > ## Solution
+> >
+> > ~~~
+> > Channel.fromPath('data/ggal/*.fq')
+> >     .map { file -> [ file.name.split('_')[0], file ] }
+> >     .groupTuple()
+> >     .view()
+> {: .solution}
+{: .challenge}
+
 
 {% include links.md %}
 
