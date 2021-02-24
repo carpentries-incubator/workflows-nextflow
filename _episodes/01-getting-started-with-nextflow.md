@@ -221,7 +221,7 @@ You will see that the execution of the process splitLetters is actually skipped 
 
 ## Pipeline parameters
 
-Pipeline parameters are simply declared by prepending to a variable name the prefix params, separated by dot character. Their value can be specified on the command line by prefixing the parameter name with a double dash character, i.e. --paramName
+Pipeline parameters are simply declared by prepending to a variable name the prefix params, separated by dot character. Their value can be specified on the command line by prefixing the parameter name with a double dash character, i.e. `--paramName`
 
 For the sake of this tutorial, you can try to execute the previous example specifying a different input string parameter, as shown below:
 
@@ -229,7 +229,7 @@ For the sake of this tutorial, you can try to execute the previous example speci
 ~~~
 nextflow run hello.nf --greeting 'Bonjour le monde!'
 ~~~
-{: .source}
+{: .bash}
 
 The string specified on the command line will override the default value of the parameter. The output will look like this:
 
