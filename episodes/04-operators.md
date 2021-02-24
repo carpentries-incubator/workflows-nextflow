@@ -260,6 +260,7 @@ Exercise
 > >     .map { file -> [ file.name.split('_')[0], file ] }
 > >     .groupTuple()
 > >     .view()
+> > ~~~
 > {: .solution}
 {: .challenge}
 
