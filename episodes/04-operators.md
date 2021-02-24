@@ -263,6 +263,51 @@ Exercise
 > {: .solution}
 {: .challenge}
 
+### join
 
+The `join` operator creates a channel that joins together the items emitted by two channels for which exits a matching key. The key is defined, by default, as the first element in each item emitted.
+
+~~~
+left = Channel.from(['X', 1], ['Y', 2], ['Z', 3], ['P', 7])
+right= Channel.from(['Z', 6], ['Y', 5], ['X', 4])
+left.join(right).view()
+~~~
+{: .source}
+
+The resulting channel emits:
+~~~
+[Z, 3, 6]
+[Y, 2, 5]
+[X, 1, 4]
+~~~
+
+### branch
+
+The `branch` operator allows you to forward the items emitted by a source channel to one or more output channels, choosing one out of them at a time.
+
+The selection criteria is defined by specifying a closure that provides one or more boolean expression, each of which is identified by a unique label. On the first expression that evaluates to a true value, the current item is bound to a named channel as the label identifier. For example:
+
+~~~
+Channel
+    .from(1,2,3,40,50)
+    .branch ({
+        small: it < 10
+        large: it > 10
+    })
+    .set({ result })
+
+ result.small.view({ "$it is small" })
+ result.large.view({ "$it is large" })
+~~~
+{: .source}
+
+> ## multi-channel object
+> The branch operator returns a multi-channel object i.e. a variable that holds more than one channel object.
+
+## More resources
+
+Check the operators [documentation](https://www.nextflow.io/docs/latest/operator.html) on Nextflow web site.
+
+{: .output}
 {% include links.md %}
 
