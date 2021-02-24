@@ -7,29 +7,27 @@ questions:
 - "Why should I use a workflow system as part of my research workflow?"
 - "Why use Nextflow ?"
 objectives:
-- "Understand why you should use a workflow system as part of your 
-  (data) science workflow." 
+- "Understand why you should use a workflow system as part of your (data) science workflow." 
 - "Explain the benefits of using Nextflow as part of your (data) science workflow."
 keypoints:
 - "Nextflow is a "workflow orchestration engine and a programming domain specific language (DSL)."
-- "Using a workflow system facilitates portability and reproducibility 
-  of (data) science workflows."
+- "Using a workflow system facilitates portability and reproducibility of (data) science workflows."
 - "Nextflow is the workflow language, processes can be written in any scripting language that can be executed by the Linux platform (Bash, Perl, Ruby, Python, etc.)"
 ---
+
 
 ## Basic concepts
 
 Nextflow is workflow orchestration engine and a programming domain specific language (DSL) that eases the writing of data-intensive computational pipelines.
-
-It is designed around the idea that the Linux platform is the lingua franca of data science. Linux provides many simple but powerful command-line and scripting tools that, when chained together, facilitate complex data manipulations.
+It is designed around the idea that the Linux platform is the *lingua franca* of data science. Linux provides many simple but powerful command-line and scripting tools that, when chained together, facilitate complex data manipulations.
 
 Nextflow extends this approach, adding the ability to define complex program interactions and a high-level parallel computational environment based on the dataflow programming model. Nextflow core features are:
 
-* enable workflows portability & reproducibility
+1. enable workflows portability & reproducibility
 
-* simplify parallelization and large scale deployment
+1. simplify parallelization and large scale deployment
 
-* easily integrate existing tools, systems & industry standards
+1. easily integrate existing tools, systems & industry standards
 
 ### Processes and channels
 
@@ -85,7 +83,7 @@ In practical terms Nextflow scripting is an extension of the [Groovy programming
 
 ## Your first script
 
-Copy the following example into your favourite text editor and save it to a file named hello.nf :
+Copy the following example into your favourite text editor and save it to a file named `hello.nf` :
 
 ~~~
 #!/usr/bin/env nextflow
@@ -113,7 +111,8 @@ process convertToUpper {
 
     output:
     stdout into result
-
+    
+    script:
     """
     cat $y | tr '[a-z]' '[A-Z]'
     """
