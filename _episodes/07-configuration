@@ -46,6 +46,7 @@ propertyOne = 'world'
 anotherProp = "Hello $propertyOne"
 customPath = "$PATH:/my/app/folder"
 ~~~
+{: .source}
 
 In the configuration file it’s possible to access any variable defined in the host environment such as `$PATH`, `$HOME`, `$PWD`, etc.
 
@@ -77,7 +78,7 @@ beta {
     q = 'another string ..'
 }
 ~~~
-
+{: .source}
 ### Config params
 
 The scope `param`s allows the definition of workflow parameters that overrides the values defined in the main workflow script.
@@ -104,6 +105,7 @@ Execute is again specifying the foo parameter on the command line:
 nextflow run params.nf --foo Hola
 Compare the result of the two executions.
 ~~~~
+{: .source}
 
 ### Config env
 
@@ -124,12 +126,14 @@ process foo {
   '''
 }
 ~~~
+{: .source}
 
 Finally executed the following command:
 
 ~~~
 nextflow run foo.nf -c my-env.config
 ~~~~
+{: .source}
 
 ### Config process
 
@@ -149,6 +153,7 @@ process {
     container = 'biocontainers/bamtools:v2.4.0_cv3'
 }
 ~~~
+{: .source}
 
 The above config snippet defines the cpus, memory and container directives for all processes in your workflow script.
 
@@ -207,6 +212,7 @@ process {
             [env: 'BAR', value: '456'] ]
 }
 ~~~
+{: .source}
 
 ### Config Docker execution
 
@@ -216,6 +222,7 @@ The container image to be used for the process execution can be specified in the
 process.container = 'nextflow/rnaseq-nf'
 docker.enabled = true
 ~~~
+{: .source}
 
 The use of the unique SHA256 image ID guarantees that the image content do not change over time
 
@@ -232,6 +239,7 @@ The run the workflow execution with a Singularity container provide the containe
 process.container = '/some/singularity/image.sif'
 singularity.enabled = true
 ~~~
+{: .source}
 
 The container image file must be an absolute path i.e. it must start with a /.
 
@@ -252,6 +260,7 @@ For example:
 process.container = 'nextflow/rnaseq-nf'
 singularity.enabled = true
 ~~~
+{: .source}
 
 The above configuration instructs Nextflow to use Singularity engine to run your script processes. 
 The container is pulled from the Docker registry and cached in the current directory to be used for further runs.
@@ -274,5 +283,20 @@ The use of a Conda environment can also be provided in the configuration file ad
 ~~~
 process.conda = "/home/ubuntu/miniconda2/envs/nf-tutorial"
 ~~~
+{: .source}
 
 You can either specify the path of an existing Conda environment directory or the path of Conda environment YAML file.
+
+
+
+
+
+
+
+
+
+
+
+
+
+{% include links.md %}
