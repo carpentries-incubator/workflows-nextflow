@@ -268,7 +268,9 @@ process foo {
 {: .source}
 
 
-
+> ## Nextflow Patterns
+> The [Nextflow Patterns page](http://nextflow-io.github.io/patterns/) collects some recurrent implementation patterns used in Nextflow applications. 
+{: .callout}
 
 
 {% include links.md %}
