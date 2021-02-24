@@ -4,12 +4,15 @@ teaching: 15
 exercises: 5
 questions:
 - "What is Nextflow?"
-
+- "Why should I use a workflow system as part of my research workflow?"
+- "Why use Nextflow ?"
 objectives:
-- "Understand why you should use a package and environment management system as part of your 
-  (data) science workflow." 
+- "Understand why you should use a workflow system as part of your (data) science workflow." 
+- "Explain the benefits of using Nextflow as part of your (data) science workflow."
 keypoints:
-- "Nextflow is a platform agnostic, workflow management system and DSL."
+-  "Nextflow is a "workflow orchestration engine and a programming domain specific language (DSL)."
+- "Using a workflow system facilitates portability and reproducibility of (data) science workflows."
+- "Nextflow is the workflow language, processes can be written in any scripting language that can be executed by the Linux platform (Bash, Perl, Ruby, Python, etc.)"
 ---
 
 
@@ -244,22 +247,7 @@ m el r
 ~~~
 {: .output}
 
----
-title: "Getting Started with Nextflow"
-teaching: 15
-exercises: 5
-questions:
-- "What is Nextflow?"
-- "Why should I use a workflow system as part of my research workflow?"
-- "Why use Nextflow ?"
-objectives:
-- "Understand why you should use a workflow system as part of your (data) science workflow." 
-- "Explain the benefits of using Nextflow as part of your (data) science workflow."
-keypoints:
-- "Nextflow is a "workflow orchestration engine and a programming domain specific language (DSL)."
-- "Using a workflow system facilitates portability and reproducibility of (data) science workflows."
-- "Nextflow is the workflow language, processes can be written in any scripting language that can be executed by the Linux platform (Bash, Perl, Ruby, Python, etc.)"
----
+
 
 
 {% include links.md %}
