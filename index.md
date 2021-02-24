@@ -3,9 +3,17 @@ layout: lesson
 root: .  # Is the only page that doesn't follow the pattern /:path/index.html
 permalink: index.html  # Is the only page that doesn't follow the pattern /:path/index.html
 ---
-FIXME: home page introduction
+# Introduction to workflows with Nextflow and nf-core
 
-<!-- this is an html comment -->
+
+This lesson is an introduction to Nextflow and nf-core . 
+
+[Nextflow](https://www.nextflow.io/) enables scalable and reproducible scientific workflows using software containers such as Docker and Singularity. It allows the adaptation of pipelines written in the most common scripting languages suach as such as R and Python. Its has a  Domain Specific Language (DSL) that simplifies the implementation and the deployment of complex parallel and reactive workflows on clouds and clusters.
+
+This lesson will also introduce [nf-core](https://nf-co.re/): a framework that provides a community-driven, peer reviewed platform for the development of best practice analysis pipelines written in Nextflow. 
+
+This lesson motivates the use of Nextflow and nf-core as a development tool for building and sharing 
+computational pipelines that facilitate reproducible (data) science workflows.
 
 {% comment %} This is a comment in Liquid {% endcomment %}
 
