@@ -75,10 +75,15 @@ baz
 
 An optional *closure* `{}` parameter can be specified to customize how items are printed. For example:
 
+> # Closures
+> Briefly, a closure is a block of code that can be passed as an argument to a function. Thus, you can define a chunk of code and then pass it around as if it were a string or an integer.
+{: .callout}
+
+
 ~~~
 Channel
       .from('foo', 'bar', 'baz')
-      .view { "- $it" }
+      .view({ "- $it" })
 ~~`
 {: .source}
 
@@ -98,7 +103,7 @@ The `map` operator applies a function of your choosing to every item emitted by 
 ~~~
 Channel
     .from( 'hello', 'world' )
-    .map { it -> it.reverse() }
+    .map ({ it -> it.reverse() })
     .view()
 ~~~
 {: .source}
@@ -108,8 +113,8 @@ A map can associate to each element a generic tuple containing any data as neede
 ~~~
 Channel
     .from( 'hello', 'world' )
-    .map { word -> [word, word.size()] }
-    .view { word, len -> "$word contains $len letters" }
+    .map ({ word -> [word, word.size()] })
+    .view ({ word, len -> "$word contains $len letters" })
 ~~~
 {: .source}
 
@@ -122,8 +127,8 @@ Channel
 > > ~~~
 > > Channel
 > >   .fromPath( 'data/ggal/*.fq' )
-> >   .map {file -> [ file.name, file ]}
-> >   .view{name, file -> "> file: $name"}
+> >   .map ({file -> [ file.name, file ]})
+> >   .view({name, file -> "> file: $name"})
 > > ~~~    
 > {: .solution}
 {: .challenge}
