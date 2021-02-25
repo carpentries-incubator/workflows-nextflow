@@ -13,7 +13,7 @@ nextflow run main.nf -process.echo
 
 ## Editors
 
-The [Atom editor](https://atom.io/) has syntax highlighting for Nextflow.
+The [Atom editor](https://atom.io/) has [syntax highlighting](https://atom.io/packages/language-nextflow) for Nextflow.
 
 ## Help
 
