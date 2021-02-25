@@ -27,11 +27,14 @@ The nextflow lesson material has been adapted from the sequera-labs training cou
 
 The [Atom editor](https://atom.io/) has [syntax highlighting](https://atom.io/packages/language-nextflow) for Nextflow.
 
-## Help
+## Geeting Help
 
-Both Nextflow and nf-core have community forums for asking questions and getting help.
+For questions about the main Nextflow tool, use the Nextflow Gitter chat community: https://gitter.im/nextflow-io/nextflow
 
-* Nextflow [Gitter](https://gitter.im/nextflow-io/nextflow)
+Many nf-core resources are to be found on this website. If in doubt, get in touch with the nf-core community via [Slack](https://nf-co.re/join).
+
+The nf-core Slack channel has a #carpentries-course channel for asking questions about the course.
+
 
 
 ## References
