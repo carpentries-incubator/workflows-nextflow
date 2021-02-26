@@ -1,4 +1,3 @@
-# Introduction to workflows with Nextflow and nf-core
 
 
 This lesson is an introduction to Nextflow and nf-core . 
