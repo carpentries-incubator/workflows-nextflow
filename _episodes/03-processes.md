@@ -340,6 +340,19 @@ process foo {
 Exercise
 Write a script that creates a channel containing all read files matching the pattern data/ggal/*_1.fq followed by a process that concatenates them into a single file and prints the first 20 lines.
 
+~~~
+reads = Channel.fromPath( 'data/ggal/*_1.fq' )
+
+process foo {
+    input:
+    file sample from reads.collect()
+    script:
+    """
+    head -n 20 $sample > combined_n20.txt
+    """
+}
+~~
+
 ### Combine input channels
 
 A key feature of processes is the ability to handle inputs from multiple channels. However it’s important to understands how the content of channel and their semantic affect the execution of a process.
@@ -422,8 +435,20 @@ process bar {
 }
 ~~~
 
-Exercise
+## Exercise Combine input channels
 Write a process that is executed for each read file matching the pattern data/ggal/*_1.fq and use the same data/ggal/transcriptome.fa in each execution.
+~~~
+process combine {
+  echo true
+  input:
+  path(y) from Channel.fromPath('data/ggal/*_1.fq')
+  path(x) from Channel.value('ggal/transcriptome.fa')
+  script:
+   """
+   echo $x and $y
+   """
+}
+~~~
 
 {: .source}
 
@@ -449,8 +474,23 @@ process alignSequences {
 
 In the above example every time a file of sequences is received as input by the process, it executes three tasks running an alignment with a different value for the `mode` option. This is useful when you need to repeat the same task for a given set of parameters.
 
-Exercise
-Extend the previous example so a task is executed for each read file matching the pattern data/ggal/*_1.fq and repeat the same task both with salmon and kallisto.
+>> ##Exercise
+>> Extend the previous example so a task is executed for each read file matching the pattern data/ggal/*_1.fq and repeat the same task both with salmon and kallisto.
+>> ~~~
+>> sequences = Channel.fromPath('data/raw_reads/SRR4204500/*.fastq.gz')
+>> kmers = [21, 19, 31]
+>>
+>> process alignSequences {
+>>  input:
+>>  path seq from sequences
+>>  each kmer from kmers
+>>
+>>  """
+>>  echo $kmer $seq
+>>  """
+>> }
+>> ~~~
+methods = ['regular', 'expresso', 'psicoffee']
 
 ## Outputs
 
