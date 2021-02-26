@@ -146,7 +146,7 @@ WORLD!
 
 You can see that the first process is executed once, and the second twice. Finally the result string is printed.
 
-It’s worth noting that the process convertToUpper is executed in parallel, so there’s no guarantee that the instance processing the first split (the chunk Hello) will be executed before before the one processing the second split (the chunk world!).
+It’s worth noting that the process `convertToUpper` is executed in parallel, so there’s no guarantee that the instance processing the first split (the chunk Hello) will be executed before before the one processing the second split (the chunk world!).
 
 Thus, it is perfectly possible that you will get the final result printed out in a different order:
 
@@ -157,9 +157,10 @@ HELLO
 ~~~
 {: .output}
 
+> ## Process identification
 > The hexadecimal numbers, like 22/7548fa, identify the unique process execution. 
 > These numbers are also the prefix of the directories where each process is executed. 
-> You can inspect the files produced by them changing to the directory $PWD/work and 
+> You can inspect the files produced by them changing to the directory `$PWD/work` and 
 > using these numbers to find the process-specific execution path.
 {: .callout}
 
@@ -187,7 +188,7 @@ process convertToUpper {
 ~~~
 {: .source}
 
-Then save the file with the same name, and execute it by adding the -resume option to the command line:
+Then save the file with the same name, and execute it by adding the `-resume` option to the command line:
 
 ~~~
 nextflow run hello.nf -resume
@@ -211,6 +212,7 @@ olleH
 You will see that the execution of the process splitLetters is actually skipped (the process ID is the same), and its results are retrieved from the cache. The second process is executed as expected, printing the reversed strings.
 
 
+> ## work directory
 > The pipeline results are cached by default in the directory $PWD/work. 
 > Depending on your script, this folder can take of lot of disk space. 
 > If your are sure you won’t resume your pipeline execution, clean this folder periodically.
