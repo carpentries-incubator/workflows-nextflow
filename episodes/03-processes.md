@@ -27,6 +27,10 @@ keypoints:
 
 A process is the basic Nextflow computing primitive to execute foreign function i.e. custom scripts or tools.
 
+> ## primitives
+> In computing, language primitives are the simplest elements available in a programming language. A primitive is the smallest 'unit of processing' available to a programmer of a given machine, or can be an atomic element of an expression in a language.
+> {: .callout}
+
 *Processes can be thought of as a particular task/steps in a workflow, e.g. an alignment step in RNA-Seq analysis. Processes and are independent of each other (don't require another processes to execute) and can not communicate/write to each other . It is the Channels that pass the data from each process to another, and we do this by having the processes define input and output which are Channels*
 
 The process definition starts with keyword the `process`, followed by process name and finally the process `body` delimited by curly brackets `{}`. The process body must contain a string which represents the command or, more generally, a script that is executed by it.
