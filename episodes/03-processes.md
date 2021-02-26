@@ -25,7 +25,9 @@ keypoints:
 
 # Processes
 
-A process is the basic Nextflow computing primitive to execute foreign function i.e. custom scripts or tools.
+We now know how to create and use Channels to control data flows in Nextflow. We will now see how to process independent tasks within a workflow.
+
+A `process` is the basic Nextflow computing primitive to execute foreign function i.e. custom scripts or tools.
 
 > ## primitives
 > In computing, language primitives are the simplest elements available in a programming language. A primitive is the smallest 'unit of processing' available to a programmer of a given machine, or can be an atomic element of an expression in a language.
