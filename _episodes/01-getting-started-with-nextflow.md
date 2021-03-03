@@ -16,7 +16,7 @@ keypoints:
 
 ## Workflows
 
-Analysing data involves multiple steps (workflow), including, gathering, cleaning and processing. This typically requires multiple software packages, sometime in different computer environments. Traditionally these steps have been joinined together in scripts using general purpose programming languages such as Bash or Python. However, newer *Workflow management systems* ,with Domain specific  languages (DSL), have  emerged specifically catering to computational data-analysis  in field such as Bioinformatics, Medical Imaging, Astronomy, Physics, and Chemistry.  These *Workflow management systems* contain multiple features that alongside a DSL, enable portability, reproducibility and interoperablity.
+Analysing data involves multiple steps (workflow), including, gathering, cleaning and processing. This typically requires multiple software packages, sometime in different computer environments. Traditionally these steps have been joinined together in scripts using general purpose programming languages such as Bash or Python. However, newer *Workflow management systems* ,with Domain specific  languages (DSL), have  emerged specifically catering to computational data-analysis  in field such as Bioinformatics, Medical Imaging, Astronomy, Physics, and Chemistry.  These *Workflow management systems* contain multiple features that alongside a common workflow lanaguage, enable portability, reproducibility and interoperablity.
 
 
 ## Basic concepts
