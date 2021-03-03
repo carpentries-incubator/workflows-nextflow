@@ -14,12 +14,17 @@ keypoints:
 ---
 
 
+## Workflows
+
+Analysing data involves multiple steps (workflow), including, gathering, cleaning and processing. This typically requires multiple software packages, sometime in different computer environments. Traditionally these steps have been joinined together in scripts using general purpose programming languages such as Bash or Python. However, newer *Workflow management systems* ,with Domain specific  languages (DSL), have  emerged specifically catering to computational data-analysis  in field such as Bioinformatics, Medical Imaging, Astronomy, Physics, and Chemistry.  These *Workflow management systems* contain multiple features that alongside a DSL, enable portability, reproducibility and interoperablity.
+
+
 ## Basic concepts
 
 Nextflow is a workflow management system and a programming domain specific language (DSL) that eases the writing of data-intensive computational pipelines.
 It is designed around the idea that the Linux platform is the *lingua franca* of data science. Linux provides many simple but powerful command-line and scripting tools that, when chained together, facilitate complex data manipulations.
 
-Nextflow extends this approach, adding the ability to define complex program interactions and a high-level parallel computational environment based on the [dataflow programming model](https://devopedia.org/dataflow-programming) whereby the processes are connected via their outputs and inputs to other processes, and processes run as soon as they receive an input.
+Nextflow extends this approach, adding the ability to define complex program interactions and a high-level parallel computational environment based on the [dataflow programming model](https://devopedia.org/dataflow-programming) whereby the processes are connected via their `outputs` and `inputs` to other `processes`, and processes run as soon as they receive an input.
 
 
 Nextflow core features are:
