@@ -4,10 +4,13 @@ teaching: 10
 exercises: 10
 questions:
 - "How do you configure Nextflow?"
+- "How do you write a Nextflow configuration file?"
 objectives:
 - "Understand who Nextflow is configured."
+- "Create a Nextflow configuration file."
 keypoints:
 - "Nextflow configuration can be managed using a nextflow.config."
+- "Nextflow configuration are simple text files ontaining a set of properties defined using the syntax"
 ---
 
 
@@ -115,6 +118,7 @@ The `env` scope allows the definition one or more variable that will be exported
 env.ALPHA = 'some value'
 env.BETA = "$HOME/some/path"
 ~~~
+{: .source}
 
 Exercise
 Save the above snippet a file named my-env.config. The save the snippet below in a file named foo.nf:
@@ -138,7 +142,7 @@ nextflow run foo.nf -c my-env.config
 ### Config process
 
 The `process` directives allow the specification of specific settings for the task execution such as 
-cpus, memory, container and other resources in the pipeline script.
+`cpus`, `memory`, `container` and other resources in the pipeline script.
 
 This is useful specially when prototyping a small workflow script.
 
@@ -155,7 +159,7 @@ process {
 ~~~
 {: .source}
 
-The above config snippet defines the cpus, memory and container directives for all processes in your workflow script.
+The above config snippet defines the `cpus`, `memory` and `container` directives for **all** processes in your workflow script.
 
 The `process` selector can be used to apply the configuration to a specific process or group of processes (discussed later).
 
@@ -163,6 +167,7 @@ Memory and time duration unit can be specified either using a string based notat
 by using the numeric notation in which the digit(s) and the unit are separated by a dot character and it’s not enclosed by quote characters.
 String syntax	Numeric syntax	Value
 
+~~~
 '10 KB'
 
 10.KB
@@ -186,6 +191,7 @@ String syntax	Numeric syntax	Value
 -
 
 1 hour and 25 seconds
+~~~
 
 The syntax for setting process directives in the configuration file requires = ie. assignment operator, instead it should not be used when setting process directives in the workflow script.
 This important especially when you want to define a config setting using a dynamic expression using a closure. For example:
@@ -198,11 +204,12 @@ process {
 
 Directives that requires more than one value, e.g. pod, in the configuration file need to be expressed as a map object.
 
-~~~~
+~~~
 process {
     pod = [env: 'FOO', value: '123']
 }
 ~~~
+
 
 Finally directives that allows to be repeated in the process definition, in the configuration files need to be defined as a list object. For example:
 
@@ -230,6 +237,8 @@ The use of the unique SHA256 image ID guarantees that the image content do not c
 process.container = 'nextflow/rnaseq-nf@sha256:aeacbd7ea1154f263cda972a96920fb228b2033544c2641476350b9317dab266'
 docker.enabled = true
 ~~~
+
+{: .source}
 
 ### Config Singularity execution
 
@@ -285,7 +294,7 @@ process.conda = "/home/ubuntu/miniconda2/envs/nf-tutorial"
 ~~~
 {: .source}
 
-You can either specify the path of an existing Conda environment directory or the path of Conda environment YAML file.
+You can either specify the path of an existing Conda environment directory or the path of Conda environment `YAML` file.
 
 
 
