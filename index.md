@@ -12,6 +12,13 @@ This lesson will also introduce [nf-core](https://nf-co.re/): a framework that p
 This lesson motivates the use of Nextflow and nf-core as a development tool for building and sharing 
 computational pipelines that facilitate reproducible (data) science workflows.
 
+## lesson objectives
+
+1. The learner will understand the basic concepts of a Nextflow script, including  channels, processes and operators.
+2. The learner will be able to write a Nextflow configuration file to alter the computational resources allocated to a process.
+3. The learner will write a multi-step workflow scripts to align, quantify, and perform QC on an RNA-Seq data in Nextflow DSL.
+4. The learner will use  nf-core to run a community curated pipeline, on an RNA-Seq dataset
+
 {% comment %} This is a comment in Liquid {% endcomment %}
 
 
