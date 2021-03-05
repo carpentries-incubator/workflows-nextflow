@@ -5,6 +5,7 @@ exercises: 0
 questions:
 - "What are Nextflow channels?"
 - "Define the different types of Nextflow channels?"
+- "What are the major differences between queue and values channels?"
 - "How  do you create a channel?"
 - "How do you create a queue channel from a specified glob pattern?"
 - "How do you modify the behaviour of a channel factory?"
@@ -17,11 +18,13 @@ objectives:
 - "Modify the behaviour of a Channel factory"
 keypoints:
 - "Channels are a key data structure of Nextflow that allows the implementation of reactive-functional oriented computational workflows"
-- "Nextflow distinguish two different kinds of channels: queue channels and value channels."
+- "Nextflow distinguish two different kinds of channels, queue channels and value channels. Values channels contain a  single value and can be used multiple times in workflow. Queue channels can be used once are consumed when they are used by a process."
 - "Channel factory methods are used to create value and queue channels."
 ---
 
 # Channels
+
+In the last episode we learnt that channels are the way in which Nextflow connect  workflow tasks `process`. 
 
 Channels are a key data structure of Nextflow that allows the implementation of [reactive-functional](https://en.wikipedia.org/wiki/Functional_reactive_programming) oriented computational workflows based on the [Dataflow programming paradigm](https://en.wikipedia.org/wiki/Dataflow_programming).
 
@@ -174,7 +177,7 @@ Channel
 
 ### fromPath
 
-The `fromPath` factory method create a queue channel emitting one or more files matching the specified glob pattern.
+The `fromPath` factory method create a **queue channel** emitting one or more files matching the specified glob pattern.
 
 ~~~
 Channel.fromPath( '/data/big/*.txt' )
