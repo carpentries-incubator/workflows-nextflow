@@ -9,7 +9,7 @@ objectives:
 - "Understand why you should use a workflow system as part of your workflow."
 - "Explain the benefits of using Nextflow as part of your science workflow."
 keypoints:
-- "Nextflow is a "workflow orchestration engine and a programming domain specific language."
+- "Nextflow is a workflow orchestration engine and a programming domain specific language."
 - "Using a workflow system facilitates portability and reproducibility of workflows."
 ---
 
