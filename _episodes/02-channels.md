@@ -33,6 +33,15 @@ This is very similar to dataflow programming. Conceptually, the focus here lies 
 
 ![Channel files](../fig/channel-files.pmg)
 
+Maybe use this "Nextflow is based on the Dataflow programming model in which processes communicate through channels. from [here](https://www.nextflow.io/docs/latest/channel.html#)
+
+## Properties
+
+A channel has two major properties:
+
+1. Sending a message is an asynchronous/non-blocking operation which completes immediately, without having to wait for the receiving process." 
+
+1. Receiving data is a blocking operation which stops the receiving process until the message has arrived.
 
 ## Channel types
 
@@ -40,7 +49,7 @@ Nextflow distinguish two different kinds of channels: **queue** channels and **v
 
 ### Queue channel
 
-A *queue* channel is a *asynchronous* unidirectional FIFO queue which connects two processes or operators.
+A *queue* channel is a *asynchronous* unidirectional FIFO queue which connects two `processes` or `operators`.
 
 * What *asynchronous* means? That operations are non-blocking.
 
