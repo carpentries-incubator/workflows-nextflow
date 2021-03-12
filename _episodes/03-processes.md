@@ -293,7 +293,7 @@ process foo {
 {: .source}
 
 > # File Objects as inputs
-> When a process declares an input file the corresponding channel elements must be file objects i.e. created with the file helper function from the file specific channel factories e.g. Channel.fromPath or Channel.fromFilePairs.
+> When a process declares an input file the corresponding channel elements must be file objects i.e. created with the file helper function from the file specific channel factories e.g. `Channel.fromPath` or `Channel.fromFilePairs`.
 {: .callout}
 
 Consider the following snippet:
@@ -340,8 +340,8 @@ process foo {
 
 
 
-Exercise
-Write a script that creates a channel containing all read files matching the pattern data/ggal/*_1.fq followed by a process that concatenates them into a single file and prints the first 20 lines.
+> > Exercise
+> > Write a script that creates a channel containing all read files matching the pattern `data/ggal/*_1.fq` followed by a process that concatenates them into a single file and prints the first 20 lines.
 
 ~~~
 reads = Channel.fromPath( 'data/ggal/*_1.fq' )
@@ -440,12 +440,15 @@ process bar {
 
 ## Exercise Combine input channels
 Write a process that is executed for each read file matching the pattern data/ggal/*_1.fq and use the same data/ggal/transcriptome.fa in each execution.
+remember value channels can be read multiple times.
 ~~~
+reads_ch = Channel.fromPath('data/ggal/*_1.fq')
+transcriptome_ch = channel.value('ggal/transcriptome.fa')
 process combine {
   echo true
   input:
-  path(y) from Channel.fromPath('data/ggal/*_1.fq')
-  path(x) from Channel.value('ggal/transcriptome.fa')
+  path(y) from reads_ch
+  path(x) from transcriptome_ch
   script:
    """
    echo $x and $y
