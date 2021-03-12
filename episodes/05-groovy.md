@@ -1,5 +1,5 @@
 ---
-title: "Groovy"
+title: "Groovy basic structures and idioms"
 teaching: 0
 exercises: 0
 questions:
@@ -11,9 +11,8 @@ keypoints:
 - "A Nextflow process is an independent task/step in a workflow"
 ---
 
-# Groovy basic structures and idioms
 
-Nextflow is a DSL implemented on top of the Groovy programming lang, which in turns is a super-set of the Java programming language. This means that Nextflow can run any Groovy and Java code.
+Nextflow is a Domain Specific Language (DSL) implemented on top of the Groovy programming lang, which in turns is a super-set of the Java programming language. This means that Nextflow can run any Groovy and Java code. However, it is not necessary to learn Groovy to use Nextflow DSL.
 
 ## Printing values
 
@@ -35,7 +34,7 @@ println "Hello, World!"
 
 ## Comments
 
-Comments use the same syntax as in the C-family programming languages:
+Comments use the same syntax as in the C-family programming languages. This can be confusing for people familiar with the `#` syntax for commenting in otehr languages.
 
 ~~~
 // comment a single config file
@@ -81,7 +80,7 @@ It should be always used when defining variables local to a function or a closur
 
 ## Lists
 
-A List object can be defined by placing the list items in square brackets `[]`:
+A List object can be defined by placing the list items in square brackets `[]` and seprating items by commas `,`:
 
 ~~~
 list = [10,20,30,40]
