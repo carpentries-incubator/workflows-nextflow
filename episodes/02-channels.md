@@ -69,8 +69,8 @@ Try the following snippets:
 > ~~~
 > ch = Channel.from(1,2,3)
 > ~~~
-> 	Use the built-in println function to print the ch variable.
->	  Apply the view method to the ch channel, therefore prints each item emitted by the channels.
+> 	Use the built-in `println` function to print the ch variable.
+>	  Apply the `view` method to the ch channel, therefore prints each item emitted by the channels.
 >
 > > ## Solution
 > > ~~~
@@ -83,12 +83,16 @@ Try the following snippets:
 
 > ## Queue channels usage
 > A queue channel can have one and exactly one producer and one and exactly one consumer.
+> Once a channel is used by an operator or process it can not be used again. 
 {: .callout}
+
+
 
 
 ### Value channels
 
-A **value** channel a.k.a. singleton channel by definition is bound to a single value and it can be read unlimited times without consuming its content.
+The second type of Netxflow channel is a `value` channel.
+A **value** channel a.k.a. singleton channel by definition is bound to a *single* value and it can be read unlimited times without consuming its content.
 
 ~~~
 ch = Channel.value('Hello')
@@ -109,6 +113,8 @@ Hello
 
 ## Channel factories
 
+Channel factories are the way Nextflow creates the different channel types (queue and value). 
+
 ### value
 
 The `value` factory method is used to create a value channel. An optional not `null` argument can be specified to bind the channel to a specific value. For example:
@@ -126,7 +132,7 @@ ch2 = Channel.value( [1,2,3,4,5] )
 
 ### from
 
-The factory `Channel.from` allows the creation of a queue channel with the values specified as argument.
+The factory `Channel.from` allows the creation of a `queue` channel with the values specified as argument.
 
 
 ~~~
