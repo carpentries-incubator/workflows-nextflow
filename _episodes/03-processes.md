@@ -495,7 +495,8 @@ In the above example every time a file of sequences is received as input by the 
 >>  echo $kmer $seq
 >>  """
 >> }
->> ~~~
+>>
+~~~
 methods = ['regular', 'expresso', 'psicoffee']
 
 ## Outputs
@@ -552,7 +553,7 @@ process randomNum {
 numbers.view { "Received: " + it.text }
 ~~~
 
-In the above example the process r`andomNum` creates a file named `result.txt` containing a random number.
+In the above example the process `randomNum` creates a file named `result.txt` containing a random number.
 
 Since a file parameter using the same name is declared in the output block, when the task is completed that file is sent over the `numbers` channel. A downstream `process` declaring the same channel as input will be able to receive it.
 
