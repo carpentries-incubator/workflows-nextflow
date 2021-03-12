@@ -1,3 +1,15 @@
+---
+title: "Groovy"
+teaching: 0
+exercises: 0
+questions:
+- "What is a Nextflow process?"
+objectives:
+- "Understand a Nextflow process."
+
+keypoints:
+- "A Nextflow process is an independent task/step in a workflow"
+---
 
 # Groovy basic structures and idioms
 
