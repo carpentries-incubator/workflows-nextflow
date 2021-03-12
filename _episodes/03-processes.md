@@ -179,16 +179,17 @@ The process script can also be defined in a complete dynamic manner using a if s
 
 ~~~
 params.aligner = 'kallisto'
+params.transcriptome = "$baseDir/data/yeast/Saccharomyces_cerevisiae.R64-1-1.cdna.all.fa"
 
 process foo {
   script:
   if( params.aligner == 'kallisto' )
     """
-    kallisto --reads /some/data.fastq
+    kallisto index -i index $transcriptome
     """
   else if( params.aligner == 'salmon' )
     """
-    salmon --reads /some/data.fastq
+    salmon index -t $transcriptome -i index
     """
   else
     throw new IllegalArgumentException("Unknown aligner $params.aligner")
