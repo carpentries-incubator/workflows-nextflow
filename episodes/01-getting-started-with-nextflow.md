@@ -3,13 +3,15 @@ title: "Getting Started with Nextflow"
 teaching: 20
 exercises: 10
 questions:
+- "What is Workflow management system?"
 - "What is Nextflow?"
-- "Why should I use a workflow system as part of my research workflow?"
+- "Why should I use a workflow management system as part of my research workflow?"
 objectives:
+- "Understand what a workflow management system is."
 - "Understand why you should use a workflow system as part of your workflow."
 - "Explain the benefits of using Nextflow as part of your science workflow."
 keypoints:
-- "Nextflow is a "workflow orchestration engine and a programming domain specific language."
+- "Nextflow is a "workflow management and a programming domain specific language."
 - "Using a workflow system facilitates portability and reproducibility of workflows."
 ---
 
@@ -19,9 +21,9 @@ keypoints:
 Analysing data involves multiple steps (workflow), including, gathering, cleaning and processing. This typically requires multiple software packages, sometime in different computer environments. Traditionally these steps have been joinined together in scripts using general purpose programming languages such as Bash or Python. However, newer *Workflow management systems* ,with Domain specific  languages (DSL), have  emerged specifically catering to computational data-analysis  in field such as Bioinformatics, Medical Imaging, Astronomy, Physics, and Chemistry.  These *Workflow management systems* contain multiple features that alongside a common workflow lanaguage, enable portability, reproducibility and interoperablity.
 
 
-## Basic concepts
+## Nextflow Basic concepts
 
-Nextflow is a workflow management system and a programming domain specific language (DSL) that eases the writing of data-intensive computational pipelines.
+Nextflow is a *workflow management system* and a *programming domain specific language (DSL)* that eases the writing of data-intensive computational pipelines.
 It is designed around the idea that the Linux platform is the *lingua franca* of data science. Linux provides many simple but powerful command-line and scripting tools that, when chained together, facilitate complex data manipulations.
 
 Nextflow extends this approach, adding the ability to define complex program interactions and a high-level parallel computational environment based on the [dataflow programming model](https://devopedia.org/dataflow-programming) whereby the processes are connected via their `outputs` and `inputs` to other `processes`, and processes run as soon as they receive an input.
@@ -37,9 +39,9 @@ Nextflow core features are:
 
 ### Processes and channels
 
-In practice a Nextflow pipeline script is made by joining together different processes. Each process can be written in any scripting language that can be executed by the Linux platform (Bash, Perl, Ruby, Python, etc.).
+In practice a Nextflow pipeline script is made by joining together different processes (workflow steps). Each process can be written in any scripting language that can be executed by the Linux platform (Bash, Perl, Ruby, Python, etc.).
 
-Processes are executed independently and are isolated from each other, i.e. they do not share a common (writable) state. The only way they can communicate is via asynchronous FIFO queues, called channels in Nextflow.
+Processes are executed independently and are isolated from each other, i.e. they do not share a common (writable) state. The only way they can communicate is via asynchronous FIFO queues, called `channels` in Nextflow.
 
 Any process can define one or more channels as input and output. The interaction between these processes, and ultimately the pipeline execution flow itself, is implicitly defined by these input and output declarations.
 
@@ -81,7 +83,7 @@ It provides out-of-the-box support for major batch schedulers and cloud platform
 
 ### Scripting language
 
-Nextflow implements declarative domain specific language (DSL) simplifies the writing of writing complex data analysis workflows as an extension of a general purpose programming language.
+Nextflow implements declarative domain specific language (DSL) that simplifies the syntax of writing complex data analysis workflows as an extension of a general purpose programming language.
 
 This approach makes Nextflow very flexible because allows to have in the same computing environment the benefit of concise DSL that allow the handling of recurrent use cases with ease and the flexibility and power of a general purpose programming language to handle corner cases, which may be difficult to implement using a declarative approach.
 
@@ -129,7 +131,7 @@ result.view{ it.trim() }
 ~~~~
 {: .source}
 
-This script defines two processes. The first splits a string into files containing chunks of 6 characters. The second receives these files and transforms their contents to uppercase letters. The resulting strings are emitted on the result channel and the final output is printed by the view operator.
+This script defines two `processes`. The first splits a string into files containing chunks of 6 characters. The second receives these files and transforms their contents to uppercase letters. The resulting strings are emitted on the result channel and the final output is printed by the view operator.
 
 Execute the script by entering the following command in your terminal:
 
@@ -230,7 +232,7 @@ You will see that the execution of the process splitLetters is actually skipped 
 
 Pipeline parameters are simply declared by prepending to a variable name the prefix params, separated by dot character. Their value can be specified on the command line by prefixing the parameter name with a double dash character, i.e. `--paramName`
 
-For the sake of this tutorial, you can try to execute the previous example specifying a different input string parameter, as shown below:
+For the sake of this leson, you can try to execute the previous example specifying a different input string parameter, as shown below:
 
 
 ~~~
