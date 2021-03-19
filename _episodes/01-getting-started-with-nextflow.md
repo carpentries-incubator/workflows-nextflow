@@ -1,29 +1,46 @@
 ---
 title: "Getting Started with Nextflow"
-teaching: 20
+teaching: 30
 exercises: 10
 questions:
 - "What is Workflow management system?"
+- "Why should I use a workflow management system?"
 - "What is Nextflow?"
-- "Why should I use a workflow management system as part of my research workflow?"
+- "What are the main features of Nextflow?"
 objectives:
 - "Understand what a workflow management system is."
-- "Understand why you should use a workflow system as part of your workflow."
+- "Understand the benefits of using a workflow management system."
 - "Explain the benefits of using Nextflow as part of your science workflow."
 keypoints:
-- "Nextflow is a "workflow management and a programming domain specific language."
+- "A workflow consists of an orchestrated and repeatable pattern of activity, enabled by the systematic organization of resources into processes that transform materials, provide services, or process information."
+- "Nextflow is a workflow system that comprises a runtime environment and a domain specific language (DSL)."
 - "Using a workflow system facilitates portability and reproducibility of workflows."
 ---
 
 
 ## Workflows
 
-Analysing data involves multiple steps (workflow), including, gathering, cleaning and processing. This typically requires multiple software packages, sometime in different computer environments. Traditionally these steps have been joinined together in scripts using general purpose programming languages such as Bash or Python. However, newer *Workflow management systems* ,with Domain specific  languages (DSL), have  emerged specifically catering to computational data-analysis  in field such as Bioinformatics, Medical Imaging, Astronomy, Physics, and Chemistry.  These *Workflow management systems* contain multiple features that alongside a common workflow lanaguage, enable portability, reproducibility and interoperablity.
+Analysing data involves multiple steps (workflow), including, gathering, cleaning and processing data. This typically requires multiple software and packages, sometime in different computer environments. Traditionally these steps have been joined together in scripts using general purpose programming languages such as Bash or Python.
+
+## Workflow management systems
+
+However, newer *Workflow management  systems* (WfMS)  have  emerged specifically catering to computational data-analysis  in field such as Bioinformatics, Medical Imaging, Astronomy, Physics, and Chemistry.  
+
+These *Workflow management systems* contain multiple features that alongside a workflow language, enable portability, reproducibility and interoperability.
+
+Key features include;
+
+* Workflow language: Domain specific  languages (DSL) to simplify writing workflows.
+* Run time management: Management of program execution and parallelisation.
+* Software management: Use of software container and environment managers such as conda.
+* Portability & Interoperability: Bioinformatic workflow written on one system can be easily run on another computing infrastructure.
+* Reproducibility: Logging and version management.
 
 
 ## Nextflow Basic concepts
 
-Nextflow is a *workflow management system* and a *programming domain specific language (DSL)* that eases the writing of data-intensive computational pipelines.
+Nextflow is a *workflow management system* that combines a runtime environment (software that is designed to run other software) and a *programming domain specific language (DSL)* that eases the writing of data-intensive computational pipelines.
+
 It is designed around the idea that the Linux platform is the *lingua franca* of data science. Linux provides many simple but powerful command-line and scripting tools that, when chained together, facilitate complex data manipulations.
 
 Nextflow extends this approach, adding the ability to define complex program interactions and a high-level parallel computational environment based on the [dataflow programming model](https://devopedia.org/dataflow-programming) whereby the processes are connected via their `outputs` and `inputs` to other `processes`, and processes run as soon as they receive an input.
@@ -33,11 +50,11 @@ Nextflow core features are:
 
 1. Enable workflows portability & reproducibility.
 
-1. Simplify parallelization and large scale deployment.
+1. Simplify parallelisation and large scale deployment.
 
-1. Easily integrate existing tools, systems & industry standards
+1. Easily integrate existing tools, systems & industry standards.
 
-### Processes and channels
+### Processes and Channels
 
 In practice a Nextflow pipeline script is made by joining together different processes (workflow steps). Each process can be written in any scripting language that can be executed by the Linux platform (Bash, Perl, Ruby, Python, etc.).
 
@@ -46,10 +63,10 @@ Processes are executed independently and are isolated from each other, i.e. they
 Any process can define one or more channels as input and output. The interaction between these processes, and ultimately the pipeline execution flow itself, is implicitly defined by these input and output declarations.
 
 
-> <p align="center">
->   <img alt="Processes and channels" src="../fig/channel-process.png" width="500">
-> </p>
-> 
+<p align="center">
+   <img alt="Processes and channels" src="../fig/channel-process.png" width="500">
+</p>
+
 
 ### Execution abstraction
 
@@ -80,6 +97,8 @@ It provides out-of-the-box support for major batch schedulers and cloud platform
 * Google Life Sciences
 
 * Kubernetes
+
+* Azure
 
 ### Scripting language
 
@@ -119,7 +138,7 @@ process convertToUpper {
 
     output:
     stdout into result
-    
+
     script:
     """
     cat $y | tr '[a-z]' '[A-Z]'
@@ -131,28 +150,30 @@ result.view{ it.trim() }
 ~~~~
 {: .source}
 
-This script defines two `processes`. The first splits a string into files containing chunks of 6 characters. The second receives these files and transforms their contents to uppercase letters. The resulting strings are emitted on the result channel and the final output is printed by the view operator.
+This script defines two `processes`. The first splits a string into files containing chunks of 6 characters. The second receives these files and transforms their contents to uppercase letters. The resulting strings are emitted on the result `channel` and the final output is printed by the `view` operator.
 
-Execute the script by entering the following command in your terminal:
 
-~~~
-nextflow run hello.nf
-~~~
-{: .source}
-
-It will output something similar to the text shown below:
-
-~~~
-N E X T F L O W  ~  version 20.01.0
-Launching `hello.nf` [marvelous_plateau] - revision: 63f8ad7155
-[warm up] executor > local
-executor >  local (3)
-[19/c2f873] process > splitLetters   [100%] 1 of 1 ✔
-[05/5ff9f6] process > convertToUpper [100%] 2 of 2 ✔
-HELLO
-WORLD!
-~~~
-{: .output}
+> ## Execute the script
+> Execute the script by entering the following command in your terminal:
+>
+> ~~~
+> nextflow run hello.nf
+> ~~~
+> {: .language-bash}
+> > ## Solution
+> > It will output something similar to the text shown below:
+> >
+> > ~~~
+> > N E X T F L O W  ~  version 20.01.0
+> > Launching `hello.nf` [marvelous_plateau] - revision: 63f8ad7155
+> > [warm up] executor > local
+> > executor >  local (3)
+> > [19/c2f873] process > splitLetters   [100%] 1 of 1 ✔
+> > [05/5ff9f6] process > convertToUpper [100%] 2 of 2 ✔
+> > HELLO
+> > WORLD!
+> >  ~~~
+{: .challenge}
 
 You can see that the first process is executed once, and the second twice. Finally the result string is printed.
 
@@ -168,9 +189,9 @@ HELLO
 {: .output}
 
 > ## Process identification
-> The hexadecimal numbers, like 22/7548fa, identify the unique process execution. 
-> These numbers are also the prefix of the directories where each process is executed. 
-> You can inspect the files produced by them changing to the directory `$PWD/work` and 
+> The hexadecimal numbers, like 22/7548fa, identify the unique process execution.
+> These numbers are also the prefix of the directories where each process is executed.
+> You can inspect the files produced by them changing to the directory `$PWD/work` and
 > using these numbers to find the process-specific execution path.
 {: .callout}
 
@@ -180,7 +201,7 @@ Nextflow keeps track of all the processes executed in your pipeline. If you modi
 
 This helps a lot when testing or modifying part of your pipeline without having to re-execute it from scratch.
 
-For the sake of this tutorial, modify the convertToUpper process in the previous example, replacing the process script with the string `rev $x`, so that the process looks like this:
+For the sake of this lesson, modify the `convertToUpper process` in the previous example, replacing the process script with the string `rev $x`, so that the process looks like this:
 
 ~~~
 process convertToUpper {
@@ -222,17 +243,28 @@ olleH
 You will see that the execution of the process splitLetters is actually skipped (the process ID is the same), and its results are retrieved from the cache. The second process is executed as expected, printing the reversed strings.
 
 
-> ## work directory
-> The pipeline results are cached by default in the directory $PWD/work. 
-> Depending on your script, this folder can take of lot of disk space. 
-> If your are sure you won’t resume your pipeline execution, clean this folder periodically.
-{: .callout}
+## work directory
+
+The pipeline results are cached by default in the directory `work` where the pipeline is launched.
+Depending on your script, this folder can take of lot of disk space.
+You can specify another work directory using the command line option `-w`
+~~~
+nextflow run <script> -w /some/scratch/dir
+~~~
+{: .language-bash}
+
+If your are sure you won’t resume your pipeline execution, clean this folder periodically using the command `nextflow clean`.
+
+~~~
+nextflow clean [run_name|session_id] [options]
+~~~
+{: .language-bash}
 
 ## Pipeline parameters
 
-Pipeline parameters are simply declared by prepending to a variable name the prefix params, separated by dot character. Their value can be specified on the command line by prefixing the parameter name with a double dash character, i.e. `--paramName`
+Pipeline parameters are simply declared by prepending to a variable name the prefix `params`, separated by dot character e.g. `params.reads`. Their value can be specified on the command line by prefixing the parameter name with a **double dash** character, i.e. `--paramName` e.g. `--reads`
 
-For the sake of this leson, you can try to execute the previous example specifying a different input string parameter, as shown below:
+For the sake of this lesson, you can try to execute the previous example specifying a different input string parameter, as shown below:
 
 
 ~~~
@@ -252,7 +284,6 @@ executor >  local (4)
 uojnoB
 m el r
 !edno
-
 ~~~
 {: .output}
 
