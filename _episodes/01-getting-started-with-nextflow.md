@@ -3,38 +3,43 @@ title: "Getting Started with Nextflow"
 teaching: 30
 exercises: 10
 questions:
-- "What is Workflow management system?"
+- "What is workflow?"
+- "What is workflow management system?"
 - "Why should I use a workflow management system?"
 - "What is Nextflow?"
 - "What are the main features of Nextflow?"
+- "What are the main components of a Nextflow script?"
+- "How do you run a Nextflow script?"
 objectives:
 - "Understand what a workflow management system is."
 - "Understand the benefits of using a workflow management system."
 - "Explain the benefits of using Nextflow as part of your science workflow."
+- "Explain the components of a Nextflow script."
+- "Run a simple Nextflow script."
 keypoints:
-- "A workflow consists of an orchestrated and repeatable pattern of activity, enabled by the systematic organization of resources into processes that transform materials, provide services, or process information."
-- "Nextflow is a workflow system that comprises a runtime environment and a domain specific language (DSL)."
+- "A workflow is sequence of tasks that processes a set of data. "
+- "A workflow management system is a computational platform that manages the execution of a workflow."
+- "Nextflow is a workflow management system that comprises both a runtime environment and a domain specific language (DSL)."
 - "Using a workflow system facilitates portability and reproducibility of workflows."
+- "Nextflow scripts comprises of channels for controlling inputs and outputs and processes for defining workflow tasks."
+- "You run a Nextflow script using the `nextflow run` command."
 ---
 
 
-## Workflows
+## Workflows and Workflow management systems
 
-Analysing data involves multiple steps (workflow), including, gathering, cleaning and processing data. This typically requires multiple software and packages, sometime in different computer environments. Traditionally these steps have been joined together in scripts using general purpose programming languages such as Bash or Python.
+Analysing data involves a sequence of tasks, including, gathering, cleaning and processing data. These sequence of tasks is  generally called a workflow or a pipeline. These workflows typically requires multiple software and packages, sometimes in running in different computer environments. Traditionally these steps have been joined together in scripts using general purpose programming languages such as Bash or Python.
 
-## Workflow management systems
+ *Workflow management  systems* (WfMS)  have  emerged specifically catering to computational data-analysis  in field such as Bioinformatics, Medical Imaging, Astronomy, Physics, and Chemistry.  
 
-However, newer *Workflow management  systems* (WfMS)  have  emerged specifically catering to computational data-analysis  in field such as Bioinformatics, Medical Imaging, Astronomy, Physics, and Chemistry.  
-
-These *Workflow management systems* contain multiple features that alongside a workflow language, enable portability, reproducibility and interoperability.
+These *Workflow management systems* contain multiple features that aid in the development, monitoring,  execution and sharing of pipelines.
 
 Key features include;
 
-* Workflow language: Domain specific  languages (DSL) to simplify writing workflows.
-* Run time management: Management of program execution and parallelisation.
-* Software management: Use of software container and environment managers such as conda.
-* Portability & Interoperability: Bioinformatic workflow written on one system can be easily run on another computing infrastructure.
-* Reproducibility: Logging and version management.
+* Run time management: Management of program execution and task parallelisation.
+* Software management: Use of container and environment managers to manage software dependencies.
+* Portability & Interoperability: Bioinformatic workflow written on one system can be run on another computing infrastructure e.g. local vs HPC.
+* Reproducibility: Workflow produces the same results when run on different platforms.
 
 
 ## Nextflow Basic concepts
@@ -48,11 +53,15 @@ Nextflow extends this approach, adding the ability to define complex program int
 
 Nextflow core features are:
 
-1. Enable workflows portability & reproducibility.
+1. A custom domain specific language (DSL) for writing pipelines that enables fast prototyping.
 
-1. Simplify parallelisation and large scale deployment.
+1. Enable workflows portability & reproducibility: Nextflow's syntax is separated out from where   the pipeline is deployed e.g. local compute vs HPC.  
+
+1. Simplify parallelisation and large scale deployment: The dataflow programming model enables implicit parallelism.
 
 1. Easily integrate existing tools, systems & industry standards.
+
+note <https://www.youtube.com/watch?v=8_i8Tn335X0&ab_channel=Nextflow> minute 20:15
 
 ### Processes and Channels
 
@@ -62,6 +71,8 @@ Processes are executed independently and are isolated from each other, i.e. they
 
 Any process can define one or more channels as input and output. The interaction between these processes, and ultimately the pipeline execution flow itself, is implicitly defined by these input and output declarations.
 
+
+Here we have a channel containing three elements, e.g. 3 data files, . We have a process that takes the channel as input. The fact that the channels has three elements would mean that three independent instances of that process are being run in parallel. The processes would generate three outputs.
 
 <p align="center">
    <img alt="Processes and channels" src="../fig/channel-process.png" width="500">
@@ -78,27 +89,22 @@ In other words, Nextflow provides an abstraction between the pipeline’s functi
 
 It provides out-of-the-box support for major batch schedulers and cloud platforms:
 
-* Grid engine (Open/Sun/Univa)
-
-* IBM Platform LSF
-
-* Linux SLURM
-
-* PBS Works
-
-* Torque
-
-* Moab
-
-* HTCondor
-
-* Amazon Batch
-
-* Google Life Sciences
-
-* Kubernetes
-
-* Azure
+|Name|Executor|
+|----|--------|
+|local|The process is executed in the computer where Nextflow is launched.|
+|sge|The process is executed using the Sun Grid Engine / Open Grid Engine.|
+|uge|The process is executed using the Univa Grid Engine job scheduler.|
+|lsf|The process is executed using the Platform LSF job scheduler.|
+|slurm|The process is executed using the SLURM job scheduler.|
+|pbs|The process is executed using the PBS/Torque job scheduler.|
+|pbspro|The process is executed using the PBS Pro job scheduler.|
+|moab|The process is executed using the Moab job scheduler.|
+|condor|The process is executed using the HTCondor job scheduler.|
+|nqsii|The process is executed using the NQSII job scheduler.|
+|ignite|The process is executed using the Apache Ignite cluster.|
+|k8s|The process is executed using the Kubernetes cluster.|
+|awsbatch|The process is executed using the AWS Batch service.|
+|google-pipelines|The process is executed using the Google Genomics Pipelines service.|
 
 ### Scripting language
 
@@ -110,90 +116,132 @@ In practical terms Nextflow scripting is an extension of the [Groovy programming
 
 ## Your first script
 
-Copy the following example into your favourite text editor and save it to a file named `hello.nf` :
+Copy the following example into your favourite text editor and save it to a file named `wc.nf` :
 
 ~~~
 #!/usr/bin/env nextflow
 
-params.greeting  = 'Hello world!'
-greeting_ch = Channel.from(params.greeting)
+//pipeline parameter
+params.samples  = "data/ggal/gut_1.fq"
+samples_ch = Channel.fromPath(params.samples)
 
-process splitLetters {
+
+process numLines {
 
     input:
-    val x from greeting_ch
+    path read from samples_ch
 
     output:
-    file 'chunk_*' into letters
+    stdout into read_out_ch
 
     """
-    printf '$x' | split -b 6 - chunk_
+    sleep 5
+    wc -l ${read}
     """
 }
 
-process convertToUpper {
-
-    input:
-    file y from letters.flatten()
-
-    output:
-    stdout into result
-
-    script:
-    """
-    cat $y | tr '[a-z]' '[A-Z]'
-    """
-}
-
-result.view{ it.trim() }
+read_out_ch.view()
 
 ~~~~
 {: .source}
 
-This script defines two `processes`. The first splits a string into files containing chunks of 6 characters. The second receives these files and transforms their contents to uppercase letters. The resulting strings are emitted on the result `channel` and the final output is printed by the `view` operator.
+This script defines one `process` that counts the number of lines in a single fastq file. The output, as captured by stdout qualifier, is emitted on the result `channel` and the final output is printed by the `view` operator.
 
 
-> ## Execute the script
-> Execute the script by entering the following command in your terminal:
+> ## Run a Nextflow  script
+> Run the script by entering the following command in your terminal:
 >
 > ~~~
-> nextflow run hello.nf
+> nextflow run wc.nf
 > ~~~
 > {: .language-bash}
 > > ## Solution
 > > It will output something similar to the text shown below:
 > >
 > > ~~~
-> > N E X T F L O W  ~  version 20.01.0
-> > Launching `hello.nf` [marvelous_plateau] - revision: 63f8ad7155
-> > [warm up] executor > local
-> > executor >  local (3)
-> > [19/c2f873] process > splitLetters   [100%] 1 of 1 ✔
-> > [05/5ff9f6] process > convertToUpper [100%] 2 of 2 ✔
-> > HELLO
-> > WORLD!
+> > N E X T F L O W  ~  version 20.10.0
+> > Launching `wc.nf` [fervent_babbage] - revision: c54a707593
+> > executor >  local (1)
+> > [21/b259be] process > numLines (1) [100%] 1 of 1 ✔
+> >   11748 gut_1.fq
 > >  ~~~
 {: .challenge}
 
-You can see that the first process is executed once, and the second twice. Finally the result string is printed.
+You can see that the  process `numLines` is executed once and the result string is printed.
 
-It’s worth noting that the process `convertToUpper` is executed in parallel, so there’s no guarantee that the instance processing the first split (the chunk Hello) will be executed before before the one processing the second split (the chunk world!).
+
+## Pipeline parameters
+
+The Nextflow `wc.nf` script defines a pipeline parameter `params.samples`.
+Pipeline parameters are simply declared by prepending to a variable name the prefix `params`, separated by dot character e.g. `params.reads`. Their value can be specified on the command line by prefixing the parameter name with a **double dash** character, i.e. `--paramName` e.g. `--reads`
+
+We can changed the input using the `params` variable on the command line.
+
+> ## Add a pipeline parameter
+> Run the Netxflow script by entering the following command in your terminal:
+>
+> ~~~
+> nextflow run wc.nf --samples 'data/ggal/*.fq'
+> ~~~
+> {: .language-bash}
+> > ## Solution
+> > The string specified on the command line will override the default value of the parameter. The output will look like this:
+> >
+> > ~~~
+> > N E X T F L O W  ~  version 20.10.0
+> > Launching `wc.nf` [soggy_miescher] - revision: c54a707593
+> > executor >  local (6)
+> > [b3/c9f4ee] process > numLines (1) [100%] 6 of 6 ✔
+> >    11748 gut_2.fq
+> >
+> >    11748 liver_2.fq
+> >
+> >    11748 gut_1.fq
+> >
+> >    11748 lung_1.fq
+> >
+> >    11748 liver_1.fq
+> >
+> >    11748 lung_2.fq
+> >  ~~~
+{: .challenge}
+
+The pipeline has now executed the `numLines` process six time using the string `data/ggal/*.fq` to capture the six fastq files matching the glob pattern `data/ggal/*.fq`.
+
+
+It’s worth noting that the process `wc` is executed in parallel, so there’s no guarantee on the output order.
 
 Thus, it is perfectly possible that you will get the final result printed out in a different order:
 
-~~~
-
-WORLD!
-HELLO
-~~~
-{: .output}
 
 > ## Process identification
-> The hexadecimal numbers, like 22/7548fa, identify the unique process execution.
+> The hexadecimal numbers, like b3/c9f4ee, identify the unique process execution.
 > These numbers are also the prefix of the directories where each process is executed.
 > You can inspect the files produced by them changing to the directory `$PWD/work` and
 > using these numbers to find the process-specific execution path.
 {: .callout}
+
+## Nextflow log
+
+You can print Nextflow's execution history and log information using the  `nextflow log` command.
+
+## Show Execution Log
+> Listing the execution logs of previous invocations of all pipelines in a directory.
+>
+> ~~~
+> nextflow log
+> ~~~
+> {: .language-bash}
+> > ## Solution
+> > The output will look similar to this:
+> >
+> > ~~~
+> >TIMESTAMP          	DURATION	RUN NAME       	STATUS	REVISION ID	SESSION ID                          	COMMAND
+> >2021-03-19 13:45:53	6.5s    	fervent_babbage	OK    	c54a707593 	15487395-443a-4835-9198-229f6ad7a7fd	nextflow run wc.nf
+> > 2021-03-19 13:46:53	6.6s    	soggy_miescher 	OK    	c54a707593 	58da0ccf-63f9-42e4-ba4b-1c349348ece5	nextflow run wc.nf --samples 'data/ggal/*.fq'
+> >  ~~~
+{: .challenge}
+
 
 ## Modify and resume
 
@@ -201,51 +249,133 @@ Nextflow keeps track of all the processes executed in your pipeline. If you modi
 
 This helps a lot when testing or modifying part of your pipeline without having to re-execute it from scratch.
 
-For the sake of this lesson, modify the `convertToUpper process` in the previous example, replacing the process script with the string `rev $x`, so that the process looks like this:
 
-~~~
-process convertToUpper {
+> ## Re-run the pipeline using -resume option
+> Execute the script by entering the following command in your terminal:
+>
+> ~~~
+> nextflow run wc.nf --samples 'data/ggal/*.fq' -resume
+> ~~~
+> {: .language-bash}
+> > ## Solution
+> > The output will look similar to this:
+> >
+> > ~~~
+> > N E X T F L O W  ~  version 20.10.0
+> > Launching `wc.nf` [crazy_sax] - revision: c54a707593
+> > [0a/0425b3] process > numLines (3) [100%] 6 of 6, cached: 6 ✔
+> >    11748 lung_1.fq
+> >
+> >    11748 liver_2.fq
+> >
+> >    11748 liver_1.fq
+> >
+> >    11748 lung_2.fq
+> >
+> >    11748 gut_2.fq
+> >
+> >    11748 gut_1.fq
+> >  ~~~
+{: .challenge}
 
-    input:
-    file y from letters.flatten()
-
-    output:
-    stdout into result
-
-    """
-    rev $y
-    """
-}
-~~~
 {: .source}
 
-Then save the file with the same name, and execute it by adding the `-resume` option to the command line:
+
+You will see that the execution of the process `numLines` is actually skipped (cached text appears), and its results are retrieved from the cache.
+
+
+> ## Modify the wc.nf script and re-run the pipeline using -resume option
+> Modify the wc.nf script changing the sleep time and execute the script by entering the following command in your terminal:
+>
+> ~~~
+> nextflow run myfirst.nf --samples 'data/ggal.*.fq' -resume
+> ~~~
+> {: .language-bash}
+> > ## Solution
+> > The output will look similar to this:
+> >
+> > ~~~
+N E X T F L O W  ~  version 20.10.0
+Launching `wc.nf` [backstabbing_joliot] - revision: 714e17a273
+executor >  local (6)
+[68/1ba655] process > numLines (5) [100%] 6 of 6 ✔
+   11748 liver_1.fq
+
+   11748 lung_1.fq
+
+   11748 gut_2.fq
+
+   11748 liver_2.fq
+
+   11748 lung_2.fq
+
+   11748 gut_1.fq
+> >  ~~~
+{: .challenge}
+
+As you have changed the script the pipeline will re-run and won't use the cached results for that process.
+
 
 ~~~
-nextflow run hello.nf -resume
+nextflow log
 ~~~
-{: .source}
-
-It will print output similar to this:
+{: .language-bash}
 
 ~~~
-N E X T F L O W  ~  version 20.01.0
-Launching `hello.nf` [naughty_tuckerman] - revision: 22eaa07be4
-[warm up] executor > local
-executor >  local (2)
-[19/c2f873] process > splitLetters   [100%] 1 of 1, cached: 1 ✔
-[a7/a410d3] process > convertToUpper [100%] 2 of 2 ✔
-olleH
-!dlrow
+IMESTAMP          	DURATION	RUN NAME           	STATUS	REVISION ID	SESSION ID                          	COMMAND
+2021-03-19 13:45:53	6.5s    	fervent_babbage    	OK    	c54a707593 	15487395-443a-4835-9198-229f6ad7a7fd	nextflow run wc.nf
+2021-03-19 13:46:53	6.6s    	soggy_miescher     	OK    	c54a707593 	58da0ccf-63f9-42e4-ba4b-1c349348ece5	nextflow run wc.nf --samples 'data/ggal/*.fq'
+2021-03-19 13:51:40	2s      	crazy_sax          	OK    	c54a707593 	58da0ccf-63f9-42e4-ba4b-1c349348ece5	nextflow run wc.nf --samples 'data/ggal/*.fq' -resume
+2021-03-19 13:52:15	4.5s    	backstabbing_joliot	OK    	714e17a273 	58da0ccf-63f9-42e4-ba4b-1c349348ece5	nextflow run wc.nf --samples 'data/ggal/*.fq' -resume
 ~~~
 {: .output}
-
-You will see that the execution of the process splitLetters is actually skipped (the process ID is the same), and its results are retrieved from the cache. The second process is executed as expected, printing the reversed strings.
-
-
 ## work directory
 
 The pipeline results are cached by default in the directory `work` where the pipeline is launched.
+
+~~~
+work/
+├── 0a
+│   └── 0425b3789460591b49ef8dae6ec44b
+│       └── gut_2.fq -> /Users/ggrimes2/Documents/nf/data/ggal/gut_2.fq
+├── 21
+│   └── b259bed0f7dacf8b83bcc0da5a079f
+│       └── gut_1.fq -> /Users/ggrimes2/Documents/nf/data/ggal/gut_1.fq
+├── 48
+│   └── fe7f1b6c838cfeeaf022b08b1f3fc8
+│       └── liver_2.fq -> /Users/ggrimes2/Documents/nf/data/ggal/liver_2.fq
+├── 4f
+│   └── f773dcbb2045831171497637e31e88
+│       └── gut_2.fq -> /Users/ggrimes2/Documents/nf/data/ggal/gut_2.fq
+├── 54
+│   └── 1cf9da3ac999d80b99b7dc4ac9b270
+│       └── lung_1.fq -> /Users/ggrimes2/Documents/nf/data/ggal/lung_1.fq
+├── 55
+│   └── 3536aa774ef8e1a51e901ec9eb27bb
+│       └── liver_1.fq -> /Users/ggrimes2/Documents/nf/data/ggal/liver_1.fq
+├── 57
+│   └── f851843afff11994536dfd0300090f
+│       └── liver_1.fq -> /Users/ggrimes2/Documents/nf/data/ggal/liver_1.fq
+├── 68
+│   └── 1ba655e16066348420844c00c9c081
+│       └── gut_1.fq -> /Users/ggrimes2/Documents/nf/data/ggal/gut_1.fq
+├── 6d
+│   ├── 211fd4c064bf5b7176865fa2ffeaca
+│   │   └── lung_2.fq -> /Users/ggrimes2/Documents/nf/data/ggal/lung_2.fq
+│   └── e0f493681b75fc2f9d6bfa35c6ec54
+│       └── gut_1.fq -> /Users/ggrimes2/Documents/nf/data/ggal/gut_1.fq
+├── 8b
+│   └── b7e9351f3e7254249170294c3cd6eb
+│       └── lung_1.fq -> /Users/ggrimes2/Documents/nf/data/ggal/lung_1.fq
+├── b3
+│   └── c9f4eeef85981d8569e4d8b7deb5a8
+│       └── lung_2.fq -> /Users/ggrimes2/Documents/nf/data/ggal/lung_2.fq
+└── de
+    └── 62ee012039ea0af53e2898c4dc4bc8
+        └── liver_2.fq -> /Users/ggrimes2/Documents/nf/data/ggal/liver_2.fq
+~~~
+
+
 Depending on your script, this folder can take of lot of disk space.
 You can specify another work directory using the command line option `-w`
 ~~~
@@ -259,34 +389,6 @@ If your are sure you won’t resume your pipeline execution, clean this folder p
 nextflow clean [run_name|session_id] [options]
 ~~~
 {: .language-bash}
-
-## Pipeline parameters
-
-Pipeline parameters are simply declared by prepending to a variable name the prefix `params`, separated by dot character e.g. `params.reads`. Their value can be specified on the command line by prefixing the parameter name with a **double dash** character, i.e. `--paramName` e.g. `--reads`
-
-For the sake of this lesson, you can try to execute the previous example specifying a different input string parameter, as shown below:
-
-
-~~~
-nextflow run hello.nf --greeting 'Bonjour le monde!'
-~~~
-{: .bash}
-
-The string specified on the command line will override the default value of the parameter. The output will look like this:
-
-~~~
-N E X T F L O W  ~  version 20.01.0
-Launching `hello.nf` [wise_stallman] - revision: 22eaa07be4
-[warm up] executor > local
-executor >  local (4)
-[48/e8315b] process > splitLetters   [100%] 1 of 1 ✔
-[01/840ca7] process > convertToUpper [100%] 3 of 3 ✔
-uojnoB
-m el r
-!edno
-~~~
-{: .output}
-
 
 
 
