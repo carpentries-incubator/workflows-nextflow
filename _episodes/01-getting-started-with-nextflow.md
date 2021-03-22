@@ -121,8 +121,14 @@ Copy the following example into your favourite text editor and save it to a file
 ~~~
 #!/usr/bin/env nextflow
 
-//pipeline parameter
+/*
+ * pipeline input parameters
+ */
 params.samples  = "data/ggal/gut_1.fq"
+
+/*
+* Sample input channel
+*/
 samples_ch = Channel.fromPath(params.samples)
 
 
@@ -295,21 +301,21 @@ You will see that the execution of the process `numLines` is actually skipped (c
 > > The output will look similar to this:
 > >
 > > ~~~
-N E X T F L O W  ~  version 20.10.0
-Launching `wc.nf` [backstabbing_joliot] - revision: 714e17a273
-executor >  local (6)
-[68/1ba655] process > numLines (5) [100%] 6 of 6 ✔
-   11748 liver_1.fq
-
-   11748 lung_1.fq
-
-   11748 gut_2.fq
-
-   11748 liver_2.fq
-
-   11748 lung_2.fq
-
-   11748 gut_1.fq
+> > N E X T F L O W  ~  version 20.10.0
+> > Launching `wc.nf` [backstabbing_joliot] - revision: 714e17a273
+> > executor >  local (6)
+> > [68/1ba655] process > numLines (5) [100%] 6 of 6 ✔
+> >    11748 liver_1.fq
+> >
+> >    11748 lung_1.fq
+> >
+> >    11748 gut_2.fq
+> >  
+> >    11748 liver_2.fq
+> >
+> >    11748 lung_2.fq
+> >
+> >    11748 gut_1.fq
 > >  ~~~
 {: .challenge}
 
