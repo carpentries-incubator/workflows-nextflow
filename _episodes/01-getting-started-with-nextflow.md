@@ -106,7 +106,7 @@ Processes uses these channels to define inputs and outputs. The interaction betw
 Here we have a channel containing three elements, e.g. 3 data files, . We have a process that takes the channel as input. The fact that the channels has three elements would mean that three independent instances of that process are being run in parallel. The processes then generate three outputs that is used as input for another process.
 
 <p align="center">
-   <img alt="Processes and channels" src="../fig/channel-process.png" width="500">
+   <img alt="Processes and channels" src="../fig/channel-process_fqc.png" width="500">
    <br>
    <em>Nextflow process flow diagram</em>
 </p>
@@ -117,6 +117,13 @@ Here we have a channel containing three elements, e.g. 3 data files, . We have a
 While a `process` defines what command or script has to be executed, the `executor` determines how that script is actually run in the target system.
 
 If not otherwise specified, processes are executed on the local computer. The local executor is very useful for pipeline development and testing purposes, but for real world computational pipelines an HPC or cloud platform is often required.
+
+<p align="center">
+   <img alt="Processes and channels" src="../fig/executor.png" width="250">
+   <br>
+   <em>Nextflow Executors</em>
+</p>
+
 
 In this way Nextflow provides a separation between the pipeline’s functional logic and the underlying execution platform. This make it possible to  write a pipeline once and to then run it on your computer, compute cluster, or the cloud, without modifying it, by simply defining the target execution platform in the configuration file.
 
