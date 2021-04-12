@@ -22,6 +22,7 @@ Install the latest version of Nextflow copy & pasting the following snippet in a
 java -version
 
 # Install Nextflow
+export NXF_VER=20.10.0
 curl -fsSL get.nextflow.io | bash
 
 # Add Nextflow binary to your user's PATH:
