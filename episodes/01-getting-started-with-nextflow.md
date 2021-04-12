@@ -23,6 +23,7 @@ keypoints:
 - "Nextflow is a workflow management system that comprises both a runtime environment and a domain specific language (DSL)."
 - "Nextflow scripts comprises of channels for controlling inputs and outputs and processes for defining workflow tasks."
 - "You run a Nextflow script using the `nextflow run` command."
+- "You can resume a workflow using using the `-resume` option"
 - "The `nextflow log` command can be used to see information about executed pipelines."
 ---
 
@@ -48,23 +49,23 @@ However, as workflows become  larger and more complex the management of the prog
 
 ##  Workflow management systems
 
-Recently **Workflow Management  Systems** (WfMS), such as Snakemake, Galaxy and Nextflow have  emerged specifically to manage  computational data-analysis workflows in field such as Bioinformatics, Imaging, Physics, and Chemistry.  
+Recently Workflow Management  Systems (WfMS), such as Snakemake, Galaxy and Nextflow have  emerged specifically to manage  computational data-analysis workflows in field such as Bioinformatics, Imaging, Physics, and Chemistry.  
 
 These *Workflow management systems* contain multiple features that simplify the development, monitoring,  execution and sharing of pipelines.
 
 Key features include;
 
-* Run time management: Management of program execution on the operating system and splitting tasks and data up to run  at the same time in a process called parallelisation.
-* Software management: Use of containers and environment managers to manage software binaries and dependencies.
-* Portability & Interoperability: Workflow written on one system can be run on another computing infrastructure e.g. local computer vs compute cluster.
-* Reproducibility: The use of Software management systems and a pipeline specification means that the  workflow will produces the same results when re-run, including on different computing platforms.
+* **Run time management**: Management of program execution on the operating system and splitting tasks and data up to run  at the same time in a process called parallelisation.
+* **Software management**: Use of software management technology like container, such as docker or singularity, that packages up code and all its dependencies so the application run reliably from one computing environment to another.
+* **Portability & Interoperability**: Workflow written on one system can be run on another computing infrastructure e.g. local computer vs compute cluster.
+* **Reproducibility**: The use of Software management systems and a pipeline specification means that the  workflow will produces the same results when re-run, including on different computing platforms.
 
 
 ## Nextflow Basic concepts
 
 Nextflow is a workflow management system that combines a runtime environment ,software that is designed to run other software, and a *programming domain specific language (DSL)* that eases the writing of computational pipelines.
 
-It is designed around the Linux "small pieces loosely joined" philosophy : in which many simple but powerful command-line and scripting tools that, when chained together, facilitate complex data manipulations.
+Nextflow is built around the idea that Linux is the lingua franca of data science. Nextflow follows Linux "small pieces loosely joined" philosophy : in which many simple but powerful command-line and scripting tools that, when chained together, facilitate more complex data manipulations.
 
 Nextflow extends this approach, adding the ability to define complex program interactions and an accessible (high-level) parallel computational environment based on the [dataflow programming model](https://devopedia.org/dataflow-programming), whereby the processes are connected via their `outputs` and `inputs` to other `processes`, and processes run as soon as they receive an input.
 
@@ -85,18 +86,21 @@ In a simple program **(a)**, these statements would be executed sequentially. Th
 
 ### Nextflow core features are:
 
-1. A simple syntax, domain specific language (DSL), for writing pipelines that enables fast prototyping.
+1. Fast prototyping: A simple syntax for writing pipelines that enables you to reuse existing scripts and tools for fast prototyping.
 
-1. Enable workflows portability & reproducibility: Nextflow's syntax is separated out from where the pipeline is run e.g. local compute vs. a university compute cluster or a cloud service like AWS.  
+1. Reproducibility: Nextflow supports containers technologies such as Docker and Singularity as well as conda. This, along with the integration of the GitHub code sharing platform, allows you to write self-contained pipelines, manage versions and to reproduce any former configuration.
 
-1. Simplify parallelisation and large scale deployment:  Nextflow automates the splitting of tasks that can be run at the same time (parallelisation).
+1. Portability: Nextflow's syntax is separated out from where the pipeline is run so that it can be executed on multiple platforms without it changing. e.g. local compute vs. a university compute cluster or a cloud service like AWS.  
 
-1. Easily integrate existing tools, systems & industry standards; Nextflow has support for the major software containers and environment managers such as singularity, docker and conda.
+1. Simple parallelism:  Nextflow is based on the dataflow programming model which greatly simplifies the splitting of tasks that can be run at the same time (parallelisation).
+
+1. Continuous checkpoints: All the intermediate results produced during the pipeline execution are automatically tracked.This allows you to resume its execution, from the last successfully executed step, no matter what the reason was for it stopping.
+
 
 
 ### Processes and Channels
 
-Nextflow defines pipelines in scripts. In practice a Nextflow pipeline script is made by joining together different commands tasks in process blocks. Each process can be written in any scripting language that can be executed by the Linux platform (Bash, Perl, Ruby, Python, etc.).
+ In practice a Nextflow pipeline is a script made by joining together different commands tasks in process blocks. Each process can be written in any scripting language that can be executed by the Linux platform (Bash, Perl, Ruby, Python, etc.).
 
 Processes are executed independently and can not interact or write to each other. The only way they can communicate is via asynchronous queues, called `channels` in Nextflow.
 

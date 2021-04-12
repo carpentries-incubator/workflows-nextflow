@@ -1,11 +1,11 @@
 ---
 title: "Processes"
-teaching: 0
-exercises: 0
+teaching: 40 min
+exercises: 20 min
 questions:
 - "What is a Nextflow process?"
 - "How do I create a Nextflow process?"
-- "How do I input data into processes|"
+- "How do I input data into processes"
 - "How do I output data from a process?"
 - "How do I sepcify conditions for a process in order for it to execute?"
 - "What are process directives?"
@@ -15,7 +15,7 @@ objectives:
 - "Create a nextflow process."
 - "Use values and files as inputs to a process."
 - "Use the when declaration to define a condition for process execution."
-- "Understand what process directives are." 
+- "Understand what process directives are."
 keypoints:
 - "A Nextflow process is an independent task/step in a workflow"
 - "Processes"
@@ -25,13 +25,10 @@ keypoints:
 
 # Processes
 
-We now know how to create and use Channels to control data flows in Nextflow. We will now see how to process independent tasks within a workflow.
+We now know how to create and use Channels to control data flows in Nextflow. We will now see how to process tasks within a workflow.
 
-A `process` is the basic Nextflow computing primitive to execute foreign function i.e. custom scripts or tools.
+A `process` is the way Nextflow execute foreign function i.e. custom scripts or tools.
 
-> ## primitives
-> In computing, language primitives are the simplest elements available in a programming language. A primitive is the smallest 'unit of processing' available to a programmer of a given machine, or can be an atomic element of an expression in a language.
-> {: .callout}
 
 *Processes can be thought of as a particular task/steps in a workflow, e.g. an alignment step in RNA-Seq analysis. Processes and are independent of each other (don't require another processes to execute) and can not communicate/write to each other . It is the Channels that pass the data from each process to another, and we do this by having the processes define input and output which are Channels*
 
@@ -41,6 +38,7 @@ A basic process looks like the following example:
 
 ~~~
 process sayHello {
+  script:
   """
   echo 'Hello world!'
   """
@@ -48,7 +46,16 @@ process sayHello {
 ~~~
 {: .source}
 
-A process may contain five definition blocks, respectively: directives, inputs, outputs, when clause and finally the process script. The syntax is defined as follows:
+A process may contain five definition blocks, respectively:
+
+1. directives,
+1. inputs,
+1. outputs,
+1. when clause and
+1. finally the process script.
+
+
+The syntax is defined as follows:
 
 ~~~
 process < name > {
@@ -85,9 +92,11 @@ The script block can be a simple string or multi-line string. The latter simplif
 process example {
     script:
     """
-    blastp -db /data/blast -query query.fa -outfmt 6 > blast_result
-    cat blast_result | head -n 10 | cut -f 2 > top_hits
-    blastdbcmd -db /data/blast -entry_batch top_hits > sequences
+    samtools sort  ${prefix}.sorted.bam -T $name $bam
+    samtools index ${prefix}.sorted.bam
+    samtools flagstat ${prefix}.sorted.bam > ${prefix}.sorted.bam.flagstat
+    samtools idxstats ${prefix}.sorted.bam > ${prefix}.sorted.bam.idxstats
+    samtools stats ${prefix}.sorted.bam > ${prefix}.sorted.bam.stats
     """
 }
 ~~~
@@ -117,12 +126,12 @@ process pyStuff {
 Process script can be defined dynamically using variable values like in other string.
 
 ~~~
-params.data = 'World'
+params.data = 'data/ggal/gut1.fq'
 
-process foo {
+process fasqtc {
   script:
   """
-  echo Hello $params.data
+  fastqc $params.data
   """
 }
 ~~~
@@ -139,7 +148,7 @@ process foo {
 process foo {
   script:
   """
-  echo "The current directory is \$PWD"
+  fastqc $params.data -o "\$PWD"
   """
 }
 ~~~
@@ -175,7 +184,7 @@ process baz {
 
 ### Conditional script
 
-The process script can also be defined in a complete dynamic manner using a if statement or any other expression evaluating to string value. For example:
+The process script can also be defined in a complete dynamic manner using a `if statement` or any other expression evaluating to string value. For example:
 
 ~~~
 params.aligner = 'kallisto'
@@ -214,7 +223,7 @@ Nextflow processes are isolated from each other but can communicate between them
 
 Inputs implicitly determine the dependency and the parallel execution of the process. The process execution is fired each time a new data is ready to be consumed from the input channel:
 
-![Process Flow](../figs/channel-process.png)
+![Process Flow](../fig/channel-process.png)
 
 
 The input block defines which channels the process is expecting to receive inputs data from. You can only define one input block at a time and it must contain one or more inputs declarations.
@@ -232,25 +241,26 @@ input:
 The val qualifier allows you to receive data of any type as input. It can be accessed in the process script by using the specified input name, as shown in the following example:
 
 ~~~
-num = Channel.from( 1, 2, 3 )
+chr_ch = Channel.of( 1..21,'X','Y' )
 
 process basicExample {
   input:
-  val x from num
+  val chr from chr_ch
 
   """
-  echo process job $x
+  echo process chromosome $chr
   """
 }
 ~~~
 {: .source}
 
-In the above example the process is executed three times, each time a value is received from the channel num and used to process the script. Thus, it results in an output similar to the one shown below:
+In the above example the process is executed 23 times, each time a value is received from the channel num and used to process the script. Thus, it results in an output similar to the one shown below:
 
 ~~~
-process job 3
-process job 1
-process job 2
+process chromosome 3
+process chromosome 1
+process chromosome 2
+..truncated...
 ~~~
 {: .output}
 
@@ -260,17 +270,17 @@ process job 2
 
 ### Input files
 
-The `file` qualifier allows the handling of file values in the process execution context. This means that Nextflow will stage it in the process execution directory, and it can be access in the script by using the name specified in the input declaration.
+The `path` qualifier allows the handling of file values in the process execution context. This means that Nextflow will stage it in the process execution directory, and it can be access in the script by using the name specified in the input declaration.
 
 ~~~
 reads = Channel.fromPath( 'data/ggal/*.fq' )
 
 process foo {
     input:
-    file 'sample.fastq' from reads
+    path 'sample.fastq' from reads
     script:
     """
-    your_command --reads sample.fastq
+    wc -l sample.fastq
     """
 }
 ~~~
@@ -283,10 +293,10 @@ reads = Channel.fromPath( 'data/ggal/*.fq' )
 
 process foo {
     input:
-    file sample from reads.collect()
+    path sample from reads.collect()
     script:
     """
-    your_command --reads $sample
+    wc -l $sample
     """
 }
 ~~~
@@ -304,10 +314,10 @@ params.genome = 'data/ggal/transcriptome.fa'
 
 process foo {
     input:
-    file genome from params.genome
+    path genome from params.genome
     script:
     """
-    your_command --reads $genome
+    salmon index $genome
     """
 }
 ~~~
@@ -328,7 +338,7 @@ process foo {
     path genome from params.genome
     script:
     """
-    your_command --reads $genome
+    salmon index $genome
     """
 }
 ~~~
@@ -354,7 +364,7 @@ process foo {
     head -n 20 $sample > combined_n20.txt
     """
 }
-~~
+~~~
 
 ### Combine input channels
 
@@ -362,11 +372,15 @@ A key feature of processes is the ability to handle inputs from multiple channel
 
 Consider the following example:
 ~~~
+
+ch1 = Channel.of(1,2,3)
+ch2 = Channel.from('a','b','c')
+
 process foo {
   echo true
   input:
-  val x from Channel.from(1,2,3)
-  val y from Channel.from('a','b','c')
+  val x from ch1
+  val y from ch2
   script:
    """
    echo $x and $y
@@ -397,11 +411,15 @@ This means channel values are consumed serially one after another and the first 
 For example:
 
 ~~~
+
+ch1 = Channel.from(1,2)
+ch2 = Channel.from('a','b','c','d')
+
 process foo {
   echo true
   input:
-  val x from Channel.from(1,2)
-  val y from Channel.from('a','b','c','d')
+  val x from ch1
+  val y from ch2
   script:
    """
    echo $x and $y
@@ -423,14 +441,18 @@ In the above example the process is executed only two time, because when a chann
 > Note however that value channel do not affect the process termination.
 > {: .output}
 
-To better understand this behavior compare the previous example with the following one:
+To better understand this behaviour compare the previous example with the following one:
 
 ~~~
+
+ch1 = Channel.value(1)
+ch2 = Channel.from('a','b','c')
+
 process bar {
   echo true
   input:
-  val x from Channel.value(1)
-  val y from Channel.from('a','b','c')
+  val x from ch1
+  val y from ch2
   script:
    """
    echo $x and $y
@@ -496,8 +518,7 @@ In the above example every time a file of sequences is received as input by the 
 >>  """
 >> }
 >>
-~~~
-methods = ['regular', 'expresso', 'psicoffee']
+>> methods = ['regular', 'expresso', 'psicoffee']
 
 ## Outputs
 
@@ -537,13 +558,13 @@ receiver.view { "Received: $it" }
 
 ### Output files
 
-The `file` qualifier allows to output one or more files, produced by the process, over the specified channel.
+The `path` qualifier allows to output one or more files, produced by the process, over the specified channel.
 
 ~~~
 process randomNum {
 
     output:
-    file 'result.txt' into numbers
+    path 'result.txt' into numbers
 
     '''
     echo $RANDOM > result.txt
@@ -565,8 +586,8 @@ When an output file name contains a `*` or `?` wildcard character it is interpre
 process splitLetters {
 
     output:
-    file 'chunk_*' into letters
-    
+    path 'chunk_*' into letters
+
     script:
     '''
     printf 'Hola' | split -b 1 - chunk_
@@ -612,7 +633,7 @@ process align {
 
   output:
   file "${species_name}.aln" into genomes
-  
+
   script:
   """
   t_coffee -in $seq > ${species_name}.aln
@@ -697,7 +718,7 @@ Modify the script of the previous exercise adding a `tag` directive logging the 
 
 ## Organise outputs
 
-## PublishDir directive
+### PublishDir directive
 
 Nextflow manages independently workflow execution intermediate results from the pipeline expected outputs. Task output files are created in the task specific execution directory which is considered as a temporary directory that can be deleted upon completion.
 
@@ -722,8 +743,7 @@ process makeBams {
 {: .source}
 
 > ## Nextflow Patterns
-> The [Nextflow Patterns page](http://nextflow-io.github.io/patterns/) collects some recurrent implementation patterns used in Nextflow applications. 
+> The [Nextflow Patterns page](http://nextflow-io.github.io/patterns/) collects some recurrent implementation patterns used in Nextflow applications.
 {: .callout}
 
 {% include links.md %}
-
