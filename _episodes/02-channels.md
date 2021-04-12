@@ -1,12 +1,12 @@
 ---
 title: "Channels"
-teaching: 15
-exercises: 0
+teaching: 30
+exercises: 10
 questions:
 - "What are Nextflow channels?"
 - "Define the different types of Nextflow channels?"
 - "What are the major differences between queue and values channels?"
-- "How  do you create a channel?"
+- "How do you create a channel?"
 - "How do you create a queue channel from a specified glob pattern?"
 - "How do you modify the behaviour of a channel factory?"
 -
@@ -67,14 +67,14 @@ Try the following snippets:
 
 > ## View Channel contents
 > ~~~
-> ch = Channel.from(1,2,3)
+> ch = Channel.of(1,2,3)
 > ~~~
 > 	Use the built-in `println` function to print the ch variable.
 >	  Apply the `view` method to the ch channel, therefore prints each item emitted by the channels.
 >
 > > ## Solution
 > > ~~~
-> > ch = Channel.from(1,2,3)
+> > ch = Channel.of(1,2,3)
 > > println(ch)  
 > > ch.view()
 > > ~~~
@@ -91,7 +91,7 @@ Try the following snippets:
 
 ### Value channels
 
-The second type of Netxflow channel is a `value` channel.
+The second type of Nextflow channel is a `value` channel.
 A **value** channel a.k.a. singleton channel by definition is bound to a *single* value and it can be read unlimited times without consuming its content.
 
 ~~~
@@ -130,7 +130,7 @@ ch2 = Channel.value( ['chr1','chr2','chr3','chr4','chr5'] )
 1. Creates a value channel and binds a string to it.
 1. Creates a value channel and binds a list object to it that will be emitted as a sole emission.
 
-### from
+### of
 
 The factory `Channel.of` allows the creation of a `queue` channel with the values specified as argument.
 
@@ -141,7 +141,7 @@ ch.view{ "value: $it" }
 ~~~
 {: .source}
 
-The first line in this example creates a variable `ch` which holds a channel object. This channel emits the values specified as a parameter in the `from` method. Thus the second line will print the following:
+The first line in this example creates a variable `ch` which holds a channel object. This channel emits the values specified as a parameter in the `of` method. Thus the second line will print the following:
 
 ~~~
 value: chr1
@@ -157,8 +157,8 @@ ch.view()
 ~~~
 {: .source}
 
-> ## Channel.from will be deprecated
-> You may see Channel.from in older nextflow scipt this performs a similar function but will be deprecated so you should use Channel.of
+> ## Channel.from
+> You may see Channel.from in older nextflow scipts this performs a similar function but will be deprecated so you should use Channel.of
 {: .callout}
 
 
@@ -223,14 +223,13 @@ Learn more about the glob patterns syntax at this [link](https://docs.oracle.com
 
 ### fromFilePairs
 
-Nextflow provides helper method for common bioinformatics use cases. The `fromFilePairs` method create a channel containing a names list (tuple) for every file matching a specific pattern.
+Nextflow provides helper method for common bioinformatics use cases. The `fromFilePairs` method create a channel containing a named list (tuple) for every file matching a specific pattern.
 
 The `fromFilePairs` method creates a channel emitting the file pairs matching a glob pattern provided by the user. The matching files are emitted as tuples in which the first element is the grouping key of the matching pair and the second element is the list of files (sorted in lexicographical order).
 
 ~~~
-Channel
-    .fromFilePairs('/my/data/SRR*_{1,2}.fastq')
-    .view()
+filepair_ch = Channel.fromFilePairs('/my/data/SRR*_{1,2}.fastq')
+filepair_ch.view()
 ~~~
 {: .source}
 
@@ -308,9 +307,7 @@ Multiple accession IDs can be specified using a list object:
 
 ~~~
 ids = ['ERR908507', 'ERR908506', 'ERR908505']
-Channel
-    .fromSRA(ids)
-    .view()
+Channel.fromSRA(ids).view()
 ~~~
 {: .source}
 
