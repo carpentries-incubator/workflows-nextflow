@@ -3,11 +3,11 @@ title: "Operators"
 teaching: 0
 exercises: 0
 questions:
-- "Key question (FIXME)"
+- "How can connect channels?"
 objectives:
-- "First learning objective. (FIXME)"
+- "You can connect channels using operators"
 keypoints:
-- "First key point. Brief Answer to questions. (FIXME)"
+- "Nextflow *operators* are methods that allow you to connect channels to each other or to transform values emitted by a channel applying some user provided rules"
 ---
 
 # Operators
@@ -54,7 +54,7 @@ Operators can be separated in to five groups:
 * Maths operators
 
  ## Basic operators
- 
+
 ### view
 
 The `view` operator prints the items emitted by a channel to the console standard output appending a *new line* character to each of them. For example:
@@ -119,7 +119,7 @@ Channel
 ~~~
 {: .source}
 
-> ## Challenge Title
+> ## fromPath
 >
 > Use `fromPath` to create a channel emitting the fastq files matching the pattern `data/ggal/*.fq`, then chain with a map to return a pair containing the file name and the path itself. Finally print the resulting channel.
 >
@@ -150,7 +150,7 @@ bar.view{ "Bar emits: " + it }
 
 > ## channel names separator
 > > Note the use in this example of curly brackets and the ; as channel names separator. This is needed because the actual parameter of into is a closure which defines the target channels to which the source one is connected.
-> > 
+> >
 
 ### mix
 
@@ -215,7 +215,7 @@ Channel
 {: .source}
 
 
-It prints a single value: 
+It prints a single value:
 
 The result of the collect operator is a value channel.
 
@@ -236,7 +236,7 @@ Channel
      .groupTuple()
      .view()
 ~~~~     
-{: .source} 
+{: .source}
 
 It shows:
 ~~~
@@ -312,4 +312,3 @@ Check the operators [documentation](https://www.nextflow.io/docs/latest/operator
 
 {: .output}
 {% include links.md %}
-
