@@ -228,7 +228,7 @@ To run a nextflow script use the command `nextflow run <script_name>`
 > {: .solution}
 {: .challenge}
 
-1. The first line shows the run name `fervent_babbage` and revision id `c54a707593`.
+1. The first line shows the run name `fervent_babbage` (adjective and scientist name) and revision id `c54a707593`.
 1. The second line tells you how the process has been executed `executor >  local`.
 1. The third line shows the process id `21/b259be`, name, number of cpus, percentage task completion and how many it times it has been run.
 1. The final line is the result of the view operator.
