@@ -62,6 +62,27 @@ curl https://s3-eu-west-1.amazonaws.com/seqeralabs.com/public/nf-training.tar.gz
 ~~~
 {: .language-bash}
 
+## Atom text editor setup
+
+Any text editor can be used to write Nextflow scripts. A recommended text editor is [Atom](https://atom.io/).
+
+Go to https://atom.io and you should see a download button. The button or buttons should be specific to your platform and the download package should be  installable.
+
+### MacOS
+
+Atom follows the standard Mac zip installation process. You can either press the download button from the https://atom.io site or you can go to the Atom releases page to download the atom-mac.zip file explicitly. Once you have that file, you can click on it to extract the application and then drag the new Atom application into your "Applications" folder.
+
+### Nextflow language support in Atom
+
+You can add Nextflow language support in Atom by clicking the [install](atom://settings-view/show-package?package=language-nextflow) button on the  atom package site https://atom.io/packages/language-nextflow.
+
+### Atom terminal package
+
+https://atom.io/packages/atom-ide-terminal
+
+You can enable a terminal window within Atom by installing the atom-ide-terminal package from https://atom.io/packages/atom-ide-terminal. Click the [install](atom://settings-view/show-package?package=atom-ide-terminal) button and follow the instructions.
+
+Once installed enable the terminal window by selecting the Packages menu -> Atom IDE terminal -> Toggle menu item.
 
 ## nf-core/tools installation
 
