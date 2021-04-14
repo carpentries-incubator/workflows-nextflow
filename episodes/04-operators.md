@@ -1,29 +1,42 @@
 ---
 title: "Operators"
-teaching: 0
-exercises: 0
+teaching: 25
+exercises: 10
 questions:
-- "How can connect channels?"
+- "What are Nextflow operators?"
+- "How do you perform operations such as merging on channels?"
+- "What are the different kinds of operators?"
+- "How do I process a csv file using operators?"
 objectives:
-- "You can connect channels using operators"
+- "Describe what Nextflow operators are."
+- "Modify the contents/elements of a channel"
+- "Perform filtering and combining operations on a channel. "
+- "Use the `splitCsv` operator to process a csv file."
+
 keypoints:
-- "Nextflow *operators* are methods that allow you to connect channels to each other or to transform values emitted by a channel applying some user provided rules"
+- "Nextflow *operators* are methods that allow you to modify Nextflow channels either by splitting or combining channels, or to transform elements within a channel applying function"
+- "An operator is method that transforms a channel into a new one by applying a function to each element."
+- "You can connect channels using operators"
+- "Operators can be separated in to seven groups:; filtering , transforming , splitting , combining , forking and Maths operators"
+- "You can split csv file using the splitCsv operator."
 ---
 
 # Operators
 
-Nextflow *operators* are methods that allow you to connect channels to each other or to transform values emitted by a channel applying some user provided rules.
+Nextflow *operators* are methods that allow you to modify the contents/elements of a channel by applying some user provided rules.
 
-* Built-in functions applied to channels
-* Transform channels content
-* Can be used also to filter, fork and combine channels
+* Built-in functions applied to channels.
+* Transform channel content.
+* Can be used also to filter, fork and combine channels.
 
-## Basic example
+## Example
+
+Here we will `filter` operator on the chr_ch channel specifying the type qualifier `Number` so that only numbers are returned.
 
 ~~~
-nums = Channel.from(1,2,3,4)         
-square = nums.map { it -> it * it }  
-square.view()  
+chr_ch = Channel.of( 1..21, 'X', 'Y' )
+autosomes_ch =chr_ch.filter( Number )
+autosomes_ch.view()
 ~~~
 {: .source}
 
@@ -33,16 +46,18 @@ square.view()
 * Create a new channels transforming each number in it’s square.
 * Print the channel content.
 
-Operators can be chained to implement custom behaviors:
+Operators can be chained to implement custom behaviours:
 
 ~~~
-Channel.from(1,2,3,4)
-        .map { it -> it * it }
-        .view()
+chr_ch = Channel.of( 1..21, 'X', 'Y' )
+autosomes_ch =chr_ch.filter( Number ).filter({ it % 2 == 0 }).view()
 
 ~~~
 {: .source}
 
+> # Closures
+> In the above example the filter condition is wrapped in curly  brackets, instead of round brackets, since it specifies a closure as the operator’s argument. This just is a language syntax-sugar for filter({ it % 2 == 0 } )
+{: .callout}
 
 Operators can be separated in to five groups:
 
@@ -60,7 +75,7 @@ Operators can be separated in to five groups:
 The `view` operator prints the items emitted by a channel to the console standard output appending a *new line* character to each of them. For example:
 ~~~
 Channel
-      .from('foo', 'bar', 'baz')
+      .of('1', '2', '3')
       .view()
 ~~~
 {: .source}
@@ -68,9 +83,9 @@ Channel
 It prints:
 
 ~~~
-foo
-bar
-baz
+1
+2
+3
 ~~~
 {: .source}
 
@@ -82,42 +97,53 @@ An optional *closure* `{}` parameter can be specified to customize how items are
 
 
 ~~~
-Channel
-      .from('foo', 'bar', 'baz')
-      .view({ "- $it" })
+Channel.of('1', '2', '3').view({ "chr$it" })
 ~~~
 {: .source}
 
 It prints:
 
 ~~~
-- foo
-- bar
-- baz
+chr1
+chr2
+chr3
 ~~~
-{: .source}
+{: .output}
 
 ### map
 
 The `map` operator applies a function of your choosing to every item emitted by a channel, and returns the items so obtained as a new channel. The function applied is called the mapping function and is expressed with a closure as shown in the example below:
 
 ~~~
-Channel
-    .from( 'hello', 'world' )
-    .map ({ it -> it.reverse() })
+Channel.of( 'chr1', 'chr2' )
+    .map ({ it.replaceAll("chr","") })
     .view()
 ~~~
 {: .source}
 
-A map can associate to each element a generic tuple containing any data as needed.
+Produces
+~~~
+1
+2
+~~~
+{: .output}
+
+A map can associate to each element a tuple containing any data as needed.
 
 ~~~
 Channel
-    .from( 'hello', 'world' )
-    .map ({ word -> [word, word.size()] })
-    .view ({ word, len -> "$word contains $len letters" })
+    .fromPath( 'data/ggal/*.fq' )
+    .map ({ file -> [file, file.countFastq()] })
+    .view ({ file, numreads -> "file $file contains $numreads reads" })
 ~~~
 {: .source}
+
+
+
+~~~
+
+~~~
+{: .output}
 
 > ## fromPath
 >
@@ -135,57 +161,71 @@ Channel
 {: .challenge}
 
 ### into
+
 The `into` operator connects a source channel to two or more target channels in such a way the values emitted by the source channel are copied to the target channels. For example:
 
 
 ~~~
 Channel
-     .from( 'a', 'b', 'c' )
-     .into{ foo; bar }
+     .of( 'chr1', 'chr2', 'chr3' )
+     .into{ ch1; ch2 }
 
-foo.view{ "Foo emits: " + it }
-bar.view{ "Bar emits: " + it }
+ch1.view{ "ch1 emits: " + it }
+ch2.view{ "ch2 emits: " + it }
 ~~~
 {: .source}
 
+Produces.
+
+~~~
+ch1 emits: chr1
+ch1 emits: chr2
+ch2 emits: chr1
+ch1 emits: chr3
+ch2 emits: chr2
+ch2 emits: chr3
+~~~
+{: .output}
+
 > ## channel names separator
-> > Note the use in this example of curly brackets and the ; as channel names separator. This is needed because the actual parameter of into is a closure which defines the target channels to which the source one is connected.
-> >
+> > Note the use in this example of curly brackets and the `;` as channel names separator. This is needed because the actual parameter of into is a closure which defines the target channels to which the source one is connected.
+
 
 ### mix
 
 The `mix` operator combines the items emitted by two (or more) channels into a single channel.
 ~~~
-c1 = Channel.from( 1,2,3 )
-c2 = Channel.from( 'a','b' )
-c3 = Channel.from( 'z' )
+ch1 = Channel.of( 1,2,3 )
+ch2 = Channel.of( 'X','Y' )
+ch3 = Channel.of( 'mt' )
 
-c1 .mix(c2,c3).view()
+ch1 .mix(ch2,ch3).view()
 ~~~
 {: .source}
 
 ~~~
 1
 2
-a
 3
-b
-z
+X
+Y
+mt
 ~~~
 {: .output}
 
-The items in the resulting channel have the same order as in respective original channel, however there’s no guarantee that the element of the second channel are append after the elements of the first. Indeed in the above example the element a has been printed before 3.
+The items in the resulting channel have the same order as in respective original channel, however there’s no guarantee that the element of the second channel are append after the elements of the first.
 
 
 ###  flatten
-The `flatten` operator transforms a channel in such a way that every *tuple* is flattened so that each single entry is emitted as a sole element by the resulting channel.
+
+The `flatten` operator transforms a channel in such a way that every item in a list or tuple is flattened so that each single entry is emitted as a sole element by the resulting channel.
 
 ~~~
-foo = [1,2,3]
-bar = [4, 5, 6]
+ch1 = [1,2,3]
+ch2 = [4, 5, 6]
 
 Channel
-    .from(foo, bar)
+    .of(ch1, ch2)
     .flatten()
     .view()
 
@@ -208,7 +248,7 @@ The `collect` operator collects all the items emitted by a channel to a list and
 
 ~~~
 Channel
-    .from( 1, 2, 3, 4 )
+    .of( 1, 2, 3, 4 )
     .collect()
     .view()
 ~~~
@@ -232,7 +272,7 @@ Try the following example:
 
 ~~~
 Channel
-     .from( [1,'A'], [1,'B'], [2,'C'], [3, 'B'], [1,'C'], [2, 'A'], [3, 'D'] )
+     .of( [1,'A'], [1,'B'], [2,'C'], [3, 'B'], [1,'C'], [2, 'A'], [3, 'D'] )
      .groupTuple()
      .view()
 ~~~~     
@@ -250,7 +290,7 @@ This operator is useful to process altogether all elements for which there’s a
 Exercise
 
 
-> ## Challenge Title
+> ## Group Tuple
 >
 > Use `fromPath` to create a channel emitting the fastq files matching the pattern `data/ggal/*.fq`, then use a map to associate to each file the name prefix. Finally group together all files having the same common prefix.
 >
@@ -282,6 +322,7 @@ The resulting channel emits:
 [Y, 2, 5]
 [X, 1, 4]
 ~~~
+{: .output}
 
 ### branch
 
@@ -303,8 +344,76 @@ Channel
 ~~~
 {: .source}
 
+Produces.
+
+~~~
+N E X T F L O W  ~  version 20.10.0
+Launching `hello.nf` [prickly_swanson] - revision: e33ef1057f
+1 is small
+2 is small
+3 is small
+40 is large
+50 is large
+~~~
+{: .output}
+
 > ## multi-channel object
 > The branch operator returns a multi-channel object i.e. a variable that holds more than one channel object.
+{: .callout}
+
+
+## Split
+
+These operators are used to split items emitted by channels into chunks that can be processed by downstream operators or processes.
+
+The available splitting operators are:
+
+* [splitCsv](https://www.nextflow.io/docs/latest/operator.html#splitcsv)
+
+* [splitFasta](https://www.nextflow.io/docs/latest/operator.html#splitfasta)
+
+* [splitFastq](https://www.nextflow.io/docs/latest/operator.html#splitfastq)
+
+* [splitText](https://www.nextflow.io/docs/latest/operator.html#splittext)
+
+### splitCsv
+
+The splitCsv operator allows you to parse text items emitted by a channel, that are formatted using the CSV format, and split them into records or group them into list of records with a specified length. This is useful when you want to create a samplesheet.
+
+In the simplest case just apply the splitCsv operator to a channel emitting a CSV formatted text files or text entries. For example:
+
+~~~
+csv_ch=Channel
+    .of('sample_id,fastq_1,fastq_2\ngut1,data/ggal/gut_1.fq,gut_2.fq\nliver_1,data/ggal/liver_1.fq,liver_2.fq')
+    .splitCsv()
+csv_ch.view()
+~~~
+{: .source}
+
+The above example shows hows CSV text is parsed and is split into single rows. Values can be accessed by its column index in the row object.
+
+~~~
+csv_ch.view({it[0]})
+~~~
+{: .source}
+
+When the CSV begins with a header line defining the column names, you can specify the parameter `header: true` which allows you to reference each value by its name, as shown in the following example:
+
+> ## splitCsv
+>
+> 1. Modify the above script to print the second row.
+> 2. Modify the above script to include `header: true` and view all data
+>
+> > ## Solution
+> > ~~~~
+> > 1. csv_ch.view({it[0]})
+> > 2. .splitCsv(header:true)
+> > 2. csv_ch.view()
+> > ~~~
+
+> > ~~~
+> {: .solution}
+{: .challenge}
 
 ## More resources
 
