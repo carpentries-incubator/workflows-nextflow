@@ -23,12 +23,23 @@ java -version
 
 # Install Nextflow
 export NXF_VER=20.10.0
-curl -fsSL get.nextflow.io | bash
+curl get.nextflow.io | bash
+~~~
 
-# Add Nextflow binary to your user's PATH:
+
+
+## Add Nextflow binary to your user's PATH:
+~~~
 mv nextflow ~/bin/
 # OR system-wide installation:
 # sudo mv nextflow /usr/local/bin
+~~~
+{: .language-bash}
+
+Check the correct installation running the following command:
+
+~~~
+nextflow info
 ~~~
 {: .language-bash}
 
