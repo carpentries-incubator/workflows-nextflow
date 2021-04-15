@@ -3,7 +3,7 @@ title: "Nextflow scripting"
 teaching: 0
 exercises: 0
 questions:
-- "What language are nextflow scripts written in?"
+- "What language are Nextflow scripts written in?"
 - "How do you assign variables?"
 - "How do write comments?"
 - "How do you control code execution?"
@@ -22,8 +22,7 @@ keypoints:
 
 ---
 
-
-Nextflow is a Domain Specific Language (DSL) implemented on top of the Groovy programming lang, which in turns is a super-set of the Java programming language. This means that Nextflow can run any Groovy and Java code. However, it is not necessary to learn Groovy to use Nextflow DSL.
+Nextflow is a Domain Specific Language (DSL) implemented on top of the Groovy programming lang, which in turns is a super-set of the Java programming language. This means that Nextflow can run any Groovy and Java code. However, it is not necessary to learn Groovy to use Nextflow DSL but it can be useful.
 
 ## Language Basics
 
@@ -97,7 +96,7 @@ It should be always used when defining variables local to a function or a closur
 
 ### Lists
 
-A List object can be defined by placing the list items in square brackets `[]` and seprating items by commas `,`:
+A List object can be defined by placing the list items in square brackets `[]` and separating items by commas `,`:
 
 ~~~
 list = [10,20,30,40]
@@ -158,7 +157,7 @@ assert [4,2,1,3].findAll{it%2 == 0} == [4,2]
 ### Maps
 
 
-Maps are like lists that have an arbitrary type of key instead of integer. Therefore, the syntax is very much aligned.
+Maps are like lists that have an arbitrary type of key instead of integer. Therefore, the syntax is very much aligned. To specify the key use a colon before the value `[:]`.
 
 ~~~
 map = [a:0, b:1, c:2]
@@ -392,7 +391,7 @@ square = { it * it }
 ~~~
 {: .source}
 
-The curly brackets around the expression `it * it` tells the script interpreter to treat this expression as code. The `it` identifier is an implicit variable that represents the value that is passed to the function when it is invoked.
+The curly brackets `{}` around the expression `it * it` tells the script interpreter to treat this expression as code. The `it` identifier is an implicit variable that represents the value that is passed to the function when it is invoked.
 
 Once compiled the function object is assigned to the variable square as any other variable assignments shown previously. To invoke the closure execution use the special method `call` or just use the round parentheses to specify the closure parameter(s). For example:
 

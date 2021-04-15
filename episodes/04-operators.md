@@ -1,11 +1,12 @@
 ---
 title: "Operators"
-teaching: 25
+teaching: 30
 exercises: 10
 questions:
 - "What are Nextflow operators?"
-- "How do you perform operations such as merging on channels?"
+- "How do you perform operations such as filtering on channels?"
 - "What are the different kinds of operators?"
+- "How do you combine operators?"
 - "How do I process a csv file using operators?"
 objectives:
 - "Describe what Nextflow operators are."
@@ -17,62 +18,33 @@ keypoints:
 - "Nextflow *operators* are methods that allow you to modify Nextflow channels either by splitting or combining channels, or to transform elements within a channel applying function"
 - "An operator is method that transforms a channel into a new one by applying a function to each element."
 - "You can connect channels using operators"
-- "Operators can be separated in to seven groups:; filtering , transforming , splitting , combining , forking and Maths operators"
+- "Operators can be separated in to  groups:; filtering , transforming , splitting , combining , forking and Maths operators"
 - "You can split csv file using the splitCsv operator."
 ---
 
 # Operators
 
-Nextflow *operators* are methods that allow you to modify the contents/elements of a channel by applying some user provided rules.
+ *Operators* is how Nextflow allow you to modify the contents of a channel.
 
-* Built-in functions applied to channels.
-* Transform channel content.
-* Can be used also to filter, fork and combine channels.
+ Operators can be separated in to several groups:
 
-## Example
 
-Here we will `filter` operator on the chr_ch channel specifying the type qualifier `Number` so that only numbers are returned.
+ * Filtering operators
+ * Transforming operators
+ * Splitting operators
+ * Combining operators
+ * Forking operators
+ * Maths operators
+ * Other
 
-~~~
-chr_ch = Channel.of( 1..21, 'X', 'Y' )
-autosomes_ch =chr_ch.filter( Number )
-autosomes_ch.view()
-~~~
-{: .source}
+In this episode you will see example of different types of operators in action.
 
-![Nextflow Channel map](../fig/channel-map.png)
 
-* Create a queue channel emitting four values.
-* Create a new channels transforming each number in it’s square.
-* Print the channel content.
-
-Operators can be chained to implement custom behaviours:
-
-~~~
-chr_ch = Channel.of( 1..21, 'X', 'Y' )
-autosomes_ch =chr_ch.filter( Number ).filter({ it % 2 == 0 }).view()
-
-~~~
-{: .source}
-
-> # Closures
-> In the above example the filter condition is wrapped in curly  brackets, instead of round brackets, since it specifies a closure as the operator’s argument. This just is a language syntax-sugar for filter({ it % 2 == 0 } )
-{: .callout}
-
-Operators can be separated in to five groups:
-
-* Filtering operators
-* Transforming operators
-* Splitting operators
-* Combining operators
-* Forking operators
-* Maths operators
-
- ## Basic operators
+## Other
 
 ### view
 
-The `view` operator prints the items emitted by a channel to the console standard output appending a *new line* character to each of them. For example:
+The `view` operator prints the items emitted by a channel to the console appending a *new line* character to each item in the channel. For example:
 ~~~
 Channel
       .of('1', '2', '3')
@@ -89,12 +61,11 @@ It prints:
 ~~~
 {: .source}
 
-An optional *closure* `{}` parameter can be specified to customize how items are printed. For example:
+An optional *closure* `{}` parameter can be specified to customise how items are printed. For example:
 
-> # Closures
-> Briefly, a closure is a block of code that can be passed as an argument to a function. Thus, you can define a chunk of code and then pass it around as if it were a string or an integer.
-{: .callout}
+#### Closures
 
+Briefly, a closure is a block of code that can be passed as an argument to a function. Thus, you can define a chunk of code and then pass it around as if it were a string or an integer.
 
 ~~~
 Channel.of('1', '2', '3').view({ "chr$it" })
@@ -110,6 +81,44 @@ chr3
 ~~~
 {: .output}
 
+## Filtering operators
+
+We can reduce the number of items in a channel by using filtering operators.
+
+Here we will use the `filter` operator on the chr_ch channel specifying the type qualifier `Number` so that only numbers are returned. We will then use the `view` opertor to inspect the contents.
+
+~~~
+chr_ch = Channel.of( 1..21, 'X', 'Y' )
+autosomes_ch =chr_ch.filter( Number )
+autosomes_ch.view()
+~~~
+{: .source}
+
+
+Operators can also be chained together.
+
+The previous example could be written like.
+
+~~~
+chr_ch = Channel.of( 1..21, 'X', 'Y' )
+            .filter( Number )
+            .view()
+~~~
+
+~~~
+chr_ch = Channel.of( 1..21, 'X', 'Y' )
+autosomes_ch =chr_ch.filter( Number ).filter({ it % 2 == 0 }).view()
+~~~
+{: .source}
+
+> # Closures
+> In the above example the filter condition is wrapped in curly  brackets, instead of round brackets, since it specifies a closure as the operator’s argument. This just is a language syntax-sugar for filter({ it % 2 == 0 } )
+{: .callout}
+
+## Transforming operators
+
+As the name suggests transforming operators are used to transform the items emitted by a channel to new values.
+
 ### map
 
 The `map` operator applies a function of your choosing to every item emitted by a channel, and returns the items so obtained as a new channel. The function applied is called the mapping function and is expressed with a closure as shown in the example below:
@@ -121,7 +130,8 @@ Channel.of( 'chr1', 'chr2' )
 ~~~
 {: .source}
 
-Produces
+Here the map function uses the string function `replaceAll` to remove the chr prefix from each element.
+
 ~~~
 1
 2
@@ -145,7 +155,7 @@ Channel
 ~~~
 {: .output}
 
-> ## fromPath
+> ## map operator
 >
 > Use `fromPath` to create a channel emitting the fastq files matching the pattern `data/ggal/*.fq`, then chain with a map to return a pair containing the file name and the path itself. Finally print the resulting channel.
 >
@@ -160,72 +170,21 @@ Channel
 > {: .solution}
 {: .challenge}
 
-### into
 
-The `into` operator connects a source channel to two or more target channels in such a way the values emitted by the source channel are copied to the target channels. For example:
-
-
-~~~
-Channel
-     .of( 'chr1', 'chr2', 'chr3' )
-     .into{ ch1; ch2 }
-
-ch1.view{ "ch1 emits: " + it }
-ch2.view{ "ch2 emits: " + it }
-~~~
-{: .source}
-
-Produces.
-
-~~~
-ch1 emits: chr1
-ch1 emits: chr2
-ch2 emits: chr1
-ch1 emits: chr3
-ch2 emits: chr2
-ch2 emits: chr3
-~~~
-{: .output}
 
 > ## channel names separator
 > > Note the use in this example of curly brackets and the `;` as channel names separator. This is needed because the actual parameter of into is a closure which defines the target channels to which the source one is connected.
-
-
-### mix
-
-The `mix` operator combines the items emitted by two (or more) channels into a single channel.
-~~~
-ch1 = Channel.of( 1,2,3 )
-ch2 = Channel.of( 'X','Y' )
-ch3 = Channel.of( 'mt' )
-
-ch1 .mix(ch2,ch3).view()
-~~~
-{: .source}
-
-~~~
-1
-2
-3
-X
-Y
-mt
-~~~
-{: .output}
-
-The items in the resulting channel have the same order as in respective original channel, however there’s no guarantee that the element of the second channel are append after the elements of the first.
-
 
 ###  flatten
 
 The `flatten` operator transforms a channel in such a way that every item in a list or tuple is flattened so that each single entry is emitted as a sole element by the resulting channel.
 
 ~~~
-ch1 = [1,2,3]
-ch2 = [4, 5, 6]
+list1 = [1,2,3]
+list2 = [4, 5, 6]
 
 Channel
-    .of(ch1, ch2)
+    .of(list1, list2)
     .flatten()
     .view()
 
@@ -244,7 +203,7 @@ The above snippet prints:
 
 ### collect
 
-The `collect` operator collects all the items emitted by a channel to a list and return the resulting object as a sole emission.
+The `collect` operator collects all the items emitted by a channel to a list and return the resulting object as a sole emission. This can be extremely useful when combing the results from output of a process.
 
 ~~~
 Channel
@@ -305,6 +264,37 @@ Exercise
 > {: .solution}
 {: .challenge}
 
+
+## Combing Operators
+
+Combing operators allow you to merge channels.
+
+### mix
+
+The `mix` operator combines the items emitted by two (or more) channels into a single channel.
+~~~
+ch1 = Channel.of( 1,2,3 )
+ch2 = Channel.of( 'X','Y' )
+ch3 = Channel.of( 'mt' )
+
+ch1 .mix(ch2,ch3).view()
+~~~
+{: .source}
+
+~~~
+1
+2
+3
+X
+Y
+mt
+~~~
+{: .output}
+
+The items in the resulting channel have the same order as in respective original channel, however there’s no guarantee that the element of the second channel are append after the elements of the first.
+
+
+
 ### join
 
 The `join` operator creates a channel that joins together the items emitted by two channels for which exits a matching key. The key is defined, by default, as the first element in each item emitted.
@@ -321,6 +311,37 @@ The resulting channel emits:
 [Z, 3, 6]
 [Y, 2, 5]
 [X, 1, 4]
+~~~
+{: .output}
+
+## Forking operators
+
+Forking operators.
+
+### into
+
+The `into` operator connects a source channel to two or more target channels in such a way the values emitted by the source channel are copied to the target channels. For example:
+
+
+~~~
+Channel
+     .of( 'chr1', 'chr2', 'chr3' )
+     .into{ ch1; ch2 }
+
+ch1.view{ "ch1 emits: " + it }
+ch2.view{ "ch2 emits: " + it }
+~~~
+{: .source}
+
+Produces.
+
+~~~
+ch1 emits: chr1
+ch1 emits: chr2
+ch2 emits: chr1
+ch1 emits: chr3
+ch2 emits: chr2
+ch2 emits: chr3
 ~~~
 {: .output}
 
@@ -361,8 +382,22 @@ Launching `hello.nf` [prickly_swanson] - revision: e33ef1057f
 > The branch operator returns a multi-channel object i.e. a variable that holds more than one channel object.
 {: .callout}
 
+## Maths operators
 
-## Split
+The maths operators allows you to apply simple math function  on channels.
+
+### count
+
+The count operator creates a channel that emits a single item: a number that represents the total number of items emitted by the source channel. For example:
+
+~~~
+Channel
+    .of(1..21,'X','Y')
+    .count()
+    .view()
+~~~
+
+## Splitting operators
 
 These operators are used to split items emitted by channels into chunks that can be processed by downstream operators or processes.
 
