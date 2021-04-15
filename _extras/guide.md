@@ -12,7 +12,7 @@ You may be asked by the learners when you would need to use a workflow system. T
 
 ## Nextflow echo option
 
-It can be useful to use the `-process.echo` option to echo output from a process when you run  Nextflow . 
+It can be useful to use the `-process.echo` option to echo output from a process when you run  Nextflow .
 
 ~~~
 nextflow run main.nf -process.echo
@@ -27,7 +27,7 @@ The nextflow lesson material has been adapted from the sequera-labs training cou
 
 The [Atom editor](https://atom.io/) has [syntax highlighting](https://atom.io/packages/language-nextflow) for Nextflow.
 
-## Geeting Help
+## Getting Help
 
 For questions about the main Nextflow tool, use the Nextflow Gitter chat community: https://gitter.im/nextflow-io/nextflow
 
@@ -35,7 +35,18 @@ Many nf-core resources are to be found on this website. If in doubt, get in touc
 
 The nf-core Slack channel has a #carpentries-course channel for asking questions about the course.
 
+## Nextflow REPL console
 
+Nextflow has a console graphical interface. The Nextflow console is a REPL (read-eval-print loop) environment that allows one to quickly test part of a script or pieces of Nextflow code in an interactive manner.
+
+It is a handy tool that allows one to evaluate fragments of Nextflow/Groovy code or fast prototype a complete pipeline script.
+
+See the blog post [here](https://www.nextflow.io/blog/2015/introducing-nextflow-console.html) for more information.
+
+~~~
+nextflow console
+~~~
+{: .language-bash}
 
 ## References
 
