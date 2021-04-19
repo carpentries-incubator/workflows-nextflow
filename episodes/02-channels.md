@@ -17,27 +17,21 @@ objectives:
 - "Create a queue channel from a specified glob pattern."
 - "Modify the behaviour of a Channel factory"
 keypoints:
-- "Channels are a key data structure of Nextflow that allows the implementation of reactive-functional oriented computational workflows"
-- "Nextflow distinguish two different kinds of channels, queue channels and value channels. Values channels contain a  single value and can be used multiple times in workflow. Queue channels can be used once are consumed when they are used by a process."
+- "Channels are how nextflow communicates data between processes. "
+- "Nextflow distinguish two different kinds of channels, queue channels and value channels. Values channels contain a  single value and can be used multiple times in workflow. Queue channels can be used once are consumed when they are used by a process or an operator."
 - "Channel factory methods are used to create value and queue channels."
-- "You can see the contents of a channel using the `.view()` operator"
+- "Channel factory methods have optional arguments, e.g. `checkIfExists` , that can be used to alter the creation and behaviour of a channel. "
 ---
 
 # Channels
 
-In the last episode we learnt that channels are the way in which Nextflow connect workflow tasks `process`.
+In the last episode we learnt that channels are the way in which Nextflow sends data around a workflow. Channels connect processes to each other, via their inputs and outputs. Channels can store multiple items, such as files (e.g. fastq files) or values. The number of items a channel stores determines how many times a process runs. It is channels that enable Nextflow to implement reactive workflows based on the Dataflow programming paradigm.
 
-Channels are a key data structure of Nextflow that allows the implementation of [reactive-functional](https://en.wikipedia.org/wiki/Functional_reactive_programming) oriented computational workflows based on the [Dataflow programming paradigm](https://en.wikipedia.org/wiki/Dataflow_programming).
-
-They are used to logically connect tasks/processes to each other.
-
-> Reactive programming is often explained with an analogy to a spreadsheet: Imagine a cell that calculates the input of two other cells. Once you change one of the inputs, the sum updates as well. The cell reacts to the changes and updates itself.
-This is very similar to dataflow programming. Conceptually, the focus here lies on the flow of the data instead of on the flow of control.[more here](https://itnext.io/demystifying-functional-reactive-programming-67767dbe520b)
+> Reactive programming is often explained with an analogy to a spreadsheet: Imagine a cell that calculates the input of two other cells. Once you change one of the inputs, the sum updates as well. The cell reacts to the changes and updates itself. More info [here](https://itnext.io/demystifying-functional-reactive-programming-67767dbe520b)
 {: .callout}
 
 ![Channel files](../fig/channel-files.png)
 
-Maybe use this "Nextflow is based on the Dataflow programming model in which processes communicate through channels. from [here](https://www.nextflow.io/docs/latest/channel.html#)
 
 ## Channel types
 
@@ -45,15 +39,16 @@ Nextflow distinguish two different kinds of channels: **queue** channels and **v
 
 ### Queue channel
 
-A *queue* channel is a *asynchronous* unidirectional FIFO queue which connects two `processes` or `operators`.
+Queue channels are the way in which Nextflow sends data that is consumed or produced by a process.
+A *queue* channel has three properties.
 
-* What *asynchronous* means? That operations are non-blocking.
+* That operations are non-blocking, which means processes run as soon as they receive input from a channel.
 
-* What unidirectional means? That data flow from a producer to a consumer.
+* That data flow is in one direction from a producer to a consumer.
 
-* What *FIFO* means? That the data is guaranteed to be delivered in the same order as it is produced.
+* The first element of a queue is the first out of the queue (First in- First out).
 
-A queue channel is  created by process output definitions, which we will cover in the next episode, or using channel factories methods such as [Channel.of](https://www.nextflow.io/docs/latest/channel.html#of) or [Channel.fromPath](https://www.nextflow.io/docs/latest/channel.html#frompath).
+A queue channel can be created by a process in their output definitions, which we will cover in the next episode, or created using channel factory methods such as [Channel.of](https://www.nextflow.io/docs/latest/channel.html#of) or [Channel.fromPath](https://www.nextflow.io/docs/latest/channel.html#frompath) which will we cover in this episode.
 
 
 > ## Create and view Channel contents
@@ -79,7 +74,9 @@ A queue channel is  created by process output definitions, which we will cover i
 
 ### Queue channels usage
 
-Once a channel is used by an operator or process it can not be used again.
+Once a channel is used/consumed by an operator or process it can not be used again.
+
+If we add another `ch.view()` operation on the same channel object.
 
 ~~~
 ch = Channel.of(1,2,3)
@@ -88,8 +85,14 @@ ch.view()
 ~~~
 {: .source}
 
+Then run using :
 
-Produces an error as the channel `ch` has been used twice.
+~~~
+nextflow run channel.nf
+~~~
+{: .language-bash}
+
+It will produce an error as the queue channel `ch` is consumed in by the first `.view` operator.
 
 ~~~
 N E X T F L O W  ~  version 20.10.0
@@ -103,11 +106,13 @@ Channel `ch` has been used as an input by more than a process or an operator
 ~~~
 {: .output}
 
-We will see in operator episodes how to create multiple channels from the data.
+We will see in the operator episodes how to create multiple channels from the data.
 
 ### Value channels
 
-The second type of Nextflow channel is a `value` channel. A **value** channel by is bound to a *single* value (singleton). A value channel can read unlimited times without consuming its content. This can be useful when setting a single value which is used by multiple processes.
+The second type of Nextflow channel is a `value` channel. A **value** channel by is bound to a *single* value. A value channel can read unlimited times without consuming its content. This can be useful when setting a parameter value which is used by multiple processes.
+
+The Nextflow script below:
 
 ~~~
 ch = Channel.value('GRCh38')
@@ -117,7 +122,7 @@ ch.view()
 ~~~
 {: .source}
 
-It prints:
+Will print:
 
 ~~~
 GRCh38
@@ -126,6 +131,8 @@ GRCh38
 ~~~
 {: .output}
 
+
+As it is a value channel can be used unlimited times.
 
 > ## Queue vs Value Channel
 >
@@ -142,13 +149,13 @@ GRCh38
 
 ## Creating Channels, Channel factories
 
-Channel factories are the way Nextflow creates the different channel types (queue and value).
+Channel factories are a way Nextflow can create  different channel types (queue and value).
 A factory is the term used when creating an object of a different type e.g. value or queue channels.
 
 ### value
 
 The `value` factory method is used to create a value channel.
-An optional  argument can be specified to bind the channel to a specific value. For example:
+An optional  argument , values between the `()`, can be specified to bind the channel to a specific value. For example:
 
 ~~~
 ch1 = Channel.value()
@@ -159,7 +166,7 @@ ch2 = Channel.value( ['chr1','chr2','chr3','chr4','chr5'] )
 
 1. Creates an empty value channel.
 1. Creates a value channel and binds a string to it.
-1. Creates a value channel and binds a list object to it that will be emitted as a sole emission.
+1. Creates a value channel and binds a list object to it that will be emitted as a single item.
 
 ### of
 
@@ -172,9 +179,8 @@ ch.view()
 ~~~
 {: .source}
 
-
 The first line in this example creates a variable `ch` which holds a queue channel object.
-This channel emits the values specified as a parameter in the `of` method. Thus the second line will print the following:
+This channel contains the four values specified as a parameters in the `of` method. Therefore the second line will print the following:
 
 ~~~
 chr1
@@ -183,6 +189,8 @@ chr5
 chr7
 ~~~
 {: .output}
+
+You can specify a range of number, as a single argument,  using the range operator `...`. More information [here](https://www.logicbig.com/tutorials/misc/groovy/range-operator.html).
 
 ~~~
 ch= Channel.of(1..21, 'X', 'Y')
@@ -197,7 +205,7 @@ ch.view()
 
 ### fromList
 
-The method `Channel.fromList` creates a channel emitting the elements in a list objects specified as argument. A List object can be defined by placing the items in square brackets `[]` separated by a comma.
+The method `Channel.fromList` creates a channel emitting the elements in a list objects specified as argument. A List object can be defined by placing the values in square brackets `[]` separated by a comma.
 
 ~~~
 aligner_list = ['salmon', 'kallisto']
@@ -208,7 +216,7 @@ aligner_ch.view()
 ~~~
 {: .source}
 
-This would produce.
+This would produce two lines.
 
 ~~~
 salmon
@@ -217,41 +225,52 @@ kallisto
 {: .source}
 
 > ## Channel.fromList vs Channel.of
-> In the above example the channel has two elements. If you has used the Channel.of(list) it would have  contained only 1 element `[salmon, kallisto]`.
+> In the above example the channel has two elements. If you has used the Channel.of(list) it would have  contained only 1 element `[salmon, kallisto]` and any operator or process using the channel would run once .
 {: .callout}
 
 ### fromPath
 
 The previous channel factories deal with sending values. A special  channel factory `fromPath` is used when dealing with files.
 
-The `fromPath` factory method create a **queue channel** emitting one or more files matching the specified  pattern (glob) specifying the location of files.
+The `fromPath` factory method create a **queue channel** emitting one or more files matching the specified  pattern specifying the location of files. This pattern can be the location of a single file or a glob pattern that matches multiple files or directories. The location of the file should be specified as a relative path to the location of nextflow script you are running.
+
+The script below creates a channel with a single file as its' content.
 
 ~~~
-ch = Channel.fromPath( 'data/ggal/*.fq' )
+ch = Channel.fromPath( 'data/yeast/reads/ref1_2.fq.gz' )
 ch.view()
 ~~~
 {: .source}
 
+~~~
+/Users/ggrimes2/Documents/nextflow-training/data/yeast/reads/ref1_2.fq.gz
+~~~
+{: .output}
 
-This example creates a channel and emits as many items as there are files with `fq` extension in the `/data/ggal` folder.
+Whilst the script below creates a channel that contains as many items as there are files with `.fq.gz` extension in the `/data/yeast/reads` folder.
 
 ~~~
-N E X T F L O W  ~  version 20.10.0
-Launching `hello.nf` [disturbed_pike] - revision: 34d3884f06
-/home/ec2-user/environment/data/ggal/lung_2.fq
-/home/ec2-user/environment/data/ggal/lung_1.fq
-/home/ec2-user/environment/data/ggal/gut_1.fq
-/home/ec2-user/environment/data/ggal/liver_1.fq
-/home/ec2-user/environment/data/ggal/liver_2.fq
-/home/ec2-user/environment/data/ggal/gut_2.fq
+ch = Channel.fromPath( 'data/yeast/reads/*.fq.gz' )
+ch.view()
+~~~
+{: .source}
+
+~~~
+/Users/ggrimes2/Documents/nextflow-training/data/yeast/reads/ref1_2.fq.gz
+/Users/ggrimes2/Documents/nextflow-training/data/yeast/reads/etoh60_3_2.fq.gz
+/Users/ggrimes2/Documents/nextflow-training/data/yeast/reads/temp33_1_2.fq.gz
+/Users/ggrimes2/Documents/nextflow-training/data/yeast/reads/temp33_2_1.fq.gz
+/Users/ggrimes2/Documents/nextflow-training/data/yeast/reads/ref2_1.fq.gz
+/Users/ggrimes2/Documents/nextflow-training/data/yeast/reads/temp33_3_1.fq.gz
+[..truncated..]
 ~~~
 {: .output}
 
 > ## asterisks
-> Two asterisks, i.e. `**`, works like * but crosses directory boundaries. This syntax is generally used for matching complete paths. Curly brackets specify a collection of sub-patterns.
+> Two asterisks, i.e. `**`, works like * but crosses directory boundaries. This syntax is generally used for matching complete paths. Curly brackets specify a collection of sub-patterns. Learn more about the glob patterns syntax at this [link](https://docs.oracle.com/javase/tutorial/essential/io/fileOps.html#glob).
 {: .callout}
 
-We can change the behaviour of Channel.fromPath by changing the options.
+You can change the behaviour of `Channel.fromPath` method by changing its options. A list of `.fromPath` options is shown below.
 
 Table 1. Available options
 
@@ -265,18 +284,26 @@ Table 1. Available options
 | relative | When true returned paths are relative to the top-most common directory (default: false) |
 | checkIfExists | When true throws an exception of the specified path do not exist in the file system (default: false) | When true throws an exception of the specified path do not exist in the file system (default: false)|
 
-Learn more about the glob patterns syntax at this [link](https://docs.oracle.com/javase/tutorial/essential/io/fileOps.html#glob).
 
+We can change the default options to give an error if the file doesn't exist using the `checkIfExists` option. In Nextflow option  are separated by a `,` and defined with a colon `:`.
 
-We can change the default options to give an error if the file doesn't exist using the `checkIfExists` option. In Nextflow option parameters are seprated by a `,` and defined with a colon `:`.
-
+If we execute a nextflow script with the contents below . It will run and not produce an output.
+This likely not what we want.
 ~~~
-ch = Channel.fromPath( 'data/chicken/*.fq', checkIfExists: true )
+ch = Channel.fromPath( 'data/chicken/reads/*.fq.gz' )
 ch.view()
 ~~~
 {: .source}
 
-Gives an error as there is no data/chicken directory.
+It we add the the option `checkIfExists: true `
+
+~~~
+ch = Channel.fromPath( 'data/chicken/reads/*.fq.gz', checkIfExists: true )
+ch.view()
+~~~
+{: .source}
+
+This will give an error as there is no data/chicken directory.
 
 ~~~
 N E X T F L O W  ~  version 20.10.0
@@ -287,12 +314,12 @@ No files match pattern `*.fq` at path: /chicken/ggal/
 
 > ## Using Channel.fromPath
 >
->  Use the `Channel.fromPath` method to create a channel emitting all files with the suffix `.fq` in the `data/ggal/` and any subdirectory, then print the file name using the view operator.
+>  Use the `Channel.fromPath` method to create a channel emitting all files in the `data/yeast/` then print the file name using the view operator.
 >
 > > ## Solution
-> >
+> > You need Two asterisks, i.e. `**`, to  crosses directory boundaries
 > > ~~~
-> > ch = Channel.fromPath('data/data/ggal/*.fq')
+> > ch = Channel.fromPath('data/yeast/**')
 > > ch.view()
 > > ~~~
 > >
@@ -309,75 +336,43 @@ Nextflow provides helper method for these common bioinformatics use cases. The `
 The `fromFilePairs` method creates a channel emitting the file pairs matching a glob pattern provided by the user. The matching files are emitted as tuples in which the first element is the grouping key of the matching pair and the second element is the list of files (sorted in lexicographical order).
 
 ~~~
-filepair_ch = Channel.fromFilePairs('data/ggal/*_{1,2}.fq')
+filepair_ch = Channel.fromFilePairs('data/yeast/reads/*_{1,2}.fq.gz')
 filepair_ch.view()
 ~~~
 {: .source}
 
-It will produce an output channel of three elements, a value the glob pattern match and the set of file pairs (tuple):
+This will produce a queue channel containing three elements, a value (the glob pattern match), and the set of file pairs. A named list is called a tuple.
+
+The asterisk, `*`, matches any number of characters (including none), and the `{}` braces specify a collection of subpatterns. Therefore the `*_{1,2}` pattern matches any file name ending in `_1.fq.gz` or `_2.fq.gz` .
 
 ~~~
-[SRR493366, [/my/data/SRR493366_1.fastq, /my/data/SRR493366_2.fastq]]
-[SRR493367, [/my/data/SRR493367_1.fastq, /my/data/SRR493367_2.fastq]]
-[SRR493368, [/my/data/SRR493368_1.fastq, /my/data/SRR493368_2.fastq]]
-[SRR493369, [/my/data/SRR493369_1.fastq, /my/data/SRR493369_2.fastq]]
-[SRR493370, [/my/data/SRR493370_1.fastq, /my/data/SRR493370_2.fastq]]
-[SRR493371, [/my/data/SRR493371_1.fastq, /my/data/SRR493371_2.fastq]]
+[etoh60_3, [/Users/ggrimes2/Documents/nextflow-training/data/yeast/reads/etoh60_3_1.fq.gz, /Users/ggrimes2/Documents/nextflow-training/data/yeast/reads/etoh60_3_2.fq.gz]]
+[temp33_1, [/Users/ggrimes2/Documents/nextflow-training/data/yeast/reads/temp33_1_1.fq.gz, /Users/ggrimes2/Documents/nextflow-training/data/yeast/reads/temp33_1_2.fq.gz]]
 ~~~
 {: .output}
 
-You can alter the behaviour of the `fromFilePairs` like `fromPath` by changing the options.
 
-e.g.
-~~~
-filepair_ch = Channel.fromFilePairs('/my/data/SRR*_{1,2}.fastq', flat: true)
-filepair_ch.view()
-~~~
-{: .source}
-
-The option `flat:true`  will produce a list not a tuple.
-
-~~~
-N E X T F L O W  ~  version 20.10.0
-Launching `hello.nf` [nice_kimura] - revision: 7ba6ecfed9
-[lung, /home/ec2-user/environment/data/ggal/lung_1.fq, /home/ec2-user/environment/data/ggal/lung_2.fq]
-[liver, /home/ec2-user/environment/data/ggal/liver_1.fq, /home/ec2-user/environment/data/ggal/liver_2.fq]
-[gut, /home/ec2-user/environment/data/ggal/gut_1.fq, /home/ec2-user/environment/data/ggal/gut_2.fq]
-~~~
-{: .output}
-see more [here](https://www.nextflow.io/docs/latest/channel.html#fromfilepairs)
+See more information about the channel factory  `fromFilePairs` [here](https://www.nextflow.io/docs/latest/channel.html#fromfilepairs)
 
 > ## More complex patterns
 > If you need to match more complex patterns you should create a sample sheet specifying the files and create a channel from that.
 {: .callout}
-
 
 > ## glob pattern
 > The glob pattern must contain at least a star wildcard character.
 {: .callout}
 
 
-
-|Name|Description|
-|-----|----------|
-|type|Type of paths returned, either file, dir or any (default: file)|
-|hidden|When true includes hidden files in the resulting paths (default: false)|
-|maxDepth|Maximum number of directory levels to visit (default: no limit)|
-|followLinks|When true it follows symbolic links during directories tree traversal, otherwise they are managed as files (default: true)|
-|size|Defines the number of files each emitted item is expected to hold (default: 2). Set to -1 for any.|
-|flat|When true the matching files are produced as sole elements in the emitted tuples (default: false).|
-|checkIfExists|When true throws an exception of the specified path do not exist in the file system (default: false)|
-
 > ## fromFilePairs
 >
->  Use the `fromFilePairs` method to create a channel emitting all pairs of fastq read in the `data/ggal/` directory and print them.
+>  Use the `fromFilePairs` method to create a channel emitting all pairs of fastq read in the `data/yeast/reads` directory and print them.
 >  Then use the `flat:true` option and compare the output with the previous execution.
 >
 > > ## Solution
 > >
 > > ~~~
-> > Channel.fromFilePairs('data/ggal/*_{1,2}.fq').view()
-> > Channel.fromFilePairs('data/ggal/*_{1,2}.fq', flat:true).view()
+> > Channel.fromFilePairs('data/yeast/reads/*_{1,2}.fq.gz').view()
+> > Channel.fromFilePairs('data/yeast/reads/*_{1,2}.fq.gz', flat:true).view()
 > > ~~~
 > >
 > {: .solution}
