@@ -10,22 +10,22 @@ questions:
 - "How do I change the way inputs are handled?"
 -
 objectives:
-- "Understand Nextflow manages data."
+- "Understand how Nextflow manages data using Channels."
 - "Understand why channels are useful."
 - "Understand the different types of Nextflow Channels."
 - "Create a value and queue channel using Channel factory methods."
 - "Select files as input based on a string pattern."
 - "Edit Channel factory argument to alter how data is read in."
 keypoints:
-- "Channels are how Nextflow sends data between processes. "
+- "You can use Channels to import data into Nextflow."
 - "Nextflow has two different kinds of channels, queue channels and value channels. Values channels contain a  single value and can be used multiple times in workflow. Queue channels can be used once and are consumed when they are used by a process or an operator."
-- "Channel factory methods are used to create Channels."
+- "Channel factory methods, such as Channel.of, are used to create Channels."
 - "Channel factory methods have optional arguments, e.g. `checkIfExists` , that can be used to alter the creation and behaviour of a channel. "
 ---
 
 # Channels
 
-In the last episode we learnt that channels are the way in which Nextflow sends data around a workflow. Channels connect processes to each other, via their inputs and outputs. Channels can store multiple items, such as files (e.g. fastq files) or values. The number of items a channel stores determines how many times a process runs.
+In the last episode we learnt that channels are the way in which Nextflow sends data around a workflow. Channels connect processes via their inputs and outputs. Channels can store multiple items, such as files (e.g. fastq files) or values. The number of items a channel stores determines how many times a process runs.
 
 ## Why use Channels?
 
@@ -160,7 +160,7 @@ We use  `Channel` as the first part along with a method `<method>` that determin
 ### Value
 
 The `value` factory method is used to create a value channel.
-Values are put inside  `()`  to assign them to a channel. For example:
+Values are put inside  parentheses `()`  to assign them to a channel. For example:
 
 ~~~
 ch1 = Channel.value()
@@ -175,8 +175,13 @@ ch2 = Channel.value( ['chr1','chr2','chr3','chr4','chr5'] )
 
 The value method can only take 1 argument, however, this can be a single list containing several elements.
 
-fixme Define what a list object is.
-A List object can be defined by placing the values in square brackets `[]` separated by a comma.
+A [List object](https://www.tutorialspoint.com/groovy/groovy_lists.htm) can be defined by placing the values in square brackets `[]` separated by a comma.
+
+~~~
+myList = [1776, -1, 33, 99, 0, 928734928763]
+~~~
+
+{: .source}
 
 ### Queue
 
@@ -184,7 +189,7 @@ There are many different way to create a queue channel. Here we will go over a f
 
 #### of
 
-When want to create a channel containing multiple values we can use the channel factory `Channel.of`.  `Channel.of` allows the creation of a `queue` channel with the values specified as arguments, separated by a `,`.
+When you want to create a channel containing multiple values you can use the channel factory `Channel.of`.  `Channel.of` allows the creation of a `queue` channel with the values specified as arguments, separated by a `,`.
 
 ~~~
 chromsome_ch = Channel.of( 'chr1','chr3','chr5','chr7' )
@@ -192,7 +197,7 @@ chromsome_ch.view()
 ~~~
 {: .source}
 
-The first line in this example creates a variable `chromosome_ch`. `chromosome_ch` is a queue channel  containing the four values specified as a parameter in the `of` method. Therefore the `view` operator on the second line will print four lines one for each element in the channel:
+The first line in this example creates a variable `chromosome_ch`. `chromosome_ch` is a queue channel  containing the four values specified as arguments in the `of` method. The `view` operator will print one line per item in a list. Therefore the `view` operator on the second line will print four lines one for each element in the channel:
 
 ~~~
 chr1
@@ -211,7 +216,7 @@ ch.view()
 ~~~
 {: .source}
 
-And the argument passed to the method can be different types e.g  number or strings.
+And the argument passed to the method can be different types e.g  number or strings objects.
 
 > ## Channel.from
 > You may see the method `Channel.from` in older nextflow scripts, this performs a similar function but will is deprecated so you should use `Channel.of` instead.
@@ -245,6 +250,25 @@ kallisto
 
 fixme add exercise to get learner to create queue and value channels
 
+> ## Creating channels from a list
+>
+>  Create a nextflow script that create both a queue and value channel.
+>  for the list `ids = ['ERR908507', 'ERR908506', 'ERR908505']`.
+>  Then print the contents of the channels using the view operator.
+> How many lines does the queue and value channel print?
+> > ## Solution
+> >
+> > ~~~
+> > ids = ['ERR908507', 'ERR908506', 'ERR908505']
+> > value_ch = Channel.value(ids)
+> > q_ch = Channel.fromList(ids)
+> > value_ch.view()
+> > q_ch.view()
+> > ~~~
+> > queue channel will print three lines.
+> > The value channel will print one line.
+> {: .solution}
+{: .challenge}
 
 ### fromPath
 
