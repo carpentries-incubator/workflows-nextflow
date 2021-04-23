@@ -3,32 +3,33 @@ title: "Channels"
 teaching: 30
 exercises: 10
 questions:
-- "What are Nextflow channels?"
-- "Define the different types of Nextflow channels?"
-- "What are the major differences between queue and values channels?"
-- "How do you create a channel?"
-- "How do you create a queue channel from a specified glob pattern?"
-- "How do you modify the behaviour of a channel factory?"
+- "How do I get data into Nextflow?"
+- "How do I handle different types of data, e.g. files and and parameters?"
+- "How do I create a Nextflow Channel?"
+- "How can I use patten matching to select input files?"
+- "How do I change the way inputs are handled?"
 -
 objectives:
-- "Understand what a Nextflow Channel is."
-- "Understand the differences between value and queue channels."
+- "Understand Nextflow manages data."
+- "Understand why channels are useful."
+- "Understand the different types of Nextflow Channels."
 - "Create a value and queue channel using Channel factory methods."
-- "Create a queue channel from a specified glob pattern."
-- "Modify the behaviour of a Channel factory"
+- "Select files as input based on a string pattern."
+- "Edit Channel factory argument to alter how data is read in."
 keypoints:
-- "Channels are how nextflow communicates data between processes. "
-- "Nextflow distinguish two different kinds of channels, queue channels and value channels. Values channels contain a  single value and can be used multiple times in workflow. Queue channels can be used once are consumed when they are used by a process or an operator."
-- "Channel factory methods are used to create value and queue channels."
+- "Channels are how Nextflow sends data between processes. "
+- "Nextflow has two different kinds of channels, queue channels and value channels. Values channels contain a  single value and can be used multiple times in workflow. Queue channels can be used once and are consumed when they are used by a process or an operator."
+- "Channel factory methods are used to create Channels."
 - "Channel factory methods have optional arguments, e.g. `checkIfExists` , that can be used to alter the creation and behaviour of a channel. "
 ---
 
 # Channels
 
-In the last episode we learnt that channels are the way in which Nextflow sends data around a workflow. Channels connect processes to each other, via their inputs and outputs. Channels can store multiple items, such as files (e.g. fastq files) or values. The number of items a channel stores determines how many times a process runs. It is channels that enable Nextflow to implement reactive workflows based on the Dataflow programming paradigm.
+In the last episode we learnt that channels are the way in which Nextflow sends data around a workflow. Channels connect processes to each other, via their inputs and outputs. Channels can store multiple items, such as files (e.g. fastq files) or values. The number of items a channel stores determines how many times a process runs.
 
-> Reactive programming is often explained with an analogy to a spreadsheet: Imagine a cell that calculates the input of two other cells. Once you change one of the inputs, the sum updates as well. The cell reacts to the changes and updates itself. More info [here](https://itnext.io/demystifying-functional-reactive-programming-67767dbe520b)
-{: .callout}
+## Why use Channels?
+
+Channels let Nextflow handle file management, allowing complex tasks to be split up, run in parallel & reducing 'admin' required to get the right inputs to the right parts of the pipeline.
 
 ![Channel files](../fig/channel-files.png)
 
@@ -39,19 +40,17 @@ Nextflow distinguish two different kinds of channels: **queue** channels and **v
 
 ### Queue channel
 
-Queue channels are the way in which Nextflow sends data that is consumed or produced by a process.
+Queue channels are the way in which Nextflow sends data that is input and consumed(used up) or output by a process.
 
 A *queue* channel has three properties.
 
-* That operations are non-blocking, which means processes run as soon as they receive input from a channel.
+* Processes run as soon as they receive input from a channel.
 
-* That data flow is in one direction from a producer to a consumer.
+* That data flow is in one direction: from a producer to a consumer.
 
 * The first element of a queue is the first out of the queue (First in- First out).
 
-A queue channel can be created by a process in their output definitions, which we will cover in the next episode, or created using channel factory methods such as [Channel.of](https://www.nextflow.io/docs/latest/channel.html#of) or [Channel.fromPath](https://www.nextflow.io/docs/latest/channel.html#frompath) which will we cover in this episode.
-
-
+A queue channel can be created by a process in their output definitions, which we will cover in the next episode or created using channel factory methods such as [Channel.of](https://www.nextflow.io/docs/latest/channel.html#of) or [Channel.fromPath](https://www.nextflow.io/docs/latest/channel.html#frompath) which will we cover in this episode.
 
 > ## Create and view Channel contents
 > Create a file called `channel.nf` and type the following code into it.
@@ -60,12 +59,14 @@ A queue channel can be created by a process in their output definitions, which w
 > ch.view()
 > ~~~
 > Run the code using
+> How many lines of output do you get?
 > ~~~~
 > nextflow run channel.nf
 > ~~~~
 > > ## Solution
-> > In this example you have created a queue channel with the value 1,2,3 in it.
-> > The `.view` operator can be used to view the contents of the  ch channel.
+> > In this example you have created a queue channel with three values 1,2,3 in it.
+> > This will produce three lines of output, one for each value.
+> > The `.view` operator can be used to view the contents of the channel object `ch`.
 > > ~~~
 > > 1
 > > 2
@@ -78,7 +79,7 @@ A queue channel can be created by a process in their output definitions, which w
 
 Once a channel is used/consumed by an operator or process it can not be used again.
 
-If we add two `ch.view()` operations on the same channel object.
+If we add two `ch.view()` operation on the same channel object.
 
 ~~~
 ch = Channel.of(1,2,3)
@@ -94,7 +95,7 @@ nextflow run channel.nf
 ~~~
 {: .language-bash}
 
-It will produce an error as the queue channel `ch` is consumed in by the first `.view` operator.
+It will produce an error as the queue channel `ch` is consumed in by the first `.view` operation and isn't available to use again.
 
 ~~~
 N E X T F L O W  ~  version 20.10.0
@@ -108,11 +109,11 @@ Channel `ch` has been used as an input by more than a process or an operator
 ~~~
 {: .output}
 
-We will see in the operator episodes how to create multiple channels from the a Channel factory.
+We will see in the operator episodes how to create multiple channels from a Channel factory.
 
 ### Value channels
 
-The second type of Nextflow channel is a `value` channel. A **value** channel is bound to a *single* value. A value channel can read unlimited times without consuming its content. This can be useful when setting a parameter value which are used by multiple processes.
+The second type of Nextflow channel is a `value` channel. A **value** channel is bound to a *single* value. A value channel can be read unlimited times without consuming its content. This can be useful when setting a parameter value which are used by multiple processes.
 
 The Nextflow script below:
 
@@ -133,31 +134,33 @@ GRCh38
 ~~~
 {: .output}
 
-
-As it is a value channel can be used unlimited times.
+The first line creates a value channel using the `Channel.value` method.
+As it is a value channel can be used multiple times.
 
 > ## Queue vs Value Channel
 >
 > Which of the following channels could be used multiple times and why?
 >
-> 1. `ch = Channel.value('GRCh38')`
-> 2. `ch = Channel.of('GRCh38')`
+> 1. value
+> 2. queue
 >
 > > ## Solution
-> > 1. Yes: `ch = Channel.value('GRCh38')` is a value channel which can be used multiple times.
-> > 2. No: `ch = Channel.of('GRCh38')` is a queue channel which can only be used once.
+> > 1. Yes: A value channel which can be used multiple times.
+> > 2. No: A queue channel which can only be used once.
 > {: .solution}
 {: .challenge}
 
 ## Creating Channels, Channel factories
 
 Channel factories are a way Nextflow can create  different channel types (queue and value).
-A factory is the term used when creating an object of a different type e.g. value or queue channels.
+"Factory" is the term used when creating an object of a different type e.g. value or queue channels.
 
-### value
+We use  `Channel` as the first part along with a method `<method>` that determine the type of channel we are creating. We separate these parts using a `.`.
+
+### Value
 
 The `value` factory method is used to create a value channel.
-An optional  argument , values between the `()`, can be specified to assign the channel to a specific value. For example:
+Values are put inside  `()`  to assign them to a channel. For example:
 
 ~~~
 ch1 = Channel.value()
@@ -170,18 +173,26 @@ ch2 = Channel.value( ['chr1','chr2','chr3','chr4','chr5'] )
 1. Creates a value channel and binds a string to it.
 1. Creates a value channel and binds a list object to it that will be emitted as a single item.
 
-### of
+The value method can only take 1 argument, however, this can be a single list containing several elements.
 
-When want to create a channel containing multiple values we can use the channel factory `Channel.of`.  `Channel.of` allows the creation of a `queue` channel with the values specified as argument.
+fixme Define what a list object is.
+A List object can be defined by placing the values in square brackets `[]` separated by a comma.
 
+### Queue
+
+There are many different way to create a queue channel. Here we will go over a few common ways to create them.
+
+#### of
+
+When want to create a channel containing multiple values we can use the channel factory `Channel.of`.  `Channel.of` allows the creation of a `queue` channel with the values specified as arguments, separated by a `,`.
 
 ~~~
-ch = Channel.of( 'chr1','chr3','chr5','chr7' )
-ch.view()
+chromsome_ch = Channel.of( 'chr1','chr3','chr5','chr7' )
+chromsome_ch.view()
 ~~~
 {: .source}
 
-The first line in this example creates a variable `ch` which holds a queue channel object containing the four values specified as a parameters in the `of` method. Therefore the `view` operator on the second line will print four lines for each element in the channel:
+The first line in this example creates a variable `chromosome_ch`. `chromosome_ch` is a queue channel  containing the four values specified as a parameter in the `of` method. Therefore the `view` operator on the second line will print four lines one for each element in the channel:
 
 ~~~
 chr1
@@ -191,13 +202,16 @@ chr7
 ~~~
 {: .output}
 
-You can specify a range of number, as a single argument,  using the range operator `...`. More information [here](https://www.logicbig.com/tutorials/misc/groovy/range-operator.html).
+You can specify a range of number, as a single argument,  using the range operator `..`.
+ More information [here](https://www.logicbig.com/tutorials/misc/groovy/range-operator.html).
 
 ~~~
 ch= Channel.of(1..21, 'X', 'Y')
 ch.view()
 ~~~
 {: .source}
+
+And the argument passed to the method can be different types e.g  number or strings.
 
 > ## Channel.from
 > You may see the method `Channel.from` in older nextflow scripts, this performs a similar function but will is deprecated so you should use `Channel.of` instead.
@@ -206,7 +220,7 @@ ch.view()
 
 ### fromList
 
-If you want to convert a list object into a multi value queue channel you can use the Channel factory method `Channel.fromList` specifying the list object as a parameter. A List object can be defined by placing the values in square brackets `[]` separated by a comma.
+You can use the `Channel.fromList` method to create a queue channel (with multi values)  from a list object.
 
 ~~~
 aligner_list = ['salmon', 'kallisto']
@@ -223,19 +237,25 @@ This would produce two lines.
 salmon
 kallisto
 ~~~
-{: .source}
+{: .output}
 
 > ## Channel.fromList vs Channel.of
-> In the above example the channel has two elements. If you has used the Channel.of(list) it would have  contained only 1 element `[salmon, kallisto]` and any operator or process using the channel would run once .
+> In the above example the channel has two elements. If you has used the Channel.of(list) it would have  contained only 1 element `[salmon, kallisto]` and any operator or process using the channel would run once.
 {: .callout}
+
+fixme add exercise to get learner to create queue and value channels
+
 
 ### fromPath
 
 The previous channel factories methods dealt with sending one or more values. A special channel factory method `fromPath` is used when dealing with files.
 
-The `fromPath` factory method create a **queue channel** emitting one or more files matching the pattern specifying the location of files. This pattern can be the location of a single file or a glob pattern that matches multiple files or directories. The location of the file should be specified as a relative path to the location of nextflow script you are running.
+The `fromPath` factory method create a **queue channel** emitting one or more files matching a pattern that specifies the file path.
+This pattern can be the location of a single file or a pattern that matches multiple files or directories.
 
-The script below creates a channel with a single file as its' content.
+**The location of the file should be specified as a relative path to the location of nextflow script you are running**.
+
+The script below creates a queue channel with a single file as its' content.
 
 ~~~
 ch = Channel.fromPath( 'data/yeast/reads/ref1_2.fq.gz' )
@@ -244,21 +264,21 @@ ch.view()
 {: .source}
 
 ~~~
-/Users/ggrimes2/Documents/nextflow-training/data/yeast/reads/ref1_2.fq.gz
+<working_directory>/data/yeast/reads/ref1_2.fq.gz
 ~~~
 {: .output}
 
-Whilst the script below creates a queue channel that contains as many items as there are files with `.fq.gz` extension in the `/data/yeast/reads` folder.
+ The script below creates a queue channel that contains as many items as there are files with `_1.fq.gz` or `_2.fq.gz` extension in the `data/yeast/reads` folder.
 
 ~~~
-ch = Channel.fromPath( 'data/yeast/reads/*.fq.gz' )
+ch = Channel.fromPath( 'data/yeast/reads/*_{1,2}.fq.gz' )
 ch.view()
 ~~~
 {: .source}
 
 ~~~
-/Users/ggrimes2/Documents/nextflow-training/data/yeast/reads/ref1_2.fq.gz
-/Users/ggrimes2/Documents/nextflow-training/data/yeast/reads/etoh60_3_2.fq.gz
+<working_directory>/data/yeast/reads/ref1_2.fq.gz
+<working_directory>/data/yeast/reads/etoh60_3_2.fq.gz
 /Users/ggrimes2/Documents/nextflow-training/data/yeast/reads/temp33_1_2.fq.gz
 /Users/ggrimes2/Documents/nextflow-training/data/yeast/reads/temp33_2_1.fq.gz
 /Users/ggrimes2/Documents/nextflow-training/data/yeast/reads/ref2_1.fq.gz
@@ -267,9 +287,9 @@ ch.view()
 ~~~
 {: .output}
 
-> ## asterisks
-> Two asterisks, i.e. `**`, works like * but crosses directory boundaries. This syntax is generally used for matching complete paths. Curly brackets specify a collection of sub-patterns. Learn more about the glob patterns syntax at this [link](https://docs.oracle.com/javase/tutorial/essential/io/fileOps.html#glob).
-{: .callout}
+
+ Two asterisks, i.e. `**`, works like `*` but will also search sub directories. This syntax is generally used for matching complete paths. Curly brackets `{}` specify a collection of sub-patterns. Learn more about the glob patterns syntax at this [link](https://docs.oracle.com/javase/tutorial/essential/io/fileOps.html#glob).
+
 
 You can change the behaviour of `Channel.fromPath` method by changing its options. A list of `.fromPath` options is shown below.
 
@@ -286,10 +306,9 @@ Table 1. Available options
 | checkIfExists | When true throws an exception of the specified path do not exist in the file system (default: false) | When true throws an exception of the specified path do not exist in the file system (default: false)|
 
 
-We can change the default options for the `fromPath` method to give an error if the file doesn't exist using the `checkIfExists` parameter. In Nextflow method parameter are separated by a `,` and parameter values specified with a colon `:`.
+We can change the default options for the `fromPath` method to give an error if the file doesn't exist using the `checkIfExists` parameter. In Nextflow, method arguments are separated by a `,` and parameter values specified with a colon `:`.
 
-If we execute a nextflow script with the contents below . It will run and not produce an output.
-This likely not what we want.
+If we execute a nextflow script with the contents below . It will run and not produce an output. This likely not what we want.
 
 ~~~
 ch = Channel.fromPath( 'data/chicken/reads/*.fq.gz' )
@@ -297,7 +316,7 @@ ch.view()
 ~~~
 {: .source}
 
-It we add the the parameter `checkIfExists: true `
+It we add the the argument `checkIfExists` with the parameter `true`.
 
 ~~~
 ch = Channel.fromPath( 'data/chicken/reads/*.fq.gz', checkIfExists: true )
@@ -316,12 +335,14 @@ No files match pattern `*.fq` at path: /chicken/ggal/
 
 > ## Using Channel.fromPath
 >
->  Use the `Channel.fromPath` method to create a channel emitting all files in the `data/yeast/` then print the file name using the view operator.
+>  Use the `Channel.fromPath` method to create a channel containing all files in the `data/yeast/` directory.
+> Add an option to include hidden files.
+> Then print all file name using the view operator.
 >
 > > ## Solution
 > > You need Two asterisks, i.e. `**`, to  crosses directory boundaries
 > > ~~~
-> > ch = Channel.fromPath('data/yeast/**')
+> > ch = Channel.fromPath('data/yeast/**', hidden: true)
 > > ch.view()
 > > ~~~
 > >
@@ -333,7 +354,8 @@ No files match pattern `*.fq` at path: /chicken/ggal/
 
 We have seen how to process files individually using `fromPath`. In Bioinformatics we often want to process files in pairs or larger groups such as read pairs in sequencing.
 
-Nextflow provides helper method for these common bioinformatics use cases. The `fromFilePairs` method create a queue channel containing a named list (tuple) for every file matching a specific pattern. The first element of the tuple is the grouping key of the matching pair and the second element is the list of files (sorted in lexicographical order).
+Nextflow provides a  helper method for this common bioinformatics use case. The `fromFilePairs` method create a queue channel containing a named list (tuple) for every file matching a specific pattern. The first element of the tuple is the grouping key of the matching pair, eg. sample id prefix.
+The second element is the list of files matching that grouping key pattern.
 
 ~~~
 filepair_ch = Channel.fromFilePairs('data/yeast/reads/*_{1,2}.fq.gz')
@@ -341,46 +363,56 @@ filepair_ch.view()
 ~~~
 {: .source}
 
-This will produce a queue channel containing a tuple that has two elements, a value (the glob pattern match), and the set of file pairs. 
+This will produce a queue channel containing a tuple (named list) that has two elements, a value (the pattern match), and the set of file pairs.
 
-The asterisk, `*`, matches any number of characters (including none), and the `{}` braces specify a collection of subpatterns. Therefore the `*_{1,2}` pattern matches any file name ending in `_1.fq.gz` or `_2.fq.gz` .
+The asterisk, `*`, matches any number of characters (including none), and the `{}` braces specify a collection of subpatterns. Therefore the `*_{1,2}.fq.gz` pattern matches any file name ending in `_1.fq.gz` or `_2.fq.gz` .
 
 ~~~
-[etoh60_3, [/Users/ggrimes2/Documents/nextflow-training/data/yeast/reads/etoh60_3_1.fq.gz, /Users/ggrimes2/Documents/nextflow-training/data/yeast/reads/etoh60_3_2.fq.gz]]
+[etoh60_3, [<fixme>/data/yeast/reads/etoh60_3_1.fq.gz, /Users/ggrimes2/Documents/nextflow-training/data/yeast/reads/etoh60_3_2.fq.gz]]
 [temp33_1, [/Users/ggrimes2/Documents/nextflow-training/data/yeast/reads/temp33_1_1.fq.gz, /Users/ggrimes2/Documents/nextflow-training/data/yeast/reads/temp33_1_2.fq.gz]]
 ~~~
 {: .output}
+
+Fixme add more info about output
 
 
 See more information about the channel factory  `fromFilePairs` [here](https://www.nextflow.io/docs/latest/channel.html#fromfilepairs)
 
 > ## More complex patterns
-> If you need to match more complex patterns you should create a sample sheet specifying the files and create a channel from that.
+> If you need to match more complex patterns you should create a sample sheet specifying the files and create a channel from that, this will be covered in the operator episode.
 {: .callout}
 
-> ## glob pattern
-> The glob pattern must contain at least a star wildcard character.
+> ## pattern (know as glob)
+> The pattern must contain at least a star wildcard character.
 {: .callout}
 
 
 > ## fromFilePairs
 >
 >  Use the `fromFilePairs` method to create a channel emitting all pairs of fastq read in the `data/yeast/reads` directory and print them.
->  Then use the `flat:true` option and compare the output with the previous execution.
+>  Then use the `size` option with value 3 and the pattern `fixme` and compare the output with the previous execution.
 >
 > > ## Solution
 > >
 > > ~~~
-> > Channel.fromFilePairs('data/yeast/reads/*_{1,2}.fq.gz').view()
+> > pairs_ch = Channel.fromFilePairs('data/yeast/reads/*_{1,2}.fq.gz')
+> > pairs_ch.view()
 > > Channel.fromFilePairs('data/yeast/reads/*_{1,2}.fq.gz', flat:true).view()
 > > ~~~
 > >
 > {: .solution}
 {: .challenge}
 
-### fromSRA
 
-Another useful helper method is `Channel.fromSRA`. The `Channel.fromSRA` method that makes it possible to query of [NCBI SRA](https://www.ncbi.nlm.nih.gov/sra) archive and returns a channel emitting the FASTQ files matching the specified selection criteria.
+
+
+fixme add info about size option.
+
+fixme add as an optional material.
+
+### Queue Channel, fromSRA
+
+Another useful helper method is `Channel.fromSRA`. The `Channel.fromSRA` method that makes it possible to query of [NCBI SRA](https://www.ncbi.nlm.nih.gov/sra) archive and returns a queue channel emitting the FASTQ files matching the specified selection criteria.
 
 The query can be project ID or accession number(s) supported by the [NCBI ESearch API](https://www.ncbi.nlm.nih.gov/books/NBK25499/#chapter4.ESearch). For example the following snippet:
 
@@ -418,6 +450,10 @@ Channel.fromSRA(ids).view()
 ~~~
 {: .output}  
 
+
+
+
+additional material
 > ## Read pairs
 > Read pairs are implicitly managed are returned as a list of files.
 {: .callout}
