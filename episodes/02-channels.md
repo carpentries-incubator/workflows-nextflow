@@ -288,7 +288,7 @@ ch.view()
 {: .source}
 
 ~~~
-<working_directory>/data/yeast/reads/ref1_2.fq.gz
+data/yeast/reads/ref1_2.fq.gz
 ~~~
 {: .output}
 
@@ -301,12 +301,12 @@ ch.view()
 {: .source}
 
 ~~~
-<working_directory>/data/yeast/reads/ref1_2.fq.gz
-<working_directory>/data/yeast/reads/etoh60_3_2.fq.gz
-/Users/ggrimes2/Documents/nextflow-training/data/yeast/reads/temp33_1_2.fq.gz
-/Users/ggrimes2/Documents/nextflow-training/data/yeast/reads/temp33_2_1.fq.gz
-/Users/ggrimes2/Documents/nextflow-training/data/yeast/reads/ref2_1.fq.gz
-/Users/ggrimes2/Documents/nextflow-training/data/yeast/reads/temp33_3_1.fq.gz
+data/yeast/reads/ref1_2.fq.gz
+data/yeast/reads/etoh60_3_2.fq.gz
+data/yeast/reads/temp33_1_2.fq.gz
+data/yeast/reads/temp33_2_1.fq.gz
+data/yeast/reads/ref2_1.fq.gz
+data/yeast/reads/temp33_3_1.fq.gz
 [..truncated..]
 ~~~
 {: .output}
@@ -346,7 +346,7 @@ It we add the the argument `checkIfExists` with the parameter `true`.
 ch = Channel.fromPath( 'data/chicken/reads/*.fq.gz', checkIfExists: true )
 ch.view()
 ~~~
-{: .source}
+{: .output}
 
 This will give an error as there is no data/chicken directory.
 
@@ -392,13 +392,24 @@ This will produce a queue channel containing a tuple (named list) that has two e
 The asterisk, `*`, matches any number of characters (including none), and the `{}` braces specify a collection of subpatterns. Therefore the `*_{1,2}.fq.gz` pattern matches any file name ending in `_1.fq.gz` or `_2.fq.gz` .
 
 ~~~
-[etoh60_3, [<fixme>/data/yeast/reads/etoh60_3_1.fq.gz, /Users/ggrimes2/Documents/nextflow-training/data/yeast/reads/etoh60_3_2.fq.gz]]
-[temp33_1, [/Users/ggrimes2/Documents/nextflow-training/data/yeast/reads/temp33_1_1.fq.gz, /Users/ggrimes2/Documents/nextflow-training/data/yeast/reads/temp33_1_2.fq.gz]]
+[etoh60_3, [data/yeast/reads/etoh60_3_1.fq.gz, data/yeast/reads/etoh60_3_2.fq.gz]]
+[temp33_1, [data/yeast/reads/temp33_1_1.fq.gz,data/yeast/reads/temp33_1_2.fq.gz]]
 ~~~
 {: .output}
 
-Fixme add more info about output
+If the pattern matches more than two files you will need to change the `size` argument to the number of expected matching files.
 
+~~~
+filepair_ch = Channel.fromFilePairs('../nextflow-training/data/yeast/reads/ref{1,2,3}*',checkIfExists:true,size:6)
+filepair_ch.view()
+~~~
+{: .source}
+Will create a queue channel containing tuple of key **ref** and six  files matching the pattern.
+
+~~~
+[ref, [data/yeast/reads/ref1_1.fq.gz, data/yeast/reads/ref1_2.fq.gz, data/yeast/reads/ref2_1.fq.gz, data/yeast/reads/ref2_2.fq.gz, data/yeast/reads/ref3_1.fq.gz, data/yeast/reads/ref3_2.fq.gz]]
+~~~
+{: .output}
 
 See more information about the channel factory  `fromFilePairs` [here](https://www.nextflow.io/docs/latest/channel.html#fromfilepairs)
 
@@ -428,11 +439,6 @@ See more information about the channel factory  `fromFilePairs` [here](https://w
 {: .challenge}
 
 
-
-
-fixme add info about size option.
-
-fixme add as an optional material.
 
 ### Queue Channel, fromSRA
 
