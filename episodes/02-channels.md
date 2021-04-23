@@ -414,14 +414,14 @@ See more information about the channel factory  `fromFilePairs` [here](https://w
 > ## fromFilePairs
 >
 >  Use the `fromFilePairs` method to create a channel emitting all pairs of fastq read in the `data/yeast/reads` directory and print them.
->  Then use the `size` option with value 3 and the pattern `fixme` and compare the output with the previous execution.
+>  Then use the `size` argument with parameter value 6 and the pattern `data/yeast/reads/*_{1,2,3,4}_{1,2}.fq.gz` and compare the output with the previous execution.
 >
 > > ## Solution
 > >
 > > ~~~
 > > pairs_ch = Channel.fromFilePairs('data/yeast/reads/*_{1,2}.fq.gz')
 > > pairs_ch.view()
-> > Channel.fromFilePairs('data/yeast/reads/*_{1,2}.fq.gz', flat:true).view()
+> > Channel.fromFilePairs('data/yeast/reads/*_{1,2,3,4}_{1,2}.fq.gz', size:6).view()
 > > ~~~
 > >
 > {: .solution}
