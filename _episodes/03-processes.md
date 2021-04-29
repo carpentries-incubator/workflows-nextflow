@@ -3,9 +3,9 @@ title: "Processes"
 teaching: 50 min
 exercises: 20 min
 questions:
-- "How do I run commands in Nextflow?"
-- "How do I define a Nextflow process?"
-- "How do I input and output data into processes ?"
+- "How do I run commands/tasks in Nextflow?"
+- "How do I define a process in Nextflow?"
+- "How do I get data, files and values, into and out of processes?"
 - "How do I specify conditions for a process in order for it to execute?"
 - "How do i control resources for a process?"
 - "How do i save output from a process?"
@@ -39,21 +39,32 @@ A basic process with no input or output channels looks like the following exampl
 
 ~~~
 process printWorkingDirectory {
+  echo true
   script:
   """
   pwd
+  ls -a
   """
 }
 ~~~
 {: .language-groovy }
 
-Produces
+This example runs two unixs command `pwd` to show the directory the command was executed in and `ls -a` to list all the files in the directory . The directive `echo true` is added so that command is printed to the screen. This Produces
 
 ~~~
 N E X T F L O W  ~  version 20.10.0
-Launching `process1.nf` [desperate_tuckerman] - revision: e7c218d698
+Launching `delme.nf` [distraught_miescher] - revision: cdc9fc9d97
 executor >  local (1)
-[d2/9def38] process > printWorkingDirectory [100%] 1 of 1 ✔
+[1f/11a6b7] process > printWorkingDirectory [100%] 1 of 1 ✔
+work/1f/11a6b7071a4f7852c4ca399166f58a
+.
+..
+.command.begin
+.command.err
+.command.log
+.command.out
+.command.run
+.command.sh
 ~~~
 {: .output}
 
@@ -81,7 +92,7 @@ process < name > {
   < user script to be executed >
 }
 ~~~
-{: .source}
+{: .language-groovy }
 
 * Zero, one or more process directives, e.g cpus
 * Zero, one or more process inputs
@@ -108,8 +119,6 @@ process example {
     samtools sort  ${prefix}.sorted.bam -T $name $bam
     samtools index ${prefix}.sorted.bam
     samtools flagstat ${prefix}.sorted.bam > ${prefix}.sorted.bam.flagstat
-    samtools idxstats ${prefix}.sorted.bam > ${prefix}.sorted.bam.idxstats
-    samtools stats ${prefix}.sorted.bam > ${prefix}.sorted.bam.stats
     """
 }
 ~~~
@@ -138,20 +147,32 @@ process pyStuff {
 ### Script parameters
 
 The Process script block can be defined dynamically using Nextflow variables.
+To reference a variable in the script block you can use the `$` in front of the variable name and additionally add `{}` around the variable name e.g. `${params.genome}`.
 
 ~~~
 //nextflow params variable
 params.genome = 'GRCh38'
 
-process sayHello {
+process print_nf_variable {
+  echo true
   script:
   """
-  echo $params.data
+  echo $params.genome
   """
 }
 ~~~
-{: .source}
+{: .language-groovy }
 
+In this example we set the Nextflow variable `params.genome` to `GRCh38` and the process
+print_nf_variable echos the contents of the variable to the screen.
+~~~
+N E X T F L O W  ~  version 20.10.0
+Launching `delme.nf` [nice_almeida] - revision: d50659d3ab
+executor >  local (1)
+[f1/378634] process > print_nf_variable [100%] 1 of 1 ✔
+GRCh38
+~~~
+{: .output }
 
 A process script can contain any string format supported by the Groovy programming language. This allows us to use string interpolation or multiline string as in the script above. Refer to [String interpolation](https://seqera.io/training/#_string_interpolation) for more information.
 
@@ -161,6 +182,7 @@ Since Nextflow uses the same Bash syntax for variable substitutions in strings, 
 
 ~~~
 process printWorkingDirectory {
+  echo true
   script:
   """
   echo \$PWD
@@ -170,7 +192,7 @@ process printWorkingDirectory {
 {: .language-groovy }
 
 
-This will print the location of the current working directory using the bash variable $PWD.
+This will print the location of the current working directory using the bash environment variable variable `PWD`.
 
 
 ~~~
@@ -184,18 +206,19 @@ work/1b/202631ace5f3647972e8ddbdb0331c
 
 > ## Escape Bash
 >
-> Try to modify the above script using $PWD instead of \$PWD and check the difference.
+> Try to modify the above script using the nextflow variable `$PWD` instead of `\$PWD` and check the difference.
 >
 > > ## Solution
 > > If you do not escape the BASH variable PWD it will use the
 > > This is the body of the solution.
 > > ~~~
 > > N E X T F L O W  ~  version 20.10.0
-> > Launching `hello.nf` [cheeky_wescoff] - revision: b9be618236
+> > Launching `delme.nf` [small_cantor] - revision: 0252a6773a
 > > executor >  local (1)
-> > [36/b3eed4] process > listFileInCWD [100%] 1 of 1 ✔
-> > /home/ec2-user/environment
+> > [47/18a9f8] process > printWorkingDirectory [100%] 1 of 1 ✔
+> > /Users/ggrimes2/Documents/nextflow-training>
 > > ~~~
+> > This will print the contents of the Nextflow variable `PWD` which is the location od the directory of the nextflow script.
 > {: .solution}
 {: .challenge}
 
@@ -214,7 +237,7 @@ process aligner_log {
   '''
 }
 ```
-{: .source}
+{: .language-groovy }
 
 
 > ## process parameters
@@ -233,9 +256,9 @@ process aligner_log {
 > {: .solution}
 {: .challenge}
 
-### Conditional script
+### Conditional execution
 
-The process script can also be defined in a dynamic manner using a `if statement` or any other expression evaluating to string value. For example:
+Sometimes you want to change how a process is run depending on some parameter. In Nextflow scripts we can use conditional statements such as the `if` statement or any other expression evaluating to string value. For example:
 
 ~~~
 params.aligner = 'kallisto'
@@ -254,7 +277,7 @@ process align {
     throw new IllegalArgumentException("Unknown aligner $params.aligner")
 }
 ~~~
-{: .source}
+{: .language-groovy }
 
 
 
@@ -262,12 +285,12 @@ process align {
 
 Nextflow processes are isolated from each other but can communicate between themselves sending values through channels.
 
-Inputs implicitly determine the dependency and the parallel execution of the process. The process execution is fired each time a new data is ready to be consumed from the input channel:
+Inputs implicitly determine the dependency and the parallel execution of the process. The process execution is run each time new data is ready to be consumed from the input channel:
 
 ![Process Flow](../fig/channel-process.png)
 
 
-The input block defines which channels the process is expecting to receive inputs data from. You can only define one input block at a time and it must contain one or more inputs declarations.
+The `input` block defines which channels the process is expecting to receive inputs data from. You can only define one input block at a time and it must contain one or more inputs declarations.
 
 The input block follows the syntax shown below:
 
@@ -275,11 +298,8 @@ The input block follows the syntax shown below:
 input:
   <input qualifier> <input name> from <source channel>
 ~~~
-{: .source}
+{: .language-groovy }
 
-
-I think more needs to be said about input qualifiers
-fixme add qualifer info https://www.nextflow.io/docs/latest/process.html?highlight=tuple#inputs
 
 The input qualifier declares the type of data to be received.
 
@@ -289,7 +309,6 @@ The input qualifier declares the type of data to be received.
 * stdin: Lets you forward the received value to the process stdin special file.
 * tuple: Lets you handle a group of input values having one of the above qualifiers.
 * each: Lets you execute the process for each entry in the input collection.
-
 
 
 ### Input values
@@ -309,7 +328,7 @@ process basicExample {
   """
 }
 ~~~
-{: .source}
+{: .language-groovy }
 
 In the above example the process is executed 23 times, each time a value is received from the channel `chr_ch` and used to process the script. Thus, it results in an output similar to the one shown below:
 
@@ -328,7 +347,7 @@ process chromosome 2
 ### Input files
 
 The `path` qualifier allows the handling of file in the process execution context.
-This means that Nextflow will stage it in the process execution directory, and it can be access in the script by using the name specified in the input declaration `path 'sample.fastq'`.
+This means that Nextflow will stage it in the process execution directory, and it can be access in the script by using the name specified in the input declaration. In the example below we specific the name of the file as `sample.fastq`.
 
 ~~~
 reads = Channel.fromPath( 'data/yeast/reads/*.fq.gz' )
@@ -344,10 +363,10 @@ process foo {
     """
 }
 ~~~
-{: .source}
+{: .language-groovy }
 
 
-The input file name can also be defined using a variable reference, `path sample`, as shown below:
+The input file name can also be defined dynamically using a variable reference, `path sample`, as shown below:
 
 ~~~
 reads = Channel.fromPath( 'data/yeast/reads/*.fq.gz' )
@@ -361,7 +380,7 @@ process foo {
     """
 }
 ~~~
-{: .source}
+{: .language-groovy }
 
 > # File Objects as inputs
 > When a process declares an input file the corresponding channel elements must be file objects i.e. created with the path helper function from the file specific channel factories e.g. `Channel.fromPath` or `Channel.fromFilePairs`.
@@ -413,7 +432,7 @@ process foo {
    """
 }
 ~~~
-{: .source}
+{: .language-groovy }
 
 Both channels emit three value, therefore the process is executed three times, each time with a different pair:
 
@@ -432,7 +451,7 @@ When this condition is verified, it consumes the input values coming from the re
 
 This means channel values are consumed  one after another and the first empty channel cause the process execution to stop even if there are other values in other channels.
 
-**What does it happen when not all channels have the same number of elements?**
+**What happens when not all channels have the same number of elements?**
 
 For example:
 
@@ -452,7 +471,7 @@ process foo {
    """
 }
 ~~~
-{: .source}
+{: .language-groovy }
 
 In the above example the process is executed only two time, because when a channel has no more data to be processed it stops the process execution.
 
@@ -510,6 +529,7 @@ process bar {
 
 # Input repeaters
 
+
 The `each` qualifier allows you to repeat the execution of a process for each item in a list or channel, every time new data is received. For example:
 
 ~~~
@@ -530,7 +550,7 @@ process index {
 
 }
 ~~~
-{: .source}
+{: .language-groovy }
 
 In the above example every time a file of sequences is received as input by the process, it executes three tasks running an alignment with a different value for the `kmer` option. This is useful when you need to repeat the same task for a given set of parameters.
 
@@ -564,7 +584,7 @@ There can be defined at most one output block and it can contain one or more out
 output:
   <output qualifier> <output name> into <target channel>[,channel,..]
 ~~~  
-{: .source}
+{: .language-groovy }
 
 ### Output values
 
@@ -589,7 +609,7 @@ process method_type {
 // use the view operator to display contents of the channel
 out_ch.view({ "Received: $it" })
 ~~~
-{: .source}
+{: .language-groovy }
 
 ### Output files
 
@@ -625,7 +645,6 @@ When an output file name contains a `*` or `?` wildcard character it is interpre
 
 For example here we will capture sample.bam and sample.bam.bai in the output channel.
 
-fixme fix example here so it works
 ~~~
 
 bam_ch = channel.fromPath("data/yeast/bams/*.bam").take(1)
@@ -643,7 +662,7 @@ process index {
     """
 }
 /*
-*The flatMap operator applies a function of your choosing to every item emitted by a channel, and returns the items so obtained as a new channel
+*The flatMap operator applies a function to every item emitted by a channel, and returns the items so obtained as a new channel
 */
 index_out_ch
     .flatMap()
@@ -702,11 +721,11 @@ In the above example, each time the process is executed an alignment file is pro
 
 So far we have seen how to declare multiple input and output channels, but each channel was handling only one value at time. However Nextflow can handle groups of values using the `tuple` qualifiers.
 
-When using channel emitting tuple of values the corresponding input declaration must be declared with a `tuple` qualifier followed by definition of each single element in the tuple.
+When using channel emitting tuple the corresponding input declaration must be declared with a `tuple` qualifier followed by definition of each single element in the tuple.
 
 In the same manner output channel emitting tuple of values can be declared using the `tuple` qualifier following by the definition of each tuple element in the tuple.
 
-fixme better example salmon quant and add tuple info
+
 ~~~
 reads_ch = Channel.fromFilePairs('data/yeast/reads/ref1_{1,2}.fq.gz')
 
@@ -788,16 +807,15 @@ They must be entered at the top of the process body, before any other declaratio
 
 Directives are commonly used to define the amount of computing resources to be used or other meta directives like that allows the definition of extra information for configuration or logging purpose. For example:
 
-fixme better
 ~~~
 chr_ch = channel.of(1..21,'X','Y')
 
 process printchr {
   label 'big_mem'
+  tag "$chr"
   echo true
   cpus 1
   memory 2.GB
-  //container 'image/name'
 
   input:
   val chr from chr_ch
@@ -847,56 +865,57 @@ Nextflow manages independently workflow execution intermediate results from the 
 The pipeline result files need to be marked explicitly using the directive [publishDir](https://www.nextflow.io/docs/latest/process.html#publishdir) in the process that’s creating such file. For example:
 
 ~~~
-process makeBams {
-    publishDir "/some/directory/bam_files", mode: 'copy'
+chr_ch = channel.of(1..21,'X','Y')
 
-    input:
-    file index from index_ch
-    tuple val(name), file(reads) from reads_ch
+process printchr {
+  publishDir "results/chr"
+  echo true
 
-    output:
-    tuple val(name), file ('*.bam') into star_aligned
 
-    """
-    STAR --genomeDir $index --readFilesIn $reads
-    """
+  input:
+  val chr from chr_ch
+
+  output:
+  path "${chr}.txt"
+
+  script:
+  """
+  sleep 2
+  echo $chr > ${chr}.txt
+  """
 }
+
 ~~~
 {: .language-groovy }
 
-The above example will copy all bam files created by the star task in the directory path /some/directory/bam_files.
+The above example will copy all `${chr}.txt` files created by the `printchr` process to the directory path `results/chr`.
 
 ###  Manage semantic sub-directories
 
 You can use more then one publishDir to keep different outputs in separate directory. For example:
 
+
+
+
 ~~~
-params.reads = 'data/reads/*_{1,2}.fq.gz'
-params.outdir = 'my-results'
+chr_ch = channel.of(1..21,'X','Y')
 
-Channel
-    .fromFilePairs(params.reads, flat: true)
-    .set{ samples_ch }
+process printchr {
+  publishDir "results/chr/autosomes",pattern:"[0-9]*.txt"
+  publishDir "results/chr/sex",pattern:"{X,Y}*.txt"
+  echo true
 
-process foo {
-  publishDir "$params.outdir/$sampleId/", pattern: '*.fq'
-  publishDir "$params.outdir/$sampleId/counts", pattern: "*_counts.txt"
-  publishDir "$params.outdir/$sampleId/outlooks", pattern: '*_outlook.txt'
 
   input:
-    set sampleId, file('sample1.fq.gz'), file('sample2.fq.gz') from samples_ch
+  val chr from chr_ch
+
   output:
-    file "*"
+  path "${chr}.txt"
+
   script:
   """
-    < sample1.fq.gz zcat > sample1.fq
-    < sample2.fq.gz zcat > sample2.fq
-
-    awk '{s++}END{print s/4}' sample1.fq > sample1_counts.txt
-    awk '{s++}END{print s/4}' sample2.fq > sample2_counts.txt
-
-    head -n 50 sample1.fq > sample1_outlook.txt
-    head -n 50 sample2.fq > sample2_outlook.txt
+  sleep 2
+  echo $chr > ${chr}.txt
   """
 }
 ~~~
