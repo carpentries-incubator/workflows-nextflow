@@ -86,7 +86,7 @@ ch = Channel.of(1,2,3)
 ch.view()
 ch.view()
 ~~~
-{: .source}
+{: .language-groovy }
 
 Then run using :
 
@@ -123,7 +123,7 @@ ch.view()
 ch.view()
 ch.view()
 ~~~
-{: .source}
+{: .language-groovy }
 
 Will print:
 
@@ -167,7 +167,7 @@ ch1 = Channel.value()
 ch2 = Channel.value('GRCh38')
 ch2 = Channel.value( ['chr1','chr2','chr3','chr4','chr5'] )
 ~~~
-{: .source}
+{: .language-groovy }
 
 1. Creates an empty value channel.
 1. Creates a value channel and binds a string to it.
@@ -181,7 +181,7 @@ A [List object](https://www.tutorialspoint.com/groovy/groovy_lists.htm) can be d
 myList = [1776, -1, 33, 99, 0, 928734928763]
 ~~~
 
-{: .source}
+{: .language-groovy }
 
 ### Queue
 
@@ -195,7 +195,7 @@ When you want to create a channel containing multiple values you can use the cha
 chromsome_ch = Channel.of( 'chr1','chr3','chr5','chr7' )
 chromsome_ch.view()
 ~~~
-{: .source}
+{: .language-groovy }
 
 The first line in this example creates a variable `chromosome_ch`. `chromosome_ch` is a queue channel  containing the four values specified as arguments in the `of` method. The `view` operator will print one line per item in a list. Therefore the `view` operator on the second line will print four lines one for each element in the channel:
 
@@ -214,7 +214,7 @@ You can specify a range of number, as a single argument,  using the range operat
 ch= Channel.of(1..21, 'X', 'Y')
 ch.view()
 ~~~
-{: .source}
+{: .language-groovy }
 
 And the argument passed to the method can be different types e.g  number or strings objects.
 
@@ -234,7 +234,7 @@ aligner_ch = Channel.fromList(aligner_list)
 
 aligner_ch.view()
 ~~~
-{: .source}
+{: .language-groovy }
 
 This would produce two lines.
 
@@ -285,7 +285,7 @@ The script below creates a queue channel with a single file as its' content.
 ch = Channel.fromPath( 'data/yeast/reads/ref1_2.fq.gz' )
 ch.view()
 ~~~
-{: .source}
+{: .language-groovy }
 
 ~~~
 data/yeast/reads/ref1_2.fq.gz
@@ -298,7 +298,7 @@ data/yeast/reads/ref1_2.fq.gz
 ch = Channel.fromPath( 'data/yeast/reads/*_{1,2}.fq.gz' )
 ch.view()
 ~~~
-{: .source}
+{: .language-groovy }
 
 ~~~
 data/yeast/reads/ref1_2.fq.gz
@@ -338,7 +338,7 @@ If we execute a nextflow script with the contents below . It will run and not pr
 ch = Channel.fromPath( 'data/chicken/reads/*.fq.gz' )
 ch.view()
 ~~~
-{: .source}
+{: .language-groovy }
 
 It we add the the argument `checkIfExists` with the parameter `true`.
 
@@ -385,7 +385,7 @@ The second element is the list of files matching that grouping key pattern.
 filepair_ch = Channel.fromFilePairs('data/yeast/reads/*_{1,2}.fq.gz')
 filepair_ch.view()
 ~~~
-{: .source}
+{: .language-groovy }
 
 This will produce a queue channel containing a tuple (named list) that has two elements, a value (the pattern match), and the set of file pairs.
 
@@ -403,7 +403,7 @@ If the pattern matches more than two files you will need to change the `size` ar
 filepair_ch = Channel.fromFilePairs('../nextflow-training/data/yeast/reads/ref{1,2,3}*',checkIfExists:true,size:6)
 filepair_ch.view()
 ~~~
-{: .source}
+{: .language-groovy }
 Will create a queue channel containing tuple of key **ref** and six  files matching the pattern.
 
 ~~~
@@ -450,7 +450,7 @@ The query can be project ID or accession number(s) supported by the [NCBI ESearc
 sra_ch =Channel.fromSRA('SRP043510')
 sra_ch.view()
 ~~~
-{: .source}
+{: .language-groovy }
 
 This will prints a line containing a named list ,tuple, for every fastq file associated with that accession.
 
@@ -471,7 +471,7 @@ Multiple accession IDs can be specified using a list object:
 ids = ['ERR908507', 'ERR908506', 'ERR908505']
 Channel.fromSRA(ids).view()
 ~~~
-{: .source}
+{: .language-groovy }
 
 ~~~
 [ERR908507, [ftp://ftp.sra.ebi.ac.uk/vol1/fastq/ERR908/ERR908507/ERR908507_1.fastq.gz, ftp://ftp.sra.ebi.ac.uk/vol1/fastq/ERR908/ERR908507/ERR908507_2.fastq.gz]]
