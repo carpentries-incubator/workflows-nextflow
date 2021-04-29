@@ -15,3 +15,4 @@ vendor/
 .docker-vendor/
 Gemfile.lock
 .*history
+.nextflow*
