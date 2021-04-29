@@ -1,51 +1,51 @@
 ---
 title: "Processes"
-teaching: 40 min
+teaching: 50 min
 exercises: 20 min
 questions:
-- "What is a Nextflow process?"
+- "How do I run commands in Nextflow?"
 - "How do I define a Nextflow process?"
 - "How do I input and output data into processes ?"
 - "How do I specify conditions for a process in order for it to execute?"
 - "How do i control resources for a process?"
 - "How do i save output from a process?"
 objectives:
-- "Understand how Nextflow process uses processes to execute tasks."
+- "Understand how Nextflow uses processes to execute tasks."
 - "Create a Nextflow process."
-- "Use values and files as inputs to a process."
+- "Define inputs and outputs to a process."
 - "Use the when declaration to define a condition for process execution."
 - "Use process directives to control execution of a process."
 - "Use the publishDir directive to save results in a directory."
 keypoints:
 - "A Nextflow process is an independent task/step in a workflow"
 - "Processes contain up to five definition blocks including, directives, inputs, outputs, when clause and finaly a script block."
-- "Inputs and Outputs to a process are defined using the input and output blocks/"
-- "Task output files are output from a process using the `PublishDir` directive"
+- "Inputs and Outputs to a process are defined using the input and output blocks."
+- "Task output files are output from a process using the `PublishDir` directive."
 ---
 
 
 # Processes
 
-We now know how to create and use Channels to control data flows in Nextflow. We will now see how to process tasks within a workflow.
+We now know how to create and use Channels in Nextflow. We will now see how to run tasks within a workflow.
 
-A `process` is the way Nextflow execute foreign function i.e. custom scripts or tools.
+A `process` is the way Nextflow execute commands you would run on the terminal or custom scripts.
 
 
 *Processes can be thought of as a particular task/steps in a workflow, e.g. an alignment step in RNA-Seq analysis. Processes and are independent of each other (don't require another processes to execute) and can not communicate/write to each other . It is the Channels that pass the data from each process to another, and we do this by having the processes define input and output which are Channels*
 
 The process definition starts with keyword the `process`, followed by process name and finally the process `body` delimited by curly brackets `{}`. The process body must contain a string which represents the command or, more generally, a script that is executed by it.
 
-A basic process looks like the following example:
+A basic process with no input or output channels looks like the following example:
 
 ~~~
-process sayHello {
+process printWorkingDirectory {
   script:
   """
-  echo 'Hello world!'
+  pwd
   """
 }
 ~~~
-{: .source}
+{: .language-groovy }
 
 Produces
 
@@ -53,17 +53,17 @@ Produces
 N E X T F L O W  ~  version 20.10.0
 Launching `process1.nf` [desperate_tuckerman] - revision: e7c218d698
 executor >  local (1)
-[d2/9def38] process > sayHello [100%] 1 of 1 ✔
+[d2/9def38] process > printWorkingDirectory [100%] 1 of 1 ✔
 ~~~
 {: .output}
 
-A process may contain five definition blocks, respectively:
+A process may contain five definition blocks, these are:
 
-1. directives: allow the definition of optional settings that affect the execution of the current process e.g. number of cpus to use.
-1. inputs: Define the input dependencies which determines the parallel execution of the process.
-1. outputs: Define the channels used by the process to send out the results produced.
-1. when clause: Allow you to define a condition that must be verified in order to execute the process
-1. The script block: The script block is a string statement that defines the command that is executed by the process to carry out its task.
+1. **directives**: allow the definition of optional settings that affect the execution of the current process e.g. the number of cpus a task uses.
+1. **inputs**: Define the input dependencies which determines the parallel execution of the process.
+1. **outputs**: Define the channels used by the process to send out the results produced.
+1. **when clause**: Allow you to define a condition that must be verified in order to execute the process
+1. **The script block**: The script block is a string statement that defines the command that is executed by the process to carry out its task.
 
 
 The syntax is defined as follows:
@@ -83,7 +83,7 @@ process < name > {
 ~~~
 {: .source}
 
-* Zero, one or more process directives
+* Zero, one or more process directives, e.g cpus
 * Zero, one or more process inputs
 * Zero, one or more process outputs
 * An optional boolean conditional to trigger the process execution
@@ -92,11 +92,13 @@ process < name > {
 
 ## Script
 
+At minimum a process block must contain a `script` block.
+
 The `script` block is a string statement that defines the command that is executed by the process to carry out its task.
 
-A process contains one and only one script block, and it must be the last statement when the process contains input and output declarations.
+A process contains only one script block, and it must be the last statement when the process contains input and output declarations.
 
-The script block can be a simple string or multi-line string. The latter simplifies the writing of non trivial scripts composed by multiple commands spanning over multiple lines. For example::
+The script block can be a simple string or multi-line string. The latter simplifies the writing of non trivial scripts composed by multiple commands spanning over multiple lines. For example:
 
 
 ~~~
@@ -111,7 +113,7 @@ process example {
     """
 }
 ~~~
-{: .source}
+{: .language-groovy }
 
 By default the process command is interpreted as a **Bash** script. However any other scripting language can be used just simply starting the script with the corresponding [Shebang](https://en.wikipedia.org/wiki/Shebang_(Unix)) declaration. For example:
 
@@ -127,19 +129,21 @@ process pyStuff {
   """
 }
 ~~~
+{: .language-groovy }
 
-> This allows the compositing in the same workflow script of tasks using different programming languages which may better fit a particular job. However for large chunks of code is suggested to save them into separate files and invoke them from the process script.
+> This allows the the use of a different programming languages which may better fit a particular job. However for large chunks of code is suggested to save them into separate files and invoke them from the process script.
 {: .callout}
 
 
 ### Script parameters
 
-Process script can be defined dynamically using variable values like in other string.
-<fix> this will produce error as a value not a file
-~~~
-params.data = 'data/ggal/gut_1.fq'
+The Process script block can be defined dynamically using Nextflow variables.
 
-process wc {
+~~~
+//nextflow params variable
+params.genome = 'GRCh38'
+
+process sayHello {
   script:
   """
   echo $params.data
@@ -148,25 +152,25 @@ process wc {
 ~~~
 {: .source}
 
-> # String interpolation
-> A process script can contain any string format supported by the Groovy programming language. This allows us to use string interpolation or multiline string as in the script above. Refer to [String interpolation](https://seqera.io/training/#_string_interpolation) for more information.
-{: .callout}
 
-> Since Nextflow uses the same Bash syntax for variable substitutions in strings, Bash environment variables need to be escaped using `\` character.
-{: .callout}
+A process script can contain any string format supported by the Groovy programming language. This allows us to use string interpolation or multiline string as in the script above. Refer to [String interpolation](https://seqera.io/training/#_string_interpolation) for more information.
+
+
+Since Nextflow uses the same Bash syntax for variable substitutions in strings, Bash environment variables need to be escaped using `\` character.
+
 
 ~~~
-process listFileInCWD {
+process printWorkingDirectory {
   script:
   """
   echo \$PWD
   """
 }
 ~~~
-{: .source}
+{: .language-groovy }
 
 
-This will print the work directory
+This will print the location of the current working directory using the bash variable $PWD.
 
 
 ~~~
@@ -174,7 +178,7 @@ N E X T F L O W  ~  version 20.10.0
 Launching `hello.nf` [fervent_varahamihira] - revision: 2268ae3939
 executor >  local (1)
 [1b/202631] process > listFileInCWD [100%] 1 of 1 ✔
-/home/ec2-user/environment/work/1b/202631ace5f3647972e8ddbdb0331c
+work/1b/202631ace5f3647972e8ddbdb0331c
 ~~~
 {: .output}
 
@@ -197,60 +201,62 @@ executor >  local (1)
 
 However this won’t allow any more the usage of Nextflow variables in the command script.
 
-Another alternative is to use a `shell` statement instead of `script` which uses a different syntax for Nextflow variable: `!{..}`. This allow to use both Nextflow and Bash variables in the same script.
+Another alternative is to use a `shell` statement instead of `script` which uses a different syntax for Nextflow variable: `!{..}`. This allow enables you to use both Nextflow and Bash variables in the same script.
 
 ```
-params.aligner = 'le monde'
+params.aligner = 'salmon'
 
-process message {
+process aligner_log {
   shell:
   '''
-  X='Bonjour'
-  echo $X !{params.message}
+  X='Align using'
+  echo $X !{params.aligner}
   '''
 }
 ```
 {: .source}
 
 
-
-
-
-
-### Conditional script
-
-The process script can also be defined in a complete dynamic manner using a `if statement` or any other expression evaluating to string value. For example:
-
-~~~
-params.aligner = 'kallisto'
-params.transcriptome = "$baseDir/data/yeast/Saccharomyces_cerevisiae.R64-1-1.cdna.all.fa"
-
-process align {
-  script:
-  if( params.aligner == 'kallisto' )
-    """
-    kallisto index -i index $transcriptome
-    """
-  else if( params.aligner == 'salmon' )
-    """
-    salmon index -t $transcriptome -i index
-    """
-  else
-    throw new IllegalArgumentException("Unknown aligner $params.aligner")
-}
-~~~
-{: .source}
-<fixme>
-> ## Conditional Exercise
+> ## process parameters
 >
-> Write a custom function that given the aligner name as parameter returns the command string to be executed. Then use this function as the process script body.
-.
+> 1. Write a nextflow script `process_ex1.nf` that executes the following bash command in the script block.
+> ~~~
+> echo "The nextflow parameters are $params"
+~ ~~~
+> Run the command below
+> ~~~~
+> nextflow run process_ex1.nf --genome "GRCh38"
 >
 > > ## Solution
 > >
 > > This is the body of the solution.
 > {: .solution}
 {: .challenge}
+
+### Conditional script
+
+The process script can also be defined in a dynamic manner using a `if statement` or any other expression evaluating to string value. For example:
+
+~~~
+params.aligner = 'kallisto'
+
+process align {
+  script:
+  if( params.aligner == 'kallisto' )
+    """
+    echo Align using kallisto
+    """
+  else if( params.aligner == 'salmon' )
+    """
+    echo Align using kallisto
+    """
+  else
+    throw new IllegalArgumentException("Unknown aligner $params.aligner")
+}
+~~~
+{: .source}
+
+
 
 ## Inputs
 
@@ -273,7 +279,7 @@ input:
 
 
 I think more needs to be said about input qualifiers
-<fixme> add qualifer info https://www.nextflow.io/docs/latest/process.html?highlight=tuple#inputs
+fixme add qualifer info https://www.nextflow.io/docs/latest/process.html?highlight=tuple#inputs
 
 The input qualifier declares the type of data to be received.
 
@@ -288,7 +294,7 @@ The input qualifier declares the type of data to be received.
 
 ### Input values
 
-The val qualifier allows you to receive data of any type as input. It can be accessed in the process script by using the specified input name, as shown in the following example:
+The `val` qualifier allows you to receive data of any type as input. It can be accessed in the process script by using the specified input name, as shown in the following example:
 
 ~~~
 chr_ch = Channel.of( 1..21,'X','Y' )
@@ -305,7 +311,7 @@ process basicExample {
 ~~~
 {: .source}
 
-In the above example the process is executed 23 times, each time a value is received from the channel num and used to process the script. Thus, it results in an output similar to the one shown below:
+In the above example the process is executed 23 times, each time a value is received from the channel `chr_ch` and used to process the script. Thus, it results in an output similar to the one shown below:
 
 ~~~
 process chromosome 3
@@ -316,16 +322,16 @@ process chromosome 2
 {: .output}
 
 > ## Channel order
-> The channel guarantees that items are delivered in the same order as they have been sent - but - since the process is executed in a parallel manner, there is no guarantee that they are processed in the same order as they are received.
+> The channel guarantees that items are delivered in the same order as they have been sent,  but,  since the process is executed in a parallel manner, there is no guarantee that they are processed in the same order as they are received.
 {: .callout}
 
 ### Input files
 
-The `path` qualifier allows the handling of file values in the process execution context.
-This means that Nextflow will stage it in the process execution directory, and it can be access in the script by using the name specified in the input declaration.
+The `path` qualifier allows the handling of file in the process execution context.
+This means that Nextflow will stage it in the process execution directory, and it can be access in the script by using the name specified in the input declaration `path 'sample.fastq'`.
 
 ~~~
-reads = Channel.fromPath( 'data/ggal/*.fq' )
+reads = Channel.fromPath( 'data/yeast/reads/*.fq.gz' )
 
 process foo {
     echo true
@@ -340,10 +346,11 @@ process foo {
 ~~~
 {: .source}
 
-The input file name can also be defined using a variable reference as shown below:
+
+The input file name can also be defined using a variable reference, `path sample`, as shown below:
 
 ~~~
-reads = Channel.fromPath( 'data/ggal/*.fq' )
+reads = Channel.fromPath( 'data/yeast/reads/*.fq.gz' )
 
 process foo {
     input:
@@ -357,38 +364,34 @@ process foo {
 {: .source}
 
 > # File Objects as inputs
-> When a process declares an input file the corresponding channel elements must be file objects i.e. created with the file helper function from the file specific channel factories e.g. `Channel.fromPath` or `Channel.fromFilePairs`.
+> When a process declares an input file the corresponding channel elements must be file objects i.e. created with the path helper function from the file specific channel factories e.g. `Channel.fromPath` or `Channel.fromFilePairs`.
 {: .callout}
 
 
-
-
-> # fromFile
-> Before version 19.10.0, Nextflow used the fromFile channel factory method.
-> The fromPat qualifier should be preferred over file to handle process input files when using Nextflow 19.10.0 or later.
-{: .callout}
-
-
-
-> > Exercise
-> > Write a script that creates a channel containing all read files matching the pattern `data/ggal/*_1.fq` followed by a process that concatenates them into a single file and prints the first 20 lines.
-
-~~~
-reads = Channel.fromPath( 'data/ggal/*_1.fq' )
-
-process foo {
-    input:
-    file sample from reads.collect()
-    script:
-    """
-    head -n 20 $sample > combined_n20.txt
-    """
-}
-~~~
+>  Exercise
+>  Write a nextflow script that creates a channel containing all read files matching the pattern `data/yeast/reads/*_1.fq.gz` followed by a process the commands.
+> `mkdir fastqc_out`
+> `fastqc -o fastqc_out ${reads}`
+> > Solution
+> > ~~~
+> > reads = Channel.fromPath( 'data/yeast/reads/*_1.fq.gz' )
+> >
+> > process foo {
+> >    input:
+> >    file sample from reads
+> >    script:
+> >    """
+> >    mkdir fastqc_out
+> >    fastqc -o fastqc_out ${reads}
+> >    """
+> >}
+> >~~~
+> {: .solution}
+{: .challenge}
 
 ### Combining input channels
 
-<fixme add a diagram>
+fixme add a diagram
 
 A key feature of processes is the ability to handle inputs from multiple channels.
 However it’s important to understands how the content of channel and their semantic affect the execution of a process.
@@ -397,7 +400,7 @@ Consider the following example:
 
 ~~~
 ch_num = Channel.of(1,2,3)
-ch_letters = Channel.from('a','b','c')
+ch_letters = Channel.of('a','b','c')
 
 process foo {
   echo true
@@ -427,9 +430,9 @@ What is happening is that the process waits until there’s a complete input con
 
 When this condition is verified, it consumes the input values coming from the respective channels, and spawns a task execution, then repeat the same logic until one or more channels have no more content.
 
-This means channel values are consumed serially one after another and the first empty channel cause the process execution to stop even if there are other values in other channels.
+This means channel values are consumed  one after another and the first empty channel cause the process execution to stop even if there are other values in other channels.
 
-**What does it happen when not all channels have the same cardinality (i.e. they emit a different number of elements)?**
+**What does it happen when not all channels have the same number of elements?**
 
 For example:
 
@@ -460,9 +463,9 @@ In the above example the process is executed only two time, because when a chann
 ~~~
 {: .output}
 
-> ## Value channels and process termination
-> Note however that value channel do not affect the process termination.
-> {: .output}
+### Value channels and process termination
+
+Note however that value channels do not affect the process termination.
 
 To better understand this behaviour compare the previous example with the following one:
 
@@ -507,28 +510,32 @@ process bar {
 
 # Input repeaters
 
-The `each` qualifier allows you to repeat the execution of a process for each item in a collection, every time a new data is received. For example:
+The `each` qualifier allows you to repeat the execution of a process for each item in a list or channel, every time new data is received. For example:
 
 ~~~
-sequences = Channel.fromPath('data/prots/*.tfa')
-methods = ['regular', 'expresso', 'psicoffee']
+transcriptome_ch = Channel.fromPath('data/yeast/transcriptome/*')
+kmers = [12,31,45]
 
-process alignSequences {
-  input:
-  path seq from sequences
-  each mode from methods
+process index {
+ echo true
 
-  """
-  t_coffee -in $seq -mode $mode
-  """
+ input:
+  path transcriptome from transcriptome_ch
+  each kmer from kmers  
+
+ script:
+ """
+ echo salmon index -t $transcriptome -i index -k $kmer
+ """
+
 }
 ~~~
 {: .source}
 
-In the above example every time a file of sequences is received as input by the process, it executes three tasks running an alignment with a different value for the `mode` option. This is useful when you need to repeat the same task for a given set of parameters.
+In the above example every time a file of sequences is received as input by the process, it executes three tasks running an alignment with a different value for the `kmer` option. This is useful when you need to repeat the same task for a given set of parameters.
 
-> ##Exercise
-> Extend the previous example so a task is executed for each read file matching the pattern data/ggal/*_1.fq and repeat the same task both with salmon and kallisto.
+> ## Exercise
+> Extend the previous example so a task is executed for each read file matching the pattern data/yeast/reads/*.fq.gz and repeat the same task both with salmon and kallisto.
 >> ## Solution
 >> ~~~
 >> sequences = Channel.fromPath('data/raw_reads/SRR4204500/*.fastq.gz')
@@ -565,9 +572,9 @@ The `val` qualifier allows to output a value defined in the script context. In a
 
 
 ~~~
-methods = ['prot','dna', 'rna']
+methods = ['salmon','kallisto']
 
-process foo {
+process method_type {
   input:
   val x from methods
 
@@ -575,7 +582,7 @@ process foo {
   val x into out_ch
 
   """
-  echo $x > file
+  echo $x > method.txt
   """
 }
 
@@ -590,40 +597,50 @@ If we want to capture a file instead of a value we can use the
 `path` qualifier that can capture one or more files produced by the process, over the specified channel.
 
 ~~~
-process randomNum {
+methods = ['salmon','kallisto']
 
-    output:
-    path 'result.txt' into numbers
+process method_type {
+  input:
+  val x from methods
 
-    '''
-    echo $RANDOM > result.txt
-    '''
+  output:
+  path 'method.txt' into out_ch
+
+  """
+  echo $x > method.txt
+  """
 }
 
-numbers.view { "Received: " + it.text }
+// use the view operator to display contents of the channel
+out_ch.view({ "Received: $it" })
 ~~~
 
-In the above example the process `randomNum` creates a file named `result.txt` containing a random number.
+In the above example the process `method_type` creates a file named `method.txt` containing the method name.
 
-Since a file parameter using the same name is declared in the output block, when the task is completed that file is sent over the `numbers` channel. A downstream `process` declaring the same channel as input will be able to receive it.
+Since a file parameter using the same name, `method.txt`, is declared in the output block , when the task is completed that file is sent over the `out_ch` channel. A downstream `operator` or `process` declaring the same channel as input will be able to receive it.
 
 ### Multiple output files
 
-When an output file name contains a `*` or `?` wildcard character it is interpreted as a [glob](http://docs.oracle.com/javase/tutorial/essential/io/fileOps.html#glob) path matcher. This allows to capture multiple files into a list object and output them as a sole emission.
+When an output file name contains a `*` or `?` wildcard character it is interpreted as a pattern match. This allows to capture multiple files into a list object and output them as a sole emission.
 
 For example here we will capture sample.bam and sample.bam.bai in the output channel.
 
-<fixme> fix example here so it works
+fixme fix example here so it works
 ~~~
+
+bam_ch = channel.fromPath("data/yeast/bams/*.bam").take(1)
+
 process index {
+    input:
+    path 'sample.bam' from bam_ch
 
     output:
-    path 'sample.bam*' into index_out_ch
+    path "sample.bam*" into index_out_ch
 
     script:
-    '''
+    """
     samtools index sample.bam
-    '''
+    """
 }
 /*
 *The flatMap operator applies a function of your choosing to every item emitted by a channel, and returns the items so obtained as a new channel
@@ -632,7 +649,7 @@ index_out_ch
     .flatMap()
     .view({ "File: ${it.name}" })
 ~~~
-{: .source}
+{: .language-groovy }
 
 it prints:
 
@@ -642,7 +659,7 @@ File: sample.bam.bai
 ~~~
 {: .output}
 
-Some caveats on glob pattern behavior:
+Some caveats on glob pattern behaviour:
 
 * Input files are not included in the list of possible matches.
 * Glob pattern matches against both files and directories path.
@@ -658,7 +675,7 @@ Some caveats on glob pattern behavior:
 ### Dynamic output file names
 
 When an output file name needs to be expressed dynamically, it is possible to define it using a dynamic evaluated string which references values defined in the input declaration block or in the script global context. For example::
-<fixme> better example
+fixme better example
 ~~~
 species = ['human','mouse']
 
@@ -677,7 +694,7 @@ process align {
 
 genomes.view()
 ~~~
-{: .source}
+{: .language-groovy }
 
 In the above example, each time the process is executed an alignment file is produced whose name depends on the actual value of the `species_name` input.
 
@@ -689,24 +706,25 @@ When using channel emitting tuple of values the corresponding input declaration 
 
 In the same manner output channel emitting tuple of values can be declared using the `tuple` qualifier following by the definition of each tuple element in the tuple.
 
-<fixme> better example salmon quant and add tuple info
+fixme better example salmon quant and add tuple info
 ~~~
-reads_ch = Channel.fromFilePairs('data/ggal/*_{1,2}.fq')
+reads_ch = Channel.fromFilePairs('data/yeast/reads/ref1_{1,2}.fq.gz')
 
-process foo {
+process pseudo_align {
   input:
-    tuple val(sample_id), file(sample_files) from reads_ch
+    tuple val(sample_id), path(reads) from reads_ch
   output:
-    tuple val(sample_id), file('sample.bam') into bam_ch
+    tuple val(sample_id), path('sample.bam') into bam_ch
   script:
   """
-    echo align --reads $sample_id > sample.bam
+  salmon quant  -i $index \ -1 ${reads[0]} -2 ${reads[1]} -o $pair_id \
+  --writeMappings |samtools sort |samtools view -bS -o sample.bam
   """
 }
 
 bam_ch.view()
 ~~~
-{: .source}
+{: .language-groovy }
 
 > #Exercise
 > Modify the script of the previous exercise so that the bam file is named as the given sample_id.
@@ -736,8 +754,8 @@ bam_ch.view()
 The `when` declaration allows you to define a condition that must be verified in order to execute the process. This can be any expression that evaluates a boolean value.
 
 It is useful to enable/disable the process execution depending the state of various inputs and parameters. For example:
-<fixme>
-<fixme better example> also there is an argument about if you should use when or filter the channel, see next episode on operators
+fixme
+fixme better example> also there is an argument about if you should use when or filter the channel, see next episode on operators
 may used autosome exmaple e.g. chr=channel.of(1..21,'X','Y')
 ~~~
 //fix doesn't work
@@ -759,7 +777,7 @@ process find {
   """
 }
 ~~~
-{: .source}
+{: .language-groovy }
 
 
 ## Directives
@@ -770,7 +788,7 @@ They must be entered at the top of the process body, before any other declaratio
 
 Directives are commonly used to define the amount of computing resources to be used or other meta directives like that allows the definition of extra information for configuration or logging purpose. For example:
 
-<fixme better>
+fixme better
 ~~~
 chr_ch = channel.of(1..21,'X','Y')
 
@@ -791,7 +809,7 @@ process printchr {
   """
 }
 ~~~
-{: .source}
+{: .language-groovy }
 
 The complete list of directives is available at this [link](https://www.nextflow.io/docs/latest/process.html#directives).
 
@@ -844,7 +862,7 @@ process makeBams {
     """
 }
 ~~~
-{: .source}
+{: .language-groovy }
 
 The above example will copy all bam files created by the star task in the directory path /some/directory/bam_files.
 
@@ -881,13 +899,13 @@ process foo {
     head -n 50 sample2.fq > sample2_outlook.txt
   """
 }
-
 ~~~
+{: .language-groovy }
 
 The above example will create an output structure in the directory my-results, which contains a separate sub-directory for each given sample ID each of which contain the folders counts and outlooks.
 
 
-<fixme> Create an exercise
+fixme Create an exercise
 
 
 
