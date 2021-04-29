@@ -7,26 +7,22 @@ questions:
 - "How do you perform operations such as filtering on channels?"
 - "What are the different kinds of operators?"
 - "How do you combine operators?"
-- "How do I process a csv file using operators?"
+- "How dcan I used opertors to process a .csv file?"
 objectives:
 - "Describe what Nextflow operators are."
-- "Modify the contents/elements of a channel"
+- "Modify the contents/elements of a channel using a operator"
 - "Perform filtering and combining operations on a channel. "
-- "Use the `splitCsv` operator to process a csv file."
+- "Use the `splitCsv` operator to read in a .csv file."
 
 keypoints:
-- "Nextflow *operators* are methods that allow you to modify Nextflow channels either by splitting or combining channels, or to transform elements within a channel applying function"
-- "An operator is method that transforms a channel into a new one by applying a function to each element."
-- "You can connect channels using operators"
-- "Operators can be separated in to  groups:; filtering , transforming , splitting , combining , forking and Maths operators"
+- "Nextflow *operators* are methods that allow you to modify, set or view channels."
+- "Operators can be separated in to  groups; filtering , transforming , splitting , combining , forking and Maths operators"
 - "You can split csv file using the splitCsv operator."
 ---
 
 # Operators
 
- *Operators* is how Nextflow allow you to modify the contents of a channel.
-
- Operators can be separated in to several groups:
+ *Operators* are methods that can be applied to channel objects. We have previously used the `view` operator to view the contents of a channel. There are many more operator methods that can be applied to channel that can be separated in to several groups:
 
 
  * Filtering operators
@@ -37,40 +33,52 @@ keypoints:
  * Maths operators
  * Other
 
-In this episode you will see example of different types of operators in action.
+In this episode you will see example, and get to use different types of operators.
 
+# Using Operators
 
-## Other
+To use an operator add the operator name to channel object.
+
+~~~
+ch= Channel.of('1', '2', '3')
+ch.view()
+~~~
+{: .language-groovy }
 
 ### view
 
-The `view` operator prints the items emitted by a channel to the console appending a *new line* character to each item in the channel. For example:
+The `view` operator prints the items emitted by a channel to the console appending a *new line* character to each item in the channel.
+
+To make code more readable we can spit the operators over several lines.
+
 ~~~
 Channel
       .of('1', '2', '3')
       .view()
 ~~~
-{: .source}
+{: .language-groovy }
 
-It prints:
+prints:
 
 ~~~
 1
 2
 3
 ~~~
-{: .source}
+{: .language-groovy }
 
-An optional *closure* `{}` parameter can be specified to customise how items are printed. For example:
 
 #### Closures
 
-Briefly, a closure is a block of code that can be passed as an argument to a function. Thus, you can define a chunk of code and then pass it around as if it were a string or an integer.
+An optional *closure* `{}` parameter can be specified to customise how items are printed.
+Briefly, a closure is a block of code that can be passed as an argument to a function. In this way you can define a chunk of code and then pass it around as if it were a string or an integer. By default the arguments for a closure are specified with the variable `$it`.
 
 ~~~
-Channel.of('1', '2', '3').view({ "chr$it" })
+Channel
+  .of('1', '2', '3')
+  .view({ "chr$it" })
 ~~~
-{: .source}
+{: .language-groovy }
 
 It prints:
 
@@ -85,31 +93,37 @@ chr3
 
 We can reduce the number of items in a channel by using filtering operators.
 
-Here we will use the `filter` operator on the chr_ch channel specifying the type qualifier `Number` so that only numbers are returned. We will then use the `view` opertor to inspect the contents.
+Here we will use the `filter` operator on the `chr_ch` channel specifying the argument `Number` so that only numeric items are returned. We will then use the `view` operator to inspect the contents.
 
 ~~~
 chr_ch = Channel.of( 1..21, 'X', 'Y' )
 autosomes_ch =chr_ch.filter( Number )
 autosomes_ch.view()
 ~~~
-{: .source}
+{: .language-groovy }
 
 
-Operators can also be chained together.
+Operators can  be chained together.
 
 The previous example could be written like.
 
 ~~~
-chr_ch = Channel.of( 1..21, 'X', 'Y' )
-            .filter( Number )
-            .view()
+chr_ch = Channel
+  .of( 1..21, 'X', 'Y' )
+  .filter( Number )
+  .view()
 ~~~
 
+Here we are using a closure as an argument to the `filter` method.
+
 ~~~
-chr_ch = Channel.of( 1..21, 'X', 'Y' )
-autosomes_ch =chr_ch.filter( Number ).filter({ it % 2 == 0 }).view()
+chr_ch = Channel
+  .of( 1..21, 'X', 'Y' )
+  .filter( Number )
+  .filter({ it % 2 == 0 })
+  .view()
 ~~~
-{: .source}
+{: .language-groovy }
 
 > # Closures
 > In the above example the filter condition is wrapped in curly  brackets, instead of round brackets, since it specifies a closure as the operator’s argument. This just is a language syntax-sugar for filter({ it % 2 == 0 } )
@@ -117,7 +131,7 @@ autosomes_ch =chr_ch.filter( Number ).filter({ it % 2 == 0 }).view()
 
 ## Transforming operators
 
-As the name suggests transforming operators are used to transform the items emitted by a channel to new values.
+Transforming operators are used to modify the items emitted by a channel to new values.
 
 ### map
 
@@ -128,7 +142,7 @@ Channel.of( 'chr1', 'chr2' )
     .map ({ it.replaceAll("chr","") })
     .view()
 ~~~
-{: .source}
+{: .language-groovy }
 
 Here the map function uses the string function `replaceAll` to remove the chr prefix from each element.
 
@@ -138,42 +152,43 @@ Here the map function uses the string function `replaceAll` to remove the chr pr
 ~~~
 {: .output}
 
-A map can associate to each element a tuple containing any data as needed.
+The map method can associate to each element a tuple containing any data as needed.
 
 ~~~
 Channel
-    .fromPath( 'data/ggal/*.fq' )
+    .fromPath( 'data/reads/*.fq.gz' )
     .map ({ file -> [file, file.countFastq()] })
     .view ({ file, numreads -> "file $file contains $numreads reads" })
 ~~~
-{: .source}
+{: .language-groovy }
 
 
 
 ~~~
-
+file data/yeast/reads/ref1_2.fq.gz contains 14677 reads
+file data/yeast/reads/etoh60_3_2.fq.gz contains 26254 reads
+file data/yeast/reads/temp33_1_2.fq.gz contains 20593 reads
+file data/yeast/reads/temp33_2_1.fq.gz contains 15779 reads
+file data/yeast/reads/ref2_1.fq.gz contains 20430 reads
+[..truncated..]
 ~~~
 {: .output}
 
 > ## map operator
 >
-> Use `fromPath` to create a channel emitting the fastq files matching the pattern `data/ggal/*.fq`, then chain with a map to return a pair containing the file name and the path itself. Finally print the resulting channel.
+> Use `fromPath` to create a channel emitting the fastq files matching the pattern `data/yeast/reads/*.fq.gz`, then chain with a map to return a pair containing the file name and basename using the `.baseName` method. Finally print the resulting channel.
 >
 > > ## Solution
 > >
 > > ~~~
 > > Channel
 > >   .fromPath( 'data/ggal/*.fq' )
-> >   .map ({file -> [ file.name, file ]})
+> >   .map ({file -> [ file.name, file.baseName ]})
 > >   .view({name, file -> "> file: $name"})
 > > ~~~    
 > {: .solution}
 {: .challenge}
 
-
-
-> ## channel names separator
-> > Note the use in this example of curly brackets and the `;` as channel names separator. This is needed because the actual parameter of into is a closure which defines the target channels to which the source one is connected.
 
 ###  flatten
 
@@ -189,7 +204,7 @@ Channel
     .view()
 
 ~~~
-{: .source}
+{: .language-groovy }
 The above snippet prints:
 ~~~
 1
@@ -203,7 +218,7 @@ The above snippet prints:
 
 ### collect
 
-The `collect` operator collects all the items emitted by a channel to a list and return the resulting object as a sole emission. This can be extremely useful when combing the results from output of a process.
+The `collect` operator collects all the items emitted by a channel to a list and return the resulting object as a sole emission. This can be extremely useful when combing the results from the output of multiple processes, or a single process run multiple times.
 
 ~~~
 Channel
@@ -211,7 +226,7 @@ Channel
     .collect()
     .view()
 ~~~
-{: .source}
+{: .language-groovy }
 
 
 It prints a single value:
@@ -231,17 +246,16 @@ Try the following example:
 
 ~~~
 Channel
-     .of( [1,'A'], [1,'B'], [2,'C'], [3, 'B'], [1,'C'], [2, 'A'], [3, 'D'] )
+     .of( ['wt','wt_1.fq'], ['wt','wt_1.fq'], ["mut",'mut_1.fq'], ['mut', 'mut_2.fq'] )
      .groupTuple()
      .view()
 ~~~~     
-{: .source}
+{: .language-groovy }
 
 It shows:
 ~~~
-[1, [A, B, C]]
-[2, [C, A]]
-[3, [B, D]]
+[wt, [wt_1.fq, wt_1.fq]]
+[mut, [mut_1.fq, mut_2.fq]]
 ~~~
 
 This operator is useful to process altogether all elements for which there’s a common property or a grouping key.
@@ -251,12 +265,14 @@ Exercise
 
 > ## Group Tuple
 >
-> Use `fromPath` to create a channel emitting the fastq files matching the pattern `data/ggal/*.fq`, then use a map to associate to each file the name prefix. Finally group together all files having the same common prefix.
+> 1. Use `fromPath` to create a channel emitting the fastq files matching the pattern `data/yeast/*.fq.gz`,
+> 2. Use a map to associate to each file the name prefix.
+> 3. Finally group together all files having the same common prefix.
 >
 > > ## Solution
 > >
 > > ~~~
-> > Channel.fromPath('data/ggal/*.fq')
+> > Channel.fromPath('data/yeast/reads/*.fq.gz')
 > >     .map { file -> [ file.name.split('_')[0], file ] }
 > >     .groupTuple()
 > >     .view()
@@ -265,9 +281,9 @@ Exercise
 {: .challenge}
 
 
-## Combing Operators
+## Combining Operators
 
-Combing operators allow you to merge channels.
+Combining operators allow you to merge channels together. This can be useful when you want to combine the output channels from multiple processes to perform another task such as joint QC.
 
 ### mix
 
@@ -279,7 +295,7 @@ ch3 = Channel.of( 'mt' )
 
 ch1 .mix(ch2,ch3).view()
 ~~~
-{: .source}
+{: .language-groovy }
 
 ~~~
 1
@@ -300,17 +316,16 @@ The items in the resulting channel have the same order as in respective original
 The `join` operator creates a channel that joins together the items emitted by two channels for which exits a matching key. The key is defined, by default, as the first element in each item emitted.
 
 ~~~
-left = Channel.from(['X', 1], ['Y', 2], ['Z', 3], ['P', 7])
-right= Channel.from(['Z', 6], ['Y', 5], ['X', 4])
-left.join(right).view()
+reads1_ch = Channel.from(['wt', 'wt_1.fq'], ['mut','mut_1.fq'])
+reads2_ch= Channel.from(['wt', 'wt_2.fq'], ['mut','mut_2.fq'])
+reads1_ch.join(reads2_ch).view()
 ~~~
-{: .source}
+{: .language-groovy }
 
 The resulting channel emits:
 ~~~
-[Z, 3, 6]
-[Y, 2, 5]
-[X, 1, 4]
+[wt, wt_1.fq, wt_2.fq]
+[mut, mut_1.fq, mut_2.fq]
 ~~~
 {: .output}
 
@@ -326,12 +341,12 @@ The `into` operator connects a source channel to two or more target channels in 
 ~~~
 Channel
      .of( 'chr1', 'chr2', 'chr3' )
-     .into{ ch1; ch2 }
+     .set{ ch1; ch2 }
 
-ch1.view{ "ch1 emits: " + it }
-ch2.view{ "ch2 emits: " + it }
+ch1.view()
+ch2.view()
 ~~~
-{: .source}
+{: .language-groovy }
 
 Produces.
 
@@ -345,42 +360,6 @@ ch2 emits: chr3
 ~~~
 {: .output}
 
-### branch
-
-The `branch` operator allows you to forward the items emitted by a source channel to one or more output channels, choosing one out of them at a time.
-
-The selection criteria is defined by specifying a closure that provides one or more boolean expression, each of which is identified by a unique label. On the first expression that evaluates to a true value, the current item is bound to a named channel as the label identifier. For example:
-
-~~~
-Channel
-    .from(1,2,3,40,50)
-    .branch ({
-        small: it < 10
-        large: it > 10
-    })
-    .set({ result })
-
- result.small.view({ "$it is small" })
- result.large.view({ "$it is large" })
-~~~
-{: .source}
-
-Produces.
-
-~~~
-N E X T F L O W  ~  version 20.10.0
-Launching `hello.nf` [prickly_swanson] - revision: e33ef1057f
-1 is small
-2 is small
-3 is small
-40 is large
-50 is large
-~~~
-{: .output}
-
-> ## multi-channel object
-> The branch operator returns a multi-channel object i.e. a variable that holds more than one channel object.
-{: .callout}
 
 ## Maths operators
 
@@ -423,27 +402,31 @@ csv_ch=Channel
     .splitCsv()
 csv_ch.view()
 ~~~
-{: .source}
+{: .language-groovy }
 
 The above example shows hows CSV text is parsed and is split into single rows. Values can be accessed by its column index in the row object.
 
 ~~~
 csv_ch.view({it[0]})
 ~~~
-{: .source}
+{: .language-groovy }
 
 When the CSV begins with a header line defining the column names, you can specify the parameter `header: true` which allows you to reference each value by its name, as shown in the following example:
 
+~~~
+csv_ch=Channel
+    .of('sample_id,fastq_1,fastq_2\ngut1,data/ggal/gut_1.fq,gut_2.fq\nliver_1,data/ggal/liver_1.fq,liver_2.fq')
+    .splitCsv(header:true)
+csv_ch.view({it.fastq_1})
+~~~
+
 > ## splitCsv
 >
-> 1. Modify the above script to print the second row.
-> 2. Modify the above script to include `header: true` and view all data
+> 1. Modify the above script to print the first column `sample_id`.
 >
 > > ## Solution
 > > ~~~~
-> > 1. csv_ch.view({it[0]})
-> > 2. .splitCsv(header:true)
-> > 2. csv_ch.view()
+> >  csv_ch.splitCsv(header:true).view({it$sample_id})
 > > ~~~
 
 > > ~~~
@@ -452,7 +435,7 @@ When the CSV begins with a header line defining the column names, you can specif
 
 ## More resources
 
-Check the operators [documentation](https://www.nextflow.io/docs/latest/operator.html) on Nextflow web site.
+Theses are just a few of the operators see the operators [documentation](https://www.nextflow.io/docs/latest/operator.html) on Nextflow web site for more deatils.
 
 {: .output}
 {% include links.md %}
