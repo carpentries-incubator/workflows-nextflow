@@ -4,7 +4,6 @@ teaching: 50 min
 exercises: 20 min
 questions:
 - "How do I run commands/tasks in Nextflow?"
-- "How do I define a process in Nextflow?"
 - "How do I get data, files and values, into and out of processes?"
 - "How do I specify conditions for a process in order for it to execute?"
 - "How do i control resources for a process?"
@@ -20,20 +19,21 @@ keypoints:
 - "A Nextflow process is an independent task/step in a workflow"
 - "Processes contain up to five definition blocks including, directives, inputs, outputs, when clause and finaly a script block."
 - "Inputs and Outputs to a process are defined using the input and output blocks."
+- "The execution of a process can be controlled using conditional statements like `if`."
 - "Task output files are output from a process using the `PublishDir` directive."
 ---
 
 
 # Processes
 
-We now know how to create and use Channels in Nextflow. We will now see how to run tasks within a workflow.
+We now know how to create and use Channels to send data around a workflow. We will now see how to run tasks within a workflow.
 
 A `process` is the way Nextflow execute commands you would run on the terminal or custom scripts.
 
 
 *Processes can be thought of as a particular task/steps in a workflow, e.g. an alignment step in RNA-Seq analysis. Processes and are independent of each other (don't require another processes to execute) and can not communicate/write to each other . It is the Channels that pass the data from each process to another, and we do this by having the processes define input and output which are Channels*
 
-The process definition starts with keyword the `process`, followed by process name and finally the process `body` delimited by curly brackets `{}`. The process body must contain a string which represents the command or, more generally, a script that is executed by it.
+The process definition starts with keyword the `process`, followed by process name and finally the process `body` delimited by curly brackets `{}`. The process body must contain a string  which represents the command or, more generally, a script that is executed by it.
 
 A basic process with no input or output channels looks like the following example:
 
@@ -49,7 +49,7 @@ process printWorkingDirectory {
 ~~~
 {: .language-groovy }
 
-This example runs two unixs command `pwd` to show the directory the command was executed in and `ls -a` to list all the files in the directory . The directive `echo true` is added so that command is printed to the screen. This Produces
+This example runs two unix commands `pwd` to show the directory the command was executed in and `ls -a` to list all the files in the directory . The directive `echo true` is added so that command is printed to the screen. This Produces:
 
 ~~~
 N E X T F L O W  ~  version 20.10.0
@@ -68,7 +68,11 @@ work/1f/11a6b7071a4f7852c4ca399166f58a
 ~~~
 {: .output}
 
-A process may contain five definition blocks, these are:
+
+
+### definition blocks
+
+A process may contain five definition blocks, that control how a command is executed within a process, these  are:
 
 1. **directives**: allow the definition of optional settings that affect the execution of the current process e.g. the number of cpus a task uses.
 1. **inputs**: Define the input dependencies which determines the parallel execution of the process.
@@ -105,7 +109,7 @@ process < name > {
 
 At minimum a process block must contain a `script` block.
 
-The `script` block is a string statement that defines the command that is executed by the process to carry out its task.
+The `script` block is a string statement that defines the command that is executed by the process to carry out its task. These are normally the commands you would run on a terminal.
 
 A process contains only one script block, and it must be the last statement when the process contains input and output declarations.
 
@@ -113,7 +117,7 @@ The script block can be a simple string or multi-line string. The latter simplif
 
 
 ~~~
-process example {
+process multi_line {
     script:
     """
     samtools sort  ${prefix}.sorted.bam -T $name $bam
@@ -146,8 +150,8 @@ process pyStuff {
 
 ### Script parameters
 
-The Process script block can be defined dynamically using Nextflow variables.
-To reference a variable in the script block you can use the `$` in front of the variable name and additionally add `{}` around the variable name e.g. `${params.genome}`.
+The command in the script block can be defined dynamically using Nextflow variables.
+To reference a variable in the script block you can use the `$` in front of the netxflow variable name, and additionally you can add `{}` around the variable name e.g. `${params.genome}`.
 
 ~~~
 //nextflow params variable
@@ -163,8 +167,7 @@ process print_nf_variable {
 ~~~
 {: .language-groovy }
 
-In this example we set the Nextflow variable `params.genome` to `GRCh38` and the process
-print_nf_variable echos the contents of the variable to the screen.
+In this example we set the Nextflow variable `params.genome` to value `GRCh38` and the process `print_nf_variable` uses the unix echo command to display the contents of the variable to the screen.
 ~~~
 N E X T F L O W  ~  version 20.10.0
 Launching `delme.nf` [nice_almeida] - revision: d50659d3ab
@@ -206,7 +209,7 @@ work/1b/202631ace5f3647972e8ddbdb0331c
 
 > ## Escape Bash
 >
-> Try to modify the above script using the nextflow variable `$PWD` instead of `\$PWD` and check the difference.
+> Try to modify the above script using the Nextflow variable `$PWD` instead of `\$PWD` and check the difference.
 >
 > > ## Solution
 > > If you do not escape the BASH variable PWD it will use the
@@ -218,11 +221,10 @@ work/1b/202631ace5f3647972e8ddbdb0331c
 > > [47/18a9f8] process > printWorkingDirectory [100%] 1 of 1 ✔
 > > /Users/ggrimes2/Documents/nextflow-training>
 > > ~~~
-> > This will print the contents of the Nextflow variable `PWD` which is the location od the directory of the nextflow script.
+> > This will print the contents of the Nextflow variable `PWD` which is the location of the directory where the Nextflow script is executed.
 > {: .solution}
 {: .challenge}
 
-However this won’t allow any more the usage of Nextflow variables in the command script.
 
 Another alternative is to use a `shell` statement instead of `script` which uses a different syntax for Nextflow variable: `!{..}`. This allow enables you to use both Nextflow and Bash variables in the same script.
 
@@ -244,7 +246,7 @@ process aligner_log {
 >
 > 1. Write a nextflow script `process_ex1.nf` that executes the following bash command in the script block.
 > ~~~
-> echo "The nextflow parameters are $params"
+> echo "The Nextflow parameters are $params"
 ~ ~~~
 > Run the command below
 > ~~~~
@@ -263,7 +265,7 @@ Sometimes you want to change how a process is run depending on some parameter. I
 ~~~
 params.aligner = 'kallisto'
 
-process align {
+process aligner {
   script:
   if( params.aligner == 'kallisto' )
     """
@@ -303,12 +305,12 @@ input:
 
 The input qualifier declares the type of data to be received.
 
-* val: Lets you access the received input value by its name in the process script.
-* env: Lets you use the received value to set an environment variable named as the specified input name.
-* path: Lets you handle the received value as a path, staging the file properly in the execution context.
-* stdin: Lets you forward the received value to the process stdin special file.
-* tuple: Lets you handle a group of input values having one of the above qualifiers.
-* each: Lets you execute the process for each entry in the input collection.
+* `val`: Lets you access the received input value by its name in the process script.
+* `env`: Lets you use the received value to set an environment variable named as the specified input name.
+* `path`: Lets you handle the received value as a path, staging the file properly in the execution context.
+* `stdin`: Lets you forward the received value to the process stdin special file.
+* `tuple`: Lets you handle a group of input values having one of the above qualifiers.
+* `each`: Lets you execute the process for each entry in the input collection.
 
 
 ### Input values
@@ -316,7 +318,7 @@ The input qualifier declares the type of data to be received.
 The `val` qualifier allows you to receive data of any type as input. It can be accessed in the process script by using the specified input name, as shown in the following example:
 
 ~~~
-chr_ch = Channel.of( 1..21,'X','Y' )
+chr_ch = Channel.of( 1..22,'X','Y' )
 
 process basicExample {
   echo true
@@ -770,29 +772,25 @@ bam_ch.view()
 ## When
 
 
-The `when` declaration allows you to define a condition that must be verified in order to execute the process. This can be any expression that evaluates a boolean value.
+The `when` declaration allows you to define a condition that must be verified in order to execute the process. This can be any expression that evaluates a boolean value, true or false.
 
 It is useful to enable/disable the process execution depending the state of various inputs and parameters. For example:
-fixme
-fixme better example> also there is an argument about if you should use when or filter the channel, see next episode on operators
-may used autosome exmaple e.g. chr=channel.of(1..21,'X','Y')
+
 ~~~
-//fix doesn't work
-chr_ch = channel.of(1..21,'X','Y')
-params.prot = 'data/prots/*.tfa'
-proteins = Channel.fromPath(params.prot)
+
+chr_ch = channel.of(1..22,'X','Y')
 
 process find {
+  echo true
   input:
-  file fasta from proteins
   val chr from chr_ch
 
   when:
-  chr % 2 == 0
+  chr <= 21
 
   script:
   """
-  echo blastp -query $fasta -db nr
+  echo $chr
   """
 }
 ~~~
@@ -808,14 +806,12 @@ They must be entered at the top of the process body, before any other declaratio
 Directives are commonly used to define the amount of computing resources to be used or other meta directives like that allows the definition of extra information for configuration or logging purpose. For example:
 
 ~~~
-chr_ch = channel.of(1..21,'X','Y')
+chr_ch = channel.of(1..22,'X','Y')
 
 process printchr {
-  label 'big_mem'
   tag "$chr"
   echo true
   cpus 1
-  memory 2.GB
 
   input:
   val chr from chr_ch
@@ -835,7 +831,7 @@ The complete list of directives is available at this [link](https://www.nextflow
 > Modify the script of the previous exercise adding a `tag` directive logging the sample_id in the execution output.
 > > ## solution
 > > ~~~
-> > chr_ch = channel.of(1..21,'X','Y')
+> > chr_ch = channel.of(1..22,'X','Y')
 > >
 > > process printchr {
 > >  tag "process chromsome : $chr"
@@ -865,7 +861,7 @@ Nextflow manages independently workflow execution intermediate results from the 
 The pipeline result files need to be marked explicitly using the directive [publishDir](https://www.nextflow.io/docs/latest/process.html#publishdir) in the process that’s creating such file. For example:
 
 ~~~
-chr_ch = channel.of(1..21,'X','Y')
+chr_ch = channel.of(1..22,'X','Y')
 
 process printchr {
   publishDir "results/chr"
@@ -895,10 +891,8 @@ The above example will copy all `${chr}.txt` files created by the `printchr` pro
 You can use more then one publishDir to keep different outputs in separate directory. For example:
 
 
-
-
 ~~~
-chr_ch = channel.of(1..21,'X','Y')
+chr_ch = channel.of(1..22,'X','Y')
 
 process printchr {
   publishDir "results/chr/autosomes",pattern:"[0-9]*.txt"
@@ -921,12 +915,16 @@ process printchr {
 ~~~
 {: .language-groovy }
 
-The above example will create an output structure in the directory my-results, which contains a separate sub-directory for each given sample ID each of which contain the folders counts and outlooks.
+The above example will create an output structure in the directory results/chr, which contains a separate sub-directory for automsomes and sex chromosomes.
 
 
-fixme Create an exercise
-
-
+> # directives
+>  fixme Create an exercise for students to use the directives publishDir and tag.
+> Alter the Nextflow script `process_directives_ex.nf` to add a publishDir directive that copies the files ending in .sf to the folder results/quant
+> > ~~~
+> > ~~~
+> {: .solution}
+{: .challenge}
 
 > ## Nextflow Patterns
 > The [Nextflow Patterns page](http://nextflow-io.github.io/patterns/) collects some recurrent implementation patterns used in Nextflow applications.
