@@ -211,7 +211,7 @@ You can specify a range of number, as a single argument,  using the range operat
  More information [here](https://www.logicbig.com/tutorials/misc/groovy/range-operator.html).
 
 ~~~
-ch= Channel.of(1..21, 'X', 'Y')
+ch= Channel.of(1..22, 'X', 'Y')
 ch.view()
 ~~~
 {: .language-groovy }
