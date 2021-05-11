@@ -3,7 +3,7 @@ title: "Operators"
 teaching: 30
 exercises: 10
 questions:
-- "What are Nextflow operators?"
+- "How can I change the contents of a channel?"
 - "How do you perform operations such as filtering on channels?"
 - "What are the different kinds of operators?"
 - "How do you combine operators?"
@@ -22,7 +22,7 @@ keypoints:
 
 # Operators
 
- *Operators* are methods that can be applied to channel objects. We have previously used the `view` operator to view the contents of a channel. There are many more operator methods that can be applied to channel that can be separated in to several groups:
+ *Operators* are methods that can be applied to channel objects. We have previously used the `view` operator to view the contents of a channel. There are many more operator methods that can be applied to Nextflow channels that can be separated in to several groups:
 
 
  * Filtering operators
@@ -33,7 +33,7 @@ keypoints:
  * Maths operators
  * Other
 
-In this episode you will see example, and get to use different types of operators.
+In this episode you will see examples, and get to use different types of operators.
 
 # Using Operators
 
@@ -73,6 +73,7 @@ prints:
 An optional *closure* `{}` parameter can be specified to customise how items are printed.
 Briefly, a closure is a block of code that can be passed as an argument to a function. In this way you can define a chunk of code and then pass it around as if it were a string or an integer. By default the arguments for a closure are specified with the variable `$it`.
 
+
 ~~~
 Channel
   .of('1', '2', '3')
@@ -96,29 +97,30 @@ We can reduce the number of items in a channel by using filtering operators.
 Here we will use the `filter` operator on the `chr_ch` channel specifying the argument `Number` so that only numeric items are returned. We will then use the `view` operator to inspect the contents.
 
 ~~~
-chr_ch = Channel.of( 1..21, 'X', 'Y' )
+chr_ch = Channel.of( 1..22, 'X', 'Y' )
 autosomes_ch =chr_ch.filter( Number )
 autosomes_ch.view()
 ~~~
 {: .language-groovy }
 
 
-Operators can  be chained together.
+Operators can be chained together.
 
-The previous example could be written like.
+The previous example could be rewritten like.
 
 ~~~
 chr_ch = Channel
-  .of( 1..21, 'X', 'Y' )
+  .of( 1..22, 'X', 'Y' )
   .filter( Number )
   .view()
 ~~~
 
-Here we are using a closure as an argument to the `filter` method.
+Here we are using a closure as an argument to the `filter` method. This will
+filter and items in the channel object that don't have a remainder when divided by 2.
 
 ~~~
 chr_ch = Channel
-  .of( 1..21, 'X', 'Y' )
+  .of( 1..22, 'X', 'Y' )
   .filter( Number )
   .filter({ it % 2 == 0 })
   .view()
@@ -131,7 +133,7 @@ chr_ch = Channel
 
 ## Transforming operators
 
-Transforming operators are used to modify the items emitted by a channel to new values.
+If we we want to modify the items emitted by a channel we use transforming operators.
 
 ### map
 
@@ -392,19 +394,20 @@ The available splitting operators are:
 
 ### splitCsv
 
-The splitCsv operator allows you to parse text items emitted by a channel, that are formatted using the CSV format, and split them into records or group them into list of records with a specified length. This is useful when you want to create a samplesheet.
+The `splitCsv` operator allows you to parse text items emitted by a channel, that are formatted using the CSV format, and split them into records or group them into list of records with a specified length. This is useful when you want to create a sample sheet.
 
-In the simplest case just apply the splitCsv operator to a channel emitting a CSV formatted text files or text entries. For example:
+In the simplest case just apply the `splitCsv` operator to a channel emitting a CSV formatted text files or text entries. For example:
 
 ~~~
 csv_ch=Channel
-    .of('sample_id,fastq_1,fastq_2\ngut1,data/ggal/gut_1.fq,gut_2.fq\nliver_1,data/ggal/liver_1.fq,liver_2.fq')
+    .of('sample_id,fastq_1,fastq_2\nref1,data/yeast/reads/ref1_1.fq.gz,data/yeast/reads/ref1_2.fq.gz\nref2,data/yeast/reads/ref2_1.fq.gz,data/yeast/reads/ref2_2.fq.gz')
     .splitCsv()
 csv_ch.view()
 ~~~
 {: .language-groovy }
 
-The above example shows hows CSV text is parsed and is split into single rows. Values can be accessed by its column index in the row object.
+The above example shows hows CSV text is parsed and is split into single rows.
+Values can be accessed by its column index in the row object.
 
 ~~~
 csv_ch.view({it[0]})
@@ -415,10 +418,11 @@ When the CSV begins with a header line defining the column names, you can specif
 
 ~~~
 csv_ch=Channel
-    .of('sample_id,fastq_1,fastq_2\ngut1,data/ggal/gut_1.fq,gut_2.fq\nliver_1,data/ggal/liver_1.fq,liver_2.fq')
+    .of('sample_id,fastq_1,fastq_2\nref1,data/yeast/reads/ref1_1.fq.gz,data/yeast/reads/ref1_2.fq.gz\nref2,data/yeast/reads/ref2_1.fq.gz,data/yeast/reads/ref2_2.fq.gz')
     .splitCsv(header:true)
 csv_ch.view({it.fastq_1})
 ~~~
+{: .language-groovy }
 
 > ## splitCsv
 >
