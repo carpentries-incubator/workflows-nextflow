@@ -5,22 +5,22 @@ exercises: 20 min
 questions:
 - "How do I run commands/tasks in Nextflow?"
 - "How do I get data, files and values, into and out of processes?"
-- "How do I specify conditions for a process in order for it to execute?"
+- "How do can I control when a process is execute?"
 - "How do I control resources, such as number of CPUs and memory, for a process?"
 - "How do I save output/results from a process?"
 objectives:
 - "Understand how Nextflow uses processes to execute tasks."
 - "Create a Nextflow process."
 - "Define inputs and outputs to a process."
-- "Use the when declaration to define a condition for process execution."
+- "Understand how to use conditionals to define a condition for process execution."
 - "Use process directives to control execution of a process."
-- "Use the publishDir directive to save results in a directory."
+- "Use the publishDir directive to save result files to a directory."
 keypoints:
 - "A Nextflow process is an independent task/step in a workflow"
 - "Processes contain up to five definition blocks including, directives, inputs, outputs, when clause and finaly a script block."
 - "Inputs and Outputs to a process are defined using the input and output blocks."
-- "The execution of a process can be controlled using conditional statements like `if`."
-- "Task output files are output from a process using the `PublishDir` directive."
+- "The execution of a process can be controlled using conditional statements like `if` and `when`."
+- "Task output files are output from a process using the `publishDir` directive."
 ---
 
 
@@ -48,7 +48,7 @@ process index {
 ~~~
 {: .language-groovy }
 
-This example build a salmon index for the yeast transcriptome. We use the nextflow variable `${projectDir}` to specify the path to the directory where the script is run.
+This example build a salmon index for the yeast transcriptome. We use the nextflow variable `${projectDir}` to specify the directory where the main script is located .
 
 
 ### definition blocks
@@ -155,10 +155,10 @@ process rStuff {
 
 ### Script parameters
 
-The command in the script block can be defined dynamically using Nextflow variables e.g. `projectDir`.
+The command in the script block can be defined dynamically using Nextflow variables e.g. `${projectDir}`.
 To reference a variable in the script block you can use the `$` in front of the nextflow variable name, and additionally you can add `{}` around the variable name e.g. `${projectDir}`.
 
-A special nextflow variable `params` can be used to define variable from the command line.
+A special nextflow variable `params` can be used to define variables from the command line.
 
 ~~~
 params.kmer = 31
@@ -167,22 +167,25 @@ process index {
 
   script:
   """
-  salmon index -t $projectDir/data/yeast/transcriptome/Saccharomyces_cerevisiae.R64-1-1.cdna.all.fa.gz -i index --kmer $params.kmer
+  salmon index \
+  -t $projectDir/data/yeast/transcriptome/Saccharomyces_cerevisiae.R64-1-1.cdna.all.fa.gz \
+  -i index \
+  --kmer $params.kmer
   echo "kmer size is $params.kmer"
   """
 }
 ~~~
 {: .language-groovy }
 
-In this example we set the Nextflow variable `params.kmer` to value `31` and the process `index` uses this to set the  size of k-mers that should be used for the quasi index.
+In this example we set the Nextflow variable `params.kmer` to value `31` and the process `index` uses this to set the  size of k-mers that should be used for the salon index.
 
 > ## Script parameters
 >
-> Change the kmer value used to create the salmon index from the command line.
+> Change the k-mer value used to create the salmon index from the command line.
 > ~~~
-> nextflow run process_script_params.nf --kmer
+> nextflow run process_script_params.nf --kmer <some value>
+> ~~~
 > Note the kmer values must not be greater than 31 and an odd number.
-> ~~~
 >
 > > ## Solution
 > > ~~~
@@ -192,7 +195,7 @@ In this example we set the Nextflow variable `params.kmer` to value `31` and the
 {: .challenge}
 
 
-A process script can contain any string format supported by the Groovy programming language. In practice this allows us to use string interpolation, such as variable substitutions and use multiline string as in the script above. Refer to [String interpolation](https://seqera.io/training/#_string_interpolation) for more information.
+A process script can contain any string format supported by the Groovy programming language. In practice this allows us to use string interpolation, such as variable substitutions and use multi-line string as in the script above. Refer to [String interpolation](https://seqera.io/training/#_string_interpolation) for more information.
 
 
 Since Nextflow uses the same Bash syntax for variable substitutions, `$variable`, in strings, Bash variables need to be escaped using `\` character.
@@ -262,13 +265,11 @@ process index {
 ~~~
 {: .language-groovy }
 
-
-
 ## Inputs
 
-Nextflow processes are isolated from each other but can communicate by sending values through channels.
+Processes are isolated from each other but can communicate by sending values through nextflow channels.
 
-Inputs implicitly determine the dependency and the number of time a process executes. A process is run each time new data is ready to be consumed from the input channel:
+Inputs determine the dependency and the number of time a process executes. A process is run each time new data is ready to be consumed from the input channel:
 
 ![Process Flow](../fig/channel-process.png)
 
@@ -292,7 +293,6 @@ The input qualifier declares the type of data to be received.
 * `stdin`: Lets you forward the received value to the process stdin special file.
 * `tuple`: Lets you handle a group of input values having one of the above qualifiers.
 * `each`: Lets you execute the process for each entry in the input collection.
-
 
 ### Input values
 
@@ -347,7 +347,7 @@ process listFiles {
 {: .language-groovy }
 
 
-The input file name can also be defined dynamically using a Nextflow variable reference, `path sample`, as shown below:
+The input file name can also be defined dynamically using a nextflow variable reference, `sample`, as shown below:
 
 ~~~
 reads = Channel.fromPath( 'data/yeast/reads/*.fq.gz' )
@@ -369,7 +369,7 @@ process listFiles {
 
 
 >  Exercise
->  Write a nextflow script `fastqc.nf` that creates a queue channel containing all read files matching the pattern `data/yeast/reads/*_1.fq.gz` followed by a process the commands.
+>  Write a nextflow script `fastqc.nf` that creates a queue channel, `Channel.fromPath`, containing all read files matching the pattern `data/yeast/reads/*_1.fq.gz` followed by a process with input and script directives that has the commands.
 > `mkdir fastqc_out`
 > `fastqc -o fastqc_out ${reads}`
 > > Solution
@@ -402,7 +402,6 @@ ch_num = Channel.of(1,2,3)
 ch_letters = Channel.of('a','b','c')
 
 process combine_channels {
-  echo true
   input:
   val x from ch_num
   val y from ch_letters
@@ -464,7 +463,7 @@ In the above example the process is executed only two time, because when a chann
 
 ### Value channels and process termination
 
-Note however that value channels do not affect the process termination.
+Note however that value channels, `Channel.value` , do not affect the process termination.
 
 To better understand this behaviour compare the previous example with the following one:
 
@@ -489,7 +488,7 @@ process combine_channels_val_queue {
 > Write a nextflow script `salmon_index.nf` that combines two input channels
 > 1. transcriptome_ch = channel.value('data/yeast/transcriptome/transcriptome/Saccharomyces_cerevisiae.R64-1-1.cdna.all.fa.gz')
 > 2. kmer_ch = channel.value(21)
->  And run the command salmon index -t $transcriptome -i index -k $kmer
+>  And run the command `salmon index -t $transcriptome -i index -k $kmer`
 > > Solution
 > > transcriptome_ch = channel.fromPath('data/yeast/transcriptome/Saccharomyces_cerevisiae.R64-1-1.cdna.all.fa.gz',checkIfExists: true)
 > > kmer_ch = channel.value(21)
@@ -499,7 +498,7 @@ process combine_channels_val_queue {
 > >  val kmer from kmer_ch
 > >  script:
 > >   """
-> >   echo salmon index -t $transcriptome -i index -k $kmer
+> >   salmon index -t $transcriptome -i index -k $kmer
 > >   """
 > > }
 > > ~~~
@@ -627,8 +626,7 @@ Since a file parameter using the same name, `method.txt`, is declared in the out
 When an output file name contains a `*` or `?` wildcard character it is interpreted as a pattern match.
 This allows to capture multiple files into a list object and output them as a sole emission.
 
-For example here we will capture sample.bam.bai in the output channel. Note that sample.bam is captured in the output channel
-as input files are not included in the list of possible matches
+For example here we will capture `sample.bam.bai` in the output channel. Note that `sample.bam` is not captured in the output channel as input files are not included in the list of possible matches
 
 ~~~
 
@@ -658,8 +656,20 @@ index_out_ch
 it prints:
 
 ~~~
-File: sample.bam
 File: sample.bam.bai
+
+File: sample.bam.bai
+
+File: sample.bam.bai
+
+File: sample.bam.bai
+
+File: sample.bam.bai
+
+File: sample.bam.bai
+
+File: sample.bam.bai
+[truncated]
 ~~~
 {: .output}
 
@@ -701,21 +711,40 @@ index_out_ch
 
 In the above example, each time the process is executed an index file is produced whose name depends on the actual value of the `bam` input.
 
+~~~
+File: ref3.bam.bai
+
+File: ref1.bam.bai
+
+File: etoh60_3.bam.bai
+
+File: ref2.bam.bai
+
+File: etoh60_1.bam.bai
+
+File: etoh60_2.bam.bai
+[truncated]
+~~~
+{: .output}
 
 > # Exercise: output channels
 > Modify the nextflow script process_exercise_3.nf to include an output defintion blocks that captures the different index folders.
 > > solution
+> > ~~~
 > > transcriptome_ch = channel.fromPath('data/yeast/transcriptome/Saccharomyces_cerevisiae.R64-1-1.cdna.all.fa.gz',checkIfExists: true)
 > > kmer_ch = channel.of(21,26,36)
 > > process combine {
-> .  input:
-  path transcriptome from transcriptome_ch
-  each kmer from kmer_ch
-  script:
-  """
-   echo salmon index -t $transcriptome -i index_$kmer -k $kmer
-  """
- }
+>  input:
+>  path transcriptome from transcriptome_ch
+>  each kmer from kmer_ch
+>  output:
+>  path "index_${kmer}" into out_ch
+>  script:
+>  """
+>   echo salmon index -t $transcriptome -i index_$kmer -k $kmer
+>  """
+> }
+> ~~~
 > {: .solution}
 {: .challenge}
 
@@ -846,23 +875,8 @@ The complete list of directives is available at this [link](https://www.nextflow
 > Modify the script of the previous exercise adding a `tag` directive logging the sample_id in the execution output.
 > > ## solution
 > > ~~~
-> > chr_ch = channel.of(1..22,'X','Y')
+> fixme add solution
 > >
-> > process printchr {
-> >  tag "process chromsome : $chr"
-> >  label 'big_mem'
-> >  cpus 2
-> >  memory 2.GB
-> >  //container 'image/name'
-> >
-> >  input:
-> >  val chr from chr_ch
-> >
-> >  script:
-> >  """
-> >  echo $chr
-> >  """
-> >}
 > > ~~~
 > {: .solution}
 {: .challenge}
@@ -871,9 +885,16 @@ The complete list of directives is available at this [link](https://www.nextflow
 
 ### PublishDir directive
 
+fixme make clearer
 Nextflow manages independently workflow execution intermediate results from the pipeline expected outputs. Task output files are created in the task specific execution directory which is considered as a temporary directory that can be deleted upon completion.
 
-The pipeline result files need to be marked explicitly using the directive [publishDir](https://www.nextflow.io/docs/latest/process.html#publishdir) in the process that’s creating such file. For example:
+The pipeline result files need to be marked explicitly using the directive [publishDir](https://www.nextflow.io/docs/latest/process.html#publishdir) in the process that’s creating such file.
+
+~~~
+publishDir <directory> , parameter1: val , parameter2: val ...
+~~~
+
+For example:
 
 ~~~
 reads_ch = Channel.fromFilePairs('data/yeast/reads/ref1_{1,2}.fq.gz')
@@ -896,11 +917,11 @@ bam_ch.view()
 ~~~
 {: .language-groovy }
 
-The above example will copy all bam files created by the  process quant to the directory path `results/bams`.
+The above example, the `publishDir "results/bams", mode: "copy"`, will copy all the bam files output by the process `quant` to the directory path `results/bams`.
 
 ###  Manage semantic sub-directories
 
-You can use more then one publishDir to keep different outputs in separate directory. For example:
+You can use more then one `publishDir` to keep different outputs in separate directories. For example:
 
 
 ~~~
@@ -930,7 +951,7 @@ The above example will create an output structure in the directory results, whic
 
 > # directives
 >  Add a `publishDir` directive to the nextflow script `process_publishDir_exercise.nf` that saves
->  index directory to the results folder .
+>  the index directory to the results folder .
 > > ~~~
 > >
 > > params.transcriptome = "$projectDir/data/yeast/transcriptome/Saccharomyces_cerevisiae.R64-1-1.cdna.all.fa.gz"
