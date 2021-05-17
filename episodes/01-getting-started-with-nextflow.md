@@ -3,35 +3,35 @@ title: "Getting Started with Nextflow"
 teaching: 30
 exercises: 10
 questions:
-- "What is a workflow and what are workflow management system?"
+- "What is a workflow and what are workflow management systems?"
 - "Why should I use a workflow management system?"
 - "What is Nextflow?"
 - "What are the main features of Nextflow?"
 - "What are the main components of a Nextflow script?"
 - "How do you run a Nextflow script?"
-- "How can I use nextflow logs?"
+- "How can I use the nextflow logs?"
 objectives:
 - "Understand what a workflow management system is."
 - "Understand the benefits of using a workflow management system."
 - "Explain the benefits of using Nextflow as part of your bioinformatics workflow."
 - "Explain the components of a Nextflow script."
 - "Run a Nextflow script."
-- "Use the the nextflow log command to shows information about executed pipelines."
+- "Use the nextflow log command to shows information about executed pipelines."
 - "Use the `-resume` option to execute the script using the cached results."
 keypoints:
-- "A workflow is sequence of tasks that processes a set of data and a workflow management system (WfMS) is a computational platform that provides an infrastructure for the set-up, execution and monitoring of workflows."
+- "A workflow is a sequence of tasks that process a set of data, and a workflow management system (WfMS) is a computational platform that provides an infrastructure for the set-up, execution and monitoring of workflows."
 - "Nextflow is a workflow management system that comprises both a runtime environment and a domain specific language (DSL)."
-- "Nextflow scripts comprises of channels for controlling inputs and outputs and processes for defining workflow tasks."
-- "Nextflow store working files im the work directory."
+- "Nextflow scripts comprise of channels for controlling inputs and outputs, and processes for defining workflow tasks."
+- "Nextflow stores working files in the work directory."
 - "You run a Nextflow script using the `nextflow run` command."
-- "You can resume a workflow, skipping cached steps, using using the `-resume` option"
+- "You can resume a workflow, skipping cached steps, using the `-resume` option"
 - "The `nextflow log` command can be used to see information about executed pipelines."
 ---
 
 
 ## Workflows
 
-Analysing data involves a sequence of tasks, including, gathering, cleaning and processing data. These sequence of tasks is  called a workflow or a pipeline. These workflows typically requires multiple software packages, sometimes running on different computing environments, such as desktop or a compute cluster. Traditionally these  workflows have been joined together in scripts using general purpose programming languages such as Bash or Python.
+Analysing data involves a sequence of tasks, including gathering, cleaning and processing data. These sequence of tasks are called a workflow or a pipeline. These workflows typically requires multiple software packages, sometimes running on different computing environments, such as desktop or a compute cluster. Traditionally these workflows have been joined together in scripts using general purpose programming languages such as Bash or Python.
 
 
 
@@ -46,25 +46,25 @@ Analysing data involves a sequence of tasks, including, gathering, cleaning and 
 <br>
 
 
-However, as workflows become  larger and more complex the management of the programming logic and software becomes difficult.
+However, as workflows become larger and more complex, the management of the programming logic and software becomes difficult.
 
 ##  Workflow management systems
 
-Recently Workflow Management  Systems (WfMS), such as Snakemake, Galaxy and Nextflow have  emerged specifically to manage  computational data-analysis workflows in field such as Bioinformatics, Imaging, Physics, and Chemistry.  
+Recently Workflow Management Systems (WfMS), such as Snakemake, Galaxy, and Nextflow have emerged specifically to manage computational data-analysis workflows in fields such as Bioinformatics, Imaging, Physics, and Chemistry.  
 
-These *Workflow management systems* contain multiple features that simplify the development, monitoring,  execution and sharing of pipelines.
+These *Workflow management systems* contain multiple features that simplify the development, monitoring, execution and sharing of pipelines.
 
 Key features include;
 
-* **Run time management**: Management of program execution on the operating system and splitting tasks and data up to run  at the same time in a process called parallelisation.
-* **Software management**: Use of software management technology like container, such as docker or singularity, that packages up code and all its dependencies so the application run reliably from one computing environment to another.
-* **Portability & Interoperability**: Workflow written on one system can be run on another computing infrastructure e.g. local computer vs compute cluster.
-* **Reproducibility**: The use of Software management systems and a pipeline specification means that the  workflow will produces the same results when re-run, including on different computing platforms.
+* **Run time management**: Management of program execution on the operating system and splitting tasks and data up to run at the same time in a process called parallelisation.
+* **Software management**: Use of software management technology like containers, such as docker or singularity, that packages up code and all its dependencies so the application runs reliably from one computing environment to another.
+* **Portability & Interoperability**: Workflows written on one system can be run on another computing infrastructure e.g. local computer vs compute cluster.
+* **Reproducibility**: The use of Software management systems and a pipeline specification means that the workflow will produces the same results when re-run, including on different computing platforms.
 
 
 ## Nextflow Basic concepts
 
-Nextflow is a workflow management system that combines a runtime environment ,software that is designed to run other software, and a *programming domain specific language (DSL)* that eases the writing of computational pipelines.
+Nextflow is a workflow management system that combines a runtime environment, software that is designed to run other software, and a *programming domain specific language (DSL)* that eases the writing of computational pipelines.
 
 Nextflow is built around the idea that Linux is the lingua franca of data science. Nextflow follows Linux "small pieces loosely joined" philosophy : in which many simple but powerful command-line and scripting tools that, when chained together, facilitate more complex data manipulations.
 
