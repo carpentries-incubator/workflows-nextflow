@@ -137,7 +137,7 @@ Sun Grid Engine, SLURM job scheduler, AWS Batch service and Kubernetes. A full l
 
 ### Scripting language
 
-Nextflow scripts are written using a scripting language that simplifies the writing of workflows. Languages that are written for a specific fields are called Domain Specific Languages (DSL), e.g, SQL is used to work with databases, and AWK is designed for text processing.
+Nextflow scripts are written using a scripting language that simplifies the writing of workflows. Languages that are written for a specific fields are called Domain Specific Languages (DSL), e.g., SQL is used to work with databases, and AWK is designed for text processing.
 
 In practical terms the Nextflow scripting language is an extension of the [Groovy programming language](https://groovy-lang.org/), which in turn is a super-set of the Java programming language. Groovy simplifies the writing of code and is more approachable than Java.
 
