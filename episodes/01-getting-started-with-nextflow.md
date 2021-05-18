@@ -60,7 +60,8 @@ Key features include;
 * **Software management**: Use of software management technology like containers, such as docker or singularity, that packages up code and all its dependencies so the application runs reliably from one computing environment to another.
 * **Portability & Interoperability**: Workflows written on one system can be run on another computing infrastructure e.g. local computer, compute cluster, or cloud infrastructure.
 * **Reproducibility**: The use of Software management systems and a pipeline specification means that the workflow will produce the same results when re-run, including on different computing platforms.
-
+* **Reentrancy**: Continuous checkpoints allow workflows to resume
+from the last successfully executed steps.
 
 ## Nextflow Basic concepts
 
