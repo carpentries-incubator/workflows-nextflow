@@ -237,7 +237,7 @@ To run a nextflow script use the command `nextflow run <script_name>`
 
 ## Pipeline parameters
 
-The Nextflow `wc.nf` script defines a pipeline parameter `params.samples`. Pipeline parameters enable you to change the input to the workflow at runtime via the command line or a config file so they are not hard-coded into the script. In this way you change the input data or pipeline execution e.g change the fastq file for input.
+The Nextflow `wc.nf` script defines a pipeline parameter `params.samples`. Pipeline parameters enable you to change the input to the workflow at runtime via the command line or a config file so they are not hard-coded into the script. In this way you change the input data or pipeline execution e.g., change the fastq file for input.
 
 Pipeline parameters are simply declared by prepending to a variable name the prefix `params`, separated by dot character e.g. `params.samples`. Their value can be specified on the command line by prefixing the parameter name with a **double dash** character, i.e. `--paramName` e.g. `--samples`
 
