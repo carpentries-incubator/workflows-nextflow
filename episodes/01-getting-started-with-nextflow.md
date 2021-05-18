@@ -315,7 +315,9 @@ You can print Nextflow's execution history and log information using the  `nextf
 
 ## Modify and resume
 
-Nextflow keeps track of all the processes executed in your pipeline. If you modify some parts of your script, only the processes that are actually changed will be re-executed. The execution of the processes that are not changed will be skipped and the cached result used instead.
+When Nextflow is run, it runs the entire workflow by default.
+However, Nextflow keeps track of all the processes executed in your pipeline. By using the Nextflow specific parameter `-resume`, Nextflow
+will start from the last successfully executed process. If you modify some parts of your script, only the processes that are actually changed will be re-executed. The execution of the processes that are not changed will be skipped and the cached result used instead.
 
 This helps a lot when testing or modifying part of your pipeline without having to re-execute it from scratch.
 
