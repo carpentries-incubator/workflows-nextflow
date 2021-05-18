@@ -205,7 +205,7 @@ process numLines {
 read_out_ch.view()
 
 ~~~~
-{: .source}
+{: .language-groovy}
 
 To run a nextflow script use the command `nextflow run <script_name>`
 
