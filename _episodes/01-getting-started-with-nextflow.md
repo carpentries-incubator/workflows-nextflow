@@ -8,7 +8,7 @@ questions:
 - "What is Nextflow?"
 - "What are the main features of Nextflow?"
 - "What are the main components of a Nextflow script?"
-- "How do you run a Nextflow script?"
+- "How do I run a Nextflow script?"
 - "How can I use the nextflow logs?"
 objectives:
 - "Understand what a workflow management system is."
