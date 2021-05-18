@@ -276,7 +276,7 @@ We can change the input using the `samples` variable on the command line.
 The pipeline has now executed the `numLines` process six time using the string `data/ggal/*.fq` to capture the six fastq files matching the pattern `data/ggal/*.fq`.
 
 
-It’s worth noting that the process `wc -l` is executed in parallel, so there’s no guarantee on the output order. So, it is perfectly possible that you will get the final result printed out in a different order:
+It’s worth noting that the process `wc -l` is executed in parallel, so there’s no guarantee on the output order. It is perfectly possible that you will get the final result printed out in a different order:
 
 
 > ## Process identification
