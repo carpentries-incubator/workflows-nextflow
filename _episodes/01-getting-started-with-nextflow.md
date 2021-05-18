@@ -142,7 +142,7 @@ Nextflow scripts are written using a scripting language that simplifies the writ
 In practical terms the Nextflow scripting language is an extension of the [Groovy programming language](https://groovy-lang.org/), which in turn is a super-set of the Java programming language. Groovy simplifies the writing of code and is more approachable than Java. Groovy semantics
 (syntax, control structures, etc) are documented [here](https://groovy-lang.org/semantics.html).
 
-The approach of having a simple DSL built on top of a more powerful general purpose programming language makes Nextflow very flexible. The Nextflow syntax can handle most workflow use cases with ease and the Groovy can be used to handle corner cases, which may be difficult to implement using the DSL.
+The approach of having a simple DSL built on top of a more powerful general purpose programming language makes Nextflow very flexible. The Nextflow syntax can handle most workflow use cases with ease, and then Groovy can be used to handle corner cases which may be difficult to implement using the DSL.
 
 
 ## Your first script
