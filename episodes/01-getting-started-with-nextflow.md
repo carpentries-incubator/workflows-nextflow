@@ -404,6 +404,15 @@ IMESTAMP          	DURATION	RUN NAME           	STATUS	REVISION ID	SESSION ID   
 ~~~
 {: .output}
 
+> ## Nextflow specific and workflow specific parameters
+> Command line parameters that start with a single dash e.g., `-resume`,
+> are parameters specifically for Nextflow to interpret.
+> Command line parameters that start with a double dash e.g., `--samples`,
+> are parameters to your workflow script and can be accessed via
+> the `params.<variable>` variable.
+{: .callout}
+
+
 ## work directory
 
 By default the pipeline results are cached by default in the directory `work` where the pipeline is launched.
