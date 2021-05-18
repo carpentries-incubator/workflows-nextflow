@@ -107,7 +107,7 @@ Processes create a task for each complete input set. Each task is executed indep
 Processes uses these channels to define inputs and outputs. The interaction between  processes, and ultimately the pipeline execution flow itself, is implicitly defined by these input and output declarations.
 
 
-Here we have a channel containing three elements, e.g. 3 data files, . We have a process that takes the channel as input. The fact that the channels has three elements would mean that three independent instances of that process are being run in parallel. The processes then generate three outputs that is used as input for another process.
+Here we have a channel containing three elements, e.g. 3 data files. We have a process that takes the channel as input. The fact that the channel has three elements would mean that three independent instances (tasks) of that process are being run in parallel. The tasks then generate three outputs, that are used as input for another process.
 
 <p align="center">
    <img alt="Processes and channels" src="../fig/channel-process_fqc.png" width="500">
