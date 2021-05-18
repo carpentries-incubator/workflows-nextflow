@@ -415,7 +415,7 @@ IMESTAMP          	DURATION	RUN NAME           	STATUS	REVISION ID	SESSION ID   
 
 ## work directory
 
-By default the pipeline results are cached by default in the directory `work` where the pipeline is launched.
+By default the pipeline results are cached in the directory `work` where the pipeline is launched.
 
 ~~~
 work/
