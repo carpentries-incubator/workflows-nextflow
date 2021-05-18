@@ -90,7 +90,7 @@ In a simple program **(a)**, these statements would be executed sequentially. Th
 
 1. Fast prototyping: A simple syntax for writing pipelines that enables you to reuse existing scripts and tools for fast prototyping.
 
-1. Reproducibility: Nextflow supports containers technologies such as Docker and Singularity as well as conda. This, along with the integration of the GitHub code sharing platform, allows you to write self-contained pipelines, manage versions and to reproduce any former configuration.
+1. Reproducibility: Nextflow supports several container technologies, such as Docker and Singularity, as well as the package manager conda. This, along with the integration of the GitHub code sharing platform, allows you to write self-contained pipelines, manage versions and to reproduce any former configuration.
 
 1. Portability: Nextflow's syntax is separated out from where the pipeline is run so that it can be executed on multiple platforms without it changing. e.g. local compute vs. a university compute cluster or a cloud service like AWS.  
 
