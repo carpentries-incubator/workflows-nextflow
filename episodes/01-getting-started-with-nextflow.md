@@ -16,7 +16,7 @@ objectives:
 - "Explain the benefits of using Nextflow as part of your bioinformatics workflow."
 - "Explain the components of a Nextflow script."
 - "Run a Nextflow script."
-- "Use the nextflow log command to shows information about executed pipelines."
+- "Use the nextflow log command to show information about executed pipelines."
 - "Use the `-resume` option to execute the script using the cached results."
 keypoints:
 - "A workflow is a sequence of tasks that process a set of data, and a workflow management system (WfMS) is a computational platform that provides an infrastructure for the set-up, execution and monitoring of workflows."
