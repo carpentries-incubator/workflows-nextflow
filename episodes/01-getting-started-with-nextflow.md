@@ -92,7 +92,7 @@ In a simple program **(a)**, these statements would be executed sequentially. Th
 
 1. Reproducibility: Nextflow supports several container technologies, such as Docker and Singularity, as well as the package manager conda. This, along with the integration of the GitHub code sharing platform, allows you to write self-contained pipelines, manage versions and to reproduce any former configuration.
 
-1. Portability: Nextflow's syntax is separated out from where the pipeline is run so that it can be executed on multiple platforms without it changing. e.g. local compute vs. a university compute cluster or a cloud service like AWS.  
+1. Portability: Nextflow's syntax separates the functional logic (the steps of the workflow) from the execution settings (how the workflow is executed). This allows the pipeline to be run on multiple platforms, e.g. local compute vs. a university compute cluster or a cloud service like AWS, without changing the steps of the workflow.  
 
 1. Simple parallelism:  Nextflow is based on the dataflow programming model which greatly simplifies the splitting of tasks that can be run at the same time (parallelisation).
 
