@@ -129,7 +129,7 @@ If not otherwise specified, processes are executed on the local computer. The lo
 </p>
 
 
-In this way Nextflow provides a separation between the pipeline’s functional logic and the underlying execution platform. This make it possible to  write a pipeline once and to then run it on your computer, compute cluster, or the cloud, without modifying it, by simply defining the target execution platform in the configuration file.
+In this way Nextflow provides a separation between the pipeline’s functional logic and the underlying execution platform. This makes it possible to write a pipeline once, and then run it on your computer, compute cluster, or the cloud, without modifying the workflow, by simply defining the target execution platform in the configuration file.
 
 Nextflow provides out-of-the-box support for major batch schedulers and cloud platforms such as
 Sun Grid Engine, SLURM job scheduler, AWS Batch service and Kubernetes. A full list can be found [here](https://www.nextflow.io/docs/latest/executor.html).
