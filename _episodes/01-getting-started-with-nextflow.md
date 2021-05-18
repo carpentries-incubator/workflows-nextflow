@@ -241,7 +241,7 @@ The Nextflow `wc.nf` script defines a pipeline parameter `params.samples`. Pipel
 
 Pipeline parameters are declared by prepending the prefix `params`, separated by dot character, to a variable name e.g., `params.samples`. Their value can be specified on the command line by prefixing the parameter name with a **double dash** character, i.e. `--paramName` e.g., `--samples`.
 
-We can change the input using the `params` variable on the command line.
+We can change the input using the `samples` variable on the command line.
 
 > ## Add a pipeline parameter
 > Re-run the Nextflow script by entering the following command in your terminal:
