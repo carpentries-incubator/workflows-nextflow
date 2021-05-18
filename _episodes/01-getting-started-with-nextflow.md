@@ -102,7 +102,7 @@ In a simple program **(a)**, these statements would be executed sequentially. Th
 
  In practice a Nextflow pipeline is a script made by joining together different commands tasks in process blocks. Each process can be written in any scripting language that can be executed by the Linux platform (Bash, Perl, Ruby, Python, etc.).
 
-Processes are executed independently and can not interact or write to each other. The only way they can communicate is via asynchronous queues, called `channels` in Nextflow.
+Processes create a task for each complete input set. Each task is executed independently, and can not interact with another task. The only way data can be passed between processes is via asynchronous queues, called `channels` in Nextflow.
 
 Processes uses these channels to define inputs and outputs. The interaction between  processes, and ultimately the pipeline execution flow itself, is implicitly defined by these input and output declarations.
 
