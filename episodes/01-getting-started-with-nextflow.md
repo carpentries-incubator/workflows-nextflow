@@ -282,7 +282,7 @@ Itâ€™s worth noting that the process `wc -l` is executed in parallel, so thereâ€
 > ## Process identification
 > The hexadecimal numbers, like b3/c9f4ee, identify the unique process execution.
 > These numbers are also the prefix of the directories where each process is executed.
-> You can inspect the files produced by them changing to the directory `$PWD/work` and
+> You can inspect the files produced by changing to the directory `$PWD/work` and
 > using these numbers to find the process-specific execution path.
 {: .callout}
 
