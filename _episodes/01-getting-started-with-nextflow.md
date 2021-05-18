@@ -475,6 +475,11 @@ nextflow clean [run_name|session_id] [options]
 ~~~
 {: .language-bash}
 
+Typically, results before the last successful result are cleaned:
+~~~
+nextflow clean -f -before [run_name|session_id]
+~~~
+{: .language-bash}
 
 
 {% include links.md %}
