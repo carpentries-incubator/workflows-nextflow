@@ -289,8 +289,8 @@ Itâ€™s worth noting that the process `wc -l` is executed in parallel, so thereâ€
 ## Nextflow log
 
 
-Once a script has run Nextflow stores a log of all the pipelines executed in the current folder.
-Similar to an electronic lab book this means you have a have a record of all processing steps and command run.
+Once a script has run, Nextflow stores a log of all the processes executed in the current folder.
+Similar to an electronic lab book, this means you have a have a record of all processing steps and commands run.
 
 You can print Nextflow's execution history and log information using the  `nextflow log` command.
 
