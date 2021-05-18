@@ -151,7 +151,7 @@ We are now going to look at a simple Nextflow script that counts the number of l
 
 Open the file `wc.nf` in the script directory with your favourite text editor.
 
-This is a Nextflow script it contains;
+This is a Nextflow script. It contains;
 
 1. A Shebang line, specifying the location of the Nextflow interpreter
 1. A multi-line Nextflow comment, written using C style block comments.
