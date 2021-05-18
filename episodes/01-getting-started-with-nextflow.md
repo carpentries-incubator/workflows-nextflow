@@ -468,7 +468,7 @@ nextflow run <script> -w /some/scratch/dir
 ~~~
 {: .language-bash}
 
-If your are sure you won’t resume your pipeline execution, clean this folder periodically using the command `nextflow clean`.
+If you are sure you won’t resume your pipeline execution, clean this folder periodically using the command `nextflow clean`.
 
 ~~~
 nextflow clean [run_name|session_id] [options]
