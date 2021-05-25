@@ -1,9 +1,9 @@
 ---
 title: "Nextflow configuration"
-teaching: 10
-exercises: 10
+teaching: 40
+exercises: 15
 questions:
-- "How do you configure Nextflow?"
+- "How do you control how Nextflow runs?"
 - "How do you write a Nextflow configuration file?"
 objectives:
 - "Understand who Nextflow is configured."
@@ -22,10 +22,10 @@ This enable portable deployment without the need to modify the application code.
 
 ## Configuration file
 
-When a pipeline script is launched Nextflow looks for a file named `nextflow.config` in the current directory and in the script base directory 
+When a pipeline script is launched Nextflow looks for a file named `nextflow.config` in the current directory and in the script base directory
 (if it is not the same as the current directory). Finally it checks for the file `$HOME/.nextflow/config`.
 
-When more than one on the above files exist they are merged, so that the settings in the first override the same ones that may appear in the second one, 
+When more than one on the above files exist they are merged, so that the settings in the first override the same ones that may appear in the second one,
 and so on.
 
 The default config file search mechanism can be extended proving an extra configuration file by using the command line option `-c <config file>`.
@@ -36,8 +36,8 @@ A Nextflow configuration file is a simple text file containing a set of properti
 
 `name = value`
 
-Please note, string values need to be wrapped in quotation characters while numbers and boolean values (true, false) do not. 
-Also note that values are typed, meaning for example that, `1` is different from `'1'`, 
+Please note, string values need to be wrapped in quotation characters while numbers and boolean values (true, false) do not.
+Also note that values are typed, meaning for example that, `1` is different from `'1'`,
 since the first is interpreted as the number one, while the latter is interpreted as a string value.
 
 ### Config variables
@@ -69,7 +69,7 @@ Configuration files use the same conventions for comments used in the Nextflow s
 
 ### Config scopes
 
-Configuration settings can be organized in different scopes by dot prefixing the property names with a scope identifier or grouping the properties 
+Configuration settings can be organized in different scopes by dot prefixing the property names with a scope identifier or grouping the properties
 in the same scope using the curly brackets notation `{}`. This is shown in the following example:
 
 ~~~
@@ -141,12 +141,12 @@ nextflow run foo.nf -c my-env.config
 
 ### Config process
 
-The `process` directives allow the specification of specific settings for the task execution such as 
+The `process` directives allow the specification of specific settings for the task execution such as
 `cpus`, `memory`, `container` and other resources in the pipeline script.
 
 This is useful specially when prototyping a small workflow script.
 
-However it’s always a good practice to decouple the workflow execution logic from the process configuration settings, 
+However it’s always a good practice to decouple the workflow execution logic from the process configuration settings,
 i.e. it’s strongly suggested to define the process settings in the workflow configuration file instead of the workflow script.
 The process configuration scope allows the setting of any process directives in the Nextflow configuration file. For example:
 
@@ -163,7 +163,7 @@ The above config snippet defines the `cpus`, `memory` and `container` directives
 
 The `process` selector can be used to apply the configuration to a specific process or group of processes (discussed later).
 
-Memory and time duration unit can be specified either using a string based notation in which the digit(s) and the unit can be separated by a blank or 
+Memory and time duration unit can be specified either using a string based notation in which the digit(s) and the unit can be separated by a blank or
 by using the numeric notation in which the digit(s) and the unit are separated by a dot character and it’s not enclosed by quote characters.
 String syntax	Numeric syntax	Value
 
@@ -262,7 +262,7 @@ docker:// download the container image from the Docker Hub and convert it to the
 
 docker-daemon:// pull the container image from a local Docker installation and convert it to a Singularity image file.
 
-Specifying a plain Docker container image name, Nextflow implicitly download and converts it to a Singularity image when the Singularity execution is enabled. 
+Specifying a plain Docker container image name, Nextflow implicitly download and converts it to a Singularity image when the Singularity execution is enabled.
 For example:
 
 ~~~
@@ -271,10 +271,10 @@ singularity.enabled = true
 ~~~
 {: .source}
 
-The above configuration instructs Nextflow to use Singularity engine to run your script processes. 
+The above configuration instructs Nextflow to use Singularity engine to run your script processes.
 The container is pulled from the Docker registry and cached in the current directory to be used for further runs.
 
-Alternatively if you have a Singularity image file, its location absolute path can be specified as the container name either using the 
+Alternatively if you have a Singularity image file, its location absolute path can be specified as the container name either using the
 `-with-singularity` option or the process.container setting in the config file.
 
 Try to run the script as shown below:
