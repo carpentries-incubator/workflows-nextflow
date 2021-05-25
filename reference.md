@@ -20,7 +20,8 @@ with `//`. Multi-line comments are nested between `/*` and `*/` tags.
     {: .language-groovy}
 - Variables are assigned using `=` and can have any value. Variables used
 inside a double quoted string are prefixed with a `$` to denote the
-variable should be interpolated. A variable is otherwise just used by it's
+variable should be interpolated (replace the variable with the variable's
+value). A variable is otherwise just used by it's
 name.
     ~~~
     myvar = 1                                     // Integer
