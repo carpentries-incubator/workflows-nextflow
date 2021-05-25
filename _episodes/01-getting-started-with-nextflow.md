@@ -205,6 +205,7 @@ process numLines {
 read_out_ch.view()
 
 ~~~~
+
 {: .language-groovy}
 
 To run a nextflow script use the command `nextflow run <script_name>`
@@ -351,7 +352,7 @@ This helps a lot when testing or modifying part of your pipeline without having 
 > {: .solution}
 {: .challenge}
 
-{: .source}
+{: .language-groovy }
 
 
 You will see that the execution of the process `numLines` is actually skipped (cached text appears), and its results are retrieved from the cache.
