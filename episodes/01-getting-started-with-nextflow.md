@@ -35,6 +35,7 @@ Analysing data involves a sequence of tasks, including gathering, cleaning and p
 
 
 
+
 <br>
 <center>
 <img src="../fig/sarek_workflow.png" width="200" height="400" >
