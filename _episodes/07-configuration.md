@@ -3,14 +3,14 @@ title: "Nextflow configuration"
 teaching: 40
 exercises: 15
 questions:
-- "How do you control how Nextflow runs?"
-- "How do you write a Nextflow configuration file?"
+- "How can I control how Nextflow runs?"
+- "How can I write a Nextflow configuration file?"
 objectives:
-- "Understand who Nextflow is configured."
+- "Understand how Nextflow is configured."
 - "Create a Nextflow configuration file."
 keypoints:
-- "Nextflow configuration can be managed using a nextflow.config."
-- "Nextflow configuration are simple text files ontaining a set of properties defined using the syntax"
+- "Nextflow configuration can be managed using a nextflow.config file."
+- "Nextflow configuration are simple text files containing a set of properties defined using the syntax"
 ---
 
 
@@ -42,17 +42,20 @@ since the first is interpreted as the number one, while the latter is interprete
 
 ### Config variables
 
-Configuration properties can be used as variables in the configuration file itself, by using the usual `$propertyName` or `${expression}` syntax.
+Configuration properties can be used as variables in the configuration file itself, by using the usual `$propertyName` or `${expression}` syntax. These variables are not available in the Nextflow script.
 
 ~~~
-propertyOne = 'world'
-anotherProp = "Hello $propertyOne"
-customPath = "$PATH:/my/app/folder"
+kmer = 27
+kmer_message = "kmer size is  ${kmer}"
 ~~~
-{: .source}
+{: .language-groovy }
 
 In the configuration file it’s possible to access any variable defined in the host environment such as `$PATH`, `$HOME`, `$PWD`, etc.
 
+~~~
+my_home_dir = "$HOME"
+~~~
+{: .language-groovy }
 
 ### Config comments
 
@@ -66,22 +69,23 @@ Configuration files use the same conventions for comments used in the Nextflow s
    multiple lines
  */
 ~~~
+{: .language-groovy }
 
 ### Config scopes
 
-Configuration settings can be organized in different scopes by dot prefixing the property names with a scope identifier or grouping the properties
-in the same scope using the curly brackets notation `{}`. This is shown in the following example:
+Configuration settings can be organised in different scopes by dot prefixing `.` the property names with a scope identifier or grouping the properties in the same scope using the curly brackets notation `{}`. This is shown in the following example:
 
 ~~~
-alpha.x  = 1
-alpha.y  = 'string value..'
+aligner.name  = "salmon"
+aligner.kmer  = 27
 
-beta {
-    p = 2
-    q = 'another string ..'
+index {
+    kmer = 27
+    outdir = 'results/index'
 }
 ~~~
-{: .source}
+{: .language-groovy }
+
 ### Config params
 
 The scope `param`s allows the definition of workflow parameters that overrides the values defined in the main workflow script.
@@ -97,57 +101,85 @@ params.bar = 'le monde!'
 params.foo = 'Hello'
 params.bar = 'world!'
 
-// print the both params
+// print both params
 println "$params.foo $params.bar"
-Exercise
-Save the first snippet as nextflow.config and the second one as params.nf. Then run:
-
-nextflow run params.nf
-Execute is again specifying the foo parameter on the command line:
-
-nextflow run params.nf --foo Hola
-Compare the result of the two executions.
 ~~~~
-{: .source}
+{: .language-groovy }
+
+> ## Configuration parameters
+> Save the first snippet below as `nextflow.config`
+> ~~~
+> // config file
+> params.foo = 'Bonjour'
+> params.bar = 'le monde!'
+> ~~~
+> and the second one below as `params.nf`. T
+> // workflow script
+> params.foo = 'Hello'
+> params.bar = 'world!'
+> Then run:
+> ~~~
+> nextflow run params.nf
+> ~~~
+> Execute is again specifying the foo parameter on the command line:
+>
+> ~~~
+> nextflow run params.nf --foo Hola
+> ~~~
+{: .bash}
+>
+> Compare the result of the two executions.
+> > ## Solution
+> > ~~~
+> {: .solution}
+{: .challenge}
+
 
 ### Config env
 
 The `env` scope allows the definition one or more variable that will be exported in the environment where the workflow tasks will be executed.
 
-~~~
-env.ALPHA = 'some value'
-env.BETA = "$HOME/some/path"
-~~~
-{: .source}
 
-Exercise
-Save the above snippet a file named my-env.config. The save the snippet below in a file named foo.nf:
-~~~
-process foo {
-  echo true
-  '''
-  env | egrep 'ALPHA|BETA'
-  '''
-}
-~~~
-{: .source}
+{: .language-groovy }
 
-Finally executed the following command:
+> env scope
+> ~~~
+> env.kmer = '21'
+> env.transcriptome = "$PWD/data/transcriptome.fa"
+> ~~~
+> {: .language-groovy }
+> Save the above snippet a file named `my-env.config`. Then save the snippet below in a file named `my-env.nf`:
+> ~~~
+> process envtest {
+>  echo true
+>  '''
+>  env | egrep 'ALPHA|BETA'
+>  '''
+> }
+>~~~
+> {: .language-groovy }
+>
+> Finally executed the following command:
+>
+> ~~~
+> nextflow run my-env.nf -c my-env.config
+> ~~~~
+> {: .bash-language}
+> {: .solution}
+> {: .challenge}
 
-~~~
-nextflow run foo.nf -c my-env.config
-~~~~
-{: .source}
+
+
+
 
 ### Config process
 
-The `process` directives allow the specification of specific settings for the task execution such as
-`cpus`, `memory`, `container` and other resources in the pipeline script.
+The `process` directives allow the specification of specific settings for the task execution such as `cpus`, `memory`, `conda` and other resources in the pipeline script.
 
 This is useful specially when prototyping a small workflow script.
 
 However it’s always a good practice to decouple the workflow execution logic from the process configuration settings,
-i.e. it’s strongly suggested to define the process settings in the workflow configuration file instead of the workflow script.
+i.e. it’s strongly suggested to define the process settings in the workflow configuration `nextflow.config` file instead of the workflow script.
 The process configuration scope allows the setting of any process directives in the Nextflow configuration file. For example:
 
 ~~~
@@ -157,7 +189,7 @@ process {
     container = 'biocontainers/bamtools:v2.4.0_cv3'
 }
 ~~~
-{: .source}
+{: .language-groovy }
 
 The above config snippet defines the `cpus`, `memory` and `container` directives for **all** processes in your workflow script.
 
@@ -192,6 +224,7 @@ String syntax	Numeric syntax	Value
 
 1 hour and 25 seconds
 ~~~
+{: .source }
 
 The syntax for setting process directives in the configuration file requires = ie. assignment operator, instead it should not be used when setting process directives in the workflow script.
 This important especially when you want to define a config setting using a dynamic expression using a closure. For example:
@@ -229,7 +262,7 @@ The container image to be used for the process execution can be specified in the
 process.container = 'nextflow/rnaseq-nf'
 docker.enabled = true
 ~~~
-{: .source}
+{: .language-groovy }
 
 The use of the unique SHA256 image ID guarantees that the image content do not change over time
 
@@ -248,7 +281,7 @@ The run the workflow execution with a Singularity container provide the containe
 process.container = '/some/singularity/image.sif'
 singularity.enabled = true
 ~~~
-{: .source}
+{: .language-groovy }
 
 The container image file must be an absolute path i.e. it must start with a /.
 
@@ -282,6 +315,7 @@ Try to run the script as shown below:
 ~~~
 nextflow run script7.nf
 ~~~
+{: .bash-language}
 
 Note: Nextflow will pull the container image automatically, it will require a few seconds depending the network connection speed.
 
@@ -290,21 +324,11 @@ Note: Nextflow will pull the container image automatically, it will require a fe
 The use of a Conda environment can also be provided in the configuration file adding the following setting in the `nextflow.config` file:
 
 ~~~
-process.conda = "/home/ubuntu/miniconda2/envs/nf-tutorial"
+process.conda = "/home/ubuntu/miniconda3/envs/nf-tutorial"
 ~~~
-{: .source}
+{: .language-groovy }
 
 You can either specify the path of an existing Conda environment directory or the path of Conda environment `YAML` file.
-
-
-
-
-
-
-
-
-
-
 
 
 
