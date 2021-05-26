@@ -135,12 +135,15 @@ The first line creates a value channel using the `Channel.value` factory method,
 >
 > Which of the following channels could be used multiple times and why?
 >
-> 1. value
-> 2. queue
+> ~~~
+> index_ch = Channel.of(1,2,3)
+> ref_ch = Channel.value('GRCh38')
+> ~~~
+> {: .language-groovy }
 >
 > > ## Solution
-> > 1. Yes: A value channel which can be used multiple times.
-> > 2. No: A queue channel which can only be used once.
+> > - `index_ch` is a queue channel, and can only be used once.
+> > - `ref_ch` is a value channel which can be used multiple times.
 > {: .solution}
 {: .challenge}
 
