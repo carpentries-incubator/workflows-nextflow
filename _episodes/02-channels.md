@@ -33,6 +33,9 @@ Channels let Nextflow handle file management, allowing complex tasks to be split
 
 ![Channel files](../fig/channel-files.png)
 
+Channels are asynchronous, which means that output data from a set of processes will not necessarily be in the same order as they went in.
+However, the first element into a queue is the first out of the queue (First in- First out). This allows processes to run as soon as they receive input from a channel. Channels only send data in one
+direction, from a producer (a process/operator), to a consumer (another process/operator).
 
 ## Channel types
 
@@ -41,14 +44,6 @@ Nextflow distinguish two different kinds of channels: **queue** channels and **v
 ### Queue channel
 
 Queue channels are a type of channel in which data is consumed (used up) to make input for a process/operator. It is also the default type of channel for process output.
-
-A *queue* channel has three properties.
-
-* Processes run as soon as they receive input from a channel.
-
-* That data flow is in one direction: from a producer to a consumer.
-
-* The first element of a queue is the first out of the queue (First in- First out).
 
 A queue channel can be created by a process in their output definitions, which we will cover in the next episode or created using channel factory methods such as [Channel.of](https://www.nextflow.io/docs/latest/channel.html#of) or [Channel.fromPath](https://www.nextflow.io/docs/latest/channel.html#frompath) which will we cover in this episode.
 
