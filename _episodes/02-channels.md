@@ -40,7 +40,7 @@ Nextflow distinguish two different kinds of channels: **queue** channels and **v
 
 ### Queue channel
 
-Queue channels are the way in which Nextflow sends data that is input and consumed(used up) or output by a process.
+Queue channels are a type of channel in which data is consumed (used up) to make input for a process/operator. It is also the default type of channel for process output.
 
 A *queue* channel has three properties.
 
