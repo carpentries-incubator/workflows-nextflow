@@ -33,9 +33,6 @@ keypoints:
 
 Analysing data involves a sequence of tasks, including gathering, cleaning and processing data. These sequence of tasks are called a workflow or a pipeline. These workflows typically require executing multiple software packages, sometimes running on different computing environments, such as a desktop or a compute cluster. Traditionally these workflows have been joined together in scripts using general purpose programming languages such as Bash or Python.
 
-
-
-
 <br>
 <center>
 <img src="../fig/sarek_workflow.png" width="200" height="400" >
