@@ -107,9 +107,10 @@ We will see in the operator episodes how to create multiple channels from a Chan
 
 ### Value channels
 
-The second type of Nextflow channel is a `value` channel. A **value** channel is bound to a *single* value. A value channel can be read unlimited times without consuming its content. This can be useful when setting a parameter value which are used by multiple processes.
+The second type of Nextflow channel is a `value` channel. A **value** channel is bound to a *single* value. A value channel can be used an unlimited number times since its content is not consumed. This
+is also useful for processes that need to reuse input from a channel.
 
-The Nextflow script below:
+For example, the following code
 
 ~~~
 ch = Channel.value('GRCh38')
@@ -119,7 +120,7 @@ ch.view()
 ~~~
 {: .language-groovy }
 
-Will print:
+will print
 
 ~~~
 GRCh38
@@ -128,8 +129,7 @@ GRCh38
 ~~~
 {: .output}
 
-The first line creates a value channel using the `Channel.value` method.
-As it is a value channel can be used multiple times.
+The first line creates a value channel using the `Channel.value` factory method, allowing it to be used multiple times.
 
 > ## Queue vs Value Channel
 >
