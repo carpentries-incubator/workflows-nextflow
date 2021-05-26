@@ -43,9 +43,8 @@ Nextflow distinguish two different kinds of channels: **queue** channels and **v
 
 ### Queue channel
 
-Queue channels are a type of channel in which data is consumed (used up) to make input for a process/operator. It is also the default type of channel for process output.
-
-A queue channel can be created by a process in their output definitions, which we will cover in the next episode or created using channel factory methods such as [Channel.of](https://www.nextflow.io/docs/latest/channel.html#of) or [Channel.fromPath](https://www.nextflow.io/docs/latest/channel.html#frompath) which will we cover in this episode.
+Queue channels are a type of channel in which data is consumed (used up) to make input for a process/operator. Process output channels are
+always queue channels. Queue channels can be explicitly created using channel factory methods such as [Channel.of](https://www.nextflow.io/docs/latest/channel.html#of) or [Channel.fromPath](https://www.nextflow.io/docs/latest/channel.html#frompath).
 
 > ## Create and view Channel contents
 > Create a file called `channel.nf` and type the following code into it.
