@@ -17,10 +17,10 @@ objectives:
 - "Select files as input based on a string pattern."
 - "Edit Channel factory arguments to alter how data is read in."
 keypoints:
-- "You can use Channels to import data into Nextflow."
-- "Nextflow has two different kinds of channels, queue channels and value channels. Values channels contain a  single value and can be used multiple times in workflow. Queue channels can be used once and are consumed when they are used by a process or an operator."
-- "Channel factory methods, such as Channel.of, are used to create Channels."
-- "Channel factory methods have optional arguments, e.g. `checkIfExists` , that can be used to alter the creation and behaviour of a channel. "
+- "Channels must be used to import data into Nextflow."
+- "Nextflow has two different kinds of channels, queue channels and value channels. Data in value channels can be used multiple times in workflow. Data in queue channels are consumed when they are used by a process or an operator."
+- "Channel factory methods, such as `Channel.of`, are used to create Channels."
+- "Channel factory methods have optional arguments, e.g. `checkIfExists` , that can be used to alter the creation and behaviour of a channel."
 ---
 
 # Channels
