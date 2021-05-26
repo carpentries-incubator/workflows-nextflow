@@ -15,7 +15,7 @@ objectives:
 - "Understand the different types of Nextflow Channels."
 - "Create a value and queue channel using Channel factory methods."
 - "Select files as input based on a string pattern."
-- "Edit Channel factory argument to alter how data is read in."
+- "Edit Channel factory arguments to alter how data is read in."
 keypoints:
 - "You can use Channels to import data into Nextflow."
 - "Nextflow has two different kinds of channels, queue channels and value channels. Values channels contain a  single value and can be used multiple times in workflow. Queue channels can be used once and are consumed when they are used by a process or an operator."
