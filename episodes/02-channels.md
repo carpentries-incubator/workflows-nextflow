@@ -53,10 +53,10 @@ always queue channels. Queue channels can be explicitly created using channel fa
 > ch.view()
 > ~~~
 > Run the code using
-> How many lines of output do you get?
 > ~~~~
 > nextflow run channel.nf
 > ~~~~
+> How many lines of output do you get?
 > > ## Solution
 > > In this example you have created a queue channel with three values 1,2,3 in it.
 > > This will produce three lines of output, one for each value.
