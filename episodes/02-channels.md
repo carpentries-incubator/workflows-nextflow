@@ -4,7 +4,7 @@ teaching: 30
 exercises: 10
 questions:
 - "How do I get data into Nextflow?"
-- "How do I handle different types of data, e.g. files and and parameters?"
+- "How do I handle different types of input, e.g. files and and parameters?"
 - "How do I create a Nextflow Channel?"
 - "How can I use patten matching to select input files?"
 - "How do I change the way inputs are handled?"
@@ -15,12 +15,12 @@ objectives:
 - "Understand the different types of Nextflow Channels."
 - "Create a value and queue channel using Channel factory methods."
 - "Select files as input based on a string pattern."
-- "Edit Channel factory argument to alter how data is read in."
+- "Edit Channel factory arguments to alter how data is read in."
 keypoints:
-- "You can use Channels to import data into Nextflow."
-- "Nextflow has two different kinds of channels, queue channels and value channels. Values channels contain a  single value and can be used multiple times in workflow. Queue channels can be used once and are consumed when they are used by a process or an operator."
-- "Channel factory methods, such as Channel.of, are used to create Channels."
-- "Channel factory methods have optional arguments, e.g. `checkIfExists` , that can be used to alter the creation and behaviour of a channel. "
+- "Channels must be used to import data into Nextflow."
+- "Nextflow has two different kinds of channels, queue channels and value channels. Data in value channels can be used multiple times in workflow. Data in queue channels are consumed when they are used by a process or an operator."
+- "Channel factory methods, such as `Channel.of`, are used to create Channels."
+- "Channel factory methods have optional arguments, e.g. `checkIfExists` , that can be used to alter the creation and behaviour of a channel."
 ---
 
 # Channels
@@ -33,6 +33,9 @@ Channels let Nextflow handle file management, allowing complex tasks to be split
 
 ![Channel files](../fig/channel-files.png)
 
+Channels are asynchronous, which means that output data from a set of processes will not necessarily be in the same order as they went in.
+However, the first element into a queue is the first out of the queue (First in- First out). This allows processes to run as soon as they receive input from a channel. Channels only send data in one
+direction, from a producer (a process/operator), to a consumer (another process/operator).
 
 ## Channel types
 
@@ -40,17 +43,8 @@ Nextflow distinguish two different kinds of channels: **queue** channels and **v
 
 ### Queue channel
 
-Queue channels are the way in which Nextflow sends data that is input and consumed(used up) or output by a process.
-
-A *queue* channel has three properties.
-
-* Processes run as soon as they receive input from a channel.
-
-* That data flow is in one direction: from a producer to a consumer.
-
-* The first element of a queue is the first out of the queue (First in- First out).
-
-A queue channel can be created by a process in their output definitions, which we will cover in the next episode or created using channel factory methods such as [Channel.of](https://www.nextflow.io/docs/latest/channel.html#of) or [Channel.fromPath](https://www.nextflow.io/docs/latest/channel.html#frompath) which will we cover in this episode.
+Queue channels are a type of channel in which data is consumed (used up) to make input for a process/operator. Process output channels are
+always queue channels. Queue channels can be explicitly created using channel factory methods such as [Channel.of](https://www.nextflow.io/docs/latest/channel.html#of) or [Channel.fromPath](https://www.nextflow.io/docs/latest/channel.html#frompath).
 
 > ## Create and view Channel contents
 > Create a file called `channel.nf` and type the following code into it.
@@ -59,10 +53,10 @@ A queue channel can be created by a process in their output definitions, which w
 > ch.view()
 > ~~~
 > Run the code using
-> How many lines of output do you get?
 > ~~~~
 > nextflow run channel.nf
 > ~~~~
+> How many lines of output do you get?
 > > ## Solution
 > > In this example you have created a queue channel with three values 1,2,3 in it.
 > > This will produce three lines of output, one for each value.
@@ -77,9 +71,9 @@ A queue channel can be created by a process in their output definitions, which w
 
 ### Queue channels usage
 
-Once a channel is used/consumed by an operator or process it can not be used again.
+Queue channels can only be used once in a workflow, either connecting workflow input to process input, or process output to input for another process.
 
-If we add two `ch.view()` operation on the same channel object.
+If we add two `ch.view()` operations on the same channel object,
 
 ~~~
 ch = Channel.of(1,2,3)
@@ -88,14 +82,14 @@ ch.view()
 ~~~
 {: .language-groovy }
 
-Then run using :
+and then run,
 
 ~~~
 nextflow run channel.nf
 ~~~
 {: .language-bash}
 
-It will produce an error as the queue channel `ch` is consumed in by the first `.view` operation and isn't available to use again.
+it will produce an error. The queue channel `ch` has been used by the first `.view` operator and so isn't available to use again.
 
 ~~~
 N E X T F L O W  ~  version 20.10.0
@@ -113,9 +107,10 @@ We will see in the operator episodes how to create multiple channels from a Chan
 
 ### Value channels
 
-The second type of Nextflow channel is a `value` channel. A **value** channel is bound to a *single* value. A value channel can be read unlimited times without consuming its content. This can be useful when setting a parameter value which are used by multiple processes.
+The second type of Nextflow channel is a `value` channel. A **value** channel is bound to a *single* value. A value channel can be used an unlimited number times since its content is not consumed. This
+is also useful for processes that need to reuse input from a channel.
 
-The Nextflow script below:
+For example, the following code
 
 ~~~
 ch = Channel.value('GRCh38')
@@ -125,7 +120,7 @@ ch.view()
 ~~~
 {: .language-groovy }
 
-Will print:
+will print
 
 ~~~
 GRCh38
@@ -134,28 +129,33 @@ GRCh38
 ~~~
 {: .output}
 
-The first line creates a value channel using the `Channel.value` method.
-As it is a value channel can be used multiple times.
+The first line creates a value channel using the `Channel.value` factory method, allowing it to be used multiple times.
 
 > ## Queue vs Value Channel
 >
 > Which of the following channels could be used multiple times and why?
 >
-> 1. value
-> 2. queue
+> ~~~
+> index_ch = Channel.of(1,2,3)
+> ref_ch = Channel.value('GRCh38')
+> ~~~
+> {: .language-groovy }
 >
 > > ## Solution
-> > 1. Yes: A value channel which can be used multiple times.
-> > 2. No: A queue channel which can only be used once.
+> > - `index_ch` is a queue channel, and can only be used once.
+> > - `ref_ch` is a value channel which can be used multiple times.
 > {: .solution}
 {: .challenge}
 
 ## Creating Channels, Channel factories
 
-Channel factories are a way Nextflow can create  different channel types (queue and value).
-"Factory" is the term used when creating an object of a different type e.g. value or queue channels.
-
-We use  `Channel` as the first part along with a method `<method>` that determine the type of channel we are creating. We separate these parts using a `.`.
+Channel factories are used to explicitly create channels. In programming,
+factory methods (functions) are a programming design pattern used
+to create different types of objects (in this case, different types
+of channels). They are implemented for things that represent more
+generalised concepts, such as a `Channel`. Channel factories are
+called using the `Channel.<method>` syntax, and return a specific instance
+of a `Channel`. 
 
 ### Value
 
