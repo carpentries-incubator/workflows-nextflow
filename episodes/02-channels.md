@@ -71,9 +71,9 @@ always queue channels. Queue channels can be explicitly created using channel fa
 
 ### Queue channels usage
 
-Once a channel is used/consumed by an operator or process it can not be used again.
+Queue channels can only be used once in a workflow, either connecting workflow input to process input, or process output to input for another process.
 
-If we add two `ch.view()` operation on the same channel object.
+If we add two `ch.view()` operations on the same channel object,
 
 ~~~
 ch = Channel.of(1,2,3)
@@ -82,14 +82,14 @@ ch.view()
 ~~~
 {: .language-groovy }
 
-Then run using :
+and then run,
 
 ~~~
 nextflow run channel.nf
 ~~~
 {: .language-bash}
 
-It will produce an error as the queue channel `ch` is consumed in by the first `.view` operation and isn't available to use again.
+it will produce an error. The queue channel `ch` has been used by the first `.view` operator and so isn't available to use again.
 
 ~~~
 N E X T F L O W  ~  version 20.10.0
