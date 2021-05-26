@@ -149,10 +149,13 @@ The first line creates a value channel using the `Channel.value` factory method,
 
 ## Creating Channels, Channel factories
 
-Channel factories are a way Nextflow can create  different channel types (queue and value).
-"Factory" is the term used when creating an object of a different type e.g. value or queue channels.
-
-We use  `Channel` as the first part along with a method `<method>` that determine the type of channel we are creating. We separate these parts using a `.`.
+Channel factories are used to explicitly create channels. In programming,
+factory methods (functions) are a programming design pattern used
+to create different types of objects (in this case, different types
+of channels). They are implemented for things that represent more
+generalised concepts, such as a `Channel`. Channel factories are
+called using the `Channel.<method>` syntax, and return a specific instance
+of a `Channel`. 
 
 ### Value
 
