@@ -1,6 +1,6 @@
 ---
 title: "Nextflow configuration"
-teaching: 40
+teaching: 30
 exercises: 15
 questions:
 - "How can I control how Nextflow runs?"
@@ -93,44 +93,62 @@ The scope `param`s allows the definition of workflow parameters that overrides t
 This is useful to consolidate one or more execution parameters in a separate file.
 
 ~~~
-// config file
-params.foo = 'Bonjour'
-params.bar = 'le monde!'
+// config file nextflow.config
+params.kmer= 27
+
 
 // workflow script
-params.foo = 'Hello'
-params.bar = 'world!'
+params.kmer = 31
 
-// print both params
-println "$params.foo $params.bar"
+println "$params.kmer"
 ~~~~
 {: .language-groovy }
 
+This would output
+
+~~~
+27
+~~~
+{: .output }
+
 > ## Configuration parameters
-> Save the first snippet below as `nextflow.config`
+> Save the snippet below in the file `nextflow.config`
 > ~~~
 > // config file
-> params.foo = 'Bonjour'
-> params.bar = 'le monde!'
+> params.genome = 'GRCh38'
+> params.aligner = 'salmon'
 > ~~~
-> and the second one below as `params.nf`. T
+> and then save the code below in the Nextflow script `params.nf`.
+> ~~~
 > // workflow script
-> params.foo = 'Hello'
-> params.bar = 'world!'
+> params.genome = 'GRCh37'
+> params.aligner = 'kallisto'
+> println "$params.genome $params.aligner"
+> ~~~
 > Then run:
 > ~~~
 > nextflow run params.nf
 > ~~~
+> {: .bash-language}
 > Execute is again specifying the foo parameter on the command line:
 >
 > ~~~
-> nextflow run params.nf --foo Hola
+> nextflow run params.nf --genome hg38
 > ~~~
-{: .bash}
+{: .bash-language}
 >
 > Compare the result of the two executions.
 > > ## Solution
+> > The first command will print
 > > ~~~
+> > GRCh38 salmon
+> > ~~~
+> > {: .output}
+> > The second command will print
+> > ~~~
+> > hg38 salmon
+> > ~~~
+> > {: .output}
 > {: .solution}
 {: .challenge}
 
@@ -139,13 +157,30 @@ println "$params.foo $params.bar"
 
 The `env` scope allows the definition one or more variable that will be exported in the environment where the workflow tasks will be executed.
 
+Simply prefix your variable names with the env scope or surround them by curly brackets, as shown below:
 
+~~~~
+// configuration file
+env.genome = 'hg38'
+env {
+   aligner = 'salmon'  
+}
+~~~~
+{: .language-groovy }
+
+~~~
+// workflow script
+script:
+"""
+echo \$genome
+"""
+~~~
 {: .language-groovy }
 
 > env scope
 > ~~~
 > env.kmer = '21'
-> env.transcriptome = "$PWD/data/transcriptome.fa"
+> env.genome = "hg38"
 > ~~~
 > {: .language-groovy }
 > Save the above snippet a file named `my-env.config`. Then save the snippet below in a file named `my-env.nf`:
@@ -153,7 +188,8 @@ The `env` scope allows the definition one or more variable that will be exported
 > process envtest {
 >  echo true
 >  '''
->  env | egrep 'ALPHA|BETA'
+>  echo  \$kmer
+>  env | egrep 'genome'
 >  '''
 > }
 >~~~
@@ -165,11 +201,15 @@ The `env` scope allows the definition one or more variable that will be exported
 > nextflow run my-env.nf -c my-env.config
 > ~~~~
 > {: .bash-language}
+> > Solution
+> > This will print
+> > ~~~~
+> > 21
+> > genome=hg38
+> > ~~~
+> > > {: .output}
 > {: .solution}
 > {: .challenge}
-
-
-
 
 
 ### Config process
@@ -183,8 +223,9 @@ i.e. it’s strongly suggested to define the process settings in the workflow co
 The process configuration scope allows the setting of any process directives in the Nextflow configuration file. For example:
 
 ~~~
+// configuration file
 process {
-    cpus = 10
+    cpus = 2
     memory = 8.GB
     container = 'biocontainers/bamtools:v2.4.0_cv3'
 }
@@ -195,53 +236,31 @@ The above config snippet defines the `cpus`, `memory` and `container` directives
 
 The `process` selector can be used to apply the configuration to a specific process or group of processes (discussed later).
 
-Memory and time duration unit can be specified either using a string based notation in which the digit(s) and the unit can be separated by a blank or
+
+> Unit
+> Memory and time duration unit can be specified either using a string based notation in which the digit(s) and the unit can be separated by a blank or
 by using the numeric notation in which the digit(s) and the unit are separated by a dot character and it’s not enclosed by quote characters.
-String syntax	Numeric syntax	Value
+{: .callout}
 
-~~~
-'10 KB'
+| String syntax   | Numeric syntax | Value                 |
+|-----------------|----------------|-----------------------|
+| '10 KB'         | 10.KB          | 10240 bytes           |
+| '500 MB'        | 500.MB         | 524288000 bytes       |
+| '1 min'         | 1.min          | 60 seconds            |
+| '1 hour 25 sec' | -              | 1 hour and 25 seconds |
 
-10.KB
+> process directives require `=` in configuration file.
+>The syntax for setting process directives in the configuration file requires = ie. assignment  operator, instead it should not be used when setting process directives in the workflow script.
+{: .callout}
 
-10240 bytes
-
-'500 MB'
-
-500.MB
-
-524288000 bytes
-
-'1 min'
-
-1.min
-
-60 seconds
-
-'1 hour 25 sec'
-
--
-
-1 hour and 25 seconds
-~~~
-{: .source }
-
-The syntax for setting process directives in the configuration file requires = ie. assignment operator, instead it should not be used when setting process directives in the workflow script.
-This important especially when you want to define a config setting using a dynamic expression using a closure. For example:
+This is important especially when you want to define a config setting using a dynamic expression using a closure. For example:
 
 ~~~
 process {
     memory = { 4.GB * task.cpus }
 }
 ~~~
-
-Directives that requires more than one value, e.g. pod, in the configuration file need to be expressed as a map object.
-
-~~~
-process {
-    pod = [env: 'FOO', value: '123']
-}
-~~~
+{: .language-groovy }
 
 
 Finally directives that allows to be repeated in the process definition, in the configuration files need to be defined as a list object. For example:
@@ -252,7 +271,9 @@ process {
             [env: 'BAR', value: '456'] ]
 }
 ~~~
-{: .source}
+{: .language-groovy }
+
+
 
 ### Config Docker execution
 
@@ -283,32 +304,32 @@ singularity.enabled = true
 ~~~
 {: .language-groovy }
 
-The container image file must be an absolute path i.e. it must start with a /.
+The container image file must be an absolute path i.e. it must start with a `/`.
 
 The following protocols are supported:
 
-library:// download the container image from the Singularity Library service.
+* `library://`` download the container image from the Singularity Library service.
 
-shub:// download the container image from the Singularity Hub.
+* `shub://`` download the container image from the Singularity Hub.
 
-docker:// download the container image from the Docker Hub and convert it to the Singularity format.
+* `docker://`` download the container image from the Docker Hub and convert it to the Singularity format.
 
-docker-daemon:// pull the container image from a local Docker installation and convert it to a Singularity image file.
+* `docker-daemon://` pull the container image from a local Docker installation and convert it to a Singularity image file.
 
+> Docker to Singularity image
 Specifying a plain Docker container image name, Nextflow implicitly download and converts it to a Singularity image when the Singularity execution is enabled.
 For example:
-
-~~~
-process.container = 'nextflow/rnaseq-nf'
-singularity.enabled = true
-~~~
-{: .source}
+> ~~~
+> process.container = 'nextflow/rnaseq-nf'
+> singularity.enabled = true
+> ~~~
+> {: .source}
+{: .callout}
 
 The above configuration instructs Nextflow to use Singularity engine to run your script processes.
 The container is pulled from the Docker registry and cached in the current directory to be used for further runs.
 
-Alternatively if you have a Singularity image file, its location absolute path can be specified as the container name either using the
-`-with-singularity` option or the process.container setting in the config file.
+Alternatively if you have a Singularity image file, its location absolute path can be specified as the container name either using the `-with-singularity` option or the `process.container` setting in the config file.
 
 Try to run the script as shown below:
 
