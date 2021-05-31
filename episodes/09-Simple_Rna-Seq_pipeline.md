@@ -1,7 +1,7 @@
 ---
 title: "Simple Rna-Seq pipeline"
 teaching: 20
-exercises: 30
+exercises: 40
 questions:
 - "How can I create a pipeline?"
 objectives:
@@ -11,10 +11,9 @@ keypoints:
 - ""
 ---
 
-
 During this tutorial you will implement a proof of concept of a RNA-Seq pipeline which:
 
-1. Indexes a trascriptome file.
+1. Indexes a transcriptome file.
 
 1. Performs quality controls
 
@@ -27,34 +26,55 @@ During this tutorial you will implement a proof of concept of a RNA-Seq pipeline
 The script `script1.nf` defines the pipeline input parameters.
 
 ~~~
-params.reads = "$baseDir/data/ggal/*_{1,2}.fq"
+params.reads = "$baseDir/data/yeast/reads/*_{1,2}.fq.gz"
 params.transcriptome = "$baseDir/data/ggal/transcriptome.fa"
 params.multiqc = "$baseDir/multiqc"
 
 println "reads: $params.reads"
 ~~~~
-{: .source}
+{: .language-groovy }
 
 Run it by using the following command:
 
 ~~~
 nextflow run script1.nf
 ~~~
-{: .source}
+{: language-bash}
 
 Try to specify a different input parameter, for example:
 
 ~~~
 nextflow run script1.nf --reads "sample1.fq"
 ~~~
+{: .language-groovy }
 
-> Exercise
-> Modify the script1.nf adding a fourth parameter named outdir and set it to a default path that will be used as the pipeline output directory.
+> ## Add parameter
+> Modify the `script1.nf` adding a fourth parameter named `outdir` and set it to a default path that will be used as the pipeline output directory.
+> > ## Solution
+> > ~~~
+> > params.outdir = "results"
+> > ~~~
+> > {: .language-groovy }
+> {: .solution}
+{: .challenge}
 
-> # Exercise
-> Modify the script1.nf to print all the pipeline parameters by using a single `log.info` command and a multiline string statement.
-
-See an example [here](https://github.com/nextflow-io/rnaseq-nf/blob/3b5b49f/main.nf#L41-L48).
+> # log.info
+> Modify the `script1.nf` to print all the pipeline parameters by using a single `log.info` command and a multiline string statement.
+> See an example [here](https://github.com/nextflow-io/rnaseq-nf/blob/3b5b49f/main.nf#L41-L48).
+> > ## Solution
+> > ~~~
+> > log.info """\
+> >         R N A S E Q - N F   P I P E L I N E    
+> >         ===================================
+> >         transcriptome: ${params.transcript}
+> >         reads        : ${params.reads}
+> >         outdir       : ${params.outdir}
+> >         """
+> >         .stripIndent()
+> > ~~~
+> > {: .language-groovy }
+> {: .solution}
+{: .challenge}
 
 ### Recap
 
@@ -74,16 +94,16 @@ In this step you have learned:
 
 Nextflow allows the execution of any command or user script by using a process definition.
 
-A process is defined by providing three main declarations: the process inputs, the process outputs and finally the command script.
+A process is defined by providing three main declarations: the process [inputs](https://www.nextflow.io/docs/latest/process.html#inputs), the process [outputs](https://www.nextflow.io/docs/latest/process.html#outputs) and finally the command [script](https://www.nextflow.io/docs/latest/process.html#script).
 
-The second example adds the index process.
+The second example adds the `index` process.
 
 ~~~
 /*
  * pipeline input parameters
  */
-params.reads = "$baseDir/data/ggal/*_{1,2}.fq"
-params.transcriptome = "$baseDir/data/ggal/transcriptome.fa"
+params.reads = "$baseDir/data/yeast/reads/*_{1,2}.fq.gz"
+params.transcriptome = "$baseDir/data/transcriptome/transcriptome.fa"
 params.multiqc = "$baseDir/multiqc"
 params.outdir = "results"
 
@@ -115,9 +135,9 @@ process index {
     """
 }
 ~~~
-{: .source}
+{: .language-groovy }
 
-It takes the transcriptome params file as input and creates the transcriptome index by using the salmon tool.
+It takes the transcriptome params file as input and creates the transcriptome index by using the `salmon` tool.
 
 Note how the input declaration defines a transcriptome variable in the process context that it is used in the command script to reference that file in the Salmon command line.
 
@@ -126,38 +146,43 @@ Try to run it by using the command:
 ~~~
 nextflow run script2.nf
 ~~~
-{: .source}
+{: .language-bash }
 
 The execution will fail because Salmon is not installed in your environment.
 
-Add the command line option `-with-docker` to launch the execution through a Docker container as shown below:
+Add the command line option `-with-conda` to launch the execution through a conda environment as shown below:
 
 ~~~
-nextflow run script2.nf -with-docker
+nextflow run script2.nf -with-conda
 ~~~
+{: .language-bash }
 
-This time it works because it uses the Docker container `nextflow/rnaseq-nf` defined in the `nextflow.config` file.
+This time it works because it uses the conda environment `nextflow/rnaseq-nf` defined in the `nextflow.config` file.
 
-In order to avoid to add the option `-with-docker` add the following line in the `nextflow.config` file:
+In add the option `-with-conda` add the following line in the `nextflow.config` file:
 
 `docker.enabled = true`
 
-> # Exercise: Enable docker
+> ## Enable docker
 > Enable the Docker execution by default adding the above setting in the nextflow.config file.
 > > ## Solution
 > {: .solution}
 {: .challenge}
 
 
-> ## Exercise: print output of the index_ch
+> ## Print output of the index_ch
 > Print the output of the index_ch channel by using the view.
 > > ## Solution
 > {: .solution}
 {: .challenge}
 
-> ## Exercise
+> ## Examine work directory
 > Use the command `tree work` to see how Nextflow organises the process work directory.
 > > ## Solution
+> > ~~~
+> > tree work
+> > ~~~
+> > {: .language-bash}
 > {: .solution}
 {: .challenge}
 
@@ -183,20 +208,21 @@ Edit the script `script3.nf` and add the following statement as the last line:
 ~~~
 read_pairs_ch.view()
 ~~~
-{: .source}
+{: .language-groovy }
 
 Save it and execute it with the following command:
 
 ~~~
 nextflow run script3.nf
 ~~~
-{: .source}
+{: .language-bash }
 
 It will print an output similar to the one shown below:
 
 ~~~
-[ggal_gut, [/.../data/ggal/gut_1.fq, /.../data/ggal/gut_2.fq]]
+[ggal_gut, [/.../data/ggal/gut_1.fq, /.../data/yeast/reads/ref1_2.fq]]
 ~~~
+{: .output }
 
 The above example shows how the `read_pairs_ch` channel emits tuples composed by two elements, where the first is the read pair prefix and the second is a list representing the actual files.
 
@@ -205,19 +231,28 @@ Try it again specifying different read files by using a glob pattern:
 ~~~
 nextflow run script3.nf --reads 'data/ggal/*_{1,2}.fq'
 ~~~
-
+{: .language-bash }
 
 File paths including one or more wildcards ie. `*`, `?`, etc. MUST be wrapped in single-quoted characters to avoid Bash expands the glob.
 
-> Exercise
+> ## `set` operator
 > Use the set operator in place of = assignment to define the read_pairs_ch channel.
 > > ## Solution
+> > ~~~
+> > Channel .fromFilePairs(params.reads)
+> > .set{read_pairs_ch}
+> > ~~~
+> > {: .language-groovy }
 > {: .solution}
 {: .challenge}
 
-> Exercise
+> ## checkIfExists
 > Use the `checkIfExists` option for the `fromFilePairs` method to check if the specified path contains at least file pairs.
 > > ## Solution
+> > ~~~
+> > Channel .fromFilePairs(params.reads, checkIfExists: true)
+> > .set{read_pairs_ch}
+> > {: .language-groovy }
 > {: .solution}
 {: .challenge}
 
@@ -260,13 +295,17 @@ You will notice that the quantification process is executed more than one time.
 
 Nextflow parallelizes the execution of your pipeline simply by providing multiple input data to your script.
 
-> # Exercise
+> # Add a tag directive
 > Add a tag directive to the quantification process to provide a more readable execution log.
+> > ## Solution
+> >
 > {: .solution}
 {: .challenge}
 
-> # Exercise
+> # Add a publishDir directive
 Add a publishDir directive to the quantification process to store the process results into a directory of your choice.
+> > ## Solution
+> >
 > {: .solution}
 {: .challenge}
 
@@ -290,7 +329,7 @@ You can run it by using the following command:
 ~~~
 nextflow run script5.nf -resume
 ~~~
-{: .source}
+{: .language-bash}
 
 The script will report the following error message:
 
@@ -301,6 +340,8 @@ Channel `read_pairs_ch` has been used twice as an input by process `fastqc` and 
 
 > Exercise
 > Modify the creation of the read_pairs_ch channel by using a [into](https://www.nextflow.io/docs/latest/operator.html#into) operator in place of a set.
+> > ## Solution
+> >
 > {: .solution}
 {: .challenge}
 
@@ -318,9 +359,9 @@ This step collect the outputs from the quantification and fastqc steps to create
 
 Execute the script with the following command:
 ~~~~
-nextflow run script6.nf -resume --reads 'data/ggal/*_{1,2}.fq'
+nextflow run script6.nf -resume --reads 'data/yeast/reads/*_{1,2}.fq.gz'
 ~~~~
-{: .source}
+{: .language-bash}
 
 It creates the final report in the results folder in the current work directory.
 
@@ -347,6 +388,6 @@ The script uses the `workflow.onComplete` event handler to print a confirmation 
 Try to run it by using the following command:
 
 ~~~
-nextflow run script7.nf -resume --reads 'data/ggal/*_{1,2}.fq'
+nextflow run script7.nf -resume --reads 'data/yeast/reads/*_{1,2}.fq.gz'
 ~~~
-{: .source}
+{: .language-bash}
