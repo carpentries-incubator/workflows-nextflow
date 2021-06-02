@@ -52,6 +52,7 @@ always queue channels. Queue channels can be explicitly created using channel fa
 > ch = Channel.of(1,2,3)
 > ch.view()
 > ~~~
+> {: .language-groovy }
 > Run the code using
 > ~~~~
 > nextflow run channel.nf
@@ -155,7 +156,7 @@ to create different types of objects (in this case, different types
 of channels). They are implemented for things that represent more
 generalised concepts, such as a `Channel`. Channel factories are
 called using the `Channel.<method>` syntax, and return a specific instance
-of a `Channel`. 
+of a `Channel`.
 
 ### Value
 
@@ -265,6 +266,7 @@ fixme add exercise to get learner to create queue and value channels
 > > value_ch.view()
 > > q_ch.view()
 > > ~~~
+> > {: .language-groovy }
 > > queue channel will print three lines.
 > > The value channel will print one line.
 > {: .solution}
@@ -369,7 +371,7 @@ No files match pattern `*.fq` at path: /chicken/ggal/
 > > ch = Channel.fromPath('data/yeast/**', hidden: true)
 > > ch.view()
 > > ~~~
-> >
+> > {: .language-groovy }
 > {: .solution}
 {: .challenge}
 
@@ -434,7 +436,7 @@ See more information about the channel factory  `fromFilePairs` [here](https://w
 > > pairs_ch.view()
 > > Channel.fromFilePairs('data/yeast/reads/*_{1,2,3,4}_{1,2}.fq.gz', size:6).view()
 > > ~~~
-> >
+> > {: .language-groovy }
 > {: .solution}
 {: .challenge}
 
