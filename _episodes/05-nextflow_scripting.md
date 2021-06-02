@@ -33,7 +33,8 @@ To print something is as easy as using one of the `print` or `println` methods.
 ~~~
 println("Hello, World!")
 ~~~
-{: .source}
+{: .language-groovy }
+
 
 The only difference between the two is that the `println` method implicitly appends a new line character to the printed string.
 
@@ -42,7 +43,8 @@ The only difference between the two is that the `println` method implicitly appe
 ~~~
 println "Hello, World!"
 ~~~
-{: .source}
+{: .language-groovy }
+
 
 ## Comments
 
@@ -56,7 +58,8 @@ Comments use the same syntax as in the C-family programming languages. This can 
    multiple lines
  */
 ~~~
-{: .source}
+{: .language-groovy }
+
 
 ### Variables
 
@@ -83,14 +86,16 @@ println x
 x = "Hi"
 println x
 ~~~
-{: .source}
+{: .language-groovy }
+
 
 Local variables are defined using the `def` keyword:
 
 ~~~
 def x = 'foo'
 ~~~
-{: .source}
+{: .language-groovy }
+
 
 It should be always used when defining variables local to a function or a closure.
 
@@ -101,7 +106,8 @@ A List object can be defined by placing the list items in square brackets `[]` a
 ~~~
 list = [10,20,30,40]
 ~~~
-{: .source}
+{: .language-groovy }
+
 
 You can access a given item in the list with square-bracket notation (indexes start at `0`) or using the `get` method:
 
@@ -109,7 +115,8 @@ You can access a given item in the list with square-bracket notation (indexes st
 assert list[0] == 10
 assert list[0] == list.get(0)
 ~~~
-{: .source}
+{: .language-groovy }
+
 
 > ## Assert
 > Assertions are important for checking some conditions are met.
@@ -128,7 +135,8 @@ list = [0,1,2]
 assert list[-1] == 2
 assert list[-1..0] == list.reverse()
 ~~~
-{: .source}
+{: .language-groovy }
+
 
 List objects implements all methods provided by the Java java.util.List interface plus the extension methods provided by [Groovy API](http://docs.groovy-lang.org/latest/html/groovy-jdk/java/util/List.html).
 
@@ -150,7 +158,8 @@ assert [4,2,1,3].sort() == [1,2,3,4]
 assert [4,2,1,3].find{it%2 == 0} == 4
 assert [4,2,1,3].findAll{it%2 == 0} == [4,2]
 ~~~
-{: .source}
+{: .language-groovy }
+
 
 
 
@@ -162,7 +171,8 @@ Maps are like lists that have an arbitrary type of key instead of integer. There
 ~~~
 map = [a:0, b:1, c:2]
 ~~~
-{: .source}
+{: .language-groovy }
+
 
 Maps can be accessed in a conventional square-bracket syntax or as if the key was a property of the map.
 
@@ -184,7 +194,8 @@ map.b = 'y'
 map.put('c', 'z')        
 assert map == [a:'x', b:'y', c:'z']
 ~~~
-{: .source}
+{: .language-groovy }
+
 
 * Use of the square brackets.
 * Use a dot notation.
@@ -208,7 +219,8 @@ println "The $foxtype ${foxcolor.join()} fox"
 x = 'Hello'
 println '$x + $y'
 ~~~
-{: .source}
+{: .language-groovy }
+
 
 This code prints:
 
@@ -230,7 +242,8 @@ y = 'tic\tac\toe'
 println x
 println y
 ~~~
-{: .source}
+{: .language-groovy }
+
 
 it prints:
 
@@ -238,7 +251,8 @@ it prints:
 tic\tac\toe
 tic    ac    oe
 ~~~
-{: .source}
+{: .language-groovy }
+
 
 ## Multi-line strings
 
@@ -250,7 +264,8 @@ text = """
     how are you today?
     """
 ~~~
-{: .source}
+{: .language-groovy }
+
 
 Finally multi-line strings can also be defined with slashy string `/`. For example:
 
@@ -261,7 +276,8 @@ text = /
     It's cool, isn't it?!
     /
 ~~~
-{: .source}
+{: .language-groovy }
+
 
 Like before, multi-line strings inside double quotes and slash characters support variable interpolation, while single-quoted multi-line strings do not.
 
@@ -281,7 +297,8 @@ else {
     // false branch
 }
 ~~~
-{: .source}
+{: .language-groovy }
+
 
 The else branch is optional. Also curly brackets are optional when the branch define just a single statement.
 
@@ -290,7 +307,8 @@ x = 1
 if( x > 10 )
     println 'Hello'
 ~~~
-{: .source}
+{: .language-groovy }
+
 
 null, empty strings and empty collections are evaluated to false.
 Therefore a statement like:
@@ -304,7 +322,8 @@ else {
   println 'The list is empty'
 }
 ~~~
-{: .source}
+{: .language-groovy }
+
 
 Can be written as:
 
@@ -314,7 +333,8 @@ if( list )
 else
     println 'The list is empty'
 ~~~
-{: .source}
+{: .language-groovy }
+
 
 See the Groovy-Truth for details.
 
@@ -323,14 +343,16 @@ In some cases can be useful to replace if statement with a ternary expression ak
 ~~~
 println list ? list : 'The list is empty'
 ~~~
-{: .source}
+{: .language-groovy }
+
 
 The previous statement can be further simplified using the Elvis operator `?:` as shown below:
 
 ~~~
 println list ?: 'The list is empty'
 ~~~
-{: .source}
+{: .language-groovy }
+
 
 ## For statement
 
@@ -341,7 +363,8 @@ for (int i = 0; i <3; i++) {
    println("Hello World $i")
 }
 ~~~
-{: .source}
+{: .language-groovy }
+
 
 Iteration over list objects is also possible using the syntax below:
 
@@ -352,7 +375,8 @@ for( String elem : list ) {
   println elem
 }
 ~~~
-{: .source}
+{: .language-groovy }
+
 
 ## Functions
 
@@ -366,7 +390,8 @@ int fib(int n) {
 
 assert fib(10)==89
 ~~~
-{: .source}
+{: .language-groovy }
+
 
 A function can take multiple arguments separating them with a comma. The return keyword can be omitted and the function implicitly returns the value of the last evaluated expression. Also explicit types can be omitted (thought not recommended):
 
@@ -378,7 +403,8 @@ def fact( n ) {
 
 assert fact(5) == 120
 ~~~
-{: .source}
+{: .language-groovy }
+
 
 ## Closures
 
@@ -389,7 +415,8 @@ More formally, a closure allows the definition of functions as first class objec
 ~~~
 square = { it * it }
 ~~~
-{: .source}
+{: .language-groovy }
+
 
 The curly brackets `{}` around the expression `it * it` tells the script interpreter to treat this expression as code. The `it` identifier is an implicit variable that represents the value that is passed to the function when it is invoked.
 
@@ -399,7 +426,8 @@ Once compiled the function object is assigned to the variable square as any othe
 assert square.call(5) == 25
 assert square(9) == 81
 ~~~
-{: .source}
+{: .language-groovy }
+
 
 This is not very interesting until we find that we can pass the function square as an argument to other functions or methods. Some built-in functions take a function like this as an argument. One example is the collect method on lists:
 
@@ -407,14 +435,16 @@ This is not very interesting until we find that we can pass the function square 
 x = [ 1, 2, 3, 4 ].collect(square)
 println x
 ~~~
-{: .source}
+{: .language-groovy }
+
 
 It prints:
 
 ~~~
 [ 1, 4, 9, 16 ]
 ~~~
-{: .source}
+{: .language-groovy }
+
 
 By default, closures take a single parameter called `it`, to give it a different name use the -> syntax. For example:
 
@@ -431,7 +461,8 @@ printMap = { a, b -> println "$a with value $b" }
 values = [ "Yue" : "Wu", "Mark" : "Williams", "Sudha" : "Kumari" ]
 values.each(printMap)
 ~~~
-{: .source}
+{: .language-groovy }
+
 
 It prints:
 
@@ -440,7 +471,8 @@ Yue with value Wu
 Mark with value Williams
 Sudha with value Kumari
 ~~~
-{: .source}
+{: .language-groovy }
+
 
 A closure has two other important features. First, it can access and modify variables in the scope where it is defined.
 
@@ -454,7 +486,8 @@ values = ["China": 1 , "India" : 2, "USA" : 3]
 values.keySet().each({ result += values[it] })    
 println result
 ~~~
-{: .source}
+{: .language-groovy }
+
 
 * Define a global variable.
 * Define a map object.
