@@ -214,7 +214,7 @@ We can change the default value of `kmer` to 11 by running the Nextflow script u
 ~~~
 nextflow run script.nf --kmer 11
 ~~~
-{: .bash }
+{: .language-bash }
 
 
 > ## Script parameters
@@ -229,15 +229,16 @@ nextflow run script.nf --kmer 11
 > > ~~~
 > > nextflow run process_script_params.nf --kmer 27
 > > ~~~
+> > {: .language-bash }
 > {: .solution}
 {: .challenge}
 
 
 ### Bash variables
 
- Nextflow uses the same Bash syntax for variable substitutions, `$variable`, in strings, Bash variables need to be escaped using `\` character.
+Nextflow uses the same Bash syntax for variable substitutions, `$variable`, in strings, Bash variables need to be escaped using `\` character.
 
- In the example below we will use the bash `PWD` variable.
+In the example below we will use the bash `PWD` variable.
 
 
 ~~~
@@ -324,7 +325,7 @@ input:
 
 The input qualifier declares the type of data to be received.
 
-> ## input qualifiers
+> ## Input qualifiers
 > * `val`: Lets you access the received input value by its name in the process script.
 > * `env`: Lets you use the received value to set an environment variable named as > the specified input name.
 > * `path`: Lets you handle the received value as a path, staging the file properly in the execution context.
@@ -407,12 +408,12 @@ process listFiles {
 {: .language-groovy }
 
 
-> # File Objects as inputs
+> ## File Objects as inputs
 > When a process declares an input file the corresponding channel elements must be file objects i.e. created with the path helper function from the file specific channel factories e.g. `Channel.fromPath` or `Channel.fromFilePairs`.
 {: .callout}
 
 
->  Exercise
+>  ## Processing files by Pattern
 >  Write a Nextflow script `fastqc.nf` that creates a queue channel, `Channel.fromPath`, containing all read files matching the pattern `data/yeast/reads/*_1.fq.gz` followed by a process with input and script directives that has the commands.
 > `mkdir fastqc_out`
 > `fastqc -o fastqc_out ${reads}`
@@ -428,13 +429,13 @@ process listFiles {
 > >    mkdir fastqc_out
 > >    fastqc -o fastqc_out ${reads}
 > >    """
-> >}
-> >~~~
+> > }
+> > ~~~
+> > {: .language-groovy }
 > {: .solution}
 {: .challenge}
 
 ### Combining input channels
-
 
 A key feature of processes is the ability to handle inputs from multiple channels.
 However it’s important to understands how the content of channel and affect the execution of a process.
@@ -536,7 +537,7 @@ In this example the process is run three times.
 {: .output}
 
 
-> ## Exercise Combining input channels
+> ##  Combining input channels
 > Write a nextflow script `salmon_index.nf` that combines two input channels
 > 1. transcriptome_ch = channel.value('data/yeast/transcriptome/transcriptome/Saccharomyces_cerevisiae.R64-1-1.cdna.all.fa.gz')
 > 2. kmer_ch = channel.value(21)
@@ -554,7 +555,7 @@ In this example the process is run three times.
 > >   """
 > > }
 > > ~~~
-> >
+> > {: .language-groovy }
 > {: .solution}
 {: .challenge}
 
@@ -592,7 +593,7 @@ The process will run eight times.
 ~~~
 {: .output}
 
-> ## Exercise: Input repeaters
+> ## Input repeaters
 > Extend the previous Combining example by adding more values in the `kmer` queue channel  
 > `kmer_ch = channel.of(21,26,36)`
 > and changing the `kmer` input qualifer to `each`.
@@ -609,7 +610,7 @@ The process will run eight times.
 > >   echo salmon index -t $transcriptome -i index -k $kmer
 > >   """
 > > }
->>
+> > {: .language-groovy }
 > {: .solution}
 {: .challenge}
 
@@ -793,25 +794,26 @@ File: etoh60_2.bam.bai
 ~~~
 {: .output}
 
-> # Exercise: output channels
+> ## Output channels
 > Modify the nextflow script process_exercise_output.nf to include an output blocks that captures the different index folders. use the view operator on the output channel.
 > > solution
 > > ~~~
 > > transcriptome_ch = channel.fromPath('data/yeast/transcriptome/Saccharomyces_cerevisiae.R64-1-1.cdna.all.fa.gz',checkIfExists: true)
 > > kmer_ch = channel.of(21,26,36)
 > > process combine {
->  input:
->  path transcriptome from transcriptome_ch
->  each kmer from kmer_ch
->  output:
->  path "index_${kmer}" into out_ch
->  script:
->  """
->   echo salmon index -t $transcriptome -i index_$kmer -k $kmer
->  """
-> }
-> out_ch.view()
-> ~~~
+> >  input:
+> >  path transcriptome from transcriptome_ch
+> >  each kmer from kmer_ch
+> >  output:
+> >  path "index_${kmer}" into out_ch
+> >  script:
+> >  """
+> >   echo salmon index -t $transcriptome -i index_$kmer -k $kmer
+> >  """
+> > }
+> > out_ch.view()
+> > ~~~
+> > {: .language-groovy }
 > {: .solution}
 {: .challenge}
 
@@ -883,7 +885,7 @@ bam_ch.view()
 ~~~
 {: .language-groovy }
 
-> # Composite inputs and outputs
+> ## Composite inputs and outputs
 > Fill in the blanks for process_exercise_tuple.nf.
 > > Solution
 > >
@@ -898,10 +900,11 @@ bam_ch.view()
 > >  mkdir fastqc_out
 > >  fastqc $reads -o fastqc_out -t 1
 > >  """
-> >}
+> > }
 > >
 > > bam_ch.view()> >
-> >~~~
+> > ~~~
+> > {: .language-groovy }
 > {: .solution}
 {: .challenge}
 
@@ -913,7 +916,6 @@ The `when` declaration allows you to define a condition that must be verified in
 It is useful to enable/disable the process execution depending the state of various inputs and parameters. For example:
 
 ~~~
-
 chr_ch = channel.of(1..22,'X','Y')
 
 process conditional {
@@ -964,7 +966,7 @@ Uses the `tag` directive to allow you to associate each process execution with a
 
 Another commonly used directive is memory specification `memory`; a complete list of directives is available at this [link](https://www.nextflow.io/docs/latest/process.html#directives).
 
-> # Directives
+> ## Adding directives
 > Modify the Nextflow script `process_exercise_directives.nf`
 > Add a `tag` directive logging the sample_id in the execution output.
 > Add a cpus directive to specify the number of cpus as 2.
@@ -987,6 +989,7 @@ Another commonly used directive is memory specification `memory`; a complete lis
 > > }
 > >
 > > ~~~
+> > {: .language-groovy }
 > {: .solution}
 {: .challenge}
 
@@ -1068,7 +1071,7 @@ process pseudo_align {
 The above example will create an output folder structure in the directory results, which contains a separate sub-directory for bam files, `pattern:"*.bam"` ,  and quant files, `pattern:"**.sf"`.
 
 
-> # directives
+> ## Publishing results
 >  Add a `publishDir` directive to the nextflow script `process_publishDir_exercise.nf` that saves
 >  the index directory to the results folder .
 > > ~~~
@@ -1087,8 +1090,9 @@ The above example will create an output folder structure in the directory result
 > >  """
 > >    salmon index -t $transcriptome -i index
 > >  """
-> >}
+> > }
 > > ~~~
+> > {: .language-groovy }
 > {: .solution}
 {: .challenge}
 
