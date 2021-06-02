@@ -228,7 +228,7 @@ This code prints:
 The quick brown fox
 $x + $y
 ~~~
-{: .ouput}
+{: .output}
 
 Note the different use of `$` and `${..}` syntax to interpolate value expressions in a string literal.
 Finally string literals can also be defined using the `/` character as delimiter. They are known as slashy strings and are useful for defining regular expressions and patterns, as there is no need to escape backslashes. As with double quote strings they allow to interpolate variables prefixed with a `$` character.
@@ -451,6 +451,7 @@ By default, closures take a single parameter called `it`, to give it a different
 ~~~
 square = { num -> num * num }
 ~~~
+{: .language-groovy }
 
 It’s also possible to define closures with multiple, custom-named parameters.
 
