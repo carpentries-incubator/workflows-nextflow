@@ -17,7 +17,7 @@ objectives:
 keypoints:
 - "Nextflow *operators* are methods that allow you to modify, set or view channels."
 - "Operators can be separated in to several groups; filtering , transforming , splitting , combining , forking and Maths operators"
-- "You can process  a csv file using the  `splitCsv` operator."
+- "You can process  a CSV file using the `splitCsv` operator."
 ---
 
 # Operators
@@ -96,10 +96,7 @@ chr3
 
 We can reduce the number of items in a channel by using filtering operators.
 
-
-
 The filter operator allows you to get only the items emitted by a channel that satisfy a condition and discarding all the others. The filtering condition can be specified by using either a regular expression, a literal value, a type qualifier (i.e. a Java class) or any boolean statement.
-
 
 Here we will use the `filter` operator on the `chr_ch` channel specifying the  type qualifier `Number` so that only numeric items are returned. We will then use the `view` operator to print the contents.
 
@@ -123,7 +120,7 @@ chr_ch = channel
 ~~~
 {: .language-groovy }
 
-The following example shows how to filter a channel by using a regular expression that returns only strings that begin with 1:
+The following example shows how to filter a channel by using a regular expression `~/^1.*/` that returns only strings that begin with 1:
 
 ~~~
 chr_ch = channel
@@ -134,7 +131,7 @@ chr_ch = channel
 {: .language-groovy }
 
 
-Finally, a filtering condition can be defined by using any a boolean predicate. A predicate is expressed by a closure returning a boolean value. For example the following fragment shows how filter a channel emitting numbers so that the only X is returned:
+Finally, a filtering condition can be defined by using any a boolean predicate. A predicate is expressed by a closure,`{}`, returning a boolean value. For example the following fragment shows how filter a channel emitting numbers so that the only X is returned:
 
 ~~~
 chr_ch = channel
@@ -145,11 +142,11 @@ chr_ch = channel
 {: .language-groovy }
 
 > # Closures
-> In the above example the filter condition is wrapped in curly  brackets, instead of round brackets, since it specifies a closure as the operator’s argument. This just is a language syntax-sugar for filter({ it % 2 == 0 } )
+> In the above example the filter condition is wrapped in curly brackets, instead of round brackets, since it specifies a closure as the operator’s argument. This just is a language syntax-sugar for filter({ it=='X'})
 {: .callout}
 
 
-> ## filter operator
+> ## Filter a channel
 >
 > Add the filter `filter({ it % 2 == 0 })` to the Nextflow script below to view only the even numbered chromosomes.
 > ~~~
@@ -158,6 +155,7 @@ chr_ch = channel
 >  .filter( Number )
 >  .view()
 > ~~~
+> {: .language-groovy }
 > > ## Solution
 > >
 > > ~~~
@@ -167,6 +165,7 @@ chr_ch = channel
 > >   .filter({ it % 2 == 0 })
 > >   .view()
 > > ~~~    
+> > {: .language-groovy }
 > {: .solution}
 {: .challenge}
 
@@ -197,8 +196,7 @@ We can also use the map method to associate a tuple to each element.
 
 In the example below we use the map method to transform a channel containing fastq files to a new channel containing a tuple with the fastq file and the number of reads in the fastq file.
 
-We can change the default name of the closure parameter keyword from `it` to `file`
-using  `->`. When we have multiple parameters we can specify the keywords at the start of the closure, e.g. `file, name ->`.
+We can change the default name of the closure parameter keyword from `it` to `file` using  `->`. When we have multiple parameters we can specify the keywords at the start of the closure, e.g. `file, name ->`.
 
 ~~~
 channel
@@ -228,6 +226,7 @@ file data/yeast/reads/ref2_1.fq.gz contains 20430 reads
 >  .fromPath( 'data/yeast/reads/*.fq.gz' )
 >  .view()
 > ~~~
+> {: .language-groovy }
 > > ## Solution
 > >
 > > ~~~
@@ -235,7 +234,8 @@ file data/yeast/reads/ref2_1.fq.gz contains 20430 reads
 > >   .fromPath( 'data/yeast/reads/*.fq.gz' )
 > >   .map ({file -> [ file.name, file.baseName ]})
 > >   .view({name, file -> "> file: $name"})
-> > ~~~    
+> > ~~~
+> > {: .language-groovy }
 > {: .solution}
 {: .challenge}
 
@@ -307,7 +307,7 @@ It shows:
 ~~~
 {: .output }
 
-If the know the number of items to be grouped we can use the size parameter.
+If we know the number of items to be grouped we can use the size parameter.
 When the specified size is reached, the tuple is emitted. By default incomplete tuples (i.e. with less than size grouped items) are discarded (default).
 
 For example.
@@ -336,7 +336,8 @@ This operator is useful to process altogether all elements for which there’s a
 >  ~~~
 >  channel.fromPath('data/yeast/reads/*.fq.gz')
 > .view()
-> ~
+> ~~~
+> {: .language-groovy }
 > > ## Solution
 > >
 > > ~~~
@@ -345,6 +346,7 @@ This operator is useful to process altogether all elements for which there’s a
 > >     .groupTuple()
 > >     .view()
 > > ~~~
+> > {: .language-groovy }
 > {: .solution}
 {: .challenge}
 
@@ -376,8 +378,6 @@ mt
 {: .output}
 
 The items in the resulting channel have the same order as in respective original channel, however there’s no guarantee that the element of the second channel are append after the elements of the first.
-
-
 
 ### join
 
@@ -435,7 +435,7 @@ The maths operators allows you to apply simple math function  on channels.
 
 ### count
 
-The count operator creates a channel that emits a single item: a number that represents the total number of items emitted by the source channel. For example:
+The `count` operator creates a channel that emits a single item: a number that represents the total number of items emitted by the source channel. For example:
 
 ~~~
 channel
@@ -443,6 +443,7 @@ channel
     .count()
     .view()
 ~~~
+{: .language-groovy }
 
 ## Splitting operators
 
@@ -491,7 +492,7 @@ csv_ch.view({it.fastq_1})
 ~~~
 {: .language-groovy }
 
-> ## splitCsv
+> ## Parse a CSV file
 >
 >  Modify the Nextflow script to print the first column `sample_id`.
 >  ~~~
@@ -500,7 +501,7 @@ csv_ch.view({it.fastq_1})
 >    .splitCsv(header:true)
 > csv_ch.view({it.fastq_1})
 >  ~~~
->
+> {: .language-groovy }
 > > ## Solution
 > > ~~~~
 > > csv_ch=channel
@@ -508,6 +509,7 @@ csv_ch.view({it.fastq_1})
 > >  csv_ch.splitCsv(header:true)
 > > .view({it$sample_id})
 > > ~~~
+> > {: .language-groovy }
 > {: .solution}
 {: .challenge}
 
