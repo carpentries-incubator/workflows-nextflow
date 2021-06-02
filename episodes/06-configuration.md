@@ -9,8 +9,8 @@ objectives:
 - "Understand how Nextflow is configured."
 - "Create a Nextflow configuration file."
 keypoints:
-- "Nextflow configuration can be managed using a nextflow.config file."
-- "Nextflow configuration are simple text files containing a set of properties defined using the syntax"
+- "Nextflow configuration can be managed using a `nextflow.config` file."
+- "Nextflow configuration are simple text files containing a set of properties defined using the syntax."
 ---
 
 
@@ -36,7 +36,7 @@ A Nextflow configuration file is a simple text file containing a set of properti
 
 `name = value`
 
-Please note, string values need to be wrapped in quotation characters while numbers and boolean values (true, false) do not.
+String values need to be wrapped in quotation characters while numbers and boolean values (`true`, `false`) do not.
 Also note that values are typed, meaning for example that, `1` is different from `'1'`,
 since the first is interpreted as the number one, while the latter is interpreted as a string value.
 
@@ -72,6 +72,8 @@ Configuration files use the same conventions for comments used in the Nextflow s
 {: .language-groovy }
 
 ### Config scopes
+
+In programming Scope is a concept that refers to where values and functions can be accessed. When you define a variable in a Nextflow config file it is accessible via the main script.
 
 Configuration settings can be organised in different scopes by dot prefixing `.` the property names with a scope identifier or grouping the properties in the same scope using the curly brackets notation `{}`. This is shown in the following example:
 
