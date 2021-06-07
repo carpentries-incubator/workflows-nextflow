@@ -1,7 +1,7 @@
 ---
 title: "Processes"
-teaching: 50 min
-exercises: 20 min
+teaching: 50
+exercises: 20
 questions:
 - "How do I run tasks/processes in Nextflow?"
 - "How do I get data, files and values, into and out of processes?"
@@ -39,7 +39,7 @@ The process definition starts with keyword the `process`, followed by process na
 A basic process with no input or output channels looks like the following example:
 
 ~~~
-process index {
+process salmon_index {
 
   script:
   """
@@ -50,6 +50,7 @@ process index {
 {: .language-groovy }
 
 This example build a salmon index for the yeast transcriptome. We use the nextflow variable `${projectDir}` to specify the directory where the main script is located .
+
 
 
 ### definition blocks
@@ -96,7 +97,7 @@ The `script` block is a string "statement" that defines the command that is exec
 A process contains only one script block, and it must be the last statement when the process contains input and output declarations.
 
 The script block can be a simple string in single quotes e.g. `"samtools index ref1.sorted.bam"` .
-For commands that span multiple lines you can encase the command in the triple quote.
+For commands that span multiple lines you can encase the command in the triple quote `"""`.
 
 For example:
 
@@ -263,13 +264,15 @@ This will print the location of the working directory using the bash environment
 Another alternative is to use a `shell` statement instead of `script` which uses a different syntax for Nextflow variable: `!{..}`. This allow enables you to use both Nextflow and Bash variables in the same script.
 
 ```
-params.aligner = 'salmon'
+params.kmer = 31
 
-process aligner_log {
+process index {
+
   shell:
   '''
-  X='Align using'
-  echo $X !{params.aligner}
+  salmon index -t $projectDir/data/yeast/transcriptome/Saccharomyces_cerevisiae.R64-1-1.cdna.all.fa.gz -i index --kmer !{params.kmer}
+  echo "kmer size is $params.kmer"
+  echo "index is located in" $PWD
   '''
 }
 ```
@@ -413,11 +416,16 @@ process listFiles {
 {: .callout}
 
 
->  ## Processing files by Pattern
->  Write a Nextflow script `fastqc.nf` that creates a queue channel, `Channel.fromPath`, containing all read files matching the pattern `data/yeast/reads/*_1.fq.gz` followed by a process with input and script directives that has the commands.
-> `mkdir fastqc_out`
-> `fastqc -o fastqc_out ${reads}`
-> > Solution
+> ## Processing files by Pattern
+> Write a Nextflow script `fastqc.nf` that creates a queue channel, `Channel.fromPath`, containing all read files matching the pattern `data/yeast/reads/*_1.fq.gz` followed by a process with input and script directives that has the commands.
+> * `mkdir fastqc_out`
+> * `fastqc -o fastqc_out ${reads}`
+> Then run your script using
+> ~~~
+> nextflow run fastqc.nf
+> ~~~
+> {: .language-bash }
+> > ## Solution
 > > ~~~
 > > reads_ch = Channel.fromPath( 'data/yeast/reads/*_1.fq.gz' )
 > >
@@ -539,12 +547,15 @@ In this example the process is run three times.
 
 > ##  Combining input channels
 > Write a nextflow script `salmon_index.nf` that combines two input channels
-> 1. transcriptome_ch = channel.value('data/yeast/transcriptome/transcriptome/Saccharomyces_cerevisiae.R64-1-1.cdna.all.fa.gz')
-> 2. kmer_ch = channel.value(21)
->  And run the command `salmon index -t $transcriptome -i index -k $kmer`
-> > Solution
+> 1. `transcriptome_ch = channel.value('data/yeast/transcriptome/transcriptome/Saccharomyces_cerevisiae.R64-1-1.cdna.all.fa.gz')`
+> 2. `kmer_ch = channel.value(21)`
+> 3. And include the command `salmon index -t $transcriptome -i index -k $kmer` in the script directive.
+>
+> > ## Solution
+> > ~~~
 > > transcriptome_ch = channel.fromPath('data/yeast/transcriptome/Saccharomyces_cerevisiae.R64-1-1.cdna.all.fa.gz',checkIfExists: true)
 > > kmer_ch = channel.value(21)
+> >
 > > process combine {
 > >  input:
 > >  path transcriptome from transcriptome_ch
@@ -595,10 +606,11 @@ The process will run eight times.
 
 > ## Input repeaters
 > Extend the previous Combining example by adding more values in the `kmer` queue channel  
-> `kmer_ch = channel.of(21,26,36)`
+> 1. `kmer_ch = channel.of(21,26,36)`
 > and changing the `kmer` input qualifer to `each`.
->> ## Solution
->> ~~~
+>
+> > ## Solution
+> > ~~~
 > > transcriptome_ch = channel.fromPath('data/yeast/transcriptome/Saccharomyces_cerevisiae.R64-1-1.cdna.all.fa.gz',checkIfExists: true)
 > > kmer_ch = channel.of(21,26,36)
 > > process combine {
@@ -610,6 +622,7 @@ The process will run eight times.
 > >   echo salmon index -t $transcriptome -i index -k $kmer
 > >   """
 > > }
+> > ~~~
 > > {: .language-groovy }
 > {: .solution}
 {: .challenge}
@@ -698,8 +711,8 @@ This allows to capture multiple files into a list and output them as a one item 
 For example here we will capture `sample.bam.bai` in the output channel. Note that `sample.bam` is not captured in the output channel as input files are not included in the list of possible matches
 
 >>> do we need to include this example
-~~~
 
+~~~
 bam_ch = channel.fromPath("data/yeast/bams/*.bam")
 
 process index {
@@ -795,8 +808,9 @@ File: etoh60_2.bam.bai
 {: .output}
 
 > ## Output channels
-> Modify the nextflow script process_exercise_output.nf to include an output blocks that captures the different index folders. use the view operator on the output channel.
-> > solution
+> Modify the nextflow script `process_exercise_output.nf` to include an output blocks that captures the different index folders. use the `view` operator on the output channel.
+>
+> > ## Solution
 > > ~~~
 > > transcriptome_ch = channel.fromPath('data/yeast/transcriptome/Saccharomyces_cerevisiae.R64-1-1.cdna.all.fa.gz',checkIfExists: true)
 > > kmer_ch = channel.of(21,26,36)
@@ -886,9 +900,10 @@ bam_ch.view()
 {: .language-groovy }
 
 > ## Composite inputs and outputs
-> Fill in the blanks for process_exercise_tuple.nf.
-> > Solution
-> >
+> Fill in the blanks for `process_exercise_tuple.nf`.
+>
+> > ## Solution
+> > ~~~
 > > reads_ch = Channel.fromFilePairs('data/yeast/reads/ref*_{1,2}.fq.gz')
 > > process fastqc {
 > > input:
@@ -902,7 +917,7 @@ bam_ch.view()
 > >  """
 > > }
 > >
-> > bam_ch.view()> >
+> > bam_ch.view()
 > > ~~~
 > > {: .language-groovy }
 > {: .solution}
@@ -1074,8 +1089,8 @@ The above example will create an output folder structure in the directory result
 > ## Publishing results
 >  Add a `publishDir` directive to the nextflow script `process_publishDir_exercise.nf` that saves
 >  the index directory to the results folder .
+> > ## Solution
 > > ~~~
-> >
 > > params.transcriptome = "$projectDir/data/yeast/transcriptome/Saccharomyces_cerevisiae.R64-1-1.cdna.all.fa.gz"
 > > transcriptome_ch = channel.fromPath(params.transcriptome,checkIfExists: true)
 > > process index {
