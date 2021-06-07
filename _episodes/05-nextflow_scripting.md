@@ -30,14 +30,24 @@ keypoints:
 
 ---
 
-Nextflow is a Domain Specific Language (DSL) implemented on top of the Groovy programming lang, which in turns is a super-set of the Java programming language. This means that Nextflow can run any Groovy and Java code. However, it is not necessary to learn Groovy to use Nextflow DSL but it can be useful.
+Nextflow is a Domain Specific Language (DSL) implemented on top of the Groovy programming lang, which in turns is a super-set of the Java programming language. This means that Nextflow can run any Groovy and Java code. However, it is not necessary to learn Groovy to use Nextflow DSL but it can be useful in edge cases where you need more functionality than the DSL provides.
 
-We can use the command `nextflow console` to Launch Nextflow's interactive console to test out out Groovy code.
+## Nextflow console
+
+Nextflow has a console graphical interface. The  console is a REPL (read-eval-print loop) environment that allows one to quickly test part of a script or pieces of Nextflow code in an interactive manner.
+
+It is a handy tool that allows one to evaluate fragments of Nextflow/Groovy code or fast prototype a complete pipeline script. More information can be found [here](https://www.nextflow.io/blog/2015/introducing-nextflow-console.html)
+
+We can use the command `nextflow console` to launch the interactive console to test out out Groovy code.
 
 ~~~
 nextflow console
 ~~~
 {: .language-bash }
+
+> ## Console Global scope
+> It is worth noting that the global script context is maintained across script executions. This means that variables declared in the global script scope are not lost when the script run is complete, and they can be accessed in further executions of the same or another piece of code.
+{: .callout }
 
 ## Language Basics
 
@@ -53,7 +63,7 @@ println("Hello, World!")
 
 The only difference between the two is that the `println` method implicitly appends a new line character to the printed string.
 
-**parenthesis** for function invocations are optional. Therefore also the following is a valid syntax.
+**Parenthesis** for function invocations are optional. Therefore also the following is a valid syntax.
 
 ~~~
 println "Hello, World!"
@@ -180,9 +190,9 @@ The first three elements in the list are: [10, 20, 30]
 
 > ## Assert
 > Assertions are important for checking some conditions are met.
-> To perform assert add `assert` in front of variable and add `==`
-> If the condition results to true, the code will continue to execute and nothing is displayed in the console and no exceptions are thrown.
-> {: .callout}
+ To perform assert add `assert` in front of variable and add `==`
+ If the condition results to true, the code will continue to execute and nothing is displayed in the console and no exceptions are thrown.
+{: .callout }
 
 ### List Methods
 
@@ -250,7 +260,7 @@ println list.findAll{it%2 == 0}
 > > //or
 > > list = 1..10
 > > println "${list[4]}"
-> > or
+> > //or
 > > println "${list.get(4)}""
 > > ~~~
 > > {: .language-groovy }
@@ -286,7 +296,7 @@ To add data or to modify a map, the syntax is similar to adding values to list:
 ~~~
 roi['chromosome'] = '17'    //Use of the square brackets       
 roi.chromosome = 'chr17'    //Use a dot notation          
-roi.put('genome', 'hg38')   //Use of get method     
+roi.put('genome', 'hg38')   //Use of put method     
 ~~~
 {: .language-groovy }
 
@@ -318,27 +328,41 @@ ${roi.chr}
 
 Note the different use of `$` and `${..}` syntax to interpolate value expressions in a string literal.
 
+### Slashy strings
+
 Finally string literals can also be defined using the `/` character as delimiter. They are known as slashy strings and are useful for defining regular expressions and patterns, as there is no need to escape backslashes. As with double quote strings they allow to interpolate variables prefixed with a `$` character.
 
 Try the following to see the difference:
 
 ~~~
-x = /tic\tac\toe/
-y = 'tic\tac\toe'
-
+x = /ATP1B2\TP53\WRAP53/
 println x
+~~~
+{: .language-groovy }
+
+~~~
+ATP1B2\TP53\WRAP53
+~~~
+{: .output }
+
+~~~
+y = 'ATP1B2\TP53\WRAP53'
 println y
 ~~~
 {: .language-groovy }
 
-
-it prints:
+Produces an error as the `\` is a special characters that we need to escape.
 
 ~~~
-tic\tac\toe
-tic    ac    oe
+y = 'ATP1B2\\TP53\\WRAP53'
+println y
 ~~~
 {: .language-groovy }
+
+~~~
+ATP1B2\TP53\WRAP53
+~~~
+{: .output }
 
 
 ## Multi-line strings
@@ -372,7 +396,7 @@ Like before, multi-line strings  inside double quotes `""` and slash `/` charact
 
 Closures are the swiss army knife of Nextflow/Groovy programming. In a nutshell a closure is is a block of code that can be passed as an argument to a function, it could also be defined an anonymous function.
 
-More formally, a closure allows the definition of functions as first class objects.
+We can assign a closure to a variable.
 
 ~~~
 square = { it * it }
@@ -382,24 +406,12 @@ square = { it * it }
 
 The curly brackets `{}` around the expression `it * it` tells the script interpreter to treat this expression as code. The `it` identifier is an implicit variable that represents the value that is passed to the function when it is invoked.
 
-Once compiled the function object is assigned to the variable square as any other variable assignments shown previously. To invoke the closure execution use the special method `call` or just use the round parentheses to specify the closure parameter(s). For example:
+
+We can pass the function `square` as an argument to other functions or methods. Some built-in functions take a function like this as an argument. One example is the `collect` method on lists:
 
 ~~~
-println square.call(5)
-println square.call(9)
-~~~
-{: .language-groovy }
-
-~~~
-25
-81
-~~~
-{: .output}
-
-This is not very interesting until we find that we can pass the function `square` as an argument to other functions or methods. Some built-in functions take a function like this as an argument. One example is the `collect` method on lists:
-
-~~~
-x = [ 1, 2, 3, 4 ].collect(square)
+x = [ 1, 2, 3, 4 ]
+x.collect(square)
 println x
 ~~~
 {: .language-groovy }
@@ -416,8 +428,8 @@ square = { num -> num * num }
 ~~~
 {: .language-groovy }
 
-> ## Write a simple closure
-> Write a closure to add the prefix 'chr' to each element of  the list `x=[1,2,3,4,5,6]`
+> ## Write a closure
+> Write a closure to add the prefix `chr` to each element of  the list `x=[1,2,3,4,5,6]`
 > > ## Solution
 > > ~~~
 > > prefix = {num -> "chr${num}"}
@@ -425,6 +437,10 @@ square = { num -> num * num }
 > > println x
 > > ~~~
 > > {: .language-groovy}
+> > ~~~
+> > [chr1, chr2, chr3, chr4]
+> > ~~~
+> > {: .output}
 > {: .solution}
 {: .challenge}
 
