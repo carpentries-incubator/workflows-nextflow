@@ -57,6 +57,7 @@ always queue channels. Queue channels can be explicitly created using channel fa
 > ~~~~
 > nextflow run channel.nf
 > ~~~~
+> {: .language-groovy }
 > How many lines of output do you get?
 > > ## Solution
 > > In this example you have created a queue channel with three values 1,2,3 in it.
@@ -67,6 +68,7 @@ always queue channels. Queue channels can be explicitly created using channel fa
 > > 2
 > > 3
 > > ~~~
+> > {: .output}
 > {: .solution}
 {: .challenge}
 
@@ -249,14 +251,13 @@ kallisto
 > In the above example the channel has two elements. If you has used the Channel.of(list) it would have  contained only 1 element `[salmon, kallisto]` and any operator or process using the channel would run once.
 {: .callout}
 
-fixme add exercise to get learner to create queue and value channels
 
 > ## Creating channels from a list
 >
->  Create a nextflow script that create both a queue and value channel.
+>  Create a nextflow script that create both a queue and value channel
 >  for the list `ids = ['ERR908507', 'ERR908506', 'ERR908505']`.
->  Then print the contents of the channels using the view operator.
-> How many lines does the queue and value channel print?
+>  Then print the contents of the channels using the `view` operator.
+>  How many lines does the queue and value channel print?
 > > ## Solution
 > >
 > > ~~~
@@ -319,7 +320,7 @@ data/yeast/reads/temp33_3_1.fq.gz
 
 You can change the behaviour of `Channel.fromPath` method by changing its options. A list of `.fromPath` options is shown below.
 
-Table 1. Available options
+Available fromPath options:
 
 |Name|Description|
 |-----|----------|
@@ -329,7 +330,7 @@ Table 1. Available options
 | maxDepth | Maximum number of directory levels to visit (default: no limit) |
 | followLinks | When true it follows symbolic links during directories tree traversal, otherwise they are managed as files (default: true) |
 | relative | When true returned paths are relative to the top-most common directory (default: false) |
-| checkIfExists | When true throws an exception of the specified path do not exist in the file system (default: false) | When true throws an exception of the specified path do not exist in the file system (default: false)|
+| checkIfExists | When true throws an exception of the specified path do not exist in the file system (default: false)|
 
 
 We can change the default options for the `fromPath` method to give an error if the file doesn't exist using the `checkIfExists` parameter. In Nextflow, method arguments are separated by a `,` and parameter values specified with a colon `:`.
@@ -362,7 +363,7 @@ No files match pattern `*.fq` at path: /chicken/ggal/
 > ## Using Channel.fromPath
 >
 >  Use the `Channel.fromPath` method to create a channel containing all files in the `data/yeast/` directory.
-> Add an option to include hidden files.
+> Add an option, `hidden`, to include hidden files .
 > Then print all file name using the view operator.
 >
 > > ## Solution
@@ -483,9 +484,8 @@ Channel.fromSRA(ids).view()
 {: .output}  
 
 
+## Additional material
 
-
-additional material
 > ## Read pairs
 > Read pairs are implicitly managed are returned as a list of files.
 {: .callout}
