@@ -12,17 +12,18 @@ objectives:
 - "Describe what Nextflow operators are."
 - "Modify the contents/elements of a channel using an operator"
 - "Perform filtering and combining operations on a channel. "
-- "Use the `splitCsv` operator to read in a .csv file."
+- "Use the `splitCsv` operator to parse text items emitted by a channel, that are formatted using the CSV format, ."
 
 keypoints:
 - "Nextflow *operators* are methods that allow you to modify, set or view channels."
 - "Operators can be separated in to several groups; filtering , transforming , splitting , combining , forking and Maths operators"
-- "You can process  a CSV file using the `splitCsv` operator."
+- "To use an opertaor use the dor notation after the Channel object e.g. `my_ch.view()`."
+- "You can parse text items emitted by a channel, that are formatted using the CSV format,  using the `splitCsv` operator."
 ---
 
 # Operators
 
- *Operators* are methods that can be applied to channel objects. We have previously used the `view` operator to view the contents of a channel. There are many more operator methods that can be applied to Nextflow channels that can be separated into several groups:
+In the previous Channels episode we learnt how to create Nextflow channels to enable us to pass data and values around our workflow. If we want to modify the contents or behaviour of a channel Nextflow provides methods called `Operators`. We have previously used the `view` operator to view the contents of a channel. There are many more operator methods that can be applied to Nextflow channels that can be usefully separated into several groups:
 
 
  * Filtering operators
@@ -37,11 +38,10 @@ In this episode you will see examples, and get to use different types of operato
 
 # Using Operators
 
-To use an operator add , use a`.` , followed by the operator name and `()` to a channel object.
+To use an operator add , use a dot `.` , followed by the operator name and brackets `()` on a channel object.
 
 ~~~
-ch= channel.of('1', '2', '3')
-ch.view()
+channel_obj.<operator>()
 ~~~
 {: .language-groovy }
 
@@ -49,8 +49,14 @@ ch.view()
 
 The `view` operator prints the items emitted by a channel to the console appending a *new line* character to each item in the channel.
 
-To make code more readable we can spit the operators over several lines.
+~~~
+ch= channel.of('1', '2', '3')
+ch.view()
+~~~
+{: .language-groovy }
 
+
+To make code more readable we can spit the operators over several lines.
 ~~~
 channel
       .of('1', '2', '3')
@@ -96,7 +102,14 @@ chr3
 
 We can reduce the number of items in a channel by using filtering operators.
 
-The filter operator allows you to get only the items emitted by a channel that satisfy a condition and discarding all the others. The filtering condition can be specified by using either a regular expression, a literal value, a type qualifier (i.e. a Java class) or any boolean statement.
+The `filter` operator allows you to get only the items emitted by a channel that satisfy a condition and discarding all the others. The filtering condition can be specified by using either a
+
+* regular expression,
+* a literal value,
+* a type qualifier (i.e. a Java class), e.g. Number, String, Boolean
+* or any boolean statement.
+
+#### type qualifier
 
 Here we will use the `filter` operator on the `chr_ch` channel specifying the  type qualifier `Number` so that only numeric items are returned. We will then use the `view` operator to print the contents.
 
@@ -106,7 +119,6 @@ autosomes_ch =chr_ch.filter( Number )
 autosomes_ch.view()
 ~~~
 {: .language-groovy }
-
 
 We can chained together multiple operators using a `.` .
 
@@ -120,6 +132,10 @@ chr_ch = channel
 ~~~
 {: .language-groovy }
 
+#### regular expression
+
+To initializing the pattern operator all you have to do is to put ~ right in front of the string literal regular expression (e.g. `~"([Gg]roovy)"` or using slashy strings. `~/[Gg]roovy/`).
+
 The following example shows how to filter a channel by using a regular expression `~/^1.*/` that returns only strings that begin with 1:
 
 ~~~
@@ -130,16 +146,40 @@ chr_ch = channel
 ~~~
 {: .language-groovy }
 
+#### Boolean statement
 
-Finally, a filtering condition can be defined by using any a boolean predicate. A predicate is expressed by a closure,`{}`, returning a boolean value. For example the following fragment shows how filter a channel emitting numbers so that the only X is returned:
+A filtering condition can be defined by using any a boolean predicate. A predicate is expressed by a closure,`{}`, returning a boolean value. For example the following fragment shows how to filter a channel for type qualifier `Number` a then combining another filter operator to emitting numbers less the 5:
 
 ~~~
 chr_ch = channel
   .of( 1..22, 'X', 'Y' )
-  .filter {it=='X'}
+  .filter(Number)
+  .filter {it<5}
   .view()
 ~~~
 {: .language-groovy }
+
+~~~
+1
+2
+3
+4
+~~~
+{: .output }
+
+Finally we can specify a literal value.
+
+~~~
+chr_ch = channel
+  .of( 1..22, 'X', 'Y' )
+  .filter('X')
+  .view()
+~~~
+
+~~~
+X
+~~~
+{: .output }
 
 > # Closures
 > In the above example the filter condition is wrapped in curly brackets, instead of round brackets, since it specifies a closure as the operator’s argument. This just is a language syntax-sugar for filter({ it=='X'})
@@ -148,11 +188,10 @@ chr_ch = channel
 
 > ## Filter a channel
 >
-> Add the filter `filter({ it % 2 == 0 })` to the Nextflow script below to view only the even numbered chromosomes.
+> Add the boolean statement filter `filter({ it % 2 == 0 })` to the Nextflow script below to view only the even numbered chromosomes.
 > ~~~
 > chr_ch = channel
 >  .of( 1..22, 'X', 'Y' )
->  .filter( Number )
 >  .view()
 > ~~~
 > {: .language-groovy }
@@ -194,13 +233,13 @@ Here the map function uses the groovy string function `replaceAll` to remove the
 
 We can also use the map method to associate a tuple to each element.
 
-In the example below we use the map method to transform a channel containing fastq files to a new channel containing a tuple with the fastq file and the number of reads in the fastq file.
+In the example below we use the `map` method to transform a channel containing fastq files to a new channel containing a tuple with the fastq file and the number of reads in the fastq file. We use the `countFastq` file method to count the number of records in a FASTQ formatted file.
 
-We can change the default name of the closure parameter keyword from `it` to `file` using  `->`. When we have multiple parameters we can specify the keywords at the start of the closure, e.g. `file, name ->`.
+We can change the default name of the closure parameter keyword from `it` to a more meaningful name `file` using  `->`. When we have multiple parameters we can specify the keywords at the start of the closure, e.g. `file, name ->`.
 
 ~~~
 channel
-    .fromPath( 'data/reads/*.fq.gz' )
+    .fromPath( 'data/yeast/reads/*.fq.gz' )
     .map ({ file -> [file, file.countFastq()] })
     .view ({ file, numreads -> "file $file contains $numreads reads" })
 ~~~
@@ -220,7 +259,7 @@ file data/yeast/reads/ref2_1.fq.gz contains 20430 reads
 
 > ## map operator
 >
-> Add a map operator to the Nextflow script below to transform the contents into a tuple with the file basename, using the `.baseName`, method and file. Finally print the resulting channel.
+> Add a map operator to the Nextflow script below to transform the contents into a tuple with the file's basename, using the `.baseName`, method. Finally print the resulting channel.
 > ~~~
 >  channel
 >  .fromPath( 'data/yeast/reads/*.fq.gz' )
@@ -233,7 +272,7 @@ file data/yeast/reads/ref2_1.fq.gz contains 20430 reads
 > > channel
 > >   .fromPath( 'data/yeast/reads/*.fq.gz' )
 > >   .map ({file -> [ file.name, file.baseName ]})
-> >   .view({name, file -> "> file: $name"})
+> >   .view({name, file -> "file's basename: $name"})
 > > ~~~
 > > {: .language-groovy }
 > {: .solution}
@@ -242,11 +281,17 @@ file data/yeast/reads/ref2_1.fq.gz contains 20430 reads
 
 ###  flatten
 
-The `flatten` operator transforms a channel in such a way that every item in a list or tuple is flattened so that each single entry is emitted as a sole element by the resulting channel.
+The `flatten` operator transforms a channel in such a way that every item in a `list` or `tuple` is flattened so that each single entry is emitted as a sole element by the resulting channel.
 
 ~~~
 list1 = [1,2,3]
 
+println("without flatten:")
+channel
+    .of(list1)
+    .view()
+
+println("with flatten:")
 channel
     .of(list1)
     .flatten()
@@ -258,6 +303,9 @@ channel
 The above snippet prints:
 
 ~~~
+without flatten:
+[1, 2, 3]
+with flatten:
 1
 2
 3
@@ -279,7 +327,7 @@ channel
 
 It prints a single value:
 
-The result of the collect operator is a value channel.
+The result of the collect operator is a `value channel` and can be used multiple times.
 
 ~~~
 [1,2,3,4]
@@ -288,7 +336,7 @@ The result of the collect operator is a value channel.
 
 ### groupTuple
 
-The `groupTuple` operator collects *tuples* (or lists) of values by grouping together the elements that share the same key. Finally it emits a new tuple object for each distinct key collected.
+The `groupTuple` operator collects `tuples` or `lists` of values by grouping together the elements that share the same key. Finally it emits a new tuple object for each distinct key collected.
 
 For example.
 
@@ -330,14 +378,17 @@ outputs,
 This operator is useful to process altogether all elements for which there’s a common property or a grouping key.
 
 > ## Group Tuple
-> Modify the Nextflow script below to use the map operator to associate to each file the name prefix using  the closure.
-> `{ file -> [ file.name.split('_')[0], file ] }`
-> Finally group together all files having the same common prefix.
 >  ~~~
 >  channel.fromPath('data/yeast/reads/*.fq.gz')
-> .view()
+>         .view()
 > ~~~
 > {: .language-groovy }
+> Modify the Nextflow script above to use the `map` operator to associate to each file the name prefix using  the closure.
+> ~~~
+> `{ file -> [ file.name.split('_')[0], file ] }`
+> ~~~
+> {: .language-groovy }
+> Finally group together all files having the same common prefix using the `groupTuple` operator.
 > > ## Solution
 > >
 > > ~~~
@@ -409,7 +460,7 @@ The `into` operator connects a source channel to two or more target channels in 
 ~~~
 channel
      .of( 'chr1', 'chr2', 'chr3' )
-     .set{ ch1; ch2 }
+     .into{ ch1; ch2 }
 
 ch1.view()
 ch2.view()
@@ -439,11 +490,16 @@ The `count` operator creates a channel that emits a single item: a number that r
 
 ~~~
 channel
-    .of(1..21,'X','Y')
+    .of(1..22,'X','Y')
     .count()
     .view()
 ~~~
 {: .language-groovy }
+
+~~~
+24
+~~~
+{: .output }
 
 ## Splitting operators
 
@@ -451,13 +507,10 @@ These operators are used to split items emitted by channels into chunks that can
 
 The available splitting operators are:
 
-* [splitCsv](https://www.nextflow.io/docs/latest/operator.html#splitcsv)
-
-* [splitFasta](https://www.nextflow.io/docs/latest/operator.html#splitfasta)
-
-* [splitFastq](https://www.nextflow.io/docs/latest/operator.html#splitfastq)
-
-* [splitText](https://www.nextflow.io/docs/latest/operator.html#splittext)
+|[splitCsv](https://www.nextflow.io/docs/latest/operator.html#splitcsv)|The splitCsv operator allows you to parse text items emitted by a channel, that are formatted using the CSV format, and split them into records or group them into list of records with a specified length.|
+|[splitFasta](https://www.nextflow.io/docs/latest/operator.html#splitfasta)|The splitFasta operator allows you to split the entries emitted by a channel, that are formatted using the FASTA format. It returns a channel which emits text item for each sequence in the received FASTA content.|
+|[splitFastq](https://www.nextflow.io/docs/latest/operator.html#splitfastq)|The splitFastq operator allows you to split the entries emitted by a channel, that are formatted using the FASTQ format. It returns a channel which emits a text chunk for each sequence in the received item.|
+|[splitText](https://www.nextflow.io/docs/latest/operator.html#splittext)|The splitText operator allows you to split multi-line strings or text file items, emitted by a source channel into chunks containing n lines, which will be emitted by the resulting channel.|
 
 ### splitCsv
 
@@ -465,49 +518,97 @@ The `splitCsv` operator allows you to parse text items emitted by a channel, tha
 
 In the simplest case just apply the `splitCsv` operator to a channel emitting a CSV formatted text files or text entries. For example:
 
+For the CSV file `samples.csv`.
+
+~~~
+cat data/yeast/samples.csv
+~~~
+{: .language-bash }
+
+
+~~~
+sample_id,fastq_1,fastq_2
+ref1,data/yeast/reads/ref1_1.fq.gz,data/yeast/reads/ref1_2.fq.gz
+ref2,data/yeast/reads/ref2_1.fq.gz,data/yeast/reads/ref2_2.fq.gz
+~~~
+{: .output }
+
+We can use the `splitCsv()` operator to split the channel containg a CSV file into three elements.
+
 ~~~
 csv_ch=channel
-    .of('sample_id,fastq_1,fastq_2\nref1,data/yeast/reads/ref1_1.fq.gz,data/yeast/reads/ref1_2.fq.gz\nref2,data/yeast/reads/ref2_1.fq.gz,data/yeast/reads/ref2_2.fq.gz')
+    .fromPath('data/yeast/samples.csv')
     .splitCsv()
 csv_ch.view()
 ~~~
 {: .language-groovy }
 
-The above example shows hows CSV text is parsed and is split into single rows.
-Values can be accessed by its column index inside  `[]` in the row object.
+~~~
+[sample_id, fastq_1, fastq_2]
+[ref1, data/yeast/reads/ref1_1.fq.gz, data/yeast/reads/ref1_2.fq.gz]
+[ref2, data/yeast/reads/ref2_1.fq.gz, data/yeast/reads/ref2_2.fq.gz]
+~~~
+{: .output }
+
+The above example shows hows CSV file `samples.csv` is parsed and is split into three elements.
+
+#### Accessing values
+
+Values can be accessed by its positional index using the square brackets syntax`[index]`. So to access the first column you would use `[0]` as shown in the following example:
 
 ~~~
+csv_ch=channel
+    .fromPath('data/yeast/samples.csv')
+    .splitCsv()
 csv_ch
   .view({it[0]})
 ~~~
 {: .language-groovy }
 
+~~~
+sample_id
+ref1
+ref2
+~~~
+{: .output }
+
+
+#### Column headers
+
 When the CSV begins with a header line defining the column names, you can specify the parameter `header: true` which allows you to reference each value by its name, as shown in the following example:
 
 ~~~
 csv_ch=channel
-    .of('sample_id,fastq_1,fastq_2\nref1,data/yeast/reads/ref1_1.fq.gz,data/yeast/reads/ref1_2.fq.gz\nref2,data/yeast/reads/ref2_1.fq.gz,data/yeast/reads/ref2_2.fq.gz')
+    .fromPath('data/yeast/samples.csv')
     .splitCsv(header:true)
 csv_ch.view({it.fastq_1})
 ~~~
 {: .language-groovy }
+
+~~~
+data/yeast/reads/ref1_1.fq.gz
+data/yeast/reads/ref2_1.fq.gz
+~~~
+{: .output}
+
 
 > ## Parse a CSV file
 >
 >  Modify the Nextflow script to print the first column `sample_id`.
 >  ~~~
 > csv_ch=channel
->    .of('sample_id,fastq_1,fastq_2\nref1,data/yeast/reads/ref1_1.fq.gz,data/yeast/reads/ref1_2.fq.gz\nref2,data/yeast/reads/ref2_1.fq.gz,data/yeast/reads/ref2_2.fq.gz')
+>    .fromPath('data/yeast/samples.csv')
 >    .splitCsv(header:true)
 > csv_ch.view({it.fastq_1})
 >  ~~~
 > {: .language-groovy }
 > > ## Solution
 > > ~~~~
-> > csv_ch=channel
-> >   .of('sample_id,fastq_1,fastq_2\nref1,data/yeast/reads/ref1_1.fq.gz,data/yeast/reads/ref1_2.fq.gz\nref2,data/yeast/reads/ref2_1.fq.gz,data/yeast/reads/ref2_2.fq.gz')
-> >  csv_ch.splitCsv(header:true)
-> > .view({it$sample_id})
+> >  csv_ch=channel
+> >         .fromPath('data/yeast/samples.csv')
+> >         .splitCsv(header:true)
+> >
+> > csv_ch.view({it.sample_id})
 > > ~~~
 > > {: .language-groovy }
 > {: .solution}
