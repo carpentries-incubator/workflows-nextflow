@@ -28,22 +28,17 @@ This enable portable deployment without the need to modify the application code.
 
 We have seen in previous episodes how to configure how a workflow using parameters specified on the command line (`--something value`). You can also specify workflow parameters and settings using a Nextflow configuration file.
 
-When a pipeline script is launched Nextflow looks for a file named `nextflow.config` in the current directory and in the script base directory (workflow project directory)
-(if it is not the same as the current directory). Finally it checks for the file `$HOME/.nextflow/config` (Note this file is not called nextflow.config, just config).
+When a pipeline script is launched Nextflow looks for a file named `nextflow.config` in the current directory and in the script base directory (if it is not the same as the current directory). Finally it checks for the file `$HOME/.nextflow/config` (Note this file is not called nextflow.config, just config).
 
 > ## $HOME/.nextflow/config
 > `$HOME/.nextflow/config` setting are alway imported into your runs. This file is normally where you save the common setting for all your runs.
 {: .callout }
 
-When more than one on the above files exist they are merged, so that the settings in the first override the same ones that may appear in the second one,
-and so on.
-
 The default config file search mechanism can be extended proving an extra configuration file by using the command line option `-c <config file>`.
 
-Since each configuration file can contain conflicting settings, the sources are ranked to decide which settings to are applied.  Possible configuration sources are reported below, listed in order of priority:
+When more than one on the above files exist they are merged, so that the settings in the first override the same ones that may appear in the second one, and so on. The sources are ranked to decide which settings to are applied.  Possible configuration sources are reported below, listed in order of priority:
 
-1. Parameters specified on the command line (--something value)
-1. Parameters provided using the -params-file option
+1. Parameters specified on the command line (`--something value`)
 1. Config file specified using the `-c` my_config option
 1. The config file named `nextflow.config` in the current directory
 1. The config file named `nextflow.config` in the workflow project directory
@@ -57,8 +52,7 @@ A Nextflow configuration file is a simple text file containing a set of properti
 `name = value`
 
 String values need to be wrapped in quotation characters while numbers and boolean values (`true`, `false`) do not.
-Also note that values are typed, meaning for example that, `1` is different from `'1'`,
-since the first is interpreted as the number one, while the latter is interpreted as a string value.
+Also note that values are typed, meaning for example that, `1` is different from `'1'`, since the first is interpreted as the number one, while the latter is interpreted as a string value.
 
 ### Config variables
 
@@ -68,14 +62,29 @@ Configuration properties can be used as variables in the configuration file itse
 kmer = 27
 kmer_message = "kmer size is  ${kmer}"
 ~~~
-{: .language-groovy }
+{: .source }
+
+You can use the `nextflow config` command to  to print the resolved configuration of the  `nextflow.config`  and is especially useful for understanding the resolved profiles and parameters that Nextflow will use run a pipeline.
+
+~~~
+nextflow config
+~~~
+{: .bash-language}
+
+Would output:
+
+~~~
+kmer = 27
+kmer_message = 'kmer size is  27'
+~~~
+{: .output}
 
 In the configuration file it’s possible to access any variable defined in the host environment such as `$PATH`, `$HOME`, `$PWD`, etc.
 
 ~~~
 my_home_dir = "$HOME"
 ~~~
-{: .language-groovy }
+{: .source}
 
 ### Config comments
 
@@ -140,7 +149,7 @@ As variable defined in the `nextflow.config` file have priority over those in th
 > params.genome = 'GRCh38'
 > params.aligner = 'salmon'
 > ~~~
-> {: .language-groovy }
+> {: .source }
 > and then save the code below in the Nextflow script `params.nf`.
 > ~~~
 > // workflow script
@@ -206,6 +215,7 @@ echo $genome
 > env.kmer = '21'
 > env.genome = "hg38"
 > ~~~
+> {: .source }
 > {: .language-groovy }
 > Save the above snippet in a file named `my-env.config`. Then save the snippet below in a file named `my-env.nf`:
 > ~~~
@@ -231,7 +241,7 @@ echo $genome
 > > 21
 > > genome=hg38
 > > ~~~
-> > > {: .output}
+> >  {: .output}
 > {: .solution}
 > {: .challenge}
 
@@ -251,12 +261,11 @@ The `process` configuration scope allows the setting of any process directives i
 process {
     cpus = 2
     memory = 8.GB
-    container = 'biocontainers/bamtools:v2.4.0_cv3'
 }
 ~~~
-{: .language-groovy }
+{: .source }
 
-The above config snippet defines the `cpus`, `memory` and `container` directives for **all** processes in your workflow script.
+The above config snippet defines the `cpus`, `memory` for **all** processes in your workflow script.
 
 
 The `process` selector can be used to apply the configuration to a specific process or group of processes (discussed later).
@@ -285,7 +294,27 @@ process {
     memory = { 4.GB * task.cpus }
 }
 ~~~
-{: .language-groovy }
+{: .source }
+
+#### Process executor
+
+A key Nextflow feature is the ability to decouple the workflow implementation from the actual execution platform implementing an abstraction layer that allows the deployment of the resulting workflow on any executing platform support by the framework
+
+![nf-executors](https://seqera.io/training/img/nf-executors.png)
+
+The executor defines the underlying system where processes are executed. By default a process uses the executor defined globally in the nextflow.config file.
+
+The executor directive allows you to configure what executor has to be used by the process, overriding the default configuration. The following values can be used:
+
+See list of executors here [here](nextflow.io/docs/latest/config.html#scope-executor)
+
+To run your pipeline with a batch scheduler modify the nextflow.config file specifying the target executor and the required computing resources if needed. For example:
+
+~~~
+process.executor = 'sge'
+~~~
+{: .source }
+
 
 ### Process selectors
 
@@ -297,10 +326,57 @@ process {
         cpus = 4
         memory = 8.GB
         queue = 'short'
+        executor = 'sge'
+    }
+    withName: fastqc {
+        cpus = 2
+        memory = 4.GB
+        queue = 'short'
+        executor = 'local'
     }
 }
 ~~~
-{: .language-groovy }
+{: .source }
+
+
+> ## Process selectors
+> Create a Nextflow config file specifying different cpus and memory resources for
+> the two process foo (cpus 1 and memory 2.GB) and bar (cpus2 and memory 1.GB) in the Nextflow script below.
+> ~~~
+> process foo {
+>
+> script:
+> """
+> echo FOO: Using $task.cpus cpus and $task.memory memory.
+> """
+> }
+>
+> process bar {
+>
+> script:
+> """
+> echo BAR: Using $task.cpus cpus and $task.memory memory.
+> """
+> }
+> ~~~
+> {: .language-groovy }
+> > ## Solution
+> > ~~~
+> > //config file
+> > process {
+> >  echo = true
+> >    withName: foo {
+> >    cpus = 1
+> >    memory = 2.GB
+> >   }
+> >    withName: bar {
+> >    cpus = 2
+> >    memory = 1.GB
+> >   }
+> > }
+> > ~~~
+> {: .solution}
+> {: .challenge}
 
 When a workflow application is composed by many processes it can be overkill listing all process names in the configuration file to specifies the resources for each of them.
 
@@ -314,26 +390,43 @@ process {
         cpus = 16
         memory = 64.GB
         queue = 'long'
+        executor = 'sge'
     }
 }
 ~~~
-{: .language-groovy }
+{: .source }
 
 The above configuration example assigns 16 cpus, 64 Gb of memory and the long queue to all processes annotated with the `big_mem` label.
+
 
 
 ### Selectors priority
 
 When mixing generic process configuration and selectors the following priority rules are applied (from lower to higher):
 
-1. Process generic configuration.
+1. Process generic `process` configuration.
 1. Process specific directive defined in the workflow script.
 1. `withLabel` selector definition.
 1. `withName` selector definition.
 
-### Scope executor
 
-The executor configuration scope allows you to set the optional executor settings, listed in the following table.
+### Config Conda execution
+
+The use of a Conda environment can be provided in the configuration file adding the following setting in the `nextflow.config` file:
+
+~~~
+process.conda = "/home/ubuntu/miniconda3/envs/nf-tutorial"
+~~~
+{: .source }
+
+You can either specify the path of an existing Conda environment directory or the path of Conda environment `YAML` file.
+
+For example;
+
+~~~
+process.conda = "environment.yml"
+~~~
+{: .source }
 
 ### Config Docker execution
 
@@ -343,16 +436,7 @@ The container image to be used for the process execution can be specified in the
 process.container = 'nextflow/rnaseq-nf'
 docker.enabled = true
 ~~~
-{: .language-groovy }
-
-The use of the unique SHA256 image ID guarantees that the image content do not change over time
-
-~~~
-process.container = 'nextflow/rnaseq-nf@sha256:aeacbd7ea1154f263cda972a96920fb228b2033544c2641476350b9317dab266'
-docker.enabled = true
-~~~
-
-{: .source}
+{: .source }
 
 ### Config Singularity execution
 
@@ -391,26 +475,6 @@ The container is pulled from the Docker registry and cached in the current direc
 
 Alternatively if you have a Singularity image file, its location absolute path can be specified as the container name either using the `-with-singularity` option or the `process.container` setting in the config file.
 
-
-
-### Config Conda execution
-
-The use of a Conda environment can also be provided in the configuration file adding the following setting in the `nextflow.config` file:
-
-~~~
-process.conda = "/home/ubuntu/miniconda3/envs/nf-tutorial"
-~~~
-{: .language-groovy }
-
-You can either specify the path of an existing Conda environment directory or the path of Conda environment `YAML` file.
-
-For example;
-
-~~~
-process.conda = "environment.yml"
-~~~
-{: .language-groovy }
-
 ## Configuration profiles
 
 Configuration files can contain the definition of one or more profiles. A profile is a set of configuration attributes that can be activated/chosen when launching a pipeline execution by using the `-profile` command line option.
@@ -421,7 +485,7 @@ Configuration profiles are defined by using the special scope `profiles` which g
 ~~~
 profiles {
 
-    standard {
+    local {
         params.genome = '/local/path/ref.fasta'
         process.executor = 'local'
     }
@@ -443,11 +507,11 @@ profiles {
 
 }
 ~~~
-{: .language-config}
+{: .source}
 
 This configuration defines three different profiles: `standard`, `cluster` and `cloud` that set different process configuration strategies depending on the target runtime platform. By convention the standard profile is implicitly used when no other profile is specified by the user.
 
-To enable a specific profile use ``-profile` option followed by the profile name:
+To enable a specific profile use `-profile` option followed by the profile name:
 
 ~~~
 nextflow run <your script> -profile cluster
