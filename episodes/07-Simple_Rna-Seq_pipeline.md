@@ -1,5 +1,5 @@
 ---
-title: "Simple Rna-Seq pipeline"
+title: "Simple RNA-Seq pipeline"
 teaching: 20
 exercises: 40
 questions:
@@ -14,12 +14,12 @@ objectives:
 - "Print a confirmation message when the pipeline completes."
 - "Use a conda environment.yml file to install pipeline software."
 - "Produce an execution report and generates run metrics from a pipeline run."
-
 keypoints:
 - ""
 - "Nextflow can execute an action when the pipeline completes the execution using the `workflow.onComplete` event handler to print a confirmation message."
 - ""
 - "Nextflow is able to produce multiple reports and charts providing several runtime metrics and execution information using the command line options `-with-report`, `-with-trace`, `-with-timeline` and produce a graph using `-with-dag`."
+---
 
 During this episode you will implement a simple RNA-Seq pipeline which:
 
