@@ -11,8 +11,6 @@ Nextflow can be used on any [POSIX](https://en.wikipedia.org/wiki/POSIX) compati
 
 Windows systems may be supported using a POSIX compatibility layer like Cygwin (unverified) or, alternatively, installing it into a Linux VM using virtualization software like VirtualBox or VMware.
 
-
-
 ## Nextflow installation
 
 Install the latest version of Nextflow copy & pasting the following snippet in a terminal window:
@@ -25,7 +23,6 @@ java -version
 export NXF_VER=20.10.0
 curl get.nextflow.io | bash
 ~~~
-
 
 
 ## Add Nextflow binary to your user's PATH:
@@ -47,7 +44,7 @@ nextflow info
 You can also install Nextflow using Bioconda:
 
 ~~~
-conda install -c bioconda nextflow
+conda install -c bioconda nextflow=20.10.0
 ~~~
 
 Check the correct installation running the following command:
@@ -103,8 +100,10 @@ You can install nf-core/tools using conda using the bioconda channel.
 
 
 First, install conda and configure the channels to use bioconda (see the bioconda documentation).
+
 To install conda see [here](https://carpentries-incubator.github.io/introduction-to-conda-for-data-scientists/setup/).
-Then, just run the conda installation command:
+
+Then run the conda installation command:
 
 ~~~
 conda install bioconda::nf-core=1.13
