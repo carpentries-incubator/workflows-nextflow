@@ -134,24 +134,39 @@ chr_ch = channel
 
 #### regular expression
 
-To initializing the pattern operator all you have to do is to put ~ right in front of the string literal regular expression (e.g. `~"([Gg]roovy)"` or using slashy strings. `~/[Gg]roovy/`).
+To filter by a regular expression you have to do is to put `~` right in front of the string literal regular expression (e.g. `~"(^[Nn]extflow)"` or using slashy strings. `~/^[Nn]extflow`).
 
 The following example shows how to filter a channel by using a regular expression `~/^1.*/` that returns only strings that begin with 1:
 
 ~~~
 chr_ch = channel
   .of( 1..22, 'X', 'Y' )
-  .filter(  ~/^1.*/  )
+  .filter(~/^1.*/)
   .view()
 ~~~
 {: .language-groovy }
 
+~~~
+1
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+~~~
+{: .output}
+
 #### Boolean statement
 
-A filtering condition can be defined by using any a boolean predicate. A predicate is expressed by a closure,`{}`, returning a boolean value. For example the following fragment shows how to filter a channel for type qualifier `Number` a then combining another filter operator to emitting numbers less the 5:
+A filtering condition can be defined by using any a Boolean expression,. A Boolean expression, is expressed by a closure,`{}`, returning a boolean value. For example the following fragment shows how to combined a filter for a type qualifier `Number` and then combining another filter operator using a Boolean expression to emitting numbers less the 5:
 
 ~~~
-chr_ch = channel
+channel
   .of( 1..22, 'X', 'Y' )
   .filter(Number)
   .filter {it<5}
@@ -167,10 +182,16 @@ chr_ch = channel
 ~~~
 {: .output }
 
-Finally we can specify a literal value.
+> # Closures
+> In the above example the filter condition is wrapped in curly brackets, instead of round brackets, since it specifies a closure as the operator’s argument. This just is a language syntax-sugar for filter({ it<5})
+{: .callout}
+
+####  literal value
+
+Finally if we only want to include elements of a specific value we can specify a literal value. In the example below we use the literal value `X` to filter the channel for only those elements containing the value `X`.
 
 ~~~
-chr_ch = channel
+channel
   .of( 1..22, 'X', 'Y' )
   .filter('X')
   .view()
@@ -180,10 +201,6 @@ chr_ch = channel
 X
 ~~~
 {: .output }
-
-> # Closures
-> In the above example the filter condition is wrapped in curly brackets, instead of round brackets, since it specifies a closure as the operator’s argument. This just is a language syntax-sugar for filter({ it=='X'})
-{: .callout}
 
 
 > ## Filter a channel
@@ -231,9 +248,9 @@ Here the map function uses the groovy string function `replaceAll` to remove the
 ~~~
 {: .output}
 
-We can also use the map method to associate a tuple to each element.
+We can also use the `map` operator to associate a tuple to each element.
 
-In the example below we use the `map` method to transform a channel containing fastq files to a new channel containing a tuple with the fastq file and the number of reads in the fastq file. We use the `countFastq` file method to count the number of records in a FASTQ formatted file.
+In the example below we use the `map` operator to transform a channel containing fastq files to a new channel containing a tuple with the fastq file and the number of reads in the fastq file. We use the `countFastq` file method to count the number of records in a FASTQ formatted file.
 
 We can change the default name of the closure parameter keyword from `it` to a more meaningful name `file` using  `->`. When we have multiple parameters we can specify the keywords at the start of the closure, e.g. `file, name ->`.
 
@@ -314,7 +331,7 @@ with flatten:
 
 ### collect
 
-The `collect` operator collects all the items emitted by a channel to a list and return the resulting object as a sole emission. This can be extremely useful when combing the results from the output of multiple processes, or a single process run multiple times.
+The reverse of the `flatten` operator is `collect`. The `collect` operator collects all the items emitted by a channel to a list and return the resulting object as a sole emission. This can be extremely useful when combing the results from the output of multiple processes, or a single process run multiple times.
 
 ~~~
 channel
@@ -327,16 +344,16 @@ channel
 
 It prints a single value:
 
-The result of the collect operator is a `value channel` and can be used multiple times.
-
 ~~~
 [1,2,3,4]
 ~~~
 {: .output}
 
+The result of the collect operator is a `value channel` and can be used multiple times.
+
 ### groupTuple
 
-The `groupTuple` operator collects `tuples` or `lists` of values by grouping together the elements that share the same key. Finally it emits a new tuple object for each distinct key collected.
+The `groupTuple` operator collects `tuples` or `lists` of values by grouping together the channel elements that share the same key. Finally it emits a new tuple object for each distinct key collected.
 
 For example.
 
@@ -348,14 +365,13 @@ channel
 ~~~~     
 {: .language-groovy }
 
-It shows:
 ~~~
 [wt, [wt_1.fq, wt_1.fq]]
 [mut, [mut_1.fq, mut_2.fq]]
 ~~~
 {: .output }
 
-If we know the number of items to be grouped we can use the size parameter.
+If we know the number of items to be grouped we can use the `groupTuple` size parameter.
 When the specified size is reached, the tuple is emitted. By default incomplete tuples (i.e. with less than size grouped items) are discarded (default).
 
 For example.
@@ -514,7 +530,7 @@ The available splitting operators are:
 
 ### splitCsv
 
-The `splitCsv` operator allows you to parse text items emitted by a channel, that are formatted using the CSV format, and split them into records or group them into list of records with a specified length. This is useful when you want to create a sample sheet.
+The `splitCsv` operator allows you to parse text items emitted by a channel, that are formatted using the CSV format, and split them into records or group them into list of records with a specified length. This is useful when you want to use a sample sheet.
 
 In the simplest case just apply the `splitCsv` operator to a channel emitting a CSV formatted text files or text entries. For example:
 
@@ -533,7 +549,7 @@ ref2,data/yeast/reads/ref2_1.fq.gz,data/yeast/reads/ref2_2.fq.gz
 ~~~
 {: .output }
 
-We can use the `splitCsv()` operator to split the channel containg a CSV file into three elements.
+We can use the `splitCsv()` operator to split the channel contaning a CSV file into three elements.
 
 ~~~
 csv_ch=channel
@@ -550,7 +566,7 @@ csv_ch.view()
 ~~~
 {: .output }
 
-The above example shows hows CSV file `samples.csv` is parsed and is split into three elements.
+The above example shows hows the CSV file `samples.csv` is parsed and is split into three elements.
 
 #### Accessing values
 
