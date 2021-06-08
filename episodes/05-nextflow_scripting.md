@@ -101,13 +101,13 @@ This can be confusing for people familiar with the `#` syntax for commenting in 
 {: .language-groovy }
 
 
-### Variables
+## Variables
 
 In any programming language, you need to use variables to store different types of information. A variable is a pointer to a space in memory that stores the value associated with it.
 
 Variables are assigned using `=` and can have any value. Groovy is dynamically-typed and determines its variables' data types based on their values.
 
-## Types if Data
+## Types of Data
 
 Groovy knows various types of data. four common ones are:
 
@@ -165,7 +165,7 @@ text = """
 ~~~
 {: .language-groovy }
 
-To display the value of a variable to the screen in Groovy, we can use the `println` method
+To display the value of a variable to the screen in Groovy, we can use the `println` method passing the variable name are a parameter.
 
 ~~~
 x = 1
@@ -181,7 +181,7 @@ println(x)
 
 ## String interpolation
 
-And, to use the variable name inside a single or multi-line double quoted string `""`  prefix the variable name with a `$` to show it should be interpolated:
+To use the variable name inside a single or multi-line double quoted string `""`  prefix the variable name with a `$` to show it should be interpolated:
 
 ~~~
 chr = "1"
@@ -196,7 +196,16 @@ processing chromosome 1
 
 Variable names inside single quoted strings do not support String interpolation.
 
+~~~
+chr = "1"
+println('processing chromosome $chr')
+~~~
+{: .language-groovy }
 
+~~~
+processing chromosome $chr
+~~~
+{: .output }
 
 ### Slashy strings
 
@@ -224,6 +233,7 @@ println(y)
 Produces an error as the `\` is a special characters that we need to escape.
 
 ~~~
+// use \ to escape
 y = 'ATP1B2\\TP53\\WRAP53'
 println(y)
 ~~~
@@ -274,7 +284,7 @@ println(kmers[0])
 ~~~
 {: .output}
 
-Yes, we can use negative numbers as indices in Groovy. When we do so, the index `-1` gives us the last element in the list, `-2` the second to last, and so on. Because of this, kmer[4] and odds[-1] point to the same element here.
+Yes, we can use negative numbers as indices in Groovy. When we do so, the index `-1` gives us the last element in the list, `-2` the second to last, and so on. Because of this, `kmers[4]` and `kmers[-1]` point to the same element here.
 
 ~~~
 kmers = [11,21,27,31,31]
@@ -287,7 +297,6 @@ println(kmers[-1])
 ~~~
 {: .output}
 
-last element: 31
 Lists can also be indexed using a range. A range is a quick way of declaring a list of sequential values .
 To define a range use `<num1>..<num2>` notation.
 
@@ -304,7 +313,7 @@ println(kmer[0..2])
 
 ## String interpolation
 
-To use an expression like `kmer[0..2]` inside a string we use the `${expression}` syntax, similar to Bash/shell scripts:
+To use an expression like `kmer[0..2]` inside a double quoted String `""` we use the `${expression}` syntax, similar to Bash/shell scripts:
 
 ~~~
 kmers = [11,21,27,31,31]
