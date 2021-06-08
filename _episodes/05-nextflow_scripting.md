@@ -77,11 +77,11 @@ Hello, World!
 ## Methods
 
 `println` is a example of a Groovy method. A method is just a block of code which only runs when it is called.
-You can pass data, known as parameters, into a method using the method name followed by optional brackets `()`
-e.g. `println("Hello World")` or `println "Hello World"`.
+You can pass data, known as parameters, into a method using the method name followed by brackets `()`.
 Methods are used to perform certain actions, and they are also known as functions.
 Methods enable us to reuse code: define the code once, and use it many times.
 
+Methods on obkects fixme
 
 ## Comments
 
@@ -103,9 +103,9 @@ This can be confusing for people familiar with the `#` syntax for commenting in 
 
 ## Variables
 
-In any programming language, you need to use variables to store different types of information. A variable is a pointer to a space in memory that stores the value associated with it.
+In any programming language, you need to use variables to store different types of information. A variable is a pointer to a space in the computer's memory that stores the value associated with it.
 
-Variables are assigned using `=` and can have any value. Groovy is dynamically-typed and determines its variables' data types based on their values.
+Variables are assigned using `=` and can have any value. Groovy is dynamically-typed which means the variable's data types is based on it's value.
 
 ## Types of Data
 
@@ -264,7 +264,7 @@ To store multiple values in a variable we can use a List.
 A List  (also known as array) object can be defined by placing the list items in square brackets and separating items by commas `,`:
 
 ~~~
-kmers = [11,21,27,31,31]
+kmers = [11,21,27,31]
 ~~~
 {: .language-groovy }
 
@@ -273,7 +273,7 @@ You can access a given item in the list with square-bracket notation `[]`. These
 
 
 ~~~
-kmers = [11,21,27,31,31]
+kmers = [11,21,27,31]
 println(kmers[0])
 
 ~~~
@@ -284,10 +284,10 @@ println(kmers[0])
 ~~~
 {: .output}
 
-Yes, we can use negative numbers as indices in Groovy. When we do so, the index `-1` gives us the last element in the list, `-2` the second to last, and so on. Because of this, `kmers[4]` and `kmers[-1]` point to the same element here.
+Yes, we can use negative numbers as indices in Groovy. When we do so, the index `-1` gives us the last element in the list, `-2` the second to last, and so on. Because of this, `kmers[3]` and `kmers[-1]` point to the same element here.
 
 ~~~
-kmers = [11,21,27,31,31]
+kmers = [11,21,27,31]
 //Lists can also be indexed with negative indexes
 println(kmers[-1])
 ~~~
@@ -301,7 +301,7 @@ Lists can also be indexed using a range. A range is a quick way of declaring a l
 To define a range use `<num1>..<num2>` notation.
 
 ~~~
-kmers = [11,21,27,31,31]
+kmers = [11,21,27,31]
 // The first three elements Lists elements using a range.
 println(kmer[0..2])
 ~~~
@@ -316,8 +316,20 @@ println(kmer[0..2])
 To use an expression like `kmer[0..2]` inside a double quoted String `""` we use the `${expression}` syntax, similar to Bash/shell scripts:
 
 ~~~
-kmers = [11,21,27,31,31]
-println()"The first three elements in the Lists are. ${kmers[0..2]}")
+kmers = [11,21,27,31]
+println("The first three elements in the Lists are. $kmers[0..2]")
+~~~
+{: .language-groovy }
+
+~~~
+The first three elements in the Lists are. [11, 21, 27, 31][0..2]
+~~~
+{: .output}
+
+
+~~~
+kmers = [11,21,27,31]
+println("The first three elements in the Lists are. ${kmers[0..2]}")
 ~~~
 {: .language-groovy }
 
@@ -431,8 +443,7 @@ roi = [ chromosome : "chr17", start: 7640755, end: 7718054, genes: ['ATP1B2','TP
 {: .language-groovy }
 
 
-Maps can be accessed in a conventional square-bracket syntax or as if the key was a property of the map
-using the dot notation.
+Maps can be accessed in a conventional square-bracket syntax or as if the key was a property of the map or using the dot notation.
 
 ~~~
 //Use of the square brackets.
@@ -466,6 +477,8 @@ More information about maps can be found in the [Groovy API](http://docs.groovy-
 ## Closures
 
 Closures are the swiss army knife of Nextflow/Groovy programming. In a nutshell a closure is is a block of code that can be passed as an argument to a function.
+
+This can be useful to create a re-usable function.
 
 We can assign a closure to a variable in same way as a value using the `=`.
 
@@ -521,13 +534,13 @@ square = { num -> num * num }
 > Write a closure to add the prefix `chr` to each element of  the list `x=[1,2,3,4,5,6]`
 > > ## Solution
 > > ~~~
-> > prefix = {num -> "chr${num}"}
-> > x = [ 1, 2, 3, 4 ].collect(prefix)
+> > prefix = { "chr${it}"}
+> > x = [ 1,2,3,4,5,6 ].collect(prefix)
 > > println x
 > > ~~~
 > > {: .language-groovy}
 > > ~~~
-> > [chr1, chr2, chr3, chr4]
+> > [chr1, chr2, chr3, chr4, chr5, chr6]
 > > ~~~
 > > {: .output}
 > {: .solution}
@@ -535,16 +548,31 @@ square = { num -> num * num }
 
 ### Multiple map parameters
 
-It’s also possible to define closures with multiple, custom-named parameters.
+It’s also possible to define closures with multiple, custom-named parameters
+For example:
 
-For example, the method `each()` when applied to a `map` can take a closure with two arguments, to which it passes the *key-value* pair for each entry in the map object. For example:
+~~~
+tp53 = [chromosome: "chr17",start:7661779 ,end:7687538, genome:'GRCh38', gene: "TP53"]
+sub = { a, b -> a-b }
+tp53.length = sub(tp53.end,tp53.start)
+println(tp53)
+~~~
+{: .language-groovy }
+
+~~~
+[chromosome:chr17, start:7661779, end:7687538, genome:GRCh38, gene:TP53, length:25759]
+~~~
+{: .output }
+
+
+For another example, the method `each()` when applied to a `map` can take a closure with two arguments, to which it passes the *key-value* pair for each entry in the map object:
 
 ~~~
 //closure with two parameters
 printMap = { a, b -> println "$a with value $b" }
 
 //map object
-my_map = [ "chromsome" : "chr17", "start" : 1, "end" : 83257441 ]
+my_map = [ chromosome : "chr17", start : 1, end : 83257441 ]
 
 //each iterates through each element
 my_map.each(printMap)
@@ -553,7 +581,7 @@ my_map.each(printMap)
 
 
 ~~~
-chromsome with value chr17
+chromosome with value chr17
 start with value 1
 end with value 83257441
 ~~~
