@@ -31,7 +31,7 @@ keypoints:
 
 Nextflow is a Domain Specific Language (DSL) implemented on top of the Groovy programming language, which in turns is a super-set of the Java programming language. This means that Nextflow can run any Groovy and Java code. However, it is not necessary to learn Groovy to use Nextflow DSL but it can be useful in edge cases where you need more functionality than the DSL provides.
 
-> ##  ## Nextflow console
+> ## Nextflow console
 >  Nextflow has a console graphical interface. The  console is a REPL (read-eval-print loop) environment that allows one to quickly test part of a script or pieces of Nextflow code in an interactive manner.
 >
 > It is a handy tool that allows one to evaluate fragments of Nextflow/Groovy code or fast prototype a complete pipeline script. More information can be found [here](https://www.nextflow.io/blog/2015/introducing-nextflow-console.html)
