@@ -3,36 +3,35 @@ title: "Operators"
 teaching: 30
 exercises: 10
 questions:
-- "How can I change the contents of a channel?"
-- "How do I perform operations such as filtering on channels?"
-- "What are the different kinds of operators?"
-- "How do I combine operators?"
-- "How do I process a CSV file?"
+- "How do I perform operations, such as filtering, on channels?"
+- "What are the different kinds of operations I can perform on channels?"
+- "How do I combine operations?"
+- "How can I use a CSV file to process data into a Channel?"
 objectives:
-- "Describe what Nextflow operators are."
-- "Modify the contents/elements of a channel using an operator"
-- "Perform filtering and combining operations on a channel. "
-- "Use the `splitCsv` operator to parse text items emitted by a channel, that are formatted using the CSV format, ."
+- "Understand what Nextflow operators are."
+- "Modify the contents/elements of a channel using operators."
+- "Perform filtering and combining operations on a channel object."
+- "Use the `splitCsv` operator to parse the contents of  CSV file into a channel ."
 
 keypoints:
 - "Nextflow *operators* are methods that allow you to modify, set or view channels."
 - "Operators can be separated in to several groups; filtering , transforming , splitting , combining , forking and Maths operators"
-- "To use an opertaor use the dor notation after the Channel object e.g. `my_ch.view()`."
+- "To use an operator use the dot notation after the Channel object e.g. `my_ch.view()`."
 - "You can parse text items emitted by a channel, that are formatted using the CSV format,  using the `splitCsv` operator."
 ---
 
 # Operators
 
-In the previous Channels episode we learnt how to create Nextflow channels to enable us to pass data and values around our workflow. If we want to modify the contents or behaviour of a channel Nextflow provides methods called `Operators`. We have previously used the `view` operator to view the contents of a channel. There are many more operator methods that can be applied to Nextflow channels that can be usefully separated into several groups:
+In the previous Channels episode we learnt how to create Nextflow channels to enable us to pass data and values around our workflow. If we want to modify the contents or behaviour of a channel Nextflow provides methods called `operators`. We have previously used the `view` operator to view the contents of a channel. There are many more operator methods that can be applied to Nextflow channels that can be usefully separated into several groups:
 
 
- * Filtering operators
- * Transforming operators
- * Splitting operators
- * Combining operators
- * Forking operators
- * Maths operators
- * Other
+ * Filtering operators: reduce the number of elements in a channel.
+ * Transforming operators: transform the value/data in a channel.
+ * Splitting operators: Split items in a channels into smaller chunks.
+ * Combining operators: join channel together.
+ * Forking operators: split a single channel into multiple channels.
+ * Maths operators: apply simple math function on channels.
+ * Other: Such as the view operator.
 
 In this episode you will see examples, and get to use different types of operators.
 
@@ -106,12 +105,13 @@ The `filter` operator allows you to get only the items emitted by a channel that
 
 * regular expression,
 * a literal value,
-* a type qualifier (i.e. a Java class), e.g. Number, String, Boolean
+* a data type qualifier, e.g. Number (any integer,float ...), String, Boolean
 * or any boolean statement.
 
 #### type qualifier
 
-Here we will use the `filter` operator on the `chr_ch` channel specifying the  type qualifier `Number` so that only numeric items are returned. We will then use the `view` operator to print the contents.
+Here we use the `filter` operator on the `chr_ch` channel specifying the  data type qualifier `Number` so that only numeric items are returned. The Number data type includes both integers and floating point numbers.
+We will then use the `view` operator to print the contents.
 
 ~~~
 chr_ch = channel.of( 1..22, 'X', 'Y' )
@@ -120,9 +120,9 @@ autosomes_ch.view()
 ~~~
 {: .language-groovy }
 
-We can chained together multiple operators using a `.` .
+To simplify the code we can chained together multiple operators, such as `filter` and `view` using a `.` .
 
-The previous example could be rewritten like.
+The previous example could be rewritten like:
 
 ~~~
 chr_ch = channel
@@ -132,11 +132,13 @@ chr_ch = channel
 ~~~
 {: .language-groovy }
 
+The blank space between the operators is ignored and is used for readability.
+
 #### regular expression
 
-To filter by a regular expression you have to do is to put `~` right in front of the string literal regular expression (e.g. `~"(^[Nn]extflow)"` or using slashy strings. `~/^[Nn]extflow`).
+To filter by a regular expression you have to do is to put `~` right in front of the string literal regular expression (e.g. `~"(^[Nn]extflow)"` or using slashy strings. `~/^[Nn]extflow/`).
 
-The following example shows how to filter a channel by using a regular expression `~/^1.*/` that returns only strings that begin with 1:
+The following example shows how to filter a channel by using a regular expression `~/^1.*/` inside a slashy string, that returns only strings that begin with 1:
 
 ~~~
 chr_ch = channel
@@ -183,12 +185,12 @@ channel
 {: .output }
 
 > # Closures
-> In the above example the filter condition is wrapped in curly brackets, instead of round brackets, since it specifies a closure as the operator’s argument. This just is a language syntax-sugar for filter({ it<5})
+> In the above example the filter condition is wrapped in curly brackets, instead of round brackets, since it specifies a closure as the operator’s argument. This just is a language short for filter({ it<5})
 {: .callout}
 
 ####  literal value
 
-Finally if we only want to include elements of a specific value we can specify a literal value. In the example below we use the literal value `X` to filter the channel for only those elements containing the value `X`.
+Finally, if we only want to include elements of a specific value we can specify a literal value. In the example below we use the literal value `X` to filter the channel for only those elements containing the value `X`.
 
 ~~~
 channel
@@ -231,7 +233,7 @@ If we we want to modify the items emitted by a channel we use transforming opera
 
 ### map
 
-The `map` operator applies a function of your choosing to every item emitted by a channel, and returns the items so obtained as a new channel. The function applied is called the mapping function and is expressed with a closure as shown in the example below:
+The `map` operator applies a function of your choosing to every item emitted by a channel, and returns the items so obtained as a new channel. The function applied is called the mapping function and is expressed with a closure `{}` as shown in the example below:
 
 ~~~
 channel.of( 'chr1', 'chr2' )
@@ -248,7 +250,7 @@ Here the map function uses the groovy string function `replaceAll` to remove the
 ~~~
 {: .output}
 
-We can also use the `map` operator to associate a tuple to each element.
+We can also use the `map` operator to transform each element into a tuple.
 
 In the example below we use the `map` operator to transform a channel containing fastq files to a new channel containing a tuple with the fastq file and the number of reads in the fastq file. We use the `countFastq` file method to count the number of records in a FASTQ formatted file.
 
@@ -274,9 +276,27 @@ file data/yeast/reads/ref2_1.fq.gz contains 20430 reads
 ~~~
 {: .output}
 
+We can then add a `filter` operator to only retain thoses fastq files with more than 25000 reads.
+
+~~~
+channel
+    .fromPath( 'data/yeast/reads/*.fq.gz' )
+    .map ({ file -> [file, file.countFastq()] })
+    .filter({ file, numreads -> numreads > 25000})
+    .view ({ file, numreads -> "file $file contains $numreads reads" })
+~~~
+{: .language-groovy }
+
+~~~
+file data/yeast/reads/etoh60_3_2.fq.gz contains 26254 reads
+file data/yeast/reads/etoh60_3_1.fq.gz contains 26254 reads
+~~~
+{: .output}
+
+
 > ## map operator
 >
-> Add a map operator to the Nextflow script below to transform the contents into a tuple with the file's basename, using the `.baseName`, method. Finally print the resulting channel.
+> Add a `map` operator to the Nextflow script below to transform the contents into a tuple with the file's basename, using the `.baseName` method. Finally print the resulting channel.
 > ~~~
 >  channel
 >  .fromPath( 'data/yeast/reads/*.fq.gz' )
@@ -328,6 +348,8 @@ with flatten:
 3
 ~~~
 {: .output}
+
+This is similar to the channel factory `Channel.fromList`.
 
 ### collect
 
@@ -470,7 +492,7 @@ Forking operators split a single channel into multiple channels.
 
 ### into
 
-The `into` operator connects a source channel to two or more target channels in such a way the values emitted by the source channel are copied to the target channels. For example:
+The `into` operator connects a source channel to two or more target channels in such a way the values emitted by the source channel are copied to the target channels. Channel names are separated by a semi colon. For example:
 
 
 ~~~
@@ -498,7 +520,7 @@ ch2 emits: chr3
 
 ## Maths operators
 
-The maths operators allows you to apply simple math function  on channels.
+The maths operators allows you to apply simple math function on channels.
 
 ### count
 
@@ -629,6 +651,26 @@ data/yeast/reads/ref2_1.fq.gz
 > > {: .language-groovy }
 > {: .solution}
 {: .challenge}
+
+
+### Tab seprated Files
+
+If you want to split a `tab` delimited file or file separated by another character use the `sep` parameter of the split `splitCsv` operator.
+
+For examples,
+
+~~~
+Channel.of("val1\tval2\tval3\nval4\tval5\tval6\n")
+  .splitCsv(sep: "\t")
+  .view()
+~~~
+{: .language-groovy }
+
+~~~
+[val1, val2, val3]
+[val4, val5, val6]
+~~~
+{: .output }
 
 ## More resources
 
