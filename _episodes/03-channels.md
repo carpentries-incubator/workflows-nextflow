@@ -6,7 +6,7 @@ questions:
 - "How do I get data into Nextflow?"
 - "How do I handle different types of input, e.g. files and and parameters?"
 - "How do I create a Nextflow Channel?"
-- "How can I use patten matching to select input files?"
+- "How can I use pattern matching to select input files?"
 - "How do I change the way inputs are handled?"
 -
 objectives:
@@ -195,8 +195,8 @@ There are many different way to create a queue channel. Here we will go over a f
 When you want to create a channel containing multiple values you can use the channel factory `Channel.of`.  `Channel.of` allows the creation of a `queue` channel with the values specified as arguments, separated by a `,`.
 
 ~~~
-chromsome_ch = Channel.of( 'chr1','chr3','chr5','chr7' )
-chromsome_ch.view()
+chromosome_ch = Channel.of( 'chr1','chr3','chr5','chr7' )
+chromosome_ch.view()
 ~~~
 {: .language-groovy }
 
@@ -257,7 +257,8 @@ kallisto
 >  Create a nextflow script that create both a queue and value channel
 >  for the list `ids = ['ERR908507', 'ERR908506', 'ERR908505']`.
 >  Then print the contents of the channels using the `view` operator.
->  How many lines does the queue and value channel print?
+>  Hint, you need to use `fromList()` and `.value()` Channel factory methods.
+>  How many lines does the queue and value channel print ?
 > > ## Solution
 > >
 > > ~~~
@@ -400,13 +401,16 @@ The asterisk, `*`, matches any number of characters (including none), and the `{
 ~~~
 {: .output}
 
-If the pattern matches more than two files you will need to change the `size` argument to the number of expected matching files.
+### What if you want to capture more than a pair?
+
+If you want to capture more than  2 files for a pattern you will  you will need to change the default `size` argument to the number of expected matching files.
 
 ~~~
-filepair_ch = Channel.fromFilePairs('../nextflow-training/data/yeast/reads/ref{1,2,3}*',checkIfExists:true,size:6)
+filepair_ch = Channel.fromFilePairs('data/yeast/reads/ref{1,2,3}*',size:6)
 filepair_ch.view()
 ~~~
 {: .language-groovy }
+
 Will create a queue channel containing tuple of key **ref** and six  files matching the pattern.
 
 ~~~
@@ -435,13 +439,14 @@ See more information about the channel factory  `fromFilePairs` [here](https://w
 > > ~~~
 > > pairs_ch = Channel.fromFilePairs('data/yeast/reads/*_{1,2}.fq.gz')
 > > pairs_ch.view()
-> > Channel.fromFilePairs('data/yeast/reads/*_{1,2,3,4}_{1,2}.fq.gz', size:6).view()
+> > multi_ch = Channel.fromFilePairs('data/yeast/reads/*_{1,2,3,4}_{1,2}.fq.gz', size:6)
+> > multi_ch.view()
 > > ~~~
 > > {: .language-groovy }
 > {: .solution}
 {: .challenge}
 
-
+## Additional material
 
 ### Queue Channel, fromSRA
 
@@ -472,7 +477,8 @@ Multiple accession IDs can be specified using a list object:
 
 ~~~
 ids = ['ERR908507', 'ERR908506', 'ERR908505']
-Channel.fromSRA(ids).view()
+sra_ch = Channel.fromSRA(ids)
+sra_ch.view()
 ~~~
 {: .language-groovy }
 
@@ -482,9 +488,6 @@ Channel.fromSRA(ids).view()
 [ERR908505, [ftp://ftp.sra.ebi.ac.uk/vol1/fastq/ERR908/ERR908505/ERR908505_1.fastq.gz, ftp://ftp.sra.ebi.ac.uk/vol1/fastq/ERR908/ERR908505/ERR908505_2.fastq.gz]]
 ~~~
 {: .output}  
-
-
-## Additional material
 
 > ## Read pairs
 > Read pairs are implicitly managed are returned as a list of files.
