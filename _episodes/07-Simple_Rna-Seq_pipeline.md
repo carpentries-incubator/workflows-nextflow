@@ -12,32 +12,60 @@ objectives:
 - "Create a simple RNA-Seq pipeline."
 - "Use the `log.info` command and a multiline string statement to print all the pipeline parameters."
 - "Print a confirmation message when the pipeline completes."
-- "Use a conda environment.yml file to install pipeline software."
+- "Use a conda `environment.yml` file to install pipeline software."
 - "Produce an execution report and generates run metrics from a pipeline run."
 keypoints:
-- ""
 - "Nextflow can execute an action when the pipeline completes the execution using the `workflow.onComplete` event handler to print a confirmation message."
-- ""
 - "Nextflow is able to produce multiple reports and charts providing several runtime metrics and execution information using the command line options `-with-report`, `-with-trace`, `-with-timeline` and produce a graph using `-with-dag`."
 ---
 
-During this episode you will implement a simple RNA-Seq pipeline which:
+We are finally ready to implement a simple RNA-Seq pipeline in Nextflow.
+This pipeline will have 4 processes that:
 
-1. Indexes a transcriptome file.
+* Indexes a transcriptome file.
 
-1. Performs quality controls
+~~~
+$ salmon index --threads $task.cpus -t $transcriptome -i index
+~~~
+{: .language-bash}
 
-1. Performs quantification.
+* Performs quality controls
 
-1. Create a MultiqQC report.
+~~~
+$ mkdir fastqc_<sample_id>_logs
+$ fastqc -o fastqc_<sample_id>_logs -f fastq -q <reads>
+~~~
+{: .language-bash}
+
+* Performs transcript level quantification.
+
+~~~
+$ salmon quant --threads <cpus> --libType=U -i <index> -1 <read1> -2 <read2> -o <pair_id>
+~~~
+{: .language-bash}
+
+* Create a MultiqQC report form the FastQC and salmon results.
+
+~~~
+$ multiqc .
+~~~
+{: .language-bash}
+
+Let’s start by going back to `rnaseq_pipeline`.
+
+~~~
+$ cd rnaseq_pipeline
+~~~
+{: .language-bash}
 
 ## Define the pipeline parameters
 
+The first thing we want to do when writing a pipeline is define the pipeline parameters.
 The script `script1.nf` defines the pipeline input parameters.
 
 ~~~
 params.reads = "$baseDir/data/yeast/reads/*_{1,2}.fq.gz"
-params.transcriptome = "$baseDir/data/ggal/transcriptome.fa"
+params.transcriptome = "$baseDir/data/yeast/transcriptome/*.fa.gz"
 params.multiqc = "$baseDir/multiqc"
 
 println "reads: $params.reads"
@@ -47,14 +75,14 @@ println "reads: $params.reads"
 Run it by using the following command:
 
 ~~~
-nextflow run script1.nf
+$ nextflow run script1.nf
 ~~~
 {: language-bash}
 
 Try to specify a different input parameter, for example:
 
 ~~~
-nextflow run script1.nf --reads "sample1.fq"
+$ nextflow run script1.nf --reads "data/yeast/reads/ref1*_{1,2}.fq.gz"
 ~~~
 {: .language-groovy }
 
@@ -105,7 +133,7 @@ In this step you have learned:
 
 * How to pass parameters by using the command line.
 
-* The use of $var and ${var} variable placeholders.
+* The use of `$var` and `${var}` variable placeholders.
 
 * How to use multiline strings.
 
@@ -113,11 +141,11 @@ In this step you have learned:
 
 ## Create a transcriptome index file
 
-Nextflow allows the execution of any command or user script by using a process definition.
+Nextflow allows the execution of any command or user script by using a `process` definition.
 
 For example,
 ~~~
-salmon index --threads $task.cpus -t $transcriptome -i index
+$ salmon index --threads $task.cpus -t $transcriptome -i index
 ~~~
 {: .language-bash}
 
@@ -130,7 +158,7 @@ The second example adds the  process `index` which generate a index of the trans
  * pipeline input parameters
  */
 params.reads = "$baseDir/data/yeast/reads/*_{1,2}.fq.gz"
-params.transcriptome = "$baseDir/data/transcriptome/transcriptome.fa"
+params.transcriptome = "$baseDir/data/yeast/reads/*.fa.gz"
 params.multiqc = "$baseDir/multiqc"
 params.outdir = "results"
 
@@ -166,12 +194,12 @@ process index {
 
 It takes the transcriptome params file as input and creates the transcriptome index by using the `salmon` transcript quantification tool.
 
-Note how the input declaration defines a transcriptome variable in the process context that it is used in the command script to reference that file in the Salmon command line.
+Note how the input declaration defines a `transcriptome` variable in the process context that it is used in the command script to reference that file in the Salmon command line.
 
 Try to run it by using the command:
 
 ~~~
-nextflow run script2.nf
+$ nextflow run script2.nf
 ~~~
 {: .language-bash }
 
@@ -180,7 +208,7 @@ The execution will fail because Salmon is not installed in your environment.
 Add the command line option `-profile conda` to launch the execution through a conda environment as shown below:
 
 ~~~
-nextflow run script2.nf -profile conda
+$ nextflow run script2.nf -profile conda
 ~~~
 {: .language-bash }
 
@@ -201,15 +229,16 @@ profiles {
 > Enable the conda execution by removing the profile block in the  nextflow.config file.
 > > ## Solution
 > > ~~~
+> > //nextflow.config file
 > > process.conda = 'environment.yml'
 > > ~~~
-> > {: .language-groovy }
+> > {: .source }
 > {: .solution}
 {: .challenge}
 
 
 > ## Print output of the index_ch
-> Print the output of the index_ch channel by using the view.
+> Print the output of the `index_ch` channel by using the `view` operator.
 > > ## Solution
 > > ~~~
 > > index_ch.view()
@@ -238,13 +267,13 @@ In this step you have learned:
 
 * How process outputs are declared
 
-* How to access the number of available CPUs
+* How to access the number of available CPUs `${task.cpus}`
 
-* How to print the content of a channel
+* How to print the content of a channel `view()`
 
 ## Collect read files by pairs
 
-This step shows how to match read files into pairs, so they can be mapped by Salmon.
+This step shows how to match **read** files into pairs, so they can be mapped by Salmon.
 
 Edit the script `script3.nf` and add the following statement as the last line:
 ~~~
@@ -255,7 +284,7 @@ read_pairs_ch.view()
 Save it and execute it with the following command:
 
 ~~~
-nextflow run script3.nf
+$ nextflow run script3.nf
 ~~~
 {: .language-bash }
 
@@ -263,7 +292,6 @@ It will print an output similar to the one shown below:
 
 ~~~
 [ref1, [data/yeast/reads/ref1_1.fq.gz,data/yeast/reads/ref1_2.fq.gz]]
-
 ~~~
 {: .output }
 
@@ -272,14 +300,14 @@ The above example shows how the `read_pairs_ch` channel emits tuples composed by
 Try it again specifying different read files by using a glob pattern:
 
 ~~~
-nextflow run script3.nf --reads 'data/yeast/reads/*_{1,2}.fq.gz'
+$ nextflow run script3.nf --reads 'data/yeast/reads/*_{1,2}.fq.gz'
 ~~~
 {: .language-bash }
 
 File paths including one or more wildcards ie. `*`, `?`, etc. MUST be wrapped in single-quoted characters to avoid Bash expands the glob.
 
 > ## `set` operator
-> Use the set operator in place of = assignment to define the read_pairs_ch channel.
+> Use the `set` operator in place of = assignment to define the read_pairs_ch channel.
 > > ## Solution
 > > ~~~
 > > Channel .fromFilePairs(params.reads)
@@ -295,6 +323,7 @@ File paths including one or more wildcards ie. `*`, `?`, etc. MUST be wrapped in
 > > ~~~
 > > Channel .fromFilePairs(params.reads, checkIfExists: true)
 > > .set{read_pairs_ch}
+> > ~~~
 > > {: .language-groovy }
 > {: .solution}
 {: .challenge}
@@ -362,7 +391,7 @@ You will notice that the quantification process is executed more than one time.
 Nextflow parallelizes the execution of your pipeline simply by providing multiple input data to your script.
 
 > # Add a tag directive
-> Add a tag directive to the quantification process to provide a more readable execution log.
+> Add a `tag` directive to the quantification process to provide a more readable execution log.
 > > ## Solution
 > > ~~~
 > > tag "quantification on $pair_id"
@@ -372,7 +401,7 @@ Nextflow parallelizes the execution of your pipeline simply by providing multipl
 {: .challenge}
 
 > # Add a publishDir directive
-Add a publishDir directive to the quantification process to store the process results into a directory of your choice.
+Add a `publishDir` directive to the quantification process to store the process results into a directory of your choice.
 > > ## Solution
 > > ~~~
 > > publishDir params.outdir, mode:'copy'
@@ -399,7 +428,7 @@ This step implements a quality control of your input reads. The inputs are the s
 You can run it by using the following command:
 
 ~~~
-nextflow run script5.nf -resume
+$ nextflow run script5.nf -resume
 ~~~
 {: .language-bash}
 
@@ -458,13 +487,13 @@ process multiqc {
 
 Execute the script with the following command:
 ~~~~
-nextflow run script6.nf -resume --reads 'data/yeast/reads/*_{1,2}.fq.gz'
+$ nextflow run script6.nf -resume --reads 'data/yeast/reads/*_{1,2}.fq.gz'
 ~~~~
 {: .language-bash}
 
 It creates the final report in the results folder in the current work directory.
 
-In this script note the use of the `mix` and `collect` operators chained together to get all the outputs of the quantification and fastqc process as a single input.
+In this script note the use of the `mix` and `collect` operators chained together to get all the outputs of the `quantification` and `fastqc` process as a single input.
 
 ### Recap
 
@@ -484,10 +513,26 @@ Note that Nextflow processes define the execution of asynchronous tasks i.e. the
 
 The script uses the `workflow.onComplete` event handler to print a confirmation message when the script completes.
 
+~~~
+workflow.onComplete {
+	log.info ( workflow.success ? "\nDone! Open the following report in your browser --> $params.outdir/multiqc_report.html\n" : "Oops .. something went wrong" )
+}
+~~~
+{: .language-groovy}
+
+This code uses the ternary operator that is a shortcut expression that is equivalent to an if/else branch assigning some value to a variable.
+
+~~~
+If expression is true? "set value to a" : "else set value to b"
+~~~
+{: .source}
+
+
+
 Try to run it by using the following command:
 
 ~~~
-nextflow run script7.nf -resume --reads 'data/yeast/reads/*_{1,2}.fq.gz'
+$ nextflow run script7.nf -resume --reads 'data/yeast/reads/*_{1,2}.fq.gz'
 ~~~
 {: .language-bash}
 
@@ -499,16 +544,18 @@ Nextflow is able to produce multiple reports and charts providing several runtim
 Run the rnaseq-nf pipeline previously introduced as shown below:
 
 ~~~
-nextflow run rnaseq-nf -with-docker -with-report -with-trace -with-timeline -with-dag dag.png
+$ nextflow run rnaseq-nf -with-report -with-trace -with-timeline -with-dag dag.png
 ~~~
 {: .language-bash}
 
-The `-with-report` option enables the creation of the workflow execution report. Open the file report.html with a browser to see the report created with the above command.
+* The `-with-report` option enables the creation of the workflow execution report. Open the file report.html with a browser to see the report created with the above command.
 
-The `-with-trace` option enables the create of a tab separated file containing runtime information for each executed task. Check the content of the file trace.txt for an example.
+* The `-with-trace` option enables the create of a tab separated file containing runtime information for each executed task. Check the content of the file `trace.txt` for an example.
 
-The `-with-timeline` option enables the creation of the workflow timeline report showing how processes where executed along time. This may be useful to identify most time consuming tasks and bottlenecks. See an example at this [link](https://www.nextflow.io/docs/latest/tracing.html#timeline-report).
+* The `-with-timeline` option enables the creation of the workflow timeline report showing how processes where executed along time. This may be useful to identify most time consuming tasks and bottlenecks. See an example at this [link](https://www.nextflow.io/docs/latest/tracing.html#timeline-report).
 
 Finally the `-with-dag` option enables to rendering of the workflow execution direct acyclic graph representation. Note: this feature requires the installation of [Graphviz](http://www.graphviz.org/) in your computer. See [here](https://www.nextflow.io/docs/latest/tracing.html#dag-visualisation) for details.
 
-Note: runtime metrics may be incomplete for run short running tasks..
+> ## short running tasks
+> Note: runtime metrics may be incomplete for run short running tasks..
+{: .callout}
