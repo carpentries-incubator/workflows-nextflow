@@ -496,21 +496,32 @@ sra_ch.view()
 It’s straightforward to use this channel as an input using the usual Nextflow syntax. For example:
 
 ~~~
-params.accession = 'SRP043510'
-reads = Channel.fromSRA(params.accession)
+nextflow.enable.dsl=2
+
+
 
 process fastqc {
     input:
-    tuple sample_id, file(reads_file) from reads
+    tuple val(sample_id), path(reads_file)
 
     output:
-    file("fastqc_${sample_id}_logs") into fastqc_ch
+    file("fastqc_${sample_id}_logs")
 
     script:
     """
     mkdir fastqc_${sample_id}_logs
     fastqc -o fastqc_${sample_id}_logs -f fastq -q ${reads_file}
     """
+}
+
+params.accession = 'SRP043510'
+reads = Channel.fromSRA(params.accession)
+
+workflow {
+
+    read_out = fastqc(reads)
+    read_out.view()
+
 }
 ~~~
 

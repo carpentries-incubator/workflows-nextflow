@@ -153,20 +153,44 @@ This is a Nextflow script. It contains;
 
 1. A Shebang line, specifying the location of the Nextflow interpreter
 1. A multi-line Nextflow comment, written using C style block comments.
-1. A pipeline parameter `params.samples` which contains the relative path to the location of a fastq file.
-1. A Nextflow channel created using the variable `params.samples` as input.
 1. A Nextflow process block named `numLines`.
 1. An input definition block that takes the samples channel `samples_ch` as input.
 1. A script block that contains the bash commands `sleep` and `wc -l`
 1. An output definition block that uses the Linux/Unix standard output stream `stdout` from the script block to create an output channel, named `read_out_ch`.
+1. A pipeline parameter `params.samples` which contains the relative path to the location of a fastq file.
+1. A Nextflow channel created using the variable `params.samples` as input.
+1. A workflow execution block that passes the samples_ch to the numLines process.
 1. Finally the script writes the result to the terminal using the view operator.
 
 ~~~
 #!/usr/bin/env nextflow
 
+nextflow.enable.dsl=2
+
 /*
 *  Comment that starts with a slash asterisk /* and finishes with an asterisk slash  and you can place it anywhere in your code, on the same line or several lines.
 */
+
+
+
+
+/*
+* Nextflow process block
+*/
+process numLines {
+
+    input:
+    path read
+
+    output:
+    stdout
+
+    script:
+    """
+    sleep 5
+    wc -l ${read}
+    """
+}
 
 /*
  * pipeline input parameters
@@ -179,28 +203,18 @@ params.samples  = "data/yeast/reads/ref1_1.fq.gz"
 samples_ch = Channel.fromPath(params.samples)
 
 
-/*
-* Nextflow process block
-*/
-process numLines {
 
-    input:
-    path read from samples_ch
+workflow {
 
-    output:
-    stdout into read_out_ch
+    /*
+    * pass samples_ch to numLines process
+    * capture numLines output to num_out channel.
+    */  
+    num_out=numLines(samples_ch)
 
-    script:
-    """
-    sleep 5
-    wc -l ${read}
-    """
+    // Nextflow view operator for showing contents of a channel
+    num_out.view()
 }
-
-/*
-* Nextflow view operator for showing contents of a channel
-*/
-read_out_ch.view()
 
 ~~~~
 
@@ -255,7 +269,7 @@ We can change the input using the `samples` variable on the command line.
 > > ~~~
 > > N E X T F L O W  ~  version 20.10.0
 > > Launching `wc.nf` [soggy_miescher] - revision: c54a707593
-> > executor >  local (6)
+> > executor >  local (18)
 > > [05/d84ab8] process > numLines (18) [100%] 18 of 18 ✔
 > > 3823 temp33_2_1.fq.gz
 > >
