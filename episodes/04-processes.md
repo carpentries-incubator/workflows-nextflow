@@ -44,9 +44,15 @@ The process definition starts with keyword the `process`, followed by process na
 A basic process with no `input` or `output` channels looks like the following example:
 
 ~~~
+nextflow.enable.dsl=2
+
 process salmon_index {
 
   "salmon index -t ${projectDir}/data/yeast/transcriptome/Saccharomyces_cerevisiae.R64-1-1.cdna.all.fa.gz -i index --kmerLen 31"
+}
+
+workflow {
+  salmon_index()
 }
 ~~~
 {: .language-groovy }
@@ -103,6 +109,8 @@ Or, for commands that span multiple lines you can encase the command in  triple 
 For example:
 
 ~~~
+nextflow.enable.dsl=2
+
 process multi_line {
     script:
     """
@@ -111,12 +119,18 @@ process multi_line {
     samtools flagstat ref1.sorted.bam
     """
 }
+
+workflow {
+  multi_line()
+}
 ~~~
 {: .language-groovy }
 
 By default the process command is interpreted as a **Bash** script. However any other scripting language can be used just simply starting the script with the corresponding [Shebang](https://en.wikipedia.org/wiki/Shebang_(Unix)) declaration. For example:
 
 ~~~
+nextflow.enable.dsl=2
+
 process pyStuff {
   script:
   """
@@ -138,10 +152,16 @@ process pyStuff {
   print("bases", bases)
   """
 }
+
+workflow {
+  pyStuff()
+}
 ~~~
 {: .language-groovy }
 
 ~~~
+nextflow.enable.dsl=2
+
 process rStuff {
   script:
   """
@@ -150,18 +170,28 @@ process rStuff {
   countFastq(dirPath="data/yeast/reads/ref1_1.fq.gz")
   """
 }
+
+workflow {
+  rStuff()
+}
 ~~~
 {: .language-groovy }
 
 This allows the the use of a different programming languages which may better fit a particular job. However, for large chunks of code is suggested to save them into separate files and invoke them from the process script.
 
 ~~~
+nextflow.enable.dsl=2
+
 process pyStuff {
 
   script:
   """
   python myscript.py
   """
+}
+
+workflow {
+  pyStuff()
 }
 ~~~
 {: .language-groovy }
@@ -178,7 +208,7 @@ The variable is referenced using the `$kmer` syntax within the multi-line string
 A Nextflow variable can be used multiple times in the script block.
 
 ~~~
-kmer = 31
+nextflow.enable.dsl=2
 
 process index {
 
@@ -191,6 +221,12 @@ process index {
   echo "kmer size is $kmer"
   """
 }
+
+kmer = 31
+
+workflow {
+  index()
+}
 ~~~
 {: .language-groovy }
 
@@ -199,7 +235,7 @@ A special Nextflow `map` variable `params` can be used to assign values from the
 
 In the example below we define the variable `params.kmer` with a default value of 31 in the Nextflow script.
 ~~~
-params.kmer = 31
+nextflow.enable.dsl=2
 
 process index {
 
@@ -211,6 +247,12 @@ process index {
   --kmer $params.kmer
   echo "kmer size is $params.kmer"
   """
+}
+
+params.kmer = 31
+
+workflow {
+  index()
 }
 ~~~
 {: .language-groovy }
@@ -267,7 +309,7 @@ In the example below we will use the bash `PWD` variable that contains the value
 
 
 ~~~
-params.kmer = 31
+nextflow.enable.dsl=2
 
 process index {
 
@@ -277,6 +319,12 @@ process index {
   echo "kmer size is $params.kmer"
   echo "index is located in" \$PWD
   """
+}
+
+params.kmer = 31
+
+workflow {
+  index()
 }
 ~~~
 {: .language-groovy }
@@ -295,7 +343,7 @@ we reference the Nextflow variables as such, `!{projectDir}` and `!{params.kmer}
 as `$PWD`.
 
 ```
-params.kmer = 31
+nextflow.enable.dsl=2
 
 process index {
 
@@ -305,6 +353,13 @@ process index {
   echo "kmer size is  !{params.kmer}"
   echo "index is located in" $PWD
   '''
+}
+
+params.kmer = 31
+
+
+workflow {
+  index()
 }
 ```
 {: .language-groovy }
@@ -335,9 +390,7 @@ else {
 For example, the Nextflow script below will change what index is created depending on the Nextflow variable `params.aligner`.
 
 ~~~
-params.aligner = 'kallisto'
-params.transcriptome = "$projectDir/data/yeast/transcriptome/Saccharomyces_cerevisiae.R64-1-1.cdna.all.fa.gz"
-params.kmer = 31
+nextflow.enable.dsl=2
 
 process index {
   script:
@@ -359,6 +412,14 @@ process index {
     """
   }  
 }
+
+params.aligner = 'kallisto'
+params.transcriptome = "$projectDir/data/yeast/transcriptome/Saccharomyces_cerevisiae.R64-1-1.cdna.all.fa.gz"
+params.kmer = 31
+
+workflow {
+  index()
+}
 ~~~
 {: .language-groovy }
 
@@ -379,7 +440,7 @@ The input block follows the syntax shown below:
 
 ~~~
 input:
-  <input qualifier> <input name> from <source channel>
+  <input qualifier> <input name>
 ~~~
 {: .language-groovy }
 
@@ -399,17 +460,25 @@ The input qualifier declares the type of data to be received.
 The `val` qualifier allows you to receive value data as input. It can be accessed in the process script by using the specified input name, as shown in the following example:
 
 ~~~
-chr_ch = Channel.of( 1..22,'X','Y' )
+nextflow.enable.dsl=2
 
 process printChr {
 
   input:
-  val chr from chr_ch
+  val chr
 
   script:
   """
   echo processing chromosome $chr
   """
+}
+
+chr_ch = Channel.of( 1..22,'X','Y' )
+
+
+workflow {
+
+  printChr(chr_ch)
 }
 ~~~
 {: .language-groovy }
@@ -435,36 +504,48 @@ The `path` qualifier allows the handling of files. This means that Nextflow will
 The input file name can be defined dynamically by defining the input name as a Nextflow variable, `sample`, and referenced in the script using  `$sample` syntax as shown below:
 
 ~~~
-reads = Channel.fromPath( 'data/yeast/reads/*.fq.gz' )
+nextflow.enable.dsl=2
 
 process listFiles {
     input:
-    path sample from reads
+    path sample
     script:
     """
-    gunzip $sample
-    wc -l $sample
+    wc -l ${sample}
     """
 }
+
+reads_ch = Channel.fromPath( 'data/yeast/reads/*.fq.gz' )
+
+workflow {
+  listFiles(reads_ch)
+}
+
 ~~~
 {: .language-groovy }
 
 The input name can also be defined as user specified filename inside quotes as in the example below where specific the name of the file as `'sample.fastq'`.
 
 ~~~
-reads = Channel.fromPath( 'data/yeast/reads/*.fq.gz' )
+nextflow.enable.dsl=2
 
 process listFiles {
 
     input:
-    path 'sample.fastq.gz' from reads
+    path 'sample.fastq.gz'
 
     script:
     """
-    gunzip sample.fastq.gz
-    wc -l sample.fastq
+    wc -l sample.fastq.gz
     """
 }
+
+reads_ch = Channel.fromPath( 'data/yeast/reads/*.fq.gz' )
+
+workflow {
+  listFiles(reads_ch)
+}
+
 ~~~
 {: .language-groovy }
 
@@ -478,8 +559,7 @@ process listFiles {
 > Add an input channel to the script below that takes the reads channel as input.
 > [FastQC](https://www.bioinformatics.babraham.ac.uk/projects/fastqc/) is a quality control tool for high throughput sequence data.
 > ~~~
-> reads_ch = Channel.fromPath( 'data/yeast/reads/*_1.fq.gz' )
- >
+> nextflow.enable.dsl=2
 > process fastqc {
 >    //add input channel
 >    
@@ -488,6 +568,11 @@ process listFiles {
 >    mkdir fastqc_out
 >    fastqc -o fastqc_out ${reads}
 >    """
+> }
+> reads_ch = Channel.fromPath( 'data/yeast/reads/*_1.fq.gz' )
+>
+> workflow {
+> fastqc(reads_ch)
 > }
 > ~~~
 > {: .language-groovy }
@@ -498,16 +583,20 @@ process listFiles {
 > {: .language-bash }
 > > ## Solution
 > > ~~~
-> > reads_ch = Channel.fromPath( 'data/yeast/reads/*_1.fq.gz' )
-> >
+> > nextflow.enable.dsl=2
 > > process fastqc {
 > >    input:
-> >    path reads from reads_ch
+> >    path reads
 > >    script:
 > >    """
 > >    mkdir fastqc_out
 > >    fastqc -o fastqc_out ${reads}
 > >    """
+> > }
+> > reads_ch = Channel.fromPath( 'data/yeast/reads/*_1.fq.gz' )
+> >
+> > workflow {
+> > fastqc(reads_ch)
 > > }
 > > ~~~
 > > {: .language-groovy }
@@ -522,17 +611,24 @@ However it’s important to understands how the content of channel and affect th
 Consider the following example:
 
 ~~~
-ch_num = Channel.of(1,2,3)
-ch_letters = Channel.of('a','b','c')
+nextflow.enable.dsl=2
+
 
 process combine_channels {
   input:
-  val x from ch_num
-  val y from ch_letters
+  val x
+  val y
   script:
    """
    echo $x and $y
    """
+}
+
+ch_num = Channel.of(1,2,3)
+ch_letters = Channel.of('a','b','c')
+
+workflow {
+  combine_channels(ch_num,ch_letters)
 }
 ~~~
 {: .language-groovy }
@@ -557,19 +653,23 @@ What happens when not all channels have the same number of elements?
 For example:
 
 ~~~
-
-ch_num = Channel.of(1,2)
-ch_letters = Channel.of('a','b','c','d')
+nextflow.enable.dsl=2
 
 process combine_channels {
-  echo true
   input:
-  val x from ch_num
-  val y from ch_letters
+  val x
+  val y
   script:
    """
    echo $x and $y
    """
+}
+
+ch_num = Channel.of(1,2)
+ch_letters = Channel.of('a','b','c','d')
+
+workflow {
+  combine_channels(ch_num,ch_letters)
 }
 ~~~
 {: .language-groovy }
@@ -590,18 +690,23 @@ Note however that value channels, `Channel.value` , do not affect the process te
 To better understand this behaviour compare the previous example with the following one:
 
 ~~~
-ch_num = Channel.value(1)
-ch_letters = Channel.of('a','b','c')
+nextflow.enable.dsl=2
 
 process combine_channels_val_queue {
   echo true
   input:
-  val x from ch_num
-  val y from ch_letters
+  val x
+  val y
   script:
    """
    echo $x and $y
    """
+}
+ch_num = Channel.value(1)
+ch_letters = Channel.of('a','b','c')
+
+workflow {
+  combine_channels_val_queue(ch_num,ch_letters)
 }
 ~~~
 {: .language-groovy }
@@ -634,17 +739,22 @@ And include the command below in the script directive
 > {: .language-groovy }
 > > ## Solution
 > > ~~~
-> > transcriptome_ch = channel.fromPath('data/yeast/transcriptome/Saccharomyces_cerevisiae.R64-1-1.cdna.all.fa.gz',checkIfExists: true)
-> > kmer_ch = channel.of(21)
-> >
+> > nextflow.enable.dsl=2
 > > process combine {
 > >  input:
-> >  path transcriptome from transcriptome_ch
-> >  val kmer from kmer_ch
+> >  path transcriptome
+> >  val kmer
 > >  script:
 > >   """
 > >   salmon index -t $transcriptome -i index -k $kmer
 > >   """
+> > }
+> >
+> > transcriptome_ch = channel.fromPath('data/yeast/transcriptome/Saccharomyces_cerevisiae.R64-1-1.cdna.all.fa.gz',checkIfExists: true)
+> > kmer_ch = channel.of(21)
+> >
+> > workflow {
+> >   combine(transcriptome_ch,kmer_ch)
 > > }
 > > ~~~
 > > {: .language-groovy }
@@ -656,18 +766,25 @@ And include the command below in the script directive
 We saw previously that by default the number of time a process run is defined by the queue channel with the fewest items. However, the `each` qualifier allows you to repeat the execution of a process for each item in a list or a queue channel, every time new data is received. For example if we can fix the previous example by using the input qualifer `each` for the letters queue channel:
 
 ~~~
-ch_num = Channel.of(1,2)
-ch_letters = Channel.of('a','b','c','d')
+nextflow.enable.dsl=2
 
 process combine_channels {
   input:
-  val x from ch_num
-  each y from ch_letters
+  val x
+  each y
   script:
    """
    echo $x and $y
    """
 }
+
+ch_num = Channel.of(1,2)
+ch_letters = Channel.of('a','b','c','d')
+
+workflow {
+  combine_channels(ch_num,ch_letters)
+}
+
 ~~~
 {: .language-groovy }
 
@@ -697,6 +814,7 @@ The process will run eight times.
 >
 > > ## Solution
 > > ~~~
+> > nextflow.enable.dsl=2
 > > transcriptome_ch = channel.fromPath('data/yeast/transcriptome/Saccharomyces_cerevisiae.R64-1-1.cdna.all.fa.gz',checkIfExists: true)
 > > kmer_ch = channel.of(21,26,36)
 > > process combine {
@@ -724,13 +842,12 @@ An output block is not required, but if it is present it can contain one or more
 
 ~~~
 output:
-  <output qualifier> <output name> into <target channel>[,channel,..]
-  <output qualifier> <output name> into <target channel>[,channel,..]
+  <output qualifier> <output name>
+  <output qualifier> <output name>
   ...
 ~~~  
 {: .language-groovy }
 
-As you can see from above the output block use `into` whilst the input block uses the `from` keyword.
 
 ### Output values
 
@@ -741,14 +858,14 @@ Because Nextflow processes can only communicate through channels if we want to s
 
 
 ~~~
-methods_ch = channel.of('salmon','kallisto')
+nextflow.enable.dsl=2
 
 process method_type {
   input:
-  val x from methods_ch
+  val x
 
   output:
-  val x into out_ch
+  val x
 
   script:
   """
@@ -756,8 +873,13 @@ process method_type {
   """
 }
 
-// use the view operator to display contents of the channel
-out_ch.view({ "Received: $it" })
+methods_ch = channel.of('salmon','kallisto')
+
+workflow {
+  method_type(methods_ch)
+  // use the view operator to display contents of the channel
+  out_ch.view({ "Received: $it" })
+}
 ~~~
 {: .language-groovy }
 
@@ -767,22 +889,26 @@ If we want to capture a file instead of a value we can use the
 `path` qualifier that can capture one or more files produced by the process, over the specified channel.
 
 ~~~
+nextflow.enable.dsl=2
+
 methods_ch = channel.of('salmon','kallisto')
 
 process method_type {
   input:
-  val x from methods_ch
+  val x
 
   output:
-  path 'method.txt' into out_ch
+  path 'method.txt'
 
   """
   echo $x > method.txt
   """
 }
-
-// use the view operator to display contents of the channel
-out_ch.view({ "Received: $it" })
+workflow {
+  method_type(methods_ch)
+  // use the view operator to display contents of the channel
+  out_ch.view({ "Received: $it" })
+}
 ~~~
 {: .language-groovy }
 
@@ -811,14 +937,14 @@ Some caveats on glob pattern behaviour:
 When an output file name needs to be expressed dynamically, it is possible to define it using a dynamic evaluated string which references values defined in the input declaration block or in the script global context. For example::
 
 ~~~
-bam_ch = channel.fromPath("data/yeast/bams/*.bam")
+nextflow.enable.dsl=2
 
 process index {
     input:
-    path bam from bam_ch
+    path bam
 
     output:
-    path "${bam}*" into index_out_ch
+    path "${bam}*"
 
     script:
     """
@@ -826,7 +952,12 @@ process index {
     """
 }
 
-index_out_ch.view({ "File: ${it.name}" })
+bam_ch = channel.fromPath("data/yeast/bams/*.bam")
+
+workflow {
+  index_out_ch=index(bam_ch)
+  index_out_ch.view({ "File: ${it.name}" })
+}
 ~~~
 {: .language-groovy }
 
@@ -852,12 +983,12 @@ File: etoh60_2.bam.bai
 > Modify the nextflow script `process_exercise_output.nf` to include an output blocks that captures the different index folder `index_$kmer`.
 > Use the `view` operator on the output channel.
 > ~~~
-> transcriptome_ch = channel.fromPath('data/yeast/transcriptome/Saccharomyces_cerevisiae.R64-1-1.cdna.all.fa.gz')
-> kmer_ch = channel.of(21,27,31)
+> nextflow.enable.dsl=2
+>
 > process index {
 >  input:
->  path transcriptome from transcriptome_ch
->  each kmer from kmer_ch
+>  path transcriptome
+>  each kmer
 >  //add output block here to capture index folders
 >
 >  script:
@@ -865,24 +996,35 @@ File: etoh60_2.bam.bai
 >  salmon index -t $transcriptome -i index_$kmer -k $kmer
 >  """
 > }
+> transcriptome_ch = channel.fromPath('data/yeast/transcriptome/Saccharomyces_cerevisiae.R64-1-1.cdna.all.fa.gz')
+> kmer_ch = channel.of(21,27,31)
+>
+> workflow {
+>  index(transcriptome_ch,kmer_ch)
+> }
 > ~~~
 > {: .language-groovy }
 > > ## Solution
 > > ~~~
-> > transcriptome_ch = channel.fromPath('data/yeast/transcriptome/Saccharomyces_cerevisiae.R64-1-1.cdna.all.fa.gz')
-> > kmer_ch = channel.of(21,27,31)
-> > process combine {
+> > nextflow.enable.dsl=2
+> >
+> > process index {
 > >  input:
-> >  path transcriptome from transcriptome_ch
-> >  each kmer from kmer_ch
+> >  path transcriptome
+> >  each kmer
 > >  output:
-> >  path "index_${kmer}" into out_ch
+> >  path "index_${kmer}"
 > >  script:
 > >  """
 > >  salmon index -t $transcriptome -i index_$kmer -k $kmer
 > >  """
 > > }
-> > out_ch.view()
+> > transcriptome_ch = channel.fromPath('data/yeast/transcriptome/Saccharomyces_cerevisiae.R64-1-1.cdna.all.fa.gz')
+> > kmer_ch = channel.of(21,27,31)
+> >
+> > workflow {
+> > index(transcriptome_ch,kmer_ch)
+> > }
 > > ~~~
 > > {: .language-groovy }
 > {: .solution}
@@ -901,16 +1043,24 @@ In tuples the first item is the grouping key and the second item is the list of 
 When using channel containing a tuple, the corresponding input declaration must be declared with a `tuple` qualifier, followed by definition of each item in the tuple.
 
 ~~~
-reads_ch = Channel.fromFilePairs('data/yeast/reads/ref1_{1,2}.fq.gz')
+nextflow.enable.dsl=2
+
 process tuple_input{
-input:
-  tuple val(sample_id), path(reads) from reads_ch
-script:
-"""
-echo $sample_id
-echo $reads
-"""
+  input:
+    tuple val(sample_id), path(reads)
+  script:
+  """
+  echo $sample_id
+  echo $reads
+  """
 }
+
+reads_ch = Channel.fromFilePairs('data/yeast/reads/ref1_{1,2}.fq.gz')
+
+workflow {
+  tuple_input(reads_ch)
+}
+
 ~~~
 {: .language-groovy }
 
@@ -924,28 +1074,27 @@ ref1_1.fq.gz ref1_2.fq.gz
 
 In the same manner output channel emitting tuple of values can be declared using the `tuple` qualifier following by the definition of each tuple element in the tuple.
 
-In the code snippet below the output channel `out_ch` would contain a tuple with
-the grouping key value as the Nextflow variable `sample_id` and a single `""${sample_id}.bam"` file stored as a tuple.
+In the code snippet below the output channel would contain a tuple with
+the grouping key value as the Nextflow variable `sample_id` and a single `"${sample_id}.bam"` file stored as a tuple.
 
 ~~~
 output:
-  tuple val(sample_id), path("${sample_id}.bam") into bam_ch
+  tuple val(sample_id), path("${sample_id}.bam")
 ~~~
 {: .language-groovy }
 
 An example can be seen in this script below.
 
 ~~~
-reads_ch = Channel.fromFilePairs('data/yeast/reads/ref1_{1,2}.fq.gz')
-index_ch = Channel.fromPath('data/yeast/salmon_index')
+nextflow.enable.dsl=2
 
 process salmon_quant {
   input:
-    tuple val(sample_id), path(reads) from reads_ch
+    tuple val(sample_id), path(reads)
     //each is needed so the process can run multiple times
-    each index from index_ch
+    each index
   output:
-    tuple val(sample_id), path("${sample_id}_salmon_output") into salmon_out
+    tuple val(sample_id), path("${sample_id}_salmon_output")
   script:
   """
    salmon quant  -i $index \
@@ -956,44 +1105,61 @@ process salmon_quant {
   """
 }
 
-salmon_out.view()
+reads_ch = Channel.fromFilePairs('data/yeast/reads/ref1_{1,2}.fq.gz')
+index_ch = Channel.fromPath('data/yeast/salmon_index')
+
+workflow {
+  salmon_out=salmon_quant(reads_ch,index_ch)
+  salmon_out.view()
+}
+
 ~~~
 {: .language-groovy }
 
 > ## Composite inputs and outputs
 > Fill in the blank ___ input and output qualifers for `process_exercise_tuple.nf`.
 > ~~~
->reads_ch = Channel.fromFilePairs('data/yeast/reads/ref*_{1,2}.fq.gz')
->process fastqc {
+> nextflow.enable.dsl=2
+>
+> process fastqc {
 > input:
->   tuple ___(sample_id), ___(reads) from reads_ch
+>   tuple ___(sample_id), ___(reads)
 > output:
->    tuple ___(sample_id), ___("fastqc_out") into bam_ch
+>    tuple ___(sample_id), ___("fastqc_out")
 >  script:
 >  """
 >  mkdir fastqc_out
 >  fastqc $reads -o fastqc_out -t 1
 >  """
 > }
-> bam_ch.view()
+> reads_ch = Channel.fromFilePairs('data/yeast/reads/ref*_{1,2}.fq.gz')
+>
+> workflow{
+>  fq_out=fastqc(reads_ch)
+>  fq_out.view()
+> }
 > ~~~
 > {: .language-groovy }
 > > ## Solution
 > > ~~~
-> > reads_ch = Channel.fromFilePairs('data/yeast/reads/ref*_{1,2}.fq.gz')
-> > process fastqc {
-> > input:
-> >   tuple val(sample_id), path(reads) from reads_ch
-> > output:
-> >    tuple val(sample_id), path("fastqc_out") into bam_ch
-> >  script:
-> >  """
-> >  mkdir fastqc_out
-> >  fastqc $reads -o fastqc_out -t 1
-> >  """
-> > }
+> > nextflow.enable.dsl=2
 > >
-> > bam_ch.view()
+> >process fastqc {
+> >input:
+> >  tuple val(sample_id), path(reads)
+> >output:
+> >  tuple val(sample_id), path("fastqc_out")
+> > script:
+> > """
+> > mkdir fastqc_out
+> > fastqc $reads -o fastqc_out -t 1
+> > """
+> >}
+> >reads_ch = Channel.fromFilePairs('data/yeast/reads/ref*_{1,2}.fq.gz')
+> >workflow{
+> >  fq_out=fastqc(reads_ch)
+> >  fq_out.view()
+> >}
 > > ~~~
 > > {: .language-groovy }
 > {: .solution}
@@ -1006,12 +1172,12 @@ The `when` declaration allows you to define a condition that must be verified in
 It is useful to enable/disable the process execution depending the state of various inputs and parameters. For example:
 
 ~~~
-chr_ch = channel.of(1..22,'X','Y')
+nextflow.enable.dsl=2
 
 process conditional {
 
   input:
-  val chr from chr_ch
+  val chr
 
   when:
   chr <= 5
@@ -1020,6 +1186,11 @@ process conditional {
   """
   echo $chr
   """
+}
+chr_ch = channel.of(1..22,'X','Y')
+
+workflow {
+  conditional(chr_ch)
 }
 ~~~
 {: .language-groovy }
@@ -1052,7 +1223,7 @@ Directives are commonly used to define the amount of computing resources to be u
 For example:
 
 ~~~
-chr_ch = channel.of(1..22,'X','Y')
+nextflow.enable.dsl=2
 
 process printchr {
   tag "tagging with chr$chr"
@@ -1060,17 +1231,34 @@ process printchr {
   echo true
 
   input:
-  val chr from chr_ch
-
+  val chr
   script:
   """
-  echo procssing chromosome: $chr
+  echo processing chromosome: $chr
   echo number of cpus $task.cpus
   """
+}
+
+chr_ch = channel.of(1..22,'X','Y')
+
+workflow {
+  printchr(chr_ch)
 }
 ~~~
 {: .language-groovy }
 
+~~~
+processing chromosome: 1
+number of cpus 1
+
+processing chromosome: 2
+number of cpus 1
+
+processing chromosome: 6
+number of cpus 1
+[..truncated..]
+~~~
+{: .output }
  The above process uses the  `tag` directive to allow you to associate each process execution with a custom label, so that it will be easier to identify them in the log file or in the trace execution report. The second directive he `cpus`  allows you to define the number of CPU required for each the process’ task.
 
 Another commonly used directive is memory specification `memory`.
@@ -1083,15 +1271,15 @@ A complete list of directives is available at this [link](https://www.nextflow.i
 > Add a cpus directive to specify the number of cpus as 2.
 > Change the -t option value to $task.cpus in the script directive.
 >  ~~~
->  reads_ch = Channel.fromFilePairs('data/yeast/reads/ref*_{1,2}.fq.gz')
+> nextflow.enable.dsl=2
 >
 >  process fastqc {
 >  //add tag directive
 >  //add cpu directive
 >  input:
->     tuple val(sample_id), path(reads) from reads_ch
+>     tuple val(sample_id), path(reads)
 >  output:
->      tuple val(sample_id), path("fastqc_out") into bam_ch
+>      tuple val(sample_id), path("fastqc_out")
 >   script:
 >    """
 >    mkdir fastqc_out
@@ -1099,26 +1287,38 @@ A complete list of directives is available at this [link](https://www.nextflow.i
 >    """
 >  }
 >
+> reads_ch = Channel.fromFilePairs('data/yeast/reads/ref*_{1,2}.fq.gz')
+> workflow {
+>  fq_out=fastqc(reads_ch)
+>  fq_out.view()
+> }
 >  ~~~
 >  {: .language-groovy }
 > > ## solution
 > > ~~~
-> > reads_ch = Channel.fromFilePairs('data/yeast/reads/ref*_{1,2}.fq.gz')
-> > process fastqc {
-> > tag "$sample_id"
-> > cpus 2
-> >  input:
-> >    tuple val(sample_id), path(reads) from reads_ch
-> >  output:
-> >     tuple val(sample_id), path("fastqc_out") into bam_ch
-> >   script:
-> >   """
-> >   mkdir fastqc_out
-> >   fastqc $reads -o fastqc_out -t $task.cpus
-> >   """
-> > }
+> > nextflow.enable.dsl=2
 > >
-> > ~~~
+> >  process fastqc {
+> >  tag "$sample_id"
+> >  cpus 2
+> >  //add cpu directive
+> >  input:
+> >     tuple val(sample_id), path(reads)
+> >  output:
+> >      tuple val(sample_id), path("fastqc_out")
+> >   script:
+> >    """
+> >    mkdir fastqc_out
+> >   fastqc $reads -o fastqc_out -t 1
+> >    """
+> >  }
+> >
+> > reads_ch = Channel.fromFilePairs('data/yeast/reads/ref*_{1,2}.fq.gz')
+> > workflow {
+> >  fq_out=fastqc(reads_ch)
+> >  fq_out.view()
+> > }
+> >  ~~~
 > > {: .language-groovy }
 > {: .solution}
 {: .challenge}
@@ -1140,16 +1340,15 @@ publishDir <directory>, parameter: value, parameter2: value ...
 For example:
 
 ~~~
-reads_ch = Channel.fromFilePairs('data/yeast/reads/ref1_{1,2}.fq.gz')
-index_ch = Channel.fromPath('data/yeast/salmon_index')
+nextflow.enable.dsl=2
 
 process salmon_quant {
   publishDir "results/quant"
   input:
-    tuple val(sample_id), path(reads) from reads_ch
-    each index from index_ch
+    tuple val(sample_id), path(reads)
+    each index
   output:
-    tuple val(sample_id), path("${sample_id}_salmon_output") into salmon_out
+    tuple val(sample_id), path("${sample_id}_salmon_output")
   script:
   """
    salmon quant  -i $index \
@@ -1160,7 +1359,14 @@ process salmon_quant {
   """
 }
 
-salmon_out.view()
+reads_ch = Channel.fromFilePairs('data/yeast/reads/ref1_{1,2}.fq.gz')
+index_ch = Channel.fromPath('data/yeast/salmon_index')
+
+workflow {
+  salmon_out=salmon_quant(reads_ch,index_ch)
+  salmon_out.view()
+}
+
 ~~~
 {: .language-groovy }
 
@@ -1188,18 +1394,17 @@ You can use more then one `publishDir` to keep different outputs in separate dir
 For example:
 
 ~~~
-reads_ch = Channel.fromFilePairs('data/yeast/reads/ref1_{1,2}.fq.gz')
-index_ch = Channel.fromPath('data/yeast/salmon_index')
+nextflow.enable.dsl=2
 
 process salmon {
   publishDir "results/bams", pattern: "*.bam"
   publishDir "results/quant", pattern: "${sample_id}_salmon_output"
   input:
-    tuple val(sample_id), path(reads) from reads_ch
-    path index from index_ch
+    tuple val(sample_id), path(reads)
+    path index
   output:
-    tuple val(sample_id), path("${sample_id}.bam") into bam_ch
-    path "${sample_id}_salmon_output" into quant_ch
+    tuple val(sample_id), path("${sample_id}.bam")
+    path "${sample_id}_salmon_output"
   script:
   """
   salmon quant  -i $index \
@@ -1210,6 +1415,14 @@ process salmon {
   --writeMappings |samtools sort |samtools view -bS -o ${sample_id}.bam
   """
 }
+
+
+reads_ch = Channel.fromFilePairs('data/yeast/reads/ref1_{1,2}.fq.gz')
+index_ch = Channel.fromPath('data/yeast/salmon_index')
+
+workflow {
+  salmon(reads_ch,index_ch)
+}
 ~~~
 {: .language-groovy }
 
@@ -1219,39 +1432,55 @@ The above example will create an output folder structure in the directory result
 > ## Publishing results
 >  Add a `publishDir` directive to the nextflow script `process_publishDir_exercise.nf` that copies the index directory to the results folder .
 >  ~~~
->  params.transcriptome = "$projectDir/data/yeast/transcriptome/Saccharomyces_cerevisiae.R64-1-1.cdna.all.fa.gz"
->  transcriptome_ch = channel.fromPath(params.transcriptome,checkIfExists: true)
+>
+> nextflow.enable.dsl=2
+>
 >  process index {
 >   //add publishDir directive here
 >   input:
->   path transcriptome from transcriptome_ch
+>   path transcriptome
 >
 >   output:
->   path "index" into index_ch
+>   path "index"
 >
 >   script:
 >   """
 >     salmon index -t $transcriptome -i index
 >   """
 >  }
+>
+>  params.transcriptome = "$projectDir/data/yeast/transcriptome/Saccharomyces_cerevisiae.R64-1-1.cdna.all.fa.gz"
+>  transcriptome_ch = channel.fromPath(params.transcriptome,checkIfExists: true)
+>
+> workflow{
+> index(transcriptome_ch)
+> }
 >  ~~~
 >  {: .language-groovy }
 > > ## Solution
 > > ~~~
-> > params.transcriptome = "$projectDir/data/yeast/transcriptome/Saccharomyces_cerevisiae.R64-1-1.cdna.all.fa.gz"
-> > transcriptome_ch = channel.fromPath(params.transcriptome,checkIfExists: true)
-> > process index {
-> >  publishDir "results/index", mode: "copy"
-> >  input:
-> >  path transcriptome from transcriptome_ch
 > >
-> >  output:
-> >  path "index" into index_ch
+> > nextflow.enable.dsl=2
+> >
+> >  process index {
+> >   publishDir "results/index", mode: "copy"
+> >   input:
+> >   path transcriptome
+> >
+> >   output:
+> >   path "index"
 > >
 > >  script:
+> >   """
+> >     salmon index -t $transcriptome -i index
 > >  """
-> >    salmon index -t $transcriptome -i index
-> >  """
+> > }
+> >
+> > params.transcriptome = "$projectDir/data/yeast/transcriptome/Saccharomyces_cerevisiae.R64-1-1.cdna.all.fa.gz"
+> >  transcriptome_ch = channel.fromPath(params.transcriptome,checkIfExists: true)
+> >
+> > workflow{
+> > index(transcriptome_ch)
 > > }
 > > ~~~
 > > {: .language-groovy }
@@ -1274,17 +1503,16 @@ In this workflow the first process `fastqc` is connected to the second `multiqc`
 The output from the second process `mqc_out` is then published to the `results/multiqc` directory.
 
 ~~~
-params.samples = "data/yeast/reads/*_{1,2}.fq.gz"
-samples_ch =Channel.fromFilePairs(params.samples)
+nextflow.enable.dsl=2
 
 process fastqc {
   tag "fastqc on $sample_id"
 
   input:
-  tuple val(sample_id), path(reads) from samples_ch
+  tuple val(sample_id), path(reads)
 
   output:
-  path "$sample_id" into fastqc_out_ch
+  path "$sample_id"
 
   script:
   """
@@ -1296,11 +1524,11 @@ process fastqc {
 process multiqc {
   publishDir "results/multiqc"
   input:
-  path summary_files from fastqc_out_ch.collect()
+  path summary_files
 
 
   output:
-  path 'multiqc_report.html' into mqc_out
+  path 'multiqc_report.html'
 
   script:
   """
@@ -1308,7 +1536,16 @@ process multiqc {
   """
 }
 
-mqc_out.view()
+params.samples = "data/yeast/reads/*_{1,2}.fq.gz"
+samples_ch =Channel.fromFilePairs(params.samples)
+
+workflow {
+  fastqc_out_ch=fastqc(samples_ch)
+  mqc_out=multiqc(fastqc_out_ch.collect())
+  mqc_out.view()
+}
+
+
 ~~~
 {: .language-groovy }
 
