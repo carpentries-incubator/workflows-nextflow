@@ -111,6 +111,7 @@ description of Groovy semantics can be found in the [Groovy Documentation](https
 
 |Term|Description|
 |----|-----------|
+|Dataflow programming| dataflow programming is a programming paradigm that models a program as a directed graph of the data flowing between operation|
 |Domain Specific Language|A domain-specific language (DSL) is a computer language specialized to a particular application domain. Nextflow is a language for computational workflows |
 |Tuple|An ordered, immutable list of elements. A tuple can be seen as an ordered collection of objects of different types. These objects do not necessarily relate to each other in any way, but collectively they will have some meaning.|
 
