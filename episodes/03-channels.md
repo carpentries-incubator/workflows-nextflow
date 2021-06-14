@@ -378,12 +378,12 @@ No files match pattern `*.fq` at path: /chicken/ggal/
 {: .challenge}
 
 
-### fromFilePairs
+### Grouping data
 
 We have seen how to process files individually using `fromPath`. In Bioinformatics we often want to process files in pairs or larger groups such as read pairs in sequencing.
 
-Nextflow provides a  helper method for this common bioinformatics use case. The `fromFilePairs` method create a queue channel containing a named list (tuple) for every file matching a specific pattern. The first element of the tuple is the grouping key of the matching pair, eg. sample id prefix.
-The second element is the list of files matching that grouping key pattern.
+Nextflow provides a  helper method for this common bioinformatics use case. The `fromFilePairs` method create a queue channel containing  a tuple for every file matching a specific pattern. A Tuple is basically grouping data of different types.
+The first element of the tuple is string value representing the grouping key of the matching pair, eg. sample id prefix. The second element is the list of files matching that grouping key pattern.
 
 ~~~
 filepair_ch = Channel.fromFilePairs('data/yeast/reads/*_{1,2}.fq.gz')
@@ -391,7 +391,7 @@ filepair_ch.view()
 ~~~
 {: .language-groovy }
 
-This will produce a queue channel containing a tuple (named list) that has two elements, a value (the pattern match), and the set of file pairs.
+This will produce a queue channel containing  six elements. Each element with contain a tuple that has, a string value (the pattern match), and a list with the two files.
 
 The asterisk, `*`, matches any number of characters (including none), and the `{}` braces specify a collection of subpatterns. Therefore the `*_{1,2}.fq.gz` pattern matches any file name ending in `_1.fq.gz` or `_2.fq.gz` .
 
@@ -411,7 +411,7 @@ filepair_ch.view()
 ~~~
 {: .language-groovy }
 
-Will create a queue channel containing tuple of key **ref** and six  files matching the pattern.
+The code above will create a queue channel containing 1 element, a tuple of with string value **ref** and a list of six files matching the pattern.
 
 ~~~
 [ref, [data/yeast/reads/ref1_1.fq.gz, data/yeast/reads/ref1_2.fq.gz, data/yeast/reads/ref2_1.fq.gz, data/yeast/reads/ref2_2.fq.gz, data/yeast/reads/ref3_1.fq.gz, data/yeast/reads/ref3_2.fq.gz]]
