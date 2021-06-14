@@ -212,7 +212,7 @@ To run a nextflow script use the command `nextflow run <script_name>`
 > Run the script by entering the following command in your terminal:
 >
 > ~~~
-> nextflow run wc.nf
+> $ nextflow run wc.nf
 > ~~~
 > {: .language-bash}
 > > ## Solution
@@ -246,7 +246,7 @@ We can change the input using the `samples` variable on the command line.
 > Re-run the Nextflow script by entering the following command in your terminal:
 >
 > ~~~
-> nextflow run wc.nf --samples 'data/yeast/reads/*.fq.gz'
+> $ nextflow run wc.nf --samples 'data/yeast/reads/*.fq.gz'
 > ~~~
 > {: .language-bash}
 > > ## Solution
@@ -322,7 +322,7 @@ You can print Nextflow's execution history and log information using the  `nextf
 > Listing the execution logs of previous invocations of all pipelines in a directory.
 >
 > ~~~
-> nextflow log
+> $ nextflow log
 > ~~~
 > {: .language-bash}
 > > ## Solution
