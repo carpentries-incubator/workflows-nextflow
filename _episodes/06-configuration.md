@@ -59,17 +59,18 @@ Also note that values are typed, meaning for example that, `1` is different from
 Configuration properties can be used as variables in the configuration file itself, by using the usual `$propertyName` or `${expression}` syntax. Importantly, these variables are not available in the Nextflow script.
 
 ~~~
+//nextflow.config
 kmer = 27
 kmer_message = "kmer size is  ${kmer}"
 ~~~
-{: .source }
+{: .language-groovy}
 
 You can use the `nextflow config` command to  to print the resolved configuration of the  `nextflow.config`  and is especially useful for understanding the resolved profiles and parameters that Nextflow will use run a pipeline.
 
 ~~~
 nextflow config
 ~~~
-{: .bash-language}
+{: .language-bash}
 
 Would output:
 
@@ -82,6 +83,7 @@ kmer_message = 'kmer size is  27'
 In the configuration file it’s possible to access any variable defined in the host environment such as `$PATH`, `$HOME`, `$PWD`, etc.
 
 ~~~
+//nextflow.config
 my_home_dir = "$HOME"
 ~~~
 {: .source}
@@ -105,6 +107,7 @@ Configuration files use the same conventions for comments used in the Nextflow s
 Configuration settings can be organised in different scopes by dot prefixing `.` the property names with a scope identifier or grouping the properties in the same scope using the curly brackets notation `{}`. This is shown in the following example:
 
 ~~~
+//nextflow.config
 aligner.name  = "salmon"
 aligner.kmer  = 27
 
@@ -115,14 +118,14 @@ index {
 ~~~
 {: .source }
 
-### Config params
+### Parameter scope
 
 The scope `params` allows the definition of workflow parameters that overrides the values defined in the main workflow script.
 
 This is useful to consolidate one or more execution parameters in a separate file.
 
 ~~~
-// config file nextflow.config
+//nextflow.config
 params.kmer= 27
 ~~~
 {: .source }
@@ -162,13 +165,13 @@ As variable defined in the `nextflow.config` file have priority over those in th
 > ~~~
 > nextflow run params.nf
 > ~~~
-> {: .bash-language}
-> Execute is again specifying the foo parameter on the command line:
+> {: .language-bash}
+> Execute is again specifying the `genome` parameter on the command line:
 >
 > ~~~
 > nextflow run params.nf --genome hg38
 > ~~~
-{: .bash-language}
+> {: .language-bash}
 >
 > Compare the result of the two executions.
 > > ## Solution
@@ -186,7 +189,7 @@ As variable defined in the `nextflow.config` file have priority over those in th
 {: .challenge}
 
 
-### Config env
+### Environment scope
 
 The `env` scope allows the definition one or more environmental variable that will be exported in the environment where the workflow tasks will be executed.
 
@@ -210,7 +213,7 @@ echo $genome
 ~~~
 {: .language-groovy }
 
-> ## env scope
+> ## Environment Scope
 > ~~~
 > env.kmer = '21'
 > env.genome = "hg38"
@@ -226,7 +229,7 @@ echo $genome
 >  env | egrep 'genome'
 >  '''
 > }
->~~~
+> ~~~
 > {: .language-groovy }
 >
 > Finally executed the following command using the `-c` option to specify the Nextflow config file:
@@ -234,8 +237,8 @@ echo $genome
 > ~~~
 > nextflow run my-env.nf -c my-env.config
 > ~~~~
-> {: .bash-language}
-> > Solution
+> {: .language-bash}
+> > ## Solution
 > > This will print
 > > ~~~~
 > > 21
@@ -243,10 +246,10 @@ echo $genome
 > > ~~~
 > >  {: .output}
 > {: .solution}
-> {: .challenge}
+ {: .challenge}
 
 
-### Config process
+### Process scope
 
 In the process episode we saw that the `process` directives allow the specification of  settings for the task execution such as `cpus`, `memory`, `conda` and other resources in the pipeline script.
 
@@ -283,7 +286,7 @@ by using the numeric notation in which the digit(s) and the unit are separated b
 | '1 min'         | 1.min          | 60 seconds            |
 | '1 hour 25 sec' | -              | 1 hour and 25 seconds |
 
-> process directives require `=` in configuration file.
+> ## process directives require `=` in configuration file.
 > The syntax for setting process directives in the configuration file requires = ie. assignment  operator, instead it should not be used when setting process directives in the workflow script.
 {: .callout}
 
@@ -318,7 +321,12 @@ process.executor = 'sge'
 
 ### Process selectors
 
-In real world application different tasks need different amount of computing resources. It is possible to define the resources for a specific task using the select `withName`: followed by the process name:
+
+In real world application different tasks need different amount of computing resources.
+
+#### Process name
+
+It is possible to define the resources for a specific task using the select `withName`: followed by the process name:
 
 ~~~
 process {
@@ -340,8 +348,8 @@ process {
 
 
 > ## Process selectors
-> Create a Nextflow config file specifying different cpus and memory resources for
-> the two process foo (cpus 1 and memory 2.GB) and bar (cpus2 and memory 1.GB) in the Nextflow script below.
+> Create a Nextflow config file specifying different `cpus` and `memory` resources for
+> the two process foo (cpus 1 and memory 2.GB) and bar (cpus2 and memory 1.GB) for the Nextflow script below.
 > ~~~
 > process foo {
 >
@@ -376,7 +384,9 @@ process {
 > > }
 > > ~~~
 > {: .solution}
-> {: .challenge}
+ {: .challenge}
+
+#### Process labels
 
 When a workflow application is composed by many processes it can be overkill listing all process names in the configuration file to specifies the resources for each of them.
 
@@ -428,7 +438,7 @@ process.conda = "environment.yml"
 ~~~
 {: .source }
 
-### Config Docker execution
+## Config Docker execution
 
 The container image to be used for the process execution can be specified in the `nextflow.config` file:
 
