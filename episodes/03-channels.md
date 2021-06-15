@@ -28,11 +28,11 @@ TODO: Describe data used in this episode.
 
 # Channels
 
-Earlier we learnt that channels are the way in which Nextflow sends data around a workflow. Channels connect processes via their inputs and outputs. Channels can store multiple items, such as files (e.g. fastq files) or values. The number of items a channel stores determines how many times a process runs.
+Earlier we learnt that channels are the way in which Nextflow sends data around a workflow. Channels connect processes via their inputs and outputs. Channels can store multiple items, such as files (e.g., fastq files) or values. The number of items a channel stores determines how many times a process runs.
 
 ## Why use Channels?
 
-Channels let Nextflow handle file management, allowing complex tasks to be split up, run in parallel & reduces 'admin' required to get the right inputs to the right parts of the pipeline.
+Channels let Nextflow handle file management, allowing complex tasks to be split up, run in parallel, and reduces 'admin' required to get the right inputs to the right parts of the pipeline.
 
 ![Channel files](../fig/channel-files.png)
 
