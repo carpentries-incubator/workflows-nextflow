@@ -13,7 +13,7 @@ objectives:
 - "Understand why channels are useful."
 - "Understand the different types of Nextflow Channels."
 - "Create a value and queue channel using Channel factory methods."
-- "Select files as input based on a string pattern."
+- "Select files as input based on a glob pattern."
 - "Edit Channel factory arguments to alter how data is read in."
 keypoints:
 - "Channels must be used to import data into Nextflow."
