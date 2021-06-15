@@ -363,12 +363,14 @@ No files match pattern `*.fq` at path: /chicken/ggal/
 
 > ## Using Channel.fromPath
 >
->  Use the `Channel.fromPath` method to create a channel containing all files in the `data/yeast/` directory.
-> Add an option, `hidden`, to include hidden files .
-> Then print all file name using the view operator.
+>  Use the `Channel.fromPath` method to create a channel containing all files, including those in subdirectories, in the `data/yeast/` directory.
 >
+> Add an option, `hidden`, to include hidden files .
+>
+> Then print all file name using the `view` operator.
+>
+> **Hint:** You need two asterisks, i.e. `**`, to search subdirectories.
 > > ## Solution
-> > You need Two asterisks, i.e. `**`, to  crosses directory boundaries
 > > ~~~
 > > ch = Channel.fromPath('data/yeast/**', hidden: true)
 > > ch.view()
