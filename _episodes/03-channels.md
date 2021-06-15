@@ -280,7 +280,7 @@ The previous channel factory methods dealt with sending general values
 in a channel. A special channel factory method `fromPath` is used when wanting to pass files.
 
 The `fromPath` factory method creates a **queue channel** emitting one or more files matching a file path.
-This file path (written as a quoted string) can be the location of a single file or a "glob pattern" that matches multiple files or directories.
+The file path (written as a quoted string) can be the location of a single file or a "glob pattern" that matches multiple files or directories. The file path can be a relative path ( path to the file from the current directory), or an absolute path ( path to the file from the system root directory - starts with `/`).
 
 The script below creates a queue channel with a single file as its content.
 
@@ -323,13 +323,13 @@ Available fromPath options:
 
 |Name|Description|
 |-----|----------|
-|glob |When true interprets characters *, ?, [] and {} as glob wildcards, otherwise handles them as normal characters (default: true)|
-|type | Type of paths returned, either file, dir or any (default: file) |
-| hidden | When true includes hidden files in the resulting paths (default: false)|
+| glob | When true, the characters `*`, `?`, `[]` and `{}` are interpreted as glob wildcards, otherwise they are treated as literal characters (default: true)|
+| type | The type of file paths matched by the string, either `file`, `dir` or `any` (default: file) |
+| hidden | When true, hidden files are included in the resulting paths (default: false)|
 | maxDepth | Maximum number of directory levels to visit (default: no limit) |
-| followLinks | When true it follows symbolic links during directories tree traversal, otherwise they are managed as files (default: true) |
+| followLinks | When true, symbolic links are followed during directory tree traversal, otherwise they are managed as files (default: true) |
 | relative | When true returned paths are relative to the top-most common directory (default: false) |
-| checkIfExists | When true throws an exception of the specified path do not exist in the file system (default: false)|
+| checkIfExists | When true throws an exception if the specified path does not exist in the file system (default: false)|
 
 
 We can change the default options for the `fromPath` method to give an error if the file doesn't exist using the `checkIfExists` parameter. In Nextflow, method arguments are separated by a `,` and parameter values specified with a colon `:`.
@@ -342,7 +342,7 @@ ch.view()
 ~~~
 {: .language-groovy }
 
-It we add the the argument `checkIfExists` with the parameter `true`.
+It we add the argument `checkIfExists` with the value `true`.
 
 ~~~
 ch = Channel.fromPath( 'data/chicken/reads/*.fq.gz', checkIfExists: true )
@@ -355,7 +355,7 @@ This will give an error as there is no data/chicken directory.
 ~~~
 N E X T F L O W  ~  version 20.10.0
 Launching `hello.nf` [intergalactic_mcclintock] - revision: d2c138894b
-No files match pattern `*.fq` at path: /chicken/ggal/
+No files match pattern `*.fq` at path: data/chicken/reads/
 ~~~
 {: .output}
 
