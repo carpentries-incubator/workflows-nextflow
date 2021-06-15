@@ -228,7 +228,7 @@ Arguments passed to the `of` method can be of varying types e.g., combinations o
 
 ### fromList
 
-You can use the `Channel.fromList` method to create a queue channel (with multi values)  from a list object.
+You can use the `Channel.fromList` method to create a queue channel from a list object.
 
 ~~~
 aligner_list = ['salmon', 'kallisto']
@@ -248,29 +248,29 @@ kallisto
 {: .output}
 
 > ## Channel.fromList vs Channel.of
-> In the above example the channel has two elements. If you has used the Channel.of(list) it would have  contained only 1 element `[salmon, kallisto]` and any operator or process using the channel would run once.
+> In the above example, the channel has two elements. If you has used the Channel.of(list) it would have  contained only 1 element `[salmon, kallisto]` and any operator or process using the channel would run once.
 {: .callout}
 
 
 > ## Creating channels from a list
 >
->  Create a nextflow script that create both a queue and value channel
+>  Write a nextflow script that creates both a queue and value channel
 >  for the list `ids = ['ERR908507', 'ERR908506', 'ERR908505']`.
 >  Then print the contents of the channels using the `view` operator.
->  Hint, you need to use `fromList()` and `.value()` Channel factory methods.
+>  Hint: Use the `fromList()` and `value()` Channel factory methods.
 >  How many lines does the queue and value channel print ?
 > > ## Solution
 > >
 > > ~~~
 > > ids = ['ERR908507', 'ERR908506', 'ERR908505']
+> > queue_ch = Channel.fromList(ids)
 > > value_ch = Channel.value(ids)
-> > q_ch = Channel.fromList(ids)
+> > queue_ch.view()
 > > value_ch.view()
-> > q_ch.view()
 > > ~~~
 > > {: .language-groovy }
-> > queue channel will print three lines.
-> > The value channel will print one line.
+> > The queue channel `queue_ch` will print three lines.
+> > The value channel `value_ch` will print one line.
 > {: .solution}
 {: .challenge}
 
