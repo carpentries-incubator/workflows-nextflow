@@ -378,9 +378,9 @@ No files match pattern `*.fq` at path: data/chicken/reads/
 
 ### Grouping data
 
-We have seen how to process files individually using `fromPath`. In Bioinformatics we often want to process files in pairs or larger groups such as read pairs in sequencing.
+We have seen how to process files individually using `fromPath`. In Bioinformatics we often want to process files in pairs or larger groups, such as read pairs in sequencing.
 
-Nextflow provides a  helper method for this common bioinformatics use case. The `fromFilePairs` method create a queue channel containing  a tuple for every file matching a specific pattern. A Tuple is basically grouping data of different types.
+Nextflow provides a convenient factory method for this common bioinformatics use case. The `fromFilePairs` method creates a queue channel containing a `tuple` for every set of files matching a specific pattern. A `tuple` is a grouping of data of different types, represented as a Groovy List.
 The first element of the tuple is string value representing the grouping key of the matching pair, eg. sample id prefix. The second element is the list of files matching that grouping key pattern.
 
 ~~~
@@ -389,7 +389,7 @@ filepair_ch.view()
 ~~~
 {: .language-groovy }
 
-This will produce a queue channel containing  six elements. Each element with contain a tuple that has, a string value (the pattern match), and a list with the two files.
+This will produce a queue channel containing six elements. Each element is a tuple that has a string value (the file prefix matched) and a list with the two files.
 
 The asterisk, `*`, matches any number of characters (including none), and the `{}` braces specify a collection of subpatterns. Therefore the `*_{1,2}.fq.gz` pattern matches any file name ending in `_1.fq.gz` or `_2.fq.gz` .
 
