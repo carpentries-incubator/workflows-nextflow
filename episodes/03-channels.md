@@ -21,7 +21,7 @@ keypoints:
 - "Data in value channels can be used multiple times in workflow."
 - "Data in queue channels are consumed when they are used by a process or an operator."
 - "Channel factory methods, such as `Channel.of`, are used to create Channels."
-- "Channel factory methods have optional arguments, e.g. `checkIfExists` , that can be used to alter the creation and behaviour of a channel."
+- "Channel factory methods have optional parameters e.g., `checkIfExists`, that can be used to alter the creation and behaviour of a channel."
 ---
 
 TODO: Describe data used in this episode.
