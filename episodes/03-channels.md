@@ -357,12 +357,12 @@ No files match pattern `*.fq` at path: data/chicken/reads/
 
 > ## Using Channel.fromPath
 >
->  Use the `Channel.fromPath` method to create a channel containing all files in the `data/yeast/` directory, including the subdirectories.
+> Use the `Channel.fromPath` method to create a channel containing all files in the `data/yeast/` directory, including the subdirectories.
 > Add the parameter `hidden` to include hidden files also.
-> Then print all file names using the view operator.
+> Then print all file names using the `view` operator.
 >
+> **Hint:** You need two asterisks, i.e. `**`, to search subdirectories.
 > > ## Solution
-> > You need two asterisks, i.e. `**`, to cross directory boundaries.
 > > ~~~
 > > ch = Channel.fromPath('data/yeast/**', hidden: true)
 > > ch.view()

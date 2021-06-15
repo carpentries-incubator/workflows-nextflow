@@ -142,6 +142,16 @@ In practical terms the Nextflow scripting language is an extension of the [Groov
 
 The approach of having a simple DSL built on top of a more powerful general purpose programming language makes Nextflow very flexible. The Nextflow syntax can handle most workflow use cases with ease, and then Groovy can be used to handle corner cases which may be difficult to implement using the DSL.
 
+### DSL2
+
+Nextflow (version > 20.07.1) provides a syntax extension to the original DSL DSL2. DSL2 allows the definition of workflow modules and further simplifies the writing of complex data analysis pipelines.
+
+To enable this feature you need to defined the following directive at the beginning of your workflow script:
+
+~~~
+nextflow.enable.dsl=2
+~~~
+{: .language-groovy}
 
 ## Your first script
 
@@ -151,16 +161,17 @@ Open the file `wc.nf` in the script directory with your favourite text editor.
 
 This is a Nextflow script. It contains;
 
-1. A Shebang line, specifying the location of the Nextflow interpreter
+1. An optional Shebang line, specifying the location of the Nextflow interpreter
+1. `nextflow.enable.dsl=2` to enable DSL2 syntax.
 1. A multi-line Nextflow comment, written using C style block comments.
 1. A Nextflow process block named `numLines`.
-1. An input definition block that takes the samples channel `samples_ch` as input.
+1. An input definition block that assign a file to variable `read`.
 1. A script block that contains the bash commands `sleep` and `wc -l`
-1. An output definition block that uses the Linux/Unix standard output stream `stdout` from the script block to create an output channel, named `read_out_ch`.
+1. An output definition block that uses the Linux/Unix standard output stream `stdout` from the script block.
 1. A pipeline parameter `params.samples` which contains the relative path to the location of a fastq file.
-1. A Nextflow channel created using the variable `params.samples` as input.
-1. A workflow execution block that passes the samples_ch to the numLines process.
-1. Finally the script writes the result to the terminal using the view operator.
+1. A Nextflow queue channel, assigned to `samples_ch`,created using the variable `params.samples` as input.
+1. A workflow execution block that passes the `samples_ch` channel to the numLines process.
+1. Finally the script writes the content of the `numLines` output channel to the terminal using the `view` operator.
 
 ~~~
 #!/usr/bin/env nextflow
@@ -170,8 +181,6 @@ nextflow.enable.dsl=2
 /*
 *  Comment that starts with a slash asterisk /* and finishes with an asterisk slash  and you can place it anywhere in your code, on the same line or several lines.
 */
-
-
 
 
 /*
@@ -217,10 +226,9 @@ workflow {
 }
 
 ~~~~
-
 {: .language-groovy}
 
-To run a nextflow script use the command `nextflow run <script_name>`
+To run a Nextflow script use the command `nextflow run <script_name>`
 
 > ## Run a Nextflow  script
 > Run the script by entering the following command in your terminal:
@@ -326,13 +334,12 @@ It’s worth noting that the process `wc -l` is executed in parallel, so there�
 
 ## Nextflow log
 
-
 Once a script has run, Nextflow stores a log of all the workflows executed in the current folder.
 Similar to an electronic lab book, this means you have a have a record of all processing steps and commands run.
 
 You can print Nextflow's execution history and log information using the  `nextflow log` command.
 
-## Show Execution Log
+> ## Show Execution Log
 > Listing the execution logs of previous invocations of all pipelines in a directory.
 >
 > ~~~
@@ -347,6 +354,7 @@ You can print Nextflow's execution history and log information using the  `nextf
 > >2021-03-19 13:45:53	6.5s    	fervent_babbage	OK    	c54a707593 	15487395-443a-4835-9198-229f6ad7a7fd	nextflow run wc.nf
 > > 2021-03-19 13:46:53	6.6s    	soggy_miescher 	OK    	c54a707593 	58da0ccf-63f9-42e4-ba4b-1c349348ece5	nextflow run wc.nf --samples 'data/yeast/reads/*.fq.gz'
 > >  ~~~
+> > {: .output }
 > {: .solution}
 {: .challenge}
 
@@ -364,7 +372,7 @@ This helps a lot when testing or modifying part of your pipeline without having 
 > Execute the script by entering the following command in your terminal:
 >
 > ~~~
-> nextflow run wc.nf --samples 'data/ggal/*.fq' -resume
+> $ nextflow run wc.nf --samples 'data/ggal/*.fq' -resume
 > ~~~
 > {: .language-bash}
 > > ## Solution
@@ -386,10 +394,11 @@ This helps a lot when testing or modifying part of your pipeline without having 
 > >
 > >    11748 gut_1.fq
 > >  ~~~
+> > {: .output }
 > {: .solution}
 {: .challenge}
 
-{: .language-groovy }
+
 
 
 You will see that the execution of the process `numLines` is actually skipped (cached text appears), and its results are retrieved from the cache.
@@ -399,7 +408,7 @@ You will see that the execution of the process `numLines` is actually skipped (c
 > Modify the wc.nf script changing the sleep time and execute the script by entering the following command in your terminal:
 >
 > ~~~
-> nextflow run wc.nf --samples 'data/yeast/reads/*.fq.gz' -resume
+> $ nextflow run wc.nf --samples 'data/yeast/reads/*.fq.gz' -resume
 > ~~~
 > {: .language-bash}
 > > ## Solution
@@ -445,6 +454,7 @@ You will see that the execution of the process `numLines` is actually skipped (c
 > >
 > >5468 etoh60_2_1.fq.gz
 > >  ~~~
+> > {: .output }
 > {: .solution}
 {: .challenge}
 
@@ -452,7 +462,7 @@ As you have changed the script the pipeline will re-run and won't use the cached
 
 
 ~~~
-nextflow log
+$ nextflow log
 ~~~
 {: .language-bash}
 
@@ -468,15 +478,24 @@ IMESTAMP          	DURATION	RUN NAME           	STATUS	REVISION ID	SESSION ID   
 > ## Nextflow specific and workflow specific parameters
 > Command line parameters that start with a single dash e.g., `-resume`,
 > are parameters specifically for Nextflow to interpret.
+>
 > Command line parameters that start with a double dash e.g., `--samples`,
 > are parameters to your workflow script and can be accessed via
 > the `params.<variable>` variable.
 {: .callout}
 
 
-## work directory
+## Work directory
 
 By default the pipeline results are cached in the directory `work` where the pipeline is launched.
+
+We can use the Bash `tree` command to list the contents of the work directory.
+**Note:** By default tree does not print hidden files (those beginning with a dot `.`). Use the `-a`   to view  all files.
+
+~~~
+$ tree work
+~~~
+{: .language-bash}
 
 ~~~
 work/
@@ -533,26 +552,30 @@ work/
     └── 4022a522f2964dde97fa1484bd5742
         └── ref2_2.fq.gz -> /Users/ggrimes2/Downloads/nextflow_rnaseq_training_dataset/data/yeast/reads/ref2_2.fq.gz
 ~~~
+{: .output }
 
+You will see the input Fastq files are symbolically linked to their original location.
 
-Depending on your script, this folder can take of lot of disk space.
+### Specifying another work directory
+
+Depending on your script, this work folder can take a lot of disk space.
 You can specify another work directory using the command line option `-w`
 
 ~~~
-nextflow run <script> -w /some/scratch/dir
+$ nextflow run <script> -w /some/scratch/dir
 ~~~
 {: .language-bash}
 
 If you are sure you won’t resume your pipeline execution, clean this folder periodically using the command `nextflow clean`.
 
 ~~~
-nextflow clean [run_name|session_id] [options]
+$ nextflow clean [run_name|session_id] [options]
 ~~~
 {: .language-bash}
 
 Typically, results before the last successful result are cleaned:
 ~~~
-nextflow clean -f -before [run_name|session_id]
+$ nextflow clean -f -before [run_name|session_id]
 ~~~
 {: .language-bash}
 
