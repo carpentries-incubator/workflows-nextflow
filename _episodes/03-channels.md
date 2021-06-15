@@ -276,14 +276,13 @@ kallisto
 
 ### fromPath
 
-The previous channel factories methods dealt with sending one or more values. A special channel factory method `fromPath` is used when dealing with files.
+The previous channel factory methods dealt with sending general values
+in a channel. A special channel factory method `fromPath` is used when wanting to pass files.
 
-The `fromPath` factory method create a **queue channel** emitting one or more files matching a pattern that specifies the file path.
-This pattern can be the location of a single file or a pattern that matches multiple files or directories.
+The `fromPath` factory method creates a **queue channel** emitting one or more files matching a file path.
+This file path (written as a quoted string) can be the location of a single file or a "glob pattern" that matches multiple files or directories.
 
-**The location of the file should be specified as a relative path to the location of nextflow script you are running**.
-
-The script below creates a queue channel with a single file as its' content.
+The script below creates a queue channel with a single file as its content.
 
 ~~~
 ch = Channel.fromPath( 'data/yeast/reads/ref1_2.fq.gz' )
@@ -296,7 +295,7 @@ data/yeast/reads/ref1_2.fq.gz
 ~~~
 {: .output}
 
- The script below creates a queue channel that contains as many items as there are files with `_1.fq.gz` or `_2.fq.gz` extension in the `data/yeast/reads` folder.
+The script below creates a queue channel that contains as many items as there are files with `_1.fq.gz` or `_2.fq.gz` extension in the `data/yeast/reads` folder.
 
 ~~~
 ch = Channel.fromPath( 'data/yeast/reads/*_{1,2}.fq.gz' )
@@ -315,8 +314,7 @@ data/yeast/reads/temp33_3_1.fq.gz
 ~~~
 {: .output}
 
-
- Two asterisks, i.e. `**`, works like `*` but will also search sub directories. This syntax is generally used for matching complete paths. Curly brackets `{}` specify a collection of sub-patterns. Learn more about the glob patterns syntax at this [link](https://docs.oracle.com/javase/tutorial/essential/io/fileOps.html#glob).
+Two asterisks in the file path, i.e. `**`, works like `*` but will also search sub directories. This syntax is generally used for matching complete paths. Curly brackets `{}` specify a collection of sub-patterns. Learn more about the glob patterns syntax at this [link](https://docs.oracle.com/javase/tutorial/essential/io/fileOps.html#glob).
 
 
 You can change the behaviour of `Channel.fromPath` method by changing its options. A list of `.fromPath` options is shown below.
