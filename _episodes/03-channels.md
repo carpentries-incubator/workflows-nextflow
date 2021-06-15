@@ -378,7 +378,7 @@ No files match pattern `*.fq` at path: data/chicken/reads/
 {: .challenge}
 
 
-### Grouping data
+### fromFilePairs
 
 We have seen how to process files individually using `fromPath`. In Bioinformatics we often want to process files in pairs or larger groups, such as read pairs in sequencing.
 
