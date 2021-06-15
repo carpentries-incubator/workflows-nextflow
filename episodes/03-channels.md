@@ -188,7 +188,7 @@ myList = [1776, -1, 33, 99, 0, 928734928763]
 
 ### Queue
 
-There are many different way to create a queue channel. Here we will go over a few common ways to create them.
+There are many different way to create a queue channel. Here are a few common ways to create them.
 
 #### of
 
