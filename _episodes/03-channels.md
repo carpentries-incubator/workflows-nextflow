@@ -401,7 +401,7 @@ The asterisk, `*`, matches any number of characters (including none), and the `{
 ~~~
 {: .output}
 
-### What if you want to capture more than a pair?
+#### What if you want to capture more than a pair?
 
 If you want to capture more than 2 files for a pattern you will need to change the default `size` argument to the number of expected matching files.
 
