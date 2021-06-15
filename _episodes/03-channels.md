@@ -186,10 +186,6 @@ myList = [1776, -1, 33, 99, 0, 928734928763]
 ~~~
 {: .language-groovy }
 
-### Queue Channel factories
-
-There are many different way to create a queue channel. Here are a few common ways to create them.
-
 #### of
 
 When you want to create a channel containing multiple values you can use the channel factory `Channel.of`. `Channel.of` allows the creation of a `queue` channel with the values specified as arguments, separated by a `,`.
