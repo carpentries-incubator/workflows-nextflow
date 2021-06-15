@@ -222,7 +222,7 @@ ch.view()
 Arguments passed to the `of` method can be of varying types e.g., combinations of numbers, strings, or objects.
 
 > ## Channel.from
-> You may see the method `Channel.from` in older nextflow scripts, this performs a similar function but will is deprecated so you should use `Channel.of` instead.
+> You may see the method `Channel.from` in older nextflow scripts. This performs a similar function but is now deprecated (no longer used), and so `Channel.of` should be used instead.
 {: .callout}
 
 
