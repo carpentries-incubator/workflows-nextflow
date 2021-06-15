@@ -401,7 +401,7 @@ The asterisk, `*`, matches any number of characters (including none), and the `{
 
 ### What if you want to capture more than a pair?
 
-If you want to capture more than  2 files for a pattern you will  you will need to change the default `size` argument to the number of expected matching files.
+If you want to capture more than 2 files for a pattern you will need to change the default `size` argument to the number of expected matching files.
 
 ~~~
 filepair_ch = Channel.fromFilePairs('data/yeast/reads/ref{1,2,3}*',size:6)
@@ -416,13 +416,13 @@ The code above will create a queue channel containing 1 element, a tuple of with
 ~~~
 {: .output}
 
-See more information about the channel factory  `fromFilePairs` [here](https://www.nextflow.io/docs/latest/channel.html#fromfilepairs)
+See more information about the channel factory `fromFilePairs` [here](https://www.nextflow.io/docs/latest/channel.html#fromfilepairs)
 
 > ## More complex patterns
-> If you need to match more complex patterns you should create a sample sheet specifying the files and create a channel from that, this will be covered in the operator episode.
+> If you need to match more complex patterns you should create a sample sheet specifying the files and create a channel from that. This will be covered in the operator episode.
 {: .callout}
 
-> ## pattern (know as glob)
+> ## The glob pattern
 > The pattern must contain at least a star wildcard character.
 {: .callout}
 
