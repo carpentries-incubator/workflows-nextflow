@@ -186,7 +186,7 @@ myList = [1776, -1, 33, 99, 0, 928734928763]
 ~~~
 {: .language-groovy }
 
-#### of
+### The of Channel factory
 
 When you want to create a channel containing multiple values you can use the channel factory `Channel.of`. `Channel.of` allows the creation of a `queue` channel with the values specified as arguments, separated by a `,`.
 
@@ -222,7 +222,7 @@ Arguments passed to the `of` method can be of varying types e.g., combinations o
 {: .callout}
 
 
-### fromList
+### The fromList Channel factory
 
 You can use the `Channel.fromList` method to create a queue channel from a list object.
 
@@ -270,7 +270,7 @@ kallisto
 > {: .solution}
 {: .challenge}
 
-### fromPath
+### The fromPath Channel factory
 
 The previous channel factory methods dealt with sending general values
 in a channel. A special channel factory method `fromPath` is used when wanting to pass files.
@@ -372,7 +372,7 @@ No files match pattern `*.fq` at path: data/chicken/reads/
 {: .challenge}
 
 
-### fromFilePairs
+### The fromFilePairs Channel factory
 
 We have seen how to process files individually using `fromPath`. In Bioinformatics we often want to process files in pairs or larger groups, such as read pairs in sequencing.
 
@@ -440,9 +440,7 @@ See more information about the channel factory `fromFilePairs` [here](https://ww
 > {: .solution}
 {: .challenge}
 
-## Additional material
-
-### fromSRA
+### The fromSRA Channel factory
 
 Another useful factory method is `fromSRA`. The `fromSRA` method makes it possible to query the [NCBI SRA](https://www.ncbi.nlm.nih.gov/sra) archive and returns a queue channel emitting the FASTQ files matching the specified selection criteria.
 
