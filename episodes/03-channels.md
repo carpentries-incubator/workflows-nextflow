@@ -24,6 +24,8 @@ keypoints:
 - "Channel factory methods have optional arguments, e.g. `checkIfExists` , that can be used to alter the creation and behaviour of a channel."
 ---
 
+TODO: Describe data used in this episode.
+
 # Channels
 
 Earlier we learnt that channels are the way in which Nextflow sends data around a workflow. Channels connect processes via their inputs and outputs. Channels can store multiple items, such as files (e.g. fastq files) or values. The number of items a channel stores determines how many times a process runs.
