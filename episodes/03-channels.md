@@ -192,7 +192,7 @@ There are many different way to create a queue channel. Here are a few common wa
 
 #### of
 
-When you want to create a channel containing multiple values you can use the channel factory `Channel.of`.  `Channel.of` allows the creation of a `queue` channel with the values specified as arguments, separated by a `,`.
+When you want to create a channel containing multiple values you can use the channel factory `Channel.of`. `Channel.of` allows the creation of a `queue` channel with the values specified as arguments, separated by a `,`.
 
 ~~~
 chromosome_ch = Channel.of( 'chr1','chr3','chr5','chr7' )
@@ -210,8 +210,8 @@ chr7
 ~~~
 {: .output}
 
-You can specify a range of number, as a single argument,  using the range operator `..`.
- More information [here](https://www.logicbig.com/tutorials/misc/groovy/range-operator.html).
+You can specify a range of numbers as a single argument using the Groovy range operator `..`. This creates each value in the range (including the start and end values) as a value in the channel. The Groovy range operator can also produce ranges of dates, letters, or time.
+More information on the range operator can be found [here](https://www.logicbig.com/tutorials/misc/groovy/range-operator.html).
 
 ~~~
 ch= Channel.of(1..22, 'X', 'Y')
@@ -219,7 +219,7 @@ ch.view()
 ~~~
 {: .language-groovy }
 
-And the argument passed to the method can be different types e.g  number or strings objects.
+Arguments passed to the `of` method can be of varying types e.g., combinations of numbers, strings, or objects.
 
 > ## Channel.from
 > You may see the method `Channel.from` in older nextflow scripts, this performs a similar function but will is deprecated so you should use `Channel.of` instead.
