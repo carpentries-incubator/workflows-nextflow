@@ -332,7 +332,7 @@ Available fromPath options:
 | checkIfExists | When true throws an exception if the specified path does not exist in the file system (default: false)|
 
 
-We can change the default options for the `fromPath` method to give an error if the file doesn't exist using the `checkIfExists` parameter. In Nextflow, method arguments are separated by a `,` and parameter values specified with a colon `:`.
+We can change the default options for the `fromPath` method to give an error if the file doesn't exist using the `checkIfExists` parameter. In Nextflow, method parameters are separated by a `,` and parameter values specified with a colon `:`.
 
 If we execute a nextflow script with the contents below . It will run and not produce an output. This likely not what we want.
 
@@ -361,12 +361,12 @@ No files match pattern `*.fq` at path: data/chicken/reads/
 
 > ## Using Channel.fromPath
 >
->  Use the `Channel.fromPath` method to create a channel containing all files in the `data/yeast/` directory.
-> Add an option, `hidden`, to include hidden files .
-> Then print all file name using the view operator.
+>  Use the `Channel.fromPath` method to create a channel containing all files in the `data/yeast/` directory, including the subdirectories.
+> Add the parameter `hidden` to include hidden files also.
+> Then print all file names using the view operator.
 >
 > > ## Solution
-> > You need Two asterisks, i.e. `**`, to  crosses directory boundaries
+> > You need two asterisks, i.e. `**`, to cross directory boundaries.
 > > ~~~
 > > ch = Channel.fromPath('data/yeast/**', hidden: true)
 > > ch.view()
