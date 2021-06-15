@@ -448,11 +448,11 @@ See more information about the channel factory `fromFilePairs` [here](https://ww
 
 ## Additional material
 
-### Queue Channel, fromSRA
+### fromSRA
 
-Another useful helper method is `Channel.fromSRA`. The `Channel.fromSRA` method that makes it possible to query of [NCBI SRA](https://www.ncbi.nlm.nih.gov/sra) archive and returns a queue channel emitting the FASTQ files matching the specified selection criteria.
+Another useful factory method is `fromSRA`. The `fromSRA` method makes it possible to query the [NCBI SRA](https://www.ncbi.nlm.nih.gov/sra) archive and returns a queue channel emitting the FASTQ files matching the specified selection criteria.
 
-The query can be project ID or accession number(s) supported by the [NCBI ESearch API](https://www.ncbi.nlm.nih.gov/books/NBK25499/#chapter4.ESearch). For example the following snippet:
+The queries can be project IDs or accession numbers supported by the [NCBI ESearch API](https://www.ncbi.nlm.nih.gov/books/NBK25499/#chapter4.ESearch).
 
 ~~~
 sra_ch =Channel.fromSRA('SRP043510')
@@ -460,7 +460,7 @@ sra_ch.view()
 ~~~
 {: .language-groovy }
 
-This will prints a line containing a named list ,tuple, for every fastq file associated with that accession.
+This will print a tuple for every fastq file associated with that SRA project accession.
 
 ~~~
 [SRR1448794, ftp://ftp.sra.ebi.ac.uk/vol1/fastq/SRR144/004/SRR1448794/SRR1448794.fastq.gz]
@@ -489,8 +489,10 @@ sra_ch.view()
 ~~~
 {: .output}  
 
+TODO: I think below should be removed until processes are introduced, and similarly DSL2.
+
 > ## Read pairs
-> Read pairs are implicitly managed are returned as a list of files.
+> Read pairs are implicitly managed, and are returned as a list of files.
 {: .callout}
 
 It’s straightforward to use this channel as an input using the usual Nextflow syntax. For example:
