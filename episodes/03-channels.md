@@ -200,7 +200,7 @@ chromosome_ch.view()
 ~~~
 {: .language-groovy }
 
-The first line in this example creates a variable `chromosome_ch`. `chromosome_ch` is a queue channel  containing the four values specified as arguments in the `of` method. The `view` operator will print one line per item in a list. Therefore the `view` operator on the second line will print four lines one for each element in the channel:
+The first line in this example creates a variable `chromosome_ch`. `chromosome_ch` is a queue channel containing the four values specified as arguments in the `of` method. The `view` operator will print one line per item in a list. Therefore the `view` operator on the second line will print four lines, one for each element in the channel:
 
 ~~~
 chr1
