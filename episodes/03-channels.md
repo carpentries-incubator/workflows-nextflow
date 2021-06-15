@@ -184,7 +184,6 @@ A [List object](https://www.tutorialspoint.com/groovy/groovy_lists.htm) can be d
 ~~~
 myList = [1776, -1, 33, 99, 0, 928734928763]
 ~~~
-
 {: .language-groovy }
 
 ### Queue
