@@ -4,11 +4,10 @@ teaching: 30
 exercises: 10
 questions:
 - "How do I get data into Nextflow?"
-- "How do I handle different types of input, e.g. files and and parameters?"
+- "How do I handle different types of input, e.g. files and parameters?"
 - "How do I create a Nextflow Channel?"
 - "How can I use pattern matching to select input files?"
 - "How do I change the way inputs are handled?"
--
 objectives:
 - "Understand how Nextflow manages data using Channels."
 - "Understand why channels are useful."
