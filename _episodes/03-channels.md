@@ -75,7 +75,7 @@ always queue channels. Queue channels can be explicitly created using channel fa
 > {: .solution}
 {: .challenge}
 
-### Queue channels usage
+#### Queue channels usage
 
 Queue channels can only be used once in a workflow, either connecting workflow input to process input, or process output to input for another process.
 
