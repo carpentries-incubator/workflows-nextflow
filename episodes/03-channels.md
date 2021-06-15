@@ -365,9 +365,9 @@ No files match pattern `*.fq` at path: /chicken/ggal/
 >
 >  Use the `Channel.fromPath` method to create a channel containing all files, including those in subdirectories, in the `data/yeast/` directory.
 >
-> Add an option, `hidden`, to include hidden files .
+> Add an option, `hidden`, to include hidden files.
 >
-> Then print all file name using the `view` operator.
+> Then print all file names using the `view` operator.
 >
 > **Hint:** You need two asterisks, i.e. `**`, to search subdirectories.
 > > ## Solution
