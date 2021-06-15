@@ -151,7 +151,7 @@ The first line creates a value channel using the `Channel.value` factory method,
 > {: .solution}
 {: .challenge}
 
-## Creating Channels, Channel factories
+## Creating Channels using Channel factories
 
 Channel factories are used to explicitly create channels. In programming,
 factory methods (functions) are a programming design pattern used
@@ -161,7 +161,7 @@ generalised concepts, such as a `Channel`. Channel factories are
 called using the `Channel.<method>` syntax, and return a specific instance
 of a `Channel`.
 
-### Value
+### The value Channel factory
 
 The `value` factory method is used to create a value channel.
 Values are put inside  parentheses `()`  to assign them to a channel. For example:
@@ -186,7 +186,7 @@ myList = [1776, -1, 33, 99, 0, 928734928763]
 ~~~
 {: .language-groovy }
 
-### Queue
+### Queue Channel factories
 
 There are many different way to create a queue channel. Here are a few common ways to create them.
 
