@@ -1188,6 +1188,11 @@ workflow {
 ~~~
 {: .language-groovy }
 
+~~~
+[ref1, /work/66/88822f0ccc98664aaa866e27a1a9c8/ref1_salmon_output]
+~~~
+{: .output }
+
 > ## Composite inputs and outputs
 > Fill in the blank ___ input and output qualifers for `process_exercise_tuple.nf`.
 > ~~~
@@ -1287,7 +1292,7 @@ Directive declarations allow the definition of optional settings, like computati
 They must be entered at the top of the process body, before any other declaration blocks (i.e. `input`, `output`, etc).
 
 
-You do not use `=` when assigning a value to a directive.
+**Note:** You do not use `=` when assigning a value to a directive.
 
 
 Directives are commonly used to define the amount of computing resources to be used or extra information for configuration or logging purpose.
@@ -1331,7 +1336,8 @@ number of cpus 1
 [..truncated..]
 ~~~
 {: .output }
- The above process uses the  `tag` directive to allow you to associate each process execution with a custom label, so that it will be easier to identify them in the log file or in the trace execution report. The second directive he `cpus`  allows you to define the number of CPU required for each the process’ task.
+
+The above process uses the  `tag` directive to allow you to associate each process execution with a custom label, so that it will be easier to identify them in the log file or in the trace execution report. The second directive he `cpus`  allows you to define the number of CPU required for each the process’ task. The third directive `echo true` prints the stdout to the terminal. We also uses the Nextflow `task.cpus` variable to capture the number of cpus assigned to a task.
 
 Another commonly used directive is memory specification `memory`.
 
@@ -1339,10 +1345,12 @@ A complete list of directives is available at this [link](https://www.nextflow.i
 
 > ## Adding directives
 > Modify the Nextflow script `process_exercise_directives.nf`
-> Add a `tag` directive logging the sample_id in the execution output.
-> Add a cpus directive to specify the number of cpus as 2.
-> Change the -t option value to $task.cpus in the script directive.
->  ~~~
+>
+> 1. Add a `tag` directive logging the sample_id in the execution output.
+> 1. Add a `cpus` directive to specify the number of cpus as 2.
+> 1. Change the fastqc `-t` option value to `$task.cpus` in the script directive.
+>
+> ~~~
 > nextflow.enable.dsl=2
 >
 >  process fastqc {
@@ -1373,15 +1381,14 @@ A complete list of directives is available at this [link](https://www.nextflow.i
 > >  process fastqc {
 > >  tag "$sample_id"
 > >  cpus 2
-> >  //add cpu directive
 > >  input:
 > >     tuple val(sample_id), path(reads)
 > >  output:
 > >      tuple val(sample_id), path("fastqc_out")
-> >   script:
+> >  script:
 > >    """
 > >    mkdir fastqc_out
-> >   fastqc $reads -o fastqc_out -t 1
+> >    fastqc $reads -o fastqc_out -t 1
 > >    """
 > >  }
 > >
