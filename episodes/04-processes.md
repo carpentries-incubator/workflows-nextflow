@@ -267,11 +267,12 @@ nextflow run script.nf --kmer 11
 
 > ## Script parameters
 >
-> Change the k-mer value used to create the salmon index from the command line.
+> For the Nextflow script below.
 > ~~~
+> nextflow.enable.dsl=2
 > params.kmer = 31
 >
->process index {
+> process index {
 >
 >  script:
 >  """
@@ -279,13 +280,21 @@ nextflow run script.nf --kmer 11
 >  echo "kmer size is" $params.kmer
 >  """
 > }
+>
+> workflow {
+>   index()
+> }
 > ~~~
 > {: .language-groovy}
+>
+> Change the k-mer value used to create the salmon index on the command line using the `--kmer` command line option.
+>
 > ~~~
-> nextflow run process_script_params.nf --kmer <some value> -process.echo
+> $ nextflow run process_script_params.nf --kmer <some value> -process.echo
 > ~~~
 > {: .language-bash}
-> Note the kmer values must not be greater than 31 and an odd number.
+> **Note:** The kmer value must not be greater than 31 and an odd number.
+> **Note:** The Nextflow option `-process.echo` will print the process' stdout to the terminal.
 >
 > > ## Solution
 > > ~~~
