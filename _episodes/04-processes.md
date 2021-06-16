@@ -341,7 +341,7 @@ workflow {
 
 This will print the location of the working directory using the bash environment variable `PWD`.
 
-### Shell 
+### Shell
 
 Another alternative is to use a `shell` block definition instead of `script`.
 When using the `shell` statement Bash variables are referenced in the normal way `$my_bash_variable`;
@@ -378,9 +378,9 @@ workflow {
 
 Sometimes you want to change how a process is run depending on some condition. In Nextflow scripts we can use conditional statements such as the `if` statement or any other expression evaluating to boolean value `true` or `false`.
 
-### if statement
+### If statement
 
-The if statement uses the same syntax common other programming lang such Java, C, JavaScript, etc.
+The `if` statement uses the same syntax common other programming lang such Java, C, JavaScript, etc.
 
 ~~~
 if( < boolean expression > ) {
@@ -396,7 +396,7 @@ else {
 {: .language-groovy }
 
 
-For example, the Nextflow script below will change what index is created depending on the Nextflow variable `params.aligner`.
+For example, the Nextflow script below will use the `if` statement to change what index is created depending on the Nextflow variable `params.aligner`.
 
 ~~~
 nextflow.enable.dsl=2
@@ -405,13 +405,13 @@ process index {
   script:
   if( params.aligner == 'kallisto' ) {
     """
-    echo index using kallisto
+    echo indexed using kallisto
     kallisto index -i index  -k $params.kmer $params.transcriptome
     """
   }  
   else if( params.aligner == 'salmon' ) {
     """
-    echo index using salmon
+    echo indexed using salmon
     salmon index -t $params.transcriptome -i index --kmer $params.kmer
     """
   }  
@@ -432,6 +432,15 @@ workflow {
 ~~~
 {: .language-groovy }
 
+~~~
+nextflow run main.nf -process.echo --aligner kallisto
+~~~
+{: .language-bash }
+
+~~~
+indexed using kallisto
+~~~
+{: .language-groovy }
 
 ## Inputs
 
