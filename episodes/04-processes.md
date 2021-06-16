@@ -341,10 +341,10 @@ workflow {
 
 This will print the location of the working directory using the bash environment variable `PWD`.
 
-### shell statement
+### Shell 
 
-Another alternative is to use a `shell` statement instead of `script`.
-When using the `shell` statment Bash variables are referenced in the normal way `$my_bash_variable`;
+Another alternative is to use a `shell` block definition instead of `script`.
+When using the `shell` statement Bash variables are referenced in the normal way `$my_bash_variable`;
 However, the `shell` statement uses a different syntax for Nextflow variable: `!{nextflow_variable}`, which is needed to use both Nextflow and Bash variables in the same script.
 
 For example in the script below that uses the `shell statment `
