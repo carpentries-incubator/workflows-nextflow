@@ -52,10 +52,17 @@ process salmon_index {
 }
 
 workflow {
+  //process is called like a function in the workflow block
   salmon_index()
 }
 ~~~
 {: .language-groovy }
+
+> ## DSL2
+> As we are using DSL2 `nextflow.enable.dsl=2` we need to define a
+`workflow` block to run the process.
+{: .callout }
+
 
 This example build a salmon index for the yeast transcriptome. This process would run once.
 We use the special Nextflow variable `${projectDir}` to specify the directory where the main script is located. This is important as Nextflow scripts are executed in a separate working directory.
@@ -1449,6 +1456,18 @@ workflow {
 ~~~
 {: .language-groovy }
 
+~~~
+tree results
+~~~
+{: .language-bash }
+
+~~~
+results/
+└── quant
+    └── ref1_salmon_output -> work/28/30dd6dc65fdf20c69364d4032f7b37ref1_salmon_output
+~~~
+{: .output }
+
 In the above example, the `publishDir "results/quant"`, will create a symbolic link to the output files specified by the process `salmon_quant` to the directory path `$baseDir/results/quant`.
 
 > ## publishDir
@@ -1476,8 +1495,8 @@ For example:
 nextflow.enable.dsl=2
 
 process salmon {
-  publishDir "results/bams", pattern: "*.bam"
-  publishDir "results/quant", pattern: "${sample_id}_salmon_output"
+  publishDir "results/bams", pattern: "*.bam", mode: "copy"
+  publishDir "results/quant", pattern: "${sample_id}_salmon_output", mode: "copy"
   input:
     tuple val(sample_id), path(reads)
     path index
@@ -1504,6 +1523,36 @@ workflow {
 }
 ~~~
 {: .language-groovy }
+
+~~~
+$ tree results
+~~~
+{: .language-bash }
+
+~~~
+results/
+├── bams
+│   └── ref1.bam
+└── quant
+    └── ref1_salmon_output
+        ├── aux_info
+        │   ├── ambig_info.tsv
+        │   ├── expected_bias.gz
+        │   ├── fld.gz
+        │   ├── meta_info.json
+        │   ├── observed_bias.gz
+        │   └── observed_bias_3p.gz
+        ├── cmd_info.json
+        ├── libParams
+        │   └── flenDist.txt
+        ├── lib_format_counts.json
+        ├── logs
+        │   └── salmon_quant.log
+        └── quant.sf
+
+6 directories, 12 files
+~~~
+{: .output }
 
 The above example will create an output folder structure in the directory results, which contains a separate sub-directory for bam files, `pattern:"*.bam"` ,  and salmon output directory, `${sample_id}_salmon_output"`.
 
@@ -1570,70 +1619,6 @@ The above example will create an output folder structure in the directory result
 > If you want to find out common structures of Nextflow process the [Nextflow Patterns page](http://nextflow-io.github.io/patterns/) collects some recurrent implementation patterns used in Nextflow applications.
 {: .callout}
 
-## Connecting Processes
-
-
-Connecting individual workflow steps, `processes`,  is achieved by joining their `outputs` to their `inputs` channels.
-
-In this example we are going to run a small, two process, Nextflow pipeline to generate a QC reports using [FastQC](https://www.bioinformatics.babraham.ac.uk/projects/fastqc/) and then combined the QC reports into a single file using [MultiQC](https://multiqc.info/).
-
-In this workflow the first process `fastqc` is connected to the second `multiqc` via the  `fastqc_out_ch` value channel. The second process uses the `collect` channel operator to combines the elements in the fastqc output channel directories into a single channel element.
-
-The output from the second process `mqc_out` is then published to the `results/multiqc` directory.
-
-~~~
-nextflow.enable.dsl=2
-
-process fastqc {
-  tag "fastqc on $sample_id"
-
-  input:
-  tuple val(sample_id), path(reads)
-
-  output:
-  path "$sample_id"
-
-  script:
-  """
-  mkdir $sample_id
-  fastqc ${reads} -o $sample_id
-  """
-}
-
-process multiqc {
-  publishDir "results/multiqc"
-  input:
-  path summary_files
-
-
-  output:
-  path 'multiqc_report.html'
-
-  script:
-  """
-  multiqc .
-  """
-}
-
-params.samples = "data/yeast/reads/*_{1,2}.fq.gz"
-samples_ch =Channel.fromFilePairs(params.samples)
-
-workflow {
-  fastqc_out_ch=fastqc(samples_ch)
-  mqc_out=multiqc(fastqc_out_ch.collect())
-  mqc_out.view()
-}
-
-
-~~~
-{: .language-groovy }
-
-To inspect the output list the files in `results/multiqc` directory.
-
-~~~
-ls results/multiqc
-~~~
-{: .language-bash }
 
 ~~~
 multiqc_report.html
