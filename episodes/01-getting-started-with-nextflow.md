@@ -117,22 +117,34 @@ are also written in a single script, unlike DSL2 workflows which
 can be spread across many files. This lesson will focus on the DSL2
 syntax, as it is the more up-to-date way of writing Nextflow workflows.
 
-### Workflows, Processes and Channels
+### Processes, Channels, and Workflows
 
-In practice a Nextflow pipeline is a script made by joining together different commands in process blocks. Each process can be written in any scripting language that can be executed by the Linux platform (Bash, Perl, Ruby, Python, etc.).
+Nextflow workflows have three main parts; `process`es, `channel`s, and
+`workflow`s. Processes describe a task to be run. A process
+script can be written in any scripting language that can be
+executed by the Linux platform (Bash, Perl, Ruby, Python, etc.).
+Processes spawn a task for each complete input set. Each task is
+executed independently, and cannot interact with another task.
+The only way data can be passed between process tasks is via
+asynchronous queues, called channels.
 
-Processes create a task for each complete input set. Each task is executed independently, and can not interact with another task. The only way data can be passed between processes is via asynchronous queues, called `channels` in Nextflow.
+Processes define inputs and outputs for a task. Channels are
+then used to manipulate the flow of data from one process
+to the next. The interaction between processes, and ultimately
+the pipeline execution flow itself, is then explicitly defined
+in a workflow block.
 
-Processes uses these channels to define inputs and outputs. The interaction between processes, and ultimately the pipeline execution flow itself, is implicitly defined by these input and output declarations.
-
-In the following example we have a channel containing three elements, e.g., 3 data files. We have a process that takes the channel as input. The fact that the channel has three elements would mean that three independent instances (tasks) of that process are being run in parallel. The tasks then generate three outputs, that are used as input for another process.
+In the following example we have a channel containing three elements,
+e.g., 3 data files. We have a process that takes the channel as input.
+Since the channel has three elements, three independent instances (tasks)
+of that process are run in parallel. Each task generates an output, that
+is passed to another channel, which is used as input for the next process.
 
 <p align="center">
    <img alt="Processes and channels" src="../fig/channel-process_fqc.png" width="500">
    <br>
    <em>Nextflow process flow diagram</em>
 </p>
-
 
 ### Workflow Execution
 
