@@ -907,9 +907,9 @@ The process will run eight times.
 
 ## Outputs
 
-We have seen how to input data into a process now we will see how to output file and values from a process.
+We have seen how to input data into a process now we will see how to output files and values from a process.
 
-The `output` declaration block allows us to define the channels used by the process to send out the file and values produced.
+The `output` declaration block allows us to define the channels used by the process to send out the files and values produced.
 
 An output block is not required, but if it is present it can contain one or more outputs declarations. The output block follows the syntax shown below:
 
@@ -927,7 +927,7 @@ output:
 The type of output data is defined using output qualifiers.
 
 The `val` qualifier allows us to output a value defined in the script.
-Because Nextflow processes can only communicate through channels if we want to share a value input into one process as input to another process we would  need to define that value in the output declaration block as shown in the following example:
+Because Nextflow processes can only communicate through channels if we want to share a value input into one process as input to another process we would need to define that value in the output declaration block as shown in the following example:
 
 
 ~~~
@@ -949,12 +949,19 @@ process method_type {
 methods_ch = channel.of('salmon','kallisto')
 
 workflow {
-  method_type(methods_ch)
+  method_out=method_type(methods_ch)
   // use the view operator to display contents of the channel
-  out_ch.view({ "Received: $it" })
+  method_out.view({ "Received: $it" })
 }
 ~~~
 {: .language-groovy }
+
+~~~
+Received: kallisto
+
+Received: salmon
+~~~
+{: .output }
 
 ### Output files
 
@@ -978,24 +985,64 @@ process method_type {
   """
 }
 workflow {
-  method_type(methods_ch)
+  method_out=method_type(methods_ch)
   // use the view operator to display contents of the channel
-  out_ch.view({ "Received: $it" })
+  method_out.view({ "Received: $it" })
 }
 ~~~
 {: .language-groovy }
 
-In the above example the process `method_type` creates a file named `method.txt` containing the method name.
+~~~
+Received: work/85/96f0f4d9e80239d7a2f552391e9379/method.txt
 
-Since a file parameter using the same name, `method.txt`, is declared in the output block , when the task is completed that file is sent over the `out_ch` channel. A downstream `operator` or `process` declaring the same channel as input will be able to receive it.
+Received: /work/5a/3c82d48b00cc8c0cd2b06a65ed4dc8/method.txt
+~~~
+{: .output }
+
+In the above example the process `method_type` creates a file named `method.txt` in the work directory containing the method name.
+
+Since a file parameter using the same name, `method.txt`, is declared in the output block , when the task is completed that file is sent over the output channel. A downstream `operator` or `process` declaring the same channel as input will be able to receive it.
 
 ### Multiple output files
 
 When an output file name contains a `*` or `?` character it is interpreted as a pattern match.
 This allows to capture multiple files into a list and output them as a one item channel.
 
-For example here we will capture the file `sample.bam.bai` in the output channel. Note that `sample.bam` is not captured in the output channel as input files are not included in the list of possible matches
+For example, here we will capture the files `fastqc.html` and directory `fastqc.zip` produced as results from FastQC in the output channel.
 
+~~~
+nextflow.enable.dsl=2
+
+process fastqc {
+    input:
+    path read
+
+    output:
+    path "fqc_res/$read*"
+
+    script:
+    """
+    mkdir fqc_res
+    fastqc $read -o fqc_res
+    """
+}
+
+read_ch = channel.fromPath("data/yeast/reads/ref1*.fq.gz")
+
+workflow {
+  fq_out=fastqc(read_ch)
+  fq_out.view()
+}
+~~~
+{: .language-groovy }
+
+
+
+~~~
+[work/54/1c5b8bf5b065463d39a06762cd8dd4/fqc_res/ref1_1_fastqc.html, work/54/1c5b8bf5b065463d39a06762cd8dd4/fqc_res/ref1_1_fastqc.zip]
+[work/05/33da4d9c3b318d0be18dfe2b206097/fqc_res/ref1_2_fastqc.html, work/05/33da4d9c3b318d0be18dfe2b206097/fqc_res/ref1_2_fastqc.zip]
+~~~
+{: .output}
 
 Some caveats on glob pattern behaviour:
 
@@ -1003,54 +1050,6 @@ Some caveats on glob pattern behaviour:
 * Glob pattern matches against both files and directories path.
 * When a two stars pattern `**` is used to recourse across directories, only file paths are matched i.e. directories are not included in the result list.
 
-
-
-### Dynamic output file names
-
-When an output file name needs to be expressed dynamically, it is possible to define it using a dynamic evaluated string which references values defined in the input declaration block or in the script global context. For example::
-
-~~~
-nextflow.enable.dsl=2
-
-process index {
-    input:
-    path bam
-
-    output:
-    path "${bam}*"
-
-    script:
-    """
-    samtools index $bam
-    """
-}
-
-bam_ch = channel.fromPath("data/yeast/bams/*.bam")
-
-workflow {
-  index_out_ch=index(bam_ch)
-  index_out_ch.view({ "File: ${it.name}" })
-}
-~~~
-{: .language-groovy }
-
-In the above example, each time the process is executed an index file is produced whose name depends on the actual value of the `bam` input.
-
-~~~
-File: ref3.bam.bai
-
-File: ref1.bam.bai
-
-File: etoh60_3.bam.bai
-
-File: ref2.bam.bai
-
-File: etoh60_1.bam.bai
-
-File: etoh60_2.bam.bai
-[truncated]
-~~~
-{: .output}
 
 > ## Output channels
 > Modify the nextflow script `process_exercise_output.nf` to include an output blocks that captures the different index folder `index_$kmer`.
