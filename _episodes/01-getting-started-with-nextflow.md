@@ -92,7 +92,32 @@ In a simple program **(a)**, these statements would be executed sequentially. Th
 
 1. Continuous checkpoints: All the intermediate results produced during the pipeline execution are automatically tracked. This allows you to resume its execution from the last successfully executed step, no matter what the reason was for it stopping.
 
-### Processes and Channels
+### DSL2 syntax
+
+Nextflow (version > 20.07.1) provides a revised syntax to the original DSL, known as DSL2. The DSL2 syntax introduces several improvements
+such as modularity (separating components to provide flexibility and enable reuse), and improved data flow manipulation. This
+further simplifies the writing of complex data analysis pipelines,
+and enhances workflow readability, and reusability.
+
+To enable this feature you need the following directive at the beginning of your workflow script:
+
+~~~
+nextflow.enable.dsl=2
+~~~
+{: .language-groovy}
+
+Scripts that contain the directive `nextflow.preview.dsl=2` use an
+early version of the DSL2 syntax, which may include experimental
+features that have been changed or removed in the formal DSL2 syntax.
+Scripts without these directives use the first version of the
+Nextflow syntax which we refer to as DSL1. DSL1 workflows use many of the
+same concepts presented in this lesson, but some aspects such
+as the flow of data is written differently. DSL1 workflows
+are also written in a single script, unlike DSL2 workflows which
+can be spread across many files. This lesson will focus on the DSL2
+syntax, as it is the more up-to-date way of writing Nextflow workflows.
+
+### Workflows, Processes and Channels
 
 In practice a Nextflow pipeline is a script made by joining together different commands in process blocks. Each process can be written in any scripting language that can be executed by the Linux platform (Bash, Perl, Ruby, Python, etc.).
 
@@ -136,30 +161,6 @@ In practical terms the Nextflow scripting language is an extension of the [Groov
 
 The approach of having a simple DSL built on top of a more powerful general purpose programming language makes Nextflow very flexible. The Nextflow syntax can handle most workflow use cases with ease, and then Groovy can be used to handle corner cases which may be difficult to implement using the DSL.
 
-### DSL2
-
-Nextflow (version > 20.07.1) provides a revised syntax to the original DSL, known as DSL2. The DSL2 syntax introduces several improvements
-such as workflow modules, and improved data flow manipulation. This
-further simplifies the writing of complex data analysis pipelines,
-and enhances workflow readability, and reusability.
-
-To enable this feature you need the following directive at the beginning of your workflow script:
-
-~~~
-nextflow.enable.dsl=2
-~~~
-{: .language-groovy}
-
-Scripts that contain the directive `nextflow.preview.dsl=2` use an
-early version of the DSL2 syntax, which may include experimental
-features that have been changed or removed in the formal DSL2 syntax.
-Scripts without these directives use the first version of the
-Nextflow syntax which we refer to as DSL1. DSL1 workflows use the
-same concepts presented in this lesson, but some aspects such
-as the flow of data is written differently. DSL1 workflows
-are also written in a single script, unlike DSL2 workflows which
-can be spread across many files. This lesson will focus on the DSL2
-syntax, as it is the more up-to-date way of writing Nextflow workflows.
 
 ## Your first script
 
