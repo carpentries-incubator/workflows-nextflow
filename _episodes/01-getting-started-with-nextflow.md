@@ -65,7 +65,7 @@ from the last successfully executed steps.
 
 Nextflow is a workflow management system that combines a runtime environment, software that is designed to run other software, and a *programming domain specific language (DSL)* that eases the writing of computational pipelines.
 
-Nextflow is built around the idea that Linux is the lingua franca of data science. Nextflow follows Linux "small pieces loosely joined" philosophy : in which many simple but powerful command-line and scripting tools that, when chained together, facilitate more complex data manipulations.
+Nextflow is built around the idea that Linux is the lingua franca of data science. Nextflow follows Linux's "small pieces loosely joined" philosophy : in which many simple but powerful command-line and scripting tools that, when chained together, facilitate more complex data manipulations.
 
 Nextflow extends this approach, adding the ability to define complex program interactions and an accessible (high-level) parallel computational environment based on the [dataflow programming model](https://devopedia.org/dataflow-programming), whereby the processes are connected via their `outputs` and `inputs` to other `processes`, and processes run as soon as they receive an input.
 
