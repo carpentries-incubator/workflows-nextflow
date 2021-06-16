@@ -542,6 +542,20 @@ workflow {
 ~~~
 {: .language-groovy }
 
+~~~
+[..truncated..]
+3858 temp33_2_2.fq.gz
+
+3293 ref3_2.fq.gz
+
+5386 temp33_3_2.fq.gz
+
+5468 etoh60_2_1.fq.gz
+
+5371 etoh60_1_2.fq.gz
+~~~
+{: .output }
+
 The input name can also be defined as user specified filename inside quotes as in the example below where specific the name of the file as `'sample.fastq'`.
 
 ~~~
@@ -566,6 +580,20 @@ workflow {
 
 ~~~
 {: .language-groovy }
+
+
+~~~
+3858 sample.fastq.gz
+
+3293 sample.fastq.gz
+
+5371 sample.fastq.gz
+
+5468 sample.fastq.gz
+
+5386 sample.fastq.gz
+~~~
+{: .output }
 
 
 > ## File Objects as inputs
