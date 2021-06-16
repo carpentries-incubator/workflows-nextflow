@@ -7,25 +7,6 @@ This lesson also introduces [nf-core](https://nf-co.re/): a framework that provi
 
 This lesson motivates the use of Nextflow and nf-core as a development tool for building and sharing computational pipelines that facilitate reproducible (data) science workflows.
 
-## Maintainer(s)
-
-Current maintainers of this lesson are
-
-* Graeme R. Grimes
-* Mahesh Binzer-Panchal
-
-## Authors
-
-A list of contributors to the lesson can be found in [AUTHORS](AUTHORS)
-
-## Citation
-
-To cite this lesson, please consult with [CITATION](CITATION)
-
-
-
-
-
 ## Contributing
 
 We welcome all contributions to improve the lesson! Maintainers will do their best to help you if you have any
@@ -41,13 +22,12 @@ nicely explained in the chapter [Contributing to a Project](http://git-scm.com/b
 by Scott Chacon.
 Look for the tag ![good_first_issue](https://img.shields.io/badge/-good%20first%20issue-gold.svg). This indicates that the maintainers will welcome a pull request fixing this issue.
 
-
 ## Maintainer(s)
 
 Current maintainers of this lesson are
 
-* Graeme R, Grimes
-
+* Graeme R. Grimes
+* Mahesh Binzer-Panchal
 
 ## Authors
 
@@ -57,6 +37,8 @@ A list of contributors to the lesson can be found in [AUTHORS](AUTHORS)
 
 To cite this lesson, please consult with [CITATION](CITATION)
 
-[cdh]: https://cdh.carpentries.org
-[community-lessons]: https://carpentries.org/community-lessons
-[lesson-example]: https://carpentries.github.io/lesson-example
+## Useful Incubator links
+
+- [Carpentries Development Handbook](https://cdh.carpentries.org)
+- [community-lessons](https://carpentries.org/community-lessons)
+- [lesson-example](https://carpentries.github.io/lesson-example)
