@@ -42,7 +42,6 @@ Analysing data involves a sequence of tasks, including gathering, cleaning and p
 </center>
 <br>
 
-
 However, as workflows become larger and more complex, the management of the programming logic and software becomes difficult.
 
 ##  Workflow management systems
@@ -69,8 +68,6 @@ Nextflow is built around the idea that Linux is the lingua franca of data scienc
 Nextflow extends this approach, adding the ability to define complex program interactions and an accessible (high-level) parallel computational environment based on the [dataflow programming model](https://devopedia.org/dataflow-programming), whereby the processes are connected via their `outputs` and `inputs` to other `processes`, and processes run as soon as they receive an input.
 
 The diagram below illustrates the differences between a dataflow model and a simple linear program .
-
-
 
 <br>
 <center>
@@ -103,7 +100,7 @@ Processes create a task for each complete input set. Each task is executed indep
 
 Processes uses these channels to define inputs and outputs. The interaction between processes, and ultimately the pipeline execution flow itself, is implicitly defined by these input and output declarations.
 
-Here we have a channel containing three elements, e.g., 3 data files. We have a process that takes the channel as input. The fact that the channel has three elements would mean that three independent instances (tasks) of that process are being run in parallel. The tasks then generate three outputs, that are used as input for another process.
+In the following example we have a channel containing three elements, e.g., 3 data files. We have a process that takes the channel as input. The fact that the channel has three elements would mean that three independent instances (tasks) of that process are being run in parallel. The tasks then generate three outputs, that are used as input for another process.
 
 <p align="center">
    <img alt="Processes and channels" src="../fig/channel-process_fqc.png" width="500">
