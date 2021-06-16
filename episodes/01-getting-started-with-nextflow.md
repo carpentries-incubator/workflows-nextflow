@@ -142,7 +142,10 @@ The approach of having a simple DSL built on top of a more powerful general purp
 
 ### DSL2
 
-Nextflow (version > 20.07.1) provides a revised syntax to the original DSL, known as DSL2. The DSL2 syntax allows the definition of workflow modules and further simplifies the writing of complex data analysis pipelines.
+Nextflow (version > 20.07.1) provides a revised syntax to the original DSL, known as DSL2. The DSL2 syntax introduces several improvements
+such as workflow modules, and improved data flow manipulation. This
+further simplifies the writing of complex data analysis pipelines,
+and enhances workflow readability, and reusability.
 
 To enable this feature you need the following directive at the beginning of your workflow script:
 
@@ -150,6 +153,17 @@ To enable this feature you need the following directive at the beginning of your
 nextflow.enable.dsl=2
 ~~~
 {: .language-groovy}
+
+Scripts that contain the directive `nextflow.preview.dsl=2` use an
+early version of the DSL2 syntax, which may include experimental
+features that have been changed or removed in the formal DSL2 syntax.
+Scripts without these directives use the first version of the
+Nextflow syntax which we refer to as DSL1. DSL1 workflows use the
+same concepts presented in this lesson, but some aspects such
+as the flow of data is written differently. DSL1 workflows
+are also written in a single script, unlike DSL2 workflows which
+can be spread across many files. This lesson will focus on the DSL2
+syntax, as it is the more up-to-date way of writing Nextflow workflows.
 
 ## Your first script
 
@@ -159,32 +173,59 @@ Open the file `wc.nf` in the script directory with your favourite text editor.
 
 This is a Nextflow script. It contains;
 
-1. An optional Shebang line, specifying the location of the Nextflow interpreter
+1. An optional interpreter directive ("Shebang") line, specifying the location of the Nextflow interpreter.
 1. `nextflow.enable.dsl=2` to enable DSL2 syntax.
-1. A multi-line Nextflow comment, written using C style block comments.
-1. A Nextflow process block named `numLines`.
-1. An input definition block that assign a file to variable `read`.
-1. A script block that contains the bash commands `sleep` and `wc -l`
-1. An output definition block that uses the Linux/Unix standard output stream `stdout` from the script block.
-1. A pipeline parameter `params.samples` which contains the relative path to the location of a fastq file.
-1. A Nextflow queue channel, assigned to `samples_ch`,created using the variable `params.samples` as input.
-1. A workflow execution block that passes the `samples_ch` channel to the numLines process.
-1. Finally the script writes the content of the `numLines` output channel to the terminal using the `view` operator.
+1. A multi-line Nextflow comment, written using C style block comments,
+followed by a single line comment.
+1. A pipeline parameter `params.input` which is given a default value, of the relative path to the location of a compressed fastq file, as a string.
+1. An unnamed `workflow` execution block, which is the default workflow to run.
+1. A Nextflow channel used to read in data to the workflow.
+1. A call to the process `NUM_LINES`.
+1. An operation on the process output, using the channel operator `view()`.
+1. A Nextflow `process` block named `NUM_LINES`, which defines what the process does.
+1. An `input` definition block that assigns the input to the variable `read`, and declares that it should be interpreted as a file `path`.
+1. An `output` definition block that uses the Linux/Unix standard output stream `stdout` from the script block.
+1. A `script` block that contains the bash commands `sleep` and `wc -l`
 
 ~~~
 #!/usr/bin/env nextflow
 
 nextflow.enable.dsl=2
 
-/*
-*  Comment that starts with a slash asterisk /* and finishes with an asterisk slash  and you can place it anywhere in your code, on the same line or several lines.
-*/
+/*  Comments are uninterpreted text included with the script.
+    They are useful for describing complex parts of the workflow
+    or providing useful information such as workflow usage.
 
+    Usage:
+       nextflow run wc.nf --input <input_file>
 
-/*
-* Nextflow process block
-*/
-process numLines {
+    Multi-line comments start with a slash asterisk /* and finish with an asterisk slash. */
+//  Single line comments start with a double slash // and finish on the same line
+
+/*  Workflow parameters are written as params.<parameter>
+    and can be initialised using the `=` operator. */
+params.input = "data/yeast/reads/ref1_1.fq.gz"
+
+//  The default workflow
+workflow {
+
+    //  Input data is received through channels
+    input_ch = Channel.fromPath(params.input)
+
+    /*  The script to execute is called by it's process name,
+        and input is provided between brackets. */
+    NUM_LINES(input_ch)
+
+    /*  Process output is accessed using the `out` channel.
+        The channel operator view() is used to print
+        process output to the terminal. */
+    NUM_LINES.out.view()
+}
+
+/*  A Nextflow process block
+    Process names are written, by convention, in uppercase.
+    This convention is used to enhance workflow readability. */
+process NUM_LINES {
 
     input:
     path read
@@ -198,35 +239,10 @@ process numLines {
     wc -l ${read}
     """
 }
-
-/*
- * pipeline input parameters
- */
-params.samples  = "data/yeast/reads/ref1_1.fq.gz"
-
-/*
-* Sample input channel
-*/
-samples_ch = Channel.fromPath(params.samples)
-
-
-
-workflow {
-
-    /*
-    * pass samples_ch to numLines process
-    * capture numLines output to num_out channel.
-    */  
-    num_out=numLines(samples_ch)
-
-    // Nextflow view operator for showing contents of a channel
-    num_out.view()
-}
-
 ~~~~
 {: .language-groovy}
 
-To run a Nextflow script use the command `nextflow run <script_name>`
+To run a Nextflow script use the command `nextflow run <script_name>`.
 
 > ## Run a Nextflow  script
 > Run the script by entering the following command in your terminal:
