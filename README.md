@@ -1,7 +1,7 @@
 
 This lesson is an introduction to the workflow manager Nextflow, and nf-core, a community effort to collect a curated set of analysis pipelines built using Nextflow.
 
-[Nextflow](https://www.nextflow.io/) enables scalable and reproducible scientific workflows using software containers such as Docker and Singularity. It allows the adaptation of pipelines written in the most common scripting languages suach as such as R and Python. Nextflow has a  Domain Specific Language (DSL) that simplifies the implementation and the deployment of complex parallel and reactive workflows on clouds and clusters.
+[Nextflow](https://www.nextflow.io/) enables scalable and reproducible scientific workflows using software containers such as Docker and Singularity. It allows the adaptation of pipelines written in the most common scripting languages such as R and Python. Nextflow is a Domain Specific Language (DSL) that simplifies the implementation and the deployment of complex parallel and reactive workflows on clouds and clusters.
 
 This lesson will also introduce [nf-core](https://nf-co.re/): a framework that provides a community-driven, peer reviewed platform for the development of best practice analysis pipelines written in Nextflow.
 
