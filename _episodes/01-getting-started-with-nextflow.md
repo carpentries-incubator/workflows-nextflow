@@ -252,23 +252,24 @@ To run a Nextflow script use the command `nextflow run <script_name>`.
 > ~~~
 > {: .language-bash}
 > > ## Solution
-> > It will output something similar to the text shown below:
+> > You should see output similar to the text shown below:
 > >
 > > ~~~
 > > N E X T F L O W  ~  version 20.10.0
 > > Launching `wc.nf` [fervent_babbage] - revision: c54a707593
 > > executor >  local (1)
-> > [21/b259be] process > numLines (1) [100%] 1 of 1 ✔
+> > [21/b259be] process > NUM_LINES (1) [100%] 1 of 1 ✔
 > >   3628 ref1_1.fq.gz
-> >  ~~~
+> > ~~~
+> > {: .output}
+> >
+> > 1. The first line shows the Nextflow version number.
+> > 1. The second line shows the run name `fervent_babbage` (adjective and scientist name) and revision id `c54a707593`.
+> > 1. The third line tells you the process has been executed locally (`executor >  local`).
+> > 1. The next line shows the process id `21/b259be`, process name, number of cpus, percentage task completion, and how many instances of the process have been run.
+> > 1. The final line is the output of the `view` operator.
 > {: .solution}
 {: .challenge}
-
-1. The first line shows the run name `fervent_babbage` (adjective and scientist name) and revision id `c54a707593`.
-1. The second line tells you how the process has been executed `executor >  local`.
-1. The third line shows the process id `21/b259be`, name, number of cpus, percentage task completion and how many it times it has been run.
-1. The final line is the result of the view operator.
-
 
 ## Pipeline parameters
 
