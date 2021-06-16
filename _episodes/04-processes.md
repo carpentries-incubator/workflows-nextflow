@@ -606,6 +606,7 @@ workflow {
 > [FastQC](https://www.bioinformatics.babraham.ac.uk/projects/fastqc/) is a quality control tool for high throughput sequence data.
 > ~~~
 > nextflow.enable.dsl=2
+>
 > process fastqc {
 >    //add input channel
 >    
@@ -618,7 +619,7 @@ workflow {
 > reads_ch = Channel.fromPath( 'data/yeast/reads/*_1.fq.gz' )
 >
 > workflow {
-> fastqc(reads_ch)
+>   fastqc(reads_ch)
 > }
 > ~~~
 > {: .language-groovy }
@@ -642,7 +643,7 @@ workflow {
 > > reads_ch = Channel.fromPath( 'data/yeast/reads/*_1.fq.gz' )
 > >
 > > workflow {
-> > fastqc(reads_ch)
+> >   fastqc(reads_ch)
 > > }
 > > ~~~
 > > {: .language-groovy }
@@ -849,28 +850,54 @@ The process will run eight times.
 {: .output}
 
 > ## Input repeaters
-> Extend the previous  Exercise by adding more values in the `kmer` queue channel
+>  ~~~
+>  nextflow.enable.dsl=2
+>  process combine {
+>   input:
+>   path transcriptome
+>   val kmer
+>   script:
+>    """
+>    salmon index -t $transcriptome -i index -k $kmer
+>    """
+>  }
+>
+>  transcriptome_ch = channel.fromPath('data/yeast/transcriptome/Saccharomyces_cerevisiae.R64-1-1.cdna.all.fa.gz',checkIfExists: true)
+>  kmer_ch = channel.of(21)
+>
+>  workflow {
+>    combine(transcriptome_ch,kmer_ch)
+>  }
+>  ~~~
+>  {: .language-groovy }
+> Extend the previous  exercise, script above, by adding more values to the `kmer` queue channel
 > ~~~  
-> kmer_ch = channel.of(21,26,36)
+> kmer_ch = channel.of(21,27,31)
 > ~~~
 > {: .language-groovy }
 >
-> and changing the `kmer` input qualifer from `val` to `each`.
+> and changing the `transcriptome` input qualifer from `path` to `each`.
 > How many times does this process run ?
 >
 > > ## Solution
 > > ~~~
 > > nextflow.enable.dsl=2
-> > transcriptome_ch = channel.fromPath('data/yeast/transcriptome/Saccharomyces_cerevisiae.R64-1-1.cdna.all.fa.gz',checkIfExists: true)
-> > kmer_ch = channel.of(21,26,36)
+> >
 > > process combine {
 > >  input:
-> >  path transcriptome from transcriptome_ch
-> >  each kmer from kmer_ch
+> >  each transcriptome from transcriptome_ch
+> >  path kmer from kmer_ch
 > >  script:
 > >   """
 > >   echo salmon index -t $transcriptome -i index -k $kmer
 > >   """
+> > }
+> >
+> > transcriptome_ch = channel.fromPath('data/yeast/transcriptome/Saccharomyces_cerevisiae.R64-1-1.cdna.all.fa.gz',checkIfExists: true)
+> > kmer_ch = channel.of(21,27,31)
+> >
+> >  workflow {
+> >   combine(transcriptome_ch,kmer_ch)
 > > }
 > > ~~~
 > > {: .language-groovy }
