@@ -94,7 +94,7 @@ In a simple program **(a)**, these statements would be executed sequentially. Th
 
 1. Simple parallelism:  Nextflow is based on the dataflow programming model which greatly simplifies the splitting of tasks that can be run at the same time (parallelisation).
 
-1. Continuous checkpoints: All the intermediate results produced during the pipeline execution are automatically tracked. This allows you to resume its execution, from the last successfully executed step, no matter what the reason was for it stopping.
+1. Continuous checkpoints: All the intermediate results produced during the pipeline execution are automatically tracked. This allows you to resume its execution from the last successfully executed step, no matter what the reason was for it stopping.
 
 ### Processes and Channels
 
