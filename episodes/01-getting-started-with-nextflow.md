@@ -167,7 +167,7 @@ syntax, as it is the more up-to-date way of writing Nextflow workflows.
 
 ## Your first script
 
-We are now going to look at a simple Nextflow script that counts the number of lines in a file.
+We are now going to look at a sample Nextflow script that counts the number of lines in a file.
 
 Open the file `wc.nf` in the script directory with your favourite text editor.
 
