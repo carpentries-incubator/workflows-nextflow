@@ -92,14 +92,36 @@ In a simple program **(a)**, these statements would be executed sequentially. Th
 
 1. Continuous checkpoints: All the intermediate results produced during the pipeline execution are automatically tracked. This allows you to resume its execution from the last successfully executed step, no matter what the reason was for it stopping.
 
+### Scripting language
+
+Nextflow scripts are written using a scripting language that simplifies
+the writing of workflows. Languages that are written for a specific field
+are called Domain Specific Languages (DSL), e.g., SQL is used to work with
+databases, and AWK is designed for text processing.
+
+In practical terms the Nextflow scripting language is an extension of the
+[Groovy programming language](https://groovy-lang.org/), which in turn is
+a super-set of the Java programming language. Groovy simplifies the
+writing of code and is more approachable than Java. Groovy semantics
+(syntax, control structures, etc) are documented [here](https://groovy-lang.org/semantics.html).
+
+The approach of having a simple DSL built on top of a more powerful
+general purpose programming language makes Nextflow very flexible. The
+Nextflow syntax can handle most workflow use cases with ease, and then
+Groovy can be used to handle corner cases which may be difficult to
+implement using the DSL.
+
 ### DSL2 syntax
 
-Nextflow (version > 20.07.1) provides a revised syntax to the original DSL, known as DSL2. The DSL2 syntax introduces several improvements
-such as modularity (separating components to provide flexibility and enable reuse), and improved data flow manipulation. This
+Nextflow (version > 20.07.1) provides a revised syntax to the original
+DSL, known as DSL2. The DSL2 syntax introduces several improvements
+such as modularity (separating components to provide flexibility and
+enable reuse), and improved data flow manipulation. This
 further simplifies the writing of complex data analysis pipelines,
 and enhances workflow readability, and reusability.
 
-To enable this feature you need the following directive at the beginning of your workflow script:
+This feature is enabled by the following directive at the beginning
+a workflow script:
 
 ~~~
 nextflow.enable.dsl=2
@@ -112,15 +134,15 @@ features that have been changed or removed in the formal DSL2 syntax.
 Scripts without these directives use the first version of the
 Nextflow syntax which we refer to as DSL1. DSL1 workflows use many of the
 same concepts presented in this lesson, but some aspects such
-as the flow of data is written differently. DSL1 workflows
+as the flow of data are written differently. DSL1 workflows
 are also written in a single script, unlike DSL2 workflows which
 can be spread across many files. This lesson will focus on the DSL2
 syntax, as it is the more up-to-date way of writing Nextflow workflows.
 
 ### Processes, Channels, and Workflows
 
-Nextflow workflows have three main parts; `process`es, `channel`s, and
-`workflow`s. Processes describe a task to be run. A process
+Nextflow workflows have three main parts; processes, channels, and
+workflows. Processes describe a task to be run. A process
 script can be written in any scripting language that can be
 executed by the Linux platform (Bash, Perl, Ruby, Python, etc.).
 Processes spawn a task for each complete input set. Each task is
@@ -132,7 +154,7 @@ Processes define inputs and outputs for a task. Channels are
 then used to manipulate the flow of data from one process
 to the next. The interaction between processes, and ultimately
 the pipeline execution flow itself, is then explicitly defined
-in a workflow block.
+in a workflow section.
 
 In the following example we have a channel containing three elements,
 e.g., 3 data files. We have a process that takes the channel as input.
@@ -150,7 +172,10 @@ is passed to another channel, which is used as input for the next process.
 
 While a `process` defines what command or script has to be executed, the `executor` determines how that script is actually run in the target system.
 
-If not otherwise specified, processes are executed on the local computer. The local executor is very useful for pipeline development and testing purposes, but for real world computational pipelines a High Performance Cluster (HPC) or Cloud platform is often required.
+If not otherwise specified, processes are executed on the local computer.
+The local executor is very useful for pipeline development, testing, and
+small scale workflows, but for large scale computational pipelines, a High
+Performance Cluster (HPC) or Cloud platform is often required.
 
 <p align="center">
    <img alt="Processes and channels" src="../fig/executor.png" width="250">
@@ -158,21 +183,14 @@ If not otherwise specified, processes are executed on the local computer. The lo
    <em>Nextflow Executors</em>
 </p>
 
-
-In this way Nextflow provides a separation between the pipeline’s functional logic and the underlying execution platform. This makes it possible to write a pipeline once, and then run it on your computer, compute cluster, or the cloud, without modifying the workflow, by simply defining the target execution platform in the configuration file.
+Nextflow provides a separation between the pipeline’s functional logic and
+the underlying execution platform. This makes it possible to write a
+pipeline once, and then run it on your computer, compute cluster, or the
+cloud, without modifying the workflow, by defining the target
+execution platform in a configuration file.
 
 Nextflow provides out-of-the-box support for major batch schedulers and cloud platforms such as
 Sun Grid Engine, SLURM job scheduler, AWS Batch service and Kubernetes. A full list can be found [here](https://www.nextflow.io/docs/latest/executor.html).
-
-### Scripting language
-
-Nextflow scripts are written using a scripting language that simplifies the writing of workflows. Languages that are written for a specific field are called Domain Specific Languages (DSL), e.g., SQL is used to work with databases, and AWK is designed for text processing.
-
-In practical terms the Nextflow scripting language is an extension of the [Groovy programming language](https://groovy-lang.org/), which in turn is a super-set of the Java programming language. Groovy simplifies the writing of code and is more approachable than Java. Groovy semantics
-(syntax, control structures, etc) are documented [here](https://groovy-lang.org/semantics.html).
-
-The approach of having a simple DSL built on top of a more powerful general purpose programming language makes Nextflow very flexible. The Nextflow syntax can handle most workflow use cases with ease, and then Groovy can be used to handle corner cases which may be difficult to implement using the DSL.
-
 
 ## Your first script
 
