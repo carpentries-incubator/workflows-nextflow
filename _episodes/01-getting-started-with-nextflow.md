@@ -144,7 +144,7 @@ The approach of having a simple DSL built on top of a more powerful general purp
 
 ### DSL2
 
-Nextflow (version > 20.07.1) provides a syntax extension to the original DSL DSL2. DSL2 allows the definition of workflow modules and further simplifies the writing of complex data analysis pipelines.
+Nextflow (version > 20.07.1) provides a syntax extension to the original DSL, DSL2. DSL2 allows the definition of workflow modules and further simplifies the writing of complex data analysis pipelines.
 
 To enable this feature you need to defined the following directive at the beginning of your workflow script:
 
