@@ -5,13 +5,13 @@ exercises: 5
 questions:
 - "How do I get information about my pipeline run?"
 - "How can I see what commands I ran?"
-- "How can I create a HTML report from my run?"
+- "How can I create a report from my run?"
 objectives:
 - "View Nextflow pipeline run logs."
 - "Create a HTML report from a pipeline run."
 keypoints:
 - "Nextflow can produce a custom execution report with run information using the `log` command."
-- "You can generate a HTML report using the `-t` option and an HTML template file."
+- "You can generate a report using the `-t` option specifying a template file."
 ---
 
 
