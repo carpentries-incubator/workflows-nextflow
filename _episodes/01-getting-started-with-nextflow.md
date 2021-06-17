@@ -120,8 +120,8 @@ enable reuse), and improved data flow manipulation. This
 further simplifies the writing of complex data analysis pipelines,
 and enhances workflow readability, and reusability.
 
-This feature is enabled by the following directive at the beginning
-a workflow script:
+This feature is enabled by the following directive
+at the beginning a workflow script:
 
 ~~~
 nextflow.enable.dsl=2
@@ -137,7 +137,8 @@ same concepts presented in this lesson, but some aspects such
 as the flow of data are written differently. DSL1 workflows
 are also written in a single script, unlike DSL2 workflows which
 can be spread across many files. This lesson will focus on the DSL2
-syntax, as it is the more up-to-date way of writing Nextflow workflows.
+syntax as, after the DSL1 to DSL2 transition period is over, it will
+become the default way of writing Nextflow workflows.
 
 ### Processes, Channels, and Workflows
 
