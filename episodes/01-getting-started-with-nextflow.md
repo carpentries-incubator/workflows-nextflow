@@ -263,7 +263,7 @@ process NUM_LINES {
     script:
     """
     sleep 5
-    wc -l ${read}
+    zcat ${read} | wc -l
     """
 }
 ~~~~
