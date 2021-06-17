@@ -64,9 +64,9 @@ The first thing we want to do when writing a pipeline is define the pipeline par
 The script `script1.nf` defines the pipeline input parameters.
 
 ~~~
-params.reads = "$baseDir/data/yeast/reads/*_{1,2}.fq.gz"
-params.transcriptome = "$baseDir/data/yeast/transcriptome/*.fa.gz"
-params.multiqc = "$baseDir/multiqc"
+params.reads = "$/data/yeast/reads/*_{1,2}.fq.gz"
+params.transcriptome = "$projectDir/data/yeast/transcriptome/*.fa.gz"
+params.multiqc = "$projectDir/multiqc"
 
 println "reads: $params.reads"
 ~~~~
@@ -85,6 +85,11 @@ Try to specify a different input parameter, for example:
 $ nextflow run script1.nf --reads "data/yeast/reads/ref1*_{1,2}.fq.gz"
 ~~~
 {: .language-groovy }
+
+~~~
+reads: data/yeast/reads/ref1*_{1,2}.fq.gz
+~~~
+{: .output }
 
 > ## Add parameter
 > Modify the `script1.nf` adding a fourth parameter named `outdir` and set it to a default path that will be used as the pipeline output directory.
@@ -154,12 +159,14 @@ A process is defined by providing three main declarations: the process [inputs](
 The second example adds the  process `index` which generate a index of the transcriptome.
 
 ~~~
+nextflow.enable.dsl=2
+
 /*
  * pipeline input parameters
  */
-params.reads = "$baseDir/data/yeast/reads/*_{1,2}.fq.gz"
-params.transcriptome = "$baseDir/data/yeast/reads/*.fa.gz"
-params.multiqc = "$baseDir/multiqc"
+params.reads = "$projectDir/data/yeast/reads/*_{1,2}.fq.gz"
+params.transcriptome = "$projectDir/data/yeast/reads/*.fa.gz"
+params.multiqc = "$projectDir/multiqc"
 params.outdir = "results"
 
 println """\
@@ -179,15 +186,21 @@ println """\
 process index {
 
     input:
-    path transcriptome from params.transcriptome
+    path transcriptome
 
     output:
-    path 'index' into index_ch
+    path 'index'
 
     script:
     """
     salmon index --threads $task.cpus -t $transcriptome -i index
     """
+}
+
+transcriptome_ch = channel.fromPath(params.transcriptome)
+
+workflow {
+  index(transcriptome_ch)
 }
 ~~~
 {: .language-groovy }
@@ -251,7 +264,7 @@ profiles {
 > Use the command `tree work` to see how Nextflow organises the process work directory.
 > > ## Solution
 > > ~~~
-> > tree work
+> > $ tree work
 > > ~~~
 > > {: .language-bash}
 > {: .solution}
@@ -350,11 +363,11 @@ The script `script4.nf` adds the quantification process.
 process quantification {
 
     input:
-    path index from index_ch
-    tuple val(pair_id), path(reads) from read_pairs_ch
+    path index
+    tuple val(pair_id), path(reads)
 
     output:
-    path(pair_id) into quant_ch
+    path(pair_id)
 
     script:
     """
@@ -390,8 +403,8 @@ You will notice that the quantification process is executed more than one time.
 
 Nextflow parallelizes the execution of your pipeline simply by providing multiple input data to your script.
 
-> # Add a tag directive
-> Add a `tag` directive to the quantification process to provide a more readable execution log.
+> ## Add a tag directive
+> Add a `tag` directive to the quantification process of `script4.nf` to provide a more readable execution log.
 > > ## Solution
 > > ~~~
 > > tag "quantification on $pair_id"
@@ -400,15 +413,16 @@ Nextflow parallelizes the execution of your pipeline simply by providing multipl
 > {: .solution}
 {: .challenge}
 
-> # Add a publishDir directive
-Add a `publishDir` directive to the quantification process to store the process results into a directory of your choice.
+> ## Add a publishDir directive
+Add a `publishDir` directive to the quantification process of `script4.nf` to store the process results into a directory of your choice.
 > > ## Solution
 > > ~~~
-> > publishDir params.outdir, mode:'copy'
+> > publishDir "${params.outdir}/quant", mode:'copy'
 > > ~~~
 > > {: .language-groovy }
 > {: .solution}
 {: .challenge}
+
 
 ### Recap
 In this step you have learned:
@@ -425,6 +439,29 @@ In this step you have learned:
 
 This step implements a quality control of your input reads. The inputs are the same read pairs which are provided to the quantification steps
 
+~~~
+/*
+ * Run fastQC to check quality of reads files
+ */
+process fastqc {
+    tag "FASTQC on $sample_id"
+    cpus 1
+
+    input:
+    tuple val(sample_id), path(reads)
+
+    output:
+    path("fastqc_${sample_id}_logs")
+
+    script:
+    """
+    mkdir fastqc_${sample_id}_logs
+    fastqc -o fastqc_${sample_id}_logs -f fastq -q ${reads} -t ${task.cpus}
+    """
+}
+~~~
+{: .language-groovy}
+
 You can run it by using the following command:
 
 ~~~
@@ -439,8 +476,8 @@ Channel `read_pairs_ch` has been used twice as an input by process `fastqc` and 
 ~~~
 {: .output}
 
-> into
-> Modify the creation of the read_pairs_ch channel by using a [into](https://www.nextflow.io/docs/latest/operator.html#into) operator in place of a set.
+> ## into fixme
+> Modify the creation of the read_pairs_ch channel by using set.
 > > ## Solution
 > > ~~~
 > > Channel
@@ -451,7 +488,6 @@ Channel `read_pairs_ch` has been used twice as an input by process `fastqc` and 
 > {: .solution}
 {: .challenge}
 
-See an example [here](https://github.com/nextflow-io/rnaseq-nf/blob/3b5b49f/main.nf#L58).
 
 ### Recap
 
@@ -463,13 +499,16 @@ In this step you have learned:
 
 This step collect the outputs from the quantification and fastqc steps to create a final report by using the [MultiQC](https://multiqc.info/) tool.
 
+The input for the `multiqc` process requires the mixing `mix` and collection `collection` of
+fastqc and quant output.
+
 ~~~
 /*
  * Create a report using multiQC for the quantification
  * and fastqc processes
  */
 process multiqc {
-    publishDir params.outdir, mode:'copy'
+    publishDir "${params.outdir}/multiqc", mode:'copy'
 
     input:
     path('*') from quant_ch.mix(fastqc_ch).collect()
@@ -515,7 +554,7 @@ The script uses the `workflow.onComplete` event handler to print a confirmation 
 
 ~~~
 workflow.onComplete {
-	log.info ( workflow.success ? "\nDone! Open the following report in your browser --> $params.outdir/multiqc_report.html\n" : "Oops .. something went wrong" )
+	log.info ( workflow.success ? "\nDone! Open the following report in your browser --> $params.outdir/multiqc/multiqc_report.html\n" : "Oops .. something went wrong" )
 }
 ~~~
 {: .language-groovy}
@@ -536,25 +575,39 @@ $ nextflow run script7.nf -resume --reads 'data/yeast/reads/*_{1,2}.fq.gz'
 ~~~
 {: .language-bash}
 
+~~~
+Done! Open the following report in your browser --> results/multiqc/multiqc_report.html
+~~~
+{: .output}
 
 ## Metrics and reports
 
 Nextflow is able to produce multiple reports and charts providing several runtime metrics and execution information.
 
-Run the rnaseq-nf pipeline previously introduced as shown below:
+* The `-with-report` option enables the creation of the workflow execution report.
 
-~~~
-$ nextflow run rnaseq-nf -with-report -with-trace -with-timeline -with-dag dag.png
-~~~
-{: .language-bash}
-
-* The `-with-report` option enables the creation of the workflow execution report. Open the file report.html with a browser to see the report created with the above command.
-
-* The `-with-trace` option enables the create of a tab separated file containing runtime information for each executed task. Check the content of the file `trace.txt` for an example.
+* The `-with-trace` option enables the create of a tab separated file containing runtime information for each executed task.
 
 * The `-with-timeline` option enables the creation of the workflow timeline report showing how processes where executed along time. This may be useful to identify most time consuming tasks and bottlenecks. See an example at this [link](https://www.nextflow.io/docs/latest/tracing.html#timeline-report).
 
-Finally the `-with-dag` option enables to rendering of the workflow execution direct acyclic graph representation. Note: this feature requires the installation of [Graphviz](http://www.graphviz.org/) in your computer. See [here](https://www.nextflow.io/docs/latest/tracing.html#dag-visualisation) for details.
+* The `-with-dag` option enables to rendering of the workflow execution direct acyclic graph representation.
+**Note:** this feature requires the installation of [Graphviz](https://graphviz.org/), an open source graph visualization software,  in your system.
+
+> ##  Metrics and reports
+> Run the script7.nf RNA-seq pipeline as shown below:
+>
+> ~~~
+> $ nextflow run script7.nf -resume -with-report -with-trace -with-timeline -with-dag dag.png
+> ~~~
+> {: .language-bash}
+> 1. Open the file `report.html` with a browser to see the report created with the above command.
+> 1. Check the content of the file `trace.txt` for an example.
+>
+> > ## Solution
+> > dag.png
+> > ![dag](../fig/dag.png)
+> {: .solution}
+{: .challenge}
 
 > ## short running tasks
 > Note: runtime metrics may be incomplete for run short running tasks..

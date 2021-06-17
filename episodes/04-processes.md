@@ -52,10 +52,17 @@ process salmon_index {
 }
 
 workflow {
+  //process is called like a function in the workflow block
   salmon_index()
 }
 ~~~
 {: .language-groovy }
+
+> ## DSL2
+> As we are using DSL2 `nextflow.enable.dsl=2` we need to define a
+`workflow` block to run the process.
+{: .callout }
+
 
 This example build a salmon index for the yeast transcriptome. This process would run once.
 We use the special Nextflow variable `${projectDir}` to specify the directory where the main script is located. This is important as Nextflow scripts are executed in a separate working directory.
@@ -606,6 +613,7 @@ workflow {
 > [FastQC](https://www.bioinformatics.babraham.ac.uk/projects/fastqc/) is a quality control tool for high throughput sequence data.
 > ~~~
 > nextflow.enable.dsl=2
+>
 > process fastqc {
 >    //add input channel
 >    
@@ -618,7 +626,7 @@ workflow {
 > reads_ch = Channel.fromPath( 'data/yeast/reads/*_1.fq.gz' )
 >
 > workflow {
-> fastqc(reads_ch)
+>   fastqc(reads_ch)
 > }
 > ~~~
 > {: .language-groovy }
@@ -642,7 +650,7 @@ workflow {
 > > reads_ch = Channel.fromPath( 'data/yeast/reads/*_1.fq.gz' )
 > >
 > > workflow {
-> > fastqc(reads_ch)
+> >   fastqc(reads_ch)
 > > }
 > > ~~~
 > > {: .language-groovy }
@@ -849,28 +857,54 @@ The process will run eight times.
 {: .output}
 
 > ## Input repeaters
-> Extend the previous  Exercise by adding more values in the `kmer` queue channel
+>  ~~~
+>  nextflow.enable.dsl=2
+>  process combine {
+>   input:
+>   path transcriptome
+>   val kmer
+>   script:
+>    """
+>    salmon index -t $transcriptome -i index -k $kmer
+>    """
+>  }
+>
+>  transcriptome_ch = channel.fromPath('data/yeast/transcriptome/Saccharomyces_cerevisiae.R64-1-1.cdna.all.fa.gz',checkIfExists: true)
+>  kmer_ch = channel.of(21)
+>
+>  workflow {
+>    combine(transcriptome_ch,kmer_ch)
+>  }
+>  ~~~
+>  {: .language-groovy }
+> Extend the previous  exercise, script above, by adding more values to the `kmer` queue channel
 > ~~~  
-> kmer_ch = channel.of(21,26,36)
+> kmer_ch = channel.of(21,27,31)
 > ~~~
 > {: .language-groovy }
 >
-> and changing the `kmer` input qualifer from `val` to `each`.
+> and changing the `transcriptome` input qualifer from `path` to `each`.
 > How many times does this process run ?
 >
 > > ## Solution
 > > ~~~
 > > nextflow.enable.dsl=2
-> > transcriptome_ch = channel.fromPath('data/yeast/transcriptome/Saccharomyces_cerevisiae.R64-1-1.cdna.all.fa.gz',checkIfExists: true)
-> > kmer_ch = channel.of(21,26,36)
+> >
 > > process combine {
 > >  input:
-> >  path transcriptome from transcriptome_ch
-> >  each kmer from kmer_ch
+> >  each transcriptome from transcriptome_ch
+> >  path kmer from kmer_ch
 > >  script:
 > >   """
 > >   echo salmon index -t $transcriptome -i index -k $kmer
 > >   """
+> > }
+> >
+> > transcriptome_ch = channel.fromPath('data/yeast/transcriptome/Saccharomyces_cerevisiae.R64-1-1.cdna.all.fa.gz',checkIfExists: true)
+> > kmer_ch = channel.of(21,27,31)
+> >
+> >  workflow {
+> >   combine(transcriptome_ch,kmer_ch)
 > > }
 > > ~~~
 > > {: .language-groovy }
@@ -880,9 +914,9 @@ The process will run eight times.
 
 ## Outputs
 
-We have seen how to input data into a process now we will see how to output file and values from a process.
+We have seen how to input data into a process now we will see how to output files and values from a process.
 
-The `output` declaration block allows us to define the channels used by the process to send out the file and values produced.
+The `output` declaration block allows us to define the channels used by the process to send out the files and values produced.
 
 An output block is not required, but if it is present it can contain one or more outputs declarations. The output block follows the syntax shown below:
 
@@ -900,7 +934,7 @@ output:
 The type of output data is defined using output qualifiers.
 
 The `val` qualifier allows us to output a value defined in the script.
-Because Nextflow processes can only communicate through channels if we want to share a value input into one process as input to another process we would  need to define that value in the output declaration block as shown in the following example:
+Because Nextflow processes can only communicate through channels if we want to share a value input into one process as input to another process we would need to define that value in the output declaration block as shown in the following example:
 
 
 ~~~
@@ -922,12 +956,19 @@ process method_type {
 methods_ch = channel.of('salmon','kallisto')
 
 workflow {
-  method_type(methods_ch)
+  method_out=method_type(methods_ch)
   // use the view operator to display contents of the channel
-  out_ch.view({ "Received: $it" })
+  method_out.view({ "Received: $it" })
 }
 ~~~
 {: .language-groovy }
+
+~~~
+Received: kallisto
+
+Received: salmon
+~~~
+{: .output }
 
 ### Output files
 
@@ -951,24 +992,64 @@ process method_type {
   """
 }
 workflow {
-  method_type(methods_ch)
+  method_out=method_type(methods_ch)
   // use the view operator to display contents of the channel
-  out_ch.view({ "Received: $it" })
+  method_out.view({ "Received: $it" })
 }
 ~~~
 {: .language-groovy }
 
-In the above example the process `method_type` creates a file named `method.txt` containing the method name.
+~~~
+Received: work/85/96f0f4d9e80239d7a2f552391e9379/method.txt
 
-Since a file parameter using the same name, `method.txt`, is declared in the output block , when the task is completed that file is sent over the `out_ch` channel. A downstream `operator` or `process` declaring the same channel as input will be able to receive it.
+Received: /work/5a/3c82d48b00cc8c0cd2b06a65ed4dc8/method.txt
+~~~
+{: .output }
+
+In the above example the process `method_type` creates a file named `method.txt` in the work directory containing the method name.
+
+Since a file parameter using the same name, `method.txt`, is declared in the output block , when the task is completed that file is sent over the output channel. A downstream `operator` or `process` declaring the same channel as input will be able to receive it.
 
 ### Multiple output files
 
 When an output file name contains a `*` or `?` character it is interpreted as a pattern match.
 This allows to capture multiple files into a list and output them as a one item channel.
 
-For example here we will capture the file `sample.bam.bai` in the output channel. Note that `sample.bam` is not captured in the output channel as input files are not included in the list of possible matches
+For example, here we will capture the files `fastqc.html` and directory `fastqc.zip` produced as results from FastQC in the output channel.
 
+~~~
+nextflow.enable.dsl=2
+
+process fastqc {
+    input:
+    path read
+
+    output:
+    path "fqc_res/$read*"
+
+    script:
+    """
+    mkdir fqc_res
+    fastqc $read -o fqc_res
+    """
+}
+
+read_ch = channel.fromPath("data/yeast/reads/ref1*.fq.gz")
+
+workflow {
+  fq_out=fastqc(read_ch)
+  fq_out.view()
+}
+~~~
+{: .language-groovy }
+
+
+
+~~~
+[work/54/1c5b8bf5b065463d39a06762cd8dd4/fqc_res/ref1_1_fastqc.html, work/54/1c5b8bf5b065463d39a06762cd8dd4/fqc_res/ref1_1_fastqc.zip]
+[work/05/33da4d9c3b318d0be18dfe2b206097/fqc_res/ref1_2_fastqc.html, work/05/33da4d9c3b318d0be18dfe2b206097/fqc_res/ref1_2_fastqc.zip]
+~~~
+{: .output}
 
 Some caveats on glob pattern behaviour:
 
@@ -976,54 +1057,6 @@ Some caveats on glob pattern behaviour:
 * Glob pattern matches against both files and directories path.
 * When a two stars pattern `**` is used to recourse across directories, only file paths are matched i.e. directories are not included in the result list.
 
-
-
-### Dynamic output file names
-
-When an output file name needs to be expressed dynamically, it is possible to define it using a dynamic evaluated string which references values defined in the input declaration block or in the script global context. For example::
-
-~~~
-nextflow.enable.dsl=2
-
-process index {
-    input:
-    path bam
-
-    output:
-    path "${bam}*"
-
-    script:
-    """
-    samtools index $bam
-    """
-}
-
-bam_ch = channel.fromPath("data/yeast/bams/*.bam")
-
-workflow {
-  index_out_ch=index(bam_ch)
-  index_out_ch.view({ "File: ${it.name}" })
-}
-~~~
-{: .language-groovy }
-
-In the above example, each time the process is executed an index file is produced whose name depends on the actual value of the `bam` input.
-
-~~~
-File: ref3.bam.bai
-
-File: ref1.bam.bai
-
-File: etoh60_3.bam.bai
-
-File: ref2.bam.bai
-
-File: etoh60_1.bam.bai
-
-File: etoh60_2.bam.bai
-[truncated]
-~~~
-{: .output}
 
 > ## Output channels
 > Modify the nextflow script `process_exercise_output.nf` to include an output blocks that captures the different index folder `index_$kmer`.
@@ -1162,6 +1195,11 @@ workflow {
 ~~~
 {: .language-groovy }
 
+~~~
+[ref1, /work/66/88822f0ccc98664aaa866e27a1a9c8/ref1_salmon_output]
+~~~
+{: .output }
+
 > ## Composite inputs and outputs
 > Fill in the blank ___ input and output qualifers for `process_exercise_tuple.nf`.
 > ~~~
@@ -1261,7 +1299,7 @@ Directive declarations allow the definition of optional settings, like computati
 They must be entered at the top of the process body, before any other declaration blocks (i.e. `input`, `output`, etc).
 
 
-You do not use `=` when assigning a value to a directive.
+**Note:** You do not use `=` when assigning a value to a directive.
 
 
 Directives are commonly used to define the amount of computing resources to be used or extra information for configuration or logging purpose.
@@ -1305,7 +1343,8 @@ number of cpus 1
 [..truncated..]
 ~~~
 {: .output }
- The above process uses the  `tag` directive to allow you to associate each process execution with a custom label, so that it will be easier to identify them in the log file or in the trace execution report. The second directive he `cpus`  allows you to define the number of CPU required for each the process’ task.
+
+The above process uses the  `tag` directive to allow you to associate each process execution with a custom label, so that it will be easier to identify them in the log file or in the trace execution report. The second directive he `cpus`  allows you to define the number of CPU required for each the process’ task. The third directive `echo true` prints the stdout to the terminal. We also uses the Nextflow `task.cpus` variable to capture the number of cpus assigned to a task.
 
 Another commonly used directive is memory specification `memory`.
 
@@ -1313,10 +1352,12 @@ A complete list of directives is available at this [link](https://www.nextflow.i
 
 > ## Adding directives
 > Modify the Nextflow script `process_exercise_directives.nf`
-> Add a `tag` directive logging the sample_id in the execution output.
-> Add a cpus directive to specify the number of cpus as 2.
-> Change the -t option value to $task.cpus in the script directive.
->  ~~~
+>
+> 1. Add a `tag` directive logging the sample_id in the execution output.
+> 1. Add a `cpus` directive to specify the number of cpus as 2.
+> 1. Change the fastqc `-t` option value to `$task.cpus` in the script directive.
+>
+> ~~~
 > nextflow.enable.dsl=2
 >
 >  process fastqc {
@@ -1347,15 +1388,14 @@ A complete list of directives is available at this [link](https://www.nextflow.i
 > >  process fastqc {
 > >  tag "$sample_id"
 > >  cpus 2
-> >  //add cpu directive
 > >  input:
 > >     tuple val(sample_id), path(reads)
 > >  output:
 > >      tuple val(sample_id), path("fastqc_out")
-> >   script:
+> >  script:
 > >    """
 > >    mkdir fastqc_out
-> >   fastqc $reads -o fastqc_out -t 1
+> >    fastqc $reads -o fastqc_out -t 1
 > >    """
 > >  }
 > >
@@ -1416,6 +1456,18 @@ workflow {
 ~~~
 {: .language-groovy }
 
+~~~
+tree results
+~~~
+{: .language-bash }
+
+~~~
+results/
+└── quant
+    └── ref1_salmon_output -> work/28/30dd6dc65fdf20c69364d4032f7b37ref1_salmon_output
+~~~
+{: .output }
+
 In the above example, the `publishDir "results/quant"`, will create a symbolic link to the output files specified by the process `salmon_quant` to the directory path `$baseDir/results/quant`.
 
 > ## publishDir
@@ -1443,8 +1495,8 @@ For example:
 nextflow.enable.dsl=2
 
 process salmon {
-  publishDir "results/bams", pattern: "*.bam"
-  publishDir "results/quant", pattern: "${sample_id}_salmon_output"
+  publishDir "results/bams", pattern: "*.bam", mode: "copy"
+  publishDir "results/quant", pattern: "${sample_id}_salmon_output", mode: "copy"
   input:
     tuple val(sample_id), path(reads)
     path index
@@ -1471,6 +1523,36 @@ workflow {
 }
 ~~~
 {: .language-groovy }
+
+~~~
+$ tree results
+~~~
+{: .language-bash }
+
+~~~
+results/
+├── bams
+│   └── ref1.bam
+└── quant
+    └── ref1_salmon_output
+        ├── aux_info
+        │   ├── ambig_info.tsv
+        │   ├── expected_bias.gz
+        │   ├── fld.gz
+        │   ├── meta_info.json
+        │   ├── observed_bias.gz
+        │   └── observed_bias_3p.gz
+        ├── cmd_info.json
+        ├── libParams
+        │   └── flenDist.txt
+        ├── lib_format_counts.json
+        ├── logs
+        │   └── salmon_quant.log
+        └── quant.sf
+
+6 directories, 12 files
+~~~
+{: .output }
 
 The above example will create an output folder structure in the directory results, which contains a separate sub-directory for bam files, `pattern:"*.bam"` ,  and salmon output directory, `${sample_id}_salmon_output"`.
 
@@ -1537,70 +1619,6 @@ The above example will create an output folder structure in the directory result
 > If you want to find out common structures of Nextflow process the [Nextflow Patterns page](http://nextflow-io.github.io/patterns/) collects some recurrent implementation patterns used in Nextflow applications.
 {: .callout}
 
-## Connecting Processes
-
-
-Connecting individual workflow steps, `processes`,  is achieved by joining their `outputs` to their `inputs` channels.
-
-In this example we are going to run a small, two process, Nextflow pipeline to generate a QC reports using [FastQC](https://www.bioinformatics.babraham.ac.uk/projects/fastqc/) and then combined the QC reports into a single file using [MultiQC](https://multiqc.info/).
-
-In this workflow the first process `fastqc` is connected to the second `multiqc` via the  `fastqc_out_ch` value channel. The second process uses the `collect` channel operator to combines the elements in the fastqc output channel directories into a single channel element.
-
-The output from the second process `mqc_out` is then published to the `results/multiqc` directory.
-
-~~~
-nextflow.enable.dsl=2
-
-process fastqc {
-  tag "fastqc on $sample_id"
-
-  input:
-  tuple val(sample_id), path(reads)
-
-  output:
-  path "$sample_id"
-
-  script:
-  """
-  mkdir $sample_id
-  fastqc ${reads} -o $sample_id
-  """
-}
-
-process multiqc {
-  publishDir "results/multiqc"
-  input:
-  path summary_files
-
-
-  output:
-  path 'multiqc_report.html'
-
-  script:
-  """
-  multiqc .
-  """
-}
-
-params.samples = "data/yeast/reads/*_{1,2}.fq.gz"
-samples_ch =Channel.fromFilePairs(params.samples)
-
-workflow {
-  fastqc_out_ch=fastqc(samples_ch)
-  mqc_out=multiqc(fastqc_out_ch.collect())
-  mqc_out.view()
-}
-
-
-~~~
-{: .language-groovy }
-
-To inspect the output list the files in `results/multiqc` directory.
-
-~~~
-ls results/multiqc
-~~~
-{: .language-bash }
 
 ~~~
 multiqc_report.html
