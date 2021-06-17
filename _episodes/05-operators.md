@@ -49,7 +49,7 @@ channel_obj.<operator>()
 The `view` operator prints the items emitted by a channel to the console appending a *new line* character to each item in the channel.
 
 ~~~
-ch= channel.of('1', '2', '3')
+ch = channel.of('1', '2', '3')
 ch.view()
 ~~~
 {: .language-groovy }
@@ -117,6 +117,7 @@ chr3
 3
 ~~~
 {: .output}
+
 ## Filtering operators
 
 We can reduce the number of items in a channel by using filtering operators.
@@ -180,7 +181,7 @@ chr_ch = channel
 {: .output }
 
 
-#### regular expression
+#### Regular expression
 
 To filter by a regular expression you have to do is to put `~` right in front of the string literal regular expression (e.g. `~"(^[Nn]extflow)"` or using slashy strings. `~/^[Nn]extflow/`).
 
@@ -252,14 +253,18 @@ X
 
 
 > ## Filter a channel
+> Add two channel filters to the Nextflow script below to view only the even numbered chromosomes.
+> 1. A data type filter for numbers, `filter( Number )`.
+> 1. A boolean statement filter `filter({ it % 2 == 0 })`  
 >
-> Add the boolean statement filter `filter({ it % 2 == 0 })` to the Nextflow script below to view only the even numbered chromosomes. `%`  produces the remainder of a division.
 > ~~~
 > chr_ch = channel
 >  .of( 1..22, 'X', 'Y' )
 >  .view()
 > ~~~
 > {: .language-groovy }
+>
+> **Note:** `%`  produces the remainder of a division.
 > > ## Solution
 > >
 > > ~~~
@@ -593,7 +598,6 @@ The maths operators allows you to apply simple math function on channels.
 The maths operators are:
 
 * count
-* countBy
 * min
 * max
 * sum
