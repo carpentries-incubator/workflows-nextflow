@@ -1,31 +1,11 @@
 
+This lesson is an introduction to the workflow manager Nextflow, and nf-core, a community effort to collect a curated set of analysis pipelines built using Nextflow.
 
-This lesson is an introduction to Nextflow and nf-core .
+[Nextflow](https://www.nextflow.io/) enables scalable and reproducible scientific workflows using software containers such as Docker and Singularity. It allows the adaptation of pipelines written in the most common scripting languages such as R and Python. Nextflow is a Domain Specific Language (DSL) that simplifies the implementation and the deployment of complex parallel and reactive workflows on clouds and clusters.
 
-[Nextflow](https://www.nextflow.io/) enables scalable and reproducible scientific workflows using software containers such as Docker and Singularity. It allows the adaptation of pipelines written in the most common scripting languages suach as such as R and Python. Nextflow has a  Domain Specific Language (DSL) that simplifies the implementation and the deployment of complex parallel and reactive workflows on clouds and clusters.
-
-This lesson will also introduce [nf-core](https://nf-co.re/): a framework that provides a community-driven, peer reviewed platform for the development of best practice analysis pipelines written in Nextflow.
+This lesson also introduces [nf-core](https://nf-co.re/): a framework that provides a community-driven, peer reviewed platform for the development of best practice analysis pipelines written in Nextflow.
 
 This lesson motivates the use of Nextflow and nf-core as a development tool for building and sharing computational pipelines that facilitate reproducible (data) science workflows.
-
-## Maintainer(s)
-
-Current maintainers of this lesson are
-
-* Graeme R. Grimes
-
-
-## Authors
-
-A list of contributors to the lesson can be found in [AUTHORS](AUTHORS)
-
-## Citation
-
-To cite this lesson, please consult with [CITATION](CITATION)
-
-
-
-
 
 ## Contributing
 
@@ -42,13 +22,12 @@ nicely explained in the chapter [Contributing to a Project](http://git-scm.com/b
 by Scott Chacon.
 Look for the tag ![good_first_issue](https://img.shields.io/badge/-good%20first%20issue-gold.svg). This indicates that the maintainers will welcome a pull request fixing this issue.
 
-
 ## Maintainer(s)
 
 Current maintainers of this lesson are
 
-* Graeme R, Grimes
-
+* Graeme R. Grimes
+* Mahesh Binzer-Panchal
 
 ## Authors
 
@@ -58,6 +37,8 @@ A list of contributors to the lesson can be found in [AUTHORS](AUTHORS)
 
 To cite this lesson, please consult with [CITATION](CITATION)
 
-[cdh]: https://cdh.carpentries.org
-[community-lessons]: https://carpentries.org/community-lessons
-[lesson-example]: https://carpentries.github.io/lesson-example
+## Useful Incubator links
+
+- [Carpentries Development Handbook](https://cdh.carpentries.org)
+- [community-lessons](https://carpentries.org/community-lessons)
+- [lesson-example](https://carpentries.github.io/lesson-example)
