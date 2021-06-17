@@ -146,7 +146,7 @@ The same is possible when including multiple components from the same module scr
 ~~~
 nextflow.enable.dsl=2
 
-include { index; index as index2 } from './modules/rnaseq.nf'
+include { index; index as salmon_index } from './modules/rnaseq.nf'
 
 workflow {
   transcriptome_ch = channel.fromPath('/data/yeast/transcriptome/*.fa'
