@@ -70,12 +70,14 @@ This will list the work directory for each process.
 
 If we want to print more metadata we can use `log` command and the option `-f` (fields) followed by a comma delimited list of fields.
 
-For Example:
+For example:
 
 ~~~
 $ nextflow log tiny_fermat -f 'process,exit,hash,duration'
 ~~~
 {: .language-bash }
+
+Will output the process name, exit status, hash and duration of the process for the `tiny_fermat` run to the terminal.
 
 ~~~
 index	0	7b/3753ff	2s
