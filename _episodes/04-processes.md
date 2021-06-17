@@ -1468,7 +1468,7 @@ results/
 ~~~
 {: .output }
 
-In the above example, the `publishDir "results/quant"`, will create a symbolic link to the output files specified by the process `salmon_quant` to the directory path `$baseDir/results/quant`.
+In the above example, the `publishDir "results/quant"`, will create a symbolic link to the output files specified by the process `salmon_quant` to the directory path `$projectDir/results/quant`.
 
 > ## publishDir
 > The publishDir output is relative to the directory of the main Nextflow script.
