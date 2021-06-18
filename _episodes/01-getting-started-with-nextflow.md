@@ -317,7 +317,7 @@ prefixing the parameter name with a **double dash** character, i.e.,
 > Re-run the Nextflow script by entering the following command in your terminal:
 >
 > ~~~
-> $ nextflow run wc.nf --samples 'data/yeast/reads/*.fq.gz'
+> $ nextflow run wc.nf --input 'data/yeast/reads/ref*.fq.gz'
 > ~~~
 > {: .language-bash}
 > > ## Solution
@@ -329,19 +329,19 @@ prefixing the parameter name with a **double dash** character, i.e.,
 > > executor >  local (6)
 > > [05/d84ab8] process > NUM_LINES (6) [100%] 6 of 6 ✔
 > >
-> > FIXME - Line counts are wrong
+> > executor >  local (6)
+> > [d3/9ca185] process > NUM_LINES (2) [100%] 6 of 6 ✔
+> > ref3_2.fq.gz 52592
 > >
-> > 4950 temp33_1_2.fq.gz
+> > ref2_2.fq.gz 81720
 > >
-> > 5347 etoh60_1_1.fq.gz
+> > ref1_1.fq.gz 58708
 > >
-> > 5040 ref2_1.fq.gz
+> > ref1_2.fq.gz 58708
 > >
-> > 4904 temp33_1_1.fq.gz
+> > ref3_1.fq.gz 52592
 > >
-> > 5038 ref2_2.fq.gz
-> >
-> > 5371 etoh60_1_2.fq.gz
+> > ref2_1.fq.gz 81720
 > > ~~~
 > > {: .output}
 >
