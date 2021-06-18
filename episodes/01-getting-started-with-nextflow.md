@@ -303,12 +303,14 @@ To run a Nextflow script use the command `nextflow run <script_name>`.
 
 The Nextflow `wc.nf` script defines a pipeline parameter `params.input`.
 Pipeline parameters enable you to change the input to the workflow at
-runtime, via the command line or a config file, so they are not
-hard-coded into the script. In this way you change the input data or pipeline execution e.g., change the fastq file for input.
+runtime, via the command line or a configuration file, so they are not
+hard-coded into the script.
 
-Pipeline parameters are declared by prepending the prefix `params`, separated by dot character, to a variable name e.g., `params.samples`. Their value can be specified on the command line by prefixing the parameter name with a **double dash** character, i.e. `--paramName` e.g., `--samples`.
-
-We can change the input using the `samples` variable on the command line.
+Pipeline parameters are declared in the workflow by prepending the prefix
+`params`, separated by dot character, to a variable name e.g.,
+`params.input`. Their value can be specified on the command line by
+prefixing the parameter name with a **double dash** character, i.e.,
+`--paramName` e.g., `--input`.
 
 > ## Add a pipeline parameter
 > Re-run the Nextflow script by entering the following command in your terminal:
@@ -323,43 +325,19 @@ We can change the input using the `samples` variable on the command line.
 > > ~~~
 > > N E X T F L O W  ~  version 20.10.0
 > > Launching `wc.nf` [soggy_miescher] - revision: c54a707593
-> > executor >  local (18)
-> > [05/d84ab8] process > numLines (18) [100%] 18 of 18 ✔
-> > 3823 temp33_2_1.fq.gz
+> > executor >  local (6)
+> > [05/d84ab8] process > NUM_LINES (6) [100%] 6 of 6 ✔
+> > 4950 temp33_1_2.fq.gz
 > >
-> >3252 ref3_1.fq.gz
+> > 5347 etoh60_1_1.fq.gz
 > >
-> >4950 temp33_1_2.fq.gz
+> > 5040 ref2_1.fq.gz
 > >
-> >5347 etoh60_1_1.fq.gz
+> > 4904 temp33_1_1.fq.gz
 > >
-> >5040 ref2_1.fq.gz
+> > 5038 ref2_2.fq.gz
 > >
-> >5393 temp33_3_1.fq.gz
-> >
-> >6320 etoh60_3_2.fq.gz
-> >
-> >3602 ref1_2.fq.gz
-> >
-> >6327 etoh60_3_1.fq.gz
-> >
-> >5434 etoh60_2_2.fq.gz
-> >
-> >4904 temp33_1_1.fq.gz
-> >
-> >3628 ref1_1.fq.gz
-> >
-> >5038 ref2_2.fq.gz
-> >
-> >3858 temp33_2_2.fq.gz
-> >
-> >3293 ref3_2.fq.gz
-> >
-> >5386 temp33_3_2.fq.gz
-> >
-> >5371 etoh60_1_2.fq.gz
-> >
-> >5468 etoh60_2_1.fq.gz
+> > 5371 etoh60_1_2.fq.gz
 > > ~~~
 > > {: .output}
 > {: .solution}
