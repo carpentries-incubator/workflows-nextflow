@@ -263,7 +263,7 @@ process NUM_LINES {
 
     script:
     """
-    sleep 5
+    printf '${read} '
     gunzip -c ${read} | wc -l
     """
 }
@@ -288,8 +288,7 @@ To run a Nextflow script use the command `nextflow run <script_name>`.
 > > executor >  local (1)
 > > [21/b259be] process > NUM_LINES (1) [100%] 1 of 1 ✔
 > >
-> >  FIXME - update line count
-> >   58708 ref1_1.fq.gz
+> >  ref1_1.fq.gz 58708
 > > ~~~
 > > {: .output}
 > >
