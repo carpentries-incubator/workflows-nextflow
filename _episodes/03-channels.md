@@ -186,6 +186,16 @@ myList = [1776, -1, 33, 99, 0, 928734928763]
 ~~~
 {: .language-groovy }
 
+## Queue channel factory
+
+Queue (consumable)  channels can be created using the following channel factory methods.
+
+* of
+* fromList
+* fromPath
+* fromFilePairs
+* fromSRA
+
 ### The of Channel factory
 
 When you want to create a channel containing multiple values you can use the channel factory `Channel.of`. `Channel.of` allows the creation of a `queue` channel with the values specified as arguments, separated by a `,`.
@@ -196,8 +206,6 @@ chromosome_ch.view()
 ~~~
 {: .language-groovy }
 
-The first line in this example creates a variable `chromosome_ch`. `chromosome_ch` is a queue channel containing the four values specified as arguments in the `of` method. The `view` operator will print one line per item in a list. Therefore the `view` operator on the second line will print four lines, one for each element in the channel:
-
 ~~~
 chr1
 chr3
@@ -205,6 +213,9 @@ chr5
 chr7
 ~~~
 {: .output}
+
+The first line in this example creates a variable `chromosome_ch`. `chromosome_ch` is a queue channel containing the four values specified as arguments in the `of` method. The `view` operator will print one line per item in a list. Therefore the `view` operator on the second line will print four lines, one for each element in the channel:
+
 
 You can specify a range of numbers as a single argument using the Groovy range operator `..`. This creates each value in the range (including the start and end values) as a value in the channel. The Groovy range operator can also produce ranges of dates, letters, or time.
 More information on the range operator can be found [here](https://www.logicbig.com/tutorials/misc/groovy/range-operator.html).
@@ -215,7 +226,7 @@ ch.view()
 ~~~
 {: .language-groovy }
 
-Arguments passed to the `of` method can be of varying types e.g., combinations of numbers, strings, or objects.
+Arguments passed to the `of` method can be of varying types e.g., combinations of numbers, strings, or objects. In the above examples we have examples of both string and number data types.
 
 > ## Channel.from
 > You may see the method `Channel.from` in older nextflow scripts. This performs a similar function but is now deprecated (no longer used), and so `Channel.of` should be used instead.
@@ -250,15 +261,21 @@ kallisto
 
 > ## Creating channels from a list
 >
->  Write a nextflow script that creates both a queue and value channel
->  for the list `ids = ['ERR908507', 'ERR908506', 'ERR908505']`.
+>  Write a Nextflow script that creates both a `queue` and `value` channel
+>  for the list
+> ~~~
+> ids = ['ERR908507', 'ERR908506', 'ERR908505']`
+> ~~~
+> {: .language-groovy }
 >  Then print the contents of the channels using the `view` operator.
->  Hint: Use the `fromList()` and `value()` Channel factory methods.
->  How many lines does the queue and value channel print ?
+>   How many lines does the queue and value channel print ?
+>
+>  **Hint:** Use the `fromList()` and `value()` Channel factory methods.
 > > ## Solution
 > >
 > > ~~~
 > > ids = ['ERR908507', 'ERR908506', 'ERR908505']
+> >
 > > queue_ch = Channel.fromList(ids)
 > > value_ch = Channel.value(ids)
 > > queue_ch.view()
@@ -266,6 +283,7 @@ kallisto
 > > ~~~
 > > {: .language-groovy }
 > > The queue channel `queue_ch` will print three lines.
+> >
 > > The value channel `value_ch` will print one line.
 > {: .solution}
 {: .challenge}
