@@ -36,9 +36,8 @@ Channels let Nextflow handle file management, allowing complex tasks to be split
 
 ![Channel files](../fig/channel-files.png)
 
-Channels are asynchronous, which means that output data from a set of processes will not necessarily be in the same order as they went in.
-However, the first element into a queue is the first out of the queue (First in- First out). This allows processes to run as soon as they receive input from a channel. Channels only send data in one
-direction, from a producer (a process/operator), to a consumer (another process/operator).
+Channels are asynchronous, which means that output data from a set of processes will not necessarily be output in the same order as they went in.
+However, the first element into a queue is the first out of the queue (First in- First out). This allows processes to run as soon as they receive input from a channel. Channels only send data in onedirection, from a producer (a process/operator), to a consumer (another process/operator).
 
 ## Channel types
 
@@ -111,17 +110,12 @@ The first line creates a value channel using the `Channel.value` factory method,
 
 > ## Queue vs Value Channel
 >
-> Which of the following channels could be used multiple times and why?
->
-> ~~~
-> index_ch = Channel.of(1,2,3)
-> ref_ch = Channel.value('GRCh38')
-> ~~~
+> What is the difference between a queue and value channel?
 > {: .language-groovy }
 >
 > > ## Solution
-> > - `index_ch` is a queue channel, and can only be used once.
-> > - `ref_ch` is a value channel which can be used multiple times.
+> > 1. A queue channels is consumable and can store multiple values. fixme add better description.
+> > 1. A value channel a.k.a. singleton channel by definition is bound to a single value
 > {: .solution}
 {: .challenge}
 
