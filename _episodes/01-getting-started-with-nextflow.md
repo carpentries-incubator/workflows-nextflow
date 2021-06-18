@@ -327,6 +327,9 @@ prefixing the parameter name with a **double dash** character, i.e.,
 > > Launching `wc.nf` [soggy_miescher] - revision: c54a707593
 > > executor >  local (6)
 > > [05/d84ab8] process > NUM_LINES (6) [100%] 6 of 6 ✔
+> >
+> > FIXME - Line counts are wrong
+> >
 > > 4950 temp33_1_2.fq.gz
 > >
 > > 5347 etoh60_1_1.fq.gz
@@ -340,14 +343,14 @@ prefixing the parameter name with a **double dash** character, i.e.,
 > > 5371 etoh60_1_2.fq.gz
 > > ~~~
 > > {: .output}
+>
+> The pipeline executes the `NUM_LINES` process 6 times; one process
+> for each file matching the string `data/yeast/reads/*.fq.gz`. Since
+> each process is executed in parallel, there is no guarantee of
+> which output is reported first. When you run this script, you may
+> see the process output in a different order.
 > {: .solution}
 {: .challenge}
-
-The pipeline has now executed the `numLines` process 18 time using the string  `data/yeast/reads/*.fq.gz` to capture the 18 fastq files matching the pattern `data/yeast/reads/*.fq.gz`.
-
-
-It’s worth noting that the process `wc -l` is executed in parallel, so there’s no guarantee on the output order. It is perfectly possible that you will get the final result printed out in a different order:
-
 
 > ## Process identification
 > The hexadecimal numbers, like b3/c9f4ee, identify the unique process execution.
