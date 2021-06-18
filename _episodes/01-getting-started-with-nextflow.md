@@ -287,6 +287,8 @@ To run a Nextflow script use the command `nextflow run <script_name>`.
 > > Launching `wc.nf` [fervent_babbage] - revision: c54a707593
 > > executor >  local (1)
 > > [21/b259be] process > NUM_LINES (1) [100%] 1 of 1 ✔
+> >
+> >  FIXME - update line count
 > >   3628 ref1_1.fq.gz
 > > ~~~
 > > {: .output}
