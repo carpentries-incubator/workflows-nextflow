@@ -46,8 +46,10 @@ Nextflow distinguishes between two different kinds of channels: **queue** channe
 
 ### Queue channel
 
-Queue channels are a type of channel in which data is consumed (used up) to make input for a process/operator. Process output channels are
-always queue channels. Queue channels can be explicitly created using channel factory methods such as [Channel.of](https://www.nextflow.io/docs/latest/channel.html#of) or [Channel.fromPath](https://www.nextflow.io/docs/latest/channel.html#frompath).
+Queue channels are a type of channel in which data is consumed (used up) to make input for a process/operator. Queue channels can be created in two ways,
+
+1. As the outputs of a process.
+1. Or a queue channels can be explicitly created using channel factory methods such as [Channel.of](https://www.nextflow.io/docs/latest/channel.html#of) or [Channel.fromPath](https://www.nextflow.io/docs/latest/channel.html#frompath).
 
 > ## Create and view Channel contents
 > Create a file called `channel.nf` and type the following code into it.
@@ -75,39 +77,11 @@ always queue channels. Queue channels can be explicitly created using channel fa
 > {: .solution}
 {: .challenge}
 
-Queue channels can only be used once in a workflow, either connecting workflow input to process input, or process output to input for another process.
+> ## DSL1
+> In Nextflow DSL1 queue channels can only be used once in a workflow, either connecting workflow input to process input, or process output to input for another process.
+> In DSL2 we can uses a queue channel mutltiple times.
+{: .challenge}
 
-If we add two `ch.view()` operations on the same channel object,
-
-~~~
-ch = Channel.of(1,2,3)
-ch.view()
-ch.view()
-~~~
-{: .language-groovy }
-
-and then run,
-
-~~~
-nextflow run channel.nf
-~~~
-{: .language-bash}
-
-it will produce an error. The queue channel `ch` has been used by the first `.view` operator and so isn't available to use again.
-
-~~~
-N E X T F L O W  ~  version 20.10.0
-Launching `channel.nf` [chaotic_payne] - revision: 63c4f7a5f3
-1
-2
-3
-Channel `ch` has been used as an input by more than a process or an operator
-
- -- Check script 'main.nf' at line: 3 or see '.nextflow.log' file for more details
-~~~
-{: .output}
-
-We will see in the operator episodes how to create multiple channels from a Channel factory.
 
 ### Value channels
 
