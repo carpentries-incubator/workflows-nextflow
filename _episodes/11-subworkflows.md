@@ -4,11 +4,14 @@ teaching: 20
 exercises: 0
 questions:
 - "How do I reuse a workflow as part of a larger workflow?"
+- "How do I run only a part of a workflow?"
 objectives:
 - "Understand how to create a sub-workflow."
+- "Understand how to run part of a workflow."
 keypoints:
-- "Nextflow allows for definition of reusable sub-workflow libraries "
-- "Sub-workflow allows the definition of workflow processes that can be included from any other script and invoked as a custom function within the new workflow scope. This effectively allows for the composition of the pipeline logic and enables reuse of workflow components"
+- "Nextflow allows for definition of reusable sub-workflow libraries."
+- "Sub-workflow allows the definition of workflow processes that can be included from any other script and invoked as a custom function within the new workflow scope. This enables reuse of workflow components"
+- "The `entry` option of the nextflow `run` command specifies the workflow name to be executed"
 
 ---
 ## Sub-workflows
