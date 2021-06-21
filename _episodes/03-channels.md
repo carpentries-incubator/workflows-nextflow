@@ -426,7 +426,7 @@ See more information about the channel factory `fromFilePairs` [here](https://ww
 > ## fromFilePairs
 >
 >  1. Use the `fromFilePairs` method to create a channel containing all pairs of fastq read in the `data/yeast/reads` directory and print them.
->  1. Then use the `fromFilePairs` `size` argument with parameter value 6 and the pattern `data/yeast/reads/*_{1,2,3,4}_{1,2}.fq.gz`.
+>  1. Then use the `fromFilePairs` `size` argument with parameter value 6 and the pattern `data/yeast/reads/*_{1,2,3}_{1,2}.fq.gz`.
 > 2. Compare the output with the previous execution.
 >
 > > ## Solution
