@@ -17,11 +17,11 @@ keypoints:
 
 In most programming languages there is the concept of creating code blocks/modules that can be reused.
 
-Nextflow (DSL2) allows the definition of `module` scripts that can be included and shared across workflow applications.
+Nextflow (DSL2) allows the definition of `module` scripts that can be included and shared across workflow pipelines.
 
 A module file is nothing more than a Nextflow script containing one or more process definitions that can be imported from another Nextflow script.  
 
-A module can contain the definition of a `function`, `process` and `workflow` definitions as described in the above sections.
+A module can contain the definition of a `function`, `process` and `workflow` definitions.
 
 For example:
 
@@ -39,7 +39,7 @@ process index {
 ~~~
 {: .language-groovy }
 
-The Nextflow process `index` above could be saved in a file `rnaseq.nf` as a Module script.
+The Nextflow process `index` above could be saved in a file `modules/rnaseq-tasks.nf` as a Module script.
 
 ### Importing module components
 
@@ -50,46 +50,51 @@ For example:
 ~~~
 nextflow.enable.dsl=2
 
-include { index } from './modules/rnaseq.nf'
+include { index } from './modules/rnaseq-tasks.nf'
 
 workflow {
-    transcriptome = channel.fromPath('/some/data/*.txt')
-    index(data)
+    transcriptome_ch = channel.fromPath('data/yeast/transcriptome/*.fa.gz')
+    //
+    index(transcriptome_ch)
 }
 ~~~
 {: .language-groovy }
 
 The above snippets includes a process with name `index` defined in the module script `rnaseq.nf` in the main execution context, as such it can be invoked in the workflow scope.
 
-Nextflow implicitly looks for the script file `./modules/rnaseq.nf` resolving the path against the including script location.
+Nextflow implicitly looks for the script file `./modules/rnaseq-tasks.nf` resolving the path against the including script location.
 
 **Note:** Relative paths must begin with the `./` prefix.
 
+> ## Remote
+> You can not include a script from a remote URL in the `from` statement.
+{: .callout }
+
 > ## Add module
-> Add the Nextflow module `fastqc` from the Nextflow script `modules/rnaseq.nf`
+> Add the Nextflow module `fastqc` from the Nextflow script `./modules/rnaseq-tasks.nf`
 > to the following workflow.
 > ~~~
 > nextflow.enable.dsl=2
 >
 >
-> params.reads = "$baseDir/data/yeast/reads/ref1_{1,2}.fq.gz"
-> reads_ch = channel.fromFilePairs( params.reads, checkIfExists:true )
+> params.reads = "data/yeast/reads/ref1_{1,2}.fq.gz"
+> read_pairs_ch = channel.fromFilePairs( params.reads, checkIfExists:true )
 >
 > workflow {
->     fastqc(reads_ch)
+>     fastqc(read_pairs_ch)
 > }
 > ~~~~
 > {: .language-groovy }
 > > ## Solution
 > > ~~~
 > > nextflow.enable.dsl=2
-> > include { fastqc } from './modules/rnaseq.nf'
+> > include { fastqc } from './modules/rnaseq-tasks.nf'
 > >
 > > params.reads = "$baseDir/data/yeast/reads/ref1_{1,2}.fq.gz"
-> > reads_ch = channel.fromFilePairs( params.reads, checkIfExists:true )
+> > read_pairs_ch = channel.fromFilePairs( params.reads, checkIfExists:true )
 > >
 > > workflow {
-> >     fastqc(reads_ch)
+> >     fastqc(read_pairs_ch)
 > > }
 > ~~~~
 > {: .language-groovy }
@@ -106,11 +111,11 @@ Component names are separated by a semi-colon `;` as shown below:
 ~~~
 nextflow.enable.dsl=2
 
-include { index; quant } from './modules/rnaseq.nf'
+include { index; quant } from './modules/rnaseq-tasks.nf'
 
 workflow {
     reads = channel.fromFilePairs('data/yeast/reads/*_{1,2}.fq.gz')
-    transcriptome_ch = channel.fromPath('/data/yeast/transcriptome/*.fa'
+    transcriptome_ch = channel.fromPath('data/yeast/transcriptome/*.fa.gz')
     index(transcriptome_ch)
     quant(index.out,reads)
 }
@@ -128,13 +133,13 @@ For example:
 ~~~
 nextflow.enable.dsl=2
 
-include { index } from './modules/rnaseq.nf'
-include { index as salmon_index } from './modules/rnaseq.nf'
+include { index } from './modules/rnaseq-tasks.nf'
+include { index as salmon_index } from './modules/rnaseq-tasks.nf'
 
 workflow {
-    transcriptome_ch = channel.fromPath('/data/yeast/transcriptome/*.fa'
-    index(transcriptome)
-    salmon_index(transcriptome)
+    transcriptome_ch = channel.fromPath('data/yeast/transcriptome/*.fa.gz')
+    index(transcriptome_ch)
+    salmon_index(transcriptome_ch)
 }
 ~~~
 {: .language-groovy }
@@ -146,10 +151,10 @@ The same is possible when including multiple components from the same module scr
 ~~~
 nextflow.enable.dsl=2
 
-include { index; index as salmon_index } from './modules/rnaseq.nf'
+include { index; index as salmon_index } from './modules/rnaseq-tasks.nf'
 
 workflow {
-  transcriptome_ch = channel.fromPath('/data/yeast/transcriptome/*.fa'
+  transcriptome_ch = channel.fromPath('/data/yeast/transcriptome/*.fa.gz)'
   index(transcriptome)
   salmon_index(transcriptome)
 }
@@ -158,33 +163,33 @@ workflow {
 
 
 > ## Add multiple modules
-> Add the Nextflow modules `fastqc` and `multiqc` from the Nextflow script `modules/rnaseq.nf`
+> Add the Nextflow modules `fastqc` and `multiqc` from the Nextflow script `modules/rnaseq-tasks.nf`
 > to the following workflow.
 > ~~~
 > nextflow.enable.dsl=2
 > params.reads = "$baseDir/data/yeast/reads/ref1_{1,2}.fq.gz"
-> reads_ch = channel.fromFilePairs( params.reads, checkIfExists:true )
+> read_pairs_ch = channel.fromFilePairs( params.reads, checkIfExists:true )
 >
 > workflow {
->    fq_out= fastqc(reads_ch)
->    multiqc(fq_out.collect())
+>    fastqc(read_pairs_ch)
+>    multiqc(fastqc.out.collect())
 > }
 > ~~~~
 > {: .language-groovy }
 > > ## Solution
 > > ~~~
 > > nextflow.enable.dsl=2
-> > include { fastqc; multiqc } from './modules/rnaseq.nf'
+> > include { fastqc; multiqc } from './modules/rnaseq-tasks.nf'
 > >
 > > params.reads = "$baseDir/data/yeast/reads/ref1_{1,2}.fq.gz"
-> > reads_ch = channel.fromFilePairs( params.reads, checkIfExists:true )
+> > read_pairs_ch = channel.fromFilePairs( params.reads, checkIfExists:true )
 > >
 > > workflow {
-> >    fq_out = fastqc(reads_ch)
-> >    multiqc(fq_out.collect())
+> >    fastqc(read_pairs_ch)
+> >    multiqc(fastqc.out.collect())
 > > }
-> ~~~~
-> {: .language-groovy }
+> > ~~~
+> > {: .language-groovy }
 > {: .solution}
 {: .challenge}
 
@@ -193,6 +198,7 @@ workflow {
 A module script can define one or more parameters using the same syntax of a Nextflow workflow script:
 
 ~~~
+//module.nf file
 params.message = 'parameter from module script'
 
 def sayMessage() {
@@ -205,7 +211,6 @@ Then, parameters are inherited from the including context. For example:
 
 ~~~
 nextflow.enable.dsl=2
-
 
 params.message = 'parameter from workflow script'
 
@@ -226,7 +231,7 @@ parameter from workflow script
 
 The module inherits the parameters define before the include statement, therefore any further parameter set later is ignored.
 
-**Tip** Define all pipeline parameters at the beginning of the script before any include declaration.
+**Tip:** Define all pipeline parameters at the beginning of the script before any include declaration.
 
 The option `addParams` can be used to extend the module parameters without affecting the external scope. For example:
 
@@ -241,7 +246,7 @@ workflow {
     sayMessage()
 }
 ~~~
-{: .source}
+{: .language-groovy }
 
 The above snippet prints:
 ~~~
@@ -249,137 +254,4 @@ using addParams
 ~~~
 {: .output}
 
-## Sub-workflows
-
-The DSL2 syntax also allows for the definition of sub-workflow libraries. The only requirement is to provide a `workflow` name that will be used to reference and declare the corresponding inputs and outputs using the new `take` and `emit` keywords.
-
-For example:
-
-~~~
-nextflow.enable.dsl=2
-
-workflow rnaseq {
-  take:
-    transcriptome
-    read_pairs_ch
-
-  main:
-    index(transcriptome)
-    fastqc(read_pairs_ch)
-    quant(INDEX.out, read_pairs_ch)
-
-  emit:
-     quant.out.mix(fastqc.out).collect()
-}
-~~~
-{: .language-groovy }
-
-Now named sub-workflows can be used in the same way as processes, allowing you to easily include and reuse multi-step workflows as part of larger workflows.
-
-~~~
-nextflow.enable.dsl=2
-
-process index {
-    index:
-      path transcriptome
-    output:
-      path 'index'
-    script:
-      """
-      salmon index -t $transcriptome -i index
-      """
-}
-
- process quant {
-    input:
-      tuple pair_id, path(reads)
-      path index
-    output:
-      path pair_id
-    script:
-      """
-      salmon quant --threads $task.cpus --libType=U -i $index -1 ${reads[0]} -2 ${reads[1]} -o $pair_id
-      """
-}
-`
-workflow {
-    transcriptome_ch = channel.fromPath('/data/yeast/transcriptome/*.fa)
-    reads = channel.fromFilePairs('data/yeast/reads/*_{1,2}.fq.gz')
-    index(transcriptome_ch)
-    quant(index.out,reads)
-}
-~~~
-{: .language-groovy }
-
-
-
-### Workflow definition
-
-The `workflow` keyword allows the definition of sub-workflow components that enclose the invocation of one or more processes and operators:
-
-~~~
-workflow salmon_quant {
-  reads = channel.fromFilePairs('data/yeast/reads/*_{1,2}.fq.gz')
-  transcriptome_ch = channel.fromPath('/data/yeast/transcriptome/*.fa')
-  quant(reads, index(transcriptome_ch))
-}
-~~~
-{: .language-groovy }
-
-For example, the above snippet defines a workflow component, named `salmon_quant`, that can be invoked from another workflow component definition as any other function or process i.e. `my_rnaseq_pipeline`
-
-
-~~~
-workflow my_rnaseq_pipeline {
-  salmon_quant()
-}
-~~~
-{: .language-groovy }
-
-
-### Implicit workflow
-
-A workflow definition which does not declare any name is assumed to be the main workflow, and it is implicitly executed. Therefore it’s the entry point of the workflow application.
-
-> ## Note
-> Implicit workflow definition is ignored when a script is included as module. This allows the writing a workflow script that can be used either as a library module and as application script.
-{: .callout}
-
-
-An alternative workflow entry can be specified using the `-entry` command line option.
-
-### Workflow composition
-
-Workflows defined in your script or imported by a module inclusion can be invoked and composed as any other process in your application.
-
-~~~
-workflow flow1 {
-    take: data
-    main:
-        foo(data)
-        bar(foo.out)
-    emit:
-        bar.out
-}
-
-workflow flow2 {
-    take: data
-    main:
-        foo(data)
-        baz(foo.out)
-    emit:
-        baz.out
-}
-
-workflow {
-    take: data
-    main:
-      flow1(data)
-      flow2(flow1.out)
-}
-~~~
-{: .language-groovy }
-
-> ## Nested workflow execution
-> Nested workflow execution determines an implicit scope. Therefore the same process can be invoked in two different workflow scopes, like for example foo in the above snippet that is used either in `flow1` and `flow2`. The workflow execution path along with the process names defines the process fully qualified name that is used to distinguish the two different process invocations i.e. `flow1:foo` and `flow2:foo` in the above example.
-{: .callout}  
+{% include links.md %}
