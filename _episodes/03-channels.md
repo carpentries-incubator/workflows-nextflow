@@ -50,31 +50,6 @@ Queue channels are a type of channel in which data is consumed (used up) to make
 1. As the outputs of a process.
 1. Or a queue channels can be explicitly created using channel factory methods such as [Channel.of](https://www.nextflow.io/docs/latest/channel.html#of) or [Channel.fromPath](https://www.nextflow.io/docs/latest/channel.html#frompath).
 
-> ## Create and view Channel contents
-> Create a file called `channel.nf` and type the following code into it.
-> ~~~
-> ch = Channel.of(1,2,3)
-> ch.view()
-> ~~~
-> {: .language-groovy }
-> Run the code using
-> ~~~~
-> nextflow run channel.nf
-> ~~~~
-> {: .language-groovy }
-> How many lines of output do you get?
-> > ## Solution
-> > In this example you have created a queue channel with three values 1,2,3 in it.
-> > This will produce three lines of output, one for each value.
-> > The `.view` operator can be used to view the contents of the channel object `ch`.
-> > ~~~
-> > 1
-> > 2
-> > 3
-> > ~~~
-> > {: .output}
-> {: .solution}
-{: .challenge}
 
 > ## DSL1
 > In Nextflow DSL1 queue channels can only be used once in a workflow, either connecting workflow input to process input, or process output to input for another process.
@@ -132,7 +107,9 @@ of a `Channel`.
 ### The value Channel factory
 
 The `value` factory method is used to create a value channel.
-Values are put inside  parentheses `()`  to assign them to a channel. For example:
+Values are put inside  parentheses `()`  to assign them to a channel.
+
+For example:
 
 ~~~
 ch1 = Channel.value()
@@ -199,6 +176,32 @@ Arguments passed to the `of` method can be of varying types e.g., combinations o
 > ## Channel.from
 > You may see the method `Channel.from` in older nextflow scripts. This performs a similar function but is now deprecated (no longer used), and so `Channel.of` should be used instead.
 {: .callout}
+
+> ## Create and view Channel contents
+> Create a file called `channel.nf` and type the following code into it.
+> ~~~
+> ch = Channel.of(1,2,3)
+> ch.view()
+> ~~~
+> {: .language-groovy }
+> Run the code using
+> ~~~~
+> nextflow run channel.nf
+> ~~~~
+> {: .language-groovy }
+> How many lines of output do you get?
+> > ## Solution
+> > In this example you have created a queue channel with three values 1,2,3 in it.
+> > This will produce three lines of output, one for each value.
+> > The `.view` operator can be used to view the contents of the channel object `ch`.
+> > ~~~
+> > 1
+> > 2
+> > 3
+> > ~~~
+> > {: .output}
+> {: .solution}
+{: .challenge}
 
 
 ### The fromList Channel factory
