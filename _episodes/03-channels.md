@@ -395,7 +395,9 @@ The asterisk, `*`, matches any number of characters (including none), and the `{
 
 #### What if you want to capture more than a pair?
 
-If you want to capture more than 2 files for a pattern you will need to change the default `size` argument to the number of expected matching files.
+If you want to capture more than two files for a pattern you will need to change the default `size` argument to the number of expected matching files.
+
+For Example:
 
 ~~~
 filepair_ch = Channel.fromFilePairs('data/yeast/reads/ref{1,2,3}*',size:6)
@@ -403,7 +405,7 @@ filepair_ch.view()
 ~~~
 {: .language-groovy }
 
-The code above will create a queue channel containing 1 element, a tuple of with string value **ref** and a list of six files matching the pattern.
+The code above will create a queue channel containing one element. The element is a tuple of which contains a string grouping value **ref**, and a list of six files matching the pattern.
 
 ~~~
 [ref, [data/yeast/reads/ref1_1.fq.gz, data/yeast/reads/ref1_2.fq.gz, data/yeast/reads/ref2_1.fq.gz, data/yeast/reads/ref2_2.fq.gz, data/yeast/reads/ref3_1.fq.gz, data/yeast/reads/ref3_2.fq.gz]]
@@ -423,18 +425,21 @@ See more information about the channel factory `fromFilePairs` [here](https://ww
 
 > ## fromFilePairs
 >
->  Use the `fromFilePairs` method to create a channel emitting all pairs of fastq read in the `data/yeast/reads` directory and print them.
->  Then use the `size` argument with parameter value 6 and the pattern `data/yeast/reads/*_{1,2,3,4}_{1,2}.fq.gz` and compare the output with the previous execution.
+>  1. Use the `fromFilePairs` method to create a channel containing all pairs of fastq read in the `data/yeast/reads` directory and print them.
+>  1. Then use the `fromFilePairs` `size` argument with parameter value 6 and the pattern `data/yeast/reads/*_{1,2,3,4}_{1,2}.fq.gz`.
+> 2. Compare the output with the previous execution.
 >
 > > ## Solution
 > >
 > > ~~~
 > > pairs_ch = Channel.fromFilePairs('data/yeast/reads/*_{1,2}.fq.gz')
 > > pairs_ch.view()
-> > multi_ch = Channel.fromFilePairs('data/yeast/reads/*_{1,2,3,4}_{1,2}.fq.gz', size:6)
+> > multi_ch = Channel.fromFilePairs('data/yeast/reads/*_{1,2,3}_{1,2}.fq.gz', size:6)
 > > multi_ch.view()
 > > ~~~
 > > {: .language-groovy }
+> > The first method will create a channel with 9 elements.
+> > The second method with create a channel with 2 elements. The pattern will match files starting temp33 and etoh60.
 > {: .solution}
 {: .challenge}
 
