@@ -166,8 +166,8 @@ You can specify a range of numbers as a single argument using the Groovy range o
 More information on the range operator can be found [here](https://www.logicbig.com/tutorials/misc/groovy/range-operator.html).
 
 ~~~
-ch= Channel.of(1..22, 'X', 'Y')
-ch.view()
+chromosome_ch= Channel.of(1..22, 'X', 'Y')
+chromosome_ch.view()
 ~~~
 {: .language-groovy }
 
@@ -270,8 +270,8 @@ The file path (written as a quoted string) can be the location of a single file 
 The script below creates a queue channel with a single file as its content.
 
 ~~~
-ch = Channel.fromPath( 'data/yeast/reads/ref1_2.fq.gz' )
-ch.view()
+read_ch = Channel.fromPath( 'data/yeast/reads/ref1_2.fq.gz' )
+read_ch.view()
 ~~~
 {: .language-groovy }
 
@@ -283,8 +283,8 @@ data/yeast/reads/ref1_2.fq.gz
 The script below creates a queue channel that contains as many items as there are files with `_1.fq.gz` or `_2.fq.gz` extension in the `data/yeast/reads` folder.
 
 ~~~
-ch = Channel.fromPath( 'data/yeast/reads/*_{1,2}.fq.gz' )
-ch.view()
+read_ch = Channel.fromPath( 'data/yeast/reads/*_{1,2}.fq.gz' )
+read_ch.view()
 ~~~
 {: .language-groovy }
 
@@ -322,16 +322,16 @@ We can change the default options for the `fromPath` method to give an error if 
 If we execute a Nextflow script with the contents below . It will run and not produce an output. This is likely not what we want.
 
 ~~~
-ch = Channel.fromPath( 'data/chicken/reads/*.fq.gz' )
-ch.view()
+read_ch = Channel.fromPath( 'data/chicken/reads/*.fq.gz' )
+read_ch.view()
 ~~~
 {: .language-groovy }
 
 It we add the argument `checkIfExists` with the value `true`.
 
 ~~~
-ch = Channel.fromPath( 'data/chicken/reads/*.fq.gz', checkIfExists: true )
-ch.view()
+read_ch = Channel.fromPath( 'data/chicken/reads/*.fq.gz', checkIfExists: true )
+read_ch.view()
 ~~~
 {: .output}
 
@@ -353,8 +353,8 @@ No files match pattern `*.fq` at path: data/chicken/reads/
 > **Hint:** You need two asterisks, i.e. `**`, to search subdirectories.
 > > ## Solution
 > > ~~~
-> > ch = Channel.fromPath('data/yeast/**', hidden: true)
-> > ch.view()
+> > all_files_ch = Channel.fromPath('data/yeast/**', hidden: true)
+> > all_files_ch.view()
 > > ~~~
 > > {: .language-groovy }
 > {: .solution}
@@ -369,8 +369,8 @@ Nextflow provides a convenient factory method for this common bioinformatics use
 The first element of the tuple emitted from `fromFilePairs` is a string based on the shared part of the filenames (i.e., the `*` part of the glob pattern). The second element is the list of files matching the remaining part of the glob pattern (i.e., the `<string>_{1,2}.fq.gz` pattern).
 
 ~~~
-filepair_ch = Channel.fromFilePairs('data/yeast/reads/*_{1,2}.fq.gz')
-filepair_ch.view()
+read_pair_ch = Channel.fromFilePairs('data/yeast/reads/*_{1,2}.fq.gz')
+read_pair_ch.view()
 ~~~
 {: .language-groovy }
 
@@ -387,10 +387,9 @@ filepair_ch.view()
 ~~~
 {: .output}
 
-This will produce a queue channel containing none elements. Each element is a tuple that has a string value (the file prefix matched) and a list with the two files.
+This will produce a queue channel, `read_pair_ch` , containing nine elements. Each element is a tuple that has a string value (the file prefix matched, e.g `temp33_1`) and a list with the two files e,g. `[data/yeast/reads/etoh60_2_1.fq.gz, data/yeast/reads/etoh60_2_2.fq.gz]` .
 
-The asterisk, `*`, matches any number of characters (including none), and the `{}` braces specify a collection of subpatterns. Therefore the `*_{1,2}.fq.gz` pattern matches any file name ending in `_1.fq.gz` or `_2.fq.gz` .
-
+The asterisk character `*`, matches any number of characters (including none), and the `{}` braces specify a collection of subpatterns. Therefore the `*_{1,2}.fq.gz` pattern matches any file name ending in `_1.fq.gz` or `_2.fq.gz` .
 
 
 #### What if you want to capture more than a pair?
@@ -400,12 +399,12 @@ If you want to capture more than two files for a pattern you will need to change
 For Example:
 
 ~~~
-filepair_ch = Channel.fromFilePairs('data/yeast/reads/ref{1,2,3}*',size:6)
-filepair_ch.view()
+read_group_ch = Channel.fromFilePairs('data/yeast/reads/ref{1,2,3}*',size:6)
+read_group_ch.view()
 ~~~
 {: .language-groovy }
 
-The code above will create a queue channel containing one element. The element is a tuple of which contains a string grouping value **ref**, and a list of six files matching the pattern.
+The code above will create a queue channel containing one element. The element is a tuple of which contains a string value, that is the pattern **ref**, and a list of six files matching the pattern.
 
 ~~~
 [ref, [data/yeast/reads/ref1_1.fq.gz, data/yeast/reads/ref1_2.fq.gz, data/yeast/reads/ref2_1.fq.gz, data/yeast/reads/ref2_2.fq.gz, data/yeast/reads/ref3_1.fq.gz, data/yeast/reads/ref3_2.fq.gz]]
