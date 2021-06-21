@@ -484,45 +484,9 @@ sra_ch.view()
 ~~~
 {: .output}  
 
-TODO: I think below should be removed until processes are introduced, and similarly DSL2.
-
 > ## Read pairs
 > Read pairs are implicitly managed, and are returned as a list of files.
 {: .callout}
-
-It’s straightforward to use this channel as an input using the usual Nextflow syntax. For example:
-
-~~~
-nextflow.enable.dsl=2
-
-
-
-process fastqc {
-    input:
-    tuple val(sample_id), path(reads_file)
-
-    output:
-    file("fastqc_${sample_id}_logs")
-
-    script:
-    """
-    mkdir fastqc_${sample_id}_logs
-    fastqc -o fastqc_${sample_id}_logs -f fastq -q ${reads_file}
-    """
-}
-
-params.accession = 'SRP043510'
-reads = Channel.fromSRA(params.accession)
-
-workflow {
-
-    read_out = fastqc(reads)
-    read_out.view()
-
-}
-~~~
-
-The code snippet above creates a channel containing 24 samples from a chromatin dynamics study and runs FASTQC on the resulting files.
 
 
 {% include links.md %}
