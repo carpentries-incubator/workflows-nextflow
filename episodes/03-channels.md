@@ -319,7 +319,7 @@ Available fromPath options:
 
 We can change the default options for the `fromPath` method to give an error if the file doesn't exist using the `checkIfExists` parameter. In Nextflow, method parameters are separated by a `,` and parameter values specified with a colon `:`.
 
-If we execute a nextflow script with the contents below . It will run and not produce an output. This likely not what we want.
+If we execute a Nextflow script with the contents below . It will run and not produce an output. This is likely not what we want.
 
 ~~~
 ch = Channel.fromPath( 'data/chicken/reads/*.fq.gz' )
@@ -374,15 +374,24 @@ filepair_ch.view()
 ~~~
 {: .language-groovy }
 
-This will produce a queue channel containing six elements. Each element is a tuple that has a string value (the file prefix matched) and a list with the two files.
+~~~
+[etoh60_3, [data/yeast/reads/etoh60_3_1.fq.gz, data/yeast/reads/etoh60_3_2.fq.gz]]
+[temp33_1, [data/yeast/reads/temp33_1_1.fq.gz, data/yeast/reads/temp33_1_2.fq.gz]]
+[ref1, [data/yeast/reads/ref1_1.fq.gz, data/yeast/reads/ref1_2.fq.gz]]
+[ref2, [data/yeast/reads/ref2_1.fq.gz, data/yeast/reads/ref2_2.fq.gz]]
+[temp33_2, [data/yeast/reads/temp33_2_1.fq.gz, data/yeast/reads/temp33_2_2.fq.gz]]
+[ref3, [data/yeast/reads/ref3_1.fq.gz, data/yeast/reads/ref3_2.fq.gz]]
+[temp33_3, [data/yeast/reads/temp33_3_1.fq.gz, data/yeast/reads/temp33_3_2.fq.gz]]
+[etoh60_1, [data/yeast/reads/etoh60_1_1.fq.gz, data/yeast/reads/etoh60_1_2.fq.gz]]
+[etoh60_2, [data/yeast/reads/etoh60_2_1.fq.gz, data/yeast/reads/etoh60_2_2.fq.gz]]
+~~~
+{: .output}
+
+This will produce a queue channel containing none elements. Each element is a tuple that has a string value (the file prefix matched) and a list with the two files.
 
 The asterisk, `*`, matches any number of characters (including none), and the `{}` braces specify a collection of subpatterns. Therefore the `*_{1,2}.fq.gz` pattern matches any file name ending in `_1.fq.gz` or `_2.fq.gz` .
 
-~~~
-[etoh60_3, [data/yeast/reads/etoh60_3_1.fq.gz, data/yeast/reads/etoh60_3_2.fq.gz]]
-[temp33_1, [data/yeast/reads/temp33_1_1.fq.gz,data/yeast/reads/temp33_1_2.fq.gz]]
-~~~
-{: .output}
+
 
 #### What if you want to capture more than a pair?
 
