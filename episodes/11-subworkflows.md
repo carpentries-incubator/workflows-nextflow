@@ -216,8 +216,6 @@ RNASEQ_QUANT_PIPE.out.read_quant`.
 {: .callout}
 
 
-An alternative workflow entry can be specified using the `-entry` command line option.
-
 ### Workflow composition
 
 As with `modules` workflows components can be defined within your script or imported by a `include` statment. After which thet can then be invoked and composed as any other `workflow component` or process in your script.
@@ -276,5 +274,17 @@ workflow {
 > Nested workflow execution determines an implicit scope. Therefore the same process can be invoked in two different workflow scopes, like for example in the above snippet `INDEX` could be used either in `RNASEQ_QUANT` and `RNASEQ_QC`. The workflow execution path along with the process names defines the process fully qualified name that is used to distinguish the two different process invocations i.e. `RNASEQ_QUANT:INDEX` and `RNASEQ_QC:INDEX` in the above example.
 {: .callout}  
 
+### Specific workflow entry points
+
+By default, the unnamed workflow is assumed to be the main entry point for the script. Using named workflows, the entry point can be customised by using the `entry` option of the `run` command. This allows users to run a specific sub-workflow or a section of their entire workflow script.
+
+For example:
+
+~~~
+$ nextflow run main.nf -entry RNASEQ_QUANT_PIPE
+~~~
+{: .language-bash}
+
+The above command would run the `RNASEQ_QUANT_PIPE` sub-workflow.
 
 {% include links.md %}
