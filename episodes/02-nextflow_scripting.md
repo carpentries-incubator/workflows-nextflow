@@ -6,16 +6,16 @@ questions:
 - "What language are Nextflow scripts written in?"
 - "How do I store values in a Nextflow script?"
 - "How do I write comments Nextflow script?"
-- "How can I store multiple values?"
+- "How can I store and retrieve multiple values?"
 - "How are strings evaluated in Nextflow?"
 - "How can I create simple re-useable code blocks?"
 objectives:
 - "Understand what language Nextflow scripts are written in."
 - "Define variables in a script."
-- "Create and index lists of simple values."
+- "Create lists of simple values."
 - "Comment Nextflow scripts."
 - "Explain what a list is."
-- "Explain what a string interpolation is."
+- "Explain what string interpolation is."
 - "Understand what a closure is."
 
 keypoints:
@@ -51,7 +51,7 @@ Nextflow is a Domain Specific Language (DSL) implemented on top of the Groovy pr
 ### Printing values
 
 To print something is as easy as using the `println` method and passing the text to print in quotes.
-The text is referred to as a `String` as in a String of characters.
+The text is referred to as a `string` as in a string of characters.
 ~~~
 println("Hello, World!")
 ~~~
@@ -80,8 +80,6 @@ Hello, World!
 You can pass data, known as parameters, into a method using the method name followed by brackets `()`.
 Methods are used to perform certain actions, and they are also known as functions.
 Methods enable us to reuse code: define the code once, and use it many times.
-
-Methods on obkects fixme
 
 ## Comments
 
@@ -136,7 +134,8 @@ my_var = 3.1499392
 ~~~
 {: .language-groovy }
 
-To create a Boolean value which can either be `true` or `false` :
+To create a Boolean value we assign the value `true` or `false`.
+**Note :* Do not enclosed a Boolean value in quotes or they will be interpreted as a string.
 
 ~~~
 //Boolean − This represents a Boolean value which can either be true or false.
@@ -145,7 +144,9 @@ my_var = false
 {: .language-groovy }
 
 
-And to create a string, we add single or double quotes around some text, for example:
+And to create a string, we add single or double quotes around some text.
+
+For example:
 
 ~~~
 //String - These are text literals which are represented in the form of chain of characters
@@ -165,6 +166,7 @@ text = """
 ~~~
 {: .language-groovy }
 
+
 To display the value of a variable to the screen in Groovy, we can use the `println` method passing the variable name are a parameter.
 
 ~~~
@@ -181,7 +183,7 @@ println(x)
 
 ## String interpolation
 
-To use the variable name inside a single or multi-line double quoted string `""`  prefix the variable name with a `$` to show it should be interpolated:
+To use a variable inside a single or multi-line double quoted string `""`  prefix the variable name with a `$` to show it should be interpolated:
 
 ~~~
 chr = "1"
@@ -194,7 +196,7 @@ processing chromosome 1
 ~~~
 {: .output }
 
-Variable names inside single quoted strings do not support String interpolation.
+**Note:** Variable names inside single quoted strings do not support String interpolation.
 
 ~~~
 chr = "1"
@@ -209,7 +211,7 @@ processing chromosome $chr
 
 ### Slashy strings
 
-Strings can also be defined using the `/` character as delimiter. They are known as slashy strings and are useful for defining regular expressions and patterns, as there is no need to escape backslashes e.g `\n` specifies a new line. As with double quote strings they allow to interpolate variables prefixed with a `$` character.
+Strings can also be defined using the forward slash `/` character as delimiter. They are known as `slashy strings` and are useful for defining regular expressions and patterns, as there is no need to escape backslashes e.g `\n` specifies a new line. As with double quote strings they allow to interpolate variables prefixed with a `$` character.
 
 Try the following to see the difference:
 
@@ -257,7 +259,6 @@ ATP1B2\TP53\WRAP53
 {: .callout }
 
 
-
 ### Lists
 
 To store multiple values in a variable we can use a List.
@@ -268,9 +269,7 @@ kmers = [11,21,27,31]
 ~~~
 {: .language-groovy }
 
-
 You can access a given item in the list with square-bracket notation `[]`. These positions are numbered starting at 0, so the first element has an index of 0.
-
 
 ~~~
 kmers = [11,21,27,31]
@@ -297,7 +296,7 @@ println(kmers[-1])
 ~~~
 {: .output}
 
-Lists can also be indexed using a range. A range is a quick way of declaring a list of sequential values .
+Lists can also be indexed using a range. A range is a quick way of declaring a list of consecutive sequential number.
 To define a range use `<num1>..<num2>` notation.
 
 ~~~
@@ -315,23 +314,29 @@ println(kmer[0..2])
 
 To use an expression like `kmer[0..2]` inside a double quoted String `""` we use the `${expression}` syntax, similar to Bash/shell scripts:
 
+For Example, the expression below without the `{}`""
+
 ~~~
 kmers = [11,21,27,31]
 println("The first three elements in the Lists are. $kmers[0..2]")
 ~~~
 {: .language-groovy }
 
+would output.
+
 ~~~
 The first three elements in the Lists are. [11, 21, 27, 31][0..2]
 ~~~
 {: .output}
 
+We need to enclose the `kmers[0..2]` expression inside `{}` as below to get the correct output.
 
 ~~~
 kmers = [11,21,27,31]
 println("The first three elements in the Lists are. ${kmers[0..2]}")
 ~~~
 {: .language-groovy }
+
 
 ~~~
 The first three elements in the Lists are. [11, 21, 27]
@@ -435,7 +440,7 @@ println mylist.findAll{it%2 == 0}
 
 ### Maps
 
-It can difficult to remember the index of a value in a list, so we can use a Groovy Maps (also known as associative arrays)  that have an arbitrary type of key instead of integer. The syntax is very much aligned. To specify the key use a colon before the value `[key:value]`. Multiple values are separated by a comma.
+It can difficult to remember the index of a value in a list, so we can use a Groovy Maps (also known as associative arrays)  that have an arbitrary type of key instead of integer value. The syntax is very much aligned. To specify the key use a colon before the value `[key:value]`. Multiple values are separated by a comma. *Note:* the key value is not enclosed in quotes.
 
 ~~~                
 roi = [ chromosome : "chr17", start: 7640755, end: 7718054, genes: ['ATP1B2','TP53','WRAP53']]
@@ -443,7 +448,7 @@ roi = [ chromosome : "chr17", start: 7640755, end: 7718054, genes: ['ATP1B2','TP
 {: .language-groovy }
 
 
-Maps can be accessed in a conventional square-bracket syntax or as if the key was a property of the map or using the dot notation.
+Maps can be accessed in a conventional square-bracket syntax or as if the key was a property of the map or using the dot notation. *Note:* When retrieving a value the key value is  enclosed in quotes.
 
 ~~~
 //Use of the square brackets.
@@ -488,8 +493,7 @@ square = { it * it }
 {: .language-groovy }
 
 
-The curly brackets `{}` around the expression `it * it` tells the script interpreter to treat this expression as code. The `it` identifier is an special variable that represents the value that is passed to the function when it is invoked.
-
+The curly brackets `{}` around the expression `it * it` tells the script interpreter to treat this expression as code. `it` is an implicit variable that is provided in closures. It's available when the closure doesn't have an explicitly declared parameter and represents the value that is passed to the function when it is invoked.
 
 We can pass the function `square` as an argument to other functions or methods. Some built-in functions take a function like this as an argument. One example is the `collect` method on lists that iterates through each element of the list transforming it into a new value using the closure:
 
@@ -523,12 +527,17 @@ println x
 ### Closure parameters
 
 
-By default, closures take a single parameter called `it`, to give it a different name use the -> syntax. For example:
+By default, closures take a single parameter called `it`. To define a different name use the
+` variable ->` syntax.
+
+For example:
 
 ~~~
 square = { num -> num * num }
 ~~~
 {: .language-groovy }
+
+In the above example the variable `num` is assigned as the closure input parameter instead of `it`.
 
 > ## Write a closure
 > Write a closure to add the prefix `chr` to each element of  the list `x=[1,2,3,4,5,6]`
@@ -548,16 +557,21 @@ square = { num -> num * num }
 
 ### Multiple map parameters
 
-It’s also possible to define closures with multiple, custom-named parameters
+It’s also possible to define closures with multiple, custom-named parameters using the `->` syntax. This separate the custom-named parameters by a comma before the `->` operator.
+
+
 For example:
 
 ~~~
 tp53 = [chromosome: "chr17",start:7661779 ,end:7687538, genome:'GRCh38', gene: "TP53"]
-sub = { a, b -> a-b }
-tp53.length = sub(tp53.end,tp53.start)
+//perform subtraction of end and start coordinates
+region_length = {start,end -> end-start }
+tp53.length = region_length(tp53.start,tp53.end)
 println(tp53)
 ~~~
 {: .language-groovy }
+
+Would add the region `length` to the map `tp53`.
 
 ~~~
 [chromosome:chr17, start:7661779, end:7687538, genome:GRCh38, gene:TP53, length:25759]
