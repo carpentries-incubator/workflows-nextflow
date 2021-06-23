@@ -3,30 +3,39 @@ title: "Workflow"
 teaching: 30
 exercises: 15
 questions:
-- "How do I combined channels and processes to create a workflow?"
+- "How do I connect channels and processes to create a workflow?"
+- "How do I invoke a process inside a workflow?"
 objectives:
 - "Create a Nextflow workflow joining multiple processes."
+- "Understand how to to connect processes via their inputs and outputs within a workflow."
 keypoints:
 - "A Nextflow workflow is define by invoking `processes` inside the `workflow` scope."
-- "Process outputs can be accessed using the `out` attribute for the respective `process`."
+- "A process is invoked like a function inside the `workflow` scope passing any required input parameters as arguments. e.g. `INDEX(transcriptome_ch)`."
+- "Process outputs can be accessed using the `out` attribute for the respective `process`. Multiple outputs from a single process can be accessed using the `[]` or output name."
 ---
 
 ## Workflows
 
-We now know how to define tasks using processes. How do we then combine multiple process into a workflow?
+A workflow is series of connected tasks. We now know how to define individual tasks using processes. How do we then connect multiple processes to create a workflow?
 
 
-## Workflow scope
+## Workflow definition
 
-We can combined process to create our pipeline inside our `workflow` scope.
+We can connect process to create our pipeline inside a `workflow` scope.
+The  workflow scope starts with keyword the `workflow`, followed by an optional name and finally the workflow body delimited by curly brackets.
 
-### Process definition
+> ## Implicit workflow
+> A workflow definition which does not declare any name is assumed to be the main workflow, and it is implicitly executed. Therefore it’s the entry point of the workflow application.
+{: .callout }
 
-As seen previously, a `process` is invoked as a function in the `workflow` scope, passing the expected input channels as parameters as it if were a function `<process_name>(<input_ch1>,<input_ch2>,...)`. To combined multiple process in a workflow invoke the processes in the order they would appear in a workflow.
+### Invoking processes with a workflow
+
+As seen previously, a `process` is invoked as a function in the `workflow` scope, passing the expected input channels as arguments as it if were a function `<process_name>(<input_ch1>,<input_ch2>,...)`. To combined multiple process invoke the processes in the order they would appear in a workflow.
 
 For example:
 
 ~~~
+//workflow_01.nf
 nextflow.enable.dsl=2
 
 process INDEX {
@@ -54,36 +63,36 @@ process INDEX {
 
 workflow {
     transcriptome_ch = channel.fromPath('data/yeast/transcriptome/*.fa.gz',checkIfExists: true)
-    reads = channel.fromFilePairs('data/yeast/reads/*_{1,2}.fq.gz',checkIfExists: true)
+    read_pairs_ch = channel.fromFilePairs('data/yeast/reads/*_{1,2}.fq.gz',checkIfExists: true)
 
-    //index process takes 1 input channel as a parameter
+    //index process takes 1 input channel as a argument
     index_obj = INDEX(transcriptome_ch)
 
-    //quant channel takes 2 input channels as parameters
-    QUANT(index_out_ch,reads).view()
+    //quant channel takes 2 input channels as arguments
+    QUANT(index_obj,read_pairs_ch).view()
 }
 ~~~
 {: .language-groovy }
 
 In this example, the `INDEX` process is invoked first and the `QUANT` process second.
-The `INDEX` object, `index_obj`, is passed as the first parameter to the `QUANT` process. The `reads` channel is passed as the second parameter.
+The `INDEX` object, `index_obj`, is passed as the first argument to the `QUANT` process. The `read_pairs_ch` channel is passed as the second argument.
 
 
 ### Process composition
 
-Processes having matching input-output declaration can be composed so that the output of the first process is passed as input to the following process.
+Processes having matching `input`-`output` declaration can be composed so that the output of the first process is passed as input to the following process.
 
-Taking in consideration the previous process definition, it’s possible to write it as the following:
+For example: taking in consideration the previous process example, it’s possible to re-write it as the following:
 
 ~~~
 [..truncated..]
 
 workflow {
   transcriptome_ch = channel.fromPath('data/yeast/transcriptome/*.fa.gz')
-  reads = channel.fromFilePairs('data/yeast/reads/*_{1,2}.fq.gz')
+  read_pairs_ch = channel.fromFilePairs('data/yeast/reads/*_{1,2}.fq.gz')
 
-  // pass index process as a parameter to quant process
-  quant(index(transcriptome_ch),reads ).view()
+  // pass INDEX process as a parameter to QUANT process
+  QUANT(INDEX(transcriptome_ch),read_pairs_ch ).view()
 }
 ~~~
 {: .language-groovy }
@@ -99,12 +108,12 @@ For example:
 
 workflow {
     transcriptome_ch = channel.fromPath('data/yeast/transcriptome/*.fa.gz')
-    reads = channel.fromFilePairs('data/yeast/reads/*_{1,2}.fq.gz')
-    index(transcriptome_ch)
+    read_pairs_ch = channel.fromFilePairs('data/yeast/reads/*_{1,2}.fq.gz')
+    INDEX(transcriptome_ch)
 
     // process output  accessed using the `out` attribute of the index object index_out
-    quant(index.out,reads)
-    quant.out.view()
+    QUANT(INDEX.out,read_pairs_ch)
+    QUANT.out.view()
 }
 ~~~
 {: .language-groovy }
@@ -113,14 +122,15 @@ When a process defines two or more output channels, each of them can be accessed
 
 ### Process named output
 
-The process output definition allows the use of the `emit:` option to define a name identifier that can be used to reference the channel in the external scope.
+The process `output` definition allows the use of the `emit:` option to define a named identifier that can be used to reference the channel in the external scope.
 
 For example:
 
 ~~~
+//workflow_02.nf
 nextflow.enable.dsl=2
 
-process index {
+process INDEX {
 
   input:
   path transcriptome
@@ -134,7 +144,7 @@ process index {
   """
 }
 
-process quant {
+process QUANT {
    input:
      each  path(index)
      tuple(val(pair_id), path(reads))
@@ -148,13 +158,12 @@ process quant {
 
 workflow {
   transcriptome_ch = channel.fromPath('data/yeast/transcriptome/*.fa.gz')
-  reads = channel.fromFilePairs('data/yeast/reads/*_{1,2}.fq.gz')
-  index(transcriptome_ch)
-  quant(index.out.salmon_index,reads).view()
+  read_pairs_ch = channel.fromFilePairs('data/yeast/reads/*_{1,2}.fq.gz')
+  INDEX(transcriptome_ch)
+  QUANT(INDEX.out.salmon_index,read_pairs_ch).view()
 }
 ~~~
 {: .language-groovy }
-
 
 ### Workflow parameters
 
@@ -166,14 +175,13 @@ For example:
 [..truncated..]
 
 params.transcriptome = 'data/yeast/transcriptome/*.fa.gz'
-params.reads = 'data/yeast/reads/*_{1,2}.fq.gz'
+params.read_pairs_ch = 'data/yeast/reads/*_{1,2}.fq.gz'
 
 workflow {
-
   transcriptome_ch = channel.fromPath(params.transcriptome)
   reads = channel.fromFilePairs(params.reads)
-  index(transcriptome_ch)
-  quant(index.out.salmon_index,reads).view()
+  INDEX(transcriptome_ch)
+  QUANT(index.out.salmon_index,read_pairs_ch).view()
 }
 ~~~
 {: .language-groovy }
@@ -181,16 +189,94 @@ workflow {
 In this example the `params.transcriptome` and `params.reads` be accessed inside the `workflow` scope.
 
 
-### Implicit workflow
-
-A workflow definition which does not declare any name is assumed to be the main workflow, and it is implicitly executed. Therefore it’s the entry point of the workflow application.
-
-
-> ## Fixme
-> Add exercise to check  learner knows how to invoke a workflow and connect processes.
+> ## Workflow
+> Connect the output of the process `FASTQC` to `PARSEZIP` in the Nextflow script `workflow_exercise.nf`.
+>
+> **Note:** You will need to pass the `read_pairs_ch` as an argument to FASTQC and you will need to use the `collect` operator to gather the FASTQC channel output.
+> ~~~
+>//workflow_exercise.nf
+>nextflow.enable.dsl=2>
+>params.reads = 'data/yeast/reads/*_{1,2}.fq.gz'>
+>
+>process FASTQC {
+>  input:
+>  tuple val(sample_id), path(reads)>
+>
+>  output:
+>  path "fastqc_${sample_id}_logs/*.zip">
+>
+>  script:
+>  //flagstat simple stats on bam file
+>  """
+>  mkdir fastqc_${sample_id}_logs
+>  fastqc -o fastqc_${sample_id}_logs -f fastq -q ${reads} -t ${task.cpus}
+>  """
+>}>
+>
+>process PARSEZIP {
+>  publishDir "results/fqpass", mode:"copy"
+>  input:
+>  path flagstats>
+>
+>  output:
+>  path 'pass_basic.txt'>
+>
+>  script:
+>  """
+>  for zip in *.zip; do zipgrep 'Basic Statistics' \$zip|grep 'summary.txt'; done > pass_basic.txt
+>  """
+>}
+>read_pairs_ch = channel.fromFilePairs(params.reads,checkIfExists: true)
+> workflow {
+> //connect process FASTQC and PARSEZIP
+> }
+>~~~
+> {: .language-groovy }
 > >
 > > ## Solution
+> > ~~~
+> > //workflow_exercise.nf> >
 > >
+> > nextflow.enable.dsl=2> >
+> >
+> > params.reads = 'data/yeast/reads/*_{1,2}.fq.gz'> >
+> >
+> > process FASTQC {
+> >   input:
+> >   tuple val(sample_id), path(reads)> >
+> >
+> >   output:
+> >   path "fastqc_${sample_id}_logs/*.zip"> >
+> >
+> >   script:
+> >   //flagstat simple stats on bam file
+> >   """
+> >   mkdir fastqc_${sample_id}_logs
+> >   fastqc -o fastqc_${sample_id}_logs -f fastq -q ${reads} -t ${task.cpus}
+> >   """
+> > }> >
+> >
+> > process PARSEZIP {
+> >   publishDir "results/fqpass", mode:"copy"
+> >   input:
+> >   path flagstats> >
+> >
+> >   output:
+> >   path 'pass_basic.txt'> >
+> >
+> >   script:
+> >   """
+> >   for zip in *.zip; do zipgrep 'Basic Statistics' \$zip|grep 'summary.txt'; done > pass_basic.txt
+> >   """
+> > }> >
+> >
+> > read_pairs_ch = channel.fromFilePairs(params.reads,checkIfExists: true)> >
+> >
+> > workflow {
+> >   PARSEZIP(FASTQC(read_pairs_ch).collect())
+> > }
+> > ~~~
+> > {: .language-groovy }
 > {: .solution}
 {: .challenge}
 
