@@ -70,6 +70,7 @@ We will learn more about the `workflow` block in the next episode.
 **Note:** As we are using DSL2 we need to include `nextflow.enable.dsl=2` in the script.
 
 ~~~
+//process_index.nf
 nextflow.enable.dsl=2
 
 process INDEX {
@@ -140,6 +141,7 @@ Or, for commands that span multiple lines you can encase the command in  triple 
 For example:
 
 ~~~
+//process_multi_line.nf
 nextflow.enable.dsl=2
 
 process PROCESSBAM {
@@ -160,6 +162,7 @@ workflow {
 By default the process command is interpreted as a **Bash** script. However any other scripting language can be used just simply starting the script with the corresponding [Shebang](https://en.wikipedia.org/wiki/Shebang_(Unix)) declaration. For example:
 
 ~~~
+//process_python.nf
 nextflow.enable.dsl=2
 
 process PYSTUFF {
@@ -191,6 +194,7 @@ workflow {
 {: .language-groovy }
 
 ~~~
+//process_rscript.nf
 nextflow.enable.dsl=2
 
 process RSTUFF {
@@ -239,6 +243,7 @@ The variable is referenced using the `$kmer` syntax within the multi-line string
 A Nextflow variable can be used multiple times in the script block.
 
 ~~~
+//process_script.nf
 nextflow.enable.dsl=2
 
 kmer = 31
@@ -266,6 +271,7 @@ A special Nextflow `map` variable `params` can be used to assign values from the
 
 In the example below we define the variable `params.kmer` with a default value of 31 in the Nextflow script.
 ~~~
+//process_script_params.nf
 nextflow.enable.dsl=2
 
 params.kmer = 31
@@ -291,7 +297,7 @@ workflow {
 We can change the default value of `kmer` to 11 by running the Nextflow script using the command below. *Remember* parameter have two hyphens `--` .
 
 ~~~
-nextflow run script.nf --kmer 11
+nextflow run process_script_params.nf --kmer 11
 ~~~
 {: .language-bash }
 
@@ -300,6 +306,7 @@ nextflow run script.nf --kmer 11
 >
 > For the Nextflow script below.
 > ~~~
+> //process_script_params.nf
 > nextflow.enable.dsl=2
 > params.kmer = 31
 >
@@ -349,6 +356,7 @@ In the example below we will use the bash `PWD` variable that contains the value
 
 
 ~~~
+//process_escape_bash.nf
 nextflow.enable.dsl=2
 
 process INDEX {
@@ -383,6 +391,7 @@ we reference the Nextflow variables as such, `!{projectDir}` and `!{params.kmer}
 as `$PWD`.
 
 ```
+//process_shell.nf
 nextflow.enable.dsl=2
 
 params.kmer = 31
@@ -429,6 +438,7 @@ else {
 For example, the Nextflow script below will use the `if` statement to change what index is created depending on the Nextflow variable `params.aligner`.
 
 ~~~
+//process_conditional.nf
 nextflow.enable.dsl=2
 
 params.aligner = 'kallisto'
@@ -508,6 +518,7 @@ The input qualifier declares the type of data to be received.
 The `val` qualifier allows you to receive value data as input. It can be accessed in the process script by using the specified input name, as shown in the following example:
 
 ~~~
+//process_input_value.nf
 nextflow.enable.dsl=2
 
 process PRINTCHR {
@@ -551,6 +562,7 @@ The `path` qualifier allows the handling of files. This means that Nextflow will
 The input file name can be defined dynamically by defining the input name as a Nextflow variable, `sample`, and referenced in the script using  `$sample` syntax as shown below:
 
 ~~~
+//process_input_file.nf
 nextflow.enable.dsl=2
 
 process NUMLINES {
@@ -591,6 +603,7 @@ ref1_2.fq.gz 58708
 The input name can also be defined as user specified filename inside quotes as in the example below where specific the name of the file as `'sample.fq.gz'`.
 
 ~~~
+//process_input_file_02.nf
 nextflow.enable.dsl=2
 
 process NUMLINES {
@@ -639,6 +652,7 @@ sample.fq.gz58708
 > Add an input channel to the script below that takes the reads channel as input.
 > [FastQC](https://www.bioinformatics.babraham.ac.uk/projects/fastqc/) is a quality control tool for high throughput sequence data.
 > ~~~
+> //process_exercise_input.nf
 > nextflow.enable.dsl=2
 >
 > process FASTQC {
@@ -664,6 +678,7 @@ sample.fq.gz58708
 > {: .language-bash }
 > > ## Solution
 > > ~~~
+> > //process_exercise_input_answer.nf
 > > nextflow.enable.dsl=2
 > > process FASTQC {
 > >    input:
@@ -692,6 +707,7 @@ However it’s important to understands how the content of channel and affect th
 Consider the following example:
 
 ~~~
+//process_combine.nf
 nextflow.enable.dsl=2
 
 process COMBINE {
@@ -733,6 +749,8 @@ What happens when not all channels have the same number of elements?
 For example:
 
 ~~~
+//process_combine_02.nf
+
 nextflow.enable.dsl=2
 
 process COMBINE {
@@ -770,6 +788,8 @@ Note however that value channels, `Channel.value` , do not affect the process te
 To better understand this behaviour compare the previous example with the following one:
 
 ~~~
+//process_combine_03.nf
+
 nextflow.enable.dsl=2
 
 process COMBINE {
@@ -802,7 +822,7 @@ In this example the process is run three times.
 
 
 > ##  Combining input channels
-> Write a nextflow script `salmon_index.nf` that combines two input channels
+> Write a nextflow script `salmon_index_combine.nf` that combines two input channels
 > ~~~
 > transcriptome_ch = channel.value('data/yeast/transcriptome/Saccharomyces_cerevisiae.R64-1-1.cdna.all.fa.gz')
 > kmer_ch = channel.of(21)
@@ -819,6 +839,7 @@ And include the command below in the script directive
 > {: .language-groovy }
 > > ## Solution
 > > ~~~
+> > // process_exercise_combine_answer.nf
 > > nextflow.enable.dsl=2
 > > process COMBINE {
 > >  input:
@@ -846,6 +867,7 @@ And include the command below in the script directive
 We saw previously that by default the number of time a process run is defined by the queue channel with the fewest items. However, the `each` qualifier allows you to repeat the execution of a process for each item in a list or a queue channel, every time new data is received. For example if we can fix the previous example by using the input qualifer `each` for the letters queue channel:
 
 ~~~
+//process_repeat.nf
 nextflow.enable.dsl=2
 
 process COMBINE {
@@ -903,7 +925,7 @@ The process will run eight times.
 >  }
 >  ~~~
 >  {: .language-groovy }
-> Extend the previous  exercise, script above, by adding more values to the `kmer` queue channel
+> Extend the previous  exercise script `salmon_index.nf` above, by adding more values to the `kmer` queue channel
 > ~~~  
 > kmer_ch = channel.of(21,27,31)
 > ~~~
@@ -914,6 +936,7 @@ The process will run eight times.
 >
 > > ## Solution
 > > ~~~
+> > //process_exercise_repeat_answer.nf
 > > nextflow.enable.dsl=2
 > >
 > > process COMBINE {
@@ -964,6 +987,7 @@ Because Nextflow processes can only communicate through channels if we want to s
 
 
 ~~~
+//process_output_value.nf
 nextflow.enable.dsl=2
 
 process METHOD {
@@ -1003,6 +1027,8 @@ If we want to capture a file instead of a value we can use the
 `path` qualifier that can capture one or more files produced by the process, over the specified channel.
 
 ~~~
+//process_output_file.nf
+
 nextflow.enable.dsl=2
 
 methods_ch = channel.of('salmon','kallisto')
@@ -1047,6 +1073,8 @@ This allows to capture multiple files into a list and output them as a one item 
 For example, here we will capture the files `fastqc.html` and directory `fastqc.zip` produced as results from FastQC in the output channel.
 
 ~~~
+//process_output_multiple.nf
+
 nextflow.enable.dsl=2
 
 process FASTQC {
@@ -1095,6 +1123,7 @@ Some caveats on glob pattern behaviour:
 > Modify the nextflow script `process_exercise_output.nf` to include an output blocks that captures the different index folder `index_$kmer`.
 > Use the `view` operator on the output channel.
 > ~~~
+> //process_exercise_output.nf
 > nextflow.enable.dsl=2
 >
 > process INDEX {
@@ -1119,6 +1148,7 @@ Some caveats on glob pattern behaviour:
 > {: .language-groovy }
 > > ## Solution
 > > ~~~
+> > //process_exercise_output_answer.nf
 > > nextflow.enable.dsl=2
 > >
 > > process INDEX {
@@ -1157,6 +1187,7 @@ In tuples the first item is the grouping key and the second item is the list of 
 When using channel containing a tuple, the corresponding input declaration must be declared with a `tuple` qualifier, followed by definition of each item in the tuple.
 
 ~~~
+//process_tuple_input.nf
 nextflow.enable.dsl=2
 
 process TUPLEINPUT{
@@ -1200,6 +1231,7 @@ output:
 An example can be seen in this script below.
 
 ~~~
+//process_tuple_io.nf
 nextflow.enable.dsl=2
 
 process QUANT {
@@ -1238,6 +1270,7 @@ workflow {
 > ## Composite inputs and outputs
 > Fill in the blank ___ input and output qualifers for `process_exercise_tuple.nf`.
 > ~~~
+> //process_exercise_tuple.nf
 > nextflow.enable.dsl=2
 >
 > process FASTQC {
@@ -1261,6 +1294,7 @@ workflow {
 > {: .language-groovy }
 > > ## Solution
 > > ~~~
+> > //process_exercise_tuple_answer.nf
 > > nextflow.enable.dsl=2
 > >
 > >process FASTQC {
@@ -1291,6 +1325,7 @@ The `when` declaration allows you to define a condition that must be verified in
 It is useful to enable/disable the process execution depending the state of various inputs and parameters. For example:
 
 ~~~
+//process_conditional.nf
 nextflow.enable.dsl=2
 
 process CONDITIONAL {
@@ -1342,6 +1377,7 @@ Directives are commonly used to define the amount of computing resources to be u
 For example:
 
 ~~~
+//process_exercise_directives.nf
 nextflow.enable.dsl=2
 
 process PRINTCHR {
@@ -1393,6 +1429,7 @@ A complete list of directives is available at this [link](https://www.nextflow.i
 > 1. Change the fastqc `-t` option value to `$task.cpus` in the script directive.
 >
 > ~~~
+> //process_exercise_directives.nf
 > nextflow.enable.dsl=2
 >
 >  process FASTQC {
@@ -1418,6 +1455,7 @@ A complete list of directives is available at this [link](https://www.nextflow.i
 >  {: .language-groovy }
 > > ## solution
 > > ~~~
+> > //process_directives_answer.nf
 > > nextflow.enable.dsl=2
 > >
 > >  process FASTQC {
@@ -1462,6 +1500,7 @@ publishDir <directory>, parameter: value, parameter2: value ...
 For example:
 
 ~~~
+//process_publishDir.nf
 nextflow.enable.dsl=2
 
 process QUANT {
@@ -1528,6 +1567,7 @@ You can use more then one `publishDir` to keep different outputs in separate dir
 For example:
 
 ~~~
+//process_publishDir_semantic.nf
 nextflow.enable.dsl=2
 
 process QUANT {
@@ -1594,9 +1634,9 @@ The above example will create an output folder structure in the directory result
 
 
 > ## Publishing results
->  Add a `publishDir` directive to the nextflow script `process_publishDir_exercise.nf` that copies the index directory to the results folder .
+>  Add a `publishDir` directive to the nextflow script `process_exercise_publishDir.nf` that copies the index directory to the results folder .
 >  ~~~
->
+> //process_exercise_pubilishDir.nf
 > nextflow.enable.dsl=2
 >
 >  process INDEX {
@@ -1623,7 +1663,7 @@ The above example will create an output folder structure in the directory result
 >  {: .language-groovy }
 > > ## Solution
 > > ~~~
-> >
+> > //process_exercise_publishDir_answer.nf
 > > nextflow.enable.dsl=2
 > >
 > >  process INDEX {
@@ -1656,8 +1696,6 @@ The above example will create an output folder structure in the directory result
 {: .callout}
 
 
-~~~
-multiqc_report.html
-~~~
+
 {: .output }
 {% include links.md %}
