@@ -91,13 +91,12 @@ Values are put inside  parentheses `()`  to assign them to a channel.
 For example:
 
 ~~~
-ch1 = Channel.value()
-ch2 = Channel.value('GRCh38')
+ch1 = Channel.value('GRCh38')
 ch2 = Channel.value( ['chr1','chr2','chr3','chr4','chr5'] )
 ~~~
 {: .language-groovy }
 
-1. Creates an empty value channel.
+
 1. Creates a value channel and binds a string to it.
 1. Creates a value channel and binds a list object to it that will be emitted as a single item.
 
