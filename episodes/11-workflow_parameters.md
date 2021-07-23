@@ -11,46 +11,13 @@ keypoints:
 - "FIXME"
 ---
 
-## Nextflow log
-
-Once a script has run, Nextflow stores a log of all the workflows executed in the current folder.
-Similar to an electronic lab book, this means you have a have a record of all processing steps and commands run.
-
-You can print Nextflow's execution history and log information using the  `nextflow log` command.
-
-~~~
-$ nextflow log
-~~~
-{: .language-bash}
-
-
-> ## Show Execution Log
-> Listing the execution logs of previous invocations of all pipelines in a directory.
->
-> ~~~
-> $ nextflow log
-> ~~~
-> {: .language-bash}
-> > ## Solution
-> > The output will look similar to this:
-> >
-> > ~~~
-> >TIMESTAMP          	DURATION	RUN NAME       	STATUS	REVISION ID	SESSION ID                          	COMMAND
-> >2021-03-19 13:45:53	6.5s    	fervent_babbage	OK    	c54a707593 	15487395-443a-4835-9198-229f6ad7a7fd	nextflow run wc.nf
-> > 2021-03-19 13:46:53	6.6s    	soggy_miescher 	OK    	c54a707593 	58da0ccf-63f9-42e4-ba4b-1c349348ece5	nextflow run wc.nf --samples 'data/yeast/reads/*.fq.gz'
-> >  ~~~
-> > {: .output }
-> {: .solution}
-{: .challenge}
-
-
 ## Resume
 
 When Nextflow is run, it runs the entire workflow by default. In the background Nextflow automatically keeps track of all the processes executed in your pipeline. via  caching  and checkpointing. This caching  and checkpointing means that if your pipeline is interupted you can restart it from the last successfully executed processusing the Nextflow parameter `-resume`, Nextflow. 
 
 > ## How does resume work?
 > In practice, every execution starts from the beginning.
->  However, when using resume, before launching a task, Nextflow uses the unique ID to check if:
+> However, when using resume, before launching a task, Nextflow uses the unique ID to check if:
 > * the working directory exists
 > * it contains a valid command exit status
 > * it contains the expected output files.
