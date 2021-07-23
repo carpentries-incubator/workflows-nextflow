@@ -169,7 +169,7 @@ IMESTAMP          	DURATION	RUN NAME           	STATUS	REVISION ID	SESSION ID   
 {: .callout}
 
 
-## Work directory
+## The Work directory
 
 By default the pipeline results are cached in the directory `work` where the pipeline is launched.
 
@@ -260,6 +260,7 @@ $ nextflow clean [run_name|session_id] [options]
 {: .language-bash}
 
 Typically, results before the last successful result are cleaned:
+
 ~~~
 $ nextflow clean -f -before [run_name|session_id]
 ~~~
