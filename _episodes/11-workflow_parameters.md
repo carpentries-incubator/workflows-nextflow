@@ -11,46 +11,56 @@ keypoints:
 - "FIXME"
 ---
 
+One of the key features of a modern workflow management system like Nextflow is the ability to restart a pipeline after a error from the last successful process. Nextflow achieves this by automatically keeping track of all the processes executed in your pipeline via  caching  and checkpointing. 
+
 ## Resume
 
-When Nextflow is run, it runs the entire workflow by default. In the background Nextflow automatically keeps track of all the processes executed in your pipeline. via  caching  and checkpointing. This caching  and checkpointing means that if your pipeline is interupted you can restart it from the last successfully executed processusing the Nextflow parameter `-resume`, Nextflow. 
+To restart from the last successfully executed process we add the command line option `-resume` to the Nextflow command. 
 
-> ## How does resume work?
-> In practice, every execution starts from the beginning.
-> However, when using resume, before launching a task, Nextflow uses the unique ID to check if:
-> * the working directory exists
-> * it contains a valid command exit status
-> * it contains the expected output files.
-> If these conditions are satisfied, the task execution is skipped and the previously computed outputs are applied. 
-> When a task requires recomputation, ie. the conditions above are not fulfilled, the downstream tasks are automatically invalidated.
-{: .callout}
+For example, the command below would resume the `wc.nf` script from the last successful process.
+
+~~~
+$ nextflow run wc.nf --input 'data/yeast/reads/ref1*.fq.gz' -resume
+~~~
+{: .language-bash}
+
+We can see in the output from process NUM_LINES has been retrieved from the cache.
+~~~
+Launching `wc.nf` [condescending_dalembert] - revision: fede04a544
+[c9/2597d5] process > NUM_LINES (1) [100%] 2 of 2, cached: 2 ✔
+ref1_1.fq.gz 58708
+
+ref1_2.fq.gz 58708
+~~~
+{: .output}
+
 
 > ## Resume a pipeline
-> Use the Nextflow `log` command to find a successful run of your `wc.nf` pipeline.
-> Resume the successful Nextflow run `wc.nf`  by re-running the command and adding the parameter `-resume`:
+> Resume the Nextflow script `wc.nf` by re-running the command and adding the parameter `-resume` 
+> and the parameter `--input 'data/yeast/reads/temp33*'`:
 >
-> ~~~
-> $ nextflow run wc.nf --samples 'data/yeast/reads/*.fq.gz' -resume
-> ~~~
 > {: .language-bash}
 > > ## Solution
-> > The output will look similar to this:
+> > ~~~
+> > $ nextflow run wc.nf --input 'data/yeast/reads/temp33*' -resume
+> > ~~~
+> > If your previous run was successful the output will look similar to this:
 > >
 > > ~~~
 > > N E X T F L O W  ~  version 20.10.0
-> > Launching `wc.nf` [crazy_sax] - revision: c54a707593
-> > [0a/0425b3] process > numLines (3) [100%] 6 of 6, cached: 6 ✔
-> >    11748 lung_1.fq
+> > Launching `wc.nf` [nauseous_leavitt] - revision: fede04a544
+> > [21/6116de] process > NUM_LINES (4) [100%] 6 of 6, cached: 6 ✔
+> >temp33_3_2.fq.gz 88956
 > >
-> >    11748 liver_2.fq
+> >temp33_3_1.fq.gz 88956
 > >
-> >    11748 liver_1.fq
+> >temp33_1_1.fq.gz 82372
 > >
-> >    11748 lung_2.fq
+> >temp33_2_2.fq.gz 63116
 > >
-> >    11748 gut_2.fq
+> >temp33_1_2.fq.gz 82372
 > >
-> >    11748 gut_1.fq
+> >temp33_2_1.fq.gz 63116
 > >  ~~~
 > > {: .output }
 > > You will see that the execution of the process `NUMLINES` is actually skipped (cached text appears), and its results are retrieved from the cache.
@@ -58,88 +68,49 @@ When Nextflow is run, it runs the entire workflow by default. In the background 
 {: .challenge}
 
 
-If you modify some parts of your script and re-run using `-resume`, only the processes that are actually changed will be re-executed. 
+If you modify some parts of your script, or alter the input data using `-resume`, will only execute the processes that are actually changed. 
+
 The execution of the processes that are not changed will be skipped and the cached result used instead.
 
 This helps a lot when testing or modifying part of your pipeline without having to re-execute it from scratch.
 
 > ## Modify Nextflow script and re-run.
-> Modify the `wc.nf` script changing the sleep time and execute the script by entering the following command in your terminal:
->
+>  Alter the timestamp on the file temp33_3_2.fq.gz using the UNIX `touch` command.
+> ~~~~
+> $ touch data/yeast/reads/temp33_3_2.fq.gz
+> ~~~~
+> {: .language-bash}
+> Run command below.
 > ~~~
-> $ nextflow run wc.nf --samples 'data/yeast/reads/*.fq.gz' -resume
+> $ nextflow run wc.nf --input 'data/yeast/reads/temp33*' -resume
 > ~~~
+> How many processes will be cached and how many will run ?
 > {: .language-bash}
 > > ## Solution
 > > The output will look similar to this:
 > >
 > > ~~~
 > > N E X T F L O W  ~  version 20.10.0
-> > Launching `wc.nf` [backstabbing_joliot] - revision: 714e17a273
-[fc/deef86] process > numLines (18) [100%] 18 of 18, cached: 18 ✔
-> > 3252 ref3_1.fq.gz
+> > Launching `wc.nf` [gigantic_minsky] - revision: fede04a544
+> > executor >  local (1)
+> > [20/cda0d5] process > NUM_LINES (5) [100%] 6 of 6, cached: 5 ✔
+> > temp33_1_2.fq.gz 82372
 > >
-> >5393 temp33_3_1.fq.gz
+> > temp33_3_1.fq.gz 88956
 > >
-> >3602 ref1_2.fq.gz
+> > temp33_2_1.fq.gz 63116
 > >
-> >4950 temp33_1_2.fq.gz
+> > temp33_1_1.fq.gz 82372
 > >
-> >5040 ref2_1.fq.gz
+> > temp33_2_2.fq.gz 63116
 > >
-> >5347 etoh60_1_1.fq.gz
-> >
-> >3823 temp33_2_1.fq.gz
-> >
-> >6320 etoh60_3_2.fq.gz
-> >
-> >6327 etoh60_3_1.fq.gz
-> >
-> >4904 temp33_1_1.fq.gz
-> >
-> >5038 ref2_2.fq.gz
-> >
-> >3628 ref1_1.fq.gz
-> >
-> >5434 etoh60_2_2.fq.gz
-> >
-> >3293 ref3_2.fq.gz
-> >
-> >3858 temp33_2_2.fq.gz
-> >
-> >5386 temp33_3_2.fq.gz
-> >
-> >5371 etoh60_1_2.fq.gz
-> >
-> >5468 etoh60_2_1.fq.gz
+> > temp33_3_2.fq.gz 88956
 > >  ~~~
 > > {: .output }
-> > As you have changed the script the pipeline will re-run and won't use the cached results for that process.
+> > As you changed the timestamp on one file it will only re-run that process.
+> > The results from the other 5 processes are cached. 
 > {: .solution}
 {: .challenge}
-
-~~~
-$ nextflow log
-~~~
-{: .language-bash}
-
-~~~
-IMESTAMP          	DURATION	RUN NAME           	STATUS	REVISION ID	SESSION ID                          	COMMAND
-2021-03-19 13:45:53	6.5s    	fervent_babbage    	OK    	c54a707593 	15487395-443a-4835-9198-229f6ad7a7fd	nextflow run wc.nf
-2021-03-19 13:46:53	6.6s    	soggy_miescher     	OK    	c54a707593 	58da0ccf-63f9-42e4-ba4b-1c349348ece5	nextflow run wc.nf --samples 'data/ggal/*.fq'
-2021-03-19 13:51:40	2s      	crazy_sax          	OK    	c54a707593 	58da0ccf-63f9-42e4-ba4b-1c349348ece5	nextflow run wc.nf --samples 'data/ggal/*.fq' -resume
-2021-03-19 13:52:15	4.5s    	backstabbing_joliot	OK    	714e17a273 	58da0ccf-63f9-42e4-ba4b-1c349348ece5	nextflow run wc.nf --samples 'data/ggal/*.fq' -resume
-~~~
-{: .output}
-
-> ## Nextflow specific and workflow specific parameters
-> Command line parameters that start with a single dash e.g., `-resume`,
-> are parameters specifically for Nextflow to interpret.
->
-> Command line parameters that start with a double dash e.g., `--samples`,
-> are parameters to your workflow script and can be accessed via
-> the `params.<variable>` variable.
-{: .callout}
 
 
 ## The Work directory
