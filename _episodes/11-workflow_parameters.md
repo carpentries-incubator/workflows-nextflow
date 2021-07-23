@@ -38,20 +38,26 @@ You can print Nextflow's execution history and log information using the  `nextf
 {: .challenge}
 
 
-## Modify and resume
+## Resume
 
-When Nextflow is run, it runs the entire workflow by default.
-However, Nextflow keeps track of all the processes executed in your pipeline. By using the Nextflow specific parameter `-resume`, Nextflow
-will start from the last successfully executed process. If you modify some parts of your script, only the processes that are actually changed will be re-executed. The execution of the processes that are not changed will be skipped and the cached result used instead.
+When Nextflow is run, it runs the entire workflow by default. In the background Nextflow automatically keeps track of all the processes executed in your pipeline. via  caching  and checkpointing. This caching  and checkpointing means that if your pipeline is interupted you can restart it from the last successfully executed processusing the Nextflow parameter `-resume`, Nextflow. 
 
-This helps a lot when testing or modifying part of your pipeline without having to re-execute it from scratch.
+> ## How does resume work?
+> In practice, every execution starts from the beginning.
+>  However, when using resume, before launching a task, Nextflow uses the unique ID to check if:
+> * the working directory exists
+> * it contains a valid command exit status
+> * it contains the expected output files.
+> If these conditions are satisfied, the task execution is skipped and the previously computed outputs are applied. 
+> When a task requires recomputation, ie. the conditions above are not fulfilled, the downstream tasks are automatically invalidated.
+{: .callout}
 
-
-> ## Re-run the pipeline using -resume option
-> Execute the script by entering the following command in your terminal:
+> ## Resume a pipeline
+> Use the Nextflow `log` command to find a successful run of your `wc.nf` pipeline.
+> Resume the successful Nextflow run `wc.nf`  by re-running the command and adding the parameter `-resume`:
 >
 > ~~~
-> $ nextflow run wc.nf --samples 'data/ggal/*.fq' -resume
+> $ nextflow run wc.nf --samples 'data/yeast/reads/*.fq.gz' -resume
 > ~~~
 > {: .language-bash}
 > > ## Solution
@@ -74,17 +80,18 @@ This helps a lot when testing or modifying part of your pipeline without having 
 > >    11748 gut_1.fq
 > >  ~~~
 > > {: .output }
+> > You will see that the execution of the process `NUMLINES` is actually skipped (cached text appears), and its results are retrieved from the cache.
 > {: .solution}
 {: .challenge}
 
 
+If you modify some parts of your script and re-run using `-resume`, only the processes that are actually changed will be re-executed. 
+The execution of the processes that are not changed will be skipped and the cached result used instead.
 
+This helps a lot when testing or modifying part of your pipeline without having to re-execute it from scratch.
 
-You will see that the execution of the process `numLines` is actually skipped (cached text appears), and its results are retrieved from the cache.
-
-
-> ## Modify the wc.nf script and re-run the pipeline using -resume option
-> Modify the wc.nf script changing the sleep time and execute the script by entering the following command in your terminal:
+> ## Modify Nextflow script and re-run.
+> Modify the `wc.nf` script changing the sleep time and execute the script by entering the following command in your terminal:
 >
 > ~~~
 > $ nextflow run wc.nf --samples 'data/yeast/reads/*.fq.gz' -resume
@@ -134,11 +141,9 @@ You will see that the execution of the process `numLines` is actually skipped (c
 > >5468 etoh60_2_1.fq.gz
 > >  ~~~
 > > {: .output }
+> > As you have changed the script the pipeline will re-run and won't use the cached results for that process.
 > {: .solution}
 {: .challenge}
-
-As you have changed the script the pipeline will re-run and won't use the cached results for that process.
-
 
 ~~~
 $ nextflow log
@@ -244,6 +249,8 @@ You can specify another work directory using the command line option `-w`
 $ nextflow run <script> -w /some/scratch/dir
 ~~~
 {: .language-bash}
+
+### Clean the work directory
 
 If you are sure you won’t resume your pipeline execution, clean this folder periodically using the command `nextflow clean`.
 
