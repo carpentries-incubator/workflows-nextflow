@@ -18,6 +18,12 @@ Similar to an electronic lab book, this means you have a have a record of all pr
 
 You can print Nextflow's execution history and log information using the  `nextflow log` command.
 
+~~~
+$ nextflow log
+~~~
+{: .language-bash}
+
+
 > ## Show Execution Log
 > Listing the execution logs of previous invocations of all pipelines in a directory.
 >
