@@ -3,22 +3,18 @@ title: "Deploying nf-core pipelines"
 teaching: 20
 exercises: 10
 questions:
-- "What is nf-core?"
-- "What is nf-core tools?"
-- "How do you find nf-core pipelines?"
-- "How do you run nf-core pipelines?"
-- "How do you configure nf-core pipelines?"
-- "How do you use nf-core pipelines offline?"
+- "Where can I find existing bioinformatic pipelines?"
+- "How do I run nf-core pipelines?"
+- "How do I configure nf-core pipelines to use my data?"
+- "How do I reference nf-core pipelines?"
 objectives:
-- "Understand what nf-core is and how it relates to Nextflow."
-- "List, search and filter nf-core pipelines using the nf-core helper tool."
-- "Run a test nf-core pipeline."
+- "Understand what nf-core is and how it relates to Nextflow, and how to use the nf-core helper tool to find nf-core pipelines."
+- "Run a nf-core pipeline using a test dataset."
 - "Understand how to configuration nf-core pipelines."
-- "Understand how to download an nf-core pipelines offline."
 keypoints:
 - "nf-core is a community-led project to develop a set of best-practice pipelines built using the Nextflow workflow management system."
 - "nf-core tools is a suite of helper tools that aims to help people run and develop pipelines."
-- "nf-core pipelines can found using the nf-core helper tool --list option or from the nf-core website."
+- "nf-core pipelines can found using the nf-core helper tool `--list` option or from the nf-core website."
 - "nf-core pipelines can be run using `nextflow run nf-core/<pipeline>` syntax, or launched and parameters configured using the nf-core  helper tool launch option."
 - "nf-core pipelines can be configured by modifying nextflow config files and/or adding command line parameters."
 ---
