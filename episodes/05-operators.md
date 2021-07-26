@@ -623,9 +623,9 @@ ch = channel
 
 ## Splitting items in a channel
 
-These operators are used to split items emitted by channels into chunks that can be processed by downstream operators or processes.
+Sometimes you want to split the content of a file or string into smaller chunks that can be processed by downstream operators or processes e.g. items stored in a CSV file.
 
-The available splitting operators are:
+Nextflow has a number of splitting operators that can achieve this:
 
 |[splitCsv](https://www.nextflow.io/docs/latest/operator.html#splitcsv)|The splitCsv operator allows you to parse text items emitted by a channel, that are formatted using the CSV format, and split them into records or group them into list of records with a specified length.|
 |[splitFasta](https://www.nextflow.io/docs/latest/operator.html#splitfasta)|The splitFasta operator allows you to split the entries emitted by a channel, that are formatted using the FASTA format. It returns a channel which emits text item for each sequence in the received FASTA content.|
