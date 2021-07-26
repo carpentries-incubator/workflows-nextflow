@@ -492,7 +492,7 @@ The number of elements in input channels determine the process dependencies and 
 ![Process Flow](../fig/channel-process.png)
 
 
- You can only define one input block at a time and it must contain one or more inputs declarations.
+You can only define one input block at a time and it must contain one or more inputs declarations.
 
 The input block follows the syntax shown below:
 
@@ -559,7 +559,10 @@ processing chromosome 2
 
 The `path` qualifier allows the handling of files. This means that Nextflow will stage it in the process execution directory, and it can be access in the script by using the name specified in the input declaration.
 
-The input file name can be defined dynamically by defining the input name as a Nextflow variable, `sample`, and referenced in the script using  `$sample` syntax as shown below:
+The input file name can be defined dynamically by defining the input name as a Nextflow variable and referenced in the script using  `$variable_name` syntax.
+
+For example in the script below we assign the variable name `read` to the input files and it
+is referenced using the variable substitution syntax `${read}` in the script block:
 
 ~~~
 //process_input_file.nf
