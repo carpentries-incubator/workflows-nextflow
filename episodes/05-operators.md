@@ -54,6 +54,13 @@ ch.view()
 ~~~
 {: .language-groovy }
 
+We can also chain multiple operators together.
+
+~~~
+ch = channel.of('1', '2', '3').view()
+~~~
+{: .language-groovy }
+
 
 To make code more readable we can spit the operators over several lines.
 ~~~
@@ -97,7 +104,7 @@ chr3
 ~~~
 {: .output}
 
-Note, the `view()` operator doesn't change the contents of the channel object.
+**Note:** the `view()` operator doesn't change the contents of the channel object.
 
 ~~~
 ch = channel
