@@ -71,8 +71,28 @@ ref1_2.fq.gz 58708
 > {: .solution}
 {: .challenge}
 
+## How does resume work?
 
-If you modify some parts of your script, or alter the input data using `-resume`, will only execute the processes that are actually changed.
+The mechanism works by assigning a unique ID to each task. This unique ID is used to create a separate execution directory, called the working directory, where the tasks are executed and the results stored. A task’s unique ID is generated as a 128-bit hash number obtained from a composition of the task’s:
+
+* Inputs values
+* Input files
+* Command line string
+* Container ID
+* Conda environment
+* Environment modules
+* Any executed scripts in the bin directory
+
+When we resume a workflow Nextflow uses this unique ID to check if:
+
+1. The working directory exists
+1. It contains a valid command exit status
+1. It contains the expected output files.
+
+If these conditions are satisfied, the task execution is skipped and the previously computed outputs are applied. When a task requires recomputation, ie. the conditions above are not fulfilled, the downstream tasks are automatically invalidated.
+
+
+Therefore, if you modify some parts of your script, or alter the input data using `-resume`, will only execute the processes that are actually changed.
 
 The execution of the processes that are not changed will be skipped and the cached result used instead.
 
