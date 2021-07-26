@@ -37,7 +37,7 @@ Channels let Nextflow handle file management, allowing complex tasks to be split
 ![Channel files](../fig/channel-files.png)
 
 Channels are asynchronous, which means that output data from a set of processes will not necessarily be output in the same order as they went in.
-However, the first element into a queue is the first out of the queue (First in- First out). This allows processes to run as soon as they receive input from a channel. Channels only send data in onedirection, from a producer (a process/operator), to a consumer (another process/operator).
+However, the first element into a queue is the first out of the queue (First in- First out). This allows processes to run as soon as they receive input from a channel. Channels only send data in one direction, from a producer (a process/operator), to a consumer (another process/operator).
 
 ## Channel types
 
