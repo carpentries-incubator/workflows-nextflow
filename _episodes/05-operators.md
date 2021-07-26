@@ -623,7 +623,7 @@ ch = channel
 
 ## Splitting items in a channel
 
-Sometimes you want to split the content of a file or string into smaller chunks that can be processed by downstream operators or processes e.g. items stored in a CSV file.
+Sometimes you want to split the content of a individual item in a channel, like a file or string, into smaller chunks that can be processed by downstream operators or processes e.g. items stored in a CSV file.
 
 Nextflow has a number of splitting operators that can achieve this:
 
