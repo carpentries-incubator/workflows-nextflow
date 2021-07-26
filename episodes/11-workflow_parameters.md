@@ -1,21 +1,25 @@
 ---
-title: "Workflow parameterization"
+title: "Workflow caching and checkpointing"
 teaching: 30
 exercises: 10
 questions:
-- "How can I change the data a workflow uses?"
-- "How can parameterize a workflow?"
+- "How can I restart a Nextflow workflow after an error?"
+- "How can I add new data to a workflow?"
+- "Where can I find intermediate data and results?"
 objectives:
-- "FIXME"
+- "Resume a Nextflow workflow using the `-resume` option."
+- "Restart a Nextflow workflow using new data."
 keypoints:
-- "FIXME"
+- "Nextflow automatically keeping track of all the processes executed in your pipeline via  caching  and checkpointing."
+- "You can restart a Nextflow workflow using new data using new data skipping steps that have been successfully executed."
+- "Nextflow stores intermediate data in a working directory."
 ---
 
-One of the key features of a modern workflow management system like Nextflow is the ability to restart a pipeline after a error from the last successful process. Nextflow achieves this by automatically keeping track of all the processes executed in your pipeline via  caching  and checkpointing. 
+A key features of a modern workflow management system like Nextflow is the ability to restart a pipeline after a error from the last successful process. Nextflow achieves this by automatically keeping track of all the processes executed in your pipeline via  caching  and checkpointing.
 
 ## Resume
 
-To restart from the last successfully executed process we add the command line option `-resume` to the Nextflow command. 
+To restart from the last successfully executed process we add the command line option `-resume` to the Nextflow command.
 
 For example, the command below would resume the `wc.nf` script from the last successful process.
 
@@ -24,7 +28,7 @@ $ nextflow run wc.nf --input 'data/yeast/reads/ref1*.fq.gz' -resume
 ~~~
 {: .language-bash}
 
-We can see in the output from process NUM_LINES has been retrieved from the cache.
+We can see in the output  that the results from the process `NUM_LINES` has been retrieved from the cache.
 ~~~
 Launching `wc.nf` [condescending_dalembert] - revision: fede04a544
 [c9/2597d5] process > NUM_LINES (1) [100%] 2 of 2, cached: 2 ✔
@@ -36,7 +40,7 @@ ref1_2.fq.gz 58708
 
 
 > ## Resume a pipeline
-> Resume the Nextflow script `wc.nf` by re-running the command and adding the parameter `-resume` 
+> Resume the Nextflow script `wc.nf` by re-running the command and adding the parameter `-resume`
 > and the parameter `--input 'data/yeast/reads/temp33*'`:
 >
 > {: .language-bash}
@@ -68,7 +72,7 @@ ref1_2.fq.gz 58708
 {: .challenge}
 
 
-If you modify some parts of your script, or alter the input data using `-resume`, will only execute the processes that are actually changed. 
+If you modify some parts of your script, or alter the input data using `-resume`, will only execute the processes that are actually changed.
 
 The execution of the processes that are not changed will be skipped and the cached result used instead.
 
@@ -108,7 +112,7 @@ This helps a lot when testing or modifying part of your pipeline without having 
 > >  ~~~
 > > {: .output }
 > > As you changed the timestamp on one file it will only re-run that process.
-> > The results from the other 5 processes are cached. 
+> > The results from the other 5 processes are cached.
 > {: .solution}
 {: .challenge}
 
