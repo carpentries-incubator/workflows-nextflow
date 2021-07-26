@@ -236,7 +236,9 @@ workflow {
 The command in the `script` block can be defined dynamically using Nextflow variables e.g. `${projectDir}`.
 To reference a variable in the script block you can use the `$` in front of the Nextflow variable name, and additionally you can add `{}` around the variable name e.g. `${projectDir}`.
 
-fime add info about curly brackets
+> ##  Variable substitutions
+> Similar to bash scripting Nextflow uses the "$" character to introduces variable substitutions. The variable name to be expanded may be enclosed in braces `{variable_name}`, which are optional but serve to protect the variable to be expanded from characters immediately following it which could be interpreted as part of the name.
+{: .callout }
 
 In the example below the variable `kmer` is set to the value 31 at the top of the Nextflow script.
 The variable is referenced using the `$kmer` syntax within the multi-line string statement in the `script` block.
@@ -266,8 +268,7 @@ workflow {
 ~~~
 {: .language-groovy }
 
-In most cases we do not want to hard code parameter values.
-A special Nextflow `map` variable `params` can be used to assign values from the command line. You would do this by adding a key name to the params variable and specifying a value, like `params.keyname = value`
+In most cases we do not want to hard code parameter values. We saw in episode 2 the use of a special Nextflow  variable `params` that can be used to assign values from the command line. You would do this by adding a key name to the params variable and specifying a value, like `params.keyname = value`
 
 In the example below we define the variable `params.kmer` with a default value of 31 in the Nextflow script.
 ~~~
@@ -294,7 +295,7 @@ workflow {
 ~~~
 {: .language-groovy }
 
-We can change the default value of `kmer` to 11 by running the Nextflow script using the command below. *Remember* parameter have two hyphens `--` .
+Remember, we can change the default value of `kmer` to 11 by running the Nextflow script using the command below. **Note:** parameter have two hyphens `--` .
 
 ~~~
 nextflow run process_script_params.nf --kmer 11
@@ -352,7 +353,7 @@ nextflow run process_script_params.nf --kmer 11
 Nextflow uses the same Bash syntax for variable substitutions, `$variable`, in strings.
 However, Bash variables need to be escaped using `\` character in front of `\$variable` name.
 
-In the example below we will use the bash `PWD` variable that contains the value of the present working directory.
+In the example below we will use set the bash variable KMERSIZE to the value of `$params.kmer`.
 
 
 ~~~
@@ -363,9 +364,10 @@ process INDEX {
 
   script:
   """
-  salmon index -t $projectDir/data/yeast/transcriptome/Saccharomyces_cerevisiae.R64-1-1.cdna.all.fa.gz -i index --kmer $params.kmer
+  #set bash variable KMERSIZE
+  KMERSIZE=$params.kmer
+  salmon index -t $projectDir/data/yeast/transcriptome/Saccharomyces_cerevisiae.R64-1-1.cdna.all.fa.gz -i index --kmer \$KMERSIZE
   echo "kmer size is $params.kmer"
-  echo "index is located in" \$PWD
   """
 }
 
@@ -377,14 +379,11 @@ workflow {
 ~~~
 {: .language-groovy }
 
-
-This will print the location of the working directory using the bash environment variable `PWD`.
-
 ### Shell
 
 Another alternative is to use a `shell` block definition instead of `script`.
 When using the `shell` statement Bash variables are referenced in the normal way `$my_bash_variable`;
-However, the `shell` statement uses a different syntax for Nextflow variable: `!{nextflow_variable}`, which is needed to use both Nextflow and Bash variables in the same script.
+However, the `shell` statement uses a different syntax for Nextflow variable substitutions: `!{nextflow_variable}`, which is needed to use both Nextflow and Bash variables in the same script.
 
 For example in the script below that uses the `shell statment `
 we reference the Nextflow variables as such, `!{projectDir}` and `!{params.kmer}` and the Bash variable
@@ -400,9 +399,10 @@ process INDEX {
 
   shell:
   '''
-  salmon index -t !{projectDir}/data/yeast/transcriptome/Saccharomyces_cerevisiae.R64-1-1.cdna.all.fa.gz -i index --kmer !{params.kmer}
+  #set bash variable KMERSIZE
+  KMERSIZE=!{params.kmer}
+  salmon index -t !{projectDir}/data/yeast/transcriptome/Saccharomyces_cerevisiae.R64-1-1.cdna.all.fa.gz -i index --kmer ${KMERSIZE}
   echo "kmer size is  !{params.kmer}"
-  echo "index is located in" $PWD
   '''
 }
 
