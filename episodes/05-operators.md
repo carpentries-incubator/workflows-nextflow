@@ -293,11 +293,11 @@ X
 > {: .solution}
 {: .challenge}
 
-## Transforming operators
+## Modifying the contents of a channel
 
 If we want to modify the items in a channel we use transforming operators.
 
-### map
+### Applying a function to items in a channel
 
 The `map` operator applies a function of your choosing to every item in a channel, and returns the items so obtained as a new channel. The function applied is called the mapping function and is expressed with a closure `{}` as shown in the example below:
 
@@ -386,7 +386,7 @@ file data/yeast/reads/etoh60_3_1.fq.gz contains 26254 reads
 {: .challenge}
 
 
-###  flatten
+###  Converting a list items into multiple items
 
 The `flatten` operator transforms a channel in such a way that every item in a `list` or `tuple` is flattened so that each single entry is emitted as a sole element by the resulting channel.
 
@@ -421,7 +421,7 @@ The above snippet prints:
 
 This is similar to the channel factory `Channel.fromList`.
 
-### collect
+### Converting the contents of a channel to a single list item.
 
 The reverse of the `flatten` operator is `collect`. The `collect` operator collects all the items emitted by a channel to a list and return the resulting object as a sole emission. This can be extremely useful when combing the results from the output of multiple processes, or a single process run multiple times.
 
@@ -443,7 +443,7 @@ It prints a single value:
 
 The result of the collect operator is a `value channel` and can be used multiple times.
 
-### groupTuple
+### Grouping contents of a channel by a key.
 
 The `groupTuple` operator collects `tuples` or `lists` of values by grouping together the channel elements that share the same key. Finally it emits a new tuple object for each distinct key collected.
 
@@ -510,7 +510,7 @@ This operator is useful to process altogether all elements for which there’s a
 {: .challenge}
 
 
-## Combining Operators
+## Merging Channels
 
 Combining operators allow you to merge channels together. This can be useful when you want to combine the output channels from multiple processes to perform another task such as joint QC.
 
@@ -604,7 +604,7 @@ The maths operators are:
 * sum
 * to Integer
 
-### count
+### Counting items in a channel
 
 The `count` operator creates a channel that emits a single item: a number that represents the total number of items emitted by the source channel. For example:
 
@@ -621,7 +621,7 @@ ch = channel
 ~~~
 {: .output }
 
-## Splitting operators
+## Splitting items in a channel
 
 These operators are used to split items emitted by channels into chunks that can be processed by downstream operators or processes.
 
