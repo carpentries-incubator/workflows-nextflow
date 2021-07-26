@@ -54,7 +54,8 @@ ch.view()
 ~~~
 {: .language-groovy }
 
-We can also chain multiple operators together.
+We can also chain  together the channel factory method `.of` and the opertaor `.view()` using the
+dot notation.
 
 ~~~
 ch = channel.of('1', '2', '3').view()
@@ -63,6 +64,9 @@ ch = channel.of('1', '2', '3').view()
 
 
 To make code more readable we can spit the operators over several lines.
+The blank space between the operators is ignored and is used for readability.
+
+
 ~~~
 ch = channel
       .of('1', '2', '3')
@@ -86,7 +90,7 @@ An optional *closure* `{}` parameter can be specified to customise how items are
 
 Briefly, a closure is a block of code that can be passed as an argument to a function. In this way you can define a chunk of code and then pass it around as if it were a string or an integer. By default the parameters for a closure are specified with the groovy keyword `$it` (it is for item).
 
-For example here we use the the `view` operator and apply a closure to it, to add a chr prefix to each element of the channel using string interpolation.
+For example here we use the the `view` operator and apply a closure to it, to add a `chr` prefix to each element of the channel using string interpolation.
 
 ~~~
 ch = channel
@@ -131,8 +135,8 @@ We can reduce the number of items in a channel by using filtering operators.
 
 The `filter` operator allows you to get only the items emitted by a channel that satisfy a condition and discarding all the others. The filtering condition can be specified by using either a
 
-* regular expression,
-* a literal value,
+* a regular expression
+* a literal value
 * a data type qualifier, e.g. Number (any integer,float ...), String, Boolean
 * or any boolean statement.
 
@@ -141,17 +145,7 @@ The `filter` operator allows you to get only the items emitted by a channel that
 Here we use the `filter` operator on the `chr_ch` channel specifying the  data type qualifier `Number` so that only numeric items are returned. The Number data type includes both integers and floating point numbers.
 We will then use the `view` operator to print the contents.
 
-~~~
-chr_ch = channel.of( 1..22, 'X', 'Y' )
-autosomes_ch =chr_ch.filter( Number )
-autosomes_ch.view()
-~~~
-{: .language-groovy }
-
-To simplify the code we can chained together multiple operators, such as `filter` and `view` using a `.` .
-
-The previous example could be rewritten like:
-The blank space between the operators is ignored and is used for readability.
+To simplify the code we  chained together the operators,  `filter` and `view` using the dot notation `.` .
 
 ~~~
 chr_ch = channel
@@ -186,6 +180,9 @@ chr_ch = channel
 22
 ~~~
 {: .output }
+
+
+
 
 
 #### Regular expression
