@@ -9,23 +9,18 @@ questions:
 - "What are the main features of Nextflow?"
 - "What are the main components of a Nextflow script?"
 - "How do I run a Nextflow script?"
-- "How can I use the nextflow logs?"
 objectives:
 - "Understand what a workflow management system is."
 - "Understand the benefits of using a workflow management system."
 - "Explain the benefits of using Nextflow as part of your bioinformatics workflow."
 - "Explain the components of a Nextflow script."
 - "Run a Nextflow script."
-- "Use the nextflow log command to show information about executed pipelines."
-- "Use the `-resume` option to execute the script using the cached results."
 keypoints:
 - "A workflow is a sequence of tasks that process a set of data, and a workflow management system (WfMS) is a computational platform that provides an infrastructure for the set-up, execution and monitoring of workflows."
 - "Nextflow is a workflow management system that comprises both a runtime environment and a domain specific language (DSL)."
 - "Nextflow scripts comprise of channels for controlling inputs and outputs, and processes for defining workflow tasks."
 - "Nextflow stores working files in the work directory."
 - "You run a Nextflow script using the `nextflow run` command."
-- "You can resume a workflow, skipping cached steps, using the `-resume` option"
-- "The `nextflow log` command can be used to see information about executed pipelines."
 ---
 
 ## Workflows
