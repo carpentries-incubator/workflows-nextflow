@@ -867,7 +867,9 @@ And include the command below in the script directive
 
 # Input repeaters
 
-We saw previously that by default the number of time a process run is defined by the queue channel with the fewest items. However, the `each` qualifier allows you to repeat the execution of a process for each item in a list or a queue channel, every time new data is received. For example if we can fix the previous example by using the input qualifer `each` for the letters queue channel:
+We saw previously that by default the number of time a process run is defined by the queue channel with the fewest items. However, the `each` qualifier allows you to repeat the execution of a process for each item in a list or a queue channel, every time new data is received.
+
+For example if we can fix the previous example by using the input qualifer `each` for the letters queue channel:
 
 ~~~
 //process_repeat.nf
