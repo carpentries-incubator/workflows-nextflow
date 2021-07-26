@@ -182,12 +182,9 @@ chr_ch = channel
 {: .output }
 
 
-
-
-
 #### Regular expression
 
-To filter by a regular expression you have to do is to put `~` right in front of the string literal regular expression (e.g. `~"(^[Nn]extflow)"` or using slashy strings. `~/^[Nn]extflow/`).
+To filter by a regular expression you have to do is to put `~` right in front of the string literal regular expression (e.g. `~"(^[Nn]extflow)"` or using slashy strings which replace the quotes with `/`. `~/^[Nn]extflow/`).
 
 The following example shows how to filter a channel by using a regular expression `~/^1.*/` inside a slashy string, that returns only strings that begin with 1:
 
@@ -236,7 +233,7 @@ channel
 {: .output }
 
 > ## Closures
-> In the above example the filter condition is wrapped in curly brackets, instead of round brackets, since it specifies a closure as the operator’s argument. This just is a language short for filter({ it<5})
+> In the above example we could remove the brackets around the filter condition e.g. `filter{ it<5}`, since it specifies a closure as the operator’s argument. This just is a language short for `filter({ it<5})`
 {: .callout}
 
 ####  literal value
