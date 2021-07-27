@@ -186,7 +186,7 @@ workflow {
 ~~~
 {: .language-groovy }
 
-In this example the `params.transcriptome` and `params.reads` be accessed inside the `workflow` scope.
+In this example the `params.transcriptome` and `params.reads` can be accessed inside the `workflow` scope.
 
 
 > ## Workflow
