@@ -1072,8 +1072,8 @@ Since a file parameter using the same name, `method.txt`, is declared in the out
 
 ### Multiple output files
 
-When an output file name contains a `*` or `?` character it is interpreted as a pattern match.
-This allows to capture multiple files into a list and output them as a one item channel.
+When an output file name contains a `*` or `?` metacharacter it is interpreted as a pattern match.
+This allows us to capture multiple files into a list and output them as a one item channel.
 
 For example, here we will capture the files `fastqc.html` and directory `fastqc.zip` produced as results from FastQC in the output channel.
 
@@ -1117,7 +1117,7 @@ Analysis complete for ref1_1.fq.gz
 ~~~
 {: .output}
 
-Some caveats on glob pattern behaviour:
+**Note:** There are some caveats on glob pattern behaviour:
 
 * Input files are not included in the list of possible matches.
 * Glob pattern matches against both files and directories path.
@@ -1125,7 +1125,7 @@ Some caveats on glob pattern behaviour:
 
 
 > ## Output channels
-> Modify the nextflow script `process_exercise_output.nf` to include an output blocks that captures the different index folder `index_$kmer`.
+> Modify the nextflow script `process_exercise_output.nf` to include an output blocks that captures the different index folders `index_$kmer`.
 > Use the `view` operator on the output channel.
 > ~~~
 > //process_exercise_output.nf
