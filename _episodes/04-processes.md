@@ -1225,11 +1225,11 @@ ref1_1.fq.gz ref1_2.fq.gz
 In the same manner output channel emitting tuple of values can be declared using the `tuple` qualifier following by the definition of each tuple element in the tuple.
 
 In the code snippet below the output channel would contain a tuple with
-the grouping key value as the Nextflow variable `sample_id` and a single `"${sample_id}.bam"` file stored as a tuple.
+the grouping key value as the Nextflow variable `sample_id` and a single `"${sample_id}_salmon_output"` directory stored as a tuple.
 
 ~~~
 output:
-  tuple val(sample_id), path("${sample_id}.bam")
+  tuple val(sample_id), path("${sample_id}_salmon_output")
 ~~~
 {: .language-groovy }
 
