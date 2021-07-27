@@ -1323,11 +1323,13 @@ workflow {
 > {: .solution}
 {: .challenge}
 
-## Conditions
+## Conditional execution of a process
 
 The `when` declaration allows you to define a condition that must be verified in order to execute the process. This can be any expression that evaluates a boolean value; `true` or `false`.
 
-It is useful to enable/disable the process execution depending the state of various inputs and parameters. For example:
+It is useful to enable/disable the process execution depending the state of various inputs and parameters.
+
+In the example below the process `CONDITIONAL` will only execute when the value of the `chr` variable is less than or equal to 5:
 
 ~~~
 //process_conditional.nf
