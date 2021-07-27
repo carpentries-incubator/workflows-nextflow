@@ -4,14 +4,12 @@ teaching: 60
 exercises: 20
 questions:
 - "How do I run tasks/processes in Nextflow?"
-- "How do I pass parameters to a Nextflow script on the command line?"
 - "How do I get data, files and values, into and out of processes?"
 - "How do can I control when a process is executed?"
 - "How do I control resources, such as number of CPUs and memory, available to processes?"
 - "How do I save output/results from a process?"
 objectives:
 - "Understand how Nextflow uses processes to execute tasks."
-- "Pass a parameter to a Nextflow script on the command line."
 - "Create a Nextflow process."
 - "Define inputs and outputs to a process."
 - "Understand how to use conditionals to control process execution."
@@ -21,7 +19,6 @@ keypoints:
 - "A Nextflow process is an independent task/step in a workflow"
 - "Processes contain up to five definition blocks including, directives, inputs, outputs, when clause and finally a script block."
 - "The script block contains the commands you would like to run."
-- "To pass a parameter add --<param_name> on the command line."
 - "Inputs and Outputs to a process are defined using the input and output blocks."
 - "The execution of a process can be controlled using conditional statements."
 - "Files produced within a process can be saved to a directory using the `publishDir` directive."
