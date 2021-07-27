@@ -1512,7 +1512,8 @@ The files you want the workflow to return as results need to be defined in the `
 publishDir <directory>, parameter: value, parameter2: value ...
 ~~~
 
-For example:
+For example if we want to capture the results of the `QUANT` process in a `results/quant` output directory we
+need to define the files in the `output` and  specify the location of the results directory in the `publishDir` directive:
 
 ~~~
 //process_publishDir.nf
@@ -1546,6 +1547,8 @@ workflow {
 ~~~
 {: .language-groovy }
 
+We can use the UNIX command `tree` to examine the results directory.
+
 ~~~
 tree results
 ~~~
@@ -1558,7 +1561,7 @@ results/
 ~~~
 {: .output }
 
-In the above example, the `publishDir "results/quant"`, will create a symbolic link to the output files specified by the process `salmon_quant` to the directory path `$projectDir/results/quant`.
+In the above example, the `publishDir "results/quant"`,  create a symbolic link `->` to the output files specified by the process `salmon_quant` to the directory path `results/quant`.
 
 > ## publishDir
 > The publishDir output is relative to the directory of the main Nextflow script.
@@ -1577,9 +1580,9 @@ Full list [here](https://www.nextflow.io/docs/latest/process.html#publishdir).
 
 ###  Manage semantic sub-directories
 
-You can use more then one `publishDir` to keep different outputs in separate directories. To specify which files to put in which output directory use the parameter `pattern` with the a glob  pattern that selects which files to publish from the overall set of output files.
+You can use more then one `publishDir` to keep different outputs in separate directories. To specify which files to put in which output directory use the parameter `pattern` with the a glob pattern that selects which files to publish from the overall set of output files.
 
-For example:
+In the example below we will create an output folder structure in the directory results, which contains a separate sub-directory for bam files, `pattern:"*.bam"` ,  and a salmon output directory, `${sample_id}_salmon_output"`. Remember we need to specify the files we want to copy as outputs.
 
 ~~~
 //process_publishDir_semantic.nf
@@ -1615,6 +1618,8 @@ workflow {
 ~~~
 {: .language-groovy }
 
+We can now use the `tree` command to examine the results directory.
+
 ~~~
 $ tree results
 ~~~
@@ -1645,7 +1650,7 @@ results/
 ~~~
 {: .output }
 
-The above example will create an output folder structure in the directory results, which contains a separate sub-directory for bam files, `pattern:"*.bam"` ,  and salmon output directory, `${sample_id}_salmon_output"`.
+
 
 
 > ## Publishing results
