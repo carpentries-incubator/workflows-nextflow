@@ -1371,7 +1371,7 @@ workflow {
 
 ## Directives
 
-Directive declarations allow the definition of optional settings, like computational resources, that affect the execution of the current process without affecting the task itself.
+Directive declarations allow the definition of optional settings, like the number of cpus and amount of memory, that affect the execution of the current process without affecting the task itself.
 
 They must be entered at the top of the process body, before any other declaration blocks (i.e. `input`, `output`, etc).
 
@@ -1422,7 +1422,15 @@ number of cpus 1
 ~~~
 {: .output }
 
-The above process uses the  `tag` directive to allow you to associate each process execution with a custom label, so that it will be easier to identify them in the log file or in the trace execution report. The second directive he `cpus`  allows you to define the number of CPU required for each the process’ task. The third directive `echo true` prints the stdout to the terminal. We also uses the Nextflow `task.cpus` variable to capture the number of cpus assigned to a task.
+The above process uses the three directives, `tag`, `cpus` and `echo`.
+
+The `tag` directive to allow you to give a custom tag to each process execution. This tag makes it easier to identify a particular instance of a process in a log file or in the execution report.
+
+The second directive  `cpus`  allows you to define the number of CPU required for each of the process’ task.
+
+The third directive `echo true` prints the stdout to the terminal.
+
+We also uses the Nextflow `task.cpus` variable to capture the number of cpus assigned to a task.
 
 Another commonly used directive is memory specification `memory`.
 
