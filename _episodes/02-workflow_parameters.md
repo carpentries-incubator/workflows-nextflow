@@ -5,12 +5,15 @@ exercises: 5
 questions:
 - "How can I change the data a workflow uses?"
 - "How can I parameterise a workflow?"
+- "How can I add my parameters to a file?"
 objectives:
 - "Use pipeline parameters to change the input to a workflow."
 - "Add a pipeline parameters to a Nextflow script."
+- "Understand how to create and use a parameter file."
 keypoints:
 - "Pipeline parameters are specified by prepending the prefix `params` to a variable name, separated by dot character."
 - "To specify a pipeline parameter on the command line for a Nextflow run use `--variable_name` syntax."
+- "You can add parameters to a JSON or YAML formatted file and pass them to the script using option `-params-file`."
 ---
 
 In the last episode we ran the Nextflow script,`wc.nf`, from the command line and it counted the number of lines  in the file
@@ -193,3 +196,36 @@ nextflow run wc-params.nf --sleep 10
 > > {: .language-bash}
 > {: .solution}
 {: .challenge}
+
+##  Parameter File
+
+If we have many parameters to pass to a script it is best to create a parameters file.
+Parameters are stored in JSON or YAML format and  the `-params-file` option is used to pass the parameters file to the script.
+
+For example the file `wc-params.json` contains the parameters `sleep` and `input` in JSON format.
+
+~~~
+{
+  "sleep": 5,
+  "input": "data/yeast/reads/etoh60_1*.fq.gz"
+}
+~~~
+{: .language-json}
+
+To run the `wc-params.nf` script using these parameters we add the option `-params-file` and pass the file `wc-params.json`:
+
+~~~
+$ nextflow run wc-params.nf -params-file wc-params.json
+~~~
+{: .language-bash}
+
+~~~
+N E X T F L O W  ~  version 21.04.0
+Launching `wc-params.nf` [nostalgic_northcutt] - revision: 2f86c9ac7e
+executor >  local (2)
+[b4/747eaa] process > NUM_LINES (1) [100%] 2 of 2 ✔
+etoh60_1_2.fq.gz 87348
+
+etoh60_1_1.fq.gz 87348
+~~~
+{: .output}
