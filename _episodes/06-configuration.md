@@ -25,7 +25,7 @@ This enable portable deployment without the need to modify the workflow code.
 
 ## Configuration file
 
-We have seen in previous episodes how to configure how a workflow runs using parameters specified on the command line (`--something value`). You can also specify workflow parameters and settings using a Nextflow configuration file.
+We have seen in previous episodes how to configure how a workflow runs using parameters specified on the command line (`--variable_name`). You can also specify workflow parameters and settings using a Nextflow configuration file.
 
 When a pipeline script is launched Nextflow looks for a file named `nextflow.config` in the current directory and in the script base directory (if it is not the same as the current directory). Finally it checks for the file `$HOME/.nextflow/config` (Note this file is not called nextflow.config, just config).
 
