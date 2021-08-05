@@ -165,7 +165,7 @@ workflow {
 ~~~
 {: .language-groovy }
 
-### Workflow parameters
+### Accessing script parameters
 
 A workflow component can access any variable and parameter defined in the outer scope:
 
