@@ -123,7 +123,8 @@ When a process defines two or more output channels, each of them can be accessed
 
 The process `output` definition allows the use of the `emit:` option to define a named identifier that can be used to reference the channel in the external scope.
 
-For example:
+For example in the script below we name the output from the `INDEX` process as `salmon_index` using the `emit:` option. When can then reference the output as
+`INDEX.out.salmon_index` in the workflow scope.
 
 ~~~
 //workflow_02.nf
