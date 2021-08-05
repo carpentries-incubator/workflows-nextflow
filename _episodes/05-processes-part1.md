@@ -4,24 +4,16 @@ teaching: 60
 exercises: 20
 questions:
 - "How do I run tasks/processes in Nextflow?"
-- "How do I get data, files and values, into and out of processes?"
-- "How do can I control when a process is executed?"
-- "How do I control resources, such as number of CPUs and memory, available to processes?"
-- "How do I save output/results from a process?"
+- "How do I get data, files and values, into a processes?"
 objectives:
 - "Understand how Nextflow uses processes to execute tasks."
 - "Create a Nextflow process."
-- "Define inputs and outputs to a process."
-- "Understand how to use conditionals to control process execution."
-- "Use process directives to control execution of a process."
-- "Use the publishDir directive to save result files to a directory."
+- "Define inputs to a process."
 keypoints:
 - "A Nextflow process is an independent task/step in a workflow"
 - "Processes contain up to five definition blocks including, directives, inputs, outputs, when clause and finally a script block."
 - "The script block contains the commands you would like to run."
-- "Inputs and Outputs to a process are defined using the input and output blocks."
-- "The execution of a process can be controlled using conditional statements."
-- "Files produced within a process can be saved to a directory using the `publishDir` directive."
+- "Inputs are defined using the input blocks."
 ---
 
 
@@ -265,7 +257,7 @@ workflow {
 ~~~
 {: .language-groovy }
 
-In most cases we do not want to hard code parameter values. We saw in episode 2 the use of a special Nextflow  variable `params` that can be used to assign values from the command line. You would do this by adding a key name to the params variable and specifying a value, like `params.keyname = value`
+In most cases we do not want to hard code parameter values. We saw in the parameter episode the use of a special Nextflow  variable `params` that can be used to assign values from the command line. You would do this by adding a key name to the params variable and specifying a value, like `params.keyname = value`
 
 In the example below we define the variable `params.kmer` with a default value of 31 in the Nextflow script.
 ~~~
