@@ -990,21 +990,6 @@ The process will run eight times.
 > {: .solution}
 {: .challenge}
 
-## Outputs
-
-We have seen how to input data into a process now we will see how to output files and values from a process.
-
-The `output` declaration block allows us to define the channels used by the process to send out the files and values produced.
-
-An output block is not required, but if it is present it can contain one or more outputs declarations. The output block follows the syntax shown below:
-
-~~~
-output:
-  <output qualifier> <output name>
-  <output qualifier> <output name>
-  ...
-~~~  
-{: .language-groovy }
 
 {: .output }
 {% include links.md %}
