@@ -81,6 +81,41 @@ $ nextflow run index.nf
 ~~~
 {: .language-bash }
 
+
+> ## A Simple Process
+>
+> Create a Nextflow script `simple_process.nf` that has one process `SALMON_VERSION` that runs the command.
+> ~~~
+> salmon --version
+> ~~~
+> {: .language-bash}
+>
+> > ## Solution
+> > ~~~
+> > nextflow.enable.dsl=2
+> >
+> > process SALMON_VERSION {
+> >    
+> >   script:
+> >   """
+> >    salmon --version
+> >    """
+> > }
+> >
+> > workflow {
+> >   SALMON_VERSION()
+> > }
+> > ~~~
+> > {: .language-groovy }
+> > **Note** We need to add the Nextflow run option `-process.echo` to print the output to the terminal.
+> > ~~~
+> > $ nextflow run simple_process.nf -process.echo
+> > ~~~
+> > {: .language-bash}
+> {: .solution}
+{: .challenge}
+
+
 ### Definition blocks
 
 The previous example was a simple `process` with no defined inputs and outputs that ran only once. To control inputs, outputs and how a command is executed a process may contain five definition blocks:
