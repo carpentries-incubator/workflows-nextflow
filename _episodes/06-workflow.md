@@ -14,6 +14,8 @@ keypoints:
 - "Process outputs can be accessed using the `out` attribute for the respective `process`. Multiple outputs from a single process can be accessed using the `[]` or output name."
 ---
 
+## Workflow
+
 Our previous episodes have shown us how to define parameterise workflows using `params`, move data around a workflow using `channels` and define individual tasks using `processes`. In this episode we will cover how connect multiple processes to create a workflow.
 
 ## Workflow definition
