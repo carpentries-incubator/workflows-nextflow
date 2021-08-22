@@ -22,16 +22,16 @@ keypoints:
 
 # Operators
 
-In the previous Channels episode we learnt how to create Nextflow channels to enable us to pass data and values around our workflow. If we want to modify the contents or behaviour of a channel Nextflow provides methods called `operators`. We have previously used the `view` operator to view the contents of a channel. There are many more operator methods that can be applied to Nextflow channels that can be usefully separated into several groups:
+In the Channels episode we learnt how to create Nextflow channels to enable us to pass data and values around our workflow. If we want to modify the contents or behaviour of a channel Nextflow provides methods called `operators`. We have previously used the `view` operator to view the contents of a channel. There are many more operator methods that can be applied to Nextflow channels that can be usefully separated into several groups:
 
 
- * Filtering operators: reduce the number of elements in a channel.
- * Transforming operators: transform the value/data in a channel.
- * Splitting operators: Split items in a channels into smaller chunks.
- * Combining operators: join channel together.
- * Forking operators: split a single channel into multiple channels.
- * Maths operators: apply simple math function on channels.
- * Other: Such as the view operator.
+ * **Filtering** operators: reduce the number of elements in a channel.
+ * **Transforming** operators: transform the value/data in a channel.
+ * **Splitting** operators: Split items in a channels into smaller chunks.
+ * **Combining** operators: join channel together.
+ * **Forking** operators: split a single channel into multiple channels.
+ * **Maths** operators: apply simple math function on channels.
+ * **Other**: Such as the view operator.
 
 In this episode you will see examples, and get to use different types of operators.
 
@@ -255,8 +255,8 @@ X
 
 > ## Filter a channel
 > Add two channel filters to the Nextflow script below to view only the even numbered chromosomes.
-> 1. A data type filter for numbers, `filter( Number )`.
-> 1. A boolean statement filter `filter({ it % 2 == 0 })`  
+>
+>  **Note:** The expression `it % 2`  produces the remainder of a division.
 >
 > ~~~
 > chr_ch = channel
@@ -265,7 +265,6 @@ X
 > ~~~
 > {: .language-groovy }
 >
-> **Note:** `%`  produces the remainder of a division.
 > > ## Solution
 > >
 > > ~~~
@@ -274,8 +273,8 @@ X
 > >   .filter( Number )
 > >   .filter({ it % 2 == 0 })
 > >   .view()
-> > {: .language-groovy }
 > > ~~~
+> > {: .language-groovy }
 > > ~~~
 > > 2
 > > 4
