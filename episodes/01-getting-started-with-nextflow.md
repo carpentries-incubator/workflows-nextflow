@@ -294,58 +294,7 @@ To run a Nextflow script use the command `nextflow run <script_name>`.
 > {: .solution}
 {: .challenge}
 
-### Pipeline parameters
 
-The Nextflow `wc.nf` script defines a pipeline parameter `params.input`.
-Pipeline parameters enable you to change the input to the workflow at
-runtime, via the command line or a configuration file, so they are not
-hard-coded into the script.
-
-Pipeline parameters are declared in the workflow by prepending the prefix
-`params`, separated by dot character, to a variable name e.g.,
-`params.input`. Their value can be specified on the command line by
-prefixing the parameter name with a **double dash** character, i.e.,
-`--paramName` e.g., `--input`.
-
-> ## Add a pipeline parameter
-> Re-run the Nextflow script by entering the following command in your terminal:
->
-> ~~~
-> $ nextflow run wc.nf --input 'data/yeast/reads/ref*.fq.gz'
-> ~~~
-> {: .language-bash}
-> > ## Solution
-> > The string specified on the command line will override the default value of the parameter in the script. The output will look like this:
-> >
-> > ~~~
-> > N E X T F L O W  ~  version 20.10.0
-> > Launching `wc.nf` [soggy_miescher] - revision: c54a707593
-> > executor >  local (6)
-> > [05/d84ab8] process > NUM_LINES (6) [100%] 6 of 6 ✔
-> >
-> > executor >  local (6)
-> > [d3/9ca185] process > NUM_LINES (2) [100%] 6 of 6 ✔
-> > ref3_2.fq.gz 52592
-> >
-> > ref2_2.fq.gz 81720
-> >
-> > ref1_1.fq.gz 58708
-> >
-> > ref1_2.fq.gz 58708
-> >
-> > ref3_1.fq.gz 52592
-> >
-> > ref2_1.fq.gz 81720
-> > ~~~
-> > {: .output}
->
-> The pipeline executes the `NUM_LINES` process 6 times; one process
-> for each file matching the string `data/yeast/reads/*.fq.gz`. Since
-> each process is executed in parallel, there is no guarantee of
-> which output is reported first. When you run this script, you may
-> see the process output in a different order.
-> {: .solution}
-{: .challenge}
 
 > ## Process identification
 > The hexadecimal numbers, like b3/c9f4ee, identify the unique process execution.
