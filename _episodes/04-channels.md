@@ -275,7 +275,16 @@ data/yeast/reads/ref1_2.fq.gz
 ~~~
 {: .output}
 
-The script below creates a queue channel that contains as many items as there are files with `_1.fq.gz` or `_2.fq.gz` extension in the `data/yeast/reads` folder.
+You can also use  glob syntax to specify pattern-matching behaviour for files.
+A glob pattern is specified as a string and is matched against directory or file names.
+
+* An asterisk, `*`, matches any number of characters (including none).
+* Two asterisks, `**`, works like *  but will also search sub directories. This syntax is generally used for matching complete paths.
+* Braces  `{}` specify a collection of subpatterns. For example:
+** `{bam,bai}` matches "bam" or "bai"
+
+
+For example the script below uses the `.fq.gz` pattern to creates a queue channel that contains as many items as there are files with `.fq.gz` extension in the `data/yeast/reads` folder.
 
 ~~~
 read_ch = Channel.fromPath( 'data/yeast/reads/*.fq.gz' )
@@ -293,8 +302,6 @@ data/yeast/reads/temp33_3_1.fq.gz
 [..truncated..]
 ~~~
 {: .output}
-
-Two asterisks in the file path, i.e. `**`, works like `*` but will also search sub directories. This syntax is generally used for matching complete paths.
 
 
 You can change the behaviour of `Channel.fromPath` method by changing its options. A list of `.fromPath` options is shown below.
@@ -371,7 +378,25 @@ No files match pattern `*.fq` at path: data/chicken/reads/
 
 We have seen how to process files individually using `fromPath`. In Bioinformatics we often want to process files in pairs or larger groups, such as read pairs in sequencing.
 
-Nextflow provides a convenient factory method for this common bioinformatics use case. The `fromFilePairs` method creates a queue channel containing a `tuple` for every set of files matching a specific pattern (e.g., `/path/to/*_{1,2}.fq.gz`). A `tuple` is a grouping of data, represented as a Groovy List.
+For example is the `data/yeast/reads` we have nine groups of read pairs.
+
+
+|Sample group| read1 | read2 |
+|---|---|---|
+|ref1|data/yeast/reads/ref1_1.fq.gz| data/yeast/reads/ref1_2.fq.gz|
+|ref2|data/yeast/reads/ref2_1.fq.gz| data/yeast/reads/ref2_2.fq.gz|
+|ref3|data/yeast/reads/ref3_1.fq.gz| data/yeast/reads/ref3_2.fq.gz|
+|temp33_1|data/yeast/reads/temp33_1_1.fq.gz| data/yeast/reads/temp33_1_2.fq.gz|
+|temp33_2|data/yeast/reads/temp33_2_1.fq.gz| data/yeast/reads/temp33_2_2.fq.gz|
+|temp33_3|data/yeast/reads/temp33_3_1.fq.gz| data/yeast/reads/temp33_3_2.fq.gz|
+|etoh60_1|data/yeast/reads/etoh60_1_1.fq.gz| data/yeast/reads/etoh60_1_2.fq.gz|
+|etoh60_2|data/yeast/reads/etoh60_2_1.fq.gz| data/yeast/reads/etoh60_2_2.fq.gz|
+|etoh60_3|data/yeast/reads/etoh60_3_1.fq.gz| data/yeast/reads/etoh60_3_2.fq.gz|
+
+
+Nextflow provides a convenient Channel factory method for this common bioinformatics use case. The `fromFilePairs` method creates a queue channel containing a `tuple` for every set of files matching a specific pattern (e.g., `/path/to/*_{1,2}.fq.gz`).
+
+A `tuple` is a grouping of data, represented as a Groovy List.
 The first element of the tuple emitted from `fromFilePairs` is a string based on the shared part of the filenames (i.e., the `*` part of the glob pattern). The second element is the list of files matching the remaining part of the glob pattern (i.e., the `<string>_{1,2}.fq.gz` pattern).
 
 ~~~
@@ -393,16 +418,19 @@ read_pair_ch.view()
 ~~~
 {: .output}
 
-This will produce a queue channel, `read_pair_ch` , containing nine elements. Each element is a tuple that has a string value (the file prefix matched, e.g `temp33_1`) and a list with the two files e,g. `[data/yeast/reads/etoh60_2_1.fq.gz, data/yeast/reads/etoh60_2_2.fq.gz]` .
+This will produce a queue channel, `read_pair_ch` , containing nine elements.
+
+Each element is a tuple that has a string value (the file prefix matched, e.g `temp33_1`) and a list with the two files e,g. `[data/yeast/reads/etoh60_2_1.fq.gz, data/yeast/reads/etoh60_2_2.fq.gz]` .
 
 The asterisk character `*`, matches any number of characters (including none), and the `{}` braces specify a collection of subpatterns. Therefore the `*_{1,2}.fq.gz` pattern matches any file name ending in `_1.fq.gz` or `_2.fq.gz` .
 
 
-#### What if you want to capture more than a pair?
+What if you want to capture more than a pair?
 
-If you want to capture more than two files for a pattern you will need to change the default `size` argument to the number of expected matching files.
+If you want to capture more than two files for a pattern you will need to change the default `size` argument (the default value is 2) to the number of expected matching files.
 
-For Example:
+For example in the directory `data/yeast/reads` there are six files with the prefix `ref`.
+If we want to group (create a tuple) for all of these files we could write;
 
 ~~~
 read_group_ch = Channel.fromFilePairs('data/yeast/reads/ref{1,2,3}*',size:6)
@@ -439,7 +467,7 @@ See more information about the channel factory `fromFilePairs` [here](https://ww
 > > ~~~
 > > pairs_ch = Channel.fromFilePairs('data/yeast/reads/*_{1,2}.fq.gz')
 > > pairs_ch.view()
-> > multi_ch = Channel.fromFilePairs('data/yeast/reads/*_{1,2,3}_{1,2}.fq.gz', size:6)
+> > multi_ch = Channel.fromFilePairs('data/yeast/reads/*{1,2,3}_{1,2}.fq.gz', size:6)
 > > multi_ch.view()
 > > ~~~
 > > {: .language-groovy }
