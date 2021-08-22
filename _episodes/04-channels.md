@@ -66,7 +66,7 @@ The second type of Nextflow channel is a `value` channel. A **value** channel is
 > {: .language-groovy }
 >
 > > ## Solution
-> > 1. A queue channels is consumable and can store multiple values. 
+> > 1. A queue channels is consumable and can store multiple values.
 > > 1. A value channel a.k.a. singleton channel by definition is bound to a single value
 > {: .solution}
 {: .challenge}
@@ -77,7 +77,9 @@ Channel factories are used to explicitly create channels. In programming,
 factory methods (functions) are a programming design pattern used
 to create different types of objects (in this case, different types
 of channels). They are implemented for things that represent more
-generalised concepts, such as a `Channel`. Channel factories are
+generalised concepts, such as a `Channel`.
+
+Channel factories are
 called using the `Channel.<method>` syntax, and return a specific instance
 of a `Channel`.
 
@@ -109,13 +111,13 @@ myList = [1776, -1, 33, 99, 0, 928734928763]
 
 ## Queue channel factory
 
-Queue (consumable)  channels can be created using the following channel factory methods.
+Queue (consumable) channels can be created using the following channel factory methods.
 
-* of
-* fromList
-* fromPath
-* fromFilePairs
-* fromSRA
+* Channel.of
+* Channel.fromList
+* Channel.fromPath
+* Channel.fromFilePairs
+* Channel.fromSRA
 
 ### The of Channel factory
 
@@ -154,26 +156,32 @@ Arguments passed to the `of` method can be of varying types e.g., combinations o
 {: .callout}
 
 > ## Create and view Channel contents
-> Create a file called `channel.nf` and type the following code into it.
-> ~~~
-> ch = Channel.of(1,2,3)
-> ch.view()
-> ~~~
-> {: .language-groovy }
+> 1. Create a Nextflow script file called `channel.nf` .
+> 1. Create a Value channel `ch_vl` containing a list with the values  1 to 4.
+> 1. Create a Queue channel `ch_qu` containing the values  1 to 4.
+> 1. Use .view() to view the contents of the channels.
 > Run the code using
 > ~~~~
 > nextflow run channel.nf
 > ~~~~
 > {: .language-groovy }
-> How many lines of output do you get?
 > > ## Solution
-> > In this example you have created a queue channel with three values 1,2,3 in it.
-> > This will produce three lines of output, one for each value.
-> > The `.view` operator can be used to view the contents of the channel object `ch`.
 > > ~~~
-> > 1
+> > ch_vl = Channel.value([1,2,3,4])
+> > ch_qu = Channel.of(1,2,3,4)
+> > ch_vl.view()
+> > ch_qu.view()
+> > ~~~
+> > {: .language-groovy }
+> > ~~~
+> >  N E X T F L O W  ~  version 21.04.0
+> >  Launching `channel.nf` [condescending_da
+> >  lembert] - revision: c80908867b
+> >  [1, 2, 3, 4]
+> >  1
 > > 2
 > > 3
+> > 4
 > > ~~~
 > > {: .output}
 > {: .solution}
