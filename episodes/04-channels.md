@@ -257,7 +257,10 @@ kallisto
 The previous channel factory methods dealt with sending general values in a channel. A special channel factory method `fromPath` is used when wanting to pass files.
 
 The `fromPath` factory method creates a **queue channel** emitting one or more files matching a file path.
-The file path (written as a quoted string) can be the location of a single file or a "glob pattern" that matches multiple files or directories. The file path can be a relative path ( path to the file from the current directory), or an absolute path ( path to the file from the system root directory - starts with `/`).
+
+The file path (written as a quoted string) can be the location of a single file or a "glob pattern" that matches multiple files or directories.
+
+The file path can be a relative path ( path to the file from the current directory), or an absolute path ( path to the file from the system root directory - starts with `/`).
 
 The script below creates a queue channel with a single file as its content.
 
@@ -275,7 +278,7 @@ data/yeast/reads/ref1_2.fq.gz
 The script below creates a queue channel that contains as many items as there are files with `_1.fq.gz` or `_2.fq.gz` extension in the `data/yeast/reads` folder.
 
 ~~~
-read_ch = Channel.fromPath( 'data/yeast/reads/*_{1,2}.fq.gz' )
+read_ch = Channel.fromPath( 'data/yeast/reads/*.fq.gz' )
 read_ch.view()
 ~~~
 {: .language-groovy }
@@ -291,7 +294,7 @@ data/yeast/reads/temp33_3_1.fq.gz
 ~~~
 {: .output}
 
-Two asterisks in the file path, i.e. `**`, works like `*` but will also search sub directories. This syntax is generally used for matching complete paths. Curly brackets `{}` specify a collection of sub-patterns. Learn more about the glob patterns syntax at this [link](https://docs.oracle.com/javase/tutorial/essential/io/fileOps.html#glob).
+Two asterisks in the file path, i.e. `**`, works like `*` but will also search sub directories. This syntax is generally used for matching complete paths.
 
 
 You can change the behaviour of `Channel.fromPath` method by changing its options. A list of `.fromPath` options is shown below.
@@ -338,9 +341,10 @@ No files match pattern `*.fq` at path: data/chicken/reads/
 
 > ## Using Channel.fromPath
 >
-> Use the `Channel.fromPath` method to create a channel containing all files in the `data/yeast/` directory, including the subdirectories.
-> Add the parameter `hidden` to include hidden files also.
-> Then print all file names using the `view` operator.
+> 1. Create a Nextflow script `channel_fromPath.nf`
+> 1. Use the `Channel.fromPath` method to create a channel containing all files in the `data/yeast/` directory, including the subdirectories.
+> 1. Add the parameter to include any hidden files.
+> 1. Then print all file names using the `view` operator.
 >
 > **Hint:** You need two asterisks, i.e. `**`, to search subdirectories.
 > > ## Solution
@@ -349,6 +353,16 @@ No files match pattern `*.fq` at path: data/chicken/reads/
 > > all_files_ch.view()
 > > ~~~
 > > {: .language-groovy }
+> > ~~~
+> > N E X T F L O W  ~  version 21.04.0
+> > Launching `nf-training/scripts/channels/channel_fromPath.nf` [reverent_mclean] - revision: cf02269bcb
+> > data/yeast/samples.csv
+> > data/yeast/bams/ref1.bam.bai
+> > data/yeast/bams/ref3.bam
+> > data/yeast/bams/etoh60_3.
+> > [..truncated..]
+> > ~~~
+> > {: .output }
 > {: .solution}
 {: .challenge}
 
