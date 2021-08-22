@@ -295,6 +295,8 @@ process {
 {: .callout}
 
 
+
+
 The above config snippet defines the `cpus`, `memory` for **all** processes in your workflow script.
 
 
@@ -328,6 +330,36 @@ process {
 }
 ~~~
 {: .source }
+
+
+> ## Configure process scope
+> 1. Create a Netxflow config file `wc-params.config`
+> 1. Add a  process scope specifying the process run time as `time = '5s'``
+> 1. Then run:
+> ~~~
+> $ nextflow run wc-params.nf --sleep 10 -c wc-params.config
+> ~~~
+> {: .language-bash}
+> What output do you get?
+> > ## Solution
+> > ~~~
+> > //wc-params.config
+> > process {
+> >
+> > time = '5s'
+> >
+> > }
+> > ~~~
+> > {: .source}
+> >
+> > You will get a runtime error:
+> > ~~~
+> > Process exceeded running time limit (5s)
+> > ~~~
+> > {: .output}
+> {: .solution}
+{: .challenge}
+
 
 
 ### Process executor
