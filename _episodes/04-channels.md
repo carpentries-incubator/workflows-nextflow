@@ -155,9 +155,9 @@ Arguments passed to the `of` method can be of varying types e.g., combinations o
 > You may see the method `Channel.from` in older nextflow scripts. This performs a similar function but is now deprecated (no longer used), and so `Channel.of` should be used instead.
 {: .callout}
 
-> ## Create and view Channel contents
+> ## Create a value and Queue and view Channel contents
 > 1. Create a Nextflow script file called `channel.nf` .
-> 1. Create a Value channel `ch_vl` containing a list with the values  1 to 4.
+> 1. Create a Value channel `ch_vl` containing a list with the values  `'GRCh38'`.
 > 1. Create a Queue channel `ch_qu` containing the values  1 to 4.
 > 1. Use .view() to view the contents of the channels.
 > Run the code using
@@ -167,7 +167,7 @@ Arguments passed to the `of` method can be of varying types e.g., combinations o
 > {: .language-groovy }
 > > ## Solution
 > > ~~~
-> > ch_vl = Channel.value([1,2,3,4])
+> > ch_vl = Channel.value('GRCh38')
 > > ch_qu = Channel.of(1,2,3,4)
 > > ch_vl.view()
 > > ch_qu.view()
@@ -175,13 +175,12 @@ Arguments passed to the `of` method can be of varying types e.g., combinations o
 > > {: .language-groovy }
 > > ~~~
 > >  N E X T F L O W  ~  version 21.04.0
-> >  Launching `channel.nf` [condescending_da
-> >  lembert] - revision: c80908867b
-> >  [1, 2, 3, 4]
+> >  Launching `channel.nf` [condescending_dalembert] - revision: c80908867b
+> >  GRCh38
 > >  1
-> > 2
-> > 3
-> > 4
+> >  2
+> >  3
+> >  4
 > > ~~~
 > > {: .output}
 > {: .solution}
@@ -210,7 +209,7 @@ kallisto
 {: .output}
 
 > ## Channel.fromList vs Channel.of
-> In the above example, the channel has two elements. If you has used the Channel.of(list) it would have  contained only 1 element `[salmon, kallisto]` and any operator or process using the channel would run once.
+> In the above example, the channel has two elements. If you has used the Channel.of(aligner_list) it would have  contained only 1 element `[salmon, kallisto]` and any operator or process using the channel would run once.
 {: .callout}
 
 
@@ -237,6 +236,16 @@ kallisto
 > > value_ch.view()
 > > ~~~
 > > {: .language-groovy }
+> >
+> > ~~~
+> > N E X T F L O W  ~  version 21.04.0
+> > Launching `channel_fromList.nf` [wise_hodgkin] - revision: 22d76be151
+> > [ERR908507, ERR908506, ERR908505]
+> > ERR908507
+> > ERR908506
+> > ERR908505
+> > ~~~
+> > {: .output }
 > > The queue channel `queue_ch` will print three lines.
 > >
 > > The value channel `value_ch` will print one line.
@@ -245,8 +254,7 @@ kallisto
 
 ### The fromPath Channel factory
 
-The previous channel factory methods dealt with sending general values
-in a channel. A special channel factory method `fromPath` is used when wanting to pass files.
+The previous channel factory methods dealt with sending general values in a channel. A special channel factory method `fromPath` is used when wanting to pass files.
 
 The `fromPath` factory method creates a **queue channel** emitting one or more files matching a file path.
 The file path (written as a quoted string) can be the location of a single file or a "glob pattern" that matches multiple files or directories. The file path can be a relative path ( path to the file from the current directory), or an absolute path ( path to the file from the system root directory - starts with `/`).
