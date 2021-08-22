@@ -66,7 +66,7 @@ The second type of Nextflow channel is a `value` channel. A **value** channel is
 > {: .language-groovy }
 >
 > > ## Solution
-> > 1. A queue channels is consumable and can store multiple values. fixme add better description.
+> > 1. A queue channels is consumable and can store multiple values. 
 > > 1. A value channel a.k.a. singleton channel by definition is bound to a single value
 > {: .solution}
 {: .challenge}
