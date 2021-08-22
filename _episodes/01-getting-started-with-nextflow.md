@@ -19,7 +19,6 @@ keypoints:
 - "A workflow is a sequence of tasks that process a set of data, and a workflow management system (WfMS) is a computational platform that provides an infrastructure for the set-up, execution and monitoring of workflows."
 - "Nextflow is a workflow management system that comprises both a runtime environment and a domain specific language (DSL)."
 - "Nextflow scripts comprise of channels for controlling inputs and outputs, and processes for defining workflow tasks."
-- "Nextflow stores working files in the work directory."
 - "You run a Nextflow script using the `nextflow run` command."
 ---
 
