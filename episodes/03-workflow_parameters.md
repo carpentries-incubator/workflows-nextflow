@@ -82,7 +82,7 @@ ref2_1.fq.gz 81720
 > > ~~~
 > > $ nextflow run wc.nf --input 'data/yeast/reads/ref*.fq.gz'
 > > ~~~
-> {: .language-bash}
+> > {: .language-bash}
 > > The string specified on the command line will override the default value of the parameter in the script. The output will look like this:
 > >
 > > ~~~
@@ -106,12 +106,12 @@ ref2_1.fq.gz 81720
 > > ref2_1.fq.gz 81720
 > > ~~~
 > > {: .output}
->
-> The pipeline executes the `NUM_LINES` process 6 times; one process
-> for each file matching the string `data/yeast/reads/*.fq.gz`. Since
-> each process is executed in parallel, there is no guarantee of
-> which output is reported first. When you run this script, you may
-> see the process output in a different order.
+> >
+> > The pipeline executes the `NUM_LINES` process 6 times; one process
+> > for each file matching the string `data/yeast/reads/*.fq.gz`. Since
+> > each process is executed in parallel, there is no guarantee of
+> > which output is reported first. When you run this script, you may
+> > see the process output in a different order.
 > {: .solution}
 {: .challenge}
 
@@ -161,7 +161,7 @@ nextflow run wc-params.nf --sleep 10
 
 > ## Add a pipeline parameter
 > If you haven't already  make a copy of the `wc.nf` as `wc-params.nf`.
->
+> ~~~
 > $ cp wc.nf wc-params.nf
 > ~~~
 > Add the param `sleep` with a default value of 2 below the `params.input` line.
