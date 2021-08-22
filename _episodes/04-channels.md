@@ -303,6 +303,7 @@ data/yeast/reads/temp33_3_1.fq.gz
 ~~~
 {: .output}
 
+**Note** The pattern must contain at least a star wildcard character.
 
 You can change the behaviour of `Channel.fromPath` method by changing its options. A list of `.fromPath` options is shown below.
 
@@ -378,7 +379,7 @@ No files match pattern `*.fq` at path: data/chicken/reads/
 
 We have seen how to process files individually using `fromPath`. In Bioinformatics we often want to process files in pairs or larger groups, such as read pairs in sequencing.
 
-For example is the `data/yeast/reads` we have nine groups of read pairs.
+For example is the `data/yeast/reads` directory we have nine groups of read pairs.
 
 
 |Sample group| read1 | read2 |
@@ -397,7 +398,9 @@ For example is the `data/yeast/reads` we have nine groups of read pairs.
 Nextflow provides a convenient Channel factory method for this common bioinformatics use case. The `fromFilePairs` method creates a queue channel containing a `tuple` for every set of files matching a specific pattern (e.g., `/path/to/*_{1,2}.fq.gz`).
 
 A `tuple` is a grouping of data, represented as a Groovy List.
-The first element of the tuple emitted from `fromFilePairs` is a string based on the shared part of the filenames (i.e., the `*` part of the glob pattern). The second element is the list of files matching the remaining part of the glob pattern (i.e., the `<string>_{1,2}.fq.gz` pattern).
+
+1. The first element of the tuple emitted from `fromFilePairs` is a string based on the shared part of the filenames (i.e., the `*` part of the glob pattern).
+1. The second element is the list of files matching the remaining part of the glob pattern (i.e., the `<string>_{1,2}.fq.gz` pattern).
 
 ~~~
 read_pair_ch = Channel.fromFilePairs('data/yeast/reads/*_{1,2}.fq.gz')
@@ -420,12 +423,15 @@ read_pair_ch.view()
 
 This will produce a queue channel, `read_pair_ch` , containing nine elements.
 
-Each element is a tuple that has a string value (the file prefix matched, e.g `temp33_1`) and a list with the two files e,g. `[data/yeast/reads/etoh60_2_1.fq.gz, data/yeast/reads/etoh60_2_2.fq.gz]` .
+Each element is a tuple that has;
+
+1. string value (the file prefix matched, e.g `temp33_1`)
+1. and a list with the two files e,g. `[data/yeast/reads/etoh60_2_1.fq.gz, data/yeast/reads/etoh60_2_2.fq.gz]` .
 
 The asterisk character `*`, matches any number of characters (including none), and the `{}` braces specify a collection of subpatterns. Therefore the `*_{1,2}.fq.gz` pattern matches any file name ending in `_1.fq.gz` or `_2.fq.gz` .
 
 
-What if you want to capture more than a pair?
+### What if you want to capture more than a pair?
 
 If you want to capture more than two files for a pattern you will need to change the default `size` argument (the default value is 2) to the number of expected matching files.
 
@@ -451,27 +457,29 @@ See more information about the channel factory `fromFilePairs` [here](https://ww
 > If you need to match more complex patterns you should create a sample sheet specifying the files and create a channel from that. This will be covered in the operator episode.
 {: .callout}
 
-> ## The glob pattern
-> The pattern must contain at least a star wildcard character.
-{: .callout}
 
-
-> ## Create a channel containing a groups of files 
+> ## Create a channel containing groups of files
 >
->  1. Use the `fromFilePairs` method to create a channel containing all pairs of fastq read in the `data/yeast/reads` directory and print them.
->  1. Then use the `fromFilePairs` `size` argument with parameter value 6 and the pattern `data/yeast/reads/*_{1,2,3}_{1,2}.fq.gz`.
+> 1. Create a Nextflow script file `channel_fromFilePairs.nf` .
+> 1. Use the `fromFilePairs` method to create a channel containing three elements. Each elementwill contain  the pairs of fastq read for the three temp33 samples in the `data/yeast/reads` directory
 >
 > > ## Solution
 > >
 > > ~~~
-> > pairs_ch = Channel.fromFilePairs('data/yeast/reads/*_{1,2}.fq.gz')
+> > pairs_ch = Channel.fromFilePairs('data/yeast/reads/temp33*_{1,2}.fq.gz')
 > > pairs_ch.view()
-> > multi_ch = Channel.fromFilePairs('data/yeast/reads/*{1,2,3}_{1,2}.fq.gz', size:6)
-> > multi_ch.view()
 > > ~~~
+> >
 > > {: .language-groovy }
-> > The first method will create a channel with 9 elements.
-> > The second method with create a channel with 2 elements. The pattern will match files starting temp33 and etoh60.
+> >
+> > ~~~
+> > N E X T F L O W  ~  version 21.04.0
+> > Launching `channels.nf` [stupefied_lumiere] - revision: a3741edde2
+> > [temp33_1, [data/yeast/reads/temp33_1_1.fq.gz, data/yeast/reads/temp33_1_2.fq.gz]]
+> > [temp33_3, [data/yeast/reads/temp33_3_1.fq.gz, data/yeast/reads/temp33_3_2.fq.gz]]
+> > [temp33_2, [data/yeast/reads/temp33_2_1.fq.gz, data/yeast/reads/temp33_2_2.fq.gz]]
+> > ~~~
+> > {: .output }
 > {: .solution}
 {: .challenge}
 
