@@ -57,7 +57,7 @@ Queue channels are a type of channel in which data is consumed (used up) to make
 
 ### Value channels
 
-The second type of Nextflow channel is a `value` channel. A **value** channel is bound to a *single* value. A value channel can be used an unlimited number times since its content is not consumed. This is also useful for processes that need to reuse input from a channel.
+The second type of Nextflow channel is a `value` channel. A **value** channel is bound to a **single** value. A value channel can be used an unlimited number times since its content is not consumed. This is also useful for processes that need to reuse input from a channel.
 
 
 > ## Queue vs Value Channel
