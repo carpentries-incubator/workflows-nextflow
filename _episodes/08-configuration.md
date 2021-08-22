@@ -6,22 +6,29 @@ questions:
 - "How can I configure how Nextflow runs?"
 - "How can I write a Nextflow configuration file?"
 - "How can I control `process` settings using the Nextflow configuration file?"
+- "How can I assign different resources to different process?"
+- "How can I assign different profiles to different computational systems "
 objectives:
 - "Understand how Nextflow is configured."
 - "Create a Nextflow configuration file."
 - "Understand how to use the `process` scope to define process settings."
+- "Understand how to specify custom resources with process selectors."
+- "Understand how to group configurations using the `profile` scope. "
 keypoints:
-- "Nextflow configuration can be managed using a `nextflow.config` file."
+- "Nextflow configuration can be managed using a Nextflow configuration file."
 - "Nextflow configuration are simple text files containing a set of properties."
-- "You can define process setting using the `process` scope."
+- "You can define process setting, such as cpus and memory, within the `process` scope."
+- "You can assign different resources to different process using the process selectors `withNames` or `withLabel`. "
+- "You can define a profile for different configurations using the `profiles` scope. These profiles can be selected when launching a pipeline execution by using the `-profile` command line option"
 ---
 
 ## Nextflow configuration
 
 A key Nextflow feature is the ability to decouple the workflow implementation from the configuration settings required by the underlying execution platform.
 
-This enable portable deployment without the need to modify the workflow code.
+This enable portable deployment of the workflow on different computational platforms such as an institutional HPC or AWS without the need to modify the workflow code.
 
+Nextflow uses configuration files to achieve this separation.
 
 ## Configuration file
 
@@ -317,11 +324,10 @@ For example:
 //nextflow.config
 process {
     cpus = 2
-    memory = { 4.GB * task.cpus }
+    memory = { 2.GB * task.cpus }
 }
 ~~~
 {: .source }
-
 
 
 ### Process executor
