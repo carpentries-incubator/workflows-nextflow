@@ -166,9 +166,12 @@ nextflow run wc-params.nf --sleep 10
 > ~~~
 > Add the param `sleep` with a default value of 2 below the `params.input` line.
 > Add the line `sleep ${params.sleep}` in the process `NUM_LINES` above the line printf '${read}.
+>
 > Run the new script `wc-params.nf` changing the sleep input time.
+>
 > What input file would it run and why?
-> How would you get it to process all `.fq.gz` files in the `data/yeast/reads` directory as well as changing the sleep input?
+>
+> How would you get it to process all `.fq.gz` files in the `data/yeast/reads` directory as well as changing the sleep input to 1 second?
 > > ## Solution
 > > ~~~
 > > params.sleep=2
