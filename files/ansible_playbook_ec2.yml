@@ -68,6 +68,7 @@
         cmd: |
              set -euo pipefail
              source ~/miniconda3/bin/activate
+             conda env update -n base -c bioconda nextflow=21
              conda env create -n nf --file ~/Downloads/nextflow_conda_env.yaml
              conda activate nf
              nextflow -version
