@@ -40,26 +40,26 @@ However, as workflows become larger and more complex, the management of the prog
 
 ##  Workflow management systems
 
-Recently Workflow Management Systems (WfMS), such as Snakemake, Galaxy, and Nextflow have emerged specifically to manage computational data-analysis workflows in fields such as Bioinformatics, Imaging, Physics, and Chemistry.  
+*Workflow Management Systems* (WfMS), such as Snakemake, Galaxy, and Nextflow have been developed specifically to manage computational data-analysis workflows in fields such as Bioinformatics, Imaging, Physics, and Chemistry.  
 
-These *Workflow management systems* contain multiple features that simplify the development, monitoring, execution and sharing of pipelines.
+WfMS contain multiple features that simplify the development, monitoring, execution and sharing of pipelines.
 
 Key features include;
 
-* **Run time management**: Management of program execution on the operating system and splitting tasks and data up to run at the same time in a process called parallelisation.
-* **Software management**: Use of software management technology like containers, such as docker or singularity, that packages up code and all its dependencies so the application runs reliably from one computing environment to another.
+* **Run time management**: Management of program execution on the operating system and splitting tasks and data to run at the same time in a process called parallelisation.
+* **Software management**: Use of technology like containers, such as [Docker](https://www.docker.com) or [Singularity](https://sylabs.io/singularity), that packages up code and all its dependencies so the application runs reliably from one computing environment to another.
 * **Portability & Interoperability**: Workflows written on one system can be run on another computing infrastructure e.g., local computer, compute cluster, or cloud infrastructure.
-* **Reproducibility**: The use of Software management systems and a pipeline specification means that the workflow will produce the same results when re-run, including on different computing platforms.
+* **Reproducibility**: The use of software management systems and a pipeline specification means that the workflow will produce the same results when re-run, including on different computing platforms.
 * **Reentrancy**: Continuous checkpoints allow workflows to resume
 from the last successfully executed steps.
 
-## Nextflow Basic concepts
+## Nextflow basic concepts
 
 Nextflow is a workflow management system that combines a runtime environment, software that is designed to run other software, and a *programming domain specific language (DSL)* that eases the writing of computational pipelines.
 
 Nextflow is built around the idea that Linux is the lingua franca of data science. Nextflow follows Linux's "small pieces loosely joined" philosophy: in which many simple but powerful command-line and scripting tools, when chained together, facilitate more complex data manipulations.
 
-Nextflow extends this approach, adding the ability to define complex program interactions and an accessible (high-level) parallel computational environment based on the [dataflow programming model](https://devopedia.org/dataflow-programming), whereby the processes are connected via their `outputs` and `inputs` to other `processes`, and processes run as soon as they receive an input.
+Nextflow extends this approach, adding the ability to define complex program interactions and an accessible (high-level) parallel computational environment based on the [dataflow programming model](https://devopedia.org/dataflow-programming), whereby `processes` are connected via their `outputs` and `inputs` to other `processes`, and run as soon as they receive an input.
 
 The diagram below illustrates the differences between a dataflow model and a simple linear program .
 
@@ -74,30 +74,24 @@ The diagram below illustrates the differences between a dataflow model and a sim
 
 In a simple program **(a)**, these statements would be executed sequentially. Thus, the program would execute in three units of time. In the dataflow programming model **(b)**, this program takes only two units of time. This is because the read quantitation and QC steps have no dependencies on each other and therefore can execute simultaneously in parallel.
 
-### Nextflow core features are:
+### Nextflow core features
 
-1. Fast prototyping: A simple syntax for writing pipelines that enables you to reuse existing scripts and tools for fast prototyping.
+1. **Fast prototyping**: A simple syntax for writing pipelines that enables you to reuse existing scripts and tools for fast prototyping.
 
-1. Reproducibility: Nextflow supports several container technologies, such as Docker and Singularity, as well as the package manager conda. This, along with the integration of the GitHub code sharing platform, allows you to write self-contained pipelines, manage versions and to reproduce any former configuration.
+1. **Reproducibility**: Nextflow supports several container technologies, such as Docker and Singularity, as well as the package manager [Conda](https://docs.conda.io). This, along with the integration of the [GitHub](https://www.github.com) code sharing platform, allows you to write self-contained pipelines, manage versions and to reproduce any former configuration.
 
-1. Portability: Nextflow's syntax separates the functional logic (the steps of the workflow) from the execution settings (how the workflow is executed). This allows the pipeline to be run on multiple platforms, e.g. local compute vs. a university compute cluster or a cloud service like AWS, without changing the steps of the workflow.  
+1. **Portability**: Nextflow's syntax separates the functional logic (the steps of the workflow) from the execution settings (how the workflow is executed). This allows the pipeline to be run on multiple platforms, e.g. local compute vs. a university compute cluster or a cloud service like AWS, without changing the steps of the workflow.  
 
-1. Simple parallelism:  Nextflow is based on the dataflow programming model which greatly simplifies the splitting of tasks that can be run at the same time (parallelisation).
+1. **Simple parallelism**:  Nextflow is based on the dataflow programming model which greatly simplifies the splitting of tasks that can be run at the same time (parallelisation).
 
-1. Continuous checkpoints: All the intermediate results produced during the pipeline execution are automatically tracked. This allows you to resume its execution from the last successfully executed step, no matter what the reason was for it stopping.
+1. **Continuous checkpoints**: All the intermediate results produced during the pipeline execution are automatically tracked. This allows you to resume its execution from the last successfully executed step, no matter what the reason was for it stopping.
 
 ### Scripting language
 
 Nextflow scripts are written using a scripting language that simplifies
-the writing of workflows. Languages that are written for a specific field
-are called Domain Specific Languages (DSL), e.g., SQL is used to work with
-databases, and AWK is designed for text processing.
+the writing of workflows. Languages that are written for a specific field are called Domain Specific Languages (DSL), e.g., SQL is used to work with databases, and AWK is designed for text processing.
 
-In practical terms the Nextflow scripting language is an extension of the
-[Groovy programming language](https://groovy-lang.org/), which in turn is
-a super-set of the Java programming language. Groovy simplifies the
-writing of code and is more approachable than Java. Groovy semantics
-(syntax, control structures, etc) are documented [here](https://groovy-lang.org/semantics.html).
+In practical terms the Nextflow scripting language is an extension of the [Groovy programming language](https://groovy-lang.org/), which in turn is a super-set of the Java programming language. Groovy simplifies the writing of code and is more approachable than Java. Groovy semantics (syntax, control structures, etc) are documented [here](https://groovy-lang.org/semantics.html).
 
 The approach of having a simple DSL built on top of a more powerful
 general purpose programming language makes Nextflow very flexible. The
@@ -110,52 +104,26 @@ implement using the DSL.
 Nextflow (version > 20.07.1) provides a revised syntax to the original
 DSL, known as DSL2. The DSL2 syntax introduces several improvements
 such as modularity (separating components to provide flexibility and
-enable reuse), and improved data flow manipulation. This
-further simplifies the writing of complex data analysis pipelines,
-and enhances workflow readability, and reusability.
+enable reuse), and improved data flow manipulation. This further simplifies the writing of complex data analysis pipelines, and enhances workflow readability, and reusability.
 
-This feature is enabled by the following directive
-at the beginning a workflow script:
+This feature is enabled by the following directive at the beginning a workflow script:
 
 ~~~
 nextflow.enable.dsl=2
 ~~~
 {: .language-groovy}
 
-Scripts that contain the directive `nextflow.preview.dsl=2` use an
-early version of the DSL2 syntax, which may include experimental
-features that have been changed or removed in the formal DSL2 syntax.
-Scripts without these directives use the first version of the
-Nextflow syntax which we refer to as DSL1. DSL1 workflows use many of the
-same concepts presented in this lesson, but some aspects such
-as the flow of data are written differently. DSL1 workflows
-are also written in a single script, unlike DSL2 workflows which
-can be spread across many files. This lesson will focus on the DSL2
-syntax as, after the DSL1 to DSL2 transition period is over, it will
-become the default way of writing Nextflow workflows.
+Scripts that contain the directive `nextflow.preview.dsl=2` use an early version of the DSL2 syntax, which may include experimental features that have been changed or removed in the formal DSL2 syntax. Scripts without these directives use the first version of the Nextflow syntax which we refer to as DSL1. DSL1 workflows use many of the same concepts presented in this lesson, but some aspects such as the flow of data are written differently. DSL1 workflows are also written in a single script, unlike DSL2 workflows which can be spread across many files. This lesson will focus on the DSL2 syntax as, after the DSL1 to DSL2 transition period is over, it will become the default way of writing Nextflow workflows.
 
-### Processes, Channels, and Workflows
+### Processes, channels, and workflows
 
-Nextflow workflows have three main parts; processes, channels, and
-workflows. Processes describe a task to be run. A process
-script can be written in any scripting language that can be
-executed by the Linux platform (Bash, Perl, Ruby, Python, etc.).
-Processes spawn a task for each complete input set. Each task is
-executed independently, and cannot interact with another task.
-The only way data can be passed between process tasks is via
-asynchronous queues, called channels.
+Nextflow workflows have three main parts; processes, channels, and workflows. Processes describe a task to be run. A process script can be written in any scripting language that can be executed by the Linux platform (Bash, Perl, Ruby, Python, etc.). Processes spawn a task for each complete input set. Each task is executed independently, and cannot interact with another task. The only way data can be passed between process tasks is via asynchronous queues, called channels.
 
-Processes define inputs and outputs for a task. Channels are
-then used to manipulate the flow of data from one process
-to the next. The interaction between processes, and ultimately
-the pipeline execution flow itself, is then explicitly defined
-in a workflow section.
+> A queue is a set of inputs to a process, ordered by time of arrival. The process launches an instance of itself, called a `task`, for each input. Asynchronous means that when the queue is empty, the process waits for the next input to arrrive before launching another task.
 
-In the following example we have a channel containing three elements,
-e.g., 3 data files. We have a process that takes the channel as input.
-Since the channel has three elements, three independent instances (tasks)
-of that process are run in parallel. Each task generates an output, that
-is passed to another channel, which is used as input for the next process.
+Processes define inputs and outputs for a task. Channels are then used to manipulate the flow of data from one process to the next. The interaction between processes, and ultimately the pipeline execution flow itself, is then explicitly defined in a workflow section.
+
+In the following example we have a channel containing three elements, e.g., 3 data files. We have a process that takes the channel as input. Since the channel has three elements, three independent instances (tasks) of that process are run in parallel. Each task generates an output, that is passed to another channel, which is used as input for the next process.
 
 <p align="center">
    <img alt="Processes and channels" src="../fig/channel-process_fqc.png" width="500">
@@ -163,14 +131,11 @@ is passed to another channel, which is used as input for the next process.
    <em>Nextflow process flow diagram</em>
 </p>
 
-### Workflow Execution
+### Workflow execution
 
 While a `process` defines what command or script has to be executed, the `executor` determines how that script is actually run in the target system.
 
-If not otherwise specified, processes are executed on the local computer.
-The local executor is very useful for pipeline development, testing, and
-small scale workflows, but for large scale computational pipelines, a High
-Performance Cluster (HPC) or Cloud platform is often required.
+If not otherwise specified, processes are executed on the local computer. The local executor is very useful for pipeline development, testing, and small scale workflows, but for large scale computational pipelines, a High Performance Cluster (HPC) or Cloud platform is often required.
 
 <p align="center">
    <img alt="Processes and channels" src="../fig/executor.png" width="250">
@@ -178,14 +143,9 @@ Performance Cluster (HPC) or Cloud platform is often required.
    <em>Nextflow Executors</em>
 </p>
 
-Nextflow provides a separation between the pipeline’s functional logic and
-the underlying execution platform. This makes it possible to write a
-pipeline once, and then run it on your computer, compute cluster, or the
-cloud, without modifying the workflow, by defining the target
-execution platform in a configuration file.
+Nextflow provides a separation between the pipeline’s functional logic and the underlying execution platform. This makes it possible to write a pipeline once, and then run it on your computer, compute cluster, or the cloud, without modifying the workflow, by defining the target execution platform in a configuration file.
 
-Nextflow provides out-of-the-box support for major batch schedulers and cloud platforms such as
-Sun Grid Engine, SLURM job scheduler, AWS Batch service and Kubernetes. A full list can be found [here](https://www.nextflow.io/docs/latest/executor.html).
+Nextflow provides out-of-the-box support for major batch schedulers and cloud platforms such as Sun Grid Engine, SLURM job scheduler, AWS Batch service and Kubernetes. A full list can be found [here](https://www.nextflow.io/docs/latest/executor.html).
 
 ## Your first script
 
@@ -234,7 +194,7 @@ workflow {
     //  Input data is received through channels
     input_ch = Channel.fromPath(params.input)
 
-    /*  The script to execute is called by it's process name,
+    /*  The script to execute is called by its process name,
         and input is provided between brackets. */
     NUM_LINES(input_ch)
 
