@@ -1,0 +1,4 @@
+---
+req_packages:
+- language-nextflow
+- terminus
