@@ -714,6 +714,21 @@ workflow {
 ~~~
 {: .language-groovy }
 
+
+~~~
+$ nextflow run process_publishDir_semantic.nf
+~~~
+{: .language-bash}
+
+~~~
+N E X T F L O W  ~  version 21.04.0
+Launching `process_publishDir_semantic.nf` [golden_poisson] - revision: 421a604840
+
+executor >  local (1)
+[be/950786] process > QUANT (1) [100%] 1 of 1 ✔
+~~~
+{: .output}
+
 We can now use the `tree` command to examine the results directory.
 
 ~~~
@@ -783,7 +798,7 @@ results/
 > > nextflow.enable.dsl=2
 > >
 > >  process INDEX {
-> >   publishDir "results/index", mode: "copy"
+> >   publishDir "results", mode: "copy"
 > >   input:
 > >   path transcriptome
 > >
@@ -804,6 +819,19 @@ results/
 > > }
 > > ~~~
 > > {: .language-groovy }
+> >
+> > ~~~
+> > $ nextflow run process_exercise_publishDir.nf
+> > ~~~~
+> > {: .language-bash }
+> > ~~~
+> > N E X T F L O W  ~  version 21.04.0
+> > Launching `process_exercise_publishDir.nf` [infallible_becquerel] - revision: 4d865241a8
+> >
+> > executor >  local (1)
+> > [fe/79c042] process > INDEX (1) [100%] 1 of 1 ✔
+> > ~~~
+> > {: .output }
 > {: .solution}
 {: .challenge}
 
