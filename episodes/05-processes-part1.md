@@ -1,7 +1,7 @@
 ---
 title: "Processes"
-teaching: 60
-exercises: 20
+teaching: 30
+exercises: 15
 questions:
 - "How do I run tasks/processes in Nextflow?"
 - "How do I get data, files and values, into a processes?"
@@ -969,13 +969,9 @@ The process will run eight times.
 >  }
 >  ~~~
 >  {: .language-groovy }
-> Extend the previous  exercise, Combining input channels, script `salmon_index.nf` above, by adding more values to the `kmer` queue channel and running the process for  value.
-> ~~~  
-> kmer_ch = channel.of(21,27,31)
-> ~~~
+> Extend the previous  exercise, *Combining input channels*, script `salmon_index.nf` above, by adding more values to the `kmer` queue channel e.g. (21,27,31) and running the process for each value.
 > {: .language-groovy }
 >
-> and changing the `transcriptome` input qualifer from `path` to `each`.
 > How many times does this process run ?
 >
 > > ## Solution
