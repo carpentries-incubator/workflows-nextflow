@@ -36,7 +36,7 @@ Below we will show how to convert this into a simple Nextflow process.
 
 ## Process definition
 
-The process definition starts with keyword the `process`, followed by process name and finally the process `body` delimited by curly brackets `{}`. The process body must contain a string  which represents the command or, more generally, a script that is executed by it.
+The process definition starts with keyword the `process`, followed by process name `INDEX` and finally the process `body` delimited by curly brackets `{}`. The process body must contain a string  which represents the command or, more generally, a script that is executed by it.
 
 ~~~
 process INDEX {
@@ -77,10 +77,18 @@ workflow {
 We can now run the process
 
 ~~~
-$ nextflow run index.nf
+$ nextflow run process_index.nf
 ~~~
 {: .language-bash }
 
+
+~~~
+N E X T F L O W  ~  version 21.04.0
+Launching `process.nf` [lethal_hamilton] - revision: eff6186015
+executor >  local (1)
+[10/583af2] process > INDEX [100%] 1 of 1 ✔
+~~~
+{: .language-bash }
 
 > ## A Simple Process
 >
@@ -112,6 +120,13 @@ $ nextflow run index.nf
 > > $ nextflow run simple_process.nf -process.echo
 > > ~~~
 > > {: .language-bash}
+> > ~~~
+> > N E X T F L O W  ~  version 21.04.0
+> > Launching `process.nf` [prickly_gilbert] - revision: 471a79c65c
+> > executor >  local (1)
+> > [56/5e6001] process > SALMON_VERSION [100%] 1 of 1 ✔
+> > salmon 1.5.2
+> > ~~~
 > {: .solution}
 {: .challenge}
 
@@ -198,7 +213,7 @@ process PYSTUFF {
   reads = 0
   bases = 0
 
-  with gzip.open('data/yeast/reads/ref1_1.fq.gz', 'rb') as read:
+  with gzip.open('${projectDir}/data/yeast/reads/ref1_1.fq.gz', 'rb') as read:
       for id in read:
           seq = next(read)
           reads += 1
@@ -954,7 +969,7 @@ The process will run eight times.
 >  }
 >  ~~~
 >  {: .language-groovy }
-> Extend the previous  exercise script `salmon_index.nf` above, by adding more values to the `kmer` queue channel
+> Extend the previous  exercise, Combining input channels, script `salmon_index.nf` above, by adding more values to the `kmer` queue channel and running the process for  value.
 > ~~~  
 > kmer_ch = channel.of(21,27,31)
 > ~~~
@@ -970,8 +985,8 @@ The process will run eight times.
 > >
 > > process COMBINE {
 > >  input:
-> >  each transcriptome from transcriptome_ch
-> >  path kmer from kmer_ch
+> >  each transcriptome
+> >  path kmer
 > >  script:
 > >   """
 > >   echo salmon index -t $transcriptome -i index -k $kmer
