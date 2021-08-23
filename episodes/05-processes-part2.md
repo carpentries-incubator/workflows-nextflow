@@ -11,7 +11,7 @@ objectives:
 - "Define outputs to a process."
 - "Understand how to use conditionals to control process execution."
 - "Use process directives to control execution of a process."
-- "Use the publishDir directive to save result files to a directory."
+- "Use the `publishDir` directive to save result files to a directory."
 keypoints:
 - "Outputs to a process are defined using the  output blocks."
 - "The execution of a process can be controlled using the `when` declaration and conditional statements."
@@ -37,9 +37,11 @@ output:
 
 ### Output values
 
-The type of output data is defined using output qualifiers.
+Like the input, the type of output data is defined using type qualifiers.
 
 The `val` qualifier allows us to output a value defined in the script.
+
+
 Because Nextflow processes can only communicate through channels if we want to share a value input into one process as input to another process we would need to define that value in the output declaration block as shown in the following example:
 
 
@@ -318,6 +320,13 @@ workflow {
 
 ~~~
 {: .language-groovy }
+
+~~~
+nextflow run process_tuple_io.nf
+~~~
+{: .language-bash }
+
+The output is now a tuple containing the sample id and the salmon output directory.
 
 ~~~
 [ref1, /work/66/88822f0ccc98664aaa866e27a1a9c8/ref1_salmon_output]
