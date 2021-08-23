@@ -27,7 +27,9 @@ We have seen how to input data into a process now we will see how to output file
 
 The `output` declaration block allows us to define the channels used by the process to send out the files and values produced.
 
-An output block is not required, but if it is present it can contain one or more outputs declarations. The output block follows the syntax shown below:
+An output block is not required, but if it is present it can contain one or more outputs declarations.
+
+The output block follows the syntax shown below:
 
 ~~~
 output:
@@ -85,7 +87,7 @@ Received: kallisto
 
 ### Output files
 
-If we want to capture a file instead of a value we can use the
+If we want to capture a file instead of a value as output we can use the
 `path` qualifier that can capture one or more files produced by the process, over the specified channel.
 
 ~~~
@@ -125,7 +127,9 @@ Received: /Users/ggrimes2/Downloads/nf-training/work/13/85ecb69a9bc85370e7492546
 
 In the above example the process `METHOD` creates a file named `method.txt` in the work directory containing the method name.
 
-Since a file parameter using the same name, `method.txt`, is declared in the output block , when the task is completed that file is sent over the output channel. A downstream `operator` or `process` declaring the same channel as input will be able to receive it.
+Since a file parameter using the same name, `method.txt`, is declared in the output block , when the task is completed that file is sent over the output channel.
+
+A downstream `operator`, such as `.view` or a `process` declaring the same channel as input will be able to receive it.
 
 ### Multiple output files
 
@@ -162,7 +166,10 @@ workflow {
 ~~~
 {: .language-groovy }
 
-
+~~~
+$ nextflow run process_output_multiple.nf
+~~~
+{: .language-bash }
 
 ~~~
 [3e/86de98] process > FASTQC (2) [100%] 2 of 2 ✔
@@ -236,7 +243,7 @@ Analysis complete for ref1_1.fq.gz
 > {: .solution}
 {: .challenge}
 
-### Composite inputs and outputs
+### Grouped inputs and outputs
 
 So far we have seen how to declare multiple input and output channels, but each channel was handling only one value at time. However Nextflow can handle groups of values using the `tuple` qualifiers.
 
