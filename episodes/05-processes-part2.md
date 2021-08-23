@@ -628,7 +628,21 @@ workflow {
 ~~~
 {: .language-groovy }
 
-We can use the UNIX command `tree` to examine the results directory.
+~~~
+$ nextflow run process_publishDir.nf
+~~~
+{: .language-bash }
+~~~
+N E X T F L O W  ~  version 21.04.0
+Launching `process_publishDir.nf` [friendly_pauling] - revision: 9b5c315893
+executor >  local (1)
+
+[48/f97234] process > QUANT (1) [100%] 1 of 1 ✔
+[ref1, work/48/f97234d7185cbfbd86e2f11c1afab5/ref1_salmon_output]
+~~~
+{: .output }
+
+We can use the UNIX command `tree` to examine the contents of the results directory.
 
 ~~~
 tree results
@@ -638,9 +652,10 @@ tree results
 ~~~
 results/
 └── quant
-    └── ref1_salmon_output -> work/28/30dd6dc65fdf20c69364d4032f7b37ref1_salmon_output
+    └── ref1_salmon_output -> work/48/f97234d7185cbfbd86e2f11c1afab5/ref1_salmon_output
 ~~~
 {: .output }
+
 
 In the above example, the `publishDir "results/quant"`,  create a symbolic link `->` to the output files specified by the process `salmon_quant` to the directory path `results/quant`.
 
