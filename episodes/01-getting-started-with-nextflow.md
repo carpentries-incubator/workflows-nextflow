@@ -9,23 +9,17 @@ questions:
 - "What are the main features of Nextflow?"
 - "What are the main components of a Nextflow script?"
 - "How do I run a Nextflow script?"
-- "How can I use the nextflow logs?"
 objectives:
 - "Understand what a workflow management system is."
 - "Understand the benefits of using a workflow management system."
 - "Explain the benefits of using Nextflow as part of your bioinformatics workflow."
 - "Explain the components of a Nextflow script."
 - "Run a Nextflow script."
-- "Use the nextflow log command to show information about executed pipelines."
-- "Use the `-resume` option to execute the script using the cached results."
 keypoints:
 - "A workflow is a sequence of tasks that process a set of data, and a workflow management system (WfMS) is a computational platform that provides an infrastructure for the set-up, execution and monitoring of workflows."
 - "Nextflow is a workflow management system that comprises both a runtime environment and a domain specific language (DSL)."
 - "Nextflow scripts comprise of channels for controlling inputs and outputs, and processes for defining workflow tasks."
-- "Nextflow stores working files in the work directory."
 - "You run a Nextflow script using the `nextflow run` command."
-- "You can resume a workflow, skipping cached steps, using the `-resume` option"
-- "The `nextflow log` command can be used to see information about executed pipelines."
 ---
 
 ## Workflows
@@ -260,58 +254,7 @@ To run a Nextflow script use the command `nextflow run <script_name>`.
 > {: .solution}
 {: .challenge}
 
-### Pipeline parameters
 
-The Nextflow `wc.nf` script defines a pipeline parameter `params.input`.
-Pipeline parameters enable you to change the input to the workflow at
-runtime, via the command line or a configuration file, so they are not
-hard-coded into the script.
-
-Pipeline parameters are declared in the workflow by prepending the prefix
-`params`, separated by dot character, to a variable name e.g.,
-`params.input`. Their value can be specified on the command line by
-prefixing the parameter name with a **double dash** character, i.e.,
-`--paramName` e.g., `--input`.
-
-> ## Add a pipeline parameter
-> Re-run the Nextflow script by entering the following command in your terminal:
->
-> ~~~
-> $ nextflow run wc.nf --input 'data/yeast/reads/ref*.fq.gz'
-> ~~~
-> {: .language-bash}
-> > ## Solution
-> > The string specified on the command line will override the default value of the parameter in the script. The output will look like this:
-> >
-> > ~~~
-> > N E X T F L O W  ~  version 20.10.0
-> > Launching `wc.nf` [soggy_miescher] - revision: c54a707593
-> > executor >  local (6)
-> > [05/d84ab8] process > NUM_LINES (6) [100%] 6 of 6 ✔
-> >
-> > executor >  local (6)
-> > [d3/9ca185] process > NUM_LINES (2) [100%] 6 of 6 ✔
-> > ref3_2.fq.gz 52592
-> >
-> > ref2_2.fq.gz 81720
-> >
-> > ref1_1.fq.gz 58708
-> >
-> > ref1_2.fq.gz 58708
-> >
-> > ref3_1.fq.gz 52592
-> >
-> > ref2_1.fq.gz 81720
-> > ~~~
-> > {: .output}
->
-> The pipeline executes the `NUM_LINES` process 6 times; one process
-> for each file matching the string `data/yeast/reads/*.fq.gz`. Since
-> each process is executed in parallel, there is no guarantee of
-> which output is reported first. When you run this script, you may
-> see the process output in a different order.
-> {: .solution}
-{: .challenge}
 
 > ## Process identification
 > The hexadecimal numbers, like b3/c9f4ee, identify the unique process execution.

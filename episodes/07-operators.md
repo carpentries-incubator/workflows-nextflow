@@ -22,16 +22,16 @@ keypoints:
 
 # Operators
 
-In the previous Channels episode we learnt how to create Nextflow channels to enable us to pass data and values around our workflow. If we want to modify the contents or behaviour of a channel Nextflow provides methods called `operators`. We have previously used the `view` operator to view the contents of a channel. There are many more operator methods that can be applied to Nextflow channels that can be usefully separated into several groups:
+In the Channels episode we learnt how to create Nextflow channels to enable us to pass data and values around our workflow. If we want to modify the contents or behaviour of a channel Nextflow provides methods called `operators`. We have previously used the `view` operator to view the contents of a channel. There are many more operator methods that can be applied to Nextflow channels that can be usefully separated into several groups:
 
 
- * Filtering operators: reduce the number of elements in a channel.
- * Transforming operators: transform the value/data in a channel.
- * Splitting operators: Split items in a channels into smaller chunks.
- * Combining operators: join channel together.
- * Forking operators: split a single channel into multiple channels.
- * Maths operators: apply simple math function on channels.
- * Other: Such as the view operator.
+ * **Filtering** operators: reduce the number of elements in a channel.
+ * **Transforming** operators: transform the value/data in a channel.
+ * **Splitting** operators: Split items in a channels into smaller chunks.
+ * **Combining** operators: join channel together.
+ * **Forking** operators: split a single channel into multiple channels.
+ * **Maths** operators: apply simple math function on channels.
+ * **Other**: Such as the view operator.
 
 In this episode you will see examples, and get to use different types of operators.
 
@@ -54,8 +54,19 @@ ch.view()
 ~~~
 {: .language-groovy }
 
+We can also chain  together the channel factory method `.of` and the opertaor `.view()` using the
+dot notation.
+
+~~~
+ch = channel.of('1', '2', '3').view()
+~~~
+{: .language-groovy }
+
 
 To make code more readable we can spit the operators over several lines.
+The blank space between the operators is ignored and is used for readability.
+
+
 ~~~
 ch = channel
       .of('1', '2', '3')
@@ -79,7 +90,7 @@ An optional *closure* `{}` parameter can be specified to customise how items are
 
 Briefly, a closure is a block of code that can be passed as an argument to a function. In this way you can define a chunk of code and then pass it around as if it were a string or an integer. By default the parameters for a closure are specified with the groovy keyword `$it` (it is for item).
 
-For example here we use the the `view` operator and apply a closure to it, to add a chr prefix to each element of the channel using string interpolation.
+For example here we use the the `view` operator and apply a closure to it, to add a `chr` prefix to each element of the channel using string interpolation.
 
 ~~~
 ch = channel
@@ -97,7 +108,7 @@ chr3
 ~~~
 {: .output}
 
-Note, the `view()` operator doesn't change the contents of the channel object.
+**Note:** the `view()` operator doesn't change the contents of the channel object.
 
 ~~~
 ch = channel
@@ -124,8 +135,8 @@ We can reduce the number of items in a channel by using filtering operators.
 
 The `filter` operator allows you to get only the items emitted by a channel that satisfy a condition and discarding all the others. The filtering condition can be specified by using either a
 
-* regular expression,
-* a literal value,
+* a regular expression
+* a literal value
 * a data type qualifier, e.g. Number (any integer,float ...), String, Boolean
 * or any boolean statement.
 
@@ -134,17 +145,7 @@ The `filter` operator allows you to get only the items emitted by a channel that
 Here we use the `filter` operator on the `chr_ch` channel specifying the  data type qualifier `Number` so that only numeric items are returned. The Number data type includes both integers and floating point numbers.
 We will then use the `view` operator to print the contents.
 
-~~~
-chr_ch = channel.of( 1..22, 'X', 'Y' )
-autosomes_ch =chr_ch.filter( Number )
-autosomes_ch.view()
-~~~
-{: .language-groovy }
-
-To simplify the code we can chained together multiple operators, such as `filter` and `view` using a `.` .
-
-The previous example could be rewritten like:
-The blank space between the operators is ignored and is used for readability.
+To simplify the code we  chained together the operators,  `filter` and `view` using the dot notation `.` .
 
 ~~~
 chr_ch = channel
@@ -183,7 +184,7 @@ chr_ch = channel
 
 #### Regular expression
 
-To filter by a regular expression you have to do is to put `~` right in front of the string literal regular expression (e.g. `~"(^[Nn]extflow)"` or using slashy strings. `~/^[Nn]extflow/`).
+To filter by a regular expression you have to do is to put `~` right in front of the string literal regular expression (e.g. `~"(^[Nn]extflow)"` or using slashy strings which replace the quotes with `/`. `~/^[Nn]extflow/`).
 
 The following example shows how to filter a channel by using a regular expression `~/^1.*/` inside a slashy string, that returns only strings that begin with 1:
 
@@ -232,7 +233,7 @@ channel
 {: .output }
 
 > ## Closures
-> In the above example the filter condition is wrapped in curly brackets, instead of round brackets, since it specifies a closure as the operator’s argument. This just is a language short for filter({ it<5})
+> In the above example we could remove the brackets around the filter condition e.g. `filter{ it<5}`, since it specifies a closure as the operator’s argument. This just is a language short for `filter({ it<5})`
 {: .callout}
 
 ####  literal value
@@ -254,8 +255,8 @@ X
 
 > ## Filter a channel
 > Add two channel filters to the Nextflow script below to view only the even numbered chromosomes.
-> 1. A data type filter for numbers, `filter( Number )`.
-> 1. A boolean statement filter `filter({ it % 2 == 0 })`  
+>
+>  **Note:** The expression `it % 2`  produces the remainder of a division.
 >
 > ~~~
 > chr_ch = channel
@@ -264,7 +265,6 @@ X
 > ~~~
 > {: .language-groovy }
 >
-> **Note:** `%`  produces the remainder of a division.
 > > ## Solution
 > >
 > > ~~~
@@ -273,8 +273,8 @@ X
 > >   .filter( Number )
 > >   .filter({ it % 2 == 0 })
 > >   .view()
-> > {: .language-groovy }
 > > ~~~
+> > {: .language-groovy }
 > > ~~~
 > > 2
 > > 4
@@ -292,11 +292,11 @@ X
 > {: .solution}
 {: .challenge}
 
-## Transforming operators
+## Modifying the contents of a channel
 
 If we want to modify the items in a channel we use transforming operators.
 
-### map
+### Applying a function to items in a channel
 
 The `map` operator applies a function of your choosing to every item in a channel, and returns the items so obtained as a new channel. The function applied is called the mapping function and is expressed with a closure `{}` as shown in the example below:
 
@@ -385,7 +385,7 @@ file data/yeast/reads/etoh60_3_1.fq.gz contains 26254 reads
 {: .challenge}
 
 
-###  flatten
+###  Converting a list items into multiple items
 
 The `flatten` operator transforms a channel in such a way that every item in a `list` or `tuple` is flattened so that each single entry is emitted as a sole element by the resulting channel.
 
@@ -420,7 +420,7 @@ The above snippet prints:
 
 This is similar to the channel factory `Channel.fromList`.
 
-### collect
+### Converting the contents of a channel to a single list item.
 
 The reverse of the `flatten` operator is `collect`. The `collect` operator collects all the items emitted by a channel to a list and return the resulting object as a sole emission. This can be extremely useful when combing the results from the output of multiple processes, or a single process run multiple times.
 
@@ -442,7 +442,7 @@ It prints a single value:
 
 The result of the collect operator is a `value channel` and can be used multiple times.
 
-### groupTuple
+### Grouping contents of a channel by a key.
 
 The `groupTuple` operator collects `tuples` or `lists` of values by grouping together the channel elements that share the same key. Finally it emits a new tuple object for each distinct key collected.
 
@@ -509,7 +509,7 @@ This operator is useful to process altogether all elements for which there’s a
 {: .challenge}
 
 
-## Combining Operators
+## Merging Channels
 
 Combining operators allow you to merge channels together. This can be useful when you want to combine the output channels from multiple processes to perform another task such as joint QC.
 
@@ -603,7 +603,7 @@ The maths operators are:
 * sum
 * to Integer
 
-### count
+### Counting items in a channel
 
 The `count` operator creates a channel that emits a single item: a number that represents the total number of items emitted by the source channel. For example:
 
@@ -620,11 +620,11 @@ ch = channel
 ~~~
 {: .output }
 
-## Splitting operators
+## Splitting items in a channel
 
-These operators are used to split items emitted by channels into chunks that can be processed by downstream operators or processes.
+Sometimes you want to split the content of a individual item in a channel, like a file or string, into smaller chunks that can be processed by downstream operators or processes e.g. items stored in a CSV file.
 
-The available splitting operators are:
+Nextflow has a number of splitting operators that can achieve this:
 
 |[splitCsv](https://www.nextflow.io/docs/latest/operator.html#splitcsv)|The splitCsv operator allows you to parse text items emitted by a channel, that are formatted using the CSV format, and split them into records or group them into list of records with a specified length.|
 |[splitFasta](https://www.nextflow.io/docs/latest/operator.html#splitfasta)|The splitFasta operator allows you to split the entries emitted by a channel, that are formatted using the FASTA format. It returns a channel which emits text item for each sequence in the received FASTA content.|
@@ -717,8 +717,6 @@ data/yeast/reads/ref2_1.fq.gz
 >  ~~~
 > csv_ch=channel
 >    .fromPath('data/yeast/samples.csv')
->    .splitCsv(header:true)
-> csv_ch.view({it.fastq_1})
 >  ~~~
 > {: .language-groovy }
 > > ## Solution

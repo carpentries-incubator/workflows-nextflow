@@ -8,23 +8,24 @@ questions:
 - "How can I create a report from my run?"
 objectives:
 - "View Nextflow pipeline run logs."
-- "Create a HTML report from a pipeline run."
+- "Use `nextflow log` to view more information about a specific run."
+- "Create an HTML report from a pipeline run."
 keypoints:
 - "Nextflow can produce a custom execution report with run information using the `log` command."
 - "You can generate a report using the `-t` option specifying a template file."
 ---
 
+## Nextflow log
 
-## Log
+Once a script has run, Nextflow stores a log of all the workflows executed in the current folder.
+Similar to an electronic lab book, this means you have a have a record of all processing steps and commands run.
 
-When provided with a run name or session ID, the `log` command can return useful information about a pipeline execution. This can be composed to track the provenance of a workflow result.
-
-To find the run names or session IDs we can use the Nextflow `log` command.
+You can print Nextflow's execution history and log information using the  `nextflow log` command.
 
 ~~~
 $ nextflow log
 ~~~
-{: .language-bash }
+{: .language-bash}
 
 ~~~
 TIMESTAMP          	DURATION	RUN NAME               	STATUS	REVISION ID	SESSION ID                          	COMMAND
@@ -33,7 +34,28 @@ TIMESTAMP          	DURATION	RUN NAME               	STATUS	REVISION ID	SESSION 
 
 This will print a summary of the executions log and runtime information for all pipelines run. By default, included in the summary, are the date and time it ran, how long it ran for, the run name, run status, a revision ID, the session id and the command run on the command line.
 
-If we want to get more information about an individual run we can add the run name or session ID to the `log` command. This will lists all the work directories.
+> ## Show Execution Log
+> Listing the execution logs of previous invocations of all pipelines in a directory.
+>
+> ~~~
+> $ nextflow log
+> ~~~
+> {: .language-bash}
+> > ## Solution
+> > The output will look similar to this:
+> >
+> > ~~~
+> >TIMESTAMP          	DURATION	RUN NAME       	STATUS	REVISION ID	SESSION ID                          	COMMAND
+> >2021-03-19 13:45:53	6.5s    	fervent_babbage	OK    	c54a707593 	15487395-443a-4835-9198-229f6ad7a7fd	nextflow run wc.nf
+> > 2021-03-19 13:46:53	6.6s    	soggy_miescher 	OK    	c54a707593 	58da0ccf-63f9-42e4-ba4b-1c349348ece5	nextflow run wc.nf --samples 'data/yeast/reads/*.fq.gz'
+> >  ~~~
+> > {: .output }
+> {: .solution}
+{: .challenge}
+
+## Pipeline execution report
+
+If we want to get more information about an individual run we can add the run name or session ID to the `log` command.
 
 For example:
 
@@ -69,6 +91,7 @@ This will list the work directory for each process.
 ## Fields
 
 If we want to print more metadata we can use `log` command and the option `-f` (fields) followed by a comma delimited list of fields.
+This can be composed to track the provenance of a workflow result.
 
 For example:
 

@@ -1,0 +1,16 @@
+name: nextflow_dash
+channels:
+  - bioconda
+  - conda-forge
+  - defaults
+dependencies:
+  - salmon=1.5
+  - fastqc=0.11.9
+  - fastx_toolkit=0.0.14
+  - multiqc=1.5
+  - kallisto=0.46
+  - fastq-tools
+  - samtools=1.11
+  - nextflow=21.04
+  - nf-core=2.0
+  - graphviz=2.38.0
