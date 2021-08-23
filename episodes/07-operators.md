@@ -717,8 +717,6 @@ data/yeast/reads/ref2_1.fq.gz
 >  ~~~
 > csv_ch=channel
 >    .fromPath('data/yeast/samples.csv')
->    .splitCsv(header:true)
-> csv_ch.view({it.fastq_1})
 >  ~~~
 > {: .language-groovy }
 > > ## Solution
