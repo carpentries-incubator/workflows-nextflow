@@ -4,16 +4,19 @@ teaching: 30
 exercises: 10
 questions:
 - "How do I get data, files and values,  out of processes?"
+- "How do I handle grouped input and output?"
 - "How do can I control when a process is executed?"
 - "How do I control resources, such as number of CPUs and memory, available to processes?"
 - "How do I save output/results from a process?"
 objectives:
 - "Define outputs to a process."
+- "Understand how to handle grouped input and output using the tuple qualifier."
 - "Understand how to use conditionals to control process execution."
 - "Use process directives to control execution of a process."
 - "Use the `publishDir` directive to save result files to a directory."
 keypoints:
-- "Outputs to a process are defined using the  output blocks."
+- "Outputs to a process are defined using the output blocks."
+- "You can group input and output data from a process using the tuple qualifer."
 - "The execution of a process can be controlled using the `when` declaration and conditional statements."
 - "Files produced within a process and defined as `output` can be saved to a directory using the `publishDir` directive."
 ---
