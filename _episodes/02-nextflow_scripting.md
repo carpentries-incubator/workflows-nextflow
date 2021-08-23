@@ -105,15 +105,11 @@ In any programming language, you need to use variables to store different types 
 
 Variables are assigned using `=` and can have any value. Groovy is dynamically-typed which means the variable's data type is based on its value. For example, setting `x = 1` means `x` is an integer number, but if it is later set to `x = "hello"` then it becomes a String.
 
-> ## Def
-> Local variables are defined using the def keyword:
+> ## Variable scope
+> When we create a variable using the `x = 1` syntax we can access, (`scope`), it anywhere (`globally`) in the script. A variable declared in this fashion is sometimes called a public variable.
 >
-> ~~~
-> def x = 'foo'
-> ~~~
-> {: .language-groovy }
->
-> It should be always used when defining variables local to a function or a closure. Local means that the variable cannot be used outside that function or closure.
+> We can also define variables with a data `type` e.g. `String x="Hello"` or with the `def ` keyword `def x=1`. This effects the accessibility (`scope`) of the variable.
+> This is called lexical scoping (sometimes known as static scoping ) that sets the scope  of a variable so that it may only be accessed from within the block of code in which it is defined. A variable declared in this fashion is sometimes called a private variable.
 {: .callout }
 
 ### Types of Data
