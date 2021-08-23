@@ -13,7 +13,7 @@ keypoints:
 - "A Nextflow process is an independent task/step in a workflow"
 - "Processes contain up to five definition blocks including, directives, inputs, outputs, when clause and finally a script block."
 - "The script block contains the commands you would like to run."
-- "Inputs are defined using the input blocks."
+- "Inputs are defined in the input block with a type qualifier and a name."
 ---
 
 
@@ -53,8 +53,7 @@ This process would run once.
 We use the special Nextflow variable `${projectDir}` to specify the directory where the main script is located. This is important as Nextflow scripts are executed in a separate working directory.
  {: .callout }
 
-To add the process to a workflow add a `workflow` block below the process.
-We will learn more about the `workflow` block in the next episode.
+To add the process to a workflow add a `workflow` block, and call the process like a  function. We will learn more about the `workflow` block in the workflow episode.
 
 **Note:** As we are using DSL2 we need to include `nextflow.enable.dsl=2` in the script.
 
@@ -174,7 +173,22 @@ The `script` block is a String "statement" that defines the command that is exec
 
 A process contains only one `script` block, and it must be the last statement when the process contains `input` and `output` declarations.
 
-The `script` block can be a simple one line string in quotes e.g. `"samtools index ref1.sorted.bam"` .
+The `script` block can be a simple one line string in quotes e.g.
+
+~~~
+nextflow.enable.dsl=2
+
+process PROCESSBAM {
+    script:
+    "samtools sort -o ref1.sorted.bam ${projectDir}/data/yeast/bams/ref1.bam"
+}
+
+workflow {
+  PROCESSBAM()
+}
+~~~
+{: .language-groovy }
+
 Or, for commands that span multiple lines you can encase the command in  triple quotes `"""`.
 
 For example:
@@ -545,8 +559,8 @@ The input qualifier declares the type of data to be received.
 
 > ## Input qualifiers
 > * `val`: Lets you access the received input value by its name in the process script.
-> * `env`: Lets you use the received value to set an environment variable named as > the specified input name.
-> * `path`: Lets you handle the received value as a path, staging the file properly in the execution context.
+> * `env`: Lets you use the input value to set an environment variable named as the specified input name.
+> * `path`: Lets you handle the received value as a file, staging the file properly in the execution context.
 > * `stdin`: Lets you forward the received value to the process stdin special file.
 > * `tuple`: Lets you handle a group of input values having one of the above qualifiers.
 > * `each`: Lets you execute the process for each entry in the input collection.
@@ -580,7 +594,10 @@ workflow {
 ~~~
 {: .language-groovy }
 
-In the above example the process is executed 24 times; each time a value is received from the queue channel `chr_ch` it is used to run process. Thus, it results in an output similar to the one shown below:
+~~~
+$ nextflow run process_input_value.nf -process.echo
+~~~
+{: .language-bash }
 
 ~~~
 processing chromosome 3
@@ -590,18 +607,19 @@ processing chromosome 2
 ~~~
 {: .output}
 
+In the above example the process is executed 24 times; each time a value is received from the queue channel `chr_ch` it is used to run process.
+
 > ## Channel order
 > The channel guarantees that items are delivered in the same order as they have been sent,  but,  since the process is executed in a parallel manner, there is no guarantee that they are processed in the same order as they are received.
 {: .callout}
 
 ### Input files
 
-The `path` qualifier allows the handling of files. This means that Nextflow will stage it in the process execution directory, and it can be access in the script by using the name specified in the input declaration.
+When you need to handle files as input you need the `path` qualifier. Using the `path` qualifier means that Nextflow will stage it in the process execution directory, and it can be access in the script by using the name specified in the input declaration.
 
-The input file name can be defined dynamically by defining the input name as a Nextflow variable and referenced in the script using  `$variable_name` syntax.
+The input file name can be defined dynamically by defining the input name as a Nextflow variable and referenced in the script using the  `$variable_name` syntax.
 
-For example in the script below we assign the variable name `read` to the input files and it
-is referenced using the variable substitution syntax `${read}` in the script block:
+For example in the script below we assign the variable name `read` to the input files using the `path` qualifier. The file is referenced using the variable substitution syntax `${read}` in the script block:
 
 ~~~
 //process_input_file.nf
@@ -627,6 +645,11 @@ workflow {
 {: .language-groovy }
 
 ~~~
+$ nextflow run process_input_file.nf -process.echo
+~~~
+{: .language-bash }
+
+~~~
 [cd/77af6d] process > NUMLINES (1) [100%] 6 of 6 ✔
 ref1_1.fq.gz 58708
 
@@ -642,7 +665,10 @@ ref1_2.fq.gz 58708
 ~~~
 {: .output }
 
-The input name can also be defined as user specified filename inside quotes as in the example below where specific the name of the file as `'sample.fq.gz'`.
+<br>
+The input name can also be defined as user specified filename inside quotes.
+For example in the script below the name of the file is specified as `'sample.fq.gz'` in the input definition and can be referenced by that name in the script block.
+<br>
 
 ~~~
 //process_input_file_02.nf
@@ -667,6 +693,10 @@ workflow {
 ~~~
 {: .language-groovy }
 
+~~~
+$ nextflow run process_input_file_02.nf -process.echo
+~~~
+{: .language-bash }
 
 ~~~
 [d2/eb0e9d] process > NUMLINES (1) [100%] 6 of 6 ✔
@@ -704,9 +734,10 @@ sample.fq.gz58708
 >    """
 >    mkdir fastqc_out
 >    fastqc -o fastqc_out ${reads}
+>    ls -1 fastqc_out
 >    """
 > }
-> reads_ch = Channel.fromPath( 'data/yeast/reads/*_1.fq.gz' )
+> reads_ch = Channel.fromPath( 'data/yeast/reads/ref1*_{1,2}.fq.gz' )
 >
 > workflow {
 >   FASTQC(reads_ch)
@@ -715,7 +746,7 @@ sample.fq.gz58708
 > {: .language-groovy }
 > Then run your script using
 > ~~~
-> nextflow run fastqc.nf
+> nextflow run fastqc.nf -process.echo
 > ~~~
 > {: .language-bash }
 > > ## Solution
@@ -729,22 +760,37 @@ sample.fq.gz58708
 > >    """
 > >    mkdir fastqc_out
 > >    fastqc -o fastqc_out ${reads}
+> >    ls -1 fastqc_out
 > >    """
 > > }
-> > reads_ch = Channel.fromPath( 'data/yeast/reads/*_1.fq.gz' )
+> > reads_ch = Channel.fromPath( 'data/yeast/reads/ref1*_{1,2}.fq.gz' )
 > >
 > > workflow {
 > >   FASTQC(reads_ch)
 > > }
 > > ~~~
 > > {: .language-groovy }
+> > ~~~
+> > N E X T F L O W  ~  version 21.04.0
+> > Launching `process_exercise_input_answer.nf` [jovial_wescoff] - revision: e3db00a4dc
+> > executor >  local (2)
+> > [d9/559a27] process > FASTQC (2) [100%] 2 of 2 ✔
+> > Analysis complete for ref1_1.fq.gz
+> > ref1_1_fastqc.html
+> > ref1_1_fastqc.zip
+> >
+> > Analysis complete for ref1_2.fq.gz
+> > ref1_2_fastqc.html
+> > ref1_2_fastqc.zip
+> >  ~~~
+> > {: .output}
 > {: .solution}
 {: .challenge}
 
 ### Combining input channels
 
 A key feature of processes is the ability to handle inputs from multiple channels.
-However it’s important to understands how the content of channel and affect the execution of a process.
+However it’s important to understands how the number of items within the multiple channels affect the execution of a process.
 
 Consider the following example:
 
@@ -770,6 +816,11 @@ workflow {
 }
 ~~~
 {: .language-groovy }
+
+~~~
+$ nextflow run process_combine.nf -process.echo
+~~~
+{: .language-bash }
 
 Both channels contain three elements, therefore the process is executed three times, each time with a different pair:
 
@@ -814,6 +865,11 @@ workflow {
 ~~~
 {: .language-groovy }
 
+~~~
+$ nextflow run process_combine_02.nf -process.echo
+~~~
+{: .language-bash }
+
 In the above example the process is executed only two time, because when a queue channel has no more data to be processed it stops the process execution.
 
 ~~~
@@ -825,7 +881,7 @@ In the above example the process is executed only two time, because when a queue
 
 ### Value channels and process termination
 
-Note however that value channels, `Channel.value` , do not affect the process termination.
+**Note** however that value channels, `Channel.value` , do not affect the process termination.
 
 To better understand this behaviour compare the previous example with the following one:
 
@@ -853,6 +909,11 @@ workflow {
 ~~~
 {: .language-groovy }
 
+~~~
+$ nextflow run process_combine_03.nf -process.echo
+~~~
+{: .language-bash }
+
 In this example the process is run three times.
 
 ~~~
@@ -864,7 +925,7 @@ In this example the process is run three times.
 
 
 > ##  Combining input channels
-> Write a nextflow script `salmon_index_combine.nf` that combines two input channels
+> Write a nextflow script `process_exercise_combine.nf` that combines two input channels
 > ~~~
 > transcriptome_ch = channel.value('data/yeast/transcriptome/Saccharomyces_cerevisiae.R64-1-1.cdna.all.fa.gz')
 > kmer_ch = channel.of(21)
@@ -934,6 +995,11 @@ workflow {
 ~~~
 {: .language-groovy }
 
+~~~
+$ nextflow run process_repeat.nf -process.echo
+~~~
+{: .language-bash }
+
 The process will run eight times.
 
 ~~~
@@ -949,7 +1015,9 @@ The process will run eight times.
 {: .output}
 
 > ## Input repeaters
+> Extend the script `process_exercise_repeat.nf` by adding more values to the `kmer` queue channel e.g. (21,27,31) and running the process for each value.
 >  ~~~
+> //process_exercise_repeat.nf
 >  nextflow.enable.dsl=2
 >  process COMBINE {
 >   input:
@@ -969,8 +1037,6 @@ The process will run eight times.
 >  }
 >  ~~~
 >  {: .language-groovy }
-> Extend the previous  exercise, *Combining input channels*, script `salmon_index.nf` above, by adding more values to the `kmer` queue channel e.g. (21,27,31) and running the process for each value.
-> {: .language-groovy }
 >
 > How many times does this process run ?
 >
@@ -985,7 +1051,7 @@ The process will run eight times.
 > >  path kmer
 > >  script:
 > >   """
-> >   echo salmon index -t $transcriptome -i index -k $kmer
+> >   salmon index -t $transcriptome -i index -k $kmer
 > >   """
 > > }
 > >
@@ -997,6 +1063,10 @@ The process will run eight times.
 > > }
 > > ~~~
 > > {: .language-groovy }
+> > ~~~
+> > nextflow run process_exercise_repeat.nf -process.echo
+> > ~~~
+> > {: .language-bash }
 > > This process runs three times.
 > {: .solution}
 {: .challenge}
