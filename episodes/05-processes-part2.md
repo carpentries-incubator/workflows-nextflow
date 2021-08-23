@@ -403,7 +403,7 @@ It is useful to enable/disable the process execution depending the state of vari
 In the example below the process `CONDITIONAL` will only execute when the value of the `chr` variable is less than or equal to 5:
 
 ~~~
-//process_conditional.nf
+//process_when.nf
 nextflow.enable.dsl=2
 
 process CONDITIONAL {
@@ -442,7 +442,7 @@ workflow {
 
 ## Directives
 
-Directive declarations allow the definition of optional settings, like the number of cpus and amount of memory, that affect the execution of the current process without affecting the task itself.
+Directive declarations allow the definition of optional settings, like the number of `cpus` and amount of `memory`, that affect the execution of the current process without affecting the task itself.
 
 They must be entered at the top of the process body, before any other declaration blocks (i.e. `input`, `output`, etc).
 
@@ -455,7 +455,7 @@ Directives are commonly used to define the amount of computing resources to be u
 For example:
 
 ~~~
-//process_exercise_directives.nf
+//process_directives.nf
 nextflow.enable.dsl=2
 
 process PRINTCHR {
@@ -566,6 +566,16 @@ A complete list of directives is available at this [link](https://www.nextflow.i
 > > }
 > >  ~~~
 > > {: .language-groovy }
+> > ~~~
+> > N E X T F L O W  ~  version 21.04.0
+> > Launching `process_exercise_directives.nf` [sad_rosalind] - revision: 2ccbfa4937
+> > executor >  local (3)
+> > [90/de1125] process > FASTQC (ref1) [100%] 3 of 3 ✔
+> >[ref2, work/ea/9e6a341b88caf8879e8d18b77049c8/fastqc_out]
+> > [ref3, work/94/d059b816a9ec3d868f2924c26813e7/fastqc_out]
+> > [ref1, work/90/de11251d362f494d6650789d9f8c1d/fastqc_out]
+> > ~~~
+> > {: .output}
 > {: .solution}
 {: .challenge}
 
