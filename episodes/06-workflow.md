@@ -20,8 +20,8 @@ Our previous episodes have shown us how to define parameterise workflows using `
 
 ## Workflow definition
 
-We can connect process to create our pipeline inside a `workflow` scope.
-The  workflow scope starts with keyword the `workflow`, followed by an optional name and finally the workflow body delimited by curly brackets.
+We can connect processes to create our pipeline inside a `workflow` scope.
+The  workflow scope starts with keyword the `workflow`, followed by an optional name and finally the workflow body delimited by curly brackets `{}`.
 
 > ## Implicit workflow
 > A workflow definition which does not declare any name is assumed to be the main workflow, and it is implicitly executed. Therefore it’s the entry point of the workflow application.
@@ -29,7 +29,13 @@ The  workflow scope starts with keyword the `workflow`, followed by an optional 
 
 ### Invoking processes with a workflow
 
-As seen previously, a `process` is invoked as a function in the `workflow` scope, passing the expected input channels as arguments as it if were a function `<process_name>(<input_ch1>,<input_ch2>,...)`. To combined multiple process invoke the processes in the order they would appear in a workflow.
+As seen previously, a `process` is invoked as a function in the `workflow` scope, passing the expected input channels as arguments as it if were.
+
+~~~
+ <process_name>(<input_ch1>,<input_ch2>,...)
+~~~
+
+To combined multiple processes invoke them in the order they would appear in a workflow.
 
 For example:
 
