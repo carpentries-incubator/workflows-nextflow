@@ -2,7 +2,7 @@
 title: "Workflow parameterization"
 teaching: 20
 exercises: 5
-questions:
+questio
 - "How can I change the data a workflow uses?"
 - "How can I parameterise a workflow?"
 - "How can I add my parameters to a file?"
@@ -128,7 +128,6 @@ $ cp wc.nf wc-params.nf
 {: .language-bash}
 
 To add a parameter `sleep` with the default value `2` to `wc-params.nf` we add the line:
-
 ~~~
 params.sleep=2
 ~~~
@@ -201,7 +200,9 @@ nextflow run wc-params.nf --sleep 10
 ##  Parameter File
 
 If we have many parameters to pass to a script it is best to create a parameters file.
-Parameters are stored in JSON or YAML format and  the `-params-file` option is used to pass the parameters file to the script.
+Parameters are stored in JSON or YAML format. JSON and YAML are data serialization languages, that are a way of storing  data objects and structures, such as the `params` object in a file.
+
+The `-params-file` option is used to pass the parameters file to the script.
 
 For example the file `wc-params.json` contains the parameters `sleep` and `input` in JSON format.
 
@@ -230,3 +231,34 @@ etoh60_1_2.fq.gz 87348
 etoh60_1_1.fq.gz 87348
 ~~~
 {: .output}
+
+> ## Create and use a Parameter file.
+> Create a parameter file for the Nextflow file `wc-params.nf`,
+> specifying
+>
+>  * sleep as 5
+>  * input as `data/yeast/reads/ref3_1.fq.gz`
+>  * Run the Nextflow script using the parameter file.
+>
+> > ## Solution
+> > ~~~
+> > {
+> >  "sleep": 10,
+> >  "input": "data/yeast/reads/ref3_1.fq.gz"
+> > }
+> > ~~~
+> > {: .language-json}
+> > ~~~
+> > $ nextflow run  wc-params.nf -params-file params.json
+> > ~~~
+> > {: .language-bash}
+> > ~~~
+> > N E X T F L O W  ~  version 21.04.0
+> > Launching `wc-params.nf` [small_wiles] - revision: f5ef7b7a01
+> > executor >  local (1)
+> > [f3/4fa480] process > NUM_LINES (1) [100%] 1 of 1 ✔
+> > ref3_1.fq.gz 52592
+> > ~~~
+> > {: .output}
+> {: .solution}
+{: .challenge}
