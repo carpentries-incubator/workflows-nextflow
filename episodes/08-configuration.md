@@ -32,7 +32,7 @@ Nextflow uses configuration files to achieve this separation.
 
 ## Configuration file
 
-We have seen in previous episodes how to configure how a workflow runs using parameters specified on the command line (`--variable_name`). You can also specify workflow parameters and settings using a Nextflow configuration file.
+We have seen in previous episodes how to configure how a workflow runs using parameters specified on the command line (`--variable_name`) or in parameter files. You can also specify workflow parameters and settings using a Nextflow configuration file.
 
 When a pipeline script is launched Nextflow looks for a file named `nextflow.config` in the current directory and in the script base directory (if it is not the same as the current directory). Finally it checks for the file `$HOME/.nextflow/config` (Note this file is not called nextflow.config, just config).
 
@@ -77,6 +77,8 @@ kmer = 27
 kmer_message = "kmer size is  ${kmer}"
 ~~~
 {: .language-groovy}
+
+**Note:* Please note, the usual rules for String interpolation are applied, thus a string containing a variable reference must be wrapped in double-quote chars instead of single-quote chars.
 
 You can use the `nextflow config` command to  to print the resolved configuration of the  `nextflow.config`  and is especially useful for understanding the resolved profiles and parameters that Nextflow will use run a pipeline.
 
@@ -286,6 +288,7 @@ For example:
 process {
     cpus = 2
     memory = 8.GB
+    time = '1 hour'
 }
 ~~~
 {: .source }
@@ -297,7 +300,7 @@ process {
 
 
 
-The above config snippet defines the `cpus`, `memory` for **all** processes in your workflow script.
+The above config snippet defines the `cpus`, `memory`, and `time` for **all** processes in your workflow script.
 
 
 The `process` selector can be used to apply the configuration to a specific process or group of processes (discussed later).
@@ -333,7 +336,7 @@ process {
 
 
 > ## Configure process scope
-> 1. Create a Netxflow config file `wc-params.config`
+> 1. Create a Nextflow config file `wc-params.config`
 > 1. Add a  process scope specifying the process run time as `time = '5s'``
 > 1. Then run:
 > ~~~
@@ -423,7 +426,7 @@ It is possible to define the resources for a specific task using  `withName:` fo
 For example for the process `INDEX` and `FASTQC` we can specify different `cpus` and `memory` resources.:
 
 ~~~
-//nextflow.config
+//configuration_process-names.config
 process {
     withName: INDEX {
         cpus = 4
@@ -447,6 +450,7 @@ A better strategy consist to annotate the processes with a `label` directive. Th
 The `withLabel` selectors allow the configuration of all processes annotated with a label directive as shown below:
 
 ~~~
+//configuration_process_labels.nf
 nextflow.enable.dsl=2
 
 process P1 {
@@ -474,7 +478,7 @@ workflow {
 {: .language-groovy }
 
 ~~~
-//nextflow.config
+//configuration_process-labels.config
 process {
     withLabel: big_mem {
         cpus = 16
@@ -497,13 +501,18 @@ When mixing generic process configuration and selectors the following priority r
 1. `withName` selector definition.
 
 > ## Process selectors
-> Create a Nextflow config, `nextflow.config`, file specifying different
+> Create a Nextflow config, `process-selector.config`, file specifying different.
 > 1. `cpus`
 > 1. `memory`
 >
-> resources for the two process `P1` (cpus 1 and memory 2.GB) and `P2` (cpus2 and memory 1.GB) for the Nextflow script below.
+> resources for the two process
+> * `P1` (cpus 1 and memory 2.GB) and
+> * `P2` (cpus 2 and memory 1.GB)
+>
+> for the Nextflow script `process-selector.nf`.
 >
 > ~~~
+> //process-selector.nf
 > nextflow.enable.dsl=2
 >
 > process P1 {
@@ -527,6 +536,7 @@ When mixing generic process configuration and selectors the following priority r
 >  P2()
 > }
 > ~~~
+> {: .language-groovy }
 > > ## Solution
 > > ~~~
 > > //config file
@@ -542,6 +552,10 @@ When mixing generic process configuration and selectors the following priority r
 > >   }
 > > }
 > > ~~~
+> > ~~~
+> > $ nextflow run process-selector.nf -c process-selector.config
+> > ~~~
+> > {: .language-bash }
 > {: .solution}
  {: .challenge}
 
@@ -554,7 +568,7 @@ We can specify the technology used for the entire workflow or a single or group 
 
 ## Config Conda execution
 
-To use  a Conda environment you can either specify the path of an existing Conda environment directory or the path of Conda environment `YAML` file process scope of the config file:
+To use  a Conda environment you can either specify the path of an existing Conda environment directory.
 
 ~~~
 process.conda = "/home/user/miniconda3/envs/my_conda_env"
@@ -565,23 +579,95 @@ process {
 ~~~
 {: .source }
 
-Or specify the path of Conda environment `YAML` file.
+Specify the path of Conda environment `YAML` file.
 
 For example;
 
 ~~~
 process.conda = "environment.yml"
+//or
+process {
+  conda = "environment.yml"  
+}
 ~~~
 {: .source }
 
-### conda scope
+Or, specify the an individual package name using the syntax.
+
+~~~
+<channel>::<package_name>=<version>
+~~~
+
+
+For example,
+
+~~~
+process.conda = "bioconda::salmon"
+//or
+process {
+  conda = "bioconda::salmon"
+}
+~~~
+
+### Conda scope
 
 There is an optional `conda` scope allows you to control the creation of a Conda environment by the Conda package manager.
 
-For example, `cacheDir` specifies the path  where the Conda environments are stored. By default this is in `conda` folder of the work directory.
+For example, `cacheDir` specifies the path  where the Conda environments are stored. By default this is in `conda` folder of the `work` directory.
 
 **Note:** When using a compute cluster make sure to provide a shared file system path accessible from all computing nodes.
 
+>## Define a software requirement in the configuration file using conda
+>  Create a config file for the Nextflow script `configuration_fastp.nf` that:
+>  1. Add a conda scope for the process name `NUM_LINES` that includes the bioconda package `fastp`.
+>
+>  Run the Nextflow script `configuration_fastp.nf` with the configuration file using the `-c` option.
+>
+> ~~~
+> nextflow.enable.dsl=2
+>
+> params.input = "data/yeast/reads/ref1_1.fq.gz"
+>
+> process NUM_LINES {
+>
+>    input:
+>    path read
+>
+>    output:
+>    stdout
+>
+>    script:
+>    """
+>    printf '${read} '
+>    gunzip -c ${read} | wc -l
+>    fastp -i ${read}  -o out.fq 2>&1
+>    """
+> }
+>
+>
+> input_ch = Channel.fromPath(params.input)
+>
+>
+> workflow {
+>    NUM_LINES(input_ch).out.view()
+> }
+>~~~
+> {: .language-groovy }
+> > ## Solution
+> > ~~~
+> > //fastp.config
+> > process {
+> >   withName: "NUM_LINES" {
+> >     conda = "bioconda::fastp"
+> >  }
+> > }
+> > ~~~
+> > ~~~
+> > $ nextflow run configuration_fastp.nf -c fastp.config
+> > ~~~
+> > {: .language-bash }
+> {: .solution}
+{: .challenge}
 
 ## Config Docker execution
 
@@ -631,6 +717,7 @@ The above configuation instructs Nextflow to use Singularity engine to run your 
 
 
 
+
 ## Configuration profiles
 
 One of the most powerful features of the configuration file is to define multiple different configuration or `profiles` , for different computational environments e.g. local computer vs. HPC.
@@ -643,6 +730,7 @@ Configuration profiles are defined by using the special scope `profiles` which g
 For example:
 
 ~~~
+//configuration_profiles.config
 profiles {
 
     local {
