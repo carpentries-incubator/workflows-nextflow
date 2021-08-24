@@ -129,12 +129,13 @@ $ cp wc.nf wc-params.nf
 {: .language-bash}
 
 To add a parameter `sleep` with the default value `2` to `wc-params.nf` we add the line;
-**Note:** You should always add a sensible default value to the pipeline parameter.
-
 ~~~
 params.sleep=2
 ~~~
 {: .language-groovy}
+
+**Note:** You should always add a sensible default value to the pipeline parameter.
+
 
 We can use this parameter to add another step to our `NUM_LINES` process.
 
@@ -203,7 +204,9 @@ nextflow run wc-params.nf --sleep 10
 ##  Parameter File
 
 If we have many parameters to pass to a script it is best to create a parameters file.
-Parameters are stored in JSON or YAML format and  the `-params-file` option is used to pass the parameters file to the script.
+Parameters are stored in JSON or YAML format. JSON and YAML are data serialization languages, that are a way of storing  data objects and structures, such as the `params` object in a file.
+
+The `-params-file` option is used to pass the parameters file to the script.
 
 For example the file `wc-params.json` contains the parameters `sleep` and `input` in JSON format.
 
