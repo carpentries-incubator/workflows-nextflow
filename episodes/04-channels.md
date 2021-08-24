@@ -395,12 +395,12 @@ For example is the `data/yeast/reads` directory we have nine groups of read pair
 |etoh60_3|data/yeast/reads/etoh60_3_1.fq.gz| data/yeast/reads/etoh60_3_2.fq.gz|
 
 
-Nextflow provides a convenient Channel factory method for this common bioinformatics use case. The `fromFilePairs` method creates a queue channel containing a `tuple` for every set of files matching a specific pattern (e.g., `/path/to/*_{1,2}.fq.gz`).
+Nextflow provides a convenient Channel factory method for this common bioinformatics use case. The `fromFilePairs` method creates a queue channel containing a `tuple` for every set of files matching a specific glob pattern (e.g., `/path/to/*_{1,2}.fq.gz`).
 
 A `tuple` is a grouping of data, represented as a Groovy List.
 
 1. The first element of the tuple emitted from `fromFilePairs` is a string based on the shared part of the filenames (i.e., the `*` part of the glob pattern).
-1. The second element is the list of files matching the remaining part of the glob pattern (i.e., the `<string>_{1,2}.fq.gz` pattern).
+1. The second element is the list of files matching the remaining part of the glob pattern (i.e., the `<string>_{1,2}.fq.gz` pattern). This will include any files ending `_1.fq.gz` or `_2.fq.gz`.   
 
 ~~~
 read_pair_ch = Channel.fromFilePairs('data/yeast/reads/*_{1,2}.fq.gz')
