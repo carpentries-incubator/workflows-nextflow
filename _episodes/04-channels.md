@@ -159,12 +159,12 @@ Arguments passed to the `of` method can be of varying types e.g., combinations o
 > 1. Create a Nextflow script file called `channel.nf` .
 > 1. Create a Value channel `ch_vl` containing a list with the values  `'GRCh38'`.
 > 1. Create a Queue channel `ch_qu` containing the values  1 to 4.
-> 1. Use .view() to view the contents of the channels.
-> Run the code using
-> ~~~~
-> nextflow run channel.nf
-> ~~~~
-> {: .language-groovy }
+> 1. Use `.view()` operator on the channel objects to view the contents of the channels.
+> 1. Run the code using
+> ~~~
+> $ nextflow run channel.nf
+> ~~~
+> {: .language-bash }
 > > ## Solution
 > > ~~~
 > > ch_vl = Channel.value('GRCh38')
@@ -256,7 +256,7 @@ kallisto
 
 The previous channel factory methods dealt with sending general values in a channel. A special channel factory method `fromPath` is used when wanting to pass files.
 
-The `fromPath` factory method creates a **queue channel** emitting one or more files matching a file path.
+The `fromPath` factory method creates a **queue channel** containing one or more files matching a file path.
 
 The file path (written as a quoted string) can be the location of a single file or a "glob pattern" that matches multiple files or directories.
 
@@ -461,7 +461,7 @@ See more information about the channel factory `fromFilePairs` [here](https://ww
 > ## Create a channel containing groups of files
 >
 > 1. Create a Nextflow script file `channel_fromFilePairs.nf` .
-> 1. Use the `fromFilePairs` method to create a channel containing three elements. Each elementwill contain  the pairs of fastq read for the three temp33 samples in the `data/yeast/reads` directory
+> 1. Use the `fromFilePairs` method to create a channel containing three tuples. Each tuple will contain the pairs of fastq read for the three temp33 samples in the `data/yeast/reads` directory
 >
 > > ## Solution
 > >
