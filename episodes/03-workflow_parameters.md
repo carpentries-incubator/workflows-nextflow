@@ -27,16 +27,15 @@ runtime, via the command line or a configuration file, so they are not
 hard-coded into the script.
 
 Pipeline parameters are declared in the workflow by prepending the prefix
-`params`, separated by dot character, to a variable name e.g.,
+`params`, separated by the dot character, to a variable name e.g.,
 `params.input`.
 
 Their value can be specified on the command line by
-prefixing the parameter name with a **double dash** character, i.e.,
-`--paramName` e.g., `--input`.
+prefixing the parameter name with a **double dash** character, e.g., `--input`.
 
 In the script `wc.nf` the pipeline parameter `params.input` was specified with a value of `"data/yeast/reads/ref1_1.fq.gz"`.
 
-To process the file `data/yeast/reads/ref2_2.fq.gz` in the `wc.nf` script we would run:
+To process a different file, e.g. `data/yeast/reads/ref2_2.fq.gz`, in the `wc.nf` script we would run:
 
 ~~~
 nextflow run wc.nf --input 'data/yeast/reads/ref2_2.fq.gz'
@@ -52,7 +51,7 @@ ref2_2.fq.gz 81720
 ~~~
 {: .output}
 
-We can also uses wild cards to specify multiple input files (This will be covered in the channels episode).
+We can also use wild cards to specify multiple input files (This will be covered in the channels episode).
 In the example below we use the `*` to match any sequence of characters between `ref2_` and `.fq.gz`.
 **Note:** If you use wild card characters on the command line you must enclose the value in quotes.
 
@@ -61,7 +60,7 @@ $ nextflow run wc.nf --input 'data/yeast/reads/ref2_*.fq.gz'
 ~~~
 {: .language-bash}
 
-This run the process NUM_LINES twice, once for each file it matches.
+This runs the process NUM_LINES twice, once for each file it matches.
 
 ~~~
 N E X T F L O W  ~  version 21.04.0
@@ -128,15 +127,14 @@ $ cp wc.nf wc-params.nf
 ~~~
 {: .language-bash}
 
-To add a parameter `sleep` with the default value `2` to `wc-params.nf` we add the line;
-**Note:** You should always add a sensible default value to the pipeline parameter.
+To add a parameter `sleep` with the default value `2` to `wc-params.nf` we add the line:
 
 ~~~
 params.sleep=2
 ~~~
 {: .language-groovy}
 
-We can use this parameter to add another step to our `NUM_LINES` process.
+**Note:** You should always add a sensible default value to the pipeline parameter. We can use this parameter to add another step to our `NUM_LINES` process.
 
 ~~~
 script:
