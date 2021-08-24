@@ -235,3 +235,34 @@ etoh60_1_2.fq.gz 87348
 etoh60_1_1.fq.gz 87348
 ~~~
 {: .output}
+
+> ## Create and use a Parameter file.
+> Create a parameter file for the Nextflow file `wc-params.nf`,
+> specifying
+>
+>  * sleep as 5
+>  * input as `data/yeast/reads/ref3_1.fq.gz`
+>  * Run the Nextflow script using the parameter file.
+>
+> > ## Solution
+> > ~~~
+> > {
+> >  "sleep": 10,
+> >  "input": "data/yeast/reads/ref3_1.fq.gz"
+> > }
+> > ~~~
+> > {: .language-json}
+> > ~~~
+> > $ nextflow run  wc-params.nf -params-file params.json
+> > ~~~
+> > {: .language-bash}
+> > ~~~
+> > N E X T F L O W  ~  version 21.04.0
+> > Launching `wc-params.nf` [small_wiles] - revision: f5ef7b7a01
+> > executor >  local (1)
+> > [f3/4fa480] process > NUM_LINES (1) [100%] 1 of 1 ✔
+> > ref3_1.fq.gz 52592
+> > ~~~
+> > {: .output}
+> {: .solution}
+{: .challenge}
