@@ -284,7 +284,7 @@ A glob pattern is specified as a string and is matched against directory or file
 ** `{bam,bai}` matches "bam" or "bai"
 
 
-For example the script below uses the `.fq.gz` pattern to creates a queue channel that contains as many items as there are files with `.fq.gz` extension in the `data/yeast/reads` folder.
+For example the script below uses the `*.fq.gz` pattern to creates a queue channel that contains as many items as there are files with `.fq.gz` extension in the `data/yeast/reads` folder.
 
 ~~~
 read_ch = Channel.fromPath( 'data/yeast/reads/*.fq.gz' )
