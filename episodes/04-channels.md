@@ -5,37 +5,36 @@ exercises: 10
 questions:
 - "How do I get data into Nextflow?"
 - "How do I handle different types of input, e.g. files and parameters?"
-- "How do I create a Nextflow Channel?"
+- "How do I create a Nextflow channel?"
 - "How can I use pattern matching to select input files?"
 - "How do I change the way inputs are handled?"
 objectives:
-- "Understand how Nextflow manages data using Channels."
-- "Understand why channels are useful."
-- "Understand the different types of Nextflow Channels."
-- "Create a value and queue channel using Channel factory methods."
+- "Understand how Nextflow manages data using channels."
+- "Understand the different types of Nextflow channels."
+- "Create a value and queue channel using channel factory methods."
 - "Select files as input based on a glob pattern."
-- "Edit Channel factory arguments to alter how data is read in."
+- "Edit channel factory arguments to alter how data is read in."
 keypoints:
 - "Channels must be used to import data into Nextflow."
-- "Nextflow has two different kinds of channels, queue channels and value channels."
+- "Nextflow has two different kinds of channels: queue channels and value channels."
 - "Data in value channels can be used multiple times in workflow."
 - "Data in queue channels are consumed when they are used by a process or an operator."
-- "Channel factory methods, such as `Channel.of`, are used to create Channels."
+- "Channel factory methods, such as `Channel.of`, are used to create channels."
 - "Channel factory methods have optional parameters e.g., `checkIfExists`, that can be used to alter the creation and behaviour of a channel."
 ---
 
 # Channels
 
-Earlier we learnt that channels are the way in which Nextflow sends data around a workflow. Channels connect processes via their inputs and outputs. Channels can store multiple items, such as files (e.g., fastq files) or values. The number of items a channel stores determines how many times a process runs.
+Earlier we learnt that channels are the way in which Nextflow sends data around a workflow. Channels connect processes via their inputs and outputs. Channels can store multiple items, such as files (e.g., fastq files) or values. The number of items a channel stores determines how many times a process with that channel as an input will run.
 
 ## Why use Channels?
 
-Channels let Nextflow handle file management, allowing complex tasks to be split up, run in parallel, and reduces 'admin' required to get the right inputs to the right parts of the pipeline.
+Channels are how Nextflow handles file management, allowing complex tasks to be split up, run in parallel, and reduces 'admin' required to get the right inputs to the right parts of the pipeline.
 
 ![Channel files](../fig/channel-files.png)
 
-Channels are asynchronous, which means that output data from a set of processes will not necessarily be output in the same order as they went in.
-However, the first element into a queue is the first out of the queue (First in- First out). This allows processes to run as soon as they receive input from a channel. Channels only send data in one direction, from a producer (a process/operator), to a consumer (another process/operator).
+Channels are asynchronous, which means that outputs from a set of processes will not necessarily be produced in the same order as the corresponding inputs went in.
+However, the first element into a channel queue is the first out of the queue (First in - First out). This allows processes to run as soon as they receive input from a channel. Channels only send data in one direction, from a producer (a process/operator), to a consumer (another process/operator).
 
 ## Channel types
 
@@ -43,21 +42,21 @@ Nextflow distinguishes between two different kinds of channels: **queue** channe
 
 ### Queue channel
 
-Queue channels are a type of channel in which data is consumed (used up) to make input for a process/operator. Queue channels can be created in two ways,
+Queue channels are a type of channel in which data is consumed (used up) to make input for a process/operator. Queue channels can be created in two ways:
 
 1. As the outputs of a process.
-1. Or a queue channels can be explicitly created using channel factory methods such as [Channel.of](https://www.nextflow.io/docs/latest/channel.html#of) or [Channel.fromPath](https://www.nextflow.io/docs/latest/channel.html#frompath).
+1. Explicitly using channel factory methods such as [Channel.of](https://www.nextflow.io/docs/latest/channel.html#of) or [Channel.fromPath](https://www.nextflow.io/docs/latest/channel.html#frompath).
 
 
 > ## DSL1
 > In Nextflow DSL1 queue channels can only be used once in a workflow, either connecting workflow input to process input, or process output to input for another process.
-> In DSL2 we can uses a queue channel mutltiple times.
+> In DSL2 we can use a queue channel multiple times.
 {: .challenge}
 
 
 ### Value channels
 
-The second type of Nextflow channel is a `value` channel. A **value** channel is bound to a **single** value. A value channel can be used an unlimited number times since its content is not consumed. This is also useful for processes that need to reuse input from a channel.
+The second type of Nextflow channel is a `value` channel. A **value** channel is bound to a **single** value. A value channel can be used an unlimited number times since its content is not consumed. This is also useful for processes that need to reuse input from a channel, for example, a reference genome sequence file that is required by multiple steps within a process, or by more than one process.
 
 
 > ## Queue vs Value Channel
@@ -93,19 +92,22 @@ For example:
 ~~~
 ch1 = Channel.value('GRCh38')
 ch2 = Channel.value( ['chr1','chr2','chr3','chr4','chr5'] )
+ch3 = Channel.value( ['chr1' : 248956422, 'chr2' : 242193529, 'chr3' : 198295559] )
 ~~~
 {: .language-groovy }
 
 
 1. Creates a value channel and binds a string to it.
 1. Creates a value channel and binds a list object to it that will be emitted as a single item.
+1. Creates a value channel and binds a map object to it that will be emitted as a single item.
 
-The value method can only take 1 argument, however, this can be a single list containing several elements.
+The value method can only take 1 argument, however, this can be a single list or map containing several elements.
 
-A [List object](https://www.tutorialspoint.com/groovy/groovy_lists.htm) can be defined by placing the values in square brackets `[]` separated by a comma.
+A [List object](https://www.tutorialspoint.com/groovy/groovy_lists.htm) can be defined by placing the values in square brackets `[]` separated by a comma. A [Map object](https://www.tutorialspoint.com/groovy/groovy_maps.htm) is similar, but with `key:value pairs` separated by commas.
 
 ~~~
 myList = [1776, -1, 33, 99, 0, 928734928763]
+myMap = [ p1 : "start", q2 : "end" ]
 ~~~
 {: .language-groovy }
 
@@ -157,7 +159,7 @@ Arguments passed to the `of` method can be of varying types e.g., combinations o
 
 > ## Create a value and Queue and view Channel contents
 > 1. Create a Nextflow script file called `channel.nf` .
-> 1. Create a Value channel `ch_vl` containing a list with the values  `'GRCh38'`.
+> 1. Create a Value channel `ch_vl` containing the String `'GRCh38'`.
 > 1. Create a Queue channel `ch_qu` containing the values  1 to 4.
 > 1. Use `.view()` operator on the channel objects to view the contents of the channels.
 > 1. Run the code using
@@ -218,7 +220,7 @@ kallisto
 >  Write a Nextflow script that creates both a `queue` and `value` channel
 >  for the list
 > ~~~
-> ids = ['ERR908507', 'ERR908506', 'ERR908505']`
+> ids = ['ERR908507', 'ERR908506', 'ERR908505']
 > ~~~
 > {: .language-groovy }
 >  Then print the contents of the channels using the `view` operator.
@@ -284,7 +286,7 @@ A glob pattern is specified as a string and is matched against directory or file
 ** `{bam,bai}` matches "bam" or "bai"
 
 
-For example the script below uses the `.fq.gz` pattern to creates a queue channel that contains as many items as there are files with `.fq.gz` extension in the `data/yeast/reads` folder.
+For example the script below uses the `.fq.gz` pattern to create a queue channel that contains as many items as there are files with `.fq.gz` extension in the `data/yeast/reads` folder.
 
 ~~~
 read_ch = Channel.fromPath( 'data/yeast/reads/*.fq.gz' )
@@ -330,7 +332,7 @@ read_ch.view()
 ~~~
 {: .language-groovy }
 
-It we add the argument `checkIfExists` with the value `true`.
+Add the argument `checkIfExists` with the value `true`.
 
 ~~~
 read_ch = Channel.fromPath( 'data/chicken/reads/*.fq.gz', checkIfExists: true )
@@ -461,7 +463,7 @@ See more information about the channel factory `fromFilePairs` [here](https://ww
 > ## Create a channel containing groups of files
 >
 > 1. Create a Nextflow script file `channel_fromFilePairs.nf` .
-> 1. Use the `fromFilePairs` method to create a channel containing three tuples. Each tuple will contain the pairs of fastq read for the three temp33 samples in the `data/yeast/reads` directory
+> 1. Use the `fromFilePairs` method to create a channel containing three tuples. Each tuple will contain the pairs of fastq reads for the three temp33 samples in the `data/yeast/reads` directory
 >
 > > ## Solution
 > >
@@ -488,6 +490,8 @@ See more information about the channel factory `fromFilePairs` [here](https://ww
 Another useful factory method is `fromSRA`. The `fromSRA` method makes it possible to query the [NCBI SRA](https://www.ncbi.nlm.nih.gov/sra) archive and returns a queue channel emitting the FASTQ files matching the specified selection criteria.
 
 The queries can be project IDs or accession numbers supported by the [NCBI ESearch API](https://www.ncbi.nlm.nih.gov/books/NBK25499/#chapter4.ESearch).
+
+If you want to use this functionality, you will need an [NCBI API KEY](https://ncbiinsights.ncbi.nlm.nih.gov/2017/11/02/new-api-keys-for-the-e-utilities/), and to set the environment variable `NCBI_API_KEY` to its value.
 
 ~~~
 sra_ch =Channel.fromSRA('SRP043510')
@@ -524,7 +528,7 @@ sra_ch.view()
 ~~~
 {: .output}  
 
-> ## Read pairs
+> ## Read pairs from SRA
 > Read pairs are implicitly managed, and are returned as a list of files.
 {: .callout}
 
