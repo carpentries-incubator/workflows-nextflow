@@ -9,19 +9,19 @@ objectives:
 - "Create a Nextflow workflow joining multiple processes."
 - "Understand how to to connect processes via their inputs and outputs within a workflow."
 keypoints:
-- "A Nextflow workflow is define by invoking `processes` inside the `workflow` scope."
+- "A Nextflow workflow is defined by invoking `processes` inside the `workflow` scope."
 - "A process is invoked like a function inside the `workflow` scope passing any required input parameters as arguments. e.g. `INDEX(transcriptome_ch)`."
 - "Process outputs can be accessed using the `out` attribute for the respective `process`. Multiple outputs from a single process can be accessed using the `[]` or output name."
 ---
 
 ## Workflow
 
-Our previous episodes have shown us how to define parameterise workflows using `params`, move data around a workflow using `channels` and define individual tasks using `processes`. In this episode we will cover how connect multiple processes to create a workflow.
+Our previous episodes have shown us how to parameterise workflows using `params`, move data around a workflow using `channels` and define individual tasks using `processes`. In this episode we will cover how connect multiple processes to create a workflow.
 
 ## Workflow definition
 
 We can connect processes to create our pipeline inside a `workflow` scope.
-The  workflow scope starts with keyword the `workflow`, followed by an optional name and finally the workflow body delimited by curly brackets `{}`.
+The  workflow scope starts with the keyword `workflow`, followed by an optional name and finally the workflow body delimited by curly brackets `{}`.
 
 > ## Implicit workflow
 > A workflow definition which does not declare any name is assumed to be the main workflow, and it is implicitly executed. Therefore it’s the entry point of the workflow application.
@@ -35,7 +35,7 @@ As seen previously, a `process` is invoked as a function in the `workflow` scope
  <process_name>(<input_ch1>,<input_ch2>,...)
 ~~~
 
-To combined multiple processes invoke them in the order they would appear in a workflow.
+To combined multiple processes invoke them in the order they would appear in a workflow. When invoking a process with multiple inputs, provide them in the same order in which they are declared in the `input` block of the process.
 
 For example:
 
@@ -129,7 +129,7 @@ When a process defines two or more output channels, each of them can be accessed
 
 The process `output` definition allows the use of the `emit:` option to define a named identifier that can be used to reference the channel in the external scope.
 
-For example in the script below we name the output from the `INDEX` process as `salmon_index` using the `emit:` option. When can then reference the output as
+For example in the script below we name the output from the `INDEX` process as `salmon_index` using the `emit:` option. We can then reference the output as
 `INDEX.out.salmon_index` in the workflow scope.
 
 ~~~
@@ -192,7 +192,7 @@ workflow {
 ~~~
 {: .language-groovy }
 
-In this example the `params.transcriptome` and `params.reads` can be accessed inside the `workflow` scope.
+In this example `params.transcriptome` and `params.reads` can be accessed inside the `workflow` scope.
 
 
 > ## Workflow
