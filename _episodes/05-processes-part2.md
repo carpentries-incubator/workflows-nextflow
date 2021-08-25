@@ -3,9 +3,9 @@ title: "Processes Part 2"
 teaching: 30
 exercises: 10
 questions:
-- "How do I get data, files and values,  out of processes?"
+- "How do I get data, files, and values,  out of processes?"
 - "How do I handle grouped input and output?"
-- "How do can I control when a process is executed?"
+- "How can I control when a process is executed?"
 - "How do I control resources, such as number of CPUs and memory, available to processes?"
 - "How do I save output/results from a process?"
 objectives:
@@ -23,11 +23,11 @@ keypoints:
 
 ## Outputs
 
-We have seen how to input data into a process now we will see how to output files and values from a process.
+We have seen how to input data into a process; now we will see how to output files and values from a process.
 
 The `output` declaration block allows us to define the channels used by the process to send out the files and values produced.
 
-An output block is not required, but if it is present it can contain one or more outputs declarations.
+An output block is not required, but if it is present it can contain one or more output declarations.
 
 The output block follows the syntax shown below:
 
@@ -47,7 +47,7 @@ Like the input, the type of output data is defined using type qualifiers.
 The `val` qualifier allows us to output a value defined in the script.
 
 
-Because Nextflow processes can only communicate through channels if we want to share a value input into one process as input to another process we would need to define that value in the output declaration block as shown in the following example:
+Because Nextflow processes can only communicate through channels, if we want to share a value input into one process as input to another process we would need to define that value in the output declaration block as shown in the following example:
 
 
 ~~~
@@ -185,11 +185,11 @@ Analysis complete for ref1_1.fq.gz
 
 * Input files are not included in the list of possible matches.
 * Glob pattern matches against both files and directories path.
-* When a two stars pattern `**` is used to recourse across directories, only file paths are matched i.e. directories are not included in the result list.
+* When a two stars pattern `**` is used to recurse through subdirectories, only file paths are matched i.e. directories are not included in the result list.
 
 
 > ## Output channels
-> Modify the nextflow script `process_exercise_output.nf` to include an output blocks that captures the different index folders `index_$kmer`.
+> Modify the nextflow script `process_exercise_output.nf` to include an output block that captures the different index folders `index_$kmer`.
 > Use the `view` operator on the output channel.
 > ~~~
 > //process_exercise_output.nf
@@ -247,13 +247,13 @@ Analysis complete for ref1_1.fq.gz
 
 So far we have seen how to declare multiple input and output channels, but each channel was handling only one value at time. However Nextflow can handle groups of values using the `tuple` qualifiers.
 
-In tuples the first item is the grouping key and the second item is the list of files.
+In tuples the first item is the grouping key and the second item is the list.
 
 ~~~
 [group_key,[file1,file2,...]]
 ~~~
 
-When using channel containing a tuple, the corresponding input declaration must be declared with a `tuple` qualifier, followed by definition of each item in the tuple.
+When using a channel containing a tuple, the corresponding input declaration must be declared with a `tuple` qualifier, followed by definition of each item in the tuple.
 
 ~~~
 //process_tuple_input.nf
@@ -286,10 +286,10 @@ ref1_1.fq.gz ref1_2.fq.gz
 ~~~
 {: .output }
 
-In the same manner output channel emitting tuple of values can be declared using the `tuple` qualifier following by the definition of each tuple element in the tuple.
+In the same manner an output channel emitting tuple of values can be declared using the `tuple` qualifier following by the definition of each tuple element in the tuple.
 
 In the code snippet below the output channel would contain a tuple with
-the grouping key value as the Nextflow variable `sample_id` and a single `"${sample_id}_salmon_output"` directory stored as a tuple.
+the grouping key value as the Nextflow variable `sample_id` and a single item list containing the `"${sample_id}_salmon_output"` directory.
 
 ~~~
 output:
@@ -507,13 +507,13 @@ The above process uses the three directives, `tag`, `cpus` and `echo`.
 
 The `tag` directive to allow you to give a custom tag to each process execution. This tag makes it easier to identify a particular instance of a process in a log file or in the execution report.
 
-The second directive  `cpus`  allows you to define the number of CPU required for each of the process’ task.
+The second directive  `cpus`  allows you to define the number of CPUs required for each of the process’ task.
 
 The third directive `echo true` prints the stdout to the terminal.
 
-We also uses the Nextflow `task.cpus` variable to capture the number of cpus assigned to a task.
+We use the Nextflow `task.cpus` variable to capture the number of cpus assigned to a task. This is frequently used to specify the number of threads in a multi-threaded command in the script block.
 
-Another commonly used directive is memory specification `memory`.
+Another commonly used directive is memory specification: `memory`.
 
 A complete list of directives is available at this [link](https://www.nextflow.io/docs/latest/process.html#directives).
 
@@ -593,11 +593,13 @@ A complete list of directives is available at this [link](https://www.nextflow.i
 
 ### PublishDir directive
 
-Nextflow manages intermediate results from the pipelines expected outputs independently.
+Nextflow manages intermediate results from the pipeline's expected outputs independently.
 
-Files created by a `process` are stored in a task specific working directory which is considered as a temporary. Normally this is under the `work` directory , that can be deleted upon completion.
+Files created by a `process` are stored in a task specific working directory which is considered as temporary. Normally this is under the `work` directory, which can be deleted upon completion.
 
 The files you want the workflow to return as results need to be defined in the `process` `output` block and then the output directory specified using the `directive` `publishDir`. More information [here](https://www.nextflow.io/docs/latest/process.html#publishdir).
+
+**Note:** A common mistake is to specify an output directory in the `publishDir` directive while forgetting to specify the files you want to include in the `output` block.
 
 ~~~
 publishDir <directory>, parameter: value, parameter2: value ...
@@ -667,7 +669,7 @@ results/
 {: .output }
 
 
-In the above example, the `publishDir "results/quant"`,  create a symbolic link `->` to the output files specified by the process `salmon_quant` to the directory path `results/quant`.
+In the above example, the `publishDir "results/quant"`,  creates a symbolic link `->` to the output files specified by the process `salmon_quant` to the directory path `results/quant`.
 
 > ## publishDir
 > The publishDir output is relative to the directory of the main Nextflow script.
@@ -675,7 +677,7 @@ In the above example, the `publishDir "results/quant"`,  create a symbolic link 
 
 ### publishDir parameters
 
-The `publishDir` directive can take optional parameters, for example the `mode` parameter can take the value `"copy"` to specify that you wish to copy the file to output directory rather than just a symbolic link to the files in the working directory.
+The `publishDir` directive can take optional parameters, for example the `mode` parameter can take the value `"copy"` to specify that you wish to copy the file to output directory rather than just a symbolic link to the files in the working directory. Since the working directory is generally deleted on completion of a pipeline, it is safest to use `mode: "copy"` for results files. The default of creating symbolic links is helpful for checking intermediate files which are not needed longer term.
 ~~~
 publishDir "results/quant", mode: "copy"
 ~~~
@@ -846,7 +848,7 @@ results/
 {: .challenge}
 
 > ## Nextflow Patterns
-> If you want to find out common structures of Nextflow process the [Nextflow Patterns page](http://nextflow-io.github.io/patterns/) collects some recurrent implementation patterns used in Nextflow applications.
+> If you want to find out common structures of Nextflow processes, the [Nextflow Patterns page](http://nextflow-io.github.io/patterns/) collects some recurrent implementation patterns used in Nextflow applications.
 {: .callout}
 
 
