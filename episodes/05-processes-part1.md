@@ -11,7 +11,7 @@ objectives:
 - "Define inputs to a process."
 keypoints:
 - "A Nextflow process is an independent task/step in a workflow"
-- "Processes contain up to five definition blocks including, directives, inputs, outputs, when clause and finally a script block."
+- "Processes contain up to five definition blocks including: directives, inputs, outputs, when clause and finally a script block."
 - "The script block contains the commands you would like to run."
 - "Inputs are defined in the input block with a type qualifier and a name."
 ---
@@ -21,22 +21,22 @@ keypoints:
 
 We now know how to create and use Channels to send data around a workflow. We will now see how to run tasks within a workflow using processes.
 
-A `process` is the way Nextflow execute commands you would run on the command line or custom scripts.
+A `process` is the way Nextflow executes commands you would run on the command line or custom scripts.
 
-Processes can be thought of as a particular task/steps in a workflow, e.g. an alignment step in RNA-Seq analysis. Processes  are independent of each other (don't require another processes to execute) and can not communicate/write to each other . It is the Channels that pass the data from each process to another, and we do this by having the processes define input and output channels.
+A process can be thought of as a particular task/step in a workflow, e.g. an alignment step in RNA-seq analysis. Processes are independent of each other (don't require any another process to execute) and can not communicate/write to each other. Data is passed between processes via input and output Channels.
 
-For example, below is a command you would run to create a index directory for the [salmon](https://salmon.readthedocs.io/en/latest/salmon.html) aligner on the command line:
+For example, below is the command line you would run to create a index for the yeast transcriptome to be used with the [salmon](https://salmon.readthedocs.io/en/latest/salmon.html) aligner:
 
 ~~~
 $ salmon index -t data/yeast/transcriptome/Saccharomyces_cerevisiae.R64-1-1.cdna.all.fa.gz -i data/yeast/salmon_index --kmerLen 31
 ~~~
 {: .language-bash }
 
-Below we will show how to convert this into a simple Nextflow process.
+Now we will show how to convert this into a simple Nextflow process.
 
 ## Process definition
 
-The process definition starts with keyword the `process`, followed by process name `INDEX` and finally the process `body` delimited by curly brackets `{}`. The process body must contain a string  which represents the command or, more generally, a script that is executed by it.
+The process definition starts with keyword `process`, followed by process name, in this case `INDEX`, and finally the process `body` delimited by curly brackets `{}`. The process body must contain a string  which represents the command or, more generally, a script that is executed by it.
 
 ~~~
 process INDEX {
@@ -73,7 +73,7 @@ workflow {
 ~~~
 {: .language-groovy }
 
-We can now run the process
+We can now run the process:
 
 ~~~
 $ nextflow run process_index.nf
@@ -105,8 +105,8 @@ executor >  local (1)
 > >    
 > >   script:
 > >   """
-> >    salmon --version
-> >    """
+> >   salmon --version
+> >   """
 > > }
 > >
 > > workflow {
@@ -134,11 +134,11 @@ executor >  local (1)
 
 The previous example was a simple `process` with no defined inputs and outputs that ran only once. To control inputs, outputs and how a command is executed a process may contain five definition blocks:
 
-1. **directives**: allow the definition of optional settings that affect the execution of the current process e.g. the number of cpus a task uses and the amount of memory allocated.
-1. **inputs**: Define the input dependencies, usually channels, which determines the number of times a process is executed.
-1. **outputs**: Defines the output channels used by the process to send results/data produced by the process.
-1. **when clause**: Allow you to define a condition that must be verified in order to execute the process.
-1. **The script block**: The script block is a statement within quotes that defines the command that is executed by the process to carry out its task.
+1. **directives - 0, 1, or more**: allow the definition of optional settings that affect the execution of the current process e.g. the number of cpus a task uses and the amount of memory allocated.
+1. **inputs - 0, 1, or more**: Define the input dependencies, usually channels, which determines the number of times a process is executed.
+1. **outputs - 0, 1, or more**: Defines the output channels used by the process to send results/data produced by the process.
+1. **when clause - optional**: Allows you to define a condition that must be verified in order to execute the process.
+1. **script block - required**: A statement within quotes that defines the commands that are executed by the process to carry out its task.
 
 
 The syntax is defined as follows:
@@ -157,12 +157,6 @@ process < NAME > {
 }
 ~~~
 {: .language-groovy }
-
-* Zero, one or more process directives, e.g cpus
-* Zero, one or more process inputs
-* Zero, one or more process outputs
-* An optional boolean conditional to trigger the process execution
-* The command to be executed
 
 
 ## Script
@@ -265,7 +259,7 @@ workflow {
 ~~~
 {: .language-groovy }
 
-This allows the the use of a different programming languages which may better fit a particular job. However, for large chunks of code is suggested to save them into separate files and invoke them from the process script.
+This allows the use of a different programming languages which may better fit a particular job. However, for large chunks of code it is suggested to save them into separate files and invoke them from the process script.
 
 ~~~
 nextflow.enable.dsl=2
@@ -284,13 +278,18 @@ workflow {
 ~~~
 {: .language-groovy }
 
+> ## Associated scripts
+> Scripts such as the one in the example above, `myscript.py`, can be stored in a `bin` folder at the same directory level as the Nextflow workflow script that invokes them, and given execute permission. Nextflow will automatically add this folder to the `PATH` environment variable. To invoke the script in a Nextflow process, simply use its filename on its own rather than invoking the interpreter e.g. `myscript.py` instead of `python myscript.py`.
+{: .callout }
+
+
 ### Script parameters
 
 The command in the `script` block can be defined dynamically using Nextflow variables e.g. `${projectDir}`.
 To reference a variable in the script block you can use the `$` in front of the Nextflow variable name, and additionally you can add `{}` around the variable name e.g. `${projectDir}`.
 
 > ##  Variable substitutions
-> Similar to bash scripting Nextflow uses the "$" character to introduces variable substitutions. The variable name to be expanded may be enclosed in braces `{variable_name}`, which are optional but serve to protect the variable to be expanded from characters immediately following it which could be interpreted as part of the name.
+> Similar to bash scripting Nextflow uses the "$" character to introduce variable substitutions. The variable name to be expanded may be enclosed in braces `{variable_name}`, which are optional but serve to protect the variable to be expanded from characters immediately following it which could be interpreted as part of the name. It is a good rule of thumb to always use the `{}` syntax.
 {: .callout }
 
 In the example below the variable `kmer` is set to the value 31 at the top of the Nextflow script.
@@ -348,7 +347,7 @@ workflow {
 ~~~
 {: .language-groovy }
 
-Remember, we can change the default value of `kmer` to 11 by running the Nextflow script using the command below. **Note:** parameter have two hyphens `--` .
+Remember, we can change the default value of `kmer` to 11 by running the Nextflow script using the command below. **Note:** parameters to the workflow have two hyphens `--`.
 
 ~~~
 nextflow run process_script_params.nf --kmer 11
@@ -406,7 +405,7 @@ nextflow run process_script_params.nf --kmer 11
 Nextflow uses the same Bash syntax for variable substitutions, `$variable`, in strings.
 However, Bash variables need to be escaped using `\` character in front of `\$variable` name.
 
-In the example below we will use set the bash variable KMERSIZE to the value of `$params.kmer`.
+In the example below we will set the bash variable `KMERSIZE` to the value of `$params.kmer`, and then use `KMERSIZE` in our script block.
 
 
 ~~~
@@ -438,9 +437,8 @@ Another alternative is to use a `shell` block definition instead of `script`.
 When using the `shell` statement Bash variables are referenced in the normal way `$my_bash_variable`;
 However, the `shell` statement uses a different syntax for Nextflow variable substitutions: `!{nextflow_variable}`, which is needed to use both Nextflow and Bash variables in the same script.
 
-For example in the script below that uses the `shell statment `
-we reference the Nextflow variables as such, `!{projectDir}` and `!{params.kmer}` and the Bash variable
-as `$PWD`.
+For example in the script below that uses the `shell` statement
+we reference the Nextflow variables as `!{projectDir}` and `!{params.kmer`, and the Bash variable as `$PWD`.
 
 ```
 //process_shell.nf
@@ -472,7 +470,7 @@ Sometimes you want to change how a process is run depending on some condition. I
 
 ### If statement
 
-The `if` statement uses the same syntax common other programming lang such Java, C, JavaScript, etc.
+The `if` statement uses the same syntax common to other programming languages such Java, C, JavaScript, etc.
 
 ~~~
 if( < boolean expression > ) {
@@ -488,7 +486,7 @@ else {
 {: .language-groovy }
 
 
-For example, the Nextflow script below will use the `if` statement to change what index is created depending on the Nextflow variable `params.aligner`.
+For example, the Nextflow script below will use the `if` statement to change which index is created depending on the Nextflow variable `params.aligner`.
 
 ~~~
 //process_conditional.nf
@@ -537,15 +535,15 @@ indexed using kallisto
 
 ## Inputs
 
-Processes are isolated from each other but can communicate by sending values and files via Nextflow channels into `input` and `output` blocks.
+Processes are isolated from each other but can communicate by sending values and files via Nextflow channels from `input` and into `output` blocks.
 
 The `input` block defines which channels the process is expecting to receive input from.
-The number of elements in input channels determine the process dependencies and the number of time a process executes.
+The number of elements in input channels determines the process dependencies and the number of times a process executes.
 
 ![Process Flow](../fig/channel-process.png)
 
 
-You can only define one input block at a time and it must contain one or more inputs declarations.
+You can only define one input block at a time and it must contain one or more input declarations.
 
 The input block follows the syntax shown below:
 
@@ -558,7 +556,7 @@ input:
 The input qualifier declares the type of data to be received.
 
 > ## Input qualifiers
-> * `val`: Lets you access the received input value by its name in the process script.
+> * `val`: Lets you access the received input value by its name as a variable in the process script.
 > * `env`: Lets you use the input value to set an environment variable named as the specified input name.
 > * `path`: Lets you handle the received value as a file, staging the file properly in the execution context.
 > * `stdin`: Lets you forward the received value to the process stdin special file.
@@ -607,15 +605,15 @@ processing chromosome 2
 ~~~
 {: .output}
 
-In the above example the process is executed 24 times; each time a value is received from the queue channel `chr_ch` it is used to run process.
+In the above example the process is executed 24 times; each time a value is received from the queue channel `chr_ch` it is used to run the process.
 
 > ## Channel order
-> The channel guarantees that items are delivered in the same order as they have been sent,  but,  since the process is executed in a parallel manner, there is no guarantee that they are processed in the same order as they are received.
+> The channel guarantees that items are delivered in the same order as they have been sent, but since the process is executed in a parallel manner, there is no guarantee that they are processed in the same order as they are received.
 {: .callout}
 
 ### Input files
 
-When you need to handle files as input you need the `path` qualifier. Using the `path` qualifier means that Nextflow will stage it in the process execution directory, and it can be access in the script by using the name specified in the input declaration.
+When you need to handle files as input you need the `path` qualifier. Using the `path` qualifier means that Nextflow will stage it in the process execution directory, and it can be accessed in the script by using the name specified in the input declaration.
 
 The input file name can be defined dynamically by defining the input name as a Nextflow variable and referenced in the script using the  `$variable_name` syntax.
 
@@ -628,6 +626,7 @@ nextflow.enable.dsl=2
 process NUMLINES {
     input:
     path read
+    
     script:
     """
     printf '${read} '
@@ -665,10 +664,8 @@ ref1_2.fq.gz 58708
 ~~~
 {: .output }
 
-<br>
 The input name can also be defined as user specified filename inside quotes.
 For example in the script below the name of the file is specified as `'sample.fq.gz'` in the input definition and can be referenced by that name in the script block.
-<br>
 
 ~~~
 //process_input_file_02.nf
@@ -677,6 +674,7 @@ nextflow.enable.dsl=2
 process NUMLINES {
     input:
     path 'sample.fq.gz'
+    
     script:
     """
     printf 'sample.fq.gz'
@@ -790,7 +788,7 @@ sample.fq.gz58708
 ### Combining input channels
 
 A key feature of processes is the ability to handle inputs from multiple channels.
-However it’s important to understands how the number of items within the multiple channels affect the execution of a process.
+However it’s important to understand how the number of items within the multiple channels affect the execution of a process.
 
 Consider the following example:
 
@@ -870,7 +868,7 @@ $ nextflow run process_combine_02.nf -process.echo
 ~~~
 {: .language-bash }
 
-In the above example the process is executed only two time, because when a queue channel has no more data to be processed it stops the process execution.
+In the above example the process is executed only two times, because when a queue channel has no more data to be processed it stops the process execution.
 
 ~~~
 2 and b
@@ -881,7 +879,7 @@ In the above example the process is executed only two time, because when a queue
 
 ### Value channels and process termination
 
-**Note** however that value channels, `Channel.value` , do not affect the process termination.
+**Note** however that value channels, `Channel.value`, do not affect the process termination.
 
 To better understand this behaviour compare the previous example with the following one:
 
@@ -967,7 +965,7 @@ And include the command below in the script directive
 
 # Input repeaters
 
-We saw previously that by default the number of time a process run is defined by the queue channel with the fewest items. However, the `each` qualifier allows you to repeat the execution of a process for each item in a list or a queue channel, every time new data is received.
+We saw previously that by default the number of times a process runs is defined by the queue channel with the fewest items. However, the `each` qualifier allows you to repeat the execution of a process for each item in a list or a queue channel, every time new data is received.
 
 For example if we can fix the previous example by using the input qualifer `each` for the letters queue channel:
 
