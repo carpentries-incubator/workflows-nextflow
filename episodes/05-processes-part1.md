@@ -274,7 +274,7 @@ process PYSTUFF {
 
   script:
   """
-  python myscript.py
+  myscript.py
   """
 }
 
