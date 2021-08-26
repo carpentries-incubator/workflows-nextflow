@@ -22,22 +22,22 @@ keypoints:
 
 # Operators
 
-In the Channels episode we learnt how to create Nextflow channels to enable us to pass data and values around our workflow. If we want to modify the contents or behaviour of a channel Nextflow provides methods called `operators`. We have previously used the `view` operator to view the contents of a channel. There are many more operator methods that can be applied to Nextflow channels that can be usefully separated into several groups:
+In the Channels episode we learnt how to create Nextflow channels to enable us to pass data and values around our workflow. If we want to modify the contents or behaviour of a channel, Nextflow provides methods called `operators`. We have previously used the `view` operator to view the contents of a channel. There are many more operator methods that can be applied to Nextflow channels that can be usefully separated into several groups:
 
 
  * **Filtering** operators: reduce the number of elements in a channel.
  * **Transforming** operators: transform the value/data in a channel.
- * **Splitting** operators: Split items in a channels into smaller chunks.
+ * **Splitting** operators: split items in a channel into smaller chunks.
  * **Combining** operators: join channel together.
  * **Forking** operators: split a single channel into multiple channels.
  * **Maths** operators: apply simple math function on channels.
- * **Other**: Such as the view operator.
+ * **Other**: such as the view operator.
 
 In this episode you will see examples, and get to use different types of operators.
 
 # Using Operators
 
-To use an operator add , use a dot `.` , followed by the operator name and brackets `()` on a channel object.
+To use an operator, the syntax is the channel name, followed by a dot `.` , followed by the operator name and brackets `()`.
 
 ~~~
 channel_obj.<operator>()
@@ -54,7 +54,7 @@ ch.view()
 ~~~
 {: .language-groovy }
 
-We can also chain  together the channel factory method `.of` and the opertaor `.view()` using the
+We can also chain  together the channel factory method `.of` and the operator `.view()` using the
 dot notation.
 
 ~~~
@@ -63,8 +63,8 @@ ch = channel.of('1', '2', '3').view()
 {: .language-groovy }
 
 
-To make code more readable we can spit the operators over several lines.
-The blank space between the operators is ignored and is used for readability.
+To make code more readable we can split the operators over several lines.
+The blank space between the operators is ignored and is solely for readability.
 
 
 ~~~
@@ -88,7 +88,7 @@ prints:
 
 An optional *closure* `{}` parameter can be specified to customise how items are printed.
 
-Briefly, a closure is a block of code that can be passed as an argument to a function. In this way you can define a chunk of code and then pass it around as if it were a string or an integer. By default the parameters for a closure are specified with the groovy keyword `$it` (it is for item).
+Briefly, a closure is a block of code that can be passed as an argument to a function. In this way you can define a chunk of code and then pass it around as if it were a string or an integer. By default the parameters for a closure are specified with the groovy keyword `$it` ('it' is for 'item').
 
 For example here we use the the `view` operator and apply a closure to it, to add a `chr` prefix to each element of the channel using string interpolation.
 
@@ -133,7 +133,7 @@ chr3
 
 We can reduce the number of items in a channel by using filtering operators.
 
-The `filter` operator allows you to get only the items emitted by a channel that satisfy a condition and discarding all the others. The filtering condition can be specified by using either a
+The `filter` operator allows you to get only the items emitted by a channel that satisfy a condition and discard all the others. The filtering condition can be specified by using either:
 
 * a regular expression
 * a literal value
@@ -145,7 +145,7 @@ The `filter` operator allows you to get only the items emitted by a channel that
 Here we use the `filter` operator on the `chr_ch` channel specifying the  data type qualifier `Number` so that only numeric items are returned. The Number data type includes both integers and floating point numbers.
 We will then use the `view` operator to print the contents.
 
-To simplify the code we  chained together the operators,  `filter` and `view` using the dot notation `.` .
+To simplify the code we chained together the operators `filter` and `view` using the dot notation `.` .
 
 ~~~
 chr_ch = channel
@@ -184,7 +184,7 @@ chr_ch = channel
 
 #### Regular expression
 
-To filter by a regular expression you have to do is to put `~` right in front of the string literal regular expression (e.g. `~"(^[Nn]extflow)"` or using slashy strings which replace the quotes with `/`. `~/^[Nn]extflow/`).
+To filter by a regular expression you have to do is to put `~` right in front of the string literal regular expression (e.g. `~"(^[Nn]extflow)"` or use slashy strings which replace the quotes with `/`. `~/^[Nn]extflow/`).
 
 The following example shows how to filter a channel by using a regular expression `~/^1.*/` inside a slashy string, that returns only strings that begin with 1:
 
@@ -213,7 +213,7 @@ chr_ch = channel
 
 #### Boolean statement
 
-A filtering condition can be defined by using any a Boolean expression,. A Boolean expression, is expressed by a closure,`{}`, returning a boolean value. For example the following fragment shows how to combined a filter for a type qualifier `Number` and then combining another filter operator using a Boolean expression to emitting numbers less the 5:
+A filtering condition can be defined by using a Boolean expression described by a closure `{}` and returning a boolean value. For example the following fragment shows how to combine a filter for a type qualifier `Number` with another filter operator using a Boolean expression to emit numbers less than 5:
 
 ~~~
 channel
@@ -233,10 +233,10 @@ channel
 {: .output }
 
 > ## Closures
-> In the above example we could remove the brackets around the filter condition e.g. `filter{ it<5}`, since it specifies a closure as the operator’s argument. This just is a language short for `filter({ it<5})`
+> In the above example we could remove the brackets around the filter condition e.g. `filter{ it<5}`, since it specifies a closure as the operator’s argument. This is language short for `filter({ it<5})`
 {: .callout}
 
-####  literal value
+####  Literal value
 
 Finally, if we only want to include elements of a specific value we can specify a literal value. In the example below we use the literal value `X` to filter the channel for only those elements containing the value `X`.
 
@@ -321,12 +321,12 @@ Here the map function uses the groovy string function `replaceAll` to remove the
 
 We can also use the `map` operator to transform each element into a tuple.
 
-In the example below we use the `map` operator to transform a channel containing fastq files to a new channel containing a tuple with the fastq file and the number of reads in the fastq file. We use the `countFastq` file method to count the number of records in a FASTQ formatted file.
+In the example below we use the `map` operator to transform a channel containing fastq files to a new channel containing a tuple with the fastq file and the number of reads in the fastq file. We use the built in `countFastq` file method to count the number of records in a FASTQ formatted file.
 
-We can change the default name of the closure parameter keyword from `it` to a more meaningful name `file` using  `->`. When we have multiple parameters we can specify the keywords at the start of the closure, e.g. `file, name ->`.
+We can change the default name of the closure parameter keyword from `it` to a more meaningful name `file` using  `->`. When we have multiple parameters we can specify the keywords at the start of the closure, e.g. `file, numreads ->`.
 
 ~~~
-fq_ch =channel
+fq_ch = channel
     .fromPath( 'data/yeast/reads/*.fq.gz' )
     .map ({ file -> [file, file.countFastq()] })
     .view ({ file, numreads -> "file $file contains $numreads reads" })
@@ -345,7 +345,7 @@ file data/yeast/reads/ref2_1.fq.gz contains 20430 reads
 ~~~
 {: .output}
 
-We can then add a `filter` operator to only retain thoses fastq files with more than 25000 reads.
+We can then add a `filter` operator to only retain those fastq files with more than 25000 reads.
 
 ~~~
 channel
@@ -385,13 +385,13 @@ file data/yeast/reads/etoh60_3_1.fq.gz contains 26254 reads
 {: .challenge}
 
 
-###  Converting a list items into multiple items
+###  Converting a list into multiple items
 
 The `flatten` operator transforms a channel in such a way that every item in a `list` or `tuple` is flattened so that each single entry is emitted as a sole element by the resulting channel.
 
 ~~~
 list1 = [1,2,3]
-ch=channel
+ch = channel
   .of(list1)
   .view()
 ~~~~
@@ -422,10 +422,10 @@ This is similar to the channel factory `Channel.fromList`.
 
 ### Converting the contents of a channel to a single list item.
 
-The reverse of the `flatten` operator is `collect`. The `collect` operator collects all the items emitted by a channel to a list and return the resulting object as a sole emission. This can be extremely useful when combing the results from the output of multiple processes, or a single process run multiple times.
+The reverse of the `flatten` operator is `collect`. The `collect` operator collects all the items emitted by a channel to a list and return the resulting object as a sole emission. This can be extremely useful when combining the results from the output of multiple processes, or a single process run multiple times.
 
 ~~~
-ch=channel
+ch = channel
     .of( 1, 2, 3, 4 )
     .collect()
     .view()
@@ -440,7 +440,7 @@ It prints a single value:
 ~~~
 {: .output}
 
-The result of the collect operator is a `value channel` and can be used multiple times.
+The result of the collect operator is a `value` channel and can be used multiple times.
 
 ### Grouping contents of a channel by a key.
 
@@ -511,7 +511,7 @@ This operator is useful to process altogether all elements for which there’s a
 
 ## Merging Channels
 
-Combining operators allow you to merge channels together. This can be useful when you want to combine the output channels from multiple processes to perform another task such as joint QC.
+Combining operators allows you to merge channels together. This can be useful when you want to combine the output channels from multiple processes to perform another task such as joint QC.
 
 ### mix
 
@@ -535,11 +535,11 @@ mt
 ~~~
 {: .output}
 
-The items in the resulting channel have the same order as in respective original channel, however there’s no guarantee that the element of the second channel are append after the elements of the first.
+The items in the resulting channel have the same order as in the respective original channels, however there’s no guarantee that the elements of the second channel are appended after the elements of the first.
 
 ### join
 
-The `join` operator creates a channel that joins together the items emitted by two channels for which exits a matching key. The key is defined, by default, as the first element in each item emitted.
+The `join` operator creates a channel that joins together the items emitted by two channels for which exists a matching key. The key is defined, by default, as the first element in each item emitted.
 
 ~~~
 reads1_ch = channel
@@ -601,7 +601,7 @@ The maths operators are:
 * min
 * max
 * sum
-* to Integer
+* toInteger
 
 ### Counting items in a channel
 
@@ -626,10 +626,10 @@ Sometimes you want to split the content of a individual item in a channel, like 
 
 Nextflow has a number of splitting operators that can achieve this:
 
-|[splitCsv](https://www.nextflow.io/docs/latest/operator.html#splitcsv)|The splitCsv operator allows you to parse text items emitted by a channel, that are formatted using the CSV format, and split them into records or group them into list of records with a specified length.|
-|[splitFasta](https://www.nextflow.io/docs/latest/operator.html#splitfasta)|The splitFasta operator allows you to split the entries emitted by a channel, that are formatted using the FASTA format. It returns a channel which emits text item for each sequence in the received FASTA content.|
-|[splitFastq](https://www.nextflow.io/docs/latest/operator.html#splitfastq)|The splitFastq operator allows you to split the entries emitted by a channel, that are formatted using the FASTQ format. It returns a channel which emits a text chunk for each sequence in the received item.|
-|[splitText](https://www.nextflow.io/docs/latest/operator.html#splittext)|The splitText operator allows you to split multi-line strings or text file items, emitted by a source channel into chunks containing n lines, which will be emitted by the resulting channel.|
+* [splitCsv](https://www.nextflow.io/docs/latest/operator.html#splitcsv): The splitCsv operator allows you to parse text items emitted by a channel, that are formatted using the CSV format, and split them into records or group them into list of records with a specified length.
+* [splitFasta](https://www.nextflow.io/docs/latest/operator.html#splitfasta): The splitFasta operator allows you to split the entries emitted by a channel, that are formatted using the FASTA format. It returns a channel which emits a text item for each sequence in the received FASTA content.
+* [splitFastq](https://www.nextflow.io/docs/latest/operator.html#splitfastq): The splitFastq operator allows you to split the entries emitted by a channel, that are formatted using the FASTQ format. It returns a channel which emits a text chunk for each sequence in the received item.
+* [splitText](https://www.nextflow.io/docs/latest/operator.html#splittext): The splitText operator allows you to split multi-line strings or text file items, emitted by a source channel into chunks containing n lines, which will be emitted by the resulting channel.
 
 ### splitCsv
 
@@ -673,7 +673,7 @@ The above example shows hows the CSV file `samples.csv` is parsed and is split i
 
 #### Accessing values
 
-Values can be accessed by its positional index using the square brackets syntax`[index]`. So to access the first column you would use `[0]` as shown in the following example:
+Values can be accessed by their positional indexes using the square brackets syntax`[index]`. So to access the first column you would use `[0]` as shown in the following example:
 
 ~~~
 csv_ch=channel
@@ -753,7 +753,7 @@ Channel.of("val1\tval2\tval3\nval4\tval5\tval6\n")
 
 ## More resources
 
-Theses are just a few of the operators see the operators [documentation](https://www.nextflow.io/docs/latest/operator.html) on Nextflow web site for more deatils.
+See the operators [documentation](https://www.nextflow.io/docs/latest/operator.html) on the Nextflow web site.
 
 {: .output}
 {% include links.md %}
