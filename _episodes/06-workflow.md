@@ -198,7 +198,7 @@ In this example `params.transcriptome` and `params.reads` can be accessed inside
 > ## Workflow
 > Connect the output of the process `FASTQC` to `PARSEZIP` in the Nextflow script `workflow_exercise.nf`.
 >
-> **Note:** You will need to pass the `read_pairs_ch` as an argument to FASTQC and you will need to use the `collect` operator to gather the FASTQC channel output.
+> **Note:** You will need to pass the `read_pairs_ch` as an argument to FASTQC and you will need to use the `collect` operator to gather the items in the FASTQC channel output to a single List item. We will learn more about the `collect` operator in the Operators episode.
 > ~~~
 >//workflow_exercise.nf
 >nextflow.enable.dsl=2>
