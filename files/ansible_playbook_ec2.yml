@@ -61,6 +61,18 @@
         backup: yes
 
     - name: Bootstrap deps into base env
+      when: false
+      shell:
+        executable: /bin/bash
+        chdir: ~/
+        cmd: |
+             set -euo pipefail
+             source ~/miniconda3/bin/activate
+             conda install -c conda-forge -c bioconda nextflow=21
+             nextflow -version > ~/Downloads/nextflow_version.txt
+        creates: ~/Downloads/nextflow_version.txt
+
+    - name: Set nf conda environment
       when: true
       shell:
         executable: /bin/bash
@@ -68,11 +80,11 @@
         cmd: |
              set -euo pipefail
              source ~/miniconda3/bin/activate
-             conda env update -n base -c bioconda nextflow=21
              conda env create -n nf --file ~/Downloads/nextflow_conda_env.yaml
              conda activate nf
              nextflow -version
         creates: ~/miniconda3/envs/nf
+
 
     - name: Download the data files
       get_url:
