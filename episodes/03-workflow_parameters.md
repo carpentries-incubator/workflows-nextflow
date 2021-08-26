@@ -236,7 +236,7 @@ etoh60_1_1.fq.gz 87348
 > Create a parameter file for the Nextflow file `wc-params.nf`,
 > specifying
 >
->  * sleep as 5
+>  * sleep as 10
 >  * input as `data/yeast/reads/ref3_1.fq.gz`
 >  * Run the Nextflow script using the parameter file.
 >
