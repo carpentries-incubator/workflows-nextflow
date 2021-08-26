@@ -626,7 +626,7 @@ nextflow.enable.dsl=2
 process NUMLINES {
     input:
     path read
-    
+
     script:
     """
     printf '${read} '
@@ -674,7 +674,7 @@ nextflow.enable.dsl=2
 process NUMLINES {
     input:
     path 'sample.fq.gz'
-    
+
     script:
     """
     printf 'sample.fq.gz'
