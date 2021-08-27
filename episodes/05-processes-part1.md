@@ -925,7 +925,7 @@ In this example the process is run three times.
 > ##  Combining input channels
 > Write a nextflow script `process_exercise_combine.nf` that combines two input channels
 > ~~~
-> transcriptome_ch = channel.value('data/yeast/transcriptome/Saccharomyces_cerevisiae.R64-1-1.cdna.all.fa.gz')
+> transcriptome_ch = channel.fromPath('data/yeast/transcriptome/Saccharomyces_cerevisiae.R64-1-1.cdna.all.fa.gz')
 > kmer_ch = channel.of(21)
 > ~~~
 > {: .language-groovy }
@@ -934,7 +934,7 @@ And include the command below in the script directive
 > ~~~~
   script:
    """
-   salmon index -t $transcriptome -i index -k $kmer` .
+   salmon index -t $transcriptome -i index -k $kmer .
    """
 > ~~~~
 > {: .language-groovy }
