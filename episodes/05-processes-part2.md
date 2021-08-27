@@ -253,11 +253,9 @@ In tuples the first item is the grouping key and the second item is the list.
 [group_key,[file1,file2,...]]
 ~~~
 
-<<<<<<< HEAD
+
 When using channel containing a tuple, such a one created with `.filesFromPairs` factory method, the corresponding input declaration must be declared with a `tuple` qualifier, followed by definition of each item in the tuple.
-=======
-When using a channel containing a tuple, the corresponding input declaration must be declared with a `tuple` qualifier, followed by definition of each item in the tuple.
->>>>>>> 43591453937838b94fb0e58e6ec9f52bffb557fa
+
 
 ~~~
 //process_tuple_input.nf
@@ -292,12 +290,8 @@ ref1_1.fq.gz ref1_2.fq.gz
 
 In the same manner an output channel emitting tuple of values can be declared using the `tuple` qualifier following by the definition of each tuple element in the tuple.
 
-In the code snippet below the output channel would contain a tuple with
-<<<<<<< HEAD
-the grouping key value as the Nextflow variable `sample_id` and a single `"${sample_id}_salmon_output"` directory as it contents.
-=======
-the grouping key value as the Nextflow variable `sample_id` and a single item list containing the `"${sample_id}_salmon_output"` directory.
->>>>>>> 43591453937838b94fb0e58e6ec9f52bffb557fa
+In the code snippet below the output channel would contain a tuple with the grouping key value as the Nextflow variable `sample_id` and a single item list containing the `"${sample_id}_salmon_output"` directory.
+
 
 ~~~
 output:
