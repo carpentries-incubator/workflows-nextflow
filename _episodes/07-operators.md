@@ -492,7 +492,7 @@ This operator is useful to process altogether all elements for which there’s a
 > {: .language-groovy }
 > Modify the Nextflow script above to add the `map` operator to create a tuple with the name prefix as the key and the file as the value using the closure below.
 > ~~~
-> { file -> [ file.name.split('_')[0], file ] }
+> { file -> [ file.getName().split('_')[0], file ] }
 > ~~~
 > {: .language-groovy }
 > Finally group together all files having the same common prefix using the `groupTuple` operator and `view` the contents of the channel.
@@ -500,7 +500,7 @@ This operator is useful to process altogether all elements for which there’s a
 > >
 > > ~~~
 > > ch = channel.fromPath('data/yeast/reads/*.fq.gz')
-> >     .map { file -> [ file.name.split('_')[0], file ] }
+> >     .map { file -> [ file.getName().split('_')[0], file ] }
 > >     .groupTuple()
 > >     .view()
 > > ~~~
