@@ -49,8 +49,9 @@ process INDEX {
 
 This process would run once.
 
-> ## projectDir
-We use the special Nextflow variable `${projectDir}` to specify the directory where the main script is located. This is important as Nextflow scripts are executed in a separate working directory.
+> ## Implicit variables
+We use the Nextflow implicit variable `${projectDir}` to specify the directory where the main script is located. This is important as Nextflow scripts are executed in a separate working directory. 
+A full list of implicit variables can be found [here](https://www.nextflow.io/docs/latest/script.html?highlight=implicit%20variables#implicit-variables)
  {: .callout }
 
 To add the process to a workflow add a `workflow` block, and call the process like a  function. We will learn more about the `workflow` block in the workflow episode.
