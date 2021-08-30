@@ -8,7 +8,7 @@ dependencies:
   - fastqc=0.11.9
   - multiqc=1.11
   - kallisto=0.46.2
-  - fastq-tools
+  - fastp
   - samtools=1.13
   - nextflow=21.04.0
   - nf-core=2.0.1
