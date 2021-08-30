@@ -216,6 +216,7 @@ process NUM_LINES {
     stdout
 
     script:
+    /* Triple quote syntax """, Triple-single-quoted strings may span multiple lines. The content of the string can cross line boundaries without the need to split the string in several pieces and without concatenation or newline escape characters. */
     """
     printf '${read} '
     gunzip -c ${read} | wc -l
