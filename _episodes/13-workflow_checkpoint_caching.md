@@ -15,7 +15,7 @@ keypoints:
 - "Nextflow stores intermediate data in a working directory."
 ---
 
-A key features of a modern workflow management system like Nextflow is the ability to restart a pipeline after a error from the last successful process. Nextflow achieves this by automatically keeping track of all the processes executed in your pipeline via  caching  and checkpointing.
+A key features of a modern workflow management system, like Nextflow, is the ability to restart a pipeline after an error from the last successful process. Nextflow achieves this by automatically keeping track of all the processes executed in your pipeline via  caching  and checkpointing.
 
 ## Resume
 
