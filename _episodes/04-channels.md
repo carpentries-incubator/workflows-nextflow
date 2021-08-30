@@ -61,12 +61,14 @@ The second type of Nextflow channel is a `value` channel. A **value** channel is
 
 > ## Queue vs Value Channel
 >
-> What is the difference between a queue and value channel?
-> {: .language-groovy }
->
+> What type of channel would you use to store the following?
+> 1. Multiple values.
+> 1. A list with one or more values.
+> 1. A single value.
 > > ## Solution
-> > 1. A queue channels is consumable and can store multiple values.
-> > 1. A value channel a.k.a. singleton channel by definition is bound to a single value
+> > 1. A queue channels is used to store multiple values.
+> > 1. A value channel is used to store a single value, this can be a list with multiple values.
+> > 1. A value channel is used to store a single value.
 > {: .solution}
 {: .challenge}
 
