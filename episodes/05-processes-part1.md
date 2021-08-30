@@ -562,6 +562,7 @@ The input qualifier declares the type of data to be received.
 > * `stdin`: Lets you forward the received value to the process stdin special file.
 > * `tuple`: Lets you handle a group of input values having one of the above qualifiers.
 > * `each`: Lets you execute the process for each entry in the input collection.
+> A complete list of inputs can be found [here](https://www.nextflow.io/docs/latest/process.html#inputs).
 {: .callout}
 
 ### Input values
