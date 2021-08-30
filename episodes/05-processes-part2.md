@@ -288,47 +288,45 @@ ref1_1.fq.gz ref1_2.fq.gz
 ~~~
 {: .output }
 
-In the same manner an output channel emitting tuple of values can be declared using the `tuple` qualifier following by the definition of each tuple element in the tuple.
+In the same manner an output channel containing tuple of values can be declared using the `tuple` qualifier following by the definition of each tuple element in the tuple.
 
-In the code snippet below the output channel would contain a tuple with the grouping key value as the Nextflow variable `sample_id` and a single item list containing the `"${sample_id}_salmon_output"` directory.
+In the code snippet below the output channel would contain a tuple with the grouping key value as the Nextflow variable `sample_id` and a list containing the files matching the following pattern `"${sample_id}_salmon_output*FP.fq.gz"`.
 
 
 ~~~
 output:
-  tuple val(sample_id), path("${sample_id}_salmon_output")
+  tuple val(sample_id), path("${sample_id}_salmon_output*FP.fq.gz")
 ~~~
 {: .language-groovy }
 
 An example can be seen in this script below.
-fixme salmon index doesn't exist in data/yeast/salmon_index
+
 
 ~~~
-//process_tuple_io.nf
+//process_tuple_io_fastp.nf
 nextflow.enable.dsl=2
 
-process QUANT {
+process FASTP {
   input:
     tuple val(sample_id), path(reads)
-    //each is needed so the process can run multiple times
-    each index
   output:
-    tuple val(sample_id), path("${sample_id}_salmon_output")
+    tuple val(sample_id), path("*FP*.fq.gz")
   script:
   """
-   salmon quant  -i $index \
-   -l A \
-   -1 ${reads[0]} \
-   -2 ${reads[1]} \
-   -o ${sample_id}_salmon_output
+   fastp \
+   -i ${reads[0]} \
+   -I ${reads[1]} \
+   -o ${sample_id}_FP_R1.fq.gz \
+   -O ${sample_id}_FP_R2.fq.gz
   """
 }
 
 reads_ch = Channel.fromFilePairs('data/yeast/reads/ref1_{1,2}.fq.gz')
-index_ch = Channel.fromPath('data/yeast/salmon_index')
+
 
 workflow {
-  QUANT(reads_ch,index_ch)
-  QUANT.out.view()
+  FASTP(reads_ch)
+  FASTP.out.view()
 }
 
 ~~~
@@ -339,15 +337,16 @@ nextflow run process_tuple_io.nf
 ~~~
 {: .language-bash }
 
-The output is now a tuple containing the sample id and the salmon output directory.
+The output is now a tuple containing the sample id and the two processed fastq files.
 
 ~~~
-[ref1, /work/66/88822f0ccc98664aaa866e27a1a9c8/ref1_salmon_output]
+[ref1, [work/9b/fcca75db83718a15f7a95caabfbc15/ref1_FP_R1.fq.gz, work/9b/fcca75db83718a15f7a95caabfbc15/ref1_FP_R2.fq.gz]]
 ~~~
 {: .output }
 
 > ## Composite inputs and outputs
 > Fill in the blank ___ input and output qualifers for `process_exercise_tuple.nf`.
+> **Note:** the output for the FASTQC process is a directory names `fastq_out`.
 > ~~~
 > //process_exercise_tuple.nf
 > nextflow.enable.dsl=2
