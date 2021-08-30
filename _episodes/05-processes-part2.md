@@ -199,7 +199,7 @@ Analysis complete for ref1_1.fq.gz
 >  input:
 >  path transcriptome
 >  each kmer
->  //add output block here to capture index folders
+>  //add output block here to capture index folders "index_$kmer"
 >
 >  script:
 >  """
@@ -300,6 +300,7 @@ output:
 {: .language-groovy }
 
 An example can be seen in this script below.
+fixme salmon index doesn't exist in data/yeast/salmon_index
 
 ~~~
 //process_tuple_io.nf
