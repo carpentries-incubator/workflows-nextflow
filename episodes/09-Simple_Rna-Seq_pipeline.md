@@ -101,7 +101,7 @@ reads: data/yeast/reads/ref1*_{1,2}.fq.gz
 > {: .solution}
 {: .challenge}
 
-It can be useful to print the pipeline parameters to the screen. This can be done using the the `log.info` command and a multiline string statement. The string method `.stripIndent()` command is used to remove the indentation on multi-line strings. log.info also saves the output to the log execution file `.nextflow.log`.
+It can be useful to print the pipeline parameters to the screen. This can be done using the the `log.info` command and a multiline string statement. The string method `.stripIndent()` command is used to remove the indentation on multi-line strings. `log.info` also saves the output to the log execution file `.nextflow.log`.
 
 ~~~
 log.info """\
@@ -180,7 +180,7 @@ nextflow.enable.dsl=2
  * pipeline input parameters
  */
 params.reads = "$projectDir/data/yeast/reads/*_{1,2}.fq.gz"
-params.transcriptome = "$projectDir/data/yeast/reads/*.fa.gz"
+params.transcriptome = "$projectDir/data/yeast/transcriptome/Saccharomyces_cerevisiae.R64-1-1.cdna.all.fa.gz"
 params.multiqc = "$projectDir/multiqc"
 params.outdir = "results"
 
@@ -269,7 +269,10 @@ profiles {
 > Print the output of the `index_ch` channel by using the `view` operator.
 > > ## Solution
 > > ~~~
-> > index_ch.view()
+> > ..truncated...
+> > workflow {
+> >   INDEX(transcriptome_ch).view()
+> > }
 > > ~~~
 > > {: .language-groovy }
 > {: .solution}
@@ -371,6 +374,7 @@ In this step you have learned:
 The script `script4.nf` adds the quantification process, `QUANT`.
 
 ~~~
+..truncated..
 /*
  * Run Salmon to perform the quantification of expression using
  * the index and the matched read files
@@ -389,12 +393,17 @@ process QUANT {
     salmon quant --threads $task.cpus --libType=U -i $index -1 ${reads[0]} -2 ${reads[1]} -o $pair_id
     """
 }
+..truncated..
+workflow {
+  index_ch=INDEX(params.transcriptome)
+  quant_ch=QUANT(index_ch,read_pairs_ch)
+}
 ~~~
 {: .language-groovy }
 
 In this script note as the `index_ch` channel, declared as output in the index process, is now used as a channel in the input section.
 
-Also note as the second input is declared as a tuple composed by two elements: the `pair_id` and the `reads` in order to match the structure of the items emitted by the read_pairs_ch channel.
+Also note as the second input is declared as a tuple composed of two elements: the `pair_id` and the `reads` in order to match the structure of the items emitted by the `read_pairs_ch` channel.
 
 Execute it by using the following command:
 
@@ -430,7 +439,7 @@ When your input channel contains multiple data items Nextflow parallelises the e
 {: .challenge}
 
 > ## Add a publishDir directive
-Add a `publishDir` directive to the quantification process of `script4.nf` to store the process results into a directory of your choice.
+Add a `publishDir` directive to the quantification process of `script4.nf` to store the process results into folder specified by the `params.outdir` Nextflow variable. Include the `publishDir` `mode` option to copy the output.
 > > ## Solution
 > > ~~~
 > > publishDir "${params.outdir}/quant", mode:'copy'
@@ -457,6 +466,8 @@ In this step you have learned:
 This step implements a quality control step for your input reads. The input  is the same read pairs which are provided to the quantification steps `read_pairs_ch`.
 
 ~~~
+[..truncated..]
+
 /*
  * Run fastQC to check quality of reads files
  */
@@ -496,7 +507,7 @@ $ nextflow run script5.nf -resume
 The FASTQC process will not run.
 
 > ## Add FASTQC process
-> Add the FASTQC process to the `workflow scope` of `script5.nf` adding the read_pairs_ch channel as an input.
+> Add the FASTQC process to the `workflow scope` of `script5.nf` adding the `read_pairs_ch` channel as an input.
 > Run
 >
 > ~~~
@@ -529,15 +540,46 @@ This step collect the outputs from the quantification and fastqc steps to create
 
 The input for the `MULTIQC` process requires all data in a single channel element.
 Therefore, we will need combined the `FASTQC` and `QUANT` outputs using:
-1. the combining operator `mix` : to combine the items in the two channels into a single channel and ,
-1. the transformation operator `collect` to collects all the items in the new combined channel to a single item.
+
+* The combining operator `mix` : to combine the items in the two channels into a single channel and ,
+
+~~~
+//example of the mix operator
+ch1 = Channel.of(1,2)
+ch2 = Channel.of('a')
+ch1.mix(ch2).view()
+~~~
+{: .language-groovy}
+
+~~~
+1
+2
+a
+~~~
+{: .output}
+
+* The transformation operator `collect` to collects all the items in the new combined channel to a single item.
+
+~~~
+//example of the collect operator
+ch1 = Channel.of(1,2,3)
+ch1.collect().view()
+~~~
+{: .language-groovy}
+
+~~~
+[1, 2, 3]
+~~~
+{: .output}
 
 > ## Combing operators
 > Which is the correct way to combined `mix` and `collect` operators so that you have a single channel with one List item?
+>
 > 1. `quant_ch.mix(fastqc_ch).collect()`
 > 1. `quant_ch.collect(fastqc_ch).mix()`
 > 1. `fastqc_ch.mix(quant_ch).collect()`
 > 1. `fastqc_ch.collect(quant_ch).mix()`
+>
 > > ## Solution
 > > You need to use the `mix` operator first to combine the channels followed by the `collect` operator to
 > > collect all the items in a single item.
