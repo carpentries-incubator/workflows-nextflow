@@ -280,11 +280,9 @@ To return results as JSON output for downstream use, use the `--json` flag.
 
 > ## Exercise: listing pipelines
 >
->   Use the `--help` flag to print the list command usage.
->
->   Sort all pipelines by popularity (stars).
->
->   Filter pipelines for those that work with RNA.
+> 1.  Use the `--help` flag to print the list command usage.
+> 1.  Sort all pipelines by popularity (stars).
+> 1.  Filter pipelines for those that work with RNA.
 >
 > > ## Solution
 > > Use the `--help` flag to print the list command usage.
