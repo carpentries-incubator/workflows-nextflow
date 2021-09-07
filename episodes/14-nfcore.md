@@ -381,7 +381,7 @@ If not specified, Nextflow will fetch the default branch. For pipelines with a s
 > > {: .language-bash}
 > > Use the `nf-core list` command to see if you have the latest version of the pipeline
 > > ~~~
-> > $ nf-core list rnaseq -s pulled
+> > $ nf-core list rnaseq --sort pulled
 > > ~~~
 > > {: .language-bash}
 > {: .solution}
