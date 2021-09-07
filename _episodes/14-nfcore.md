@@ -117,7 +117,7 @@ In this episode we will be covering the `list`, `launch` and `download` sub-comm
 aid in the finding and deployment of the nf-core pipelines.
 
 ~~~
-nf-core --help
+$ nf-core --help
 ~~~
 {: .language-bash}
 
@@ -129,7 +129,7 @@ nf-core --help
     | \| |       \__, \__/ |  \ |___     \`-._,-`-,
                                           `._,._,'
 
-    nf-core/tools version 1.13
+    nf-core/tools version 2.1
 
 
 
@@ -148,7 +148,7 @@ Commands:
   licences      List software licences for a given workflow.
   create        Create a new pipeline using the nf-core template.
   lint          Check pipeline code against nf-core guidelines.
-  modules       Work with the nf-core/modules software wrappers.
+  modules       Tools to manage Nextflow DSL2 modules as hosted on...
   schema        Suite of tools for developers to manage pipeline schema.
   bump-version  Update nf-core pipeline version number.
   sync          Sync a pipeline TEMPLATE branch with the nf-core template.
@@ -165,7 +165,7 @@ If the pipeline has been pulled locally using Nextflow, it tells you when that w
 Run the command below.
 
 ~~~
-nf-core list
+$ nf-core list
 ~~~
 {: .language-bash}
 
@@ -180,32 +180,34 @@ An example of the output from the command is as follows:
     | \| |       \__, \__/ |  \ |___     \`-._,-`-,
                                           `._,._,'
 
-    nf-core/tools version 1.13
+    nf-core/tools version 2.1
 
 
 
-┏━━━━━━━━━━━━━━━━━━━┳━━━━━━━┳━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━━━━━━┓
-┃ Pipeline Name     ┃ Stars ┃ Latest Release ┃      Released ┃    Last Pulled ┃ Have latest release? ┃
-┡━━━━━━━━━━━━━━━━━━━╇━━━━━━━╇━━━━━━━━━━━━━━━━╇━━━━━━━━━━━━━━━╇━━━━━━━━━━━━━━━━╇━━━━━━━━━━━━━━━━━━━━━━┩
-│ eager             │    45 │          2.3.2 │     yesterday │              - │ -                    │
-│ diaproteomics     │     5 │          1.2.2 │   3 weeks ago │              - │ -                    │
-│ dualrnaseq        │     3 │          1.0.0 │  1 months ago │              - │ -                    │
-│ mag               │    42 │          1.2.0 │  1 months ago │              - │ -                    │
-│ ampliseq          │    54 │          1.2.0 │  1 months ago │              - │ -                    │
-│ sarek             │    94 │            2.7 │  2 months ago │              - │ -                    │
-│ cageseq           │     3 │          1.0.2 │  2 months ago │              - │ -                    │
+    ┏━━━━━━━━━━━━━━━━━━━┳━━━━━━━┳━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━━━━━━┓
+    ┃ Pipeline Name     ┃ Stars ┃ Latest Release ┃      Released ┃ Last Pulled ┃ Have latest release? ┃
+    ┡━━━━━━━━━━━━━━━━━━━╇━━━━━━━╇━━━━━━━━━━━━━━━━╇━━━━━━━━━━━━━━━╇━━━━━━━━━━━━━╇━━━━━━━━━━━━━━━━━━━━━━┩
+    │ mhcquant          │    14 │          2.0.0 │    4 days ago │           - │ -                    │
+    │ bacass            │    28 │          2.0.0 │   2 weeks ago │           - │ -                    │
+    │ viralrecon        │    48 │            2.2 │  1 months ago │           - │ -                    │
+    │ rnaseq            │   364 │            3.3 │  1 months ago │           - │ -                    │
+    │ mag               │    63 │          2.1.0 │  1 months ago │           - │ -                    │
+    │ fetchngs          │    25 │            1.2 │  1 months ago │           - │ -                    │
+    │ bcellmagic        │    14 │          2.0.0 │  2 months ago │           - │ -                    │
+    │ ampliseq          │    67 │          2.0.0 │  2 months ago │           - │ -                    │
 [..truncated..]
 ~~~
 {: .output}
 
 ### Filtering available nf-core pipelines
 
-If you supply additional keywords after the list sub-command, the listed pipeline will be filtered. Note that this searches more than just the displayed output, including keywords and description text.
+If you supply additional keywords after the `list` sub-command, the listed pipeline will be filtered.
+**Note:** that this searches more than just the displayed output, including keywords and description text.
 
 Here we filter on the keywords **rna** and **rna-seq** .
 
 ~~~
-nf-core list rna rna-seq
+$ nf-core list rna rna-seq
 ~~~
 {: .language-bash}
 
@@ -217,27 +219,28 @@ nf-core list rna rna-seq
     | \| |       \__, \__/ |  \ |___     \`-._,-`-,
                                           `._,._,'
 
-    nf-core/tools version 1.13
+    nf-core/tools version 2.1
 
 
 
 ┏━━━━━━━━━━━━━━━┳━━━━━━━┳━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━┳━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━━━━━━┓
 ┃ Pipeline Name ┃ Stars ┃ Latest Release ┃     Released ┃ Last Pulled ┃ Have latest release? ┃
 ┡━━━━━━━━━━━━━━━╇━━━━━━━╇━━━━━━━━━━━━━━━━╇━━━━━━━━━━━━━━╇━━━━━━━━━━━━━╇━━━━━━━━━━━━━━━━━━━━━━┩
-│ dualrnaseq    │     3 │          1.0.0 │ 1 months ago │           - │ -                    │
-│ rnaseq        │   304 │            3.0 │ 3 months ago │           - │ -                    │
-│ rnafusion     │    56 │          1.2.0 │ 8 months ago │           - │ -                    │
-│ smrnaseq      │    18 │          1.0.0 │  1 years ago │           - │ -                    │
-│ circrna       │     1 │            dev │            - │           - │ -                    │
-│ lncpipe       │    18 │            dev │            - │           - │ -                    │
-│ scflow        │     2 │            dev │            - │           - │ -                    │
+│ rnaseq        │   364 │            3.3 │ 1 months ago │           - │ -                    │
+│ smrnaseq      │    26 │          1.1.0 │ 3 months ago │           - │ -                    │
+│ dualrnaseq    │     4 │          1.0.0 │ 7 months ago │           - │ -                    │
+│ rnafusion     │    60 │          1.2.0 │  1 years ago │           - │ -                    │
+│ circrna       │     8 │            dev │            - │           - │ -                    │
+│ lncpipe       │    22 │            dev │            - │           - │ -                    │
+│ scflow        │     6 │            dev │            - │           - │ -                    │
 └───────────────┴───────┴────────────────┴──────────────┴─────────────┴──────────────────────┘
 ~~~
 {: .output}
 
 ### Sorting available nf-core pipelines
 
-You can sort the results by latest release (`-s release`, default), when you last pulled a local copy (`-s pulled`), alphabetically (`-s name`), or number of GitHub stars (`-s stars`).
+You can sort the results by adding the option `--sort` followed by a keyword.
+For example, latest release (`--sort release`, default), when you last pulled a local copy (`--sort pulled`), alphabetically (`--sort name`), or number of GitHub stars (`--sort stars`).
 ~~~
 nf-core list rna rna-seq --sort stars
 ~~~
@@ -250,20 +253,20 @@ nf-core list rna rna-seq --sort stars
 | \| |       \__, \__/ |  \ |___     \`-._,-`-,
                                       `._,._,'
 
-nf-core/tools version 1.13
+nf-core/tools version 2.1
 
 
 
 ┏━━━━━━━━━━━━━━━┳━━━━━━━┳━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━┳━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━━━━━━┓
 ┃ Pipeline Name ┃ Stars ┃ Latest Release ┃     Released ┃ Last Pulled ┃ Have latest release? ┃
 ┡━━━━━━━━━━━━━━━╇━━━━━━━╇━━━━━━━━━━━━━━━━╇━━━━━━━━━━━━━━╇━━━━━━━━━━━━━╇━━━━━━━━━━━━━━━━━━━━━━┩
-│ rnaseq        │   304 │            3.0 │ 3 months ago │           - │ -                    │
-│ rnafusion     │    56 │          1.2.0 │ 8 months ago │           - │ -                    │
-│ lncpipe       │    18 │            dev │            - │           - │ -                    │
-│ smrnaseq      │    18 │          1.0.0 │  1 years ago │           - │ -                    │
-│ dualrnaseq    │     3 │          1.0.0 │ 1 months ago │           - │ -                    │
-│ scflow        │     2 │            dev │            - │           - │ -                    │
-│ circrna       │     1 │            dev │            - │           - │ -                    │
+│ rnaseq        │   364 │            3.3 │ 1 months ago │           - │ -                    │
+│ rnafusion     │    60 │          1.2.0 │  1 years ago │           - │ -                    │
+│ smrnaseq      │    26 │          1.1.0 │ 3 months ago │           - │ -                    │
+│ lncpipe       │    22 │            dev │            - │           - │ -                    │
+│ circrna       │     8 │            dev │            - │           - │ -                    │
+│ scflow        │     6 │            dev │            - │           - │ -                    │
+│ dualrnaseq    │     4 │          1.0.0 │ 7 months ago │           - │ -                    │
 └───────────────┴───────┴────────────────┴──────────────┴─────────────┴──────────────────────┘
 ~~~
 {: .output}
@@ -283,20 +286,22 @@ To return results as JSON output for downstream use, use the `--json` flag.
 >
 >   Filter pipelines for those that work with RNA.
 >
->   Have these pipeline details to a JSON file.
->
 > > ## Solution
-> >
+> > Use the `--help` flag to print the list command usage.
 > > ~~~
-> > 1. `nf-core list --help`
-> >
-> > 2. `nf-core list --sort stars`
-> >
-> > 3. `nf-core list rna`
-> >
-> > 4. `nf-core list rna --json`
+> > $ nf-core list --help
 > > ~~~
-> >
+> > {: .language-bash}
+> > Sort all pipelines by popularity (stars).
+> > ~~~
+> > $ nf-core list --sort stars
+> > ~~~
+> > {: .language-bash}
+> > Filter pipelines for those that work with RNA.
+> > ~~~
+> > $ nf-core list rna
+> > ~~~
+> > {: .language-bash}
 > {: .solution}
 {: .challenge}
 
@@ -311,20 +316,25 @@ In order to run nf-core pipelines, you will need to have [Nextflow](https://www.
 Unless you are actively developing pipeline code, you should use Nextflow's [built-in functionality](https://www.nextflow.io/docs/latest/sharing.html) to fetch nf-core pipelines. You can  use the command
 
 ~~~
-nextflow pull nf-core/PIPELINE
+$ nextflow pull nf-core/PIPELINE
 ~~~
 {: .language-bash}
 
 to pull the latest version of a remote workflow from the nf-core github site.
 
-Nextflow will also automatically fetch the pipeline code when you run `nextflow run nf-core/<pipeline>`.
+Nextflow will also automatically fetch the pipeline code when you run
+
+~~~
+$ nextflow run nf-core/<pipeline>`.
+~~~
+{: .language-bash}
 
 For the best reproducibility, it is good to explicitly reference the pipeline version number that you wish to use with the `-revision`/`-r` flag.
 
 In the example below we are pulling the rnaseq pipeline version 3.0
 
 ~~~
-nextflow pull nf-core/rnaseq -revision 3.0
+$ nextflow pull nf-core/rnaseq -revision 3.0
 ~~~
 {: .language-bash}
 
@@ -344,7 +354,7 @@ We can see from the output we have the latest release.
 | \| |       \__, \__/ |  \ |___     \`-._,-`-,
                                       `._,._,'
 
-nf-core/tools version 1.13
+nf-core/tools version 2.1
 
 
 
@@ -363,14 +373,19 @@ If not specified, Nextflow will fetch the default branch. For pipelines with a s
 >
 >  1. Use the `nextflow pull` command to download the latest `nf-core/rnaseq` pipeline
 >
->  2. Use the `nf-core list` command to see if you have the latest version of the pipeline
+>  1. Use the `nf-core list` command to see if you have the latest version of the pipeline
 >
 > > ## Solution
-> >
-> > 1. `nextflow pull nf-core/rnaseq`
-> >
-> > 2. `nf-core list rnaseq -s pulled`
-> >
+> >  Use the `nextflow pull` command to download the latest `nf-core/rnaseq` pipeline
+> > ~~~
+> > $ nextflow pull nf-core/rnaseq
+> > ~~~
+> > {: .language-bash}
+> > Use the `nf-core list` command to see if you have the latest version of the pipeline
+> > ~~~
+> > $ nf-core list rnaseq -s pulled
+> > ~~~
+> > {: .language-bash}
 > {: .solution}
 {: .challenge}
 
@@ -383,7 +398,7 @@ Each pipeline has its own webpage at https://nf-co.re/<pipeline_name> e.g. [nf-c
 In addition to this documentation, each pipeline comes with basic command line reference. This can be seen by running the pipeline with the `--help` flag, for example:
 
 ~~~
-nextflow run nf-core/rnaseq --help
+$ nextflow run nf-core/rnaseq --help
 ~~~
 {: .language-bash}
 
@@ -428,24 +443,24 @@ Once all prompts have been answered, non-default values are saved to a `params.j
 To use the launch feature, just specify the pipeline name:
 
 ~~~
-nf-core launch rnaseq
+$ nf-core launch rnaseq
 ~~~
 {: .language-bash}
 
 > ## Exercise : nf-core launch rnaseq
 >
->  Use the launch feature to create a `nf-params.json` file.
->
-> Use the `command line launch option`
->
-> add an input file name `samples.csv`
->
-> add a genome `GRCh38`
->
+>  Use the launch feature to create a params file named `nf-params.json`.
+>  1. Use the `command line launch option`
+>  1. add an input file name `samples.csv`
+>  1. add a genome `GRCh38`
 > **Do not run the command now**
 > > ## Solution
 > >
 > > {: .solution}
+> > ~~~
+> > $ nf-core launch rnaseq
+> > ~~~
+> >  {: .language-bash}
 > > The contents of the nf-params.json file should be
 > > ~~~
 > > {
@@ -475,10 +490,15 @@ Nextflow can load pipeline configurations from multiple locations.  nf-core pipe
 * At run time, nf-core pipelines fetch configuration profiles from the [configs remote repository](https://github.com/nf-core/configs). The profiles here are specific to clusters at different institutions.
 * Because this is loaded at run time, anyone can add a profile here for their system and it will be immediately available for all nf-core pipelines.
 4. Local config files given to Nextflow with the `-c` flag
-* `nextflow run nf-core/rnaseq -c mylocal.config`
+~~~
+$ nextflow run nf-core/rnaseq -c mylocal.config
+~~~
+{: .language-bash}
 5. Command line configuration: pipeline parameters can be passed on the command line using the `--<parameter>` syntax.
-*  `nextflow run nf-core/rnaseq --email "my@email.com"`
-
+~~~
+$ nextflow run nf-core/rnaseq --email "my@email.com"`
+~~~
+{: .language-bash}
 
 ### Config Profiles
 
@@ -529,7 +549,7 @@ Note that the order in which config profiles are specified matters. Their priori
 {: .callout}
 
 > ## Exercise  create a custom config
-> Add the `params.email` to a file called `custom.config`
+> Add the `params.email` to a file called `nfcore-custom.config`
 > > ## Solution
 > > A line similar to one below in the file custom.config
 > > ~~~
@@ -545,7 +565,7 @@ Note that the order in which config profiles are specified matters. Their priori
 The test config profile `test` is a bit of a special case. Whereas all other config profiles tell Nextflow how to run on different computational systems, the test profile configures each nf-core pipeline to run without any other command line flags. It specifies URLs for test data and all required parameters. Because of this, you can test any nf-core pipeline with the following command:
 
 ~~~
-nextflow run nf-core/<pipeline_name> -profile test
+$ nextflow run nf-core/<pipeline_name> -profile test
 ~~~
 {: .language-bash}
 
@@ -568,7 +588,7 @@ If you specify the flag `--singularity`, it will also download any singularity i
 
 
 ~~~
-nf-core download nf-core/rnaseq -r 3.0
+$ nf-core download nf-core/rnaseq -r 3.0
 ~~~
 > {: .language-bash}
 
@@ -580,8 +600,7 @@ nf-core download nf-core/rnaseq -r 3.0
     | \| |       \__, \__/ |  \ |___     \`-._,-`-,
                                           `._,._,'
 
-    nf-core/tools version 1.13.1
-    There is a new version of nf-core/tools available! (1.13.2)
+    nf-core/tools version 2.1
 
 
 
@@ -598,12 +617,11 @@ INFO     MD5 checksum for nf-core-rnaseq-3.0.tar.gz: f0e0c239bdb39c613d6a080f1de
 {: .output}
 
 > ## Exercise  Running a test pipeline
->
->  Run the nf-core/rnaseq pipeline with the provided test data using the test profile
+>  Run the nf-core/hlatyping pipeline with the provided test data using the test profile
 > > ## Solution
 > >
 > > ~~~
-> > nextflow run nf-core/rnaseq -r 3.0 -profile test
+> > $ nextflow run nf-core/hlatyping -profile test,conda  --max_memory 3G
 > > ~~~
 > {: .solution}
 {: .challenge}
@@ -631,12 +649,12 @@ If you have problems that are directly related to Nextflow and not our pipelines
 Once you have fixed your issue you can restart a pipeline using the Nextflow `-resume` option. This will resume the last pipeline run. You can use the `nextflow log` command to find names of all previous runs in your directory. These can be used with `-resume` to restart specific runs.
 
 ~~~
-nextflow log
+$ nextflow log
 ~~~
 > {: .language-bash}
 
 ~~~
-nextflow run nf-core/rnaseq -r 1.3 -profile test -resume <run_name>
+$ nextflow run nf-core/rnaseq -r 1.3 -profile test -resume <run_name>
 ~~~
 > {: .language-bash}
 
