@@ -617,11 +617,14 @@ INFO     MD5 checksum for nf-core-rnaseq-3.0.tar.gz: f0e0c239bdb39c613d6a080f1de
 {: .output}
 
 > ## Exercise  Running a test pipeline
->  Run the nf-core/hlatyping pipeline with the provided test data using the test profile
+>  Run the nf-core/hlatyping pipeline release 1.2.0  with the provided test data using the profile test and conda.
+>  ~~~
+>  $ nextflow run nf-core/hlatyping -r 1.2.0 -profile test,conda  --max_memory 3G
+>  ~~~
 > > ## Solution
 > >
 > > ~~~
-> > $ nextflow run nf-core/hlatyping -profile test,conda  --max_memory 3G
+> > $ nextflow run nf-core/hlatyping -r 1.2.0 -profile test,conda  --max_memory 3G
 > > ~~~
 > {: .solution}
 {: .challenge}
@@ -654,7 +657,7 @@ $ nextflow log
 > {: .language-bash}
 
 ~~~
-$ nextflow run nf-core/rnaseq -r 1.3 -profile test -resume <run_name>
+$ nextflow run nf-core/rnaseq -r 3.0 -profile test -resume <run_name>
 ~~~
 > {: .language-bash}
 
