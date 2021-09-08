@@ -396,7 +396,7 @@ Each pipeline has its own webpage at https://nf-co.re/<pipeline_name> e.g. [nf-c
 In addition to this documentation, each pipeline comes with basic command line reference. This can be seen by running the pipeline with the `--help` flag, for example:
 
 ~~~
-$ nextflow run nf-core/rnaseq --help
+$ nextflow run -r 3.0 nf-core/rnaseq --help
 ~~~
 {: .language-bash}
 
@@ -441,7 +441,7 @@ Once all prompts have been answered, non-default values are saved to a `params.j
 To use the launch feature, just specify the pipeline name:
 
 ~~~
-$ nf-core launch rnaseq
+$ nf-core launch -r 3.0 rnaseq
 ~~~
 {: .language-bash}
 
@@ -489,12 +489,12 @@ Nextflow can load pipeline configurations from multiple locations.  nf-core pipe
 * Because this is loaded at run time, anyone can add a profile here for their system and it will be immediately available for all nf-core pipelines.
 4. Local config files given to Nextflow with the `-c` flag
 ~~~
-$ nextflow run nf-core/rnaseq -c mylocal.config
+$ nextflow run nf-core/rnaseq -r 3.0 -c mylocal.config
 ~~~
 {: .language-bash}
 5. Command line configuration: pipeline parameters can be passed on the command line using the `--<parameter>` syntax.
 ~~~
-$ nextflow run nf-core/rnaseq --email "my@email.com"`
+$ nextflow run nf-core/rnaseq -r 3.0 --email "my@email.com"`
 ~~~
 {: .language-bash}
 
@@ -535,8 +535,8 @@ profiles {
 Multiple comma-separate config profiles can be specified in one go, so the following commands are perfectly valid:
 
 ~~~
-nextflow run nf-core/rnaseq -profile test,docker
-nextflow run nf-core/rnaseq -profile singularity,debug
+$ nextflow run nf-core/rnaseq -r 3.0 -profile test,docker
+$ nextflow run nf-core/rnaseq -r 3.0 -profile singularity,debug
 ~~~
 {: .language-bash}
 
@@ -616,9 +616,11 @@ INFO     MD5 checksum for nf-core-rnaseq-3.0.tar.gz: f0e0c239bdb39c613d6a080f1de
 
 > ## Exercise  Running a test pipeline
 >  Run the nf-core/hlatyping pipeline release 1.2.0  with the provided test data using the profile test and conda.
+>  Add the parameter `--max_memory 3G`.
 >  ~~~
 >  $ nextflow run nf-core/hlatyping -r 1.2.0 -profile test,conda  --max_memory 3G
 >  ~~~
+> The pipeline does next-generation sequencing-based Human Leukozyte Antigen (HLA) typing as should run quickly.
 > > ## Solution
 > >
 > > ~~~
