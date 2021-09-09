@@ -3,18 +3,17 @@ title: "Modules"
 teaching: 30
 exercises: 15
 questions:
-- "How do I modularise my pipeline?"
-- "How can I reuse a workflow as part of another larger workflow?"
+- "How can I reuse a Nextflow `process` in different workflows?"
 - "How do I use parameters in a module?"
 objectives:
-- "Create Nextflow modules."
-- "Create a sub-workflows."
+- "Add modules to a Nextflow script."
+- "Create a Nextflow modules."
 - "Understand how to use parameters in a module."
 keypoints:
 - "A module file is a Nextflow script containing one or more `process` definitions that can be imported from another Nextflow script."
 - "To import a module into a workflow use the `include` keyword."
 - "A module script can define one or more parameters using the same syntax of a Nextflow workflow script."
-- "The module inherits the parameters define before the include statement, therefore any further parameter set later is ignored.
+- "The module inherits the parameters define before the include statement, therefore any further parameter set later is ignored."
 ---
 
 ## Modules
@@ -47,14 +46,14 @@ The Nextflow process `INDEX` above could be saved in a file `modules/rnaseq-task
 
 ### Importing module components
 
-A component defined in a module script can be imported into another Nextflow script using the `include` keyword.
+A component defined in a module script can be imported into another Nextflow script using the `include` statement.
 
 For example:
 
 ~~~
 nextflow.enable.dsl=2
 
-include { index } from './modules/rnaseq-tasks.nf'
+include { INDEX } from './modules/rnaseq-tasks'
 
 workflow {
     transcriptome_ch = channel.fromPath('data/yeast/transcriptome/*.fa.gz')
@@ -64,7 +63,7 @@ workflow {
 ~~~
 {: .language-groovy }
 
-The above snippets includes a process with name `INDEX` defined in the module script `rnaseq.nf` in the main execution context, as such it can be invoked in the workflow scope.
+The above snippets includes a process with name `INDEX` defined in the module script `rnaseq-tasks.nf` in the main execution context, as such it can be invoked in the workflow scope.
 
 Nextflow implicitly looks for the script file `./modules/rnaseq-tasks.nf` resolving the path against the including script location.
 
@@ -92,7 +91,7 @@ Nextflow implicitly looks for the script file `./modules/rnaseq-tasks.nf` resolv
 > > ## Solution
 > > ~~~
 > > nextflow.enable.dsl=2
-> > include { FASTQC } from './modules/rnaseq-tasks.nf'
+> > include { FASTQC } from './modules/rnaseq-tasks'
 > >
 > > params.reads = "$baseDir/data/yeast/reads/ref1_{1,2}.fq.gz"
 > > read_pairs_ch = channel.fromFilePairs( params.reads, checkIfExists:true )
@@ -110,12 +109,13 @@ Nextflow implicitly looks for the script file `./modules/rnaseq-tasks.nf` resolv
 A Nextflow script allows the inclusion of any number of modules.
 When multiple components need to be included from the some module script,
 the component names can be specified in the same inclusion using the curly brackets `{}`.
-Component names are separated by a semi-colon `;` as shown below:
+
+**Note** Component names are separated by a semi-colon `;` as shown below:
 
 ~~~
 nextflow.enable.dsl=2
 
-include { INDEX; QUANT } from './modules/rnaseq-tasks.nf'
+include { INDEX; QUANT } from './modules/rnaseq-tasks'
 
 workflow {
     reads = channel.fromFilePairs('data/yeast/reads/*_{1,2}.fq.gz')
@@ -137,8 +137,8 @@ For example:
 ~~~
 nextflow.enable.dsl=2
 
-include { INDEX } from './modules/rnaseq-tasks.nf'
-include { INDEX as SALMON_INDEX } from './modules/rnaseq-tasks.nf'
+include { INDEX } from './modules/rnaseq-tasks'
+include { INDEX as SALMON_INDEX } from './modules/rnaseq-tasks'
 
 workflow {
     transcriptome_ch = channel.fromPath('data/yeast/transcriptome/*.fa.gz')
@@ -155,7 +155,7 @@ The same is possible when including multiple components from the same module scr
 ~~~
 nextflow.enable.dsl=2
 
-include { INDEX; INDEX as SALMON_INDEX } from './modules/rnaseq-tasks.nf'
+include { INDEX; INDEX as SALMON_INDEX } from './modules/rnaseq-tasks'
 
 workflow {
   transcriptome_ch = channel.fromPath('/data/yeast/transcriptome/*.fa.gz)'
@@ -183,7 +183,7 @@ workflow {
 > > ## Solution
 > > ~~~
 > > nextflow.enable.dsl=2
-> > include { FASTQC; MULTIQC } from './modules/rnaseq-tasks.nf'
+> > include { FASTQC; MULTIQC } from './modules/rnaseq-tasks'
 > >
 > > params.reads = "$baseDir/data/yeast/reads/ref1_{1,2}.fq.gz"
 > > read_pairs_ch = channel.fromFilePairs( params.reads, checkIfExists:true )
@@ -202,11 +202,12 @@ workflow {
 A module script can define one or more parameters using the same syntax of a Nextflow workflow script:
 
 ~~~
-//module.nf file
+//functions.nf file
 params.message = 'parameter from module script'
 
+//The def keyword allows use to define a function that we can use in the code
 def sayMessage() {
-    println "$params.message $params.bar"
+    println "$params.message"
 }
 ~~~
 {: .language-groovy }
@@ -218,7 +219,7 @@ nextflow.enable.dsl=2
 
 params.message = 'parameter from workflow script'
 
-include {sayMessage} from './modules/module.nf'
+include {sayMessage} from './modules/functions'
 
 workflow {
     sayMessage()
@@ -233,11 +234,13 @@ parameter from workflow script
 ~~~
 {: .output }
 
-The module inherits the parameters define before the include statement, therefore any further parameter set later is ignored.
+The module uses the parameters define before the include statement, therefore any further parameter set later is ignored.
 
 **Tip:** Define all pipeline parameters at the beginning of the script before any include declaration.
 
-The option `addParams` can be used to extend the module parameters without affecting the external scope. For example:
+The option `addParams` can be used to extend the module parameters without affecting the parameters set before the `include` statement.
+
+For example:
 
 ~~~
 nextflow.enable.dsl=2
@@ -252,7 +255,7 @@ workflow {
 ~~~
 {: .language-groovy }
 
-The above snippet prints:
+The above code snippet prints:
 ~~~
 using addParams
 ~~~
