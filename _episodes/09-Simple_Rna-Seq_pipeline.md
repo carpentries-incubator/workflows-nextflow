@@ -22,7 +22,7 @@ keypoints:
 We are finally ready to implement a simple RNA-Seq pipeline in Nextflow.
 This pipeline will have 4 processes that:
 
-* Indexes a transcriptome file.
+* indexes a transcriptome file.
 
 ~~~
 $ salmon index --threads $task.cpus -t $transcriptome -i index
@@ -101,7 +101,7 @@ reads: data/yeast/reads/ref1*_{1,2}.fq.gz
 > {: .solution}
 {: .challenge}
 
-It can be useful to print the pipeline parameters to the screen. This can be done using the the `log.info` command and a multiline string statement. The string method `.stripIndent()` command is used to remove the indentation on multi-line strings. log.info also saves the output to the log execution file `.nextflow.log`.
+It can be useful to print the pipeline parameters to the screen. This can be done using the the `log.info` command and a multiline string statement. The string method `.stripIndent()` command is used to remove the indentation on multi-line strings. `log.info` also saves the output to the log execution file `.nextflow.log`.
 
 ~~~
 log.info """\
@@ -115,6 +115,12 @@ log.info """\
 > # log.info
 > Modify the `script1.nf` to print all the pipeline parameters by using a single `log.info` command and a multiline string statement.
 > See an example [here](https://github.com/nextflow-io/rnaseq-nf/blob/3b5b49f/main.nf#L41-L48).
+> ~~~
+> nextflow run script1.nf
+> ~~~
+> {: .language-bash }
+>
+> Look at the output log `.nextflow.log`.
 > > ## Solution
 > > ~~~
 > > log.info """\
@@ -127,6 +133,11 @@ log.info """\
 > >         .stripIndent()
 > > ~~~
 > > {: .language-groovy }
+> >
+> > ~~~
+> > $ less .nextflow.log
+> > ~~~
+> > {: .language-bash }
 > {: .solution}
 {: .challenge}
 
@@ -154,9 +165,13 @@ $ salmon index --threads $task.cpus -t $transcriptome -i index
 ~~~
 {: .language-bash}
 
-A process is defined by providing three main declarations: the process [inputs](https://www.nextflow.io/docs/latest/process.html#inputs), the process [outputs](https://www.nextflow.io/docs/latest/process.html#outputs) and finally the command [script](https://www.nextflow.io/docs/latest/process.html#script).
+A process is defined by providing three main declarations:
 
-The second example adds the  process `index` which generate a index of the transcriptome.
+1. The process [inputs](https://www.nextflow.io/docs/latest/process.html#inputs),
+1. the process [outputs](https://www.nextflow.io/docs/latest/process.html#outputs)
+1. and finally the command [script](https://www.nextflow.io/docs/latest/process.html#script).
+
+The second example, `script2.nf` , adds the  process `INDEX` which generate a index of the transcriptome.
 
 ~~~
 nextflow.enable.dsl=2
@@ -165,7 +180,7 @@ nextflow.enable.dsl=2
  * pipeline input parameters
  */
 params.reads = "$projectDir/data/yeast/reads/*_{1,2}.fq.gz"
-params.transcriptome = "$projectDir/data/yeast/reads/*.fa.gz"
+params.transcriptome = "$projectDir/data/yeast/transcriptome/Saccharomyces_cerevisiae.R64-1-1.cdna.all.fa.gz"
 params.multiqc = "$projectDir/multiqc"
 params.outdir = "results"
 
@@ -180,10 +195,10 @@ println """\
 
 
 /*
- * define the `index` process that create a binary index
+ * define the `INDEX` process that create a binary index
  * given the transcriptome file
  */
-process index {
+process INDEX {
 
     input:
     path transcriptome
@@ -200,14 +215,14 @@ process index {
 transcriptome_ch = channel.fromPath(params.transcriptome)
 
 workflow {
-  index(transcriptome_ch)
+  INDEX(transcriptome_ch)
 }
 ~~~
 {: .language-groovy }
 
-It takes the transcriptome params file as input and creates the transcriptome index by using the `salmon` transcript quantification tool.
+It takes the transcriptome params file as `input` and creates the transcriptome index by using the `salmon` transcript quantification tool.
 
-Note how the input declaration defines a `transcriptome` variable in the process context that it is used in the command script to reference that file in the Salmon command line.
+**Note:** The `input` declaration defines a `transcriptome` variable in the process context that it is used in the command script to reference that file in the Salmon command line.
 
 Try to run it by using the command:
 
@@ -239,7 +254,7 @@ profiles {
 
 
 > ## Enable conda by default
-> Enable the conda execution by removing the profile block in the  nextflow.config file.
+> Enable the conda execution by removing the profile block in the  `nextflow.config` file.
 > > ## Solution
 > > ~~~
 > > //nextflow.config file
@@ -254,7 +269,10 @@ profiles {
 > Print the output of the `index_ch` channel by using the `view` operator.
 > > ## Solution
 > > ~~~
-> > index_ch.view()
+> > ..truncated...
+> > workflow {
+> >   INDEX(transcriptome_ch).view()
+> > }
 > > ~~~
 > > {: .language-groovy }
 > {: .solution}
@@ -353,14 +371,15 @@ In this step you have learned:
 
 ## Perform expression quantification
 
-The script `script4.nf` adds the quantification process.
+The script `script4.nf` adds the quantification process, `QUANT`.
 
 ~~~
+..truncated..
 /*
  * Run Salmon to perform the quantification of expression using
  * the index and the matched read files
  */
-process quantification {
+process QUANT {
 
     input:
     path index
@@ -374,12 +393,17 @@ process quantification {
     salmon quant --threads $task.cpus --libType=U -i $index -1 ${reads[0]} -2 ${reads[1]} -o $pair_id
     """
 }
+..truncated..
+workflow {
+  index_ch=INDEX(params.transcriptome)
+  quant_ch=QUANT(index_ch,read_pairs_ch)
+}
 ~~~
 {: .language-groovy }
 
 In this script note as the `index_ch` channel, declared as output in the index process, is now used as a channel in the input section.
 
-Also note as the second input is declared as a tuple composed by two elements: the pair_id and the reads in order to match the structure of the items emitted by the read_pairs_ch channel.
+Also note as the second input is declared as a tuple composed of two elements: the `pair_id` and the `reads` in order to match the structure of the items emitted by the `read_pairs_ch` channel.
 
 Execute it by using the following command:
 
@@ -399,12 +423,13 @@ nextflow run script4.nf -resume --reads 'data/yeast/reads/*_{1,2}.fq.gz'
 ~~~~
 {: .source}
 
-You will notice that the quantification process is executed more than one time.
+You will notice that  the `INDEX` step and one of the `QUANT` steps has been cached, and
+the quantification process is executed more than one time.
 
-Nextflow parallelizes the execution of your pipeline simply by providing multiple input data to your script.
+When your input channel contains multiple data items Nextflow parallelises the execution of your pipeline.
 
 > ## Add a tag directive
-> Add a `tag` directive to the quantification process of `script4.nf` to provide a more readable execution log.
+> Add a `tag` directive to the `QUANT` process of `script4.nf` to provide a more readable execution log.
 > > ## Solution
 > > ~~~
 > > tag "quantification on $pair_id"
@@ -414,7 +439,7 @@ Nextflow parallelizes the execution of your pipeline simply by providing multipl
 {: .challenge}
 
 > ## Add a publishDir directive
-Add a `publishDir` directive to the quantification process of `script4.nf` to store the process results into a directory of your choice.
+Add a `publishDir` directive to the quantification process of `script4.nf` to store the process results into folder specified by the `params.outdir` Nextflow variable. Include the `publishDir` `mode` option to copy the output.
 > > ## Solution
 > > ~~~
 > > publishDir "${params.outdir}/quant", mode:'copy'
@@ -425,6 +450,7 @@ Add a `publishDir` directive to the quantification process of `script4.nf` to st
 
 
 ### Recap
+
 In this step you have learned:
 
 * How to connect two processes by using the channel declarations
@@ -437,13 +463,15 @@ In this step you have learned:
 
 ## Quality control
 
-This step implements a quality control of your input reads. The inputs are the same read pairs which are provided to the quantification steps
+This step implements a quality control step for your input reads. The input  is the same read pairs which are provided to the quantification steps `read_pairs_ch`.
 
 ~~~
+[..truncated..]
+
 /*
  * Run fastQC to check quality of reads files
  */
-process fastqc {
+process FASTQC {
     tag "FASTQC on $sample_id"
     cpus 1
 
@@ -459,6 +487,13 @@ process fastqc {
     fastqc -o fastqc_${sample_id}_logs -f fastq -q ${reads} -t ${task.cpus}
     """
 }
+
+[..truncated..]
+
+workflow {
+  index_ch=INDEX(params.transcriptome)
+  quant_ch=QUANT(index_ch,read_pairs_ch)
+}
 ~~~
 {: .language-groovy}
 
@@ -469,20 +504,23 @@ $ nextflow run script5.nf -resume
 ~~~
 {: .language-bash}
 
-The script will report the following error message:
+The FASTQC process will not run.
 
-~~~
-Channel `read_pairs_ch` has been used twice as an input by process `fastqc` and process `quantification`
-~~~
-{: .output}
-
-> ## into fixme
-> Modify the creation of the read_pairs_ch channel by using set.
+> ## Add FASTQC process
+> Add the FASTQC process to the `workflow scope` of `script5.nf` adding the `read_pairs_ch` channel as an input.
+> Run
+>
+> ~~~
+> $ nextflow run script5.nf -resume
+> ~~~
+> {: .language-bash}
 > > ## Solution
 > > ~~~
-> > Channel
-> >    .fromFilePairs( params.reads, checkIfExists:true )
-> >    .into { read_pairs_ch; read_pairs2_ch }
+> > workflow {
+> >  index_ch=INDEX(params.transcriptome)
+> >  quant_ch=QUANT(index_ch,read_pairs_ch)
+> >  fastqc_ch=FASTQC(read_pairs_ch)
+}
 > > ~~~
 > > {: .language-groovy }    
 > {: .solution}
@@ -493,25 +531,74 @@ Channel `read_pairs_ch` has been used twice as an input by process `fastqc` and 
 
 In this step you have learned:
 
-* How to use the `into` operator to create multiple copies of the same channel
+* How to use the add a `process` and to the `workflow` scope.
+* Add an input to a `process`.
 
 ## MultiQC report
 
 This step collect the outputs from the quantification and fastqc steps to create a final report by using the [MultiQC](https://multiqc.info/) tool.
 
-The input for the `multiqc` process requires the mixing `mix` and collection `collection` of
-fastqc and quant output.
+The input for the `MULTIQC` process requires all data in a single channel element.
+Therefore, we will need combined the `FASTQC` and `QUANT` outputs using:
+
+* The combining operator `mix` : to combine the items in the two channels into a single channel and ,
 
 ~~~
+//example of the mix operator
+ch1 = Channel.of(1,2)
+ch2 = Channel.of('a')
+ch1.mix(ch2).view()
+~~~
+{: .language-groovy}
+
+~~~
+1
+2
+a
+~~~
+{: .output}
+
+* The transformation operator `collect` to collects all the items in the new combined channel to a single item.
+
+~~~
+//example of the collect operator
+ch1 = Channel.of(1,2,3)
+ch1.collect().view()
+~~~
+{: .language-groovy}
+
+~~~
+[1, 2, 3]
+~~~
+{: .output}
+
+> ## Combing operators
+> Which is the correct way to combined `mix` and `collect` operators so that you have a single channel with one List item?
+>
+> 1. `quant_ch.mix(fastqc_ch).collect()`
+> 1. `quant_ch.collect(fastqc_ch).mix()`
+> 1. `fastqc_ch.mix(quant_ch).collect()`
+> 1. `fastqc_ch.collect(quant_ch).mix()`
+>
+> > ## Solution
+> > You need to use the `mix` operator first to combine the channels followed by the `collect` operator to
+> > collect all the items in a single item.
+> >
+> {: .solution}
+{: .challenge}
+
+
+~~~
+[..truncated..]
 /*
  * Create a report using multiQC for the quantification
  * and fastqc processes
  */
-process multiqc {
+process MULTIQC {
     publishDir "${params.outdir}/multiqc", mode:'copy'
 
     input:
-    path('*') from quant_ch.mix(fastqc_ch).collect()
+    path('*')
 
     output:
     path('multiqc_report.html')
@@ -520,6 +607,17 @@ process multiqc {
     """
     multiqc .
     """
+}
+
+Channel
+    .fromFilePairs( params.reads, checkIfExists:true )
+    .set { read_pairs_ch }
+
+workflow {
+  index_ch=INDEX(params.transcriptome)
+  quant_ch=QUANT(index_ch,read_pairs_ch)
+  fastqc_ch=FASTQC(read_pairs_ch)
+  MULTIQC(quant_ch.mix(fastqc_ch).collect())
 }
 ~~~
 {: .language-groovy}
@@ -532,8 +630,6 @@ $ nextflow run script6.nf -resume --reads 'data/yeast/reads/*_{1,2}.fq.gz'
 
 It creates the final report in the results folder in the current work directory.
 
-In this script note the use of the `mix` and `collect` operators chained together to get all the outputs of the `quantification` and `fastqc` process as a single input.
-
 ### Recap
 
 In this step you have learned:
@@ -542,13 +638,13 @@ In this step you have learned:
 
 * How to mix two channels in a single channel using the `mix` operator.
 
-* How to chain two or more operators togethers
+* How to chain two or more operators togethers using the `.` operator.
 
 ## Handle completion event
 
 This step shows how to execute an action when the pipeline completes the execution.
 
-Note that Nextflow processes define the execution of asynchronous tasks i.e. they are not executed one after another as they are written in the pipeline script as it would happen in a common imperative programming language.
+**Note:** that Nextflow processes define the execution of asynchronous tasks i.e. they are not executed one after another as they are written in the pipeline script as it would happen in a common imperative programming language.
 
 The script uses the `workflow.onComplete` event handler to print a confirmation message when the script completes.
 
@@ -586,12 +682,14 @@ Nextflow is able to produce multiple reports and charts providing several runtim
 
 * The `-with-report` option enables the creation of the workflow execution report.
 
-* The `-with-trace` option enables the create of a tab separated file containing runtime information for each executed task.
+* The `-with-trace` option enables the create of a tab separated file containing runtime information for each executed task, including: submission time, start time, completion time, cpu and memory used..
 
 * The `-with-timeline` option enables the creation of the workflow timeline report showing how processes where executed along time. This may be useful to identify most time consuming tasks and bottlenecks. See an example at this [link](https://www.nextflow.io/docs/latest/tracing.html#timeline-report).
 
 * The `-with-dag` option enables to rendering of the workflow execution direct acyclic graph representation.
 **Note:** this feature requires the installation of [Graphviz](https://graphviz.org/), an open source graph visualization software,  in your system.
+
+More information can be found [here](https://www.nextflow.io/docs/latest/tracing.html).
 
 > ##  Metrics and reports
 > Run the script7.nf RNA-seq pipeline as shown below:
