@@ -5,7 +5,7 @@ exercises: 5
 questions:
 - "What language are Nextflow scripts written in?"
 - "How do I store values in a Nextflow script?"
-- "How do I write comments Nextflow script?"
+- "How do I write comments in a Nextflow script?"
 - "How can I store and retrieve multiple values?"
 - "How are strings evaluated in Nextflow?"
 - "How can I create simple re-useable code blocks?"
@@ -29,12 +29,12 @@ keypoints:
 
 ---
 
-Nextflow is a Domain Specific Language (DSL) implemented on top of the Groovy programming language, which in turns is a super-set of the Java programming language. This means that Nextflow can run any Groovy and Java code. However, it is not necessary to learn Groovy to use Nextflow DSL but it can be useful in edge cases where you need more functionality than the DSL provides.
+Nextflow is a Domain Specific Language (DSL) implemented on top of the Groovy programming language, which in turn is a super-set of the Java programming language. This means that Nextflow can run any Groovy and Java code. It is not necessary to learn Groovy to use Nextflow DSL but it can be useful in edge cases where you need more functionality than the DSL provides.
 
 > ## Nextflow console
->  Nextflow has a console graphical interface. The  console is a REPL (read-eval-print loop) environment that allows one to quickly test part of a script or pieces of Nextflow code in an interactive manner.
+>  Nextflow has a console graphical interface. The  console is a REPL (read-eval-print loop) environment that allows a user to quickly test part of a script or pieces of Nextflow code in an interactive manner.
 >
-> It is a handy tool that allows one to evaluate fragments of Nextflow/Groovy code or fast prototype a complete pipeline script. More information can be found [here](https://www.nextflow.io/blog/2015/introducing-nextflow-console.html)
+> It is a handy tool that allows a user to evaluate fragments of Nextflow/Groovy code or fast prototype a complete pipeline script. More information can be found [here](https://www.nextflow.io/blog/2015/introducing-nextflow-console.html)
 >
 > We can use the command `nextflow console` to launch the interactive console to test out out Groovy code.
 >
@@ -42,7 +42,7 @@ Nextflow is a Domain Specific Language (DSL) implemented on top of the Groovy pr
 > nextflow console
 > ~~~
 > {: .language-bash }
-> ### Console Global scope
+> ### Console global scope
 > It is worth noting that the global script context is maintained across script executions. This means that variables declared in the global script scope are not lost when the script run is complete, and they can be accessed in further executions of the same or another piece of code.
 {: .callout }
 
@@ -50,7 +50,7 @@ Nextflow is a Domain Specific Language (DSL) implemented on top of the Groovy pr
 
 ### Printing values
 
-To print something is as easy as using the `println` method and passing the text to print in quotes.
+To print something is as easy as using the `println` method (`println` is a compression of "print line") and passing the text to print in quotes.
 The text is referred to as a `string` as in a string of characters.
 ~~~
 println("Hello, World!")
@@ -103,9 +103,16 @@ This can be confusing for people familiar with the `#` syntax for commenting in 
 
 In any programming language, you need to use variables to store different types of information. A variable is a pointer to a space in the computer's memory that stores the value associated with it.
 
-Variables are assigned using `=` and can have any value. Groovy is dynamically-typed which means the variable's data types is based on it's value.
+Variables are assigned using `=` and can have any value. Groovy is dynamically-typed which means the variable's data type is based on its value. For example, setting `x = 1` means `x` is an integer number, but if it is later set to `x = "hello"` then it becomes a String.
 
-## Types of Data
+> ## Variable scope
+> When we create a variable using the `x = 1` syntax we can access, (`scope`), it anywhere (`globally`) in the script. A variable declared in this fashion is sometimes called a public variable.
+>
+> We can also define variables with a data `type` e.g. `String x="Hello"` or with the `def ` keyword `def x=1`. This effects the accessibility (`scope`) of the variable.
+> This is called lexical scoping (sometimes known as static scoping ) that sets the scope  of a variable so that it may only be accessed from within the block of code in which it is defined. A variable declared in this fashion is sometimes called a private variable.
+{: .callout }
+
+### Types of Data
 
 Groovy knows various types of data. four common ones are:
 
@@ -160,7 +167,7 @@ A block of text that span multiple lines can be defined by delimiting it with tr
 
 ~~~
 text = """
-    This is a multi-line
+    This is a multi-line string
     using triple quotes.
     """
 ~~~
@@ -178,34 +185,6 @@ println(x)
 
 ~~~
 1
-~~~
-{: .output }
-
-## String interpolation
-
-To use a variable inside a single or multi-line double quoted string `""`  prefix the variable name with a `$` to show it should be interpolated:
-
-~~~
-chr = "1"
-println("processing chromosome $chr")
-~~~
-{: .language-groovy }
-
-~~~
-processing chromosome 1
-~~~
-{: .output }
-
-**Note:** Variable names inside single quoted strings do not support String interpolation.
-
-~~~
-chr = "1"
-println('processing chromosome $chr')
-~~~
-{: .language-groovy }
-
-~~~
-processing chromosome $chr
 ~~~
 {: .output }
 
@@ -246,20 +225,35 @@ ATP1B2\TP53\WRAP53
 ~~~
 {: .output }
 
+### String interpolation
 
-> ## Def
-> Local variables are defined using the def keyword:
->
-> ~~~
-> def x = 'foo'
-> ~~~
-> {: .language-groovy }
->
-> It should be always used when defining variables local to a function or a closure.
-{: .callout }
+To use a variable inside a single or multi-line double quoted string `""`  prefix the variable name with a `$` to show it should be interpolated:
 
+~~~
+chr = "1"
+println("processing chromosome $chr")
+~~~
+{: .language-groovy }
 
-### Lists
+~~~
+processing chromosome 1
+~~~
+{: .output }
+
+**Note:** Variable names inside single quoted strings do not support String interpolation.
+
+~~~
+chr = "1"
+println('processing chromosome $chr')
+~~~
+{: .language-groovy }
+
+~~~
+processing chromosome $chr
+~~~
+{: .output }
+
+## Lists
 
 To store multiple values in a variable we can use a List.
 A List  (also known as array) object can be defined by placing the list items in square brackets and separating items by commas `,`:
@@ -283,25 +277,27 @@ println(kmers[0])
 ~~~
 {: .output}
 
-Yes, we can use negative numbers as indices in Groovy. When we do so, the index `-1` gives us the last element in the list, `-2` the second to last, and so on. Because of this, `kmers[3]` and `kmers[-1]` point to the same element here.
+We can use negative numbers as indices in Groovy. They count from the end of the list rather than the front: the index `-1` gives us the last element in the list, `-2` the second to last, and so on. Because of this, `kmers[3]` and `kmers[-1]` point to the same element in our example list.
 
 ~~~
 kmers = [11,21,27,31]
 //Lists can also be indexed with negative indexes
+println(kmers[3])
 println(kmers[-1])
 ~~~
 {: .language-groovy }
 ~~~
 31
+31
 ~~~
 {: .output}
 
-Lists can also be indexed using a range. A range is a quick way of declaring a list of consecutive sequential number.
+Lists can also be indexed using a range. A range is a quick way of declaring a list of consecutive sequential numbers.
 To define a range use `<num1>..<num2>` notation.
 
 ~~~
 kmers = [11,21,27,31]
-// The first three elements Lists elements using a range.
+// The first three elements using a range.
 println(kmer[0..2])
 ~~~
 {: .language-groovy }
@@ -310,11 +306,11 @@ println(kmer[0..2])
 ~~~
 {: .output}
 
-## String interpolation
+### String interpolation of list elements
 
-To use an expression like `kmer[0..2]` inside a double quoted String `""` we use the `${expression}` syntax, similar to Bash/shell scripts:
+To use an expression like `kmer[0..2]` inside a double quoted String `""` we use the `${expression}` syntax, similar to Bash shell scripts.
 
-For Example, the expression below without the `{}`""
+For example, the expression below without the `{}`""
 
 ~~~
 kmers = [11,21,27,31]
@@ -329,7 +325,7 @@ The first three elements in the Lists are. [11, 21, 27, 31][0..2]
 ~~~
 {: .output}
 
-We need to enclose the `kmers[0..2]` expression inside `{}` as below to get the correct output.
+We need to enclose the `kmers[0..2]` expression inside `${}` as below to get the correct output.
 
 ~~~
 kmers = [11,21,27,31]
@@ -344,11 +340,11 @@ The first three elements in the Lists are. [11, 21, 27]
 {: .output}
 
 
-### List Methods
+### List methods
 
-Lists implements a number of useful methods that can perform operations on their contents. See more [here](http://docs.groovy-lang.org/latest/html/groovy-jdk/java/util/List.html). When using a method on a type of object you need prefix the method with the variable name.
+Lists have a number of useful methods that can perform operations on their contents. See more [here](http://docs.groovy-lang.org/latest/html/groovy-jdk/java/util/List.html). When using a method on a type of object you need prefix the method with the variable name.
 
-For example, In order to get the length of the list use the list `size` method:
+For example, in order to get the length of the list use the list `size` method:
 
 ~~~
 mylist = [0,1,2]
@@ -379,7 +375,7 @@ println mylist.get(1)
 ~~~
 {: .output }
 
-Listed below are a few more common list methods.
+Listed below are a few more common list methods and their output on a simple example.
 
 ~~~
 mylist = [1,2,3]
@@ -438,9 +434,9 @@ println mylist.findAll{it%2 == 0}
 {: .challenge}
 
 
-### Maps
+## Maps
 
-It can difficult to remember the index of a value in a list, so we can use a Groovy Maps (also known as associative arrays)  that have an arbitrary type of key instead of integer value. The syntax is very much aligned. To specify the key use a colon before the value `[key:value]`. Multiple values are separated by a comma. *Note:* the key value is not enclosed in quotes.
+It can difficult to remember the index of a value in a list, so we can use Groovy Maps (also known as associative arrays) that have an arbitrary type of key instead of an integer value. The syntax is very similar to Lists. To specify the key use a colon before the value `[key:value]`. Multiple values are separated by a comma. *Note:* the key value is not enclosed in quotes.
 
 ~~~                
 roi = [ chromosome : "chr17", start: 7640755, end: 7718054, genes: ['ATP1B2','TP53','WRAP53']]
@@ -481,9 +477,7 @@ More information about maps can be found in the [Groovy API](http://docs.groovy-
 
 ## Closures
 
-Closures are the swiss army knife of Nextflow/Groovy programming. In a nutshell a closure is is a block of code that can be passed as an argument to a function.
-
-This can be useful to create a re-usable function.
+Closures are the swiss army knife of Nextflow/Groovy programming. In a nutshell a closure is is a block of code that can be passed as an argument to a function. This can be useful to create a re-usable function.
 
 We can assign a closure to a variable in same way as a value using the `=`.
 
@@ -525,7 +519,6 @@ println x
 {: .output }
 
 ### Closure parameters
-
 
 By default, closures take a single parameter called `it`. To define a different name use the
 ` variable ->` syntax.
@@ -571,7 +564,7 @@ println(tp53)
 ~~~
 {: .language-groovy }
 
-Would add the region `length` to the map `tp53`.
+Would add the region `length` to the map `tp53`, calculated as `end - start`.
 
 ~~~
 [chromosome:chr17, start:7661779, end:7687538, genome:GRCh38, gene:TP53, length:25759]
@@ -611,9 +604,9 @@ Learn more about closures in the [Groovy documentation](http://groovy-lang.org/c
 
 ## If statement
 
-One of the most important features of any programming language is the ability to execute different code under different conditions. The simplest way to do this is to use the if construct:
+One of the most important features of any programming language is the ability to execute different code under different conditions. The simplest way to do this is to use the if construct.
 
-The if statement uses the same syntax common other programming lang such Java, C, JavaScript, etc.
+The if statement uses the syntax common to other programming languages such Java, C, JavaScript, etc.
 
 ~~~
 if( < boolean expression > ) {
@@ -626,7 +619,7 @@ else {
 {: .language-groovy }
 
 
-The else branch is optional. Also curly brackets are optional when the branch define just a single statement.
+The else branch is optional. Curly brackets are optional when the branch defines just a single statement.
 
 ~~~
 x = 12
@@ -662,7 +655,7 @@ else
 {: .language-groovy }
 
 
-In some cases can be useful to replace `if` statement with a ternary expression aka conditional expression. For example:
+In some cases can be useful to replace `if` statement with a ternary expression, also known as a conditional expression. For example:
 
 ~~~
 println list ? list : 'The list is empty'
@@ -727,8 +720,6 @@ def fact( n ) {
 assert fact(5) == 120
 ~~~
 {: .language-groovy }
-
-
 
 ## More resources
 
