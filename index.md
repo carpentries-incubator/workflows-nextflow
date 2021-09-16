@@ -11,7 +11,7 @@ can integrate various software package and environment management systems
 such as Docker, Singularity, and Conda. It allows for existing pipelines
 written in common scripting languages, such as R and Python, to
 be seamlessly coupled together. It implements a Domain Specific Language
-(DSL) that simplifies the implementation and the deployment of complex
+(DSL) that simplifies the implementation and deployment of complex
 parallel and reactive workflows on clouds and clusters.
 
 This lesson also introduces [nf-core](https://nf-co.re/): a
