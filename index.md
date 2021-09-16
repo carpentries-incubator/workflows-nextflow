@@ -25,9 +25,9 @@ for building and sharing reproducible data science workflows.
 
 1. The learner will understand the fundamental components of a Nextflow
 script, including channels, processes and operators.
-1. The learner will write a multi-step workflow scripts to align, quantify, and perform QC on an RNA-Seq data in Nextflow DSL.
+1. The learner will write a multi-step workflow script to align, quantify, and perform QC on an RNA-Seq data in Nextflow DSL.
 1. The learner will be able to write a Nextflow configuration file to alter the computational resources allocated to a process.
-1. The learner will use  nf-core to run a community curated pipeline, on an RNA-Seq dataset
+1. The learner will use nf-core to run a community curated pipeline, on an RNA-Seq dataset.
 
 {% comment %} This is a comment in Liquid {% endcomment %}
 
