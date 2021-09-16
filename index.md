@@ -18,8 +18,8 @@ This lesson also introduces [nf-core](https://nf-co.re/): a
 community-driven platform, which provide peer reviewed
 best practice analysis pipelines written in Nextflow.
 
-This lesson motivates the use of Nextflow and nf-core as a development tool for building and sharing
-computational pipelines that facilitate reproducible (data) science workflows.
+This lesson motivates the use of Nextflow and nf-core as development tools
+for building and sharing reproducible data science workflows.
 
 ## lesson objectives
 
