@@ -89,7 +89,7 @@ In a simple program **(a)**, these statements would be executed sequentially. Th
 
 ### Scripting language
 
-Nextflow scripts are written using a scripting language that simplifies
+Nextflow scripts are written using a language intended to simplify
 the writing of workflows. Languages that are written for a specific field are called Domain Specific Languages (DSL), e.g., SQL is used to work with databases, and AWK is designed for text processing.
 
 In practical terms the Nextflow scripting language is an extension of the [Groovy programming language](https://groovy-lang.org/), which in turn is a super-set of the Java programming language. Groovy simplifies the writing of code and is more approachable than Java. Groovy semantics (syntax, control structures, etc) are documented [here](https://groovy-lang.org/semantics.html).
