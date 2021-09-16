@@ -16,7 +16,8 @@ objectives:
 - "Explain the components of a Nextflow script."
 - "Run a Nextflow script."
 keypoints:
-- "A workflow is a sequence of tasks that process a set of data, and a workflow management system (WfMS) is a computational platform that provides an infrastructure for the set-up, execution and monitoring of workflows."
+- "A workflow is a sequence of tasks that process a set of data."
+- "A workflow management system (WfMS) is a computational platform that provides an infrastructure for the set-up, execution and monitoring of workflows."
 - "Nextflow is a workflow management system that comprises both a runtime environment and a domain specific language (DSL)."
 - "Nextflow scripts comprise of channels for controlling inputs and outputs, and processes for defining workflow tasks."
 - "You run a Nextflow script using the `nextflow run` command."
