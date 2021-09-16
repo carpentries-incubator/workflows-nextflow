@@ -114,7 +114,10 @@ nextflow.enable.dsl=2
 ~~~
 {: .language-groovy}
 
-Scripts that contain the directive `nextflow.preview.dsl=2` use an early version of the DSL2 syntax, which may include experimental features that have been changed or removed in the formal DSL2 syntax. Scripts without these directives use the first version of the Nextflow syntax which we refer to as DSL1. DSL1 workflows use many of the same concepts presented in this lesson, but some aspects such as the flow of data are written differently. DSL1 workflows are also written in a single script, unlike DSL2 workflows which can be spread across many files. This lesson will focus on the DSL2 syntax as, after the DSL1 to DSL2 transition period is over, it will become the default way of writing Nextflow workflows.
+> ## Earlier syntax versions
+>
+> Scripts that contain the directive `nextflow.preview.dsl=2` use an early version of the DSL2 syntax, which may include experimental features that have been changed or removed in the formal DSL2 syntax. Scripts without these directives use the first version of the Nextflow syntax which we refer to as DSL1. DSL1 workflows use many of the same concepts presented in this lesson, but some aspects such as the flow of data are written differently. DSL1 workflows are also written in a single script, unlike DSL2 workflows which can be spread across many files. This lesson will focus on the DSL2 syntax as, after the DSL1 to DSL2 transition period is over, it will become the default way of writing Nextflow workflows.
+{: .callout}
 
 ### Processes, channels, and workflows
 
