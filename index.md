@@ -14,7 +14,9 @@ be seamlessly coupled together. It implements a Domain Specific Language
 (DSL) that simplifies the implementation and the deployment of complex
 parallel and reactive workflows on clouds and clusters.
 
-This lesson will also introduce [nf-core](https://nf-co.re/): a framework that provides a community-driven, peer reviewed platform for the development of best practice analysis pipelines written in Nextflow.
+This lesson also introduces [nf-core](https://nf-co.re/): a
+community-driven platform, which provide peer reviewed
+best practice analysis pipelines written in Nextflow.
 
 This lesson motivates the use of Nextflow and nf-core as a development tool for building and sharing
 computational pipelines that facilitate reproducible (data) science workflows.
