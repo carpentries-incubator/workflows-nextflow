@@ -8,7 +8,11 @@ permalink: index.html  # Is the only page that doesn't follow the pattern /:path
 [Nextflow](https://www.nextflow.io/) is workflow management software which
 enables the writing of scalable and reproducible scientific workflows. It
 can integrate various software package and environment management systems
-such as Docker, Singularity, and Conda. It allows the adaptation of pipelines written in the most common scripting languages such as R and Python. Its has a  Domain Specific Language (DSL) that simplifies the implementation and the deployment of complex parallel and reactive workflows on clouds and clusters.
+such as Docker, Singularity, and Conda. It allows for existing pipelines
+written in common scripting languages, such as R and Python, to
+be seamlessly coupled together. It implements a Domain Specific Language
+(DSL) that simplifies the implementation and the deployment of complex
+parallel and reactive workflows on clouds and clusters.
 
 This lesson will also introduce [nf-core](https://nf-co.re/): a framework that provides a community-driven, peer reviewed platform for the development of best practice analysis pipelines written in Nextflow.
 
