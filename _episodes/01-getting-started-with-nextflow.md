@@ -123,8 +123,6 @@ nextflow.enable.dsl=2
 
 Nextflow workflows have three main parts; processes, channels, and workflows. Processes describe a task to be run. A process script can be written in any scripting language that can be executed by the Linux platform (Bash, Perl, Ruby, Python, etc.). Processes spawn a task for each complete input set. Each task is executed independently, and cannot interact with another task. The only way data can be passed between process tasks is via asynchronous queues, called channels.
 
-> A queue is a set of inputs to a process, ordered by time of arrival. The process launches an instance of itself, called a `task`, for each input. Asynchronous means that when the queue is empty, the process waits for the next input to arrrive before launching another task.
-
 Processes define inputs and outputs for a task. Channels are then used to manipulate the flow of data from one process to the next. The interaction between processes, and ultimately the pipeline execution flow itself, is then explicitly defined in a workflow section.
 
 In the following example we have a channel containing three elements, e.g., 3 data files. We have a process that takes the channel as input. Since the channel has three elements, three independent instances (tasks) of that process are run in parallel. Each task generates an output, that is passed to another channel, which is used as input for the next process.
