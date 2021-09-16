@@ -29,8 +29,6 @@ script, including channels, processes and operators.
 1. The learner will be able to write a Nextflow configuration file to alter the computational resources allocated to a process.
 1. The learner will use nf-core to run a community curated pipeline, on an RNA-Seq dataset.
 
-{% comment %} This is a comment in Liquid {% endcomment %}
-
 
 > ## Prerequisites
 >
