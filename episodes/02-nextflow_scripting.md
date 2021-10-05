@@ -720,7 +720,7 @@ def fact( n ) {
   n > 1 ? n * fact(n-1) : 1
 }
 
-println (fact(5)==120) // true
+println (fact(5)) // prints 120
 ~~~
 {: .language-groovy }
 
