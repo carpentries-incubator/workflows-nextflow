@@ -711,7 +711,7 @@ println (fib(10)) // prints 89
 {: .language-groovy }
 
 
-- A function can take multiple arguments separating them with a comma. 
+- A function can take multiple arguments separated by commas. 
 - The `return` keyword can be omitted and the function implicitly returns the value of the last evaluated expression. (Not recommended)
 - Explicit types can be omitted. (Not recommended):
 
