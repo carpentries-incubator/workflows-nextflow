@@ -20,7 +20,7 @@ objectives:
 
 keypoints:
 - "Nextflow is a Domain Specific Language (DSL) implemented on top of the Groovy programming language."
-- "To define a variable, simply assign a value to it e.g. `a = 1` ."
+- "To define a variable, assign a value to it e.g., `a = 1` ."
 - "Comments use the same syntax as in the C-family programming languages: `//` or multiline `/* */`. "
 - "Multiple values can be stored in lists [value1, value2, value3, ...] or maps [chromosome: 1, start :1]."
 - "Lists are indexed and sliced with square brackets (e.g., list[0] and list[2..9])"
