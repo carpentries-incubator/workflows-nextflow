@@ -706,7 +706,7 @@ int fib(int n) {
     return n < 2 ? 1 : fib(n-1) + fib(n-2)
 }
 
-println (fib(10)==89) // true
+println (fib(10)) // prints 89
 ~~~
 {: .language-groovy }
 
