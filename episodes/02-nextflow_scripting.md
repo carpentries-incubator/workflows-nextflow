@@ -25,7 +25,7 @@ keypoints:
 - "Multiple values can be stored in lists [value1, value2, value3, ...] or maps [chromosome: 1, start :1]."
 - "Lists are indexed and sliced with square brackets (e.g., list[0] and list[2..9])"
 - "String interpolation (variable interpolation, variable substitution, or variable expansion) is the process of evaluating a string literal containing one or more placeholders, yielding a result in which the placeholders are replaced with their corresponding values."
-- "A closure is an expression (block of code) encased in `{}` e.g. `{it*it}`."
+- "A closure is an expression (block of code) encased in `{}` e.g. `{ it * it }`."
 
 ---
 
