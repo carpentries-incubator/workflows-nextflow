@@ -229,7 +229,7 @@ A filtering condition can be defined by using a Boolean expression described by 
 channel
   .of( 1..22, 'X', 'Y' )
   .filter(Number)
-  .filter {it<5}
+  .filter { it < 5 }
   .view()
 ~~~
 {: .language-groovy }
