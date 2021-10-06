@@ -3,10 +3,10 @@ title: "Nextflow configuration"
 teaching: 30
 exercises: 15
 questions:
-- "How can I configure how Nextflow runs?"
+- "How can I configure Nextflow runs?"
 - "How can I write a Nextflow configuration file?"
 - "How can I control `process` settings using the Nextflow configuration file?"
-- "How can I assign different resources to different process?"
+- "How can I assign different resources to different processes?"
 - "How can I assign different profiles to different computational systems "
 objectives:
 - "Understand how Nextflow is configured."
