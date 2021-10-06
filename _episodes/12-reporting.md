@@ -18,9 +18,9 @@ keypoints:
 ## Nextflow log
 
 Once a script has run, Nextflow stores a log of all the workflows executed in the current folder.
-Similar to an electronic lab book, this means you have a have a record of all processing steps and commands run.
+Similar to an electronic lab book, this means you have a record of all processing steps and commands run.
 
-You can print Nextflow's execution history and log information using the  `nextflow log` command.
+You can print Nextflow's execution history and log information using the `nextflow log` command.
 
 ~~~
 $ nextflow log
@@ -172,7 +172,7 @@ field. It is important to note that the resultant output can not be used to run 
 
 ### Filtering
 
-The output from the `log` command can be very long. We can subset the output using the option `-F` (filter) specifying  the filtering criteria.  This will print only those tasks matching a pattern using the syntax `~=/<pattern>/`.
+The output from the `log` command can be very long. We can subset the output using the option `-F` (filter) specifying  the filtering criteria.  This will print only those tasks matching a pattern using the syntax `=~/<pattern>/`.
 
 For example to filter for process with the name `fastqc` we would run:
 
@@ -199,7 +199,7 @@ This can be useful to locate specific tasks work directories.
 > > {: .language-bash }
 >  {: .solution }
 > ## Filter pipeline run log
-> > Use the `-F` option and a regular expression to filter the for a specific process.
+> > Use the `-F` option and a regular expression to filter the for a specific process e.g. multiqc.
 > > ## Solution
 > > ~~~
 > > $ nextflow log elegant_descartes -f name,hash,process,status -F 'process =~ /multiqc/'
@@ -212,7 +212,7 @@ This can be useful to locate specific tasks work directories.
 
 The `-t` option allows a template (string or file) to be specified. This makes it possible to create a custom report in any text based format.
 
-For example you could save this markdown snippet to a file:
+For example you could save this markdown snippet to a file e.g. `my-template.md`:
 
 ~~~
 ## $name
