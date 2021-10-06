@@ -145,7 +145,17 @@ The `filter` operator allows you to get only the items emitted by a channel that
 Here we use the `filter` operator on the `chr_ch` channel specifying the  data type qualifier `Number` so that only numeric items are returned. The Number data type includes both integers and floating point numbers.
 We will then use the `view` operator to print the contents.
 
-To simplify the code we chained together the operators `filter` and `view` using the dot notation `.` .
+~~~
+chr_ch = channel.of( 1..22, 'X', 'Y' )
+autosomes_ch =chr_ch.filter( Number )
+autosomes_ch.view()
+~~~
+{: .language-groovy }
+
+To simplify the code we can chain multiple operators together, such as `filter` and `view` using a `.` .
+
+The previous example could be rewritten like:
+The blank space between the operators is ignored and is used for readability.
 
 ~~~
 chr_ch = channel
@@ -219,7 +229,7 @@ A filtering condition can be defined by using a Boolean expression described by 
 channel
   .of( 1..22, 'X', 'Y' )
   .filter(Number)
-  .filter({it<5})
+  .filter { it < 5 }
   .view()
 ~~~
 {: .language-groovy }
@@ -294,7 +304,8 @@ X
 
 ## Modifying the contents of a channel
 
-If we want to modify the items in a channel we use transforming operators.
+If we want to modify the items in a channel, we can use transforming operators.
+### map
 
 ### Applying a function to items in a channel
 
@@ -535,7 +546,17 @@ mt
 ~~~
 {: .output}
 
-The items in the resulting channel have the same order as in the respective original channels, however there’s no guarantee that the elements of the second channel are appended after the elements of the first.
+The items emitted by the resulting mixed channel may appear in any order, regardless of which source channel they came from. Thus, the following example it could be a possible result of the above example as well.
+
+~~~
+1
+2
+X
+3
+mt
+Y
+~~~
+{: .output}
 
 ### join
 
@@ -573,8 +594,8 @@ channel
      .of( 'chr1', 'chr2', 'chr3' )
      .into({ ch1; ch2 })
 
-ch1.view()
-ch2.view()
+ch1.view({"ch1 emits: $it"})
+ch2.view({"ch2 emits: $it"})
 ~~~
 {: .language-groovy }
 
