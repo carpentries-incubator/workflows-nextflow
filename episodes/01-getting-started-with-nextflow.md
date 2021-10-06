@@ -258,16 +258,57 @@ To run a Nextflow script use the command `nextflow run <script_name>`.
 {: .challenge}
 
 
+Pipeline parameters are declared in the workflow by prepending the prefix
+`params`, separated by dot character, to a variable name e.g.,
+`params.input`. Their value can be specified on the command line by
+prefixing the parameter name with a **double dash** character, i.e.,
+`--paramName` e.g., `--input`.
+
+> ## Add a pipeline parameter
+> Re-run the Nextflow script by entering the following command in your terminal:
+>
+> ~~~
+> $ nextflow run wc.nf --input 'data/yeast/reads/ref*.fq.gz'
+> ~~~
+> {: .language-bash}
+> > ## Solution
+> > The string specified on the command line will override the default value of the parameter in the script. The output will look like this:
+> >
+> > ~~~
+> > N E X T F L O W  ~  version 21.04.0
+> > Launching `wc.nf` [condescending_allen] - revision: fede04a544
+> > executor >  local (6)
+> > [61/1f3ef4] process > NUM_LINES (4) [100%] 6 of 6 ✔
+> > ref3_2.fq.gz 52592
+> > 
+> > ref2_1.fq.gz 81720
+> > 
+> > ref3_1.fq.gz 52592
+> > 
+> > ref2_2.fq.gz 81720
+> > 
+> > ref1_2.fq.gz 58708
+> > 
+> > ref1_1.fq.gz 58708
+> > ~~~
+> > {: .output}
+>
+> The pipeline executes the `NUM_LINES` process 6 times; one process
+> for each file matching the string `data/yeast/reads/*.fq.gz`. Since
+> each process is executed in parallel, there is no guarantee of
+> which output is reported first. When you run this script, you may
+> see the process output in a different order.
+> {: .solution}
+{: .challenge}
 
 > ## Process identification
-> The hexadecimal numbers, like b3/c9f4ee, identify the unique process execution.
+> The hexadecimal numbers, like 61/1f3ef4, identify the unique process execution.
 > These numbers are also the prefix of the directories where each process is executed.
 > You can inspect the files produced by changing to the directory `$PWD/work` and
-> using these numbers to find the process-specific execution path.
+> using these numbers to find the process-specific execution path. We will learn how exactly 
+> nextflow using *work* directory to execute processes in the following sections. 
 {: .callout}
 
-FIXME - I think process identification should be in a different section.
-One that explains the work folder, and perhaps troubleshooting.
 
 
 {% include links.md %}

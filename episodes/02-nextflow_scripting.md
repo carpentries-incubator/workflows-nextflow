@@ -20,12 +20,12 @@ objectives:
 
 keypoints:
 - "Nextflow is a Domain Specific Language (DSL) implemented on top of the Groovy programming language."
-- "To define a variable, simply assign a value to it e.g a = 1 ."
+- "To define a variable, assign a value to it e.g., `a = 1` ."
 - "Comments use the same syntax as in the C-family programming languages: `//` or multiline `/* */`. "
 - "Multiple values can be stored in lists [value1, value2, value3, ...] or maps [chromosome: 1, start :1]."
 - "Lists are indexed and sliced with square brackets (e.g., list[0] and list[2..9])"
-- "String interpolation (or variable interpolation, variable substitution, or variable expansion) is the process of evaluating a string literal containing one or more placeholders, yielding a result in which the placeholders are replaced with their corresponding values."
-- "A closure is is a expression (block of code) encased in `{}` e.g. {it*it}."
+- "String interpolation (variable interpolation, variable substitution, or variable expansion) is the process of evaluating a string literal containing one or more placeholders, yielding a result in which the placeholders are replaced with their corresponding values."
+- "A closure is an expression (block of code) encased in `{}` e.g. `{ it * it }`."
 
 ---
 
@@ -108,8 +108,8 @@ Variables are assigned using `=` and can have any value. Groovy is dynamically-t
 > ## Variable scope
 > When we create a variable using the `x = 1` syntax we can access, (`scope`), it anywhere (`globally`) in the script. A variable declared in this fashion is sometimes called a public variable.
 >
-> We can also define variables with a data `type` e.g. `String x="Hello"` or with the `def ` keyword `def x=1`. This effects the accessibility (`scope`) of the variable.
-> This is called lexical scoping (sometimes known as static scoping ) that sets the scope  of a variable so that it may only be accessed from within the block of code in which it is defined. A variable declared in this fashion is sometimes called a private variable.
+> We can also define variables with a data `type` e.g. `String x="Hello"` or with the `def` keyword `def x=1`. This effects the accessibility (`scope`) of the variable.
+> This is called lexical scoping (sometimes known as static scoping) that sets the scope  of a variable so that it may only be accessed from within the block of code in which it is defined. A variable declared in this fashion is sometimes called a private variable.
 {: .callout }
 
 ### Types of Data
@@ -136,13 +136,13 @@ my_var = 1
 To create a variable with a floating point value, we can execute:
 
 ~~~
-//float − This is used to represent  floating point numbers.
+//float − This is used to represent floating point numbers.
 my_var = 3.1499392
 ~~~
 {: .language-groovy }
 
-To create a Boolean value we assign the value `true` or `false`.
-**Note :* Do not enclosed a Boolean value in quotes or they will be interpreted as a string.
+To create a Boolean value we assign the value `true` or `false`.  
+**Note:* Do not enclose a Boolean value in quotes or they will be interpreted as a string.
 
 ~~~
 //Boolean − This represents a Boolean value which can either be true or false.
@@ -477,7 +477,7 @@ More information about maps can be found in the [Groovy API](http://docs.groovy-
 
 ## Closures
 
-Closures are the swiss army knife of Nextflow/Groovy programming. In a nutshell a closure is is a block of code that can be passed as an argument to a function. This can be useful to create a re-usable function.
+Closures are the swiss army knife of Nextflow/Groovy programming. In a nutshell a closure is a block of code that can be passed as an argument to a function. This can be useful to create a re-usable function.
 
 We can assign a closure to a variable in same way as a value using the `=`.
 
@@ -494,8 +494,8 @@ We can pass the function `square` as an argument to other functions or methods. 
 ~~~
 square = { it * it }
 x = [ 1, 2, 3, 4 ]
-x.collect(square)
-println x
+y = x.collect(square)
+println y
 ~~~
 {: .language-groovy }
 
@@ -508,13 +508,15 @@ A closure can also be defined in an anonymous manner, meaning that it is not giv
 
 ~~~
 x = [ 1, 2, 3, 4 ]
-x.collect({ it * it })
-println x
+y = x.collect({ it * it })
+println("x is $x")
+println("y is $y")
 ~~~
 {: .language-groovy }
 
 ~~~
-[ 1, 4, 9, 16 ]
+x is [1, 2, 3, 4]
+y is [1, 4, 9, 16]
 ~~~
 {: .output }
 
@@ -624,12 +626,12 @@ The else branch is optional. Curly brackets are optional when the branch defines
 ~~~
 x = 12
 if( x > 10 )
-    println "$x is greater the 10"
+    println "$x is greater than 10"
 ~~~
 {: .language-groovy }
 
 
-null, empty strings and empty collections are evaluated to false.
+*null*, *empty strings* and *empty collections* are evaluated to false.
 Therefore a statement like:
 
 ~~~
@@ -704,20 +706,21 @@ int fib(int n) {
     return n < 2 ? 1 : fib(n-1) + fib(n-2)
 }
 
-assert fib(10)==89
+println (fib(10)) // prints 89
 ~~~
 {: .language-groovy }
 
 
-A function can take multiple arguments separating them with a comma. The return keyword can be omitted and the function implicitly returns the value of the last evaluated expression. Also explicit types can be omitted (thought not recommended):
+- A function can take multiple arguments separated by commas. 
+- The `return` keyword can be omitted and the function implicitly returns the value of the last evaluated expression. (Not recommended)
+- Explicit types can be omitted. (Not recommended):
 
 ~~~
 def fact( n ) {
   n > 1 ? n * fact(n-1) : 1
 }
 
-
-assert fact(5) == 120
+println (fact(5)) // prints 120
 ~~~
 {: .language-groovy }
 

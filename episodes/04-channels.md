@@ -264,7 +264,7 @@ The `fromPath` factory method creates a **queue channel** containing one or more
 
 The file path (written as a quoted string) can be the location of a single file or a "glob pattern" that matches multiple files or directories.
 
-The file path can be a relative path ( path to the file from the current directory), or an absolute path ( path to the file from the system root directory - starts with `/`).
+The file path can be a relative path (path to the file from the current directory), or an absolute path (path to the file from the system root directory - starts with `/`).
 
 The script below creates a queue channel with a single file as its content.
 
@@ -326,7 +326,7 @@ Available fromPath options:
 
 We can change the default options for the `fromPath` method to give an error if the file doesn't exist using the `checkIfExists` parameter. In Nextflow, method parameters are separated by a `,` and parameter values specified with a colon `:`.
 
-If we execute a Nextflow script with the contents below . It will run and not produce an output. This is likely not what we want.
+If we execute a Nextflow script with the contents below, it will run and not produce an output. This is likely not what we want.
 
 ~~~
 read_ch = Channel.fromPath( 'data/chicken/reads/*.fq.gz' )
