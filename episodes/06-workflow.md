@@ -201,15 +201,15 @@ In this example `params.transcriptome` and `params.reads` can be accessed inside
 > **Note:** You will need to pass the `read_pairs_ch` as an argument to FASTQC and you will need to use the `collect` operator to gather the items in the FASTQC channel output to a single List item. We will learn more about the `collect` operator in the Operators episode.
 > ~~~
 >//workflow_exercise.nf
->nextflow.enable.dsl=2>
->params.reads = 'data/yeast/reads/*_{1,2}.fq.gz'>
+>nextflow.enable.dsl=2
+>params.reads = 'data/yeast/reads/*_{1,2}.fq.gz'
 >
 >process FASTQC {
 >  input:
->  tuple val(sample_id), path(reads)>
+>  tuple val(sample_id), path(reads)
 >
 >  output:
->  path "fastqc_${sample_id}_logs/*.zip">
+>  path "fastqc_${sample_id}_logs/*.zip"
 >
 >  script:
 >  //flagstat simple stats on bam file
@@ -217,15 +217,15 @@ In this example `params.transcriptome` and `params.reads` can be accessed inside
 >  mkdir fastqc_${sample_id}_logs
 >  fastqc -o fastqc_${sample_id}_logs -f fastq -q ${reads} -t ${task.cpus}
 >  """
->}>
+> }
 >
 >process PARSEZIP {
 >  publishDir "results/fqpass", mode:"copy"
 >  input:
->  path flagstats>
+>  path flagstats
 >
 >  output:
->  path 'pass_basic.txt'>
+>  path 'pass_basic.txt'
 >
 >  script:
 >  """
@@ -241,18 +241,18 @@ In this example `params.transcriptome` and `params.reads` can be accessed inside
 > >
 > > ## Solution
 > > ~~~
-> > //workflow_exercise.nf> >
+> > //workflow_exercise.nf
 > >
-> > nextflow.enable.dsl=2> >
+> > nextflow.enable.dsl=2
 > >
-> > params.reads = 'data/yeast/reads/*_{1,2}.fq.gz'> >
+> > params.reads = 'data/yeast/reads/*_{1,2}.fq.gz'
 > >
 > > process FASTQC {
 > >   input:
-> >   tuple val(sample_id), path(reads)> >
+> >   tuple val(sample_id), path(reads)
 > >
 > >   output:
-> >   path "fastqc_${sample_id}_logs/*.zip"> >
+> >   path "fastqc_${sample_id}_logs/*.zip"
 > >
 > >   script:
 > >   //flagstat simple stats on bam file
@@ -260,23 +260,23 @@ In this example `params.transcriptome` and `params.reads` can be accessed inside
 > >   mkdir fastqc_${sample_id}_logs
 > >   fastqc -o fastqc_${sample_id}_logs -f fastq -q ${reads} -t ${task.cpus}
 > >   """
-> > }> >
+> > }
 > >
 > > process PARSEZIP {
 > >   publishDir "results/fqpass", mode:"copy"
 > >   input:
-> >   path flagstats> >
+> >   path flagstats
 > >
 > >   output:
-> >   path 'pass_basic.txt'> >
+> >   path 'pass_basic.txt'
 > >
 > >   script:
 > >   """
 > >   for zip in *.zip; do zipgrep 'Basic Statistics' \$zip|grep 'summary.txt'; done > pass_basic.txt
 > >   """
-> > }> >
+> > }
 > >
-> > read_pairs_ch = channel.fromFilePairs(params.reads,checkIfExists: true)> >
+> > read_pairs_ch = channel.fromFilePairs(params.reads,checkIfExists: true)
 > >
 > > workflow {
 > >   PARSEZIP(FASTQC(read_pairs_ch).collect())
