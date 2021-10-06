@@ -16,7 +16,7 @@ keypoints:
 - "You can add parameters to a JSON or YAML formatted file and pass them to the script using option `-params-file`."
 ---
 
-In the last episode we ran the Nextflow script,`wc.nf`, from the command line and it counted the number of lines  in the file
+In the first episode we ran the Nextflow script, `wc.nf`, from the command line and it counted the number of lines  in the file
  `data/yeast/reads/ref1_1.fq.gz`. To change the input to script we can make use of pipeline parameters.
 
 ## Pipeline parameters
@@ -88,9 +88,6 @@ ref2_1.fq.gz 81720
 > > N E X T F L O W  ~  version 20.10.0
 > > Launching `wc.nf` [soggy_miescher] - revision: c54a707593
 > > executor >  local (6)
-> > [05/d84ab8] process > NUM_LINES (6) [100%] 6 of 6 ✔
-> >
-> > executor >  local (6)
 > > [d3/9ca185] process > NUM_LINES (2) [100%] 6 of 6 ✔
 > > ref3_2.fq.gz 52592
 > >
@@ -129,7 +126,7 @@ $ cp wc.nf wc-params.nf
 
 To add a parameter `sleep` with the default value `2` to `wc-params.nf` we add the line:
 ~~~
-params.sleep=2
+params.sleep = 2
 ~~~
 {: .language-groovy}
 
@@ -184,14 +181,14 @@ nextflow run wc-params.nf --sleep 10
 > > ~~~
 > > {: .language-groovy}
 > > ~~~
-> > $ nextflow run wc-params.nf --sleep 10
+> > $ nextflow run wc-params.nf --sleep 1
 > > ~~~
 > > {: .language-bash}
-> > The would run the add a sleep of 10 seconds to the NUM_LINES.
+> > This would use 1 as a value of `sleep` parameter instead of default value (which is 2) and run the pipeline.
 > > The input file would be `data/yeast/reads/ref1_1.fq.gz` as this is the default.
-> > To run all input lines we could add the param ``--input 'data/yeast/reads/*.fq.gz'``
+> > To run all input files we could add the param ``--input 'data/yeast/reads/*.fq.gz'``
 > >  ~~~
-> > $ nextflow run wc-params.nf --sleep 1 --input  'data/yeast/reads/*.fq.gz'
+> > $ nextflow run wc-params.nf --sleep 1 --input 'data/yeast/reads/*.fq.gz'
 > > ~~~
 > > {: .language-bash}
 > {: .solution}
@@ -233,12 +230,10 @@ etoh60_1_1.fq.gz 87348
 {: .output}
 
 > ## Create and use a Parameter file.
-> Create a parameter file for the Nextflow file `wc-params.nf`,
-> specifying
+> Create a parameter file `params.json` for the Nextflow file `wc-params.nf`, and run the Nextflow script using the created parameter file, specifying:
 >
 >  * sleep as 10
 >  * input as `data/yeast/reads/ref3_1.fq.gz`
->  * Run the Nextflow script using the parameter file.
 >
 > > ## Solution
 > > ~~~
