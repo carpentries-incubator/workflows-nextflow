@@ -10,9 +10,10 @@ objectives:
 - "Create a Nextflow process."
 - "Define inputs to a process."
 keypoints:
-- "A Nextflow process is an independent task/step in a workflow"
+- "A Nextflow process is an independent step in a workflow"
 - "Processes contain up to five definition blocks including: directives, inputs, outputs, when clause and finally a script block."
 - "The script block contains the commands you would like to run."
+- "A process should have a script but the other four blocks are optional"
 - "Inputs are defined in the input block with a type qualifier and a name."
 ---
 
@@ -23,7 +24,7 @@ We now know how to create and use Channels to send data around a workflow. We wi
 
 A `process` is the way Nextflow executes commands you would run on the command line or custom scripts.
 
-A process can be thought of as a particular task/step in a workflow, e.g. an alignment step in RNA-seq analysis. Processes are independent of each other (don't require any another process to execute) and can not communicate/write to each other. Data is passed between processes via input and output Channels.
+A process can be thought of as a particular step in a workflow, e.g. an alignment step in RNA-seq analysis. Processes are independent of each other (don't require any another process to execute) and can not communicate/write to each other. Data is passed between processes via input and output Channels.
 
 For example, below is the command line you would run to create a index for the yeast transcriptome to be used with the [salmon](https://salmon.readthedocs.io/en/latest/salmon.html) aligner:
 
@@ -41,7 +42,7 @@ The process definition starts with keyword `process`, followed by process name, 
 ~~~
 process INDEX {
   script:
-  "salmon index -t ${projectDir}/data/yeast/transcriptome/Saccharomyces_cerevisiae.R64-1-1.cdna.all.fa.gz -i data/yeast/salmon_index --kmerLen 31"
+  "salmon index -t ${projectDir}/data/yeast/transcriptome/Saccharomyces_cerevisiae.R64-1-1.cdna.all.fa.gz -i ${projectDir}/data/yeast/salmon_index --kmerLen 31"
 }
 
 ~~~
@@ -379,13 +380,12 @@ nextflow run process_script_params.nf --kmer 11
 > ~~~
 > {: .language-groovy}
 >
-> Change the k-mer value used to create the salmon index on the command line using the `--kmer` command line option.
+> Run the pipeline using kmer value of `27` using the `--kmer` command line option. 
 >
 > ~~~
 > $ nextflow run process_script_params.nf --kmer <some value> -process.echo
 > ~~~
 > {: .language-bash}
-> **Note:** The kmer value must not be greater than 31 and an odd number.
 > **Note:** The Nextflow option `-process.echo` will print the process' stdout to the terminal.
 >
 > > ## Solution
@@ -394,6 +394,13 @@ nextflow run process_script_params.nf --kmer 11
 > > ~~~
 > > {: .language-bash }
 > ~~~
+> > N E X T F L O W  ~  version 21.04.0
+> > Launching `juggle_processes.nf` [nostalgic_jones] - revision: 9feb8de4fe
+> > executor >  local (1)
+> > [92/cdc9de] process > INDEX [100%] 1 of 1 ✔
+> > Threads = 2
+> > Vertex length = 27
+> > [...Truncated...]
 > > kmer size is 27
 > > ~~~
 > > {: .output}
@@ -439,7 +446,7 @@ When using the `shell` statement Bash variables are referenced in the normal way
 However, the `shell` statement uses a different syntax for Nextflow variable substitutions: `!{nextflow_variable}`, which is needed to use both Nextflow and Bash variables in the same script.
 
 For example in the script below that uses the `shell` statement
-we reference the Nextflow variables as `!{projectDir}` and `!{params.kmer`, and the Bash variable as `$PWD`.
+we reference the Nextflow variables as `!{projectDir}` and `!{params.kmer`, and the Bash variable as `${KMERSIZE}`.
 
 ```
 //process_shell.nf
@@ -454,7 +461,7 @@ process INDEX {
   #set bash variable KMERSIZE
   KMERSIZE=!{params.kmer}
   salmon index -t !{projectDir}/data/yeast/transcriptome/Saccharomyces_cerevisiae.R64-1-1.cdna.all.fa.gz -i index --kmer ${KMERSIZE}
-  echo "kmer size is  !{params.kmer}"
+  echo "kmer size is !{params.kmer}"
   '''
 }
 
@@ -502,7 +509,7 @@ process INDEX {
   if( params.aligner == 'kallisto' ) {
     """
     echo indexed using kallisto
-    kallisto index -i index  -k $params.kmer $params.transcriptome
+    kallisto index -i index -k $params.kmer $params.transcriptome
     """
   }  
   else if( params.aligner == 'salmon' ) {
@@ -513,7 +520,7 @@ process INDEX {
   }  
   else {
     """
-    echo Unknown aligner $params.aligner"
+    echo Unknown aligner $params.aligner
     """
   }  
 }
@@ -525,14 +532,18 @@ workflow {
 {: .language-groovy }
 
 ~~~
-nextflow run main.nf -process.echo --aligner kallisto
+nextflow run process_conditional.nf -process.echo --aligner kallisto
 ~~~
 {: .language-bash }
 
 ~~~
+N E X T F L O W  ~  version 21.04.0
+Launching `juggle_processes.nf` [cheeky_shirley] - revision: 588f20ae5a
+executor >  local (1)
+[84/c44f25] process > INDEX [100%] 1 of 1 ✔
 indexed using kallisto
 ~~~
-{: .language-groovy }
+{: .output}
 
 ## Inputs
 
@@ -585,7 +596,7 @@ process PRINTCHR {
   """
 }
 
-chr_ch = Channel.of( 1..22,'X','Y' )
+chr_ch = Channel.of( 1..22, 'X', 'Y' )
 
 workflow {
 
@@ -600,6 +611,10 @@ $ nextflow run process_input_value.nf -process.echo
 {: .language-bash }
 
 ~~~
+N E X T F L O W  ~  version 21.04.0
+Launching `juggle_processes.nf` [wise_kalman] - revision: 7f90e1bfc5
+executor >  local (24)
+[b1/88df3f] process > PRINTCHR (24) [100%] 24 of 24 ✔
 processing chromosome 3
 processing chromosome 1
 processing chromosome 2
@@ -636,7 +651,7 @@ process NUMLINES {
     """
 }
 
-reads_ch = Channel.fromPath( 'data/yeast/reads/ref*.fq.gz')
+reads_ch = Channel.fromPath( 'data/yeast/reads/ref*.fq.gz' )
 
 workflow {
   NUMLINES(reads_ch)
@@ -679,12 +694,12 @@ process NUMLINES {
 
     script:
     """
-    printf 'sample.fq.gz'
+    printf 'sample.fq.gz '
     gunzip -c sample.fq.gz | wc -l
     """
 }
 
-reads_ch = Channel.fromPath( 'data/yeast/reads/ref*.fq.gz')
+reads_ch = Channel.fromPath( 'data/yeast/reads/ref*.fq.gz' )
 
 workflow {
   NUMLINES(reads_ch)
@@ -700,17 +715,17 @@ $ nextflow run process_input_file_02.nf -process.echo
 
 ~~~
 [d2/eb0e9d] process > NUMLINES (1) [100%] 6 of 6 ✔
-sample.fq.gz58708
+sample.fq.gz 58708
 
-sample.fq.gz52592
+sample.fq.gz 52592
 
-sample.fq.gz81720
+sample.fq.gz 81720
 
-sample.fq.gz81720
+sample.fq.gz 81720
 
-sample.fq.gz52592
+sample.fq.gz 52592
 
-sample.fq.gz58708
+sample.fq.gz 58708
 ~~~
 {: .output }
 
@@ -756,6 +771,7 @@ sample.fq.gz58708
 > > process FASTQC {
 > >    input:
 > >    path reads
+> > 
 > >    script:
 > >    """
 > >    mkdir fastqc_out
@@ -802,17 +818,18 @@ process COMBINE {
   input:
   val x
   val y
+
   script:
-   """
-   echo $x and $y
-   """
+  """
+  echo $x and $y
+  """
 }
 
-num_ch = Channel.of(1,2,3)
-letters_ch = Channel.of('a','b','c')
+num_ch = Channel.of(1, 2, 3)
+letters_ch = Channel.of('a', 'b', 'c')
 
 workflow {
-  COMBINE(num_ch,letters_ch)
+  COMBINE(num_ch, letters_ch)
 }
 ~~~
 {: .language-groovy }
@@ -843,24 +860,24 @@ For example:
 
 ~~~
 //process_combine_02.nf
-
 nextflow.enable.dsl=2
 
 process COMBINE {
   input:
   val x
   val y
+
   script:
-   """
-   echo $x and $y
-   """
+  """
+  echo $x and $y
+  """
 }
 
-ch_num = Channel.of(1,2)
-ch_letters = Channel.of('a','b','c','d')
+ch_num = Channel.of(1, 2)
+ch_letters = Channel.of('a', 'b', 'c', 'd')
 
 workflow {
-  COMBINE(ch_num,ch_letters)
+  COMBINE(ch_num, ch_letters)
 }
 ~~~
 {: .language-groovy }
@@ -887,24 +904,23 @@ To better understand this behaviour compare the previous example with the follow
 
 ~~~
 //process_combine_03.nf
-
 nextflow.enable.dsl=2
 
 process COMBINE {
-  echo true
   input:
   val x
   val y
+
   script:
-   """
-   echo $x and $y
-   """
+  """
+  echo $x and $y
+  """
 }
 ch_num = Channel.value(1)
-ch_letters = Channel.of('a','b','c')
+ch_letters = Channel.of('a', 'b', 'c')
 
 workflow {
-  COMBINE(ch_num,ch_letters)
+  COMBINE(ch_num, ch_letters)
 }
 ~~~
 {: .language-groovy }
@@ -935,9 +951,9 @@ And include the command below in the script directive
 >
 > ~~~~
   script:
-   """
-   salmon index -t $transcriptome -i index -k $kmer .
-   """
+  """
+  salmon index -t $transcriptome -i index -k $kmer .
+  """
 > ~~~~
 > {: .language-groovy }
 > > ## Solution
@@ -948,17 +964,18 @@ And include the command below in the script directive
 > >  input:
 > >  path transcriptome
 > >  val kmer
+> > 
 > >  script:
-> >   """
-> >   salmon index -t $transcriptome -i index -k $kmer
-> >   """
+> >  """
+> >  salmon index -t $transcriptome -i index -k $kmer
+> >  """
 > > }
 > >
-> > transcriptome_ch = channel.fromPath('data/yeast/transcriptome/Saccharomyces_cerevisiae.R64-1-1.cdna.all.fa.gz',checkIfExists: true)
+> > transcriptome_ch = channel.fromPath('data/yeast/transcriptome/Saccharomyces_cerevisiae.R64-1-1.cdna.all.fa.gz', checkIfExists: true)
 > > kmer_ch = channel.of(21)
 > >
 > > workflow {
-> >   COMBINE(transcriptome_ch,kmer_ch)
+> >   COMBINE(transcriptome_ch, kmer_ch)
 > > }
 > > ~~~
 > > {: .language-groovy }
@@ -979,19 +996,19 @@ process COMBINE {
   input:
   val x
   each y
+
   script:
-   """
-   echo $x and $y
-   """
+  """
+  echo $x and $y
+  """
 }
 
-ch_num = Channel.of(1,2)
-ch_letters = Channel.of('a','b','c','d')
+ch_num = Channel.of(1, 2)
+ch_letters = Channel.of('a', 'b', 'c', 'd')
 
 workflow {
-  COMBINE(ch_num,ch_letters)
+  COMBINE(ch_num, ch_letters)
 }
-
 ~~~
 {: .language-groovy }
 
@@ -1015,30 +1032,31 @@ The process will run eight times.
 {: .output}
 
 > ## Input repeaters
-> Extend the script `process_exercise_repeat.nf` by adding more values to the `kmer` queue channel e.g. (21,27,31) and running the process for each value.
+> Extend the script `process_exercise_repeat.nf` by adding more values to the `kmer` queue channel e.g. (21, 27, 31) and running the process for each value.
 >  ~~~
 > //process_exercise_repeat.nf
 >  nextflow.enable.dsl=2
 >  process COMBINE {
->   input:
->   path transcriptome
->   val kmer
->   script:
+>    input:
+>    path transcriptome
+>    val kmer
+>   
+>    script:
 >    """
 >    salmon index -t $transcriptome -i index -k $kmer
 >    """
 >  }
 >
->  transcriptome_ch = channel.fromPath('data/yeast/transcriptome/Saccharomyces_cerevisiae.R64-1-1.cdna.all.fa.gz',checkIfExists: true)
+>  transcriptome_ch = channel.fromPath('data/yeast/transcriptome/Saccharomyces_cerevisiae.R64-1-1.cdna.all.fa.gz', checkIfExists: true)
 >  kmer_ch = channel.of(21)
 >
 >  workflow {
->    COMBINE(transcriptome_ch,kmer_ch)
+>    COMBINE(transcriptome_ch, kmer_ch)
 >  }
 >  ~~~
 >  {: .language-groovy }
 >
-> How many times does this process run ?
+> How many times does this process run?
 >
 > > ## Solution
 > > ~~~
@@ -1046,20 +1064,21 @@ The process will run eight times.
 > > nextflow.enable.dsl=2
 > >
 > > process COMBINE {
-> >  input:
-> >  each transcriptome
-> >  path kmer
-> >  script:
+> >   input:
+> >   each transcriptome
+> >   path kmer
+> >  
+> >   script:
 > >   """
 > >   salmon index -t $transcriptome -i index -k $kmer
 > >   """
 > > }
 > >
-> > transcriptome_ch = channel.fromPath('data/yeast/transcriptome/Saccharomyces_cerevisiae.R64-1-1.cdna.all.fa.gz',checkIfExists: true)
-> > kmer_ch = channel.of(21,27,31)
+> > transcriptome_ch = channel.fromPath('data/yeast/transcriptome/Saccharomyces_cerevisiae.R64-1-1.cdna.all.fa.gz', checkIfExists: true)
+> > kmer_ch = channel.of(21, 27, 31)
 > >
-> >  workflow {
-> >   COMBINE(transcriptome_ch,kmer_ch)
+> > workflow {
+> >   COMBINE(transcriptome_ch, kmer_ch)
 > > }
 > > ~~~
 > > {: .language-groovy }
