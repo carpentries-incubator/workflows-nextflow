@@ -380,7 +380,7 @@ nextflow run process_script_params.nf --kmer 11
 > ~~~
 > {: .language-groovy}
 >
-> Run the pipeline using kmer value of `27` using the `--kmer` command line option. 
+> Run the pipeline using a kmer value of `27` using the `--kmer` command line option. 
 >
 > ~~~
 > $ nextflow run process_script_params.nf --kmer <some value> -process.echo
