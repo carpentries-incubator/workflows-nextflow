@@ -446,7 +446,7 @@ When using the `shell` statement Bash variables are referenced in the normal way
 However, the `shell` statement uses a different syntax for Nextflow variable substitutions: `!{nextflow_variable}`, which is needed to use both Nextflow and Bash variables in the same script.
 
 For example in the script below that uses the `shell` statement
-we reference the Nextflow variables as `!{projectDir}` and `!{params.kmer`, and the Bash variable as `${KMERSIZE}`.
+we reference the Nextflow variables as `!{projectDir}` and `!{params.kmer}`, and the Bash variable as `${KMERSIZE}`.
 
 ```
 //process_shell.nf
