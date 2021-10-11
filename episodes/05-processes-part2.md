@@ -523,7 +523,7 @@ The above process uses the three directives, `tag`, `cpus` and `echo`.
 
 The `tag` directive to allow you to give a custom tag to each process execution. This tag makes it easier to identify a particular task (executed instance of a process) in a log file or in the execution report.
 
-The second directive `cpus`  allows you to define the number of CPUs required for the each task.
+The second directive `cpus`  allows you to define the number of CPUs required for each task.
 
 The third directive `echo true` prints the stdout to the terminal.
 
