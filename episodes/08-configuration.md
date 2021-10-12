@@ -21,10 +21,11 @@ objectives:
 keypoints:
 - "Nextflow configuration can be managed using a Nextflow configuration file."
 - "Nextflow configuration files are plain text files containing a set of properties."
-- "You can define process setting, such as cpus and memory, within the `process` scope."
-- "You can assign different resources to different process using the process selectors `withNames` or `withLabel`. "
-- "You can define a profile for different configurations using the `profiles` scope. These profiles can be selected when launching a pipeline execution by using the `-profile` command line option"
-- "The workflow configuration settings can be inspected using `nextflow config <script> [options]`."
+- "You can define process specific settings, such as cpus and memory, within the `process` scope."
+- "You can assign different resources to different processes using the process selectors `withName` or `withLabel`."
+- "You can define a profile for different configurations using the `profiles` scope. These profiles can be selected when launching a pipeline execution by using the `-profile` command-line option"
+- "Nextflow configuration settings are evaluated in the order they are read-in."
+- "Workflow configuration settings can be inspected using `nextflow config <script> [options]`."
 ---
 
 ## Nextflow configuration
