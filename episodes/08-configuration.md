@@ -604,7 +604,9 @@ Singularity is another container technology, commonly used on
 HPC clusters. It is different to Docker in several ways. The
 primary differences are that processes are run as the user,
 and certain directories are automatically "mounted" (made available)
-in the container instance.
+in the container instance. Singularity also supports building
+Singularity images from Docker images, allowing Docker image paths
+to also be used as values for `process.container`.
 
 Singularity is enabled in a similar manner to Docker.
 A container image path must be provided using `process.container` and
@@ -629,20 +631,20 @@ singularity.enabled = true
 
 ## Configuration profiles
 
-One of the most powerful features of the configuration file is to define multiple different configuration or `profiles` , for different computational environments e.g. local computer vs. HPC.
+One of the most powerful features of Nextflow configuration is to
+define multiple configurations or `profiles` for different
+execution platforms. This allows a group of predefined settings to
+be called with a short invocation, `-profile <profile name>`.
 
-A profile is a set of configuration attributes that can be activated/chosen when launching a pipeline execution by using the `-profile` command line option.
-
-Configuration profiles are defined by using the special scope `profiles` which group the attributes that belong to the same profile using a common prefix.
-
-
-For example:
+Configuration profiles are defined using the `profiles` scope
+which group the attributes that belong to the same profile
+using a common prefix.
 
 ~~~
 //configuration_profiles.config
 profiles {
 
-    local {
+    standard {
         params.genome = '/local/path/ref.fasta'
         process.executor = 'local'
     }
@@ -664,28 +666,53 @@ profiles {
 
 }
 ~~~
-{: .source}
+{: .language-groovy }
 
-This configuration defines three different profiles: `standard`, `cluster` and `cloud` that set different process configuration strategies depending on the target runtime platform. By convention the standard profile is implicitly used when no other profile is specified by the user.
-
-To enable a specific profile use `-profile` option followed by the profile name:
+This configuration defines three different profiles: `standard`,
+`cluster` and `cloud` that set different process configuration
+strategies depending on the target execution platform. By
+convention the standard profile is implicitly used when no
+other profile is specified by the user. To enable a specific
+profile use `-profile` option followed by the profile name:
 
 ~~~
 nextflow run <your script> -profile cluster
 ~~~
 {: .language-bash}
 
+> ## Configuration order
+>
+> Settings from profiles will override general settings
+> in the configuration file. However, it is also important
+> to remember that configuration is evaluated in the order it
+> is read in. For example, in the following example, the `publishDir`
+> directive will always take the value 'results' even when the
+> profile `hpc` is used. This is because the setting is evaluated
+> before Nextflow knows about the `hpc` profile. If the `publishDir`
+> directive is moved to after the `profiles` scope, then `publishDir`
+> will use the correct value of `params.results`.
+>
+> ~~~
+> params.results = 'results'
+> process.publishDir = params.results
+> profiles {
+>     hpc {
+>         params.results = '/long/term/storage/results'
+>     }
+> }
+> ~~~
+> {: .language-groovy}
+
 ## Inspecting the Nextflow configuration
 
 You can use the command `nextflow config` to print the resolved
-configuration of a workflow. This allows you to see what settings Nextflow will use to run a workflow.
+configuration of a workflow. This allows you to see what settings
+Nextflow will use to run a workflow.
 
 ~~~
 $ nextflow config workflow_02.nf -profile test
 ~~~
 {: .language-bash}
-
-Would output:
 
 ~~~
 FIXME: fill in
