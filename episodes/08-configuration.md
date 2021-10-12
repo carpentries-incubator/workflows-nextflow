@@ -61,7 +61,7 @@ my_home_dir = "$HOME"
 > Generally, variables and functions defined in a
 > configuration file are not accessible from the
 > workflow script. Only variables defined using the
-> `params` scope and the `env` scope can
+> `params` scope and the `env` scope (without `env` prefix) can
 > be accessed from the workflow script.
 >
 > ~~~
@@ -78,7 +78,9 @@ workflow. For example, workflow parameters are governed from the
 `params` scope, while process directives are governed from the `process` scope. A full list of the available scopes can be found in the
 [documentation](https://www.nextflow.io/docs/latest/config.html#config-scopes). It is also possible to define your own scope.
 
-Configuration settings for a workflow are often stored in the file `nextflow.config` which is in the same directory as the workflow script. Configuration can be written in either of two ways. The first is using
+Configuration settings for a workflow are often stored in the file
+`nextflow.config` which is in the same directory as the workflow script.
+Configuration can be written in either of two ways. The first is using
 dot notation, and the second is using brace notation. Both forms
 of notation can be used in the same configuration file.
 
@@ -155,7 +157,51 @@ Existing configuration can be completely ignored by using `-C <custom.config>` t
 > belong to a configuration scope.
 {: .callout}
 
-FIXME: Add exercise to test understanding of configuration priority.
+> ## Determine script output
+>
+> Determine the outcome of the following script executions.
+> Given the script `print_message.nf`:
+> ~~~
+> nextflow.enable.dsl = 2
+>
+> params.message = hello
+>
+> workflow {
+>     PRINT_MESSAGE(params.message)
+> }
+>
+> process {
+>     echo true
+>
+>     input:
+>     val my_message
+>
+>     script:
+>     """
+>     echo $my_message
+>     """
+> }
+> ~~~
+> {: .language-groovy}
+> and configuration (`print_message.config`):
+> ~~~
+> params.message = 'Are you tired?'
+> ~~~
+>
+> What is the outcome of the following commands?
+> 1. `nextflow run print_message.nf`
+> 1. `nextflow run print_message.nf --message '¿Que tal?'`
+> 1. `nextflow run print_message.nf -c print_message.config`
+> 1. `nextflow run print_message.nf -c pring_message.config --message '¿Que tal?'`
+>
+> > ## Solution
+> >
+> > 1. 'hello' - Workflow script uses the value in `print_message.nf`
+> > 1. '¿Que tal?' - The command-line parameter overrides the script setting.
+> > 1. 'Are you tired?' - The configuration overrides the script setting
+> > 1. '¿Que tal?' - The command-line parameter overrides both the script and configuration settings. 
+> {: .solution}
+{: .challenge}
 
 ## Configuring process behaviour
 
@@ -171,7 +217,7 @@ The `process` configuration scope allows the setting of any process directives i
 For example:
 
 ~~~
-//nextflow.config
+// nextflow.config
 process {
     cpus = 2
     memory = 8.GB
@@ -205,7 +251,8 @@ specific process or group of processes.
 
 The resources for a specific process can be defined using `withName:`
 followed by the process name ( either the simple name e.g., `'FASTQC'`,
-or the fully qualified name e.g., `'NFCORE_RNASEQ:RNA_SEQ:SAMTOOLS_SORT'`), and the directives within curly braces.
+or the fully qualified name e.g., `'NFCORE_RNASEQ:RNA_SEQ:SAMTOOLS_SORT'`),
+and the directives within curly braces.
 For example, we can specify different `cpus` and `memory` resources
 for the processes `INDEX` and `FASTQC` as follows:
 
@@ -232,7 +279,7 @@ labels). The `withLabel` selector then allows the configuration of all
 processes annotated with a specific label, as shown below:
 
 ~~~
-//configuration_process_labels.nf
+// configuration_process_labels.nf
 nextflow.enable.dsl=2
 
 process P1 {
@@ -265,7 +312,7 @@ workflow {
 {: .language-groovy}
 
 ~~~
-//configuration_process-labels.config
+// configuration_process-labels.config
 process {
     withLabel: big_mem {
         cpus = 16
@@ -278,7 +325,7 @@ process {
 Another strategy is to use process selector expressions. Both
 `withName:` and `withLabel:` allow the use of regular expressions
 to apply the same configuration to all processes matching a pattern.
-Regular expressions must be quoted, unlike individual process names
+Regular expressions must be quoted, unlike simple process names
 or labels.
 
 - The `|` matches either-or, e.g., `withName: 'INDEX|FASTQC'`
@@ -305,63 +352,59 @@ priority rules are applied (from highest to lowest):
 1. Process generic `process` configuration.
 
 > ## Process selectors
-> Create a Nextflow config, `process-selector.config`, file specifying different.
-> 1. `cpus`
-> 1. `memory`
 >
-> resources for the two process
-> * `P1` (cpus 1 and memory 2.GB) and
-> * `P2` (cpus 2 and memory 1.GB)
->
-> for the Nextflow script `process-selector.nf`.
+> Create a Nextflow config, `process-selector.config`, specifying
+> different `cpus` and `memory` resources for the two processes
+> `P1` (cpus 1 and memory 2.GB) and
+> `P2` (cpus 2 and memory 1.GB),
+> where `P1` and `P2` are defined as follows:
 >
 > ~~~
-> //process-selector.nf
+> // process-selector.nf
 > nextflow.enable.dsl=2
 >
 > process P1 {
+>     echo true
 >
-> script:
->   """
->   echo P1: Using $task.cpus cpus and $task.memory memory.
->   """
+>     script:
+>     """
+>     echo P1: Using $task.cpus cpus and $task.memory memory.
+>     """
 > }
 >
 > process P2 {
+>     echo true
 >
-> script:
->   """
->   echo P2: Using $task.cpus cpus and $task.memory memory.
->   """
+>     script:
+>     """
+>     echo P2: Using $task.cpus cpus and $task.memory memory.
+>     """
 > }
 >
 > workflow {
->  P1()
->  P2()
+>    P1()
+>    P2()
 > }
 > ~~~
 > {: .language-groovy }
+>
 > > ## Solution
 > > ~~~
-> > //config file
+> > // process-selector.config
 > > process {
-> >  echo = true
-> >    withName: P1 {
-> >    cpus = 1
-> >    memory = 2.GB
-> >   }
-> >    withName: P2 {
-> >    cpus = 2
-> >    memory = 1.GB
-> >   }
+> >     withName: P1 {
+> >         cpus = 1
+> >         memory = 2.GB
+> >     }
+> >     withName: P2 {
+> >         cpus = 2
+> >         memory = 1.GB
+> >     }
 > > }
 > > ~~~
-> > ~~~
-> > $ nextflow run process-selector.nf -c process-selector.config
-> > ~~~
-> > {: .language-bash }
+> > {: .language-groovy}
 > {: .solution}
- {: .challenge}
+{: .challenge}
 
 #### Dynamic expressions
 
@@ -386,7 +429,7 @@ process FASTQC {
 {: .language-groovy }
 
 ~~~
-//nextflow.config
+// nextflow.config
 process {
     withName: FASTQC {
         cpus = 2
@@ -396,34 +439,6 @@ process {
 }
 ~~~
 {: .language-groovy }
-
-> ## Configure process scope
-> 1. Create a Nextflow config file `wc-params.config`
-> 1. Add a  process scope specifying the process run time as `time = '5s'``
-> 1. Then run:
-> ~~~
-> $ nextflow run wc-params.nf --sleep 10 -c wc-params.config
-> ~~~
-> {: .language-bash}
-> What output do you get?
-> > ## Solution
-> > ~~~
-> > //wc-params.config
-> > process {
-> >
-> > time = '5s'
-> >
-> > }
-> > ~~~
-> > {: .source}
-> >
-> > You will get a runtime error:
-> > ~~~
-> > Process exceeded running time limit (5s)
-> > ~~~
-> > {: .output}
-> {: .solution}
-{: .challenge}
 
 ## Configuring execution platforms
 
@@ -441,7 +456,7 @@ Sun Grid Engine, `sge` and the number of tasks the executor will
 handle in a parallel manner (`queueSize`) to 10.
 
 ~~~
-//nextflow.config
+// nextflow.config
 executor {
     name = 'sge'
     queueSize = 10
@@ -524,14 +539,14 @@ environments are stored. By default this is in `conda` folder of the `work` dire
 
 > ## Define a software requirement in the configuration file using conda
 >
-> Create a config file for the Nextflow script `configuration_fastp.nf`.
-> Add a conda directive for the process name `FASTP` that includes the bioconda package `fastp`.
+> Create a config file for the Nextflow script `configure_fastp.nf`.
+> Add a conda directive for the process name `FASTP` that includes the bioconda package `fastp`, version 0.23.0.
 >
->  Run the Nextflow script `configuration_fastp.nf` with the configuration file using the `-c` option.
+>  Run the Nextflow script `configure_fastp.nf` with the configuration file using the `-c` option.
 >
 > ~~~
-> // configuration_fastp.nf
-> nextflow.enable.dsl=2
+> // configure_fastp.nf
+> nextflow.enable.dsl = 2
 >
 > params.input = "data/yeast/reads/ref1_1.fq.gz"
 >
@@ -554,19 +569,22 @@ environments are stored. By default this is in `conda` folder of the `work` dire
 > }
 > ~~~
 > {: .language-groovy }
+>
 > > ## Solution
 > > ~~~
-> > //fastp.config
+> > // fastp.config
 > > process {
-> >     withName: "NUM_LINES" {
+> >     withName: 'FASTP' {
 > >         conda = "bioconda::fastp"
 > >     }
 > > }
 > > ~~~
+> > {: .language-groovy}
+> >
 > > ~~~
-> > $ nextflow run configuration_fastp.nf -c fastp.config
+> > nextflow run configure_fastp.nf -c fastp.config
 > > ~~~
-> > {: .language-bash }
+> > {: .language-bash}
 > {: .solution}
 {: .challenge}
 
@@ -607,7 +625,7 @@ primary differences are that processes are run as the user,
 and certain directories are automatically "mounted" (made available)
 in the container instance. Singularity also supports building
 Singularity images from Docker images, allowing Docker image paths
-to also be used as values for `process.container`.
+to be used as values for `process.container`.
 
 Singularity is enabled in a similar manner to Docker.
 A container image path must be provided using `process.container` and
@@ -633,11 +651,11 @@ singularity.enabled = true
 ## Configuration profiles
 
 One of the most powerful features of Nextflow configuration is to
-define multiple configurations or `profiles` for different
+predefine multiple configurations or `profiles` for different
 execution platforms. This allows a group of predefined settings to
 be called with a short invocation, `-profile <profile name>`.
 
-Configuration profiles are defined using the `profiles` scope
+Configuration profiles are defined in the `profiles` scope,
 which group the attributes that belong to the same profile
 using a common prefix.
 
@@ -703,6 +721,7 @@ nextflow run <your script> -profile cluster
 > }
 > ~~~
 > {: .language-groovy}
+{: .callout}
 
 ## Inspecting the Nextflow configuration
 
