@@ -295,7 +295,7 @@ write more expressive expressions.
 
 #### Selector priority
 
-When mixing generic process configuration and selectors the following
+When mixing generic process configuration and selectors, the following
 priority rules are applied (from highest to lowest):
 
 1. `withName` selector definition.
@@ -453,7 +453,10 @@ the executor to be used by a specific process. This can be
 useful, for example, when there are short running tasks
 that can be run locally, and are unsuitable for submission
 to HPC executors (check for guidelines on best practice use
-of your execution system).
+of your execution system). Other process directives such as
+`process.clusterOptions`, `process.queue`, and `process.machineType`
+can be also be used to further configure processes depending
+on the executor used.  
 
 ~~~
 //nextflow.config
@@ -469,76 +472,73 @@ process {
 ~~~
 {: .language-groovy }
 
-## Defining software requirements
+## Configuring software requirements
 
+An important feature of Nextflow is the ability to manage
+software using different technologies. It supports the Conda package
+management system, and container engines such as Docker, Singularity,
+Podman, Charliecloud, and Shifter. These technologies
+allow one to package tools and their dependancies into a software environment
+such that the tools will always work as long as the environment can be loaded.
+This facilitates portable and reproducible workflows.
+Software environment specification is managed from the `process` scope,
+allowing the use of process selectors to manage which processes
+load which software environment. Each technology also has it's own
+scope to provide further technology specific configuration settings.
 
-A key feature of Nextflow is the ability to use different technologies such as the Conda package management system or container engines such as Docker, Singularity, Podman, Charliecloud, Shifter to manage the software requirements. This also facilitate portable and reproducible workflows.
+### Software configuration using Conda
 
-We can specify the technology used for the entire workflow or a single or group of process using the technology specific scopes.
+Conda is a software package and environment management system that runs on
+Linux, Windows, and Mac OS. Software packages are bundled into
+Conda environments along with their dependancies for a particular
+operating system (Not all software is supported on all operating systems).
+Software packages are tied to conda channels, for example,
+bioinformatic software packages are found and installed
+from the BioConda channel.
 
-## Config Conda execution
-
-To use  a Conda environment you can either specify the path of an existing Conda environment directory.
+A Conda environment can be configured in several ways:
+- Provide a path to an existing Conda environment.
+- Provide a path to a Conda environment specification file (written in YAML).
+- Specify the software package(s) using the
+`<channel>::<package_name>=<version>` syntax (separated by spaces),
+which then builds the Conda environment when the process is run.
 
 ~~~
-process.conda = "/home/user/miniconda3/envs/my_conda_env"
-//or
 process {
-  conda = "/home/user/miniconda3/envs/my_conda_env"
+    conda = "/home/user/miniconda3/envs/my_conda_env"
+    withName: FASTQC {
+        conda = "environment.yml"
+    }
+    withName: SALMON {
+        conda = "bioconda::salmon=1.5.2"
+    }
 }
 ~~~
-{: .source }
+{: .language-groovy }
 
-Specify the path of Conda environment `YAML` file.
+There is an optional `conda` scope which allows you to control the
+creation of a Conda environment by the Conda package manager.
+For example, `conda.cacheDir` specifies the path where the Conda
+environments are stored. By default this is in `conda` folder of the `work` directory.
 
-For example;
-
-~~~
-process.conda = "environment.yml"
-//or
-process {
-  conda = "environment.yml"  
-}
-~~~
-{: .source }
-
-Or, specify the an individual package name using the syntax.
-
-~~~
-<channel>::<package_name>=<version>
-~~~
-
-
-For example,
-
-~~~
-process.conda = "bioconda::salmon"
-//or
-process {
-  conda = "bioconda::salmon"
-}
-~~~
-
-### Conda scope
-
-There is an optional `conda` scope allows you to control the creation of a Conda environment by the Conda package manager.
-
-For example, `cacheDir` specifies the path  where the Conda environments are stored. By default this is in `conda` folder of the `work` directory.
-
-**Note:** When using a compute cluster make sure to provide a shared file system path accessible from all computing nodes.
-
->## Define a software requirement in the configuration file using conda
->  Create a config file for the Nextflow script `configuration_fastp.nf` that:
->  1. Add a conda scope for the process name `NUM_LINES` that includes the bioconda package `fastp`.
+> ## Define a software requirement in the configuration file using conda
+>
+> Create a config file for the Nextflow script `configuration_fastp.nf`.
+> Add a conda directive for the process name `FASTP` that includes the bioconda package `fastp`.
 >
 >  Run the Nextflow script `configuration_fastp.nf` with the configuration file using the `-c` option.
 >
 > ~~~
+> // configuration_fastp.nf
 > nextflow.enable.dsl=2
 >
 > params.input = "data/yeast/reads/ref1_1.fq.gz"
 >
-> process NUM_LINES {
+> workflow {
+>     FASTP( Channel.fromPath( params.input ) ).out.view()
+> }
+>
+> process FASTP {
 >
 >    input:
 >    path read
@@ -548,28 +548,18 @@ For example, `cacheDir` specifies the path  where the Conda environments are sto
 >
 >    script:
 >    """
->    printf '${read} '
->    gunzip -c ${read} | wc -l
->    fastp -i ${read}  -o out.fq 2>&1
+>    fastp -i ${read} -o out.fq 2>&1
 >    """
 > }
->
->
-> input_ch = Channel.fromPath(params.input)
->
->
-> workflow {
->    NUM_LINES(input_ch).out.view()
-> }
->~~~
+> ~~~
 > {: .language-groovy }
 > > ## Solution
 > > ~~~
 > > //fastp.config
 > > process {
-> >   withName: "NUM_LINES" {
-> >     conda = "bioconda::fastp"
-> >  }
+> >     withName: "NUM_LINES" {
+> >         conda = "bioconda::fastp"
+> >     }
 > > }
 > > ~~~
 > > ~~~
@@ -579,54 +569,63 @@ For example, `cacheDir` specifies the path  where the Conda environments are sto
 > {: .solution}
 {: .challenge}
 
-## Config Docker execution
+### Software configuration using Docker
 
-To use docker we specify the container image to be used in the `process` scope
-and set `docker.enabled = true` in the `docker` scope.
+Docker is a container technology. Container images are
+lightweight, standalone, executable package of software
+that includes everything needed to run an application:
+code, runtime, system tools, system libraries and settings.
+Containerized software is intended to run the same regardless
+of the underlying infrastructure, unlike other package management
+technologies which are operating system dependant (See
+the [published article on Nextflow](https://doi.org/10.1038/nbt.3820)).
+For each container image used, Nextflow uses Docker to spawn
+an independent and isolated container instance for each process task.
 
-For example:
+To use Docker, we must provide a container image path using the
+`process.container` directive, and also enable docker in the docker
+scope, `docker.enabled = true`. A container image path takes the form
+`(protocol://)registry/repository/image:version--build`.
+By default, Docker containers
+run software using a privileged user. This can cause issues,
+and so it is also a good idea to supply your user and group
+via the `docker.runOptions`.
 
 ~~~
-process.container = 'nextflow/rnaseq-nf'
+process.container = 'quay.io/biocontainers/salmon:1.5.2--h84f40af_0'
 docker.enabled = true
+docker.runOptions = '-u $(id -u):$(id -g)'
 ~~~
-{: .source }
+{: .language-groovy }
 
-### Config Singularity execution
+### Software configuration using Singularity
 
-Similar to docker to use singularity container we provide the container image file path in `process.container` and set `singularity.enabled = true`:
+Singularity is another container technology, commonly used on
+HPC clusters. It is different to Docker in several ways. The
+primary differences are that processes are run as the user,
+and certain directories are automatically "mounted" (made available)
+in the container instance.
+
+Singularity is enabled in a similar manner to Docker.
+A container image path must be provided using `process.container` and
+singularity enabled using `singularity.enabled = true`.
 
 ~~~
-process.container = '/some/singularity/image.sif'
+process.container = 'https://depot.galaxyproject.org/singularity/salmon:1.5.2--h84f40af_0'
 singularity.enabled = true
 ~~~
 {: .language-groovy }
 
-**Note::** The container image file must be an absolute path i.e. it must start with a `/`.
-
 > ## Container protocols
+>
 > The following protocols are supported:
->* `library://`` download the container image from the Singularity Library service.
->* `shub://`` download the container image from the Singularity Hub.
->* `docker://`` download the container image from the Docker Hub and convert it to the Singularity format.
->* `docker-daemon://` pull the container image from a local Docker installation and convert it to a Singularity image file.
+> - `docker://``: download the container image from the Docker Hub and convert it to the Singularity format (default).
+> - `library://``: download the container image from the Singularity Library service.
+> - `shub://``: download the container image from the Singularity Hub.
+> - `docker-daemon://`: pull the container image from a local Docker installation and convert it to a Singularity image file.
+> - `https://`: download the singularity image from the given URL.
+> - `file://`: use a singularity image on local computer storage.
 {: .callout}
-
-> Docker to Singularity image
-Specifying a plain Docker container image name, Nextflow implicitly download and converts it to a Singularity image when the Singularity execution is enabled.
-For example:
-> ~~~
-> process.container = 'nextflow/rnaseq-nf'
-> singularity.enabled = true
-> ~~~
-> {: .source}
-The above configuation instructs Nextflow to use Singularity engine to run your script processes.
->The container is pulled from the Dockr registry and cached in the current directory to be used for further runs.
->Alternatively if you have a Singularity image file, its location absolute path can be specified as the container name either using the `-with-singularity` option on the command line or the `process.container` setting in the config file.
-{: .callout}
-
-
-
 
 ## Configuration profiles
 
