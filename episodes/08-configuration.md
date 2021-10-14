@@ -152,7 +152,7 @@ Existing configuration can be completely ignored by using `-C <custom.config>` t
 > The majority of Nextflow configuration settings must be provided
 > on the command-line, however a handful of settings can also
 > be provided within a configuration file, such as
-> `workdir = '/path/to/work/dir' (`-w /path/to/work/dir`) or
+> `workdir = '/path/to/work/dir'` (`-w /path/to/work/dir`) or
 > `resume = true` (`-resume`), and do not
 > belong to a configuration scope.
 {: .callout}
@@ -199,7 +199,7 @@ Existing configuration can be completely ignored by using `-C <custom.config>` t
 > > 1. 'hello' - Workflow script uses the value in `print_message.nf`
 > > 1. '¿Que tal?' - The command-line parameter overrides the script setting.
 > > 1. 'Are you tired?' - The configuration overrides the script setting
-> > 1. '¿Que tal?' - The command-line parameter overrides both the script and configuration settings. 
+> > 1. '¿Que tal?' - The command-line parameter overrides both the script and configuration settings.
 > {: .solution}
 {: .challenge}
 
