@@ -164,13 +164,13 @@ Existing configuration can be completely ignored by using `-C <custom.config>` t
 > ~~~
 > nextflow.enable.dsl = 2
 >
-> params.message = hello
+> params.message = 'hello'
 >
 > workflow {
 >     PRINT_MESSAGE(params.message)
 > }
 >
-> process {
+> process PRINT_MESSAGE {
 >     echo true
 >
 >     input:
