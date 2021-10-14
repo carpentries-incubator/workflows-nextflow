@@ -495,19 +495,19 @@ An important feature of Nextflow is the ability to manage
 software using different technologies. It supports the Conda package
 management system, and container engines such as Docker, Singularity,
 Podman, Charliecloud, and Shifter. These technologies
-allow one to package tools and their dependancies into a software environment
+allow one to package tools and their dependencies into a software environment
 such that the tools will always work as long as the environment can be loaded.
 This facilitates portable and reproducible workflows.
 Software environment specification is managed from the `process` scope,
 allowing the use of process selectors to manage which processes
-load which software environment. Each technology also has it's own
+load which software environment. Each technology also has its own
 scope to provide further technology specific configuration settings.
 
 ### Software configuration using Conda
 
 Conda is a software package and environment management system that runs on
 Linux, Windows, and Mac OS. Software packages are bundled into
-Conda environments along with their dependancies for a particular
+Conda environments along with their dependencies for a particular
 operating system (Not all software is supported on all operating systems).
 Software packages are tied to conda channels, for example,
 bioinformatic software packages are found and installed
