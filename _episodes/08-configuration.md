@@ -229,10 +229,11 @@ process {
 
 > ## Unit values
 >
-> Memory and time duration unit can be specified either using a string
-> based notation in which the digit(s) and the unit can be separated by a > blank or
+> Memory and time duration units can be specified either using a string
+> based notation in which the digit(s) and the unit can be separated by
+> a space character, or
 > by using the numeric notation in which the digit(s) and the unit are
-> separated by a dot character and it’s not enclosed by quote characters.
+> separated by a dot character and not enclosed by quote characters.
 >
 >  | String syntax   | Numeric syntax | Value                 |
 >  |-----------------|----------------|-----------------------|
