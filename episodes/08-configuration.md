@@ -133,7 +133,7 @@ ranked from highest to lowest.
 1. Parameters provided using the `-params-file` option.
 1. Config file specified using the `-c` my_config option.
 1. The config file named `nextflow.config` in the current directory.
-1. The config file named `nextflow.config` in the workflow project directory (`$projectDir`; the directory where the script to be run is located).
+1. The config file named `nextflow.config` in the workflow project directory (`$projectDir`: the directory where the script to be run is located).
 1. The config file `$HOME/.nextflow/config`.
 1. Values defined within the workflow script itself (e.g., `main.nf`).
 
