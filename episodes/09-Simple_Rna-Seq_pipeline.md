@@ -583,8 +583,8 @@ Therefore, we will need combined the `FASTQC` and `QUANT` outputs using:
 
 ~~~
 //example of the mix operator
-ch1 = Channel.from(1,2)
-ch2 = Channel.from('a')
+ch1 = Channel.of(1,2)
+ch2 = Channel.of('a')
 ch1.mix(ch2).view()
 ~~~
 {: .language-groovy}
@@ -600,7 +600,7 @@ a
 
 ~~~
 //example of the collect operator
-ch1 = Channel.from(1,2,3)
+ch1 = Channel.of(1,2,3)
 ch1.collect().view()
 ~~~
 {: .language-groovy}
