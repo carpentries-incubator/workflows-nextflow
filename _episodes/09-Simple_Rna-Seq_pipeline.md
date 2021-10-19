@@ -175,6 +175,7 @@ A process is defined by providing three main declarations:
 The second example, `script2.nf` , adds the  process `INDEX` which generate a index of the transcriptome.
 
 ~~~
+//script2.nf
 nextflow.enable.dsl=2
 
 /*
@@ -221,9 +222,9 @@ workflow {
 ~~~
 {: .language-groovy }
 
-It takes the transcriptome params file as `input` and creates the transcriptome index by using the `salmon` transcript quantification tool.
+It takes the queue channel `transcriptome_ch` defined by `params.transcriptome`  as `input` and creates the transcriptome index by using the `salmon` transcript quantification tool.
 
-**Note:** The `input` declaration defines a `transcriptome` variable in the process context that it is used in the command script to reference that file in the Salmon command line.
+**Note:** The `input` declaration defines a `transcriptome` variable in the process context that it is used in the command script to reference that file in the salmon command line.
 
 Try to run it by using the command:
 
@@ -244,6 +245,7 @@ $ nextflow run script2.nf -profile conda
 This time it works because it uses the conda environment file `environment.yml` defined in the `nextflow.config` file.
 
 ~~~
+//nextflow.config
 profiles {
   conda {
     process.conda = 'environment.yml'
@@ -266,7 +268,7 @@ profiles {
 {: .challenge}
 
 
-> ## Print output of the index_ch
+> ## Print output of the contents of the index_ch
 > Print the output of the `index_ch` channel by using the `view` operator.
 > > ## Solution
 > > ~~~
@@ -303,7 +305,7 @@ In this step you have learned:
 
 ## Collect read files by pairs
 
-This step shows how to match **read** files into pairs, so they can be mapped by Salmon.
+This step shows how to match **read** files into pairs, so they can be mapped by salmon.
 
 Edit the script `script3.nf` and add the following statement as the last line:
 ~~~
@@ -327,7 +329,7 @@ It will print an output similar to the one shown below:
 
 The above example shows how the `read_pairs_ch` channel emits tuples composed by two elements, where the first is the read pair prefix and the second is a list representing the actual files.
 
-Try it again specifying different read files by using a glob pattern:
+Try it again specifying different read files by using the glob pattern:
 
 ~~~
 $ nextflow run script3.nf --reads 'data/yeast/reads/*_{1,2}.fq.gz'
@@ -373,6 +375,7 @@ In this step you have learned:
 The script `script4.nf` adds the quantification process, `QUANT`.
 
 ~~~
+//script4.nf
 ..truncated..
 /*
  * Run Salmon to perform the quantification of expression using
@@ -400,9 +403,9 @@ workflow {
 ~~~
 {: .language-groovy }
 
-In this script the `index_ch` channel, declared as output in the `INDEX` process, is used as the first input to the `QUANT` process.
+In this script the `index_ch` channel, declared as output in the `INDEX` process, is used as the first input argument to the `QUANT` process.
 
-The second input of the `QUANT` process, the `read_pairs_ch` channel, is  a tuple composed of two elements: the `pair_id` and the `reads`.
+The second input argument of the `QUANT` process, the `read_pairs_ch` channel, is  a tuple composed of two elements: the `pair_id` and the `reads`.
 
 Execute it by using the following command:
 
