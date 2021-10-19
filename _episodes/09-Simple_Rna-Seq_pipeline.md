@@ -438,11 +438,18 @@ The second input argument of the `QUANT` process, the `read_pairs_ch` channel, i
 Execute it by using the following command:
 
 ~~~
-$ nextflow run script4.nf -resume
+$ nextflow run script4.nf
 ~~~
 {: .language-bash}
 
-You will see the execution of the quantification process.
+You will see the execution of the index and quantification process.
+
+Re run the command using the `-resume` option
+
+~~~
+$ nextflow run script4.nf -resume
+~~~
+{: .language-bash}
 
 The `-resume` option cause the execution of any step that has been already processed to be skipped.
 
