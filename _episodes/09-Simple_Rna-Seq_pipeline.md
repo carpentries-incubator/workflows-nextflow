@@ -299,8 +299,6 @@ In this step you have learned:
 
 * How process outputs are declared
 
-* How to access the number of available CPUs `${task.cpus}`
-
 * How to print the content of a channel `view()`
 
 ## Collect read files by pairs
