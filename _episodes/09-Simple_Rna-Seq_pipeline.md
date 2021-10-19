@@ -51,12 +51,14 @@ $ multiqc .
 ~~~
 {: .language-bash}
 
-Let’s start by going back to `rnaseq_pipeline`.
+To start move to `scripts/rnaseq_pipeline` folder.
 
 ~~~
-$ cd rnaseq_pipeline
+$ cd scripts/rnaseq_pipeline
 ~~~
 {: .language-bash}
+
+This folder contains files we will be modifying in this episode.
 
 ## Define the pipeline parameters
 
