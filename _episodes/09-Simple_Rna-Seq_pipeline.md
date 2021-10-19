@@ -541,12 +541,12 @@ This step collect the outputs from the quantification and fastqc steps to create
 The input for the `MULTIQC` process requires all data in a single channel element.
 Therefore, we will need combined the `FASTQC` and `QUANT` outputs using:
 
-* The combining operator `mix` : to combine the items in the two channels into a single channel and ,
+* The combining operator `mix` : combines the items in the two channels into a single channel
 
 ~~~
 //example of the mix operator
-ch1 = Channel.of(1,2)
-ch2 = Channel.of('a')
+ch1 = Channel.from(1,2)
+ch2 = Channel.from('a')
 ch1.mix(ch2).view()
 ~~~
 {: .language-groovy}
@@ -558,11 +558,11 @@ a
 ~~~
 {: .output}
 
-* The transformation operator `collect` to collects all the items in the new combined channel to a single item.
+* The transformation operator `collect`  collects all the items in the new combined channel into a single item.
 
 ~~~
 //example of the collect operator
-ch1 = Channel.of(1,2,3)
+ch1 = Channel.from(1,2,3)
 ch1.collect().view()
 ~~~
 {: .language-groovy}
@@ -590,6 +590,7 @@ ch1.collect().view()
 
 ~~~
 [..truncated..]
+//script6.nf
 /*
  * Create a report using multiQC for the quantification
  * and fastqc processes
@@ -624,11 +625,11 @@ workflow {
 
 Execute the script with the following command:
 ~~~~
-$ nextflow run script6.nf -resume --reads 'data/yeast/reads/*_{1,2}.fq.gz'
+$ nextflow run script6.nf --reads 'data/yeast/reads/*_{1,2}.fq.gz' -resume
 ~~~~
 {: .language-bash}
 
-It creates the final report in the results folder in the current work directory.
+It creates the final report in the results folder in the ${params.outdir}/multiqc directory.
 
 ### Recap
 
