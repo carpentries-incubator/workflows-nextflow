@@ -307,6 +307,34 @@ In this step you have learned:
 
 This step shows how to match **read** files into pairs, so they can be mapped by salmon.
 
+The script `script3.nf` adds a line to create a channel, `read_pairs_ch`, containing fastq read pair files using the `fromFilePairs` channel factory.
+
+~~~
+//script3.nf
+nextflow.enable.dsl = 2
+
+/*
+ * pipeline input parameters
+ */
+params.reads = "$projectDir/data/yeast/reads/ref1_{1,2}.fq.gz"
+params.transcriptome = "$projectDir/data/yeast/transcriptome/Saccharomyces_cerevisiae.R64-1-1.cdna.all.fa.gz"
+params.multiqc = "$projectDir/multiqc"
+params.outdir = "results"
+
+log.info """\
+         R N A S E Q - N F   P I P E L I N E
+         ===================================
+         transcriptome: ${params.transcriptome}
+         reads        : ${params.reads}
+         outdir       : ${params.outdir}
+         """
+         .stripIndent()
+
+
+read_pairs_ch = Channel.fromFilePairs( params.reads )
+~~~
+{: .language-groovy }
+
 Edit the script `script3.nf` and add the following statement as the last line:
 ~~~
 read_pairs_ch.view()
