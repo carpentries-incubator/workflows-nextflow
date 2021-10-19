@@ -60,6 +60,13 @@ $ cd scripts/rnaseq_pipeline
 
 This folder contains files we will be modifying in this episode.
 
+We will also create a symbolic link to the data directory.
+
+~~~
+$ ln -s ../../data data
+~~~
+{: .language-bash}
+
 ## Define the pipeline parameters
 
 The first thing we want to do when writing a pipeline is define the pipeline parameters.
