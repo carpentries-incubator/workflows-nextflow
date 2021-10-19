@@ -149,6 +149,8 @@ $ tree work
 ~~~
 {: .language-bash}
 
+
+
 ~~~
 work/
 ├── 02
@@ -207,6 +209,33 @@ work/
 {: .output }
 
 You will see the input Fastq files are symbolically linked to their original location.
+
+### Task execution directory
+
+The `work` directory contains a task execution directories for each process invocation. 
+These task directories are identified by the process hash e.g. `fc/4022a5` .
+
+The task execution directory contains:
+
+* `.command.sh`: The command script.
+
+* `.command.run`: The command wrapped used to run the job.
+
+* `.command.out`: The complete job standard output.
+
+* `.command.err`: The complete job standard error.
+
+* `.command.log`: The wrapper execution output.
+
+* `.command.begin`: Sentinel file created as soon as the job is launched.
+
+* `.exitcode`: A file containing the task exit code.
+
+* Task input files (symlinks)
+
+* Task output files
+
+
 
 ### Specifying another work directory
 
