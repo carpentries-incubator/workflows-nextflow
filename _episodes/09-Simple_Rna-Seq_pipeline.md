@@ -246,7 +246,7 @@ This time it works because it uses the conda environment file `environment.yml` 
 ~~~
 profiles {
   conda {
-    process.conda = 'env.yml'
+    process.conda = 'environment.yml'
   }
 }
 ~~~
