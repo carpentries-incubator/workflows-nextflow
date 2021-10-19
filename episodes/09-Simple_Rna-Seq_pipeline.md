@@ -334,13 +334,13 @@ $ nextflow run script3.nf --reads 'data/yeast/reads/*_{1,2}.fq.gz'
 ~~~
 {: .language-bash }
 
-File paths including one or more wildcards ie. `*`, `?`, etc. MUST be wrapped in single-quoted characters to avoid Bash expands the glob.
+File paths including one or more wildcards ie. `*`, `?`, etc. MUST be wrapped in single-quoted characters to avoid Bash expanding the glob pattern on the command line.
 
 > ## `set` operator
 > Use the `set` operator in place of = assignment to define the read_pairs_ch channel.
 > > ## Solution
 > > ~~~
-> > Channel .fromFilePairs(params.reads)
+> > Channel.fromFilePairs(params.reads)
 > > .set{read_pairs_ch}
 > > ~~~
 > > {: .language-groovy }
@@ -351,7 +351,7 @@ File paths including one or more wildcards ie. `*`, `?`, etc. MUST be wrapped in
 > Use the `checkIfExists` option for the `fromFilePairs` method to check if the specified path contains at least file pairs.
 > > ## Solution
 > > ~~~
-> > Channel .fromFilePairs(params.reads, checkIfExists: true)
+> > Channel.fromFilePairs(params.reads, checkIfExists: true)
 > > .set{read_pairs_ch}
 > > ~~~
 > > {: .language-groovy }
@@ -400,16 +400,16 @@ workflow {
 ~~~
 {: .language-groovy }
 
-In this script note as the `index_ch` channel, declared as output in the index process, is now used as a channel in the input section.
+In this script the `index_ch` channel, declared as output in the `INDEX` process, is used as the first input to the `QUANT` process.
 
-Also note as the second input is declared as a tuple composed of two elements: the `pair_id` and the `reads` in order to match the structure of the items emitted by the `read_pairs_ch` channel.
+The second input of the `QUANT` process, the `read_pairs_ch` channel, is  a tuple composed of two elements: the `pair_id` and the `reads`.
 
 Execute it by using the following command:
 
 ~~~
-nextflow run script4.nf -resume
+$ nextflow run script4.nf -resume
 ~~~
-{: .language-groovy}
+{: .language-bash}
 
 You will see the execution of the quantification process.
 
@@ -418,9 +418,9 @@ The `-resume` option cause the execution of any step that has been already proce
 Try to execute it with more read files as shown below:
 
 ~~~
-nextflow run script4.nf -resume --reads 'data/yeast/reads/*_{1,2}.fq.gz'
+$ nextflow run script4.nf -resume --reads 'data/yeast/reads/*_{1,2}.fq.gz'
 ~~~~
-{: .source}
+{: .language-bash}
 
 You will notice that  the `INDEX` step and one of the `QUANT` steps has been cached, and
 the quantification process is executed more than one time.
