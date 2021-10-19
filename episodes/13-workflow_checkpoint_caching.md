@@ -15,7 +15,7 @@ keypoints:
 - "Nextflow stores intermediate data in a working directory."
 ---
 
-A key features of a modern workflow management system, like Nextflow, is the ability to restart a pipeline after an error from the last successful process. Nextflow achieves this by automatically keeping track of all the processes executed in your pipeline via  caching  and checkpointing.
+A key features of workflow management systems, like Nextflow, is the ability to restart a pipeline after an error from the last successful process. Nextflow achieves this by automatically keeping track of all the processes executed in your pipeline via  caching  and checkpointing.
 
 ## Resume
 
@@ -28,7 +28,7 @@ $ nextflow run wc.nf --input 'data/yeast/reads/ref1*.fq.gz' -resume
 ~~~
 {: .language-bash}
 
-We can see in the output  that the results from the process `NUM_LINES` has been retrieved from the cache.
+We can see in the output that the results from the process `NUM_LINES` has been retrieved from the cache.
 ~~~
 Launching `wc.nf` [condescending_dalembert] - revision: fede04a544
 [c9/2597d5] process > NUM_LINES (1) [100%] 2 of 2, cached: 2 ✔
@@ -73,7 +73,7 @@ ref1_2.fq.gz 58708
 
 ## How does resume work?
 
-The mechanism works by assigning a unique ID to each task. This unique ID is used to create a separate execution directory, called the working directory, where the tasks are executed and the results stored. A task’s unique ID is generated as a 128-bit hash number obtained from a composition of the task’s:
+The mechanism works by assigning a unique ID to each task. This unique ID is used to create a separate execution directory, within the `work` directory, where the tasks are executed and the results stored. A task’s unique ID is generated as a 128-bit hash number obtained from a composition of the task’s:
 
 * Inputs values
 * Input files
@@ -212,8 +212,9 @@ You will see the input Fastq files are symbolically linked to their original loc
 
 ### Task execution directory
 
-The `work` directory contains a task execution directories for each process invocation. 
-These task directories are identified by the process hash e.g. `fc/4022a5` .
+Within the `work` directory there are multiple task execution directories. 
+There is one directory for each time a  process is executed. 
+These task directories are identified by the process execution hash e.g. `fc/4022a5` .
 
 The task execution directory contains:
 
@@ -265,7 +266,7 @@ $ nextflow clean -f -before [run_name|session_id]
 
 > ## Remove a Nextflow run.
 >  Remove  the last nextflow run using the command `nextflow clean`. 
->  First use the option `-dry-run` to see which files would be deleted and then re-run removing the run and file.
+>  First use the option `-dry-run` to see which files would be deleted and then re-run removing the run and associated files.
 > > ## Solution
 > > An example nextflow clean command with `dry-run` .
 > >
