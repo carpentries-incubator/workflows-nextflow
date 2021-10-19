@@ -178,6 +178,7 @@ A workflow component can access any variable and parameter defined in the outer 
 For example:
 
 ~~~
+//workflow_03.nf
 [..truncated..]
 
 params.transcriptome = 'data/yeast/transcriptome/*.fa.gz'
