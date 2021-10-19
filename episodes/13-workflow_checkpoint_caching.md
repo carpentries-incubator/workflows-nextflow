@@ -1,6 +1,6 @@
 ---
 title: "Workflow caching and checkpointing"
-teaching: 30
+teaching: 20
 exercises: 10
 questions:
 - "How can I restart a Nextflow workflow after an error?"
@@ -233,3 +233,23 @@ Typically, results before the last successful result are cleaned:
 $ nextflow clean -f -before [run_name|session_id]
 ~~~
 {: .language-bash}
+
+> ## Remove a Nextflow run.
+>  Remove  the last nextflow run using the command `nextflow clean`. 
+>  First use the option `-dry-run` to see which files would be deleted and then re-run removing the run and file.
+> > ## Solution
+> > An example nextflow clean command with `dry-run` .
+> >
+> > ~~~
+> > $ nextflow clean nauseous_leavitt -dry-run
+> > ~~~
+> > {: .language-bash}
+> > An example nextflow clean command removing the files.
+> > ~~~
+> > $ nextflow clean nauseous_leavitt -f
+> > ~~~
+> > {: .language-bash}
+> {: .solution}
+{: .challenge}
+
+
