@@ -22,7 +22,7 @@ keypoints:
 We are finally ready to implement a simple RNA-Seq pipeline in Nextflow.
 This pipeline will have 4 processes that:
 
-* indexes a transcriptome file.
+* Indexes a transcriptome file.
 
 ~~~
 $ salmon index --threads $task.cpus -t $transcriptome -i index
@@ -64,7 +64,8 @@ The first thing we want to do when writing a pipeline is define the pipeline par
 The script `script1.nf` defines the pipeline input parameters.
 
 ~~~
-params.reads = "$/data/yeast/reads/*_{1,2}.fq.gz"
+//script1.nf
+params.reads = "$projectDir/data/yeast/reads/*_{1,2}.fq.gz"
 params.transcriptome = "$projectDir/data/yeast/transcriptome/*.fa.gz"
 params.multiqc = "$projectDir/multiqc"
 
@@ -112,11 +113,11 @@ log.info """\
 {: .language-groovy }
 
 
-> # log.info
+> ## log.info
 > Modify the `script1.nf` to print all the pipeline parameters by using a single `log.info` command and a multiline string statement.
 > See an example [here](https://github.com/nextflow-io/rnaseq-nf/blob/3b5b49f/main.nf#L41-L48).
 > ~~~
-> nextflow run script1.nf
+> $ nextflow run script1.nf
 > ~~~
 > {: .language-bash }
 >
