@@ -462,9 +462,10 @@ In this step you have learned:
 
 ## Quality control
 
-This step implements a quality control step for your input reads. The input  is the same read pairs which are provided to the quantification steps `read_pairs_ch`.
+This step implements a quality control step for your input reads. The input to the `FASTQC` process is the same `read_pairs_ch` that is provided as input to the quantification process `QUANT` .
 
 ~~~
+//script5.nf
 [..truncated..]
 
 /*
@@ -496,18 +497,18 @@ workflow {
 ~~~
 {: .language-groovy}
 
-You can run it by using the following command:
+Run the script `script5.nf` by using the following command:
 
 ~~~
 $ nextflow run script5.nf -resume
 ~~~
 {: .language-bash}
 
-The FASTQC process will not run.
+The `FASTQC` process will not run as the process has not been declared in the workflow scope.
 
 > ## Add FASTQC process
-> Add the FASTQC process to the `workflow scope` of `script5.nf` adding the `read_pairs_ch` channel as an input.
-> Run
+> Add the `FASTQC` process to the `workflow scope` of `script5.nf` adding the `read_pairs_ch` channel as an input.
+> Run the nextflow script using the `-resume` option.
 >
 > ~~~
 > $ nextflow run script5.nf -resume
@@ -530,8 +531,8 @@ The FASTQC process will not run.
 
 In this step you have learned:
 
-* How to use the add a `process` and to the `workflow` scope.
-* Add an input to a `process`.
+* How to use the add a `process` to the `workflow` scope.
+* Add a channel as input to a `process`.
 
 ## MultiQC report
 
