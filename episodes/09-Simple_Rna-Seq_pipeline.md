@@ -625,6 +625,8 @@ ch1.collect().view()
 > {: .solution}
 {: .challenge}
 
+In `script6.nf` we use the statement `quant_ch.mix(fastqc_ch).collect()` to combine and collect the outputs of the `QUANT` and `FASTQC` process to
+create the required input for the `MULTIQC` process.
 
 ~~~
 [..truncated..]
