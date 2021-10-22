@@ -200,6 +200,8 @@ In this example `params.transcriptome` and `params.reads` can be accessed inside
 > Connect the output of the process `FASTQC` to `PARSEZIP` in the Nextflow script `workflow_exercise.nf`.
 >
 > **Note:** You will need to pass the `read_pairs_ch` as an argument to FASTQC and you will need to use the `collect` operator to gather the items in the FASTQC channel output to a single List item. We will learn more about the `collect` operator in the Operators episode.
+> Look at the contents of the file `pass_basic.txt` in `results/fqpass` folder. 
+> How many lines does the file have?
 > ~~~
 >//workflow_exercise.nf
 >nextflow.enable.dsl=2
@@ -284,6 +286,20 @@ In this example `params.transcriptome` and `params.reads` can be accessed inside
 > > }
 > > ~~~
 > > {: .language-groovy }
+> > ~~~
+> > $ nextflow run workflow_exercise.nf
+> > ~~~
+> > {: .language-bash }
+> > ~~~
+> > $ wc -l  results/fqpass/pass_basic.txt
+> > ~~~
+> > {: .language-bash }
+> > ~~~
+> > 18
+> > ~~~
+> > {: .output }
+> > The file `results/fqpass/pass_basic.txt` should have 18 lines. 
+> > If you only have two lines it might mean that you did not use `collect()` operator on the FASTC output channel.
 > {: .solution}
 {: .challenge}
 
