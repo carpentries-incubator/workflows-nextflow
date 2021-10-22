@@ -600,9 +600,39 @@ environments are stored. By default this is in `conda` folder of the `work` dire
 > > {: .language-groovy}
 > >
 > > ~~~
-> > nextflow run configure_fastp.nf -c fastp.config
+> > nextflow run configure_fastp.nf -c fastp.config -process.echo
 > > ~~~
 > > {: .language-bash}
+> > ~~~
+> > N E X T F L O W  ~  version 21.04.0
+> > Launching `configuration_fastp.nf` [berserk_jepsen] - revision: 28fadd2486
+> > executor >  local (1)
+> > [c1/c207d5] process > FASTP (1) [100%] 1 of 1 ✔
+> > Creating Conda env: bioconda::fastp=0.12.4-0 [cache /home/training/work/conda/env-a7a3a0d820eb46bc41ebf4f72d955e5f]
+> > ref1_1.fq.gz 58708
+> > Read1 before filtering:
+> > total reads: 14677
+> > total bases: 1482377
+> >
+> > Q20 bases: 1466210(98.9094%)
+> > Q30 bases: 1415997(95.5221%)
+> > 
+> > Read1 after filtering:
+> > total reads: 14671
+> > total bases: 1481771
+> > Q20 bases: 1465900(98.9289%)
+> > Q30 bases: 1415769(95.5457%)
+> >
+> > Filtering result:
+> > reads passed filter: 14671
+> > reads failed due to low quality: 6
+> > reads failed due to too many N: 0
+> > reads failed due to too short: 0
+> >
+> > JSON report: fastp.json
+> > HTML report: fastp.html
+> > ~~~
+> > {: .output}
 > {: .solution}
 {: .challenge}
 
