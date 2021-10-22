@@ -3,18 +3,23 @@ title: "Simple RNA-Seq pipeline"
 teaching: 20
 exercises: 40
 questions:
-- "How can I create a RNA-Seq pipeline?"
-- "How do I print all the pipeline parameters by using a single command?"
-- "How can I use conda with my pipeline?"
+- "How can I create a Nextflow pipeline from a series of unix commands and input data?"
+- "How do I log my pipelines parameters?"
+- "How can I manage my pipeline software requirement?"
 - "How do I know when my pipeline has finished?"
-- "How do I see runtime metrics and execution information?"
+- "How do I see how much resources my pipeline has used?"
 objectives:
 - "Create a simple RNA-Seq pipeline."
-- "Use the `log.info` command and a multiline string statement to print all the pipeline parameters."
+- "Use the `log.info` function to print all the pipeline parameters."
 - "Print a confirmation message when the pipeline completes."
-- "Use a conda `environment.yml` file to install pipeline software."
+- "Use a conda `environment.yml` file to install the pipeline's software requirement."
 - "Produce an execution report and generates run metrics from a pipeline run."
 keypoints:
+- "Nextflow can combined tasks (processes) and manage data flows using channels into a single pipeline/workflow."
+- "A Workflow can be parameterise using `params` . These value of the parameters can be captured in a log file using  `log.info` "
+- "Nextflow can handle a workflow's software requirements using several technologies including the `conda` package and enviroment manager."
+- "Workflow steps are connected via their `inputs` and `outputs` using `Channels`."
+- "Intermediate pipeline results can be transformed using Channel `operators` such as `combine`."
 - "Nextflow can execute an action when the pipeline completes the execution using the `workflow.onComplete` event handler to print a confirmation message."
 - "Nextflow is able to produce multiple reports and charts providing several runtime metrics and execution information using the command line options `-with-report`, `-with-trace`, `-with-timeline` and produce a graph using `-with-dag`."
 ---
