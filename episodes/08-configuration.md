@@ -192,7 +192,7 @@ Existing configuration can be completely ignored by using `-C <custom.config>` t
 > 1. `nextflow run print_message.nf`
 > 1. `nextflow run print_message.nf --message '¿Que tal?'`
 > 1. `nextflow run print_message.nf -c print_message.config`
-> 1. `nextflow run print_message.nf -c pring_message.config --message '¿Que tal?'`
+> 1. `nextflow run print_message.nf -c print_message.config --message '¿Que tal?'`
 >
 > > ## Solution
 > >
