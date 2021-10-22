@@ -17,7 +17,7 @@ process FASTP {
 
    script:
    """
-   fastp -i ${read} -o out.fq 2>&1
+   fastp -A -i ${read} -o out.fq 2>&1
    """
 }
 
