@@ -404,6 +404,23 @@ priority rules are applied (from highest to lowest):
 > > }
 > > ~~~
 > > {: .language-groovy}
+> > ~~~
+> > $ nextflow run process-selector.nf -c process-selector.config -process.echo
+> > ~~~
+> > {: .language-bash}
+> > ~~~
+> > N E X T F L O W  ~  version 21.04.0
+> > 
+> > Launching `process-selector.nf` [clever_borg] -
+> > revision: e765b9e62d
+> > executor >  local (2)
+> > [de/86cef0] process > P1 [100%] 1 of 1 ✔
+> > [bf/8b332e] process > P2 [100%] 1 of 1 ✔
+> > P2: Using 2 cpus and 1 GB memory.
+> >
+> > P1: Using 1 cpus and 2 GB memory.
+> > ~~~
+> >  {: .output}
 > {: .solution}
 {: .challenge}
 
