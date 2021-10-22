@@ -558,9 +558,9 @@ environments are stored. By default this is in `conda` folder of the `work` dire
 > ## Define a software requirement in the configuration file using conda
 >
 > Create a config file for the Nextflow script `configure_fastp.nf`.
-> Add a conda directive for the process name `FASTP` that includes the bioconda package `fastp`, version 0.23.0.
->
->  Run the Nextflow script `configure_fastp.nf` with the configuration file using the `-c` option.
+> Add a conda directive for the process name `FASTP` that includes the bioconda package `fastp`, version 0.12.4-0.
+> **Hint** You can specify the conda packages using the syntax `<channel>::<package_name>=<version>` e.g. `bioconda::salmon=1.5.2`
+> Run the Nextflow script `configure_fastp.nf` with the configuration file using the `-c` option.
 >
 > ~~~
 > // configure_fastp.nf
@@ -593,7 +593,7 @@ environments are stored. By default this is in `conda` folder of the `work` dire
 > > // fastp.config
 > > process {
 > >     withName: 'FASTP' {
-> >         conda = "bioconda::fastp"
+> >         conda = "bioconda::fastp=0.12.4-0"
 > >     }
 > > }
 > > ~~~
