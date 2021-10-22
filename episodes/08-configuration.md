@@ -582,7 +582,7 @@ environments are stored. By default this is in `conda` folder of the `work` dire
 >
 >    script:
 >    """
->    fastp -i ${read} -o out.fq 2>&1
+>    fastp -A -i ${read} -o out.fq 2>&1
 >    """
 > }
 > ~~~
