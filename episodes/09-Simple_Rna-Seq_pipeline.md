@@ -141,7 +141,7 @@ log.info """\
 > > log.info """\
 > >         R N A S E Q - N F   P I P E L I N E    
 > >         ===================================
-> >         transcriptome: ${params.transcript}
+> >         transcriptome: ${params.transcriptome}
 > >         reads        : ${params.reads}
 > >         outdir       : ${params.outdir}
 > >         """
