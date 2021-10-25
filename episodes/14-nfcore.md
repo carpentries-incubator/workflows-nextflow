@@ -389,7 +389,7 @@ If not specified, Nextflow will fetch the default branch. For pipelines with a s
 
 # Usage instructions and documentation
 
-You can find general documentation and instructions for Nextflow and nf-core on the nf-core [website](https://nf-co.re/) . Pipeline-specific documentation is bundled with each pipeline in the /docs folder. This can be read either locally, on GitHub, or on the nf-core website.
+You can find general documentation and instructions for Nextflow and nf-core on the [nf-core website](https://nf-co.re/) . Pipeline-specific documentation is bundled with each pipeline in the /docs folder. This can be read either locally, on GitHub, or on the nf-core website.
 
 Each pipeline has its own webpage at https://nf-co.re/<pipeline_name> e.g. [nf-co.re/rnaseq](https://nf-co.re/rnaseq/usage)
 
