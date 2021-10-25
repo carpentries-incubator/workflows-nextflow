@@ -743,7 +743,7 @@ This step shows how to execute an action when the pipeline completes the executi
 
 **Note:** that Nextflow processes define the execution of asynchronous tasks i.e. they are not executed one after another as they are written in the pipeline script as it would happen in a common imperative programming language.
 
-The script uses the `workflow.onComplete` event handler to print a confirmation message when the script completes.
+The script `script7..nf` uses the `workflow.onComplete` event handler to print a confirmation message when the script completes.
 
 ~~~
 workflow.onComplete {
@@ -760,7 +760,6 @@ If expression is true? "set value to a" : "else set value to b"
 {: .source}
 
 
-
 Try to run it by using the following command:
 
 ~~~
@@ -769,6 +768,7 @@ $ nextflow run script7.nf -resume --reads 'data/yeast/reads/*_{1,2}.fq.gz'
 {: .language-bash}
 
 ~~~
+[..truncated..]
 Done! Open the following report in your browser --> results/multiqc/multiqc_report.html
 ~~~
 {: .output}
@@ -789,18 +789,21 @@ Nextflow is able to produce multiple reports and charts providing several runtim
 More information can be found [here](https://www.nextflow.io/docs/latest/tracing.html).
 
 > ##  Metrics and reports
-> Run the script7.nf RNA-seq pipeline as shown below:
+> Run the script7.nf with the reporting options as shown below:
 >
 > ~~~
 > $ nextflow run script7.nf -resume -with-report -with-trace -with-timeline -with-dag dag.png
 > ~~~
 > {: .language-bash}
 > 1. Open the file `report.html` with a browser to see the report created with the above command.
-> 1. Check the content of the file `trace.txt` for an example.
+> 1. Check the content of the file `trace.txt` or view `timeline.html` to find the longest running process.
+> 1. View the dag.png
 >
 > > ## Solution
+> > The `INDEX` process should be the longest running process.
 > > dag.png
 > > ![dag](../fig/dag.png)
+> > The vertices in the graph represent the pipeline’s processes and operators, while the edges represent the data connections (i.e. channels) between them.
 > {: .solution}
 {: .challenge}
 
