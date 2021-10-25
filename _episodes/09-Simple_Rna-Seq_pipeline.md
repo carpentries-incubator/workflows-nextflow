@@ -411,7 +411,10 @@ In this step you have learned:
 
 ## Perform expression quantification
 
-The script `script4.nf` adds the quantification process, `QUANT`.
+The script `script4.nf`; 
+
+1. Adds the quantification process, `QUANT`.
+2. Calls the `QUANT` process in the workflow block.
 
 ~~~
 //script4.nf
@@ -442,7 +445,7 @@ workflow {
 ~~~
 {: .language-groovy }
 
-In this script the `index_ch` channel, declared as output in the `INDEX` process, is used as the first input argument to the `QUANT` process.
+The `index_ch` channel, declared as output in the `INDEX` process, is used as the first input argument to the `QUANT` process.
 
 The second input argument of the `QUANT` process, the `read_pairs_ch` channel, is  a tuple composed of two elements: the `pair_id` and the `reads`.
 
@@ -493,6 +496,8 @@ the quantification process is executed more than one time.
 
 When your input channel contains multiple data items Nextflow, where possible, parallelises the execution of your pipeline.
 
+In these situations it is useful to add a `tag` directive to add some descriptive text to instance of the process being run.
+
 > ## Add a tag directive
 > Add a `tag` directive to the `QUANT` process of `script4.nf` to provide a more readable execution log.
 > > ## Solution
@@ -502,6 +507,9 @@ When your input channel contains multiple data items Nextflow, where possible, p
 > > {: .language-groovy }
 > {: .solution}
 {: .challenge}
+
+Data produced by the workflow during a process will be saved in the working directory, by default a directory named `work`. 
+The working directory should be considered a temporary storage space and any data you wish to save at the end of the workflow should be specified in the process output with the final storage location  defined in the  `publishDir` directive. **Note:** by default the `publishDir` directive creates a symbolic link to the files in the working this behaviour can be changed using the `mode` parameter.
 
 > ## Add a publishDir directive
 Add a `publishDir` directive to the quantification process of `script4.nf` to store the process results into folder specified by the `params.outdir` Nextflow variable. Include the `publishDir` `mode` option to copy the output.
@@ -518,13 +526,13 @@ Add a `publishDir` directive to the quantification process of `script4.nf` to st
 
 In this step you have learned:
 
-* How to connect two processes by using the channel declarations
+* How to connect two processes by using the channel declarations.
 
-* How to resume the script execution skipping already already computed steps
+* How to resume the script execution skipping already already computed steps.
 
-* How to use the `tag` directive to provide a more readable execution output
+* How to use the `tag` directive to provide a more readable execution output.
 
-* How to use the `publishDir` to store a process results in a path of your choice
+* How to use the `publishDir` to store a process results in a path of your choice.
 
 ## Quality control
 
