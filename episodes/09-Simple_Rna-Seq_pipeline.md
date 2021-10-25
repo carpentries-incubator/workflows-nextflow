@@ -467,14 +467,31 @@ The `-resume` option cause the execution of any step that has been already proce
 Try to execute it with more read files as shown below:
 
 ~~~
-$ nextflow run script4.nf -resume --reads 'data/yeast/reads/*_{1,2}.fq.gz'
+$ nextflow run script4.nf -resume --reads 'data/yeast/reads/ref*_{1,2}.fq.gz'
 ~~~~
 {: .language-bash}
+
+~~~
+N E X T F L O W  ~  version 21.04.0
+Launching `script4.nf` [shrivelled_brenner] - revision: c21df6839e
+R N A S E Q - N F   P I P E L I N E
+===================================
+transcriptome: data/yeast/transcriptome/Saccharomyces_c
+erevisiae.R64-1-1.cdna.all.fa.gz
+
+reads        : data/yeast/reads/ref*_{1,2}.fq.gz
+outdir       : results
+
+executor >  local (8)
+[02/3742cf] process > INDEX     [100%] 1 of 1, cached: 1 ✔
+[9a/be3483] process > QUANT (9) [100%] 3 of 3, cached: 1 ✔
+~~~
+{: .output}
 
 You will notice that  the `INDEX` step and one of the `QUANT` steps has been cached, and
 the quantification process is executed more than one time.
 
-When your input channel contains multiple data items Nextflow parallelises the execution of your pipeline.
+When your input channel contains multiple data items Nextflow, where possible, parallelises the execution of your pipeline.
 
 > ## Add a tag directive
 > Add a `tag` directive to the `QUANT` process of `script4.nf` to provide a more readable execution log.
