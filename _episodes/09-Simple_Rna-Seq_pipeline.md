@@ -613,7 +613,7 @@ In this step you have learned:
 This step collect the outputs from the quantification and fastqc steps to create a final report by using the [MultiQC](https://multiqc.info/) tool.
 
 The input for the `MULTIQC` process requires all data in a single channel element.
-Therefore, we will need combined the `FASTQC` and `QUANT` outputs using:
+Therefore, we will need to combine the `FASTQC` and `QUANT` outputs using:
 
 * The combining operator `mix` : combines the items in the two channels into a single channel
 
@@ -631,6 +631,8 @@ ch1.mix(ch2).view()
 a
 ~~~
 {: .output}
+
+
 
 * The transformation operator `collect`  collects all the items in the new combined channel into a single item.
 
@@ -705,7 +707,25 @@ $ nextflow run script6.nf --reads 'data/yeast/reads/*_{1,2}.fq.gz' -resume
 ~~~~
 {: .language-bash}
 
-It creates the final report in the results folder in the ${params.outdir}/multiqc directory.
+~~~
+N E X T F L O W  ~  version 21.04.0
+Launching `script6.nf` [small_franklin] - revision: 9062818659
+R N A S E Q - N F   P I P E L I N E
+===================================
+transcriptome: data/yeast/transcriptome/Saccharomyces_cerevisiae.R64-1-1.cdna.all.fa.gz
+reads        : data/yeast/reads/*_{1,2}.fq.gz
+outdir       : results
+
+executor >  local (9)
+[02/3742cf] process > INDEX                              [100%] 1 of 1, cached: 1 ✔
+[9a/be3483] process > QUANT (quantification on etoh60_1) [100%] 9 of 9, cached: 9 ✔
+[1f/b7b30a] process > FASTQC (FASTQC on etoh60_1)        [100%] 9 of 9, cached: 1 ✔
+[2c/206fef] process > MULTIQC                            [100%] 1 of 1 ✔
+~~~
+{: .output}
+
+It creates the final report in the results folder in the `${params.outdir}/multiqc` directory.
+
 
 ### Recap
 
