@@ -183,10 +183,15 @@ $ salmon index --threads $task.cpus -t $transcriptome -i index
 A process is defined by providing three main declarations:
 
 1. The process [inputs](https://www.nextflow.io/docs/latest/process.html#inputs),
-1. the process [outputs](https://www.nextflow.io/docs/latest/process.html#outputs)
-1. and finally the command [script](https://www.nextflow.io/docs/latest/process.html#script).
+1. The process [outputs](https://www.nextflow.io/docs/latest/process.html#outputs)
+1. Finally the command [script](https://www.nextflow.io/docs/latest/process.html#script).
 
-The second example, `script2.nf` , adds the  process `INDEX` which generate a index of the transcriptome.
+The second example, `script2.nf` adds, 
+
+1. The  process `INDEX` which generate a directory with the index of the transcriptome. This process takes one input, a transcriptome file, and emits one output a salmon index directory.
+3. A queue Channel `transcriptome_ch` taking the  transcriptome file defined in params variable `params.transcriptome`.
+4. Finally the script adds a `workflow` definition block which calls the `INDEX` process using the Channel `transcriptome_ch` as input.
+
 
 ~~~
 //script2.nf
@@ -236,9 +241,7 @@ workflow {
 ~~~
 {: .language-groovy }
 
-It takes the queue channel `transcriptome_ch` defined by `params.transcriptome`  as `input` and creates the transcriptome index by using the `salmon` transcript quantification tool.
 
-**Note:** The `input` declaration defines a `transcriptome` variable in the process context that it is used in the command script to reference that file in the salmon command line.
 
 Try to run it by using the command:
 
@@ -295,15 +298,7 @@ profiles {
 > {: .solution}
 {: .challenge}
 
-> ## Examine work directory
-> Use the command `tree work` to see how Nextflow organises the process work directory.
-> > ## Solution
-> > ~~~
-> > $ tree work
-> > ~~~
-> > {: .language-bash}
-> {: .solution}
-{: .challenge}
+
 
 ### Recap
 
@@ -314,6 +309,8 @@ In this step you have learned:
 * How process inputs are declared
 
 * How process outputs are declared
+
+* How to use a nextflow configuration file to define and enable a `conda` environment. 
 
 * How to print the content of a channel `view()`
 
