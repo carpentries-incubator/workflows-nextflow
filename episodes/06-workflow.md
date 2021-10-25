@@ -238,6 +238,7 @@ In this example `params.transcriptome` and `params.reads` can be accessed inside
 >read_pairs_ch = channel.fromFilePairs(params.reads,checkIfExists: true)
 > workflow {
 > //connect process FASTQC and PARSEZIP
+> // remember to use the collect operator on the FASTQC output
 > }
 >~~~
 > {: .language-groovy }
