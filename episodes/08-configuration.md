@@ -192,7 +192,7 @@ Existing configuration can be completely ignored by using `-C <custom.config>` t
 > 1. `nextflow run print_message.nf`
 > 1. `nextflow run print_message.nf --message '¿Que tal?'`
 > 1. `nextflow run print_message.nf -c print_message.config`
-> 1. `nextflow run print_message.nf -c pring_message.config --message '¿Que tal?'`
+> 1. `nextflow run print_message.nf -c print_message.config --message '¿Que tal?'`
 >
 > > ## Solution
 > >
@@ -404,6 +404,23 @@ priority rules are applied (from highest to lowest):
 > > }
 > > ~~~
 > > {: .language-groovy}
+> > ~~~
+> > $ nextflow run process-selector.nf -c process-selector.config -process.echo
+> > ~~~
+> > {: .language-bash}
+> > ~~~
+> > N E X T F L O W  ~  version 21.04.0
+> > 
+> > Launching `process-selector.nf` [clever_borg] -
+> > revision: e765b9e62d
+> > executor >  local (2)
+> > [de/86cef0] process > P1 [100%] 1 of 1 ✔
+> > [bf/8b332e] process > P2 [100%] 1 of 1 ✔
+> > P2: Using 2 cpus and 1 GB memory.
+> >
+> > P1: Using 1 cpus and 2 GB memory.
+> > ~~~
+> >  {: .output}
 > {: .solution}
 {: .challenge}
 
@@ -541,9 +558,9 @@ environments are stored. By default this is in `conda` folder of the `work` dire
 > ## Define a software requirement in the configuration file using conda
 >
 > Create a config file for the Nextflow script `configure_fastp.nf`.
-> Add a conda directive for the process name `FASTP` that includes the bioconda package `fastp`, version 0.23.0.
->
->  Run the Nextflow script `configure_fastp.nf` with the configuration file using the `-c` option.
+> Add a conda directive for the process name `FASTP` that includes the bioconda package `fastp`, version 0.12.4-0.
+> **Hint** You can specify the conda packages using the syntax `<channel>::<package_name>=<version>` e.g. `bioconda::salmon=1.5.2`
+> Run the Nextflow script `configure_fastp.nf` with the configuration file using the `-c` option.
 >
 > ~~~
 > // configure_fastp.nf
@@ -565,7 +582,7 @@ environments are stored. By default this is in `conda` folder of the `work` dire
 >
 >    script:
 >    """
->    fastp -i ${read} -o out.fq 2>&1
+>    fastp -A -i ${read} -o out.fq 2>&1
 >    """
 > }
 > ~~~
@@ -576,16 +593,46 @@ environments are stored. By default this is in `conda` folder of the `work` dire
 > > // fastp.config
 > > process {
 > >     withName: 'FASTP' {
-> >         conda = "bioconda::fastp"
+> >         conda = "bioconda::fastp=0.12.4-0"
 > >     }
 > > }
 > > ~~~
 > > {: .language-groovy}
 > >
 > > ~~~
-> > nextflow run configure_fastp.nf -c fastp.config
+> > nextflow run configure_fastp.nf -c fastp.config -process.echo
 > > ~~~
 > > {: .language-bash}
+> > ~~~
+> > N E X T F L O W  ~  version 21.04.0
+> > Launching `configuration_fastp.nf` [berserk_jepsen] - revision: 28fadd2486
+> > executor >  local (1)
+> > [c1/c207d5] process > FASTP (1) [100%] 1 of 1 ✔
+> > Creating Conda env: bioconda::fastp=0.12.4-0 [cache /home/training/work/conda/env-a7a3a0d820eb46bc41ebf4f72d955e5f]
+> > ref1_1.fq.gz 58708
+> > Read1 before filtering:
+> > total reads: 14677
+> > total bases: 1482377
+> >
+> > Q20 bases: 1466210(98.9094%)
+> > Q30 bases: 1415997(95.5221%)
+> > 
+> > Read1 after filtering:
+> > total reads: 14671
+> > total bases: 1481771
+> > Q20 bases: 1465900(98.9289%)
+> > Q30 bases: 1415769(95.5457%)
+> >
+> > Filtering result:
+> > reads passed filter: 14671
+> > reads failed due to low quality: 6
+> > reads failed due to too many N: 0
+> > reads failed due to too short: 0
+> >
+> > JSON report: fastp.json
+> > HTML report: fastp.html
+> > ~~~
+> > {: .output}
 > {: .solution}
 {: .challenge}
 
