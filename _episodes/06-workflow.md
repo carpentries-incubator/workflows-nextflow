@@ -11,7 +11,7 @@ objectives:
 keypoints:
 - "A Nextflow workflow is defined by invoking `processes` inside the `workflow` scope."
 - "A process is invoked like a function inside the `workflow` scope passing any required input parameters as arguments. e.g. `INDEX(transcriptome_ch)`."
-- "Process outputs can be accessed using the `out` attribute for the respective `process`. Multiple outputs from a single process can be accessed using the `[]` or output name."
+- "Process outputs can be accessed using the `out` attribute for the respective `process`. Multiple outputs from a single process can be accessed using the `[]` or , if specified , the output name."
 ---
 
 ## Workflow
@@ -87,7 +87,7 @@ The `INDEX` object, `index_obj`, is passed as the first argument to the `QUANT` 
 
 Processes having matching `input`-`output` declaration can be composed so that the output of the first process is passed as input to the following process.
 
-For example: taking in consideration the previous process example, it’s possible to re-write it as the following:
+For example: taking in consideration the previous workflow example, it’s possible to re-write it as the following:
 
 ~~~
 [..truncated..]
@@ -129,8 +129,8 @@ When a process defines two or more output channels, each of them can be accessed
 
 The process `output` definition allows the use of the `emit:` option to define a named identifier that can be used to reference the channel in the external scope.
 
-For example in the script below we name the output from the `INDEX` process as `salmon_index` using the `emit:` option. We can then reference the output as
-`INDEX.out.salmon_index` in the workflow scope.
+For example in the script below we name the output from the `INDEX` process as `salmon_index` using the `emit:` option. 
+We can then reference the output as `INDEX.out.salmon_index` in the workflow scope.
 
 ~~~
 //workflow_02.nf
@@ -178,16 +178,17 @@ A workflow component can access any variable and parameter defined in the outer 
 For example:
 
 ~~~
+//workflow_03.nf
 [..truncated..]
 
 params.transcriptome = 'data/yeast/transcriptome/*.fa.gz'
-params.read_pairs_ch = 'data/yeast/reads/*_{1,2}.fq.gz'
+params.reads = 'data/yeast/reads/ref1*_{1,2}.fq.gz'
 
 workflow {
   transcriptome_ch = channel.fromPath(params.transcriptome)
-  reads = channel.fromFilePairs(params.reads)
+  read_pairs_ch = channel.fromFilePairs(params.reads)
   INDEX(transcriptome_ch)
-  QUANT(index.out.salmon_index,read_pairs_ch).view()
+  QUANT(INDEX.out.salmon_index,read_pairs_ch).view()
 }
 ~~~
 {: .language-groovy }
@@ -199,6 +200,8 @@ In this example `params.transcriptome` and `params.reads` can be accessed inside
 > Connect the output of the process `FASTQC` to `PARSEZIP` in the Nextflow script `workflow_exercise.nf`.
 >
 > **Note:** You will need to pass the `read_pairs_ch` as an argument to FASTQC and you will need to use the `collect` operator to gather the items in the FASTQC channel output to a single List item. We will learn more about the `collect` operator in the Operators episode.
+> Look at the contents of the file `pass_basic.txt` in `results/fqpass` folder. 
+> How many lines does the file have?
 > ~~~
 >//workflow_exercise.nf
 >nextflow.enable.dsl=2
@@ -283,6 +286,20 @@ In this example `params.transcriptome` and `params.reads` can be accessed inside
 > > }
 > > ~~~
 > > {: .language-groovy }
+> > ~~~
+> > $ nextflow run workflow_exercise.nf
+> > ~~~
+> > {: .language-bash }
+> > ~~~
+> > $ wc -l  results/fqpass/pass_basic.txt
+> > ~~~
+> > {: .language-bash }
+> > ~~~
+> > 18
+> > ~~~
+> > {: .output }
+> > The file `results/fqpass/pass_basic.txt` should have 18 lines. 
+> > If you only have two lines it might mean that you did not use `collect()` operator on the FASTC output channel.
 > {: .solution}
 {: .challenge}
 
