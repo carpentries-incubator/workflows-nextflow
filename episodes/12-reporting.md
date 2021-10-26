@@ -77,6 +77,7 @@ $ nextflow log tiny_fermat
 This will list the work directory for each process.
 
 > ## Task ID
+> The task ID is a a 32 hexadecimal digit,e.g. `3b3485d00b0115f89e4c202eacf82eba`. 
 > A task’s unique ID is generated as a 128-bit hash number obtained from a composition of the task’s:
 >
 > * Inputs values
