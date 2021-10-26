@@ -147,76 +147,82 @@ We can use the Bash `tree` command to list the contents of the work directory.
 **Note:** By default tree does not print hidden files (those beginning with a dot `.`). Use the `-a`   to view  all files.
 
 ~~~
-$ tree work
+$ tree -a work
 ~~~
 {: .language-bash}
 
 
-
 ~~~
 work/
-├── 02
-│   └── 26541c31e597c2243b2489b06f51ef
-│       └── ref1_2.fq.gz -> /Users/ggrimes2/Downloads/nextflow_rnaseq_training_dataset/data/yeast/reads/ref1_2.fq.gz
-├── 07
-│   └── 54363a267def098c0544708d3f6dd3
-│       └── temp33_1_2.fq.gz -> /Users/ggrimes2/Downloads/nextflow_rnaseq_training_dataset/data/yeast/reads/temp33_1_2.fq.gz
-├── 4a
-│   └── aeed908acc5481ee887736386ac8b8
-│       └── ref3_2.fq.gz -> /Users/ggrimes2/Downloads/nextflow_rnaseq_training_dataset/data/yeast/reads/ref3_2.fq.gz
-├── 57
-│   ├── 6a47b10d1569561ae321720d0b8f15
-│   │   └── etoh60_1_2.fq.gz -> /Users/ggrimes2/Downloads/nextflow_rnaseq_training_dataset/data/yeast/reads/etoh60_1_2.fq.gz
-│   └── 99ee9a312eb3f3b8afaa6cf881f972
-│       └── etoh60_3_1.fq.gz -> /Users/ggrimes2/Downloads/nextflow_rnaseq_training_dataset/data/yeast/reads/etoh60_3_1.fq.gz
-├── 5e
-│   └── 7ee2308079f20c96a7d5b70291e167
-│       └── temp33_1_1.fq.gz -> /Users/ggrimes2/Downloads/nextflow_rnaseq_training_dataset/data/yeast/reads/temp33_1_1.fq.gz
-├── 7b
-│   └── 963dc9c1592ade5978e5baa7619cef
-│       └── etoh60_2_1.fq.gz -> /Users/ggrimes2/Downloads/nextflow_rnaseq_training_dataset/data/yeast/reads/etoh60_2_1.fq.gz
-├── 7e
-│   ├── a706851ba2ad4f3ce796d6b55faadf
-│   │   └── temp33_3_2.fq.gz -> /Users/ggrimes2/Downloads/nextflow_rnaseq_training_dataset/data/yeast/reads/temp33_3_2.fq.gz
-│   └── b00105a9510bc0182e0382e2a91710
-│       └── temp33_2_2.fq.gz -> /Users/ggrimes2/Downloads/nextflow_rnaseq_training_dataset/data/yeast/reads/temp33_2_2.fq.gz
-├── 8d
-│   └── 19a8e8da614510599fb4a8c1080176
-│       └── temp33_2_1.fq.gz -> /Users/ggrimes2/Downloads/nextflow_rnaseq_training_dataset/data/yeast/reads/temp33_2_1.fq.gz
-├── 9f
-│   └── edb44e296ae4710ade2da9c6a2cd13
-│       └── temp33_3_1.fq.gz -> /Users/ggrimes2/Downloads/nextflow_rnaseq_training_dataset/data/yeast/reads/temp33_3_1.fq.gz
-├── b4
-│   └── 81ccb20b2920b042c0916d7fb2c071
-│       └── etoh60_3_2.fq.gz -> /Users/ggrimes2/Downloads/nextflow_rnaseq_training_dataset/data/yeast/reads/etoh60_3_2.fq.gz
-├── b5
-│   └── 337cfa936e4670c386efcd93497dcd
-│       └── etoh60_1_1.fq.gz -> /Users/ggrimes2/Downloads/nextflow_rnaseq_training_dataset/data/yeast/reads/etoh60_1_1.fq.gz
-├── c3
-│   └── db85075e09b1743f73f4dc78657423
-│       └── etoh60_2_2.fq.gz -> /Users/ggrimes2/Downloads/nextflow_rnaseq_training_dataset/data/yeast/reads/etoh60_2_2.fq.gz
-├── d7
-│   └── c070aebb4232b6171043f1c29066e6
-│       └── ref1_1.fq.gz -> /Users/ggrimes2/Downloads/nextflow_rnaseq_training_dataset/data/yeast/reads/ref1_1.fq.gz
-├── e3
-│   └── 9c644d276e02018189862afedc6ab6
-│       └── ref3_1.fq.gz -> /Users/ggrimes2/Downloads/nextflow_rnaseq_training_dataset/data/yeast/reads/ref3_1.fq.gz
-├── f0
-│   └── 9421f2eb5b12ac3213e04e5682324e
-│       └── ref2_1.fq.gz -> /Users/ggrimes2/Downloads/nextflow_rnaseq_training_dataset/data/yeast/reads/ref2_1.fq.gz
-└── fc
-    └── 4022a522f2964dde97fa1484bd5742
-        └── ref2_2.fq.gz -> /Users/ggrimes2/Downloads/nextflow_rnaseq_training_dataset/data/yeast/reads/ref2_2.fq.gz
+├── 12
+│   └── 5489f3c7dbd521c0e43f43b4c1f352
+│       ├── .command.begin
+│       ├── .command.err
+│       ├── .command.log
+│       ├── .command.out
+│       ├── .command.run
+│       ├── .command.sh
+│       ├── .exitcode
+│       └── temp33_1_2.fq.gz -> /home/training/data/yeast/reads/temp33_1_2.fq.gz
+├── 3b
+│   └── a3fb24ad3242e4cc8e5aa0c24d174b
+│       ├── .command.begin
+│       ├── .command.err
+│       ├── .command.log
+│       ├── .command.out
+│       ├── .command.run
+│       ├── .command.sh
+│       ├── .exitcode
+│       └── temp33_2_1.fq.gz -> /home/training/data/yeast/reads/temp33_2_1.fq.gz
+├── 4c
+│   └── 125b5e5a5ee144fa25dd9bccd467e9
+│       ├── .command.begin
+│       ├── .command.err
+│       ├── .command.log
+│       ├── .command.out
+│       ├── .command.run
+│       ├── .command.sh
+│       ├── .exitcode
+│       └── temp33_3_1.fq.gz -> /home/training/data/yeast/reads/temp33_3_1.fq.gz
+├── 54
+│   └── eb9d72e9ac24af8183de569ab0b977
+│       ├── .command.begin
+│       ├── .command.err
+│       ├── .command.log
+│       ├── .command.out
+│       ├── .command.run
+│       ├── .command.sh
+│       ├── .exitcode
+│       └── temp33_2_2.fq.gz -> /home/training/data/yeast/reads/temp33_2_2.fq.gz
+├── e9
+│   └── 31f28c291481342cc45d4e176a200a
+│       ├── .command.begin
+│       ├── .command.err
+│       ├── .command.log
+│       ├── .command.out
+│       ├── .command.run
+│       ├── .command.sh
+│       ├── .exitcode
+│       └── temp33_1_1.fq.gz -> /home/training/data/yeast/reads/temp33_1_1.fq.gz
+└── fa
+    └── cd3e49b63eadd6248aa357083763c1
+        ├── .command.begin
+        ├── .command.err
+        ├── .command.log
+        ├── .command.out
+        ├── .command.run
+        ├── .command.sh
+        ├── .exitcode
+        └── temp33_3_2.fq.gz -> /home/training/data/yeast/reads/temp33_3_2.fq.gz
 ~~~
 {: .output }
-
-You will see the input Fastq files are symbolically linked to their original location.
 
 ### Task execution directory
 
 Within the `work` directory there are multiple task execution directories. 
 There is one directory for each time a  process is executed. 
-These task directories are identified by the process execution hash e.g. `fc/4022a5` .
+These task directories are identified by the process execution hash 
+e.g. `fa/cd3e49b63eadd6248aa357083763c1` would be the task directory for process `fa/cd3e49` .
 
 The task execution directory contains:
 
@@ -230,7 +236,7 @@ The task execution directory contains:
 
 * `.command.log`: The wrapper execution output.
 
-* `.command.begin`: Sentinel file created as soon as the job is launched.
+* `.command.begin`: A file created as soon as the job is launched.
 
 * `.exitcode`: A file containing the task exit code.
 
