@@ -16,7 +16,7 @@ keypoints:
 - Re-entrancy is enabled using the `-resume` option."
 ---
 
-A key features of workflow management systems, like Nextflow, is re-entrancy which is the ability to restart a pipeline after an error from the last successful process. Re-entrancy can also skip time consuming sucessfully completed steps such as index creation when adding more data to a pipeline.
+A key features of workflow management systems, like Nextflow, is re-entrancy which is the ability to restart a pipeline after an error from the last successful process. Re-entrancy can also skip time consuming sucessfully completed steps, such as index creation, when adding more data to a pipeline.
 Nextflow achieves re-entrancy by automatically keeping track of all the processes executed in your pipeline via  caching  and checkpointing.
 
 ## Resume
