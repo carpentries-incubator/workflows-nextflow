@@ -3,18 +3,23 @@ title: "Simple RNA-Seq pipeline"
 teaching: 20
 exercises: 40
 questions:
-- "How can I create a RNA-Seq pipeline?"
-- "How do I print all the pipeline parameters by using a single command?"
-- "How can I use conda with my pipeline?"
+- "How can I create a Nextflow pipeline from a series of unix commands and input data?"
+- "How do I log my pipelines parameters?"
+- "How can I manage my pipeline software requirement?"
 - "How do I know when my pipeline has finished?"
-- "How do I see runtime metrics and execution information?"
+- "How do I see how much resources my pipeline has used?"
 objectives:
 - "Create a simple RNA-Seq pipeline."
-- "Use the `log.info` command and a multiline string statement to print all the pipeline parameters."
+- "Use the `log.info` function to print all the pipeline parameters."
 - "Print a confirmation message when the pipeline completes."
-- "Use a conda `environment.yml` file to install pipeline software."
+- "Use a conda `environment.yml` file to install the pipeline's software requirement."
 - "Produce an execution report and generates run metrics from a pipeline run."
 keypoints:
+- "Nextflow can combined tasks (processes) and manage data flows using channels into a single pipeline/workflow."
+- "A Workflow can be parameterise using `params` . These value of the parameters can be captured in a log file using  `log.info` "
+- "Nextflow can handle a workflow's software requirements using several technologies including the `conda` package and enviroment manager."
+- "Workflow steps are connected via their `inputs` and `outputs` using `Channels`."
+- "Intermediate pipeline results can be transformed using Channel `operators` such as `combine`."
 - "Nextflow can execute an action when the pipeline completes the execution using the `workflow.onComplete` event handler to print a confirmation message."
 - "Nextflow is able to produce multiple reports and charts providing several runtime metrics and execution information using the command line options `-with-report`, `-with-trace`, `-with-timeline` and produce a graph using `-with-dag`."
 ---
@@ -22,7 +27,7 @@ keypoints:
 We are finally ready to implement a simple RNA-Seq pipeline in Nextflow.
 This pipeline will have 4 processes that:
 
-* indexes a transcriptome file.
+* Indexes a transcriptome file.
 
 ~~~
 $ salmon index --threads $task.cpus -t $transcriptome -i index
@@ -51,10 +56,19 @@ $ multiqc .
 ~~~
 {: .language-bash}
 
-Let’s start by going back to `rnaseq_pipeline`.
+To start move to `scripts/rnaseq_pipeline` folder.
 
 ~~~
-$ cd rnaseq_pipeline
+$ cd scripts/rnaseq_pipeline
+~~~
+{: .language-bash}
+
+This folder contains files we will be modifying in this episode.
+
+We will also create a symbolic link to the data directory.
+
+~~~
+$ ln -s ../../data data
 ~~~
 {: .language-bash}
 
@@ -64,7 +78,8 @@ The first thing we want to do when writing a pipeline is define the pipeline par
 The script `script1.nf` defines the pipeline input parameters.
 
 ~~~
-params.reads = "$/data/yeast/reads/*_{1,2}.fq.gz"
+//script1.nf
+params.reads = "$projectDir/data/yeast/reads/*_{1,2}.fq.gz"
 params.transcriptome = "$projectDir/data/yeast/transcriptome/*.fa.gz"
 params.multiqc = "$projectDir/multiqc"
 
@@ -112,11 +127,11 @@ log.info """\
 {: .language-groovy }
 
 
-> # log.info
+> ## log.info
 > Modify the `script1.nf` to print all the pipeline parameters by using a single `log.info` command and a multiline string statement.
 > See an example [here](https://github.com/nextflow-io/rnaseq-nf/blob/3b5b49f/main.nf#L41-L48).
 > ~~~
-> nextflow run script1.nf
+> $ nextflow run script1.nf
 > ~~~
 > {: .language-bash }
 >
@@ -126,7 +141,7 @@ log.info """\
 > > log.info """\
 > >         R N A S E Q - N F   P I P E L I N E    
 > >         ===================================
-> >         transcriptome: ${params.transcript}
+> >         transcriptome: ${params.transcriptome}
 > >         reads        : ${params.reads}
 > >         outdir       : ${params.outdir}
 > >         """
@@ -168,12 +183,18 @@ $ salmon index --threads $task.cpus -t $transcriptome -i index
 A process is defined by providing three main declarations:
 
 1. The process [inputs](https://www.nextflow.io/docs/latest/process.html#inputs),
-1. the process [outputs](https://www.nextflow.io/docs/latest/process.html#outputs)
-1. and finally the command [script](https://www.nextflow.io/docs/latest/process.html#script).
+1. The process [outputs](https://www.nextflow.io/docs/latest/process.html#outputs)
+1. Finally the command [script](https://www.nextflow.io/docs/latest/process.html#script).
 
-The second example, `script2.nf` , adds the  process `INDEX` which generate a index of the transcriptome.
+The second example, `script2.nf` adds, 
+
+1. The  process `INDEX` which generate a directory with the index of the transcriptome. This process takes one input, a transcriptome file, and emits one output a salmon index directory.
+3. A queue Channel `transcriptome_ch` taking the  transcriptome file defined in params variable `params.transcriptome`.
+4. Finally the script adds a `workflow` definition block which calls the `INDEX` process using the Channel `transcriptome_ch` as input.
+
 
 ~~~
+//script2.nf
 nextflow.enable.dsl=2
 
 /*
@@ -220,9 +241,7 @@ workflow {
 ~~~
 {: .language-groovy }
 
-It takes the transcriptome params file as `input` and creates the transcriptome index by using the `salmon` transcript quantification tool.
 
-**Note:** The `input` declaration defines a `transcriptome` variable in the process context that it is used in the command script to reference that file in the Salmon command line.
 
 Try to run it by using the command:
 
@@ -243,9 +262,10 @@ $ nextflow run script2.nf -profile conda
 This time it works because it uses the conda environment file `environment.yml` defined in the `nextflow.config` file.
 
 ~~~
+//nextflow.config
 profiles {
   conda {
-    process.conda = 'env.yml'
+    process.conda = 'environment.yml'
   }
 }
 ~~~
@@ -265,7 +285,7 @@ profiles {
 {: .challenge}
 
 
-> ## Print output of the index_ch
+> ## Print output of the contents of the index_ch
 > Print the output of the `index_ch` channel by using the `view` operator.
 > > ## Solution
 > > ~~~
@@ -278,15 +298,7 @@ profiles {
 > {: .solution}
 {: .challenge}
 
-> ## Examine work directory
-> Use the command `tree work` to see how Nextflow organises the process work directory.
-> > ## Solution
-> > ~~~
-> > $ tree work
-> > ~~~
-> > {: .language-bash}
-> {: .solution}
-{: .challenge}
+
 
 ### Recap
 
@@ -298,13 +310,41 @@ In this step you have learned:
 
 * How process outputs are declared
 
-* How to access the number of available CPUs `${task.cpus}`
+* How to use a nextflow configuration file to define and enable a `conda` environment. 
 
 * How to print the content of a channel `view()`
 
 ## Collect read files by pairs
 
-This step shows how to match **read** files into pairs, so they can be mapped by Salmon.
+This step shows how to match **read** files into pairs, so they can be mapped by salmon.
+
+The script `script3.nf` adds a line to create a channel, `read_pairs_ch`, containing fastq read pair files using the `fromFilePairs` channel factory.
+
+~~~
+//script3.nf
+nextflow.enable.dsl = 2
+
+/*
+ * pipeline input parameters
+ */
+params.reads = "$projectDir/data/yeast/reads/ref1_{1,2}.fq.gz"
+params.transcriptome = "$projectDir/data/yeast/transcriptome/Saccharomyces_cerevisiae.R64-1-1.cdna.all.fa.gz"
+params.multiqc = "$projectDir/multiqc"
+params.outdir = "results"
+
+log.info """\
+         R N A S E Q - N F   P I P E L I N E
+         ===================================
+         transcriptome: ${params.transcriptome}
+         reads        : ${params.reads}
+         outdir       : ${params.outdir}
+         """
+         .stripIndent()
+
+
+read_pairs_ch = Channel.fromFilePairs( params.reads )
+~~~
+{: .language-groovy }
 
 Edit the script `script3.nf` and add the following statement as the last line:
 ~~~
@@ -328,20 +368,20 @@ It will print an output similar to the one shown below:
 
 The above example shows how the `read_pairs_ch` channel emits tuples composed by two elements, where the first is the read pair prefix and the second is a list representing the actual files.
 
-Try it again specifying different read files by using a glob pattern:
+Try it again specifying different read files by using the glob pattern:
 
 ~~~
 $ nextflow run script3.nf --reads 'data/yeast/reads/*_{1,2}.fq.gz'
 ~~~
 {: .language-bash }
 
-File paths including one or more wildcards ie. `*`, `?`, etc. MUST be wrapped in single-quoted characters to avoid Bash expands the glob.
+File paths including one or more wildcards ie. `*`, `?`, etc. MUST be wrapped in single-quoted characters to avoid Bash expanding the glob pattern on the command line.
 
 > ## `set` operator
 > Use the `set` operator in place of = assignment to define the read_pairs_ch channel.
 > > ## Solution
 > > ~~~
-> > Channel .fromFilePairs(params.reads)
+> > Channel.fromFilePairs(params.reads)
 > > .set{read_pairs_ch}
 > > ~~~
 > > {: .language-groovy }
@@ -352,7 +392,7 @@ File paths including one or more wildcards ie. `*`, `?`, etc. MUST be wrapped in
 > Use the `checkIfExists` option for the `fromFilePairs` method to check if the specified path contains at least file pairs.
 > > ## Solution
 > > ~~~
-> > Channel .fromFilePairs(params.reads, checkIfExists: true)
+> > Channel.fromFilePairs(params.reads, checkIfExists: true)
 > > .set{read_pairs_ch}
 > > ~~~
 > > {: .language-groovy }
@@ -374,6 +414,7 @@ In this step you have learned:
 The script `script4.nf` adds the quantification process, `QUANT`.
 
 ~~~
+//script4.nf
 ..truncated..
 /*
  * Run Salmon to perform the quantification of expression using
@@ -401,27 +442,34 @@ workflow {
 ~~~
 {: .language-groovy }
 
-In this script note as the `index_ch` channel, declared as output in the index process, is now used as a channel in the input section.
+In this script the `index_ch` channel, declared as output in the `INDEX` process, is used as the first input argument to the `QUANT` process.
 
-Also note as the second input is declared as a tuple composed of two elements: the `pair_id` and the `reads` in order to match the structure of the items emitted by the `read_pairs_ch` channel.
+The second input argument of the `QUANT` process, the `read_pairs_ch` channel, is  a tuple composed of two elements: the `pair_id` and the `reads`.
 
 Execute it by using the following command:
 
 ~~~
-nextflow run script4.nf -resume
+$ nextflow run script4.nf
 ~~~
-{: .language-groovy}
+{: .language-bash}
 
-You will see the execution of the quantification process.
+You will see the execution of the index and quantification process.
+
+Re run the command using the `-resume` option
+
+~~~
+$ nextflow run script4.nf -resume
+~~~
+{: .language-bash}
 
 The `-resume` option cause the execution of any step that has been already processed to be skipped.
 
 Try to execute it with more read files as shown below:
 
 ~~~
-nextflow run script4.nf -resume --reads 'data/yeast/reads/*_{1,2}.fq.gz'
+$ nextflow run script4.nf -resume --reads 'data/yeast/reads/*_{1,2}.fq.gz'
 ~~~~
-{: .source}
+{: .language-bash}
 
 You will notice that  the `INDEX` step and one of the `QUANT` steps has been cached, and
 the quantification process is executed more than one time.
@@ -463,9 +511,10 @@ In this step you have learned:
 
 ## Quality control
 
-This step implements a quality control step for your input reads. The input  is the same read pairs which are provided to the quantification steps `read_pairs_ch`.
+This step implements a quality control step for your input reads. The input to the `FASTQC` process is the same `read_pairs_ch` that is provided as input to the quantification process `QUANT` .
 
 ~~~
+//script5.nf
 [..truncated..]
 
 /*
@@ -497,18 +546,18 @@ workflow {
 ~~~
 {: .language-groovy}
 
-You can run it by using the following command:
+Run the script `script5.nf` by using the following command:
 
 ~~~
 $ nextflow run script5.nf -resume
 ~~~
 {: .language-bash}
 
-The FASTQC process will not run.
+The `FASTQC` process will not run as the process has not been declared in the workflow scope.
 
 > ## Add FASTQC process
-> Add the FASTQC process to the `workflow scope` of `script5.nf` adding the `read_pairs_ch` channel as an input.
-> Run
+> Add the `FASTQC` process to the `workflow scope` of `script5.nf` adding the `read_pairs_ch` channel as an input.
+> Run the nextflow script using the `-resume` option.
 >
 > ~~~
 > $ nextflow run script5.nf -resume
@@ -531,8 +580,8 @@ The FASTQC process will not run.
 
 In this step you have learned:
 
-* How to use the add a `process` and to the `workflow` scope.
-* Add an input to a `process`.
+* How to use the add a `process` to the `workflow` scope.
+* Add a channel as input to a `process`.
 
 ## MultiQC report
 
@@ -541,7 +590,7 @@ This step collect the outputs from the quantification and fastqc steps to create
 The input for the `MULTIQC` process requires all data in a single channel element.
 Therefore, we will need combined the `FASTQC` and `QUANT` outputs using:
 
-* The combining operator `mix` : to combine the items in the two channels into a single channel and ,
+* The combining operator `mix` : combines the items in the two channels into a single channel
 
 ~~~
 //example of the mix operator
@@ -558,7 +607,7 @@ a
 ~~~
 {: .output}
 
-* The transformation operator `collect` to collects all the items in the new combined channel to a single item.
+* The transformation operator `collect`  collects all the items in the new combined channel into a single item.
 
 ~~~
 //example of the collect operator
@@ -587,9 +636,12 @@ ch1.collect().view()
 > {: .solution}
 {: .challenge}
 
+In `script6.nf` we use the statement `quant_ch.mix(fastqc_ch).collect()` to combine and collect the outputs of the `QUANT` and `FASTQC` process to
+create the required input for the `MULTIQC` process.
 
 ~~~
 [..truncated..]
+//script6.nf
 /*
  * Create a report using multiQC for the quantification
  * and fastqc processes
@@ -624,11 +676,11 @@ workflow {
 
 Execute the script with the following command:
 ~~~~
-$ nextflow run script6.nf -resume --reads 'data/yeast/reads/*_{1,2}.fq.gz'
+$ nextflow run script6.nf --reads 'data/yeast/reads/*_{1,2}.fq.gz' -resume
 ~~~~
 {: .language-bash}
 
-It creates the final report in the results folder in the current work directory.
+It creates the final report in the results folder in the ${params.outdir}/multiqc directory.
 
 ### Recap
 

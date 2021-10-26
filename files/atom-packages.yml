@@ -1,7 +1,0 @@
-- name: Installing missing Atom packages
-  hosts: dash
-  vars_files:
-  - req-packages.yml
-  tasks:
-  - include: atom-one-package.yml
-    with_items: "{{req_packages}}"
