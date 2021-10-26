@@ -10,9 +10,10 @@ objectives:
 - "Resume a Nextflow workflow using the `-resume` option."
 - "Restart a Nextflow workflow using new data."
 keypoints:
-- "Nextflow automatically keeping track of all the processes executed in your pipeline via  caching  and checkpointing."
-- "You can restart a Nextflow workflow using new data using new data skipping steps that have been successfully executed."
-- "Nextflow stores intermediate data in a working directory."
+- "Nextflow automatically keeps track of all the processes executed in your pipeline via  checkpointing."
+- "Nextflow caches intermediate data in task directories within the work directory."
+- "Nextflow caching and checkpointing allows re-entrancy into a workflow after a pipeline error or using new data, skipping steps that have been successfully executed.
+- Re-entrancy is enabled using the `-resume` option."
 ---
 
 A key features of workflow management systems, like Nextflow, is re-entrancy which is the ability to restart a pipeline after an error from the last successful process. Re-entrancy can also skip time consuming sucessfully completed steps such as index creation when adding more data to a pipeline.
@@ -242,7 +243,8 @@ The task execution directory contains:
 ### Specifying another work directory
 
 Depending on your script, this work folder can take a lot of disk space.
-You can specify another work directory using the command line option `-w`
+You can specify another work directory using the command line option `-w`.
+**Note** Using a different work directory will mean that any jobs will need to re-run from the beginning.
 
 ~~~
 $ nextflow run <script> -w /some/scratch/dir
