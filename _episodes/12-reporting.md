@@ -91,7 +91,7 @@ This will list the work directory for each process.
 
 ## Fields
 
-If we want to print more metadata we can use `log` command and the option `-f` (fields) followed by a comma delimited list of fields.
+If we want to print more metadata we can use the `log` command and the option `-f` (fields) followed by a comma delimited list of fields.
 This can be composed to track the provenance of a workflow result.
 
 For example:
@@ -194,11 +194,13 @@ This can be useful to locate specific tasks work directories.
 > Use the Nextflow `log` command specifying a `run name` and the fields.
 > name, hash, process and status
 > > ## Solution
+> > Example solution using run name `elegant_descartes`.
 > > ~~~
 > > $ nextflow log elegant_descartes -f name,hash,process,status
 > > ~~~
 > > {: .language-bash }
 >  {: .solution }
+>  
 > ## Filter pipeline run log
 > > Use the `-F` option and a regular expression to filter the for a specific process e.g. multiqc.
 > > ## Solution
@@ -231,7 +233,7 @@ task folder: $folder
 Then, the following `log` command will output a markdown file containing the `script`, `exit status` and `folder` of all executed tasks:
 
 ~~~
-nextflow log elegant_descartes -t my-template.md > execution-report.md
+$ nextflow log elegant_descartes -t my-template.md > execution-report.md
 ~~~
 {: .language-bash }
 
