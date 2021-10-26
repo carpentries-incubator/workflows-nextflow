@@ -620,12 +620,65 @@ INFO     MD5 checksum for nf-core-rnaseq-3.0.tar.gz: f0e0c239bdb39c613d6a080f1de
 >  ~~~
 >  $ nextflow run nf-core/hlatyping -r 1.2.0 -profile test,conda  --max_memory 3G
 >  ~~~
-> The pipeline does next-generation sequencing-based Human Leukozyte Antigen (HLA) typing as should run quickly.
+> The pipeline does next-generation sequencing-based Human Leukozyte Antigen (HLA) typing and should run quickly.
 > > ## Solution
 > >
 > > ~~~
 > > $ nextflow run nf-core/hlatyping -r 1.2.0 -profile test,conda  --max_memory 3G
 > > ~~~
+> > ~~~
+> >  N E X T F L O W  ~  version 21.04.0
+> > Launching `nf-core/hlatyping` [pedantic_engelbart] - revision: 6998794795 [1.2.0]
+> > BAM file format detected. Initiate remapping to HLA alleles with yara mapper.
+> > ----------------------------------------------------
+> >                                        ,--./,-.
+> >        ___     __   __   __   ___     /,-._.--~'
+> >  |\ | |__  __ /  ` /  \ |__) |__         }  {
+> >  | \| |       \__, \__/ |  \ |___     \`-._,-`-,
+> >                                        `._,._,'
+> > nf-core/hlatyping v1.2.0
+> > ----------------------------------------------------
+> >
+> >Pipeline Release  : 1.2.0
+> >Run Name          : pedantic_engelbart
+> >File Type         : BAM
+> >Seq Type          : dna
+> >Index Location    : /home/training/.nextflow/assets/nf-core/hlatyping/data/indices/yara/hla_reference_dna
+> >IP Solver         : glpk
+> >Enumerations      : 1
+> >Beta              : 0.009
+> >Max Memory        : 3G
+> >Max CPUs          : 2
+> >Max Time          : 2d
+> >Input             : https://github.com/nf-core/test-datasets/raw/hlatyping/bam/example_pe.bam
+> >Data Type         : Paired-End
+> >Output Dir        : results
+> >Launch Dir        : /home/training
+> >Working Dir       : /home/training/work
+> >Script Dir        : /home/training/.nextflow/assets/nf-core/hlatyping
+> >User              : training
+> >Max Resources     : 3G memory, 2 cpus, 2d time per job
+> >Config Profile    : conda,test
+> >Config Profile Description: Minimal test dataset to check pipeline function
+> >Config Files      : /home/training/.nextflow/assets/nf-core/hlatyping/nextflow.config, /home/training/nextflow.config, /home/training/.nextflow/assets/nf-> > > >core/hlatyping/nextflow.config
+> >----------------------------------------------------
+> >BAM file format detected. Initiate remapping to HLA alleles with yara mapper.
+> >[-        ] process > remap_to_hla          -
+> >executor >  local (6)
+> >[05/084b41] process > remap_to_hla (1)      [100%] 1 of 1 ✔
+> >[5a/9bec8b] process > make_ot_config        [100%] 1 of 1 ✔
+> >[54/8bc5d7] process > run_optitype (1)      [100%] 1 of 1 ✔
+> >[a9/2cbea8] process > output_documentation  [100%] 1 of 1 ✔
+> >[df/d3dac5] process > get_software_versions [100%] 1 of 1 ✔
+> >[e1/903ed9] process > multiqc (1)           [100%] 1 of 1 ✔
+> >-[nf-core/hlatyping] Pipeline completed successfully-
+> >WARN: To render the execution DAG in the required format it is required to install Graphviz -- See http://www.graphviz.org for more info.
+> >Completed at: 26-Oct-2021 10:07:27
+> >Duration    : 4m 14s
+> >CPU hours   : (a few seconds)
+> >Succeeded   : 6
+> > ~~~
+> > {: .output}
 > {: .solution}
 {: .challenge}
 
