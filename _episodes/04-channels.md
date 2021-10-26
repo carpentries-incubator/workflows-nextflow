@@ -25,7 +25,8 @@ keypoints:
 
 # Channels
 
-Earlier we learnt that channels are the way in which Nextflow sends data around a workflow. Channels connect processes via their inputs and outputs. Channels can store multiple items, such as files (e.g., fastq files) or values. The number of items a channel stores determines how many times a process with that channel as an input will run.
+Earlier we learnt that channels are the way in which Nextflow sends data around a workflow. Channels connect processes via their inputs and outputs. Channels can store multiple items, such as files (e.g., fastq files) or values. The number of items a channel stores determines how many times a process will run using that channel as input.  
+*Note:* When the process runs using one item from the input channel, we will call that run a `task`.
 
 ## Why use Channels?
 
@@ -51,26 +52,27 @@ Queue channels are a type of channel in which data is consumed (used up) to make
 > ## DSL1
 > In Nextflow DSL1 queue channels can only be used once in a workflow, either connecting workflow input to process input, or process output to input for another process.
 > In DSL2 we can use a queue channel multiple times.
-{: .challenge}
-
+{: .callout}
 
 ### Value channels
 
 The second type of Nextflow channel is a `value` channel. A **value** channel is bound to a **single** value. A value channel can be used an unlimited number times since its content is not consumed. This is also useful for processes that need to reuse input from a channel, for example, a reference genome sequence file that is required by multiple steps within a process, or by more than one process.
 
 
-> ## Queue vs Value Channel
->
+> ## Queue vs Value Channel.
 > What type of channel would you use to store the following?
-> 1. Multiple values.
-> 1. A list with one or more values.
-> 1. A single value.
+> 
+>  1. Multiple values.
+>  1. A list with one or more values.
+>  1. A single value.
+> 
 > > ## Solution
 > > 1. A queue channels is used to store multiple values.
 > > 1. A value channel is used to store a single value, this can be a list with multiple values.
 > > 1. A value channel is used to store a single value.
 > {: .solution}
 {: .challenge}
+
 
 ## Creating Channels using Channel factories
 
@@ -92,8 +94,8 @@ Values are put inside  parentheses `()`  to assign them to a channel.
 For example:
 
 ~~~
-ch1 = Channel.value('GRCh38')
-ch2 = Channel.value( ['chr1','chr2','chr3','chr4','chr5'] )
+ch1 = Channel.value( 'GRCh38' )
+ch2 = Channel.value( ['chr1', 'chr2', 'chr3', 'chr4', 'chr5'] )
 ch3 = Channel.value( ['chr1' : 248956422, 'chr2' : 242193529, 'chr3' : 198295559] )
 ~~~
 {: .language-groovy }
@@ -105,7 +107,9 @@ ch3 = Channel.value( ['chr1' : 248956422, 'chr2' : 242193529, 'chr3' : 198295559
 
 The value method can only take 1 argument, however, this can be a single list or map containing several elements.
 
-A [List object](https://www.tutorialspoint.com/groovy/groovy_lists.htm) can be defined by placing the values in square brackets `[]` separated by a comma. A [Map object](https://www.tutorialspoint.com/groovy/groovy_maps.htm) is similar, but with `key:value pairs` separated by commas.
+*Reminder:* 
+- A [List object](https://www.tutorialspoint.com/groovy/groovy_lists.htm) can be defined by placing the values in square brackets `[]` separated by a comma. 
+- A [Map object](https://www.tutorialspoint.com/groovy/groovy_maps.htm) is similar, but with `key:value pairs` separated by commas.
 
 ~~~
 myList = [1776, -1, 33, 99, 0, 928734928763]
@@ -123,12 +127,12 @@ Queue (consumable) channels can be created using the following channel factory m
 * Channel.fromFilePairs
 * Channel.fromSRA
 
-### The of Channel factory
+### The **of** Channel factory
 
 When you want to create a channel containing multiple values you can use the channel factory `Channel.of`. `Channel.of` allows the creation of a `queue` channel with the values specified as arguments, separated by a `,`.
 
 ~~~
-chromosome_ch = Channel.of( 'chr1','chr3','chr5','chr7' )
+chromosome_ch = Channel.of( 'chr1', 'chr3', 'chr5', 'chr7' )
 chromosome_ch.view()
 ~~~
 {: .language-groovy }
@@ -148,7 +152,7 @@ You can specify a range of numbers as a single argument using the Groovy range o
 More information on the range operator can be found [here](https://www.logicbig.com/tutorials/misc/groovy/range-operator.html).
 
 ~~~
-chromosome_ch= Channel.of(1..22, 'X', 'Y')
+chromosome_ch = Channel.of(1..22, 'X', 'Y')
 chromosome_ch.view()
 ~~~
 {: .language-groovy }
@@ -191,7 +195,7 @@ Arguments passed to the `of` method can be of varying types e.g., combinations o
 {: .challenge}
 
 
-### The fromList Channel factory
+### The **fromList** Channel factory
 
 You can use the `Channel.fromList` method to create a queue channel from a list object.
 
@@ -226,7 +230,7 @@ kallisto
 > ~~~
 > {: .language-groovy }
 >  Then print the contents of the channels using the `view` operator.
->   How many lines does the queue and value channel print ?
+>   How many lines does the queue and value channel print?
 >
 >  **Hint:** Use the `fromList()` and `value()` Channel factory methods.
 > > ## Solution
@@ -256,7 +260,7 @@ kallisto
 > {: .solution}
 {: .challenge}
 
-### The fromPath Channel factory
+### The **fromPath** Channel factory
 
 The previous channel factory methods dealt with sending general values in a channel. A special channel factory method `fromPath` is used when wanting to pass files.
 
@@ -285,7 +289,7 @@ A glob pattern is specified as a string and is matched against directory or file
 * An asterisk, `*`, matches any number of characters (including none).
 * Two asterisks, `**`, works like *  but will also search sub directories. This syntax is generally used for matching complete paths.
 * Braces  `{}` specify a collection of subpatterns. For example:
-** `{bam,bai}` matches "bam" or "bai"
+ `{bam,bai}` matches "bam" or "bai"
 
 
 For example the script below uses the `*.fq.gz` pattern to create a queue channel that contains as many items as there are files with `.fq.gz` extension in the `data/yeast/reads` folder.
@@ -347,7 +351,7 @@ This will give an error as there is no data/chicken directory.
 ~~~
 N E X T F L O W  ~  version 20.10.0
 Launching `hello.nf` [intergalactic_mcclintock] - revision: d2c138894b
-No files match pattern `*.fq` at path: data/chicken/reads/
+No files match pattern `*.fq.gz` at path: data/chicken/reads/
 ~~~
 {: .output}
 
@@ -379,7 +383,7 @@ No files match pattern `*.fq` at path: data/chicken/reads/
 {: .challenge}
 
 
-### The fromFilePairs Channel factory
+### The **fromFilePairs** Channel factory
 
 We have seen how to process files individually using `fromPath`. In Bioinformatics we often want to process files in pairs or larger groups, such as read pairs in sequencing.
 
@@ -430,7 +434,7 @@ This will produce a queue channel, `read_pair_ch` , containing nine elements.
 Each element is a tuple that has;
 
 1. string value (the file prefix matched, e.g `temp33_1`)
-1. and a list with the two files e,g. `[data/yeast/reads/etoh60_2_1.fq.gz, data/yeast/reads/etoh60_2_2.fq.gz]` .
+1. and a list with the two files e,g. `[data/yeast/reads/temp33_1_1.fq.gz, data/yeast/reads/temp33_1_2.fq.gz]` .
 
 The asterisk character `*`, matches any number of characters (including none), and the `{}` braces specify a collection of subpatterns. Therefore the `*_{1,2}.fq.gz` pattern matches any file name ending in `_1.fq.gz` or `_2.fq.gz` .
 
@@ -487,7 +491,7 @@ See more information about the channel factory `fromFilePairs` [here](https://ww
 > {: .solution}
 {: .challenge}
 
-### The fromSRA Channel factory
+### The **fromSRA** Channel factory
 
 Another useful factory method is `fromSRA`. The `fromSRA` method makes it possible to query the [NCBI SRA](https://www.ncbi.nlm.nih.gov/sra) archive and returns a queue channel emitting the FASTQ files matching the specified selection criteria.
 
