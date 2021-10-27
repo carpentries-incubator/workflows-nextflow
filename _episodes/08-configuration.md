@@ -557,19 +557,19 @@ environments are stored. By default this is in `conda` folder of the `work` dire
 
 > ## Define a software requirement in the configuration file using conda
 >
-> Create a config file for the Nextflow script `configure_fastp.nf`.
+> Create a config file for the Nextflow script `configuration_fastp.nf`.
 > Add a conda directive for the process name `FASTP` that includes the bioconda package `fastp`, version 0.12.4-0.
 > **Hint** You can specify the conda packages using the syntax `<channel>::<package_name>=<version>` e.g. `bioconda::salmon=1.5.2`
 > Run the Nextflow script `configure_fastp.nf` with the configuration file using the `-c` option.
 >
 > ~~~
-> // configure_fastp.nf
+> // configuration_fastp.nf
 > nextflow.enable.dsl = 2
 >
 > params.input = "data/yeast/reads/ref1_1.fq.gz"
 >
 > workflow {
->     FASTP( Channel.fromPath( params.input ) ).out.view()
+>     FASTP( Channel.fromPath( params.input ) ).view()
 > }
 >
 > process FASTP {
@@ -600,7 +600,7 @@ environments are stored. By default this is in `conda` folder of the `work` dire
 > > {: .language-groovy}
 > >
 > > ~~~
-> > nextflow run configure_fastp.nf -c fastp.config -process.echo
+> > nextflow run configure_fastp.nf -c fastp.config
 > > ~~~
 > > {: .language-bash}
 > > ~~~
