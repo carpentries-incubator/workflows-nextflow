@@ -4,7 +4,7 @@ nextflow.enable.dsl = 2
 params.input = "data/yeast/reads/ref1_1.fq.gz"
 
 workflow {
-    FASTP( Channel.fromPath( params.input ) ).out.view()
+    FASTP( Channel.fromPath( params.input )).view()
 }
 
 process FASTP {
