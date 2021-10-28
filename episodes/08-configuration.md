@@ -157,8 +157,21 @@ Existing configuration can be completely ignored by using `-C <custom.config>` t
 > belong to a configuration scope.
 {: .callout}
 
-> ## Determine script output
+> ## Configuring Nextflow vs Configuring a Nextflow workflow
 >
+> Parameters starting with a single dash `-` (e.g., `-c my_config.config`) are configuration
+> options for `nextflow`, while parameters starting with a double
+> dash `--` (e.g., `--outdir`) are workflow parameters defined in the `params` scope.
+>
+> The majority of Nextflow configuration settings must be provided
+> on the command-line, however a handful of settings can also
+> be provided within a configuration file, such as
+> `workdir = '/path/to/work/dir'` (`-w /path/to/work/dir`) or
+> `resume = true` (`-resume`), and do not
+> belong to a configuration scope.
+{: .callout}
+
+> ## Determine script output
 > Determine the outcome of the following script executions.
 > Given the script `print_message.nf`:
 > ~~~
@@ -187,14 +200,13 @@ Existing configuration can be completely ignored by using `-C <custom.config>` t
 > ~~~
 > params.message = 'Are you tired?'
 > ~~~
->
 > What is the outcome of the following commands?
 > 1. `nextflow run print_message.nf`
 > 1. `nextflow run print_message.nf --message '¿Que tal?'`
 > 1. `nextflow run print_message.nf -c print_message.config`
-> 1. `nextflow run print_message.nf -c print_message.config --message '¿Que tal?'`
+> 1. `nextflow run print_message.nf -c pring_message.config --message '¿Que tal?'`
 >
-> > ## Solution
+> > ## Solution
 > >
 > > 1. 'hello' - Workflow script uses the value in `print_message.nf`
 > > 1. '¿Que tal?' - The command-line parameter overrides the script setting.
@@ -202,6 +214,7 @@ Existing configuration can be completely ignored by using `-C <custom.config>` t
 > > 1. '¿Que tal?' - The command-line parameter overrides both the script and configuration settings.
 > {: .solution}
 {: .challenge}
+
 
 ## Configuring process behaviour
 
