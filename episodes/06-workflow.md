@@ -213,8 +213,9 @@ In this example `params.transcriptome` and `params.reads` can be accessed inside
 
 
 > ## Workflow
-> Connect the output of the process `FASTQC` to `PARSEZIP` in the Nextflow script `workflow_exercise.nf`.
->
+>  Create a workflow by connecting the output of the process `FASTQC` to `PARSEZIP` in the Nextflow script `workflow_exercise.nf`.
+> The process `FASTQC` generates basic quality control metrics for raw sequencing data using the [FASTQC](https://www.bioinformatics.babraham.ac.uk/projects/fastqc/) program.
+> The process `PARSEZIP` extracts the Basic Statistics from FASTQC compressed output file and writes it to a file. 
 > **Note:** You will need to pass the `read_pairs_ch` as an argument to FASTQC and you will need to use the `collect` operator to gather the items in the FASTQC channel output to a single List item. 
 > Look at the contents of the file `pass_basic.txt` in `results/fqpass` folder. 
 > How many lines does the file have?
