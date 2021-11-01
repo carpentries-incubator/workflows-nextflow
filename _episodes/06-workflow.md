@@ -1,7 +1,7 @@
 ---
 title: "Workflow"
 teaching: 20
-exercises: 10
+exercises: 20
 questions:
 - "How do I connect channels and processes to create a workflow?"
 - "How do I invoke a process inside a workflow?"
