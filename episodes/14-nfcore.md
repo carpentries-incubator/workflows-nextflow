@@ -8,15 +8,16 @@ questions:
 - "How do I configure nf-core pipelines to use my data?"
 - "How do I reference nf-core pipelines?"
 objectives:
-- "Understand what nf-core is and how it relates to Nextflow, and how to use the nf-core helper tool to find nf-core pipelines."
-- "Run a nf-core pipeline using a test dataset."
+- "Understand what nf-core is and how it relates to Nextflow."
+- "Use the nf-core helper tool to find nf-core pipelines."
 - "Understand how to configuration nf-core pipelines."
+- "Run a small nf-core pipeline using a test dataset."
 keypoints:
 - "nf-core is a community-led project to develop a set of best-practice pipelines built using the Nextflow workflow management system."
 - "nf-core tools is a suite of helper tools that aims to help people run and develop pipelines."
 - "nf-core pipelines can found using the nf-core helper tool `--list` option or from the nf-core website."
 - "nf-core pipelines can be run using `nextflow run nf-core/<pipeline>` syntax, or launched and parameters configured using the nf-core  helper tool launch option."
-- "nf-core pipelines can be configured by modifying nextflow config files and/or adding command line parameters."
+- "nf-core pipelines can be configured by modifying Nextflow config files and/or adding command line parameters."
 ---
 
 
