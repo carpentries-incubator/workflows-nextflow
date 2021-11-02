@@ -33,67 +33,6 @@ Pipelines are governed by a set of guidelines, enforced by community code review
 
 nf-core pipelines are an organised folder containing Nextflow scripts,  other non-nextflow scripts (written in any language), configuration files, software specifications, and documentation hosted on GitHub. There is generally a single pipeline for a given data and analysis type e.g. There is a single pipeline for bulk RNA-Seq. All nf-core pipelines are distributed under the, permissive free software, [MIT licences](https://en.wikipedia.org/wiki/MIT_License).
 
-### Software Packaging
-
-nf-core pipelines define external software packaging using two files;
-
-* `environment.yml`: conda environment file, list all software dependencies and versions.
-* `Dockerfile`: A plain text file that contains all command line command used to assemble the image. Docker images are created using conda and the `environment.yml` file.
-
-Due to reproducibility issues that conda environments sometimes have it is recommended to run the pipeline in a containerised fashion which can de done using docker or singularity containers. However, if you can't use software containers the dependencies can still be handled automatically using conda.
-
-It is Nextflow that handles the downloading of containers and creation conda environments.
-
-### CI Testing
-
-Every time a change is made to the pipeline code, nf-core pipelines use continuous-integration testing to ensure that nothing has broken.
-
-More info [here](https://nf-co.re/developers/guidelines).
-
-
-### Pipeline template
-
-Below is the nf-core pipeline template folder structure created using the nf-core helper tool `nf-core create` command.
-
-~~~
-nf-core-<pipeline>/
-├── assets
-│   ├── email_template.html
-│   ├── email_template.txt
-│   ├── multiqc_config.yaml
-│   ├── nf-core-bioinf_logo.png
-│   └── sendmail_template.txt
-├── bin
-│   ├── markdown_to_html.py
-│   ├── __pycache__
-│   │   ├── markdown_to_html.cpython-36.pyc
-│   │   └── scrape_software_versions.cpython-36.pyc
-│   └── scrape_software_versions.py
-├── CHANGELOG.md
-├── CODE_OF_CONDUCT.md
-├── conf
-│   ├── base.config
-│   ├── igenomes.config
-│   ├── test.config
-│   └── test_full.config
-├── Dockerfile
-├── docs
-│   ├── images
-│   │   └── nf-core-bioinf_logo.png
-│   ├── output.md
-│   ├── README.md
-│   └── usage.md
-├── environment.yml
-├── LICENSE
-├── main.nf
-├── nextflow.config
-├── nextflow_schema.json
-└── README.md
-└── .github
-│   └── ....truncated
-~~~
-
-
 ## What is nf-core tools?
 
 nf-core provides a suite of helper tools aim to help people run and develop pipelines.
@@ -307,11 +246,11 @@ To return results as JSON output for downstream use, use the `--json` flag.
 
 ### Software requirements for nf-core pipelines
 
-In order to run nf-core pipelines, you will need to have [Nextflow](https://www.nextflow.io) installed . The only other requirement is a software packaging tool: Conda, Docker or Singularity. In theory it is possible to run the pipelines with software installed by other methods (e.g. environment modules, or manual installation), but this is not recommended. Most people find either Docker or Singularity the best options.
+nf-core pipeline software dependencies are managed using either Docker, Singularity or Conda. It is Nextflow that handles the downloading of containers and creation of conda environments. In theory it is possible to run the pipelines with software installed by other methods (e.g. environment modules, or manual installation), but this is not recommended. 
 
 ### Fetching pipeline code
 
-Unless you are actively developing pipeline code, you should use Nextflow's [built-in functionality](https://www.nextflow.io/docs/latest/sharing.html) to fetch nf-core pipelines. You can  use the command
+Unless you are actively developing pipeline code, you should use Nextflow's [built-in functionality](https://www.nextflow.io/docs/latest/sharing.html) to fetch nf-core pipelines. You can  use the command;
 
 ~~~
 $ nextflow pull nf-core/PIPELINE
@@ -364,8 +303,9 @@ nf-core/tools version 2.1
 ~~~
 {: .output}
 
-If not specified, Nextflow will fetch the default branch. For pipelines with a stable release this the default branch is `master` - this branch contains code from the latest release. For pipelines in early development that don't have any releases, the default branch is `dev`.
-
+> ## Development Releases
+> If not specified, Nextflow will fetch the default git branch. For pipelines with a stable release this the default branch is `master` - this branch contains code from the latest release. For pipelines in early development that don't have any releases, the default branch is `dev`.
+{: .callout}
 
 > ## Exercise: Fetch the latest RNA-Seq pipeline
 >
@@ -504,35 +444,8 @@ To make it easy to apply a group of options on the command line, Nextflow uses t
 
 Configuration files can contain the definition of one or more profiles. A profile is a set of configuration attributes that can be activated/chosen when launching a pipeline execution by using the `-profile` command line option. Common profiles are conda, singularity and docker that specify which software manager to use.
 
-Below is an example portion of the `$HOME/.nextflow/assets/nf-core/rnaseq/nextflow.config` showing some profiles.
 
-~~~
-profiles {
-  debug       {
-    process.beforeScript = 'echo $HOSTNAME'
-  }
-  conda       {
-    params.enable_conda = true
-  }
-  docker      {
-    docker.enabled = true
-    docker.runOptions = '-u \$(id -u):\$(id -g)'
-  }
-  singularity {
-    singularity.enabled = true
-    singularity.autoMounts = true
-  }
-  podman {
-    podman.enabled = true
-  }
-  test        {
-    includeConfig 'conf/test.config'      
-  }
-
-}
-~~~
-
-Multiple comma-separate config profiles can be specified in one go, so the following commands are perfectly valid:
+Multiple, comma-separate, config profiles can be specified in one go,for example:
 
 ~~~
 $ nextflow run nf-core/rnaseq -r 3.0 -profile test,docker
@@ -540,7 +453,7 @@ $ nextflow run nf-core/rnaseq -r 3.0 -profile singularity,debug
 ~~~
 {: .language-bash}
 
-Note that the order in which config profiles are specified matters. Their priority increases from left to right.
+**Note** The order in which config profiles are specified matters. Their priority increases from left to right.
 
 > ## Multiple Nextflow configuration locations
 >  Be clever with multiple Nextflow configuration locations. For example, use `-profile` for your cluster  configuration, the file `$HOME/.nextflow/config` for your personal config such as `params.email` and a working directory >`nextflow.config` file for reproducible run-specific configuration.
@@ -614,11 +527,12 @@ INFO     MD5 checksum for nf-core-rnaseq-3.0.tar.gz: f0e0c239bdb39c613d6a080f1de
 ~~~
 {: .output}
 
-> ## Exercise  Running a test pipeline
+> ## Exercise  Run a test nf-core pipeline
 >  Run the nf-core/hlatyping pipeline release 1.2.0  with the provided test data using the profile test and conda.
 >  Add the parameter `--max_memory 3G`.
+>  Include the config file, `nfcore-custom.config`, from the previous exercise using the option `-c`
 >  ~~~
->  $ nextflow run nf-core/hlatyping -r 1.2.0 -profile test,conda  --max_memory 3G
+>  $ nextflow run nf-core/hlatyping -r 1.2.0 -profile test,conda  --max_memory 3G -c nfcore-custom.config
 >  ~~~
 > The pipeline does next-generation sequencing-based Human Leukozyte Antigen (HLA) typing and should run quickly.
 > > ## Solution
@@ -685,11 +599,9 @@ INFO     MD5 checksum for nf-core-rnaseq-3.0.tar.gz: f0e0c239bdb39c613d6a080f1de
 
 ## Troubleshooting
 
-
 If you run into issues running your pipeline you can you the nf-core  website  to troubleshoot common mistakes and issues [https://nf-co.re/usage/troubleshooting](https://nf-co.re/usage/troubleshooting) .
 
 ### Extra resources and getting help
-
 
 If you still have an issue with running the pipeline then feel free to contact the nf-core community via the Slack channel .
 The nf-core Slack organisation has channels dedicated for each pipeline, as well as specific topics (eg. `#help`, `#pipelines`, `#tools`, `#configs` and much more).
