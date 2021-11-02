@@ -330,7 +330,8 @@ nf-core/tools version 2.1
 
 # Usage instructions and documentation
 
-You can find general documentation and instructions for Nextflow and nf-core on the [nf-core website](https://nf-co.re/) . Pipeline-specific documentation is bundled with each pipeline in the /docs folder. This can be read either locally, on GitHub, or on the nf-core website.
+You can find general documentation and instructions for Nextflow and nf-core on the [nf-core website](https://nf-co.re/) . 
+Pipeline-specific documentation is bundled with each pipeline in the /docs folder. This can be read either locally, on GitHub, or on the nf-core website.
 
 Each pipeline has its own webpage at https://nf-co.re/<pipeline_name> e.g. [nf-co.re/rnaseq](https://nf-co.re/rnaseq/usage)
 
@@ -441,12 +442,11 @@ $ nextflow run nf-core/rnaseq -r 3.0 --email "my@email.com"`
 
 ### Config Profiles
 
-To make it easy to apply a group of options on the command line, Nextflow uses the concept of `config profiles` which are like aliases for configs.
+nf-core makes use of Nextflow configuration profiles to make it easy to apply a group of options on the command line.
 
-Configuration files can contain the definition of one or more profiles. A profile is a set of configuration attributes that can be activated/chosen when launching a pipeline execution by using the `-profile` command line option. Common profiles are conda, singularity and docker that specify which software manager to use.
+Configuration files can contain the definition of one or more profiles. A profile is a set of configuration attributes that can be activated/chosen when launching a pipeline execution by using the `-profile` command line option. Common profiles are `conda`, `singularity` and `docker` that specify which software manager to use.
 
-
-Multiple, comma-separate, config profiles can be specified in one go,for example:
+Multiple, comma-separate, config profiles can be specified in one go, for example:
 
 ~~~
 $ nextflow run nf-core/rnaseq -r 3.0 -profile test,docker
@@ -474,7 +474,7 @@ $ nextflow run nf-core/rnaseq -r 3.0 -profile singularity,debug
 # Running pipelines with test data
 
 
-The test config profile `test` is a bit of a special case. Whereas all other config profiles tell Nextflow how to run on different computational systems, the test profile configures each nf-core pipeline to run without any other command line flags. It specifies URLs for test data and all required parameters. Because of this, you can test any nf-core pipeline with the following command:
+The nf-core config profile `test` is a bit of a special case. Whereas all other config profiles tell Nextflow how to run on different computational systems, the test profile configures each nf-core pipeline to run without any other command line flags. It specifies URLs for test data and all required parameters. Because of this, you can test any nf-core pipeline with the following command:
 
 ~~~
 $ nextflow run nf-core/<pipeline_name> -profile test
