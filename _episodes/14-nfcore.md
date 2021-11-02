@@ -29,6 +29,7 @@ Pipelines are governed by a set of guidelines, enforced by community code review
 
 ![nf-core](../fig/nf-core.png)
 
+In this episode we will covering finding, deploying and configuring nf-core pipelines.
 
 ## What are nf-core pipelines?
 
@@ -37,7 +38,7 @@ nf-core pipelines are an organised folder containing Nextflow scripts,  other no
 ## What is nf-core tools?
 
 nf-core provides a suite of helper tools aim to help people run and develop pipelines.
-The [nf-core tools](https://nf-co.re/tools) package is written in Python and can be imported and used within other packages.
+The [nf-core tools](https://nf-co.re/tools) package is written in Python and can run from the command line or imported and used within other packages.
 
 > ## Automatic version check
 > nf-core/tools automatically checks the web to see if there is a new version of nf-core/tools available. If you would
@@ -211,18 +212,18 @@ nf-core/tools version 2.1
 ~~~
 {: .output}
 
-To return results as JSON output for downstream use, use the `--json` flag.
+**Note**: To return results as JSON output for downstream use, use the `--json` flag.
 
 > ## Archived pipelines
 > Archived pipelines are not returned by default. To include them, use the `--show_archived` flag.
 {: .callout}
 
 
-> ## Exercise: listing pipelines
+> ## Exercise: listing nf-core pipelines
 >
 > 1.  Use the `--help` flag to print the list command usage.
-> 1.  Sort all pipelines by popularity (stars).
-> 1.  Filter pipelines for those that work with RNA.
+> 1.  Sort all pipelines by popularity (stars) and find out which is the most popular?.
+> 1.  Filter pipelines for those that work with RNA and find out how many are there?
 >
 > > ## Solution
 > > Use the `--help` flag to print the list command usage.
@@ -414,7 +415,7 @@ $ nf-core launch -r 3.0 rnaseq
 
 ## Config files
 
-nf-core pipelines make use of Nextflow's configuration files to specify how the pipelines execution, define custom parameters and what software management system to use e.g. docker, singularity or conda.
+nf-core pipelines make use of Nextflow's configuration files to specify how the pipelines runs, define custom parameters and what software management system to use e.g. docker, singularity or conda.
 
 Nextflow can load pipeline configurations from multiple locations.  nf-core pipelines load configuration in the following order:
 
@@ -449,8 +450,8 @@ Configuration files can contain the definition of one or more profiles. A profil
 Multiple, comma-separate, config profiles can be specified in one go, for example:
 
 ~~~
-$ nextflow run nf-core/rnaseq -r 3.0 -profile test,docker
-$ nextflow run nf-core/rnaseq -r 3.0 -profile singularity,debug
+$ nextflow run nf-core/rnaseq -r 3.0 -profile test,conda
+$ nextflow run nf-core/rnaseq -r 3.0 -profile <institutional_config_profile>, test, conda
 ~~~
 {: .language-bash}
 
