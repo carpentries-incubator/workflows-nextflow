@@ -327,6 +327,61 @@ in more complex workflows.
 
 ### All input files/directories should be a process input
 
+Depending on the platform you execute your workflow, files
+may be easily accessible over the network, or downloadable
+from the internet. However not all execution platforms
+support this. A strength of Nextflow is file staging, i.e.,
+preparing files for use in process tasks. It could be
+fine to code as below on your execution platform.
+
+~~~
+process DO_SOMETHING {
+
+    input:
+    tuple val(sample), path(reads)
+
+    output:
+    tuple val(sample), path("*.report"), emit: report
+    ...
+
+    script:
+    """
+    wget ftp://path/to/database
+
+    check_reads $reads /local/copy/database > $sample.report
+    ...
+    """
+}
+~~~
+{: .language-groovy}
+
+Staging files by providing them as process input has several benefits.
+- Files are updated only when necessary.
+- A single file/folder can be shared, without downloading multiple
+times as in the example above.
+- Nextflow supports retrieving files from any valid URL, meaning
+potentially few lines of code.
+
+~~~
+process DO_SOMETHING {
+
+    input:
+    tuple val(sample), path(reads)
+    path database
+
+    output:
+    tuple val(sample), path("*.report"), emit: report
+    ...
+
+    script:
+    """
+    check_reads $reads $database > $sample.report
+    ...
+    """
+}
+~~~
+{: .language-groovy}
+
 ### Avoid lots of short running processes
 
 
