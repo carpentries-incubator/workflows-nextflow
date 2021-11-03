@@ -384,13 +384,42 @@ $ nextflow run script3.nf --reads 'data/yeast/reads/ref*_{1,2}.fq.gz'
 
 **Note** File paths including one or more wildcards ie. `*`, `?`, etc. MUST be wrapped in single-quoted characters to avoid Bash expanding the glob pattern on the command line.
 
+We can also add a argument, `checkIfExists: true` , to the `fromFilePairs` channel factory to return an message if the file doesn't exist.
+
+~~~
+//script3.nf
+[..truncated..]
+read_pairs_ch = Channel.fromFilePairs( params.reads, checkIfExists: true )
+~~~
+{: .language-groovy }
+
+If we now run the script with the `--reads` parameter `data/yeast/reads/*_1,2}.fq.gz` 
+
+~~~
+$ nextflow run script3.nf --reads 'data/yeast/reads/*_1,2}.fq.gz'
+~~~
+{: .language-bash }
+
+it will return the message .
+
+~~~
+[..truncated..]
+No such file: data/yeast/reads/*_1,2}.fq.gz
+~~~
+{: .output }
+ 
 > ## Read in all read pairs
-> Read in all the read pairs files from the `data/yeast/reads` directory.
+> 1. Add  the `checkIfExists: true` argument to the `fromFilePairs` channel factory in `script3.nf`.
+> 1. Using the command line parameter `--reads`, add a glob pattern to read in all the read pairs files from the `data/yeast/reads` directory.
 > > ## Solution
+> > ~~~
+> > read_pairs_ch =Channel.fromFilePairs(params.reads, checkIfExists: true)
+> > ~~~
+> > {: .language-groovy }
 > > ~~~
 > > nextflow run script3.nf --reads 'data/yeast/reads/*_{1,2}.fq.gz'
 > > ~~~
-> > {: .language-groovy }
+> > {: .language-bash }
 > > ~~~
 > > [..truncated..]
 > > [temp33_1, [data/yeast/reads/temp33_1_1.fq.gz, data/yeast/reads/temp33_1_2.fq.gz]]
@@ -407,16 +436,6 @@ $ nextflow run script3.nf --reads 'data/yeast/reads/ref*_{1,2}.fq.gz'
 > {: .solution}
 {: .challenge}
 
-> ## checkIfExists
-> Use the `checkIfExists` option for the `fromFilePairs` method to check if the specified path contains at least one file pairs.
-> > ## Solution
-> > ~~~
-> > Channel.fromFilePairs(params.reads, checkIfExists: true)
-> > .set{read_pairs_ch}
-> > ~~~
-> > {: .language-groovy }
-> {: .solution}
-{: .challenge}
 
 ### Recap
 
@@ -426,7 +445,6 @@ In this step you have learned:
 
 * How to use the `checkIfExists` option to check input file existence
 
-* How to use the `set` operator to define a new channel variable
 
 ## Perform expression quantification
 
