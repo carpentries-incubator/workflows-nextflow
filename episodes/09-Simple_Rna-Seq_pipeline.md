@@ -346,50 +346,69 @@ read_pairs_ch = Channel.fromFilePairs( params.reads )
 ~~~
 {: .language-groovy }
 
-Edit the script `script3.nf` and add the following statement as the last line:
+We can view the contents  of the `read_pairs_ch` by adding the following statement as the last line:
 ~~~
 read_pairs_ch.view()
 ~~~
 {: .language-groovy }
 
-Save it and execute it with the following command:
+Now if we execute it with the following command:
 
 ~~~
 $ nextflow run script3.nf
 ~~~
 {: .language-bash }
 
-It will print an output similar to the one shown below:
+It will print an output similar to the one shown below that shows how the `read_pairs_ch` channel emits a tuple. The tuple is composed of two elements, where the first is the pattern matched by the glob pattern `data/yeast/reads/ref1_{1,2}.fq.g`, defined by the variable `params.reads` , and the second is a list representing the actual files.
 
 ~~~
+[..truncated..]
 [ref1, [data/yeast/reads/ref1_1.fq.gz,data/yeast/reads/ref1_2.fq.gz]]
 ~~~
 {: .output }
 
-The above example shows how the `read_pairs_ch` channel emits tuples composed by two elements, where the first is the read pair prefix and the second is a list representing the actual files.
-
-Try it again specifying different read files by using the glob pattern:
+To read in other read pairs  we can specify a different glob pattern in the `params.reads` variable by using `--reads` options on the command line. For example, the following command would read in add the ref samples:
 
 ~~~
-$ nextflow run script3.nf --reads 'data/yeast/reads/*_{1,2}.fq.gz'
+$ nextflow run script3.nf --reads 'data/yeast/reads/ref*_{1,2}.fq.gz'
 ~~~
 {: .language-bash }
 
-File paths including one or more wildcards ie. `*`, `?`, etc. MUST be wrapped in single-quoted characters to avoid Bash expanding the glob pattern on the command line.
+~~~
+[..truncated..]
+[ref2, [data/yeast/reads/ref2_1.fq.gz, data/yeast/reads/ref2_2.fq.gz]]
+[ref3, [data/yeast/reads/ref3_1.fq.gz, data/yeast/reads/ref3_2.fq.gz]]
+[ref1, [data/yeast/reads/ref1_1.fq.gz, data/yeast/reads/ref1_2.fq.gz]]
+~~~
+{: .output }
 
-> ## `set` operator
-> Use the `set` operator in place of = assignment to define the read_pairs_ch channel.
+**Note** File paths including one or more wildcards ie. `*`, `?`, etc. MUST be wrapped in single-quoted characters to avoid Bash expanding the glob pattern on the command line.
+
+> ## Read in all read pairs
+> Read in all the read pairs files from the `data/yeast/reads` directory.
 > > ## Solution
 > > ~~~
-> > Channel.fromFilePairs(params.reads)
-> > .set{read_pairs_ch}
+> > nextflow run script3.nf --reads 'data/yeast/reads/*_{1,2}.fq.gz'
 > > ~~~
 > > {: .language-groovy }
+> > ~~~
+> > [..truncated..]
+> > [temp33_1, [data/yeast/reads/temp33_1_1.fq.gz, data/yeast/reads/temp33_1_2.fq.gz]]
+> > [ref2, [data/yeast/reads/ref2_1.fq.gz, data/yeast/reads/ref2_2.fq.gz]]
+> > [temp33_3, [data/yeast/reads/temp33_3_1.fq.gz, data/yeast/reads/temp33_3_2.fq.gz]]
+> > [ref3, [data/yeast/reads/ref3_1.fq.gz, data/yeast/reads/ref3_2.fq.gz]]
+> > [temp33_2, [data/yeast/reads/temp33_2_1.fq.gz,data/yeast/reads/temp33_2_2.fq.gz]]
+> > [etoh60_2, [data/yeast/reads/etoh60_2_1.fq.gz,data/yeast/reads/etoh60_2_2.fq.gz]]
+> > [ref1, [data/yeast/reads/ref1_1.fq.gz, data/yeast/reads/ref1_2.fq.gz]]
+> > [etoh60_3, [data/yeast/reads/etoh60_3_1.fq.gz, data/yeast/reads/etoh60_3_2.fq.gz]]
+> > [etoh60_1, [data/yeast/reads/etoh60_1_1.fq.gz, data/yeast/reads/etoh60_1_2.fq.gz]]
+> > ~~~
+> > {: .output }
 > {: .solution}
 {: .challenge}
 
 > ## checkIfExists
-> Use the `checkIfExists` option for the `fromFilePairs` method to check if the specified path contains at least file pairs.
+> Use the `checkIfExists` option for the `fromFilePairs` method to check if the specified path contains at least one file pairs.
 > > ## Solution
 > > ~~~
 > > Channel.fromFilePairs(params.reads, checkIfExists: true)
