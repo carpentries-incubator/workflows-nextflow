@@ -126,22 +126,6 @@ Use them to:
 - Describe presence/absence of (un)expected code.
 
 ~~~
-#! /usr/bin/env nextflow
-
-nextflow.enable.dsl = 2
-
-include { READ_QC      } from 'workflows/read_qc'
-include { ALIGN_HISAT2 } from 'workflows/align_hisat2'
-include { ALIGN_STAR   } from 'workflows/align_star'
-
-workflow {
-
-    ALIGN_SEQ(
-        Channel.fromFilePairs( params.reads , checkIfExists: true ),
-        file( params.reference, checkIfExists: true )
-    )
-}
-
 workflow ALIGN_SEQ {
 
     take:
@@ -183,14 +167,7 @@ we use to aid reproducibility.
 ~~~
 process HISAT2_ALIGN {
 
-    input:
-    tuple val(sample), path(reads)
-    path index
-
-    output:
-    tuple val(sample), path("*.bam"), emit: bam
-    tuple val(sample), path("*.log"), emit: summary
-    path "versions.yml"             , emit: versions
+    ...
 
     script:
     def HISAT2_VERSION = '2.2.0' // Version not available using command-line
@@ -215,13 +192,7 @@ which helps readability.
 ~~~
 workflow ALIGN_HISAT2 {
 
-    take:
-    reads
-    reference
-
-    main:
-    HISAT2_INDEX( reference )
-    HISAT2_ALIGN( reads, HISAT2_INDEX.out.index )
+    ...
 
     emit:
     alignment = HISAT2_ALIGN.out.bam
@@ -230,26 +201,14 @@ workflow ALIGN_HISAT2 {
 
 process HISAT2_ALIGN {
 
-    input:
-    tuple val(sample), path(reads)
-    path index
+    ...
 
     output:
     tuple val(sample), path("*.bam"), emit: bam
     tuple val(sample), path("*.log"), emit: summary
     path "versions.yml"             , emit: versions
 
-    script:
-    def HISAT2_VERSION = '2.2.0' // Version not available using command-line
-    """
-    hisat2 ... | samtools ...
-
-    cat <<-END_VERSIONS > versions.yml
-    HISAT2_ALIGN:
-        hisat2: $HISAT2_VERSION
-        samtools: \$(samtools --version 2>&1 | sed 's/^.*samtools //; s/Using.*\$//')
-    END_VERSIONS
-    """
+    ...
 }
 ~~~
 {: .language-groovy}
@@ -269,8 +228,6 @@ process ALIGN {
     tuple val(sample), path(reads)
     path index
 
-    output:
-    tuple val(sample), path("*.bam"), emit: bam
     ...
 
     script:
@@ -300,8 +257,6 @@ process ALIGN {
     path index
     val aligner       // params.aligner is provided as a third parameter
 
-    output:
-    tuple val(sample), path("*.bam"), emit: bam
     ...
 
     script:
@@ -343,8 +298,6 @@ process READ_CHECK {
     input:
     tuple val(sample), path(reads)
 
-    output:
-    tuple val(sample), path("*.report"), emit: report
     ...
 
     script:
@@ -374,8 +327,6 @@ process READ_CHECK {
     tuple val(sample), path(reads)
     path database
 
-    output:
-    tuple val(sample), path("*.report"), emit: report
     ...
 
     script:
@@ -424,6 +375,7 @@ inside a process script using the command-line tools
 
 ~~~
 workflow REFINE_DATA {
+
     take:
     datapoints
 
@@ -438,10 +390,12 @@ process BATCH_TASK {
 
     script:
     """
-    # Alternative: parallel --jobs $task.cpus "short_task {1}" :::: $data
     printf "%s\n" $data | \
         xargs -P $task.cpus -I {} \
         short_task {}
+
+    # Alternative:
+    # parallel --jobs $task.cpus "short_task {1}" :::: $data
     """
 }
 ~~~
