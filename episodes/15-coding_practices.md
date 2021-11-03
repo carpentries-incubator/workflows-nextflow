@@ -424,4 +424,26 @@ process BATCH_TASK {
 ~~~
 {: .language-groovy}
 
+### Include a test profile
+
+A `test` profile is a configuration profile that specifies
+a short running test data set to check the functionality of
+the whole pipeline. It can also demonstrate to users of your
+workflow the kinds of inputs and outputs to expect. Another
+benefit is the possibility of automated testing of your
+workflow, ensuring the workflow keeps working as you add
+new functionality.
+
+~~~
+profiles {
+    test {
+        params {
+           reads = 'https://github.com/my_repo/test/test_reads.fastq.gz'
+           reference = 'https://github.com/my_repo/test/test_reference.fasta.gz'
+        }
+    }
+}
+~~~
+{: .language-groovy}
+
 {% include links.md %}
