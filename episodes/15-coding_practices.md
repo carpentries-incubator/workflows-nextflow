@@ -477,6 +477,50 @@ Building your own container images should be used as a last resort.
 A preferred option is to write a conda recipe for the tool
 to be included in the bioconda channel. This makes the tool available
 via a package manager, and containers are automatically built
-for the tool. 
+for the tool.
+
+### Use file compression and temporary disk space when possible
+
+Disk space is often a valuable resource on most compute systems.
+When possible, work with compressed files.
+There are several useful shell commands and operations
+that work well with compressed data, such as `zcat` and `zgrep`.
+Operations such as command substitution (`$( command )`), or
+process substitution (`>( command_list )`, or `<( command_list)`)
+can also help working with compressed data. Lastly,
+named pipes can also be used if the above approaches fail.
+
+~~~
+process COUNT_FASTA {
+
+    input:
+    path fasta         // reference.fasta.gz
+
+    script:
+    """
+    zgrep -c '^>' $fasta
+    """
+}
+~~~
+{: .language-groovy}
+
+Another good practice is to use local temporary disk space (also
+known as scratch space). Often, the workDir is located on a
+shared disk space over a network, which slows down processes
+that read and write a lot to disk. Using scratch space not only
+speeds up disk I/O, but also saves space in the workDir since only
+files which match the process output directive are copied back
+across for caching. The process directive `process.scratch`
+can be provided with either a boolean or the path to use
+for scratch space.
+
+~~~
+process {
+    scratch = '/tmp'
+}
+~~~
+{: .language-groovy}
+
+### Use consistent naming conventions
 
 {% include links.md %}
