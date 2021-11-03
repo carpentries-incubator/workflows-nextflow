@@ -79,8 +79,8 @@ The script `script1.nf` defines the pipeline input parameters.
 
 ~~~
 //script1.nf
-params.reads = "$projectDir/data/yeast/reads/*_{1,2}.fq.gz"
-params.transcriptome = "$projectDir/data/yeast/transcriptome/*.fa.gz"
+params.reads = "data/yeast/reads/*_{1,2}.fq.gz"
+params.transcriptome = "data/yeast/transcriptome/*.fa.gz"
 
 
 println "reads: $params.reads"
@@ -201,8 +201,8 @@ nextflow.enable.dsl=2
 /*
  * pipeline input parameters
  */
-params.reads = "$projectDir/data/yeast/reads/*_{1,2}.fq.gz"
-params.transcriptome = "$projectDir/data/yeast/transcriptome/Saccharomyces_cerevisiae.R64-1-1.cdna.all.fa.gz"
+params.reads = "data/yeast/reads/*_{1,2}.fq.gz"
+params.transcriptome = "data/yeast/transcriptome/Saccharomyces_cerevisiae.R64-1-1.cdna.all.fa.gz"
 params.outdir = "results"
 
 println """\
@@ -241,8 +241,6 @@ workflow {
 ~~~
 {: .language-groovy }
 
-
-
 Try to run it by using the command:
 
 ~~~
@@ -250,7 +248,8 @@ $ nextflow run script2.nf
 ~~~
 {: .language-bash }
 
-The execution will fail because Salmon is not installed in your environment.
+The execution will fail because the program `salmon` is not avialable in your environment.
+
 
 Add the command line option `-profile conda` to launch the execution through a conda environment as shown below:
 
@@ -286,12 +285,14 @@ profiles {
 
 
 > ## Print output of the contents of the index_ch
-> Print the output of the `index_ch` channel by using the `view` operator.
+> 1. Capture the ouput of the `INDEX` process using the variable `index_ch`.
+> 1. View the contents of the `index_ch` channel by using the `view` operator.
 > > ## Solution
 > > ~~~
 > > ..truncated...
 > > workflow {
-> >   INDEX(transcriptome_ch).view()
+> >   index_ch=INDEX(transcriptome_ch)
+> >   index_ch.view()
 > > }
 > > ~~~
 > > {: .language-groovy }
@@ -327,8 +328,8 @@ nextflow.enable.dsl = 2
 /*
  * pipeline input parameters
  */
-params.reads = "$projectDir/data/yeast/reads/ref1_{1,2}.fq.gz"
-params.transcriptome = "$projectDir/data/yeast/transcriptome/Saccharomyces_cerevisiae.R64-1-1.cdna.all.fa.gz"
+params.reads = "data/yeast/reads/ref1_{1,2}.fq.gz"
+params.transcriptome = "data/yeast/transcriptome/Saccharomyces_cerevisiae.R64-1-1.cdna.all.fa.gz"
 params.outdir = "results"
 
 log.info """\
