@@ -94,7 +94,7 @@ $ nextflow run script1.nf
 ~~~
 {: language-bash}
 
-Try to specify a different input parameter, for example:
+We can specify a different input parameter using the `--<params>` option, for example :
 
 ~~~
 $ nextflow run script1.nf --reads "data/yeast/reads/ref1*_{1,2}.fq.gz"
@@ -106,8 +106,8 @@ reads: data/yeast/reads/ref1*_{1,2}.fq.gz
 ~~~
 {: .output }
 
-> ## Add parameter
-> Modify the `script1.nf` adding a fourth parameter named `outdir` and set it to a default path that will be used as the pipeline output directory.
+> ## Add a parameter
+> Modify the `script1.nf` adding a fourth parameter named `outdir` and set it to `results`. This parameter will be used as the pipeline output directory.
 > > ## Solution
 > > ~~~
 > > params.outdir = "results"
