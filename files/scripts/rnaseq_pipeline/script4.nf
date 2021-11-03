@@ -54,9 +54,9 @@ process QUANT {
 }
 
 workflow {
-    Channel.fromFilePairs( params.reads, checkIfExists:true )
-        .set { read_pairs_ch }
+   read_pairs_ch = Channel.fromFilePairs( params.reads, checkIfExists:true )
+   transcriptome_ch = Channel.fromPath( params.transcriptome, checkIfExists:true )
 
-    index_ch = INDEX( params.transcriptome )
-    quant_ch = QUANT( index_ch, read_pairs_ch )
+   index_ch = INDEX( transcriptome_ch )
+   quant_ch = QUANT( index_ch, read_pairs_ch )
 }
