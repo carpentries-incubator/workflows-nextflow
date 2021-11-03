@@ -130,8 +130,8 @@ Use them to:
 nextflow.enable.dsl = 2
 
 include { READ_QC      } from 'workflows/read_qc'
-include { HISAT2_ALIGN } from 'workflows/hisat2_align'
-include { SALMON_ALIGN } from 'workflows/salmon_align'
+include { ALIGN_HISAT2 } from 'workflows/align_hisat2'
+include { ALIGN_SALMON } from 'workflows/align_salmon'
 
 workflow {
 
@@ -147,6 +147,7 @@ workflow RNA_SEQ {
     reads        // Queue type; Data: [ sample_id, [ file(read1), file(read2) ] ]
     reference    // Value type; file( "path/to/reference" )
 
+    main:
     // Quality Check input reads
     READ_QC( reads )
 
@@ -154,11 +155,11 @@ workflow RNA_SEQ {
     Channel.empty()
         .set { aligned_reads_ch }
     if( params.aligner == 'hisat2' ){
-        HISAT2_ALIGN( READ_QC.out.reads, reference )
-        aligned_reads_ch.mix( HISAT2_ALIGN.out.alignment )
-    } else {
-        SALMON_ALIGN( READ_QC.out.reads, reference )
-        aligned_reads_ch.mix( SALMON_ALIGN.out.alignment )
+        ALIGN_HISAT2( READ_QC.out.reads, reference )
+        aligned_reads_ch.mix( ALIGN_HISAT2.out.bam )
+    } else if ( params.aligner == 'salmon' ) {
+        ALIGN_SALMON( READ_QC.out.reads, reference )
+        aligned_reads_ch.mix( ALIGN_SALMON.out.bam )
     }
     aligned_reads_ch.view()
 
@@ -166,9 +167,88 @@ workflow RNA_SEQ {
 ~~~
 {: .language-groovy}
 
+### Report tool versions
+
+Software packaging is a hard problem, and it can be difficult for
+a package to report the versions of all the tools it has. It
+may also be excessive to report the version of everything included
+in a package, when only a handful of tools are used. This means
+that it's up to us to effectively report the versions of the tools
+we use to aid reproducibility.
+
+~~~
+process HISAT2_ALIGN {
+
+    input:
+    tuple val(sample), path(reads)
+    path index
+
+    output:
+    tuple val(sample), path("*.bam"), emit: bam
+    tuple val(sample), path("*.log"), emit: summary
+    path "versions.yml"             , emit: versions
+
+    script:
+    def HISAT2_VERSION = '2.2.0' // Version not available using command-line
+    """
+    hisat2 ... | samtools ...
+
+    cat <<-END_VERSIONS > versions.yml
+    HISAT2_ALIGN:
+        hisat2: $HISAT2_VERSION
+        samtools: \$(samtools --version 2>&1 | sed 's/^.*samtools //; s/Using.*\$//')
+    END_VERSIONS
+    """
+}
+~~~
+{: .language-groovy}
+
 ### Name output channels
 
-### Report tool versions
+Output channels from processes and workflows can be named,
+which helps readability.
+
+~~~
+workflow ALIGN_HISAT2 {
+
+    take:
+    reads
+    reference
+
+    main:
+    HISAT2_INDEX( reference )
+    HISAT2_ALIGN( reads, HISAT2_INDEX.out.index )
+
+    emit:
+    alignment = HISAT2_ALIGN.out.alignment
+
+}
+
+process HISAT2_ALIGN {
+
+    input:
+    tuple val(sample), path(reads)
+    path index
+
+    output:
+    tuple val(sample), path("*.bam"), emit: bam
+    tuple val(sample), path("*.log"), emit: summary
+    path "versions.yml"             , emit: versions
+
+    script:
+    def VERSION = '2.2.0' // Version not available using command-line
+    """
+    hisat2 ... | samtools ...
+
+    cat <<-END_VERSIONS > versions.yml
+    HISAT2_ALIGN:
+        hisat2: $HISAT2_VERSION
+        samtools: \$(samtools --version 2>&1 | sed 's/^.*samtools //; s/Using.*\$//')
+    END_VERSIONS
+    """
+}
+~~~
+{: .language-groovy}
 
 ### Use params.parameters in workflow blocks, not in process blocks
 
