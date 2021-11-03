@@ -338,7 +338,7 @@ system, but fail on another (for example compute nodes without
 internet connection).
 
 ~~~
-process DO_SOMETHING {
+process READ_CHECK {
 
     input:
     tuple val(sample), path(reads)
@@ -368,7 +368,7 @@ times as in the example above.
 potentially fewer lines of code.
 
 ~~~
-process DO_SOMETHING {
+process READ_CHECK {
 
     input:
     tuple val(sample), path(reads)
@@ -438,7 +438,7 @@ process BATCH_TASK {
 
     script:
     """
-    # parallel --jobs $task.cpus "short_task {1}" :::: $data
+    # Alternative: parallel --jobs $task.cpus "short_task {1}" :::: $data
     printf "%s\n" $data | \
         xargs -P $task.cpus -I {} \
         short_task {}
