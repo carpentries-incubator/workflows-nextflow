@@ -523,4 +523,10 @@ process {
 
 ### Use consistent naming conventions
 
+Using consistent naming conventions greatly helps readability.
+For example using uppercase for process names helps
+distinguish them from other workflow components like
+channels or operators. Here are other suggestions one
+can follow from [Nf-core](https://nf-co.re/developers/adding_modules#naming-conventions).
+
 {% include links.md %}
