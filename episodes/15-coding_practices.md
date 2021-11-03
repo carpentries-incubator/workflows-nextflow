@@ -197,7 +197,7 @@ process HISAT2_ALIGN {
     cat <<-END_VERSIONS > versions.yml
     HISAT2_ALIGN:
         hisat2: $HISAT2_VERSION
-        samtools: \$(samtools --version 2>&1 | sed 's/^.*samtools //; s/Using.*\$//')
+        samtools: \$( samtools --version 2>&1 | sed 's/^.*samtools //; s/Using.*\$//' )
     END_VERSIONS
     """
 }
@@ -221,7 +221,7 @@ workflow ALIGN_HISAT2 {
     HISAT2_ALIGN( reads, HISAT2_INDEX.out.index )
 
     emit:
-    alignment = HISAT2_ALIGN.out.alignment
+    alignment = HISAT2_ALIGN.out.bam
 
 }
 
