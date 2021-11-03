@@ -330,9 +330,9 @@ in more complex workflows.
 Depending on the platform you execute your workflow, files
 may be easily accessible over the network, or downloadable
 from the internet. However not all execution platforms
-support this. A strength of Nextflow is file staging, i.e.,
-preparing files for use in process tasks. It could be
-fine to code as below on your execution platform.
+support this. The example below could work well on your
+system, but fail on another (for example compute nodes without
+internet connection).
 
 ~~~
 process DO_SOMETHING {
@@ -355,12 +355,14 @@ process DO_SOMETHING {
 ~~~
 {: .language-groovy}
 
+A strength of Nextflow is file staging, i.e.,
+preparing files for use in process tasks.
 Staging files by providing them as process input has several benefits.
 - Files are updated only when necessary.
 - A single file/folder can be shared, without downloading multiple
 times as in the example above.
 - Nextflow supports retrieving files from any valid URL, meaning
-potentially few lines of code.
+potentially fewer lines of code.
 
 ~~~
 process DO_SOMETHING {
@@ -388,10 +390,14 @@ Many execution platforms are inefficient if a workflow
 tries to execute many short running processes. It
 can take more time to schedule and request resources
 for each small instance than bundling the short processes
-into a larger process task. Nextflow provides some
-convenient channel operators, such as `buffer` and `collate`
-that can help group together inputs into batches that
+into a larger process task. Nextflow provides
+convenient channel operators, such as `buffer`, `collate`,
+`collect`, and `collectFile`,
+that help group together inputs into batches which
 can run for longer with a given requested resource.
+The short tasks themselves can also be parallelised
+inside a process script using the command-line tools
+`xargs` or `parallel`.
 
 ~~~
 workflow REFINE_DATA {
@@ -409,7 +415,10 @@ process BATCH_TASK {
 
     script:
     """
-    parallel --jobs $task.cpus "short_task {1}" :::: $data
+    # parallel --jobs $task.cpus "short_task {1}" :::: $data
+    printf "%s\n" $data | \
+        xargs -P $task.cpus -I {} \
+        short_task {}
     """
 }
 ~~~
