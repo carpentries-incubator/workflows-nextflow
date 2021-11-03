@@ -132,7 +132,7 @@ nextflow.enable.dsl = 2
 
 include { READ_QC      } from 'workflows/read_qc'
 include { ALIGN_HISAT2 } from 'workflows/align_hisat2'
-include { ALIGN_SALMON } from 'workflows/align_salmon'
+include { ALIGN_STAR   } from 'workflows/align_star'
 
 workflow {
 
@@ -158,9 +158,9 @@ workflow RNA_SEQ {
     if( params.aligner == 'hisat2' ){
         ALIGN_HISAT2( READ_QC.out.reads, reference )
         aligned_reads_ch.mix( ALIGN_HISAT2.out.bam )
-    } else if ( params.aligner == 'salmon' ) {
-        ALIGN_SALMON( READ_QC.out.reads, reference )
-        aligned_reads_ch.mix( ALIGN_SALMON.out.bam )
+    } else if ( params.aligner == 'star' ) {
+        ALIGN_STAR( READ_QC.out.reads, reference )
+        aligned_reads_ch.mix( ALIGN_STAR.out.bam )
     }
     aligned_reads_ch.view()
 
@@ -237,7 +237,7 @@ process HISAT2_ALIGN {
     path "versions.yml"             , emit: versions
 
     script:
-    def VERSION = '2.2.0' // Version not available using command-line
+    def HISAT2_VERSION = '2.2.0' // Version not available using command-line
     """
     hisat2 ... | samtools ...
 
@@ -253,9 +253,81 @@ process HISAT2_ALIGN {
 
 ### Use params.parameters in workflow blocks, not in process blocks
 
+The `params` variables are accessible from anywhere in a workflow.
+They can be useful to provide a wide variety of properties and
+decision making options. For example, one could use a `params.aligner`
+variable in a workflow to select a particular alignment tool. This
+in turn could be coded like:
+
+~~~
+process ALIGN {
+
+    input:
+    tuple val(sample), path(reads)
+    path index
+
+    output:
+    tuple val(sample), path("*.bam"), emit: bam
+    ...
+
+    script:
+    if ( params.aligner == 'hisat2' ) {
+        """
+        hisat2 ... | samtools ...
+
+        ...
+        """
+    } else if ( params.aligner == 'star' ){
+        """
+        star ...
+
+        ...
+        """
+    }
+}
+~~~
+{: .language-groovy}
+
+A better practice is to use it as an input value.
+~~~
+process ALIGN {
+
+    input:
+    tuple val(sample), path(reads)
+    path index
+    val aligner       // params.aligner is provided as a third parameter
+
+    output:
+    tuple val(sample), path("*.bam"), emit: bam
+    ...
+
+    script:
+    if ( aligner == 'hisat2' ) {
+        """
+        hisat2 ... | samtools ...
+
+        ...
+        """
+    } else if ( aligner == 'star' ){
+        """
+        star ...
+
+        ...
+        """
+    }
+}
+~~~
+{: .language-groovy}
+
+This allows one to see from the `workflow` block where all
+parameters are being used, making the workflow easier to maintain.
+There is also a danger that one could modify `params` variables during
+pipeline execution, potentially leading to unreproducible results
+in more complex workflows.
+
 ### All input files/directories should be a process input
 
-### Avoid lots of short running process
+### Avoid lots of short running processes
 
 
 {% include links.md %}
