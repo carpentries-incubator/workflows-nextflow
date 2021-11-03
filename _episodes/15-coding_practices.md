@@ -384,5 +384,35 @@ process DO_SOMETHING {
 
 ### Avoid lots of short running processes
 
+Many execution platforms are inefficient if a workflow
+tries to execute many short running processes. It
+can take more time to schedule and request resources
+for each small instance than bundling the short processes
+into a larger process task. Nextflow provides some
+convenient channel operators, such as `buffer` and `collate`
+that can help group together inputs into batches that
+can run for longer with a given requested resource.
+
+~~~
+workflow REFINE_DATA {
+    take:
+    datapoints
+
+    main:
+    BATCH_TASK( datapoints.collate(100) )
+}
+
+process BATCH_TASK {
+
+    input:
+    val data
+
+    script:
+    """
+    parallel --jobs $task.cpus "short_task {1}" :::: $data
+    """
+}
+~~~
+{: .language-groovy}
 
 {% include links.md %}
