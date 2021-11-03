@@ -107,7 +107,7 @@ reads: data/yeast/reads/ref1*_{1,2}.fq.gz
 {: .output }
 
 > ## Add a parameter
-> Modify the `script1.nf` adding a fourth parameter named `outdir` and set it to `results`. This parameter will be used as the pipeline output directory.
+> Modify the `script1.nf` adding a third parameter named `outdir` and set it to `results`. This parameter will be used as the pipeline output directory.
 > > ## Solution
 > > ~~~
 > > params.outdir = "results"
@@ -137,6 +137,7 @@ log.info """\
 >
 > Look at the output log `.nextflow.log`.
 > > ## Solution
+> > Below is an example log.info command printing all the pipeline parameters.
 > > ~~~
 > > log.info """\
 > >         R N A S E Q - N F   P I P E L I N E    
