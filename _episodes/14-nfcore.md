@@ -297,7 +297,7 @@ nf-core/tools version 2.1
 ┏━━━━━━━━━━━━━━━━━━━┳━━━━━━━┳━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━━━━━━┓
 ┃ Pipeline Name     ┃ Stars ┃ Latest Release ┃      Released ┃    Last Pulled ┃ Have latest release? ┃
 ┡━━━━━━━━━━━━━━━━━━━╇━━━━━━━╇━━━━━━━━━━━━━━━━╇━━━━━━━━━━━━━━━╇━━━━━━━━━━━━━━━━╇━━━━━━━━━━━━━━━━━━━━━━┩
-│ rnaseq            │   304 │            3.0 │  3 months ago │ 1 minutes ago │ Yes (v3.0)           │
+│ rnaseq            │   394 │            3.4 │  4 weeks ago  │ 1 minutes ago  │ Yes (v3.4)           │
 [..truncated..]
 ~~~
 {: .output}
@@ -336,13 +336,13 @@ Each pipeline has its own webpage at https://nf-co.re/<pipeline_name> e.g. [nf-c
 In addition to this documentation, each pipeline comes with basic command line reference. This can be seen by running the pipeline with the parameter `--help` , for example:
 
 ~~~
-$ nextflow run -r 3.0 nf-core/rnaseq --help
+$ nextflow run -r 3.4 nf-core/rnaseq --help
 ~~~
 {: .language-bash}
 
 ~~~
 N E X T F L O W  ~  version 20.10.0
-Launching `nf-core/rnaseq` [silly_miescher] - revision: 3643a94411 [3.0]
+Launching `nf-core/rnaseq` [silly_miescher] - revision: 964425e3fd [3.4]
 ------------------------------------------------------
                                         ,--./,-.
         ___     __   __   __   ___     /,-._.--~'
@@ -496,7 +496,7 @@ If you specify the flag `--singularity`, it will also download any singularity i
 
 
 ~~~
-$ nf-core download nf-core/rnaseq -r 3.0
+$ nf-core download nf-core/rnaseq -r 3.4
 ~~~
 > {: .language-bash}
 
@@ -513,14 +513,14 @@ $ nf-core download nf-core/rnaseq -r 3.0
 
 
 INFO     Saving nf-core/rnaseq                                                                                                                                                                                                                                         download.py:148
-          Pipeline release: '3.0'
+          Pipeline release: '3.4'
           Pull singularity containers: 'No'
-          Output file: 'nf-core-rnaseq-3.0.tar.gz'
+          Output file: 'nf-core-rnaseq-3.4.tar.gz'
 INFO     Downloading workflow files from GitHub                                                                                                                                                                                                                        download.py:151
 INFO     Downloading centralised configs from GitHub                                                                                                                                                                                                                   download.py:155
 INFO     Compressing download..                                                                                                                                                                                                                                        download.py:166
-INFO     Command to extract files: tar -xzf nf-core-rnaseq-3.0.tar.gz                                                                                                                                                                                                  download.py:653
-INFO     MD5 checksum for nf-core-rnaseq-3.0.tar.gz: f0e0c239bdb39c613d6a080f1dee88e9
+INFO     Command to extract files: tar -xzf nf-core-rnaseq-3.4.tar.gz                                                                                                                                                                                                  download.py:653
+INFO     MD5 checksum for nf-core-rnaseq-3.4.tar.gz: f0e0c239bdb39c613d6a080f1dee88e9
 ~~~
 {: .output}
 
