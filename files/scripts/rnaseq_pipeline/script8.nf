@@ -9,7 +9,6 @@ nextflow.enable.dsl = 2
  */
 params.reads = "$projectDir/data/yeast/reads/ref1_{1,2}.fq.gz"
 params.transcriptome = "$projectDir/data/yeast/transcriptome/Saccharomyces_cerevisiae.R64-1-1.cdna.all.fa.gz"
-params.multiqc = "$projectDir/multiqc"
 params.outdir = "results"
 
 log.info """\
