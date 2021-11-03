@@ -79,8 +79,8 @@ The script `script1.nf` defines the pipeline input parameters.
 
 ~~~
 //script1.nf
-params.reads = "$projectDir/data/yeast/reads/*_{1,2}.fq.gz"
-params.transcriptome = "$projectDir/data/yeast/transcriptome/*.fa.gz"
+params.reads = "data/yeast/reads/*_{1,2}.fq.gz"
+params.transcriptome = "data/yeast/transcriptome/*.fa.gz"
 
 
 println "reads: $params.reads"
@@ -201,8 +201,8 @@ nextflow.enable.dsl=2
 /*
  * pipeline input parameters
  */
-params.reads = "$projectDir/data/yeast/reads/*_{1,2}.fq.gz"
-params.transcriptome = "$projectDir/data/yeast/transcriptome/Saccharomyces_cerevisiae.R64-1-1.cdna.all.fa.gz"
+params.reads = "data/yeast/reads/*_{1,2}.fq.gz"
+params.transcriptome = "data/yeast/transcriptome/Saccharomyces_cerevisiae.R64-1-1.cdna.all.fa.gz"
 params.outdir = "results"
 
 println """\
@@ -328,8 +328,8 @@ nextflow.enable.dsl = 2
 /*
  * pipeline input parameters
  */
-params.reads = "$projectDir/data/yeast/reads/ref1_{1,2}.fq.gz"
-params.transcriptome = "$projectDir/data/yeast/transcriptome/Saccharomyces_cerevisiae.R64-1-1.cdna.all.fa.gz"
+params.reads = "data/yeast/reads/ref1_{1,2}.fq.gz"
+params.transcriptome = "data/yeast/transcriptome/Saccharomyces_cerevisiae.R64-1-1.cdna.all.fa.gz"
 params.outdir = "results"
 
 log.info """\
