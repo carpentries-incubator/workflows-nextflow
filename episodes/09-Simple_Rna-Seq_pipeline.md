@@ -81,7 +81,7 @@ The script `script1.nf` defines the pipeline input parameters.
 //script1.nf
 params.reads = "$projectDir/data/yeast/reads/*_{1,2}.fq.gz"
 params.transcriptome = "$projectDir/data/yeast/transcriptome/*.fa.gz"
-params.multiqc = "$projectDir/multiqc"
+
 
 println "reads: $params.reads"
 ~~~~
@@ -94,7 +94,7 @@ $ nextflow run script1.nf
 ~~~
 {: language-bash}
 
-Try to specify a different input parameter, for example:
+We can specify a different input parameter using the `--<params>` option, for example :
 
 ~~~
 $ nextflow run script1.nf --reads "data/yeast/reads/ref1*_{1,2}.fq.gz"
@@ -106,8 +106,8 @@ reads: data/yeast/reads/ref1*_{1,2}.fq.gz
 ~~~
 {: .output }
 
-> ## Add parameter
-> Modify the `script1.nf` adding a fourth parameter named `outdir` and set it to a default path that will be used as the pipeline output directory.
+> ## Add a parameter
+> Modify the `script1.nf` adding a third parameter named `outdir` and set it to `results`. This parameter will be used as the pipeline output directory.
 > > ## Solution
 > > ~~~
 > > params.outdir = "results"
@@ -137,6 +137,7 @@ log.info """\
 >
 > Look at the output log `.nextflow.log`.
 > > ## Solution
+> > Below is an example log.info command printing all the pipeline parameters.
 > > ~~~
 > > log.info """\
 > >         R N A S E Q - N F   P I P E L I N E    
@@ -202,7 +203,6 @@ nextflow.enable.dsl=2
  */
 params.reads = "$projectDir/data/yeast/reads/*_{1,2}.fq.gz"
 params.transcriptome = "$projectDir/data/yeast/transcriptome/Saccharomyces_cerevisiae.R64-1-1.cdna.all.fa.gz"
-params.multiqc = "$projectDir/multiqc"
 params.outdir = "results"
 
 println """\
@@ -329,7 +329,6 @@ nextflow.enable.dsl = 2
  */
 params.reads = "$projectDir/data/yeast/reads/ref1_{1,2}.fq.gz"
 params.transcriptome = "$projectDir/data/yeast/transcriptome/Saccharomyces_cerevisiae.R64-1-1.cdna.all.fa.gz"
-params.multiqc = "$projectDir/multiqc"
 params.outdir = "results"
 
 log.info """\
