@@ -446,4 +446,37 @@ profiles {
 ~~~
 {: .language-groovy}
 
+### Write modules that use existing containers
+
+Using containers for software packaging is strongly recommended,
+as they are intended to operate the same, irrespective of the
+operating system it runs on. Writing modules which use
+existing containers reduces maintenance needed for a workflow,
+and minimises the need to resolve package conflicts. A
+helpful resource for this is the bioconda channel for the
+package manager conda, which provides packaging for many
+bioinformatics tools. In addition to this,
+[Biocontainers](https://biocontainers.pro/) builds both
+Docker and Singularity images for each tool packaged on
+the bioconda channel. Multi-package containers (known
+as mulled containers) can also be created following the
+instructions on the [Multi Package Containers repository](https://github.com/BioContainers/multi-package-containers).
+
+~~~
+process FASTQC {
+
+    container "${ workflow.containerEngine == 'singularity' ?
+        'https://depot.galaxyproject.org/singularity/fastqc:0.11.9--0' :
+        'quay.io/biocontainers/fastqc:0.11.9--0' }"
+
+    ...
+}
+~~~
+
+Building your own container images should be used as a last resort.
+A preferred option is to write a conda recipe for the tool
+to be included in the bioconda channel. This makes the tool available
+via a package manager, and containers are automatically built
+for the tool. 
+
 {% include links.md %}
