@@ -636,7 +636,10 @@ The `FASTQC` process will not run as the process has not been declared in the wo
 > > ## Solution
 > > ~~~
 > > workflow {
-> >  index_ch=INDEX(params.transcriptome)
+> >  read_pairs_ch = Channel.fromFilePairs( params.reads, checkIfExists:true )
+> >  transcriptome_ch = Channel.fromPath( params.transcriptome, checkIfExists:true )
+> >
+> >  index_ch = INDEX( transcriptome_ch )
 > >  quant_ch=QUANT(index_ch,read_pairs_ch)
 > >  fastqc_ch=FASTQC(read_pairs_ch)
 }
@@ -733,12 +736,11 @@ process MULTIQC {
     """
 }
 
-read_pairs_ch = Channel.fromFilePairs( params.reads, checkIfExists:true )
-transcriptome_ch = Channel.fromPath( params.transcriptome, checkIfExists:true )
-
-  
 
 workflow {
+  read_pairs_ch = Channel.fromFilePairs( params.reads, checkIfExists:true )
+  transcriptome_ch = Channel.fromPath( params.transcriptome, checkIfExists:true )
+
   index_ch=INDEX(transcriptome_ch)
   quant_ch=QUANT(index_ch,read_pairs_ch)
   fastqc_ch=FASTQC(read_pairs_ch)
