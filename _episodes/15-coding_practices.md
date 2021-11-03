@@ -136,17 +136,17 @@ include { ALIGN_STAR   } from 'workflows/align_star'
 
 workflow {
 
-    RNA_SEQ(
+    ALIGN_SEQ(
         Channel.fromFilePairs( params.reads , checkIfExists: true ),
         file( params.reference, checkIfExists: true )
     )
 }
 
-workflow RNA_SEQ {
+workflow ALIGN_SEQ {
 
     take:
-    reads        // Queue type; Data: [ sample_id, [ file(read1), file(read2) ] ]
-    reference    // Value type; file( "path/to/reference" )
+    reads        // queue channel; [ sample_id, [ file(read1), file(read2) ] ]
+    reference    // value channel; file( "path/to/reference" )
 
     main:
     // Quality Check input reads
@@ -163,6 +163,9 @@ workflow RNA_SEQ {
         aligned_reads_ch.mix( ALIGN_STAR.out.bam )
     }
     aligned_reads_ch.view()
+
+    emit:
+    bam = aligned_reads_ch   // queue channel: [ sample_id, file(bam_file) ]
 
 }
 ~~~
@@ -383,6 +386,26 @@ process DO_SOMETHING {
 }
 ~~~
 {: .language-groovy}
+
+If may be that a file is an optional input depending on other parameters.
+In cases when no file should be provided, one can pass an empty list `[]`
+instead.
+
+~~~
+workflow {
+
+    COUNT_KMERS( reads, [] )
+}
+
+process COUNT_KMERS {
+
+    input:
+    tuple val(sample), path(reads)  // Mandatory: Reads in which to count kmers
+    path kmer_table                 // Optional : Table of k-mers to count
+
+    ...
+}
+~~~
 
 ### Avoid lots of short running processes
 
