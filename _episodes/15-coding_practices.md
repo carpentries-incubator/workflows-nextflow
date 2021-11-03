@@ -22,9 +22,157 @@ keypoints:
 Nextflow is a powerful flexible language that one can code in a variety of ways.
 This can lead to poor practices in coding. For example, this can lead
 to the workflow only working under certain configurations or execution platforms.
-Alternatively, it can make it harder for someone to contribute to a codebase.
+Alternatively, it can make it harder for someone to contribute to a codebase,
+or for you to amend two years later for article submission.
 These are some useful coding tips that make maintaining and porting your
-workflow easier. 
+workflow easier.
+
+### Use whitespace to improve readability.
+
+Nextflow is generally not sensitive to whitespace in code. This allows you
+to use indentation, vertical spacing, new-lines, and increased spacing to
+improve code readability.
+
+~~~
+#! /usr/bin/env nextflow
+
+// Tip: Allow spaces around assignments ( = )
+nextflow.enable.dsl = 2     
+
+// Tip: Separate blocks of code into groups with common purpose
+//      e.g., parameter blocks, include statements, workflow blocks, process blocks
+// Tip: Align assignment operators vertically in a block
+params.reads     = ''
+params.gene_list = ''
+params.gene_db   = 'ftp://path/to/database'
+
+// Tip: Align braces or instruction parts vertically
+include { BAR        } from 'modules/bar'
+include { TAN as BAZ } from 'modules/tan'
+
+workflow {
+
+    // Tip: Indent process calls
+    // Tip: Use spaces around process/function parameters
+    FOO( Channel.fromPath( params.reads, checkIfExists: true ) )
+    BAR( FOO.out )
+    // Tip: Use vertical spacing and indentation for many parameters.
+    BAZ(
+        Channel.fromPath( params.gene_list, checkIfExists:true ),
+        FOO.out,
+        BAR.out,
+        file( params.gene_db, checkIfExists: true )
+    )
+
+}
+
+process FOO {
+
+    // Tip: Separate process parts into distinct blocks
+    input:
+    path fastq
+
+    output:
+    path
+
+    script:
+    prefix = fastq.baseName
+    """
+    tofasta $fastq > $prefix.fasta
+    """
+}
+~~~
+{: .language-groovy}
+
+> ## Challenge
+> Use whitespace to improve the readability of the following code.
+~~~
+#! /usr/bin/env nextflow
+
+nextflow.enable.dsl=2
+params.reads = ''
+workflow {
+foo(Channel.fromPath(params.reads))
+bar(foo.out)
+}
+process foo {
+input:
+path fastq
+output:
+path
+script:
+prefix=fastq.baseName
+"""
+tofasta $fastq > $prefix.fasta
+"""
+}
+process bar {
+input:
+path fasta
+script:
+"""
+fastx_check $fasta
+"""
+}
+~~~
+{: .language-groovy}
+
+### Use comments
+
+Comments are an important tool to improve readability and maintenance.
+Use them to:
+- Annotate data structures expected in a channel.
+- Describe higher level functionality.
+
+~~~
+#! /usr/bin/env nextflow
+
+nextflow.enable.dsl = 2
+
+include { READ_QC      } from 'workflows/read_qc'
+include { HISAT2_ALIGN } from 'workflows/hisat2_align'
+include { SALMON_ALIGN } from 'workflows/salmon_align'
+
+workflow {
+
+    RNA_SEQ(
+        Channel.fromFilePairs( params.reads , checkIfExists: true ),
+        file( params.reference, checkIfExists: true )
+    )
+}
+
+workflow RNA_SEQ {
+
+    take:
+    reads        // Queue type; Data: [ sample_id, [ file(read1), file(read2) ] ]
+    reference    // Value type; file( "path/to/reference" )
+
+    // Quality Check input reads
+    READ_QC( reads )
+
+    // Align reads to reference
+    Channel.empty()
+        .set { aligned_reads_ch }
+    if( params.aligner == 'hisat2' ){
+        HISAT2_ALIGN( READ_QC.out.reads, reference )
+        aligned_reads_ch.mix( HISAT2_ALIGN.out.alignment )
+    } else {
+        SALMON_ALIGN( READ_QC.out.reads, reference )
+        aligned_reads_ch.mix( SALMON_ALIGN.out.alignment )
+    }
+    aligned_reads_ch.view()
+
+}
+~~~
+{: .language-groovy}
+
+### Name output channels
+
+### Report tool versions
+
+### Use params.parameters in workflow blocks, not in process blocks
+
+### All input files/directories should be a process input
 
 
 {% include links.md %}
