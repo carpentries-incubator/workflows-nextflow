@@ -123,7 +123,7 @@ Comments are an important tool to improve readability and maintenance.
 Use them to:
 - Annotate data structures expected in a channel.
 - Describe higher level functionality.
-- Describe presence/absence of (un)expected code. 
+- Describe presence/absence of (un)expected code.
 
 ~~~
 #! /usr/bin/env nextflow
@@ -254,6 +254,8 @@ process HISAT2_ALIGN {
 ### Use params.parameters in workflow blocks, not in process blocks
 
 ### All input files/directories should be a process input
+
+### Avoid lots of short running process
 
 
 {% include links.md %}
