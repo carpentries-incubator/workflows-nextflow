@@ -476,7 +476,10 @@ process QUANT {
 }
 ..truncated..
 workflow {
-  index_ch=INDEX(params.transcriptome)
+  read_pairs_ch = Channel.fromFilePairs( params.reads, checkIfExists:true )
+  transcriptome_ch = Channel.fromPath( params.transcriptome, checkIfExists:true )
+    
+  index_ch=INDEX(transcriptome_ch)
   quant_ch=QUANT(index_ch,read_pairs_ch)
 }
 ~~~
@@ -546,7 +549,9 @@ In these situations it is useful to add a `tag` directive to add some descriptiv
 {: .challenge}
 
 Data produced by the workflow during a process will be saved in the working directory, by default a directory named `work`. 
-The working directory should be considered a temporary storage space and any data you wish to save at the end of the workflow should be specified in the process output with the final storage location  defined in the  `publishDir` directive. **Note:** by default the `publishDir` directive creates a symbolic link to the files in the working this behaviour can be changed using the `mode` parameter.
+The working directory should be considered a temporary storage space and any data you wish to save at the end of the workflow should be specified in the process output with the final storage location  defined in the  `publishDir` directive. 
+
+**Note:** by default the `publishDir` directive creates a symbolic link to the files in the working this behaviour can be changed using the `mode` parameter.
 
 > ## Add a publishDir directive
 Add a `publishDir` directive to the quantification process of `script4.nf` to store the process results into folder specified by the `params.outdir` Nextflow variable. Include the `publishDir` `mode` option to copy the output.
@@ -602,7 +607,10 @@ process FASTQC {
 [..truncated..]
 
 workflow {
-  index_ch=INDEX(params.transcriptome)
+  read_pairs_ch = Channel.fromFilePairs( params.reads, checkIfExists:true )
+  transcriptome_ch = Channel.fromPath( params.transcriptome, checkIfExists:true )
+
+  index_ch=INDEX(transcriptome_ch)
   quant_ch=QUANT(index_ch,read_pairs_ch)
 }
 ~~~
@@ -725,12 +733,13 @@ process MULTIQC {
     """
 }
 
-Channel
-    .fromFilePairs( params.reads, checkIfExists:true )
-    .set { read_pairs_ch }
+read_pairs_ch = Channel.fromFilePairs( params.reads, checkIfExists:true )
+transcriptome_ch = Channel.fromPath( params.transcriptome, checkIfExists:true )
+
+  
 
 workflow {
-  index_ch=INDEX(params.transcriptome)
+  index_ch=INDEX(transcriptome_ch)
   quant_ch=QUANT(index_ch,read_pairs_ch)
   fastqc_ch=FASTQC(read_pairs_ch)
   MULTIQC(quant_ch.mix(fastqc_ch).collect())
