@@ -130,7 +130,7 @@ workflow ALIGN_SEQ {
 
     take:
     reads        // queue channel; [ sample_id, [ file(read1), file(read2) ] ]
-    reference    // value channel; file( "path/to/reference" )
+    reference    // file( "path/to/reference" )
 
     main:
     // Quality Check input reads
