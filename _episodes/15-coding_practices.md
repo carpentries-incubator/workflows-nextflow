@@ -13,8 +13,15 @@ objectives:
 keypoints:
 - "Nextflow is not sensitive to whitespace. Use it to layout code for readability."
 - "Use comments and whitespace to group chunks of code to describe big picture functionality."
+- "Report tool versions in the scripts."
+- "Name channel outputs using the `emit:` keyword."
 - "Avoid `params.parameter` in a process. Pass all parameters using input channels."
 - "Input files should be passed using input channels."
+- "Group short running commands into a larger process."
+- "Include a test profile which runs the workflow on a small test data set."
+- "Write your processes to reuse existing containers/software bundles."
+- "Use compressed files and temporary disk space when possible."
+- "Use consistent naming conventions."
 ---
 
 ## Nextflow coding practices
