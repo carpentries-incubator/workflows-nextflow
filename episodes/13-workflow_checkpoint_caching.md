@@ -257,10 +257,6 @@ $ nextflow run wc.nf --input 'data/yeast/reads/temp33*' -w second_work_dir -resu
 ~~~
 {: .language-bash}
 
-~~~
-$ nextflow run wc.nf --input 'data/yeast/reads/temp33*' -w anotherwork
-~~~
-{: .language-bash}
 
 ~~~
 N E X T F L O W  ~  version 21.04.0
