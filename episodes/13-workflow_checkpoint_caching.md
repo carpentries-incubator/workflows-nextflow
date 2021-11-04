@@ -4,7 +4,7 @@ teaching: 20
 exercises: 10
 questions:
 - "How can I restart a Nextflow workflow after an error?"
-- "How can I add new data to a workflow?"
+- "How can I add new data to a workflow without starting from the beginning?"
 - "Where can I find intermediate data and results?"
 objectives:
 - "Resume a Nextflow workflow using the `-resume` option."
@@ -69,7 +69,7 @@ ref1_2.fq.gz 58708
 > >temp33_2_1.fq.gz 63116
 > >  ~~~
 > > {: .output }
-> > You will see that the execution of the process `NUMLINES` is actually skipped (cached text appears), and its results are retrieved from the cache.
+> > You will see that the execution of the process `NUMLINES` is actually skipped (cached text appears), and the results are retrieved from the cache.
 > {: .solution}
 {: .challenge}
 
@@ -92,7 +92,6 @@ When we resume a workflow Nextflow uses this unique ID to check if:
 1. It contains the expected output files.
 
 If these conditions are satisfied, the task execution is skipped and the previously computed outputs are applied. When a task requires recomputation, ie. the conditions above are not fulfilled, the downstream tasks are automatically invalidated.
-
 
 Therefore, if you modify some parts of your script, or alter the input data using `-resume`, will only execute the processes that are actually changed.
 
@@ -134,7 +133,7 @@ This helps a lot when testing or modifying part of your pipeline without having 
 > >  ~~~
 > > {: .output }
 > > As you changed the timestamp on one file it will only re-run that process.
-> > The results from the other 5 processes are cached.
+> > The results for the other 5 processes are retieved from the cache.
 > {: .solution}
 {: .challenge}
 
@@ -151,6 +150,7 @@ $ tree -a work
 ~~~
 {: .language-bash}
 
+Example output
 
 ~~~
 work/
@@ -220,9 +220,9 @@ work/
 ### Task execution directory
 
 Within the `work` directory there are multiple task execution directories. 
-There is one directory for each time a  process is executed. 
-These task directories are identified by the process execution hash 
-e.g. `fa/cd3e49b63eadd6248aa357083763c1` would be the task directory for process `fa/cd3e49` .
+There is one directory for each time a process is executed. 
+These task directories are identified by the process execution hash. For example 
+the task directory `fa/cd3e49b63eadd6248aa357083763c1` would be location for the process identified by the hash `fa/cd3e49` .
 
 The task execution directory contains:
 
@@ -240,9 +240,9 @@ The task execution directory contains:
 
 * `.exitcode`: A file containing the task exit code.
 
-* Task input files (symlinks)
+* Any task input files (symlinks)
 
-* Task output files
+* Any task output files
 
 
 
@@ -253,9 +253,33 @@ You can specify another work directory using the command line option `-w`.
 **Note** Using a different work directory will mean that any jobs will need to re-run from the beginning.
 
 ~~~
-$ nextflow run <script> -w /some/scratch/dir
+$ nextflow run wc.nf --input 'data/yeast/reads/temp33*' -w second_work_dir -resume
 ~~~
 {: .language-bash}
+
+~~~
+$ nextflow run wc.nf --input 'data/yeast/reads/temp33*' -w anotherwork
+~~~
+{: .language-bash}
+
+~~~
+N E X T F L O W  ~  version 21.04.0
+Launching `wc.nf` [deadly_easley] - revision: fede04a544
+executor >  local (6)
+[9d/0f5e89] process > NUM_LINES (5) [100%] 6 of 6 ✔
+temp33_3_2.fq.gz 88956
+
+temp33_1_1.fq.gz 82372
+
+temp33_3_1.fq.gz 88956
+
+temp33_1_2.fq.gz 82372
+
+temp33_2_2.fq.gz 63116
+
+temp33_2_1.fq.gz 63116
+~~~
+{: .output}
 
 ### Clean the work directory
 
@@ -266,15 +290,20 @@ $ nextflow clean [run_name|session_id] [options]
 ~~~
 {: .language-bash}
 
-Typically, results before the last successful result are cleaned:
+You need to specify the options `-n` to print names of file to be removed without deleting them, or `-f` to force the removal of the files.
+**Note** If you want to removes only temporary files but retains execution log entries and metadata you need to add the option `-k`.
+
+If you want to clean the temporary files for multiple runs you can use the options, `-before`, `-after` or `-but` before the run name.
+
+For example, the command below would remove all the temporary files and log entries for runs before the run `gigantic_minsky`.
 
 ~~~
-$ nextflow clean -f -before [run_name|session_id]
+$ nextflow clean -f -before gigantic_minsky
 ~~~
 {: .language-bash}
 
 > ## Remove a Nextflow run.
->  Remove  the last nextflow run using the command `nextflow clean`. 
+>  Remove the last Nextflow run using the command `nextflow clean`. 
 >  First use the option `-dry-run` to see which files would be deleted and then re-run removing the run and associated files.
 > > ## Solution
 > > An example nextflow clean command with `dry-run` .
