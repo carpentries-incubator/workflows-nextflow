@@ -187,7 +187,7 @@ A process is defined by providing three main declarations:
 1. The process [outputs](https://www.nextflow.io/docs/latest/process.html#outputs)
 1. Finally the command [script](https://www.nextflow.io/docs/latest/process.html#script).
 
-The second example, `script2.nf` adds, 
+The second example, `script2.nf` adds,
 
 1. The  process `INDEX` which generate a directory with the index of the transcriptome. This process takes one input, a transcriptome file, and emits one output a salmon index directory.
 3. A queue Channel `transcriptome_ch` taking the  transcriptome file defined in params variable `params.transcriptome`.
@@ -283,13 +283,14 @@ profiles {
 > {: .solution}
 {: .challenge}
 
-
-> ## Print output of the contents of the index_ch
-> 1. Capture the ouput of the `INDEX` process using the variable `index_ch`.
+> ## View the contents of the index_ch
+>
+> 1. Assign the output of the `INDEX` process to the variable `index_ch`.
 > 1. View the contents of the `index_ch` channel by using the `view` operator.
+>
 > > ## Solution
 > > ~~~
-> > ..truncated...
+> > [..truncated..]
 > > workflow {
 > >   index_ch=INDEX(transcriptome_ch)
 > >   index_ch.view()
@@ -298,6 +299,8 @@ profiles {
 > > {: .language-groovy }
 > {: .solution}
 {: .challenge}
+
+
 
 
 
@@ -311,7 +314,7 @@ In this step you have learned:
 
 * How process outputs are declared
 
-* How to use a nextflow configuration file to define and enable a `conda` environment. 
+* How to use a nextflow configuration file to define and enable a `conda` environment.
 
 * How to print the content of a channel `view()`
 
@@ -393,7 +396,7 @@ read_pairs_ch = Channel.fromFilePairs( params.reads, checkIfExists: true )
 ~~~
 {: .language-groovy }
 
-If we now run the script with the `--reads` parameter `data/yeast/reads/*_1,2}.fq.gz` 
+If we now run the script with the `--reads` parameter `data/yeast/reads/*_1,2}.fq.gz`
 
 ~~~
 $ nextflow run script3.nf --reads 'data/yeast/reads/*_1,2}.fq.gz'
@@ -407,12 +410,12 @@ it will return the message .
 No such file: data/yeast/reads/*_1,2}.fq.gz
 ~~~
 {: .output }
- 
+
 > ## Read in all read pairs
-> 
+>
 > 1. Add  the `checkIfExists: true` argument to the `fromFilePairs` channel factory in `script3.nf`.
 > 1. Using the command line parameter `--reads`, add a glob pattern to read in all the read pairs files from the `data/yeast/reads` directory.
-> 
+>
 > > ## Solution
 > > ~~~
 > > read_pairs_ch =Channel.fromFilePairs(params.reads, checkIfExists: true)
@@ -450,7 +453,7 @@ In this step you have learned:
 
 ## Perform expression quantification
 
-The script `script4.nf`; 
+The script `script4.nf`;
 
 1. Adds the quantification process, `QUANT`.
 2. Calls the `QUANT` process in the workflow block.
@@ -480,7 +483,7 @@ process QUANT {
 workflow {
   read_pairs_ch = Channel.fromFilePairs( params.reads, checkIfExists:true )
   transcriptome_ch = Channel.fromPath( params.transcriptome, checkIfExists:true )
-    
+
   index_ch=INDEX(transcriptome_ch)
   quant_ch=QUANT(index_ch,read_pairs_ch)
 }
@@ -550,8 +553,8 @@ In these situations it is useful to add a `tag` directive to add some descriptiv
 > {: .solution}
 {: .challenge}
 
-Data produced by the workflow during a process will be saved in the working directory, by default a directory named `work`. 
-The working directory should be considered a temporary storage space and any data you wish to save at the end of the workflow should be specified in the process output with the final storage location  defined in the  `publishDir` directive. 
+Data produced by the workflow during a process will be saved in the working directory, by default a directory named `work`.
+The working directory should be considered a temporary storage space and any data you wish to save at the end of the workflow should be specified in the process output with the final storage location  defined in the  `publishDir` directive.
 
 **Note:** by default the `publishDir` directive creates a symbolic link to the files in the working this behaviour can be changed using the `mode` parameter.
 
