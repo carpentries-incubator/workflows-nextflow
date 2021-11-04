@@ -409,8 +409,10 @@ No such file: data/yeast/reads/*_1,2}.fq.gz
 {: .output }
  
 > ## Read in all read pairs
+> 
 > 1. Add  the `checkIfExists: true` argument to the `fromFilePairs` channel factory in `script3.nf`.
 > 1. Using the command line parameter `--reads`, add a glob pattern to read in all the read pairs files from the `data/yeast/reads` directory.
+> 
 > > ## Solution
 > > ~~~
 > > read_pairs_ch =Channel.fromFilePairs(params.reads, checkIfExists: true)
