@@ -148,10 +148,12 @@ workflow ALIGN_SEQ {
         .set { aligned_reads_ch }
     if( params.aligner == 'hisat2' ){
         ALIGN_HISAT2( READ_QC.out.reads, reference )
-        aligned_reads_ch = aligned_reads_ch.mix( ALIGN_HISAT2.out.bam )
+        aligned_reads_ch.mix( ALIGN_HISAT2.out.bam )
+            .set { aligned_reads_ch }
     } else if ( params.aligner == 'star' ) {
         ALIGN_STAR( READ_QC.out.reads, reference )
-        aligned_reads_ch = aligned_reads_ch.mix( ALIGN_STAR.out.bam )
+        aligned_reads_ch.mix( ALIGN_STAR.out.bam )
+            .set { aligned_reads_ch }
     }
     aligned_reads_ch.view()
 
