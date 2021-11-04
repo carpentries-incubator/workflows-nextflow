@@ -257,6 +257,30 @@ $ nextflow run wc.nf --input 'data/yeast/reads/temp33*' -w second_work_dir -resu
 ~~~
 {: .language-bash}
 
+~~~
+$ nextflow run wc.nf --input 'data/yeast/reads/temp33*' -w anotherwork
+~~~
+{: .language-bash}
+
+~~~
+N E X T F L O W  ~  version 21.04.0
+Launching `wc.nf` [deadly_easley] - revision: fede04a544
+executor >  local (6)
+[9d/0f5e89] process > NUM_LINES (5) [100%] 6 of 6 ✔
+temp33_3_2.fq.gz 88956
+
+temp33_1_1.fq.gz 82372
+
+temp33_3_1.fq.gz 88956
+
+temp33_1_2.fq.gz 82372
+
+temp33_2_2.fq.gz 63116
+
+temp33_2_1.fq.gz 63116
+~~~
+{: .output}
+
 ### Clean the work directory
 
 If you are sure you won’t resume your pipeline execution, clean this folder periodically using the command `nextflow clean`.
@@ -271,7 +295,7 @@ You need to specify the options `-n` to print names of file to be removed withou
 
 If you want to clean the temporary files for multiple runs you can use the options, `-before`, `-after` or `-but` before the run name.
 
-For example, the command below would remove all the temporary files and log entries for runs before the run `gigantic_minsky` in the  Nextflow lg history.
+For example, the command below would remove all the temporary files and log entries for runs before the run `gigantic_minsky`.
 
 ~~~
 $ nextflow clean -f -before gigantic_minsky
