@@ -193,8 +193,8 @@ process HISAT2_ALIGN {
 
 ### Name output channels
 
-Output channels from processes and workflows can be named,
-which helps readability.
+Output channels from processes and workflows can be named
+using the `emit:` keyword, which helps readability.
 
 ~~~
 workflow ALIGN_HISAT2 {
