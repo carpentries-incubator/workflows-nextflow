@@ -131,6 +131,7 @@ Use them to:
 - Annotate data structures expected in a channel.
 - Describe higher level functionality.
 - Describe presence/absence of (un)expected code.
+- Mandatory and optional process inputs.
 
 ~~~
 workflow ALIGN_SEQ {
@@ -160,6 +161,17 @@ workflow ALIGN_SEQ {
     emit:
     bam = aligned_reads_ch   // queue channel: [ sample_id, file(bam_file) ]
 
+}
+
+process COUNT_KMERS {
+
+    input:
+    // Mandatory
+    tuple val(sample), path(reads)  // [ 'sample_id', [ read1, read2 ] ]: Reads in which to count kmers
+    // Optional
+    path kmer_table                 // 'path/to/kmer_table': Table of k-mers to count
+
+    ...
 }
 ~~~
 {: .language-groovy}
@@ -360,8 +372,10 @@ workflow {
 process COUNT_KMERS {
 
     input:
-    tuple val(sample), path(reads)  // Mandatory: Reads in which to count kmers
-    path kmer_table                 // Optional : Table of k-mers to count
+    // Mandatory
+    tuple val(sample), path(reads)  // [ 'sample_id', [ read1, read2 ] ]: Reads in which to count kmers
+    // Optional
+    path kmer_table                 // 'path/to/kmer_table': Table of k-mers to count
 
     ...
 }
