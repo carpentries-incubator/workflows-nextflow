@@ -196,7 +196,7 @@ process HISAT2_ALIGN {
     hisat2 ... | samtools ...
 
     cat <<-END_VERSIONS > versions.yml
-    HISAT2_ALIGN:
+    ${task.process.tokenize(':').last()}:
         hisat2: $HISAT2_VERSION
         samtools: \$( samtools --version 2>&1 | sed 's/^.*samtools //; s/Using.*\$//' )
     END_VERSIONS
