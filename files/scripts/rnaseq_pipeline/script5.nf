@@ -43,7 +43,7 @@ process QUANT {
     publishDir params.outdir, mode:'copy'
 
     input:
-    path index
+    each index
     tuple val(pair_id), path(reads)
 
     output:
