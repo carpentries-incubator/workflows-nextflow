@@ -79,9 +79,9 @@ The script `script1.nf` defines the pipeline input parameters.
 
 ~~~
 //script1.nf
-params.reads = "$projectDir/data/yeast/reads/*_{1,2}.fq.gz"
-params.transcriptome = "$projectDir/data/yeast/transcriptome/*.fa.gz"
-params.multiqc = "$projectDir/multiqc"
+params.reads = "data/yeast/reads/*_{1,2}.fq.gz"
+params.transcriptome = "data/yeast/transcriptome/*.fa.gz"
+
 
 println "reads: $params.reads"
 ~~~~
@@ -94,7 +94,7 @@ $ nextflow run script1.nf
 ~~~
 {: language-bash}
 
-Try to specify a different input parameter, for example:
+We can specify a different input parameter using the `--<params>` option, for example :
 
 ~~~
 $ nextflow run script1.nf --reads "data/yeast/reads/ref1*_{1,2}.fq.gz"
@@ -106,8 +106,8 @@ reads: data/yeast/reads/ref1*_{1,2}.fq.gz
 ~~~
 {: .output }
 
-> ## Add parameter
-> Modify the `script1.nf` adding a fourth parameter named `outdir` and set it to a default path that will be used as the pipeline output directory.
+> ## Add a parameter
+> Modify the `script1.nf` adding a third parameter named `outdir` and set it to `results`. This parameter will be used as the pipeline output directory.
 > > ## Solution
 > > ~~~
 > > params.outdir = "results"
@@ -137,6 +137,7 @@ log.info """\
 >
 > Look at the output log `.nextflow.log`.
 > > ## Solution
+> > Below is an example log.info command printing all the pipeline parameters.
 > > ~~~
 > > log.info """\
 > >         R N A S E Q - N F   P I P E L I N E    
@@ -186,7 +187,7 @@ A process is defined by providing three main declarations:
 1. The process [outputs](https://www.nextflow.io/docs/latest/process.html#outputs)
 1. Finally the command [script](https://www.nextflow.io/docs/latest/process.html#script).
 
-The second example, `script2.nf` adds, 
+The second example, `script2.nf` adds,
 
 1. The  process `INDEX` which generate a directory with the index of the transcriptome. This process takes one input, a transcriptome file, and emits one output a salmon index directory.
 3. A queue Channel `transcriptome_ch` taking the  transcriptome file defined in params variable `params.transcriptome`.
@@ -200,9 +201,8 @@ nextflow.enable.dsl=2
 /*
  * pipeline input parameters
  */
-params.reads = "$projectDir/data/yeast/reads/*_{1,2}.fq.gz"
-params.transcriptome = "$projectDir/data/yeast/transcriptome/Saccharomyces_cerevisiae.R64-1-1.cdna.all.fa.gz"
-params.multiqc = "$projectDir/multiqc"
+params.reads = "data/yeast/reads/*_{1,2}.fq.gz"
+params.transcriptome = "data/yeast/transcriptome/Saccharomyces_cerevisiae.R64-1-1.cdna.all.fa.gz"
 params.outdir = "results"
 
 println """\
@@ -241,8 +241,6 @@ workflow {
 ~~~
 {: .language-groovy }
 
-
-
 Try to run it by using the command:
 
 ~~~
@@ -250,7 +248,8 @@ $ nextflow run script2.nf
 ~~~
 {: .language-bash }
 
-The execution will fail because Salmon is not installed in your environment.
+The execution will fail because the program `salmon` is not avialable in your environment.
+
 
 Add the command line option `-profile conda` to launch the execution through a conda environment as shown below:
 
@@ -284,19 +283,24 @@ profiles {
 > {: .solution}
 {: .challenge}
 
-
-> ## Print output of the contents of the index_ch
-> Print the output of the `index_ch` channel by using the `view` operator.
+> ## View the contents of the index_ch
+>
+> 1. Assign the output of the `INDEX` process to the variable `index_ch`.
+> 1. View the contents of the `index_ch` channel by using the `view` operator.
+>
 > > ## Solution
 > > ~~~
-> > ..truncated...
+> > [..truncated..]
 > > workflow {
-> >   INDEX(transcriptome_ch).view()
+> >   index_ch=INDEX(transcriptome_ch)
+> >   index_ch.view()
 > > }
 > > ~~~
 > > {: .language-groovy }
 > {: .solution}
 {: .challenge}
+
+
 
 
 
@@ -310,7 +314,7 @@ In this step you have learned:
 
 * How process outputs are declared
 
-* How to use a nextflow configuration file to define and enable a `conda` environment. 
+* How to use a nextflow configuration file to define and enable a `conda` environment.
 
 * How to print the content of a channel `view()`
 
@@ -327,9 +331,8 @@ nextflow.enable.dsl = 2
 /*
  * pipeline input parameters
  */
-params.reads = "$projectDir/data/yeast/reads/ref1_{1,2}.fq.gz"
-params.transcriptome = "$projectDir/data/yeast/transcriptome/Saccharomyces_cerevisiae.R64-1-1.cdna.all.fa.gz"
-params.multiqc = "$projectDir/multiqc"
+params.reads = "data/yeast/reads/ref1_{1,2}.fq.gz"
+params.transcriptome = "data/yeast/transcriptome/Saccharomyces_cerevisiae.R64-1-1.cdna.all.fa.gz"
 params.outdir = "results"
 
 log.info """\
@@ -346,58 +349,98 @@ read_pairs_ch = Channel.fromFilePairs( params.reads )
 ~~~
 {: .language-groovy }
 
-Edit the script `script3.nf` and add the following statement as the last line:
+We can view the contents  of the `read_pairs_ch` by adding the following statement as the last line:
 ~~~
 read_pairs_ch.view()
 ~~~
 {: .language-groovy }
 
-Save it and execute it with the following command:
+Now if we execute it with the following command:
 
 ~~~
 $ nextflow run script3.nf
 ~~~
 {: .language-bash }
 
-It will print an output similar to the one shown below:
+It will print an output similar to the one shown below that shows how the `read_pairs_ch` channel emits a tuple. The tuple is composed of two elements, where the first is the pattern matched by the glob pattern `data/yeast/reads/ref1_{1,2}.fq.g`, defined by the variable `params.reads` , and the second is a list representing the actual files.
 
 ~~~
+[..truncated..]
 [ref1, [data/yeast/reads/ref1_1.fq.gz,data/yeast/reads/ref1_2.fq.gz]]
 ~~~
 {: .output }
 
-The above example shows how the `read_pairs_ch` channel emits tuples composed by two elements, where the first is the read pair prefix and the second is a list representing the actual files.
-
-Try it again specifying different read files by using the glob pattern:
+To read in other read pairs  we can specify a different glob pattern in the `params.reads` variable by using `--reads` options on the command line. For example, the following command would read in add the ref samples:
 
 ~~~
-$ nextflow run script3.nf --reads 'data/yeast/reads/*_{1,2}.fq.gz'
+$ nextflow run script3.nf --reads 'data/yeast/reads/ref*_{1,2}.fq.gz'
 ~~~
 {: .language-bash }
 
-File paths including one or more wildcards ie. `*`, `?`, etc. MUST be wrapped in single-quoted characters to avoid Bash expanding the glob pattern on the command line.
+~~~
+[..truncated..]
+[ref2, [data/yeast/reads/ref2_1.fq.gz, data/yeast/reads/ref2_2.fq.gz]]
+[ref3, [data/yeast/reads/ref3_1.fq.gz, data/yeast/reads/ref3_2.fq.gz]]
+[ref1, [data/yeast/reads/ref1_1.fq.gz, data/yeast/reads/ref1_2.fq.gz]]
+~~~
+{: .output }
 
-> ## `set` operator
-> Use the `set` operator in place of = assignment to define the read_pairs_ch channel.
+**Note** File paths including one or more wildcards ie. `*`, `?`, etc. MUST be wrapped in single-quoted characters to avoid Bash expanding the glob pattern on the command line.
+
+We can also add a argument, `checkIfExists: true` , to the `fromFilePairs` channel factory to return an message if the file doesn't exist.
+
+~~~
+//script3.nf
+[..truncated..]
+read_pairs_ch = Channel.fromFilePairs( params.reads, checkIfExists: true )
+~~~
+{: .language-groovy }
+
+If we now run the script with the `--reads` parameter `data/yeast/reads/*_1,2}.fq.gz`
+
+~~~
+$ nextflow run script3.nf --reads 'data/yeast/reads/*_1,2}.fq.gz'
+~~~
+{: .language-bash }
+
+it will return the message .
+
+~~~
+[..truncated..]
+No such file: data/yeast/reads/*_1,2}.fq.gz
+~~~
+{: .output }
+
+> ## Read in all read pairs
+>
+> 1. Add  the `checkIfExists: true` argument to the `fromFilePairs` channel factory in `script3.nf`.
+> 1. Using the command line parameter `--reads`, add a glob pattern to read in all the read pairs files from the `data/yeast/reads` directory.
+>
 > > ## Solution
 > > ~~~
-> > Channel.fromFilePairs(params.reads)
-> > .set{read_pairs_ch}
+> > read_pairs_ch =Channel.fromFilePairs(params.reads, checkIfExists: true)
 > > ~~~
 > > {: .language-groovy }
+> > ~~~
+> > nextflow run script3.nf --reads 'data/yeast/reads/*_{1,2}.fq.gz'
+> > ~~~
+> > {: .language-bash }
+> > ~~~
+> > [..truncated..]
+> > [temp33_1, [data/yeast/reads/temp33_1_1.fq.gz, data/yeast/reads/temp33_1_2.fq.gz]]
+> > [ref2, [data/yeast/reads/ref2_1.fq.gz, data/yeast/reads/ref2_2.fq.gz]]
+> > [temp33_3, [data/yeast/reads/temp33_3_1.fq.gz, data/yeast/reads/temp33_3_2.fq.gz]]
+> > [ref3, [data/yeast/reads/ref3_1.fq.gz, data/yeast/reads/ref3_2.fq.gz]]
+> > [temp33_2, [data/yeast/reads/temp33_2_1.fq.gz,data/yeast/reads/temp33_2_2.fq.gz]]
+> > [etoh60_2, [data/yeast/reads/etoh60_2_1.fq.gz,data/yeast/reads/etoh60_2_2.fq.gz]]
+> > [ref1, [data/yeast/reads/ref1_1.fq.gz, data/yeast/reads/ref1_2.fq.gz]]
+> > [etoh60_3, [data/yeast/reads/etoh60_3_1.fq.gz, data/yeast/reads/etoh60_3_2.fq.gz]]
+> > [etoh60_1, [data/yeast/reads/etoh60_1_1.fq.gz, data/yeast/reads/etoh60_1_2.fq.gz]]
+> > ~~~
+> > {: .output }
 > {: .solution}
 {: .challenge}
 
-> ## checkIfExists
-> Use the `checkIfExists` option for the `fromFilePairs` method to check if the specified path contains at least file pairs.
-> > ## Solution
-> > ~~~
-> > Channel.fromFilePairs(params.reads, checkIfExists: true)
-> > .set{read_pairs_ch}
-> > ~~~
-> > {: .language-groovy }
-> {: .solution}
-{: .challenge}
 
 ### Recap
 
@@ -407,11 +450,13 @@ In this step you have learned:
 
 * How to use the `checkIfExists` option to check input file existence
 
-* How to use the `set` operator to define a new channel variable
 
 ## Perform expression quantification
 
-The script `script4.nf` adds the quantification process, `QUANT`.
+The script `script4.nf`;
+
+1. Adds the quantification process, `QUANT`.
+2. Calls the `QUANT` process in the workflow block.
 
 ~~~
 //script4.nf
@@ -436,13 +481,16 @@ process QUANT {
 }
 ..truncated..
 workflow {
-  index_ch=INDEX(params.transcriptome)
+  read_pairs_ch = Channel.fromFilePairs( params.reads, checkIfExists:true )
+  transcriptome_ch = Channel.fromPath( params.transcriptome, checkIfExists:true )
+
+  index_ch=INDEX(transcriptome_ch)
   quant_ch=QUANT(index_ch,read_pairs_ch)
 }
 ~~~
 {: .language-groovy }
 
-In this script the `index_ch` channel, declared as output in the `INDEX` process, is used as the first input argument to the `QUANT` process.
+The `index_ch` channel, declared as output in the `INDEX` process, is used as the first input argument to the `QUANT` process.
 
 The second input argument of the `QUANT` process, the `read_pairs_ch` channel, is  a tuple composed of two elements: the `pair_id` and the `reads`.
 
@@ -467,14 +515,33 @@ The `-resume` option cause the execution of any step that has been already proce
 Try to execute it with more read files as shown below:
 
 ~~~
-$ nextflow run script4.nf -resume --reads 'data/yeast/reads/*_{1,2}.fq.gz'
+$ nextflow run script4.nf -resume --reads 'data/yeast/reads/ref*_{1,2}.fq.gz'
 ~~~~
 {: .language-bash}
+
+~~~
+N E X T F L O W  ~  version 21.04.0
+Launching `script4.nf` [shrivelled_brenner] - revision: c21df6839e
+R N A S E Q - N F   P I P E L I N E
+===================================
+transcriptome: data/yeast/transcriptome/Saccharomyces_c
+erevisiae.R64-1-1.cdna.all.fa.gz
+
+reads        : data/yeast/reads/ref*_{1,2}.fq.gz
+outdir       : results
+
+executor >  local (8)
+[02/3742cf] process > INDEX     [100%] 1 of 1, cached: 1 ✔
+[9a/be3483] process > QUANT (9) [100%] 3 of 3, cached: 1 ✔
+~~~
+{: .output}
 
 You will notice that  the `INDEX` step and one of the `QUANT` steps has been cached, and
 the quantification process is executed more than one time.
 
-When your input channel contains multiple data items Nextflow parallelises the execution of your pipeline.
+When your input channel contains multiple data items Nextflow, where possible, parallelises the execution of your pipeline.
+
+In these situations it is useful to add a `tag` directive to add some descriptive text to instance of the process being run.
 
 > ## Add a tag directive
 > Add a `tag` directive to the `QUANT` process of `script4.nf` to provide a more readable execution log.
@@ -485,6 +552,11 @@ When your input channel contains multiple data items Nextflow parallelises the e
 > > {: .language-groovy }
 > {: .solution}
 {: .challenge}
+
+Data produced by the workflow during a process will be saved in the working directory, by default a directory named `work`.
+The working directory should be considered a temporary storage space and any data you wish to save at the end of the workflow should be specified in the process output with the final storage location  defined in the  `publishDir` directive.
+
+**Note:** by default the `publishDir` directive creates a symbolic link to the files in the working this behaviour can be changed using the `mode` parameter.
 
 > ## Add a publishDir directive
 Add a `publishDir` directive to the quantification process of `script4.nf` to store the process results into folder specified by the `params.outdir` Nextflow variable. Include the `publishDir` `mode` option to copy the output.
@@ -501,13 +573,13 @@ Add a `publishDir` directive to the quantification process of `script4.nf` to st
 
 In this step you have learned:
 
-* How to connect two processes by using the channel declarations
+* How to connect two processes by using the channel declarations.
 
-* How to resume the script execution skipping already already computed steps
+* How to resume the script execution skipping already already computed steps.
 
-* How to use the `tag` directive to provide a more readable execution output
+* How to use the `tag` directive to provide a more readable execution output.
 
-* How to use the `publishDir` to store a process results in a path of your choice
+* How to use the `publishDir` to store a process results in a path of your choice.
 
 ## Quality control
 
@@ -540,7 +612,10 @@ process FASTQC {
 [..truncated..]
 
 workflow {
-  index_ch=INDEX(params.transcriptome)
+  read_pairs_ch = Channel.fromFilePairs( params.reads, checkIfExists:true )
+  transcriptome_ch = Channel.fromPath( params.transcriptome, checkIfExists:true )
+
+  index_ch=INDEX(transcriptome_ch)
   quant_ch=QUANT(index_ch,read_pairs_ch)
 }
 ~~~
@@ -566,7 +641,10 @@ The `FASTQC` process will not run as the process has not been declared in the wo
 > > ## Solution
 > > ~~~
 > > workflow {
-> >  index_ch=INDEX(params.transcriptome)
+> >  read_pairs_ch = Channel.fromFilePairs( params.reads, checkIfExists:true )
+> >  transcriptome_ch = Channel.fromPath( params.transcriptome, checkIfExists:true )
+> >
+> >  index_ch = INDEX( transcriptome_ch )
 > >  quant_ch=QUANT(index_ch,read_pairs_ch)
 > >  fastqc_ch=FASTQC(read_pairs_ch)
 }
@@ -588,7 +666,7 @@ In this step you have learned:
 This step collect the outputs from the quantification and fastqc steps to create a final report by using the [MultiQC](https://multiqc.info/) tool.
 
 The input for the `MULTIQC` process requires all data in a single channel element.
-Therefore, we will need combined the `FASTQC` and `QUANT` outputs using:
+Therefore, we will need to combine the `FASTQC` and `QUANT` outputs using:
 
 * The combining operator `mix` : combines the items in the two channels into a single channel
 
@@ -606,6 +684,8 @@ ch1.mix(ch2).view()
 a
 ~~~
 {: .output}
+
+
 
 * The transformation operator `collect`  collects all the items in the new combined channel into a single item.
 
@@ -661,12 +741,12 @@ process MULTIQC {
     """
 }
 
-Channel
-    .fromFilePairs( params.reads, checkIfExists:true )
-    .set { read_pairs_ch }
 
 workflow {
-  index_ch=INDEX(params.transcriptome)
+  read_pairs_ch = Channel.fromFilePairs( params.reads, checkIfExists:true )
+  transcriptome_ch = Channel.fromPath( params.transcriptome, checkIfExists:true )
+
+  index_ch=INDEX(transcriptome_ch)
   quant_ch=QUANT(index_ch,read_pairs_ch)
   fastqc_ch=FASTQC(read_pairs_ch)
   MULTIQC(quant_ch.mix(fastqc_ch).collect())
@@ -680,7 +760,25 @@ $ nextflow run script6.nf --reads 'data/yeast/reads/*_{1,2}.fq.gz' -resume
 ~~~~
 {: .language-bash}
 
-It creates the final report in the results folder in the ${params.outdir}/multiqc directory.
+~~~
+N E X T F L O W  ~  version 21.04.0
+Launching `script6.nf` [small_franklin] - revision: 9062818659
+R N A S E Q - N F   P I P E L I N E
+===================================
+transcriptome: data/yeast/transcriptome/Saccharomyces_cerevisiae.R64-1-1.cdna.all.fa.gz
+reads        : data/yeast/reads/*_{1,2}.fq.gz
+outdir       : results
+
+executor >  local (9)
+[02/3742cf] process > INDEX                              [100%] 1 of 1, cached: 1 ✔
+[9a/be3483] process > QUANT (quantification on etoh60_1) [100%] 9 of 9, cached: 9 ✔
+[1f/b7b30a] process > FASTQC (FASTQC on etoh60_1)        [100%] 9 of 9, cached: 1 ✔
+[2c/206fef] process > MULTIQC                            [100%] 1 of 1 ✔
+~~~
+{: .output}
+
+It creates the final report in the results folder in the `${params.outdir}/multiqc` directory.
+
 
 ### Recap
 
@@ -698,7 +796,7 @@ This step shows how to execute an action when the pipeline completes the executi
 
 **Note:** that Nextflow processes define the execution of asynchronous tasks i.e. they are not executed one after another as they are written in the pipeline script as it would happen in a common imperative programming language.
 
-The script uses the `workflow.onComplete` event handler to print a confirmation message when the script completes.
+The script `script7..nf` uses the `workflow.onComplete` event handler to print a confirmation message when the script completes.
 
 ~~~
 workflow.onComplete {
@@ -715,7 +813,6 @@ If expression is true? "set value to a" : "else set value to b"
 {: .source}
 
 
-
 Try to run it by using the following command:
 
 ~~~
@@ -724,6 +821,7 @@ $ nextflow run script7.nf -resume --reads 'data/yeast/reads/*_{1,2}.fq.gz'
 {: .language-bash}
 
 ~~~
+[..truncated..]
 Done! Open the following report in your browser --> results/multiqc/multiqc_report.html
 ~~~
 {: .output}
@@ -744,18 +842,21 @@ Nextflow is able to produce multiple reports and charts providing several runtim
 More information can be found [here](https://www.nextflow.io/docs/latest/tracing.html).
 
 > ##  Metrics and reports
-> Run the script7.nf RNA-seq pipeline as shown below:
+> Run the script7.nf with the reporting options as shown below:
 >
 > ~~~
 > $ nextflow run script7.nf -resume -with-report -with-trace -with-timeline -with-dag dag.png
 > ~~~
 > {: .language-bash}
 > 1. Open the file `report.html` with a browser to see the report created with the above command.
-> 1. Check the content of the file `trace.txt` for an example.
+> 1. Check the content of the file `trace.txt` or view `timeline.html` to find the longest running process.
+> 1. View the dag.png
 >
 > > ## Solution
+> > The `INDEX` process should be the longest running process.
 > > dag.png
 > > ![dag](../fig/dag.png)
+> > The vertices in the graph represent the pipeline’s processes and operators, while the edges represent the data connections (i.e. channels) between them.
 > {: .solution}
 {: .challenge}
 
