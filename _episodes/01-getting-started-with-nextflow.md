@@ -169,7 +169,7 @@ followed by a single line comment.
 1. A Nextflow `process` block named `NUM_LINES`, which defines what the process does.
 1. An `input` definition block that assigns the input to the variable `read`, and declares that it should be interpreted as a file `path`.
 1. An `output` definition block that uses the Linux/Unix standard output stream `stdout` from the script block.
-1. A `script` block that contains the bash commands `sleep` and `wc -l`
+1. A `script` block that contains the bash commands ` printf '${read}` to print the name of the read file, and ` gunzip -c ${read} | wc -l` to count the number of lines in the gzipped read file.
 
 ~~~
 #!/usr/bin/env nextflow
