@@ -761,7 +761,7 @@ sample.fq.gz 58708
 > {: .language-groovy }
 > Then run your script using
 > ~~~
-> nextflow run fastqc.nf -process.echo
+> nextflow run process_exercise_input.nf -process.echo
 > ~~~
 > {: .language-bash }
 > > ## Solution
