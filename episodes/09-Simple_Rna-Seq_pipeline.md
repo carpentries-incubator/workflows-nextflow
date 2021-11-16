@@ -236,7 +236,7 @@ process INDEX {
 transcriptome_ch = channel.fromPath(params.transcriptome)
 
 workflow {
-  INDEX(transcriptome_ch)
+  index_ch = INDEX(transcriptome_ch)
 }
 ~~~
 {: .language-groovy }
