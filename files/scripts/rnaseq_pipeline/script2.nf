@@ -37,5 +37,5 @@ process INDEX {
 
 workflow {
     transcriptome_ch = Channel.fromPath( params.transcriptome )
-    index_ch = INDEX( transcriptome_ch )
+    INDEX( transcriptome_ch )
 }
