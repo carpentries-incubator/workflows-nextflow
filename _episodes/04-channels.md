@@ -344,7 +344,7 @@ Add the argument `checkIfExists` with the value `true`.
 read_ch = Channel.fromPath( 'data/chicken/reads/*.fq.gz', checkIfExists: true )
 read_ch.view()
 ~~~
-{: .output}
+{: .language-groovy}
 
 This will give an error as there is no data/chicken directory.
 

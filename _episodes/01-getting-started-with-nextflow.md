@@ -169,7 +169,7 @@ followed by a single line comment.
 1. A Nextflow `process` block named `NUM_LINES`, which defines what the process does.
 1. An `input` definition block that assigns the input to the variable `read`, and declares that it should be interpreted as a file `path`.
 1. An `output` definition block that uses the Linux/Unix standard output stream `stdout` from the script block.
-1. A `script` block that contains the bash commands `sleep` and `wc -l`
+1. A `script` block that contains the bash commands ` printf '${read}` to print the name of the read file, and ` gunzip -c ${read} | wc -l` to count the number of lines in the gzipped read file.
 
 ~~~
 #!/usr/bin/env nextflow
@@ -257,49 +257,6 @@ To run a Nextflow script use the command `nextflow run <script_name>`.
 > {: .solution}
 {: .challenge}
 
-
-Pipeline parameters are declared in the workflow by prepending the prefix
-`params`, separated by dot character, to a variable name e.g.,
-`params.input`. Their value can be specified on the command line by
-prefixing the parameter name with a **double dash** character, i.e.,
-`--paramName` e.g., `--input`.
-
-> ## Add a pipeline parameter
-> Re-run the Nextflow script by entering the following command in your terminal:
->
-> ~~~
-> $ nextflow run wc.nf --input 'data/yeast/reads/ref*.fq.gz'
-> ~~~
-> {: .language-bash}
-> > ## Solution
-> > The string specified on the command line will override the default value of the parameter in the script. The output will look like this:
-> >
-> > ~~~
-> > N E X T F L O W  ~  version 21.04.0
-> > Launching `wc.nf` [condescending_allen] - revision: fede04a544
-> > executor >  local (6)
-> > [61/1f3ef4] process > NUM_LINES (4) [100%] 6 of 6 ✔
-> > ref3_2.fq.gz 52592
-> > 
-> > ref2_1.fq.gz 81720
-> > 
-> > ref3_1.fq.gz 52592
-> > 
-> > ref2_2.fq.gz 81720
-> > 
-> > ref1_2.fq.gz 58708
-> > 
-> > ref1_1.fq.gz 58708
-> > ~~~
-> > {: .output}
->
-> The pipeline executes the `NUM_LINES` process 6 times; one process
-> for each file matching the string `data/yeast/reads/*.fq.gz`. Since
-> each process is executed in parallel, there is no guarantee of
-> which output is reported first. When you run this script, you may
-> see the process output in a different order.
-> {: .solution}
-{: .challenge}
 
 > ## Process identification
 > The hexadecimal numbers, like 61/1f3ef4, identify the unique process execution.
