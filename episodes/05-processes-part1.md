@@ -1065,8 +1065,8 @@ The process will run eight times.
 > >
 > > process COMBINE {
 > >   input:
-> >   each transcriptome
-> >   path kmer
+> >   path transcriptome
+> >   each kmer
 > >  
 > >   script:
 > >   """
