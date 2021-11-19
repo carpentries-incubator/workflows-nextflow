@@ -484,7 +484,7 @@ for the tool.
 Disk space is often a valuable resource on most compute systems.
 When possible, work with compressed files.
 There are several useful shell commands and operations
-that work well with compressed data, such as `zcat` and `zgrep`.
+that work well with compressed data, such as `gunzip -c` and `zgrep`.
 Operations such as command substitution (`$( command )`), or
 process substitution (`>( command_list )`, or `<( command_list)`)
 can also help working with compressed data. Lastly,
