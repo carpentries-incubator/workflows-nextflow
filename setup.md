@@ -29,6 +29,8 @@ The simplest way to install the software for this course is using conda.
 
 To install conda see [here](https://carpentries-incubator.github.io/introduction-to-conda-for-data-scientists/setup/).
 
+
+
 To create the training environment run:
 
 ~~~
@@ -42,6 +44,13 @@ Then activate the environment by running
 conda activate nf-training
 ~~~
 {: .language-bash}
+
+## Training scripts
+
+The scripts mentioned in the episodes can be found in the respective episode folders on the github repository.
+
+https://github.com/carpentries-incubator/workflows-nextflow/tree/gh-pages/files/scripts
+
 
 ### Data
 
