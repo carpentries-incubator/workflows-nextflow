@@ -7,10 +7,11 @@ root: ..
 
 # Running the lessons on your local machine
 
-There are two items that you need to download:
+There are three items that you need to download:
 
 1. The training material.
 2. The training dataset.
+3. The workshop scripts.
 
 ## Training material
 
@@ -47,7 +48,7 @@ conda activate nf-training
 
 ## Training scripts
 
-The scripts mentioned in the episodes can be found in the respective episode folders on the github repository.
+To aid in the delivery of the lesson, the scripts mentioned in each episode, can be found in the respective episode folders in the github repository.
 
 https://github.com/carpentries-incubator/workflows-nextflow/tree/gh-pages/files/scripts
 
