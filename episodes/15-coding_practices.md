@@ -196,7 +196,7 @@ process HISAT2_ALIGN {
     hisat2 ... | samtools ...
 
     cat <<-END_VERSIONS > versions.yml
-    ${task.process.tokenize(':').last()}:
+    "${task.process}":
         hisat2: $HISAT2_VERSION
         samtools: \$( samtools --version 2>&1 | sed 's/^.*samtools //; s/Using.*\$//' )
     END_VERSIONS
@@ -413,7 +413,7 @@ process BATCH_TASK {
 
     script:
     """
-    printf "%s\n" $data | \
+    printf "%s\\n" $data | \
         xargs -P $task.cpus -I {} \
         short_task {}
 
