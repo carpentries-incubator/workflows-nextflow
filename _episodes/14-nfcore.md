@@ -3,7 +3,7 @@ title: "Deploying nf-core pipelines"
 teaching: 30
 exercises: 10
 questions:
-- "Where can I find existing, best-practice, Nextflow bioinformatic pipelines?"
+- "Where can I find best-practice Nextflow bioinformatic pipelines?"
 - "How do I run nf-core pipelines?"
 - "How do I configure nf-core pipelines to use my data?"
 - "How do I reference nf-core pipelines?"
@@ -14,10 +14,11 @@ objectives:
 - "Run a small nf-core pipeline using a test dataset."
 keypoints:
 - "nf-core is a community-led project to develop a set of best-practice pipelines built using the Nextflow workflow management system."
-- "nf-core tools is a suite of helper tools that aims to help people run and develop nf-core pipelines."
-- "nf-core pipelines can found using the nf-core helper tool `list` sub-command or from the nf-core website."
-- "nf-core pipelines can be run using `nextflow run nf-core/<pipeline>` syntax, or launched and parameters configured using the nf-core  helper tool `launch` sub-command."
-- "nf-core pipelines can be configured by modifying Nextflow config files and/or adding command line parameters."
+- "The nf-core tool (`nf-core`) is a suite of helper tools that aims to help people run and develop nf-core pipelines."
+- "nf-core pipelines can be found using `nf-core list`, or by checking the nf-core website."
+- "`nf-core launch nf-core/<pipeline>` can be used to write a parameter file for an nf-core pipeline. This can be supplied to the pipeline using the `-params-file` option."
+- "An nf-core workflow is run using `nextflow run nf-core/<pipeline>` syntax."
+- "nf-core pipelines can be reconfigured by using custom config files and/or adding command line parameters."
 ---
 
 
@@ -33,7 +34,7 @@ In this episode we will covering finding, deploying and configuring nf-core pipe
 
 ## What are nf-core pipelines?
 
-nf-core pipelines are an organised folder containing Nextflow scripts,  other non-nextflow scripts (written in any language), configuration files, software specifications, and documentation hosted on [GitHub](https://github.com/nf-core). There is generally a single pipeline for a given data and analysis type e.g. There is a single pipeline for bulk RNA-Seq. All nf-core pipelines are distributed under the, permissive free software, [MIT licences](https://en.wikipedia.org/wiki/MIT_License).
+nf-core pipelines are an organised collection of Nextflow scripts,  other non-nextflow scripts (written in any language), configuration files, software specifications, and documentation hosted on [GitHub](https://github.com/nf-core). There is generally a single pipeline for a given data and analysis type e.g. There is a single pipeline for bulk RNA-Seq. All nf-core pipelines are distributed under the, permissive free software, [MIT licences](https://en.wikipedia.org/wiki/MIT_License).
 
 ## What is nf-core tools?
 
@@ -444,7 +445,7 @@ nf-core makes use of Nextflow configuration `profiles` to make it easy to apply 
 
 Configuration files can contain the definition of one or more profiles. A profile is a set of configuration attributes that can be activated/chosen when launching a pipeline execution by using the `-profile` command line option. Common profiles are `conda`, `singularity` and `docker` that specify which software manager to use.
 
-Multiple, comma-separate, config profiles can be specified in one go, for example:
+Multiple profiles are comma-separated. When there are differing configuration settings provided by different profiles, the right-most profile takes priority.
 
 ~~~
 $ nextflow run nf-core/rnaseq -r 3.0 -profile test,conda
@@ -471,7 +472,7 @@ $ nextflow run nf-core/rnaseq -r 3.0 -profile <institutional_config_profile>, te
 
 # Running pipelines with test data
 
-The nf-core config profile `test` is a bit of a special case. Whereas all other config profiles tell Nextflow how to run on different computational systems, the test profile configures each nf-core pipeline to run without any other command line flags. It specifies URLs for test data and all required parameters. Because of this, you can test any nf-core pipeline with the following command:
+The nf-core config profile `test` is special profile, which defines a minimal data set and configuration, that runs quickly and tests the workflow from beginning to end. Since the data is minimal, the output is often nonsense. Real world  example output are instead linked on the nf-core pipeline web page, where the workflow has been run with a full size data set:
 
 ~~~
 $ nextflow run nf-core/<pipeline_name> -profile test
