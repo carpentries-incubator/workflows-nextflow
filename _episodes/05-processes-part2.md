@@ -352,7 +352,7 @@ The output is now a tuple containing the sample id and the two processed fastq f
 
 > ## Composite inputs and outputs
 > Fill in the blank ___ input and output qualifers for `process_exercise_tuple.nf`.
-> **Note:** the output for the FASTQC process is a directory names `fastq_out`.
+> **Note:** the output for the FASTQC process is a directory named `fastq_out`.
 > ~~~
 > //process_exercise_tuple.nf
 > nextflow.enable.dsl=2
