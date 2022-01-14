@@ -258,13 +258,13 @@ $ nextflow run script2.nf -profile conda
 ~~~
 {: .language-bash }
 
-This time it works because it uses the conda environment file `environment.yml` defined in the `nextflow.config` file.
+This time it works because it uses the conda environment  /home/training/miniconda3/envs/nf` defined in the `nextflow.config` file.
 
 ~~~
 //nextflow.config
 profiles {
   conda {
-    process.conda = 'environment.yml'
+    process.conda = '/home/training/miniconda3/envs/nf'
   }
 }
 ~~~
@@ -277,7 +277,7 @@ profiles {
 > > ## Solution
 > > ~~~
 > > //nextflow.config file
-> > process.conda = 'environment.yml'
+> > process.conda = '/home/training/miniconda3/envs/nf'
 > > ~~~
 > > {: .source }
 > {: .solution}
