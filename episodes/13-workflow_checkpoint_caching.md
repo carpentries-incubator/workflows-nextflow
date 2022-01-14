@@ -10,13 +10,13 @@ objectives:
 - "Resume a Nextflow workflow using the `-resume` option."
 - "Restart a Nextflow workflow using new data."
 keypoints:
-- "Nextflow automatically keeps track of all the processes executed in your pipeline via  checkpointing."
+- "Nextflow automatically keeps track of all the processes executed in your pipeline via checkpointing."
 - "Nextflow caches intermediate data in task directories within the work directory."
 - "Nextflow caching and checkpointing allows re-entrancy into a workflow after a pipeline error or using new data, skipping steps that have been successfully executed.
 - Re-entrancy is enabled using the `-resume` option."
 ---
 
-A key features of workflow management systems, like Nextflow, is re-entrancy which is the ability to restart a pipeline after an error from the last successful process. Re-entrancy can also skip time consuming sucessfully completed steps, such as index creation, when adding more data to a pipeline.
+A key feature of workflow management systems, like Nextflow, is re-entrancy, which is the ability to restart a pipeline after an error from the last successfully executed process. Re-entrancy enables time consuming successfully completed steps, such as index creation, to be skipped when adding more data to a pipeline. This in turn leads to faster prototyping and development of workflows, and faster analyses of additional data.
 Nextflow achieves re-entrancy by automatically keeping track of all the processes executed in your pipeline via  caching  and checkpointing.
 
 ## Resume
@@ -133,7 +133,7 @@ This helps a lot when testing or modifying part of your pipeline without having 
 > >  ~~~
 > > {: .output }
 > > As you changed the timestamp on one file it will only re-run that process.
-> > The results for the other 5 processes are retieved from the cache.
+> > The results for the other 5 processes are retrieved from the cache.
 > {: .solution}
 {: .challenge}
 
@@ -286,11 +286,7 @@ $ nextflow clean [run_name|session_id] [options]
 ~~~
 {: .language-bash}
 
-You need to specify the options `-n` to print names of file to be removed without deleting them, or `-f` to force the removal of the files.
-**Note** If you want to removes only temporary files but retains execution log entries and metadata you need to add the option `-k`.
-
-If you want to clean the temporary files for multiple runs you can use the options, `-before`, `-after` or `-but` before the run name.
-
+Supply the option `-n` to print names of files to be removed without deleting them, or `-f` to force the removal of the files. If you only want to remove files from a run but retain execution log entries and metadata, add the option `-k`. Multiple runs can be cleaned with the options, `-before`, `-after` or `-but` before the run name.
 For example, the command below would remove all the temporary files and log entries for runs before the run `gigantic_minsky`.
 
 ~~~
