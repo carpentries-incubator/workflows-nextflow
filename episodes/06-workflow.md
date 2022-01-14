@@ -82,7 +82,6 @@ workflow {
 In this example, the `INDEX` process is invoked first and the `QUANT` process second.
 The `INDEX` output channel, assigned to the variable `index_ch`, is passed as the first argument to the `QUANT` process. The `read_pairs_ch` channel is passed as the second argument.
 
-
 ### Process composition
 
 Processes having matching `input`-`output` declaration can be composed so that the output of the first process is passed as input to the following process.
