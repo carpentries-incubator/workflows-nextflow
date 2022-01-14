@@ -248,10 +248,10 @@ kallisto
 > > ~~~
 > > N E X T F L O W  ~  version 21.04.0
 > > Launching `channel_fromList.nf` [wise_hodgkin] - revision: 22d76be151
-> > [ERR908507, ERR908506, ERR908505]
 > > ERR908507
 > > ERR908506
 > > ERR908505
+> > [ERR908507, ERR908506, ERR908505]
 > > ~~~
 > > {: .output }
 > > The queue channel `queue_ch` will print three lines.
@@ -344,7 +344,7 @@ Add the argument `checkIfExists` with the value `true`.
 read_ch = Channel.fromPath( 'data/chicken/reads/*.fq.gz', checkIfExists: true )
 read_ch.view()
 ~~~
-{: .output}
+{: .language-groovy}
 
 This will give an error as there is no data/chicken directory.
 

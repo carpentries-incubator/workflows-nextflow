@@ -3,9 +3,8 @@ nextflow.enable.dsl = 2
 /*
  * pipeline input parameters
  */
-params.reads = "$projectDir/data/yeast/reads/ref1_{1,2}.fq.gz"
-params.transcriptome = "$projectDir/data/yeast/transcriptome/Saccharomyces_cerevisiae.R64-1-1.cdna.all.fa.gz"
-params.multiqc = "$projectDir/multiqc"
+params.reads = "data/yeast/reads/ref1_{1,2}.fq.gz"
+params.transcriptome = "data/yeast/transcriptome/Saccharomyces_cerevisiae.R64-1-1.cdna.all.fa.gz"
 params.outdir = "results"
 
 log.info """\
@@ -45,7 +44,7 @@ process QUANT {
     publishDir "${params.outdir}/quant", mode:'copy'
 
     input:
-    path index
+    each index
     tuple val(pair_id), path(reads)
 
     output:
@@ -98,10 +97,10 @@ process MULTIQC {
 
 
 workflow {
-    Channel.fromFilePairs( params.reads, checkIfExists:true )
-        .set { read_pairs_ch }
+    read_pairs_ch = Channel.fromFilePairs( params.reads, checkIfExists:true )
+    transcriptome_ch = Channel.fromPath( params.transcriptome, checkIfExists:true )
 
-    index_ch = INDEX( params.transcriptome )
+    index_ch = INDEX( transcriptome_ch )
     quant_ch = QUANT( index_ch, read_pairs_ch )
     fastqc_ch = FASTQC( read_pairs_ch )
     MULTIQC( quant_ch.mix( fastqc_ch ).collect() )
