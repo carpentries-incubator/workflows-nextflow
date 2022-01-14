@@ -71,23 +71,22 @@ workflow {
     read_pairs_ch = channel.fromFilePairs('data/yeast/reads/*_{1,2}.fq.gz',checkIfExists: true)
 
     //index process takes 1 input channel as a argument
-    index_out = INDEX(transcriptome_ch)
+    index_ch = INDEX(transcriptome_ch)
 
     //quant channel takes 2 input channels as arguments
-    QUANT(index_out_ch,read_pairs_ch).view()
+    QUANT( index_ch, read_pairs_ch ).view()
 }
 ~~~
 {: .language-groovy }
 
 In this example, the `INDEX` process is invoked first and the `QUANT` process second.
-The `INDEX` output channel, assigned to the variable `index_out`,  is passed as the first argument to the `QUANT` process. The `read_pairs_ch` channel is passed as the second argument.
-
+The `INDEX` output channel, assigned to the variable `index_ch`, is passed as the first argument to the `QUANT` process. The `read_pairs_ch` channel is passed as the second argument.
 
 ### Process composition
 
 Processes having matching `input`-`output` declaration can be composed so that the output of the first process is passed as input to the following process.
 
-For example: taking in consideration the previous workflow example, it’s possible to re-write it as the following:
+We can therefore rewrite the previous workflow example as follows:
 
 ~~~
 [..truncated..]
@@ -105,8 +104,8 @@ workflow {
 ### Process outputs
 
 In the previous examples we have connected the `INDEX` process output to the `QUANT` process by;
-1. Assigning it to a variable `index_out = INDEX(transcriptome_ch)` and passing it to the `QUANT` process as an argument.
-2. Calling the process as an argument within the `QUANT` process, `QUANT(INDEX(transcriptome_ch),read_pairs_ch)` 
+1. Assigning it to a variable `index_ch = INDEX( transcriptome_ch )` and passing it to the `QUANT` process as an argument.
+2. Calling the process as an argument within the `QUANT` process, `QUANT( INDEX( transcriptome_ch ), read_pairs_ch )` 
 
 A process's output channel can also be accessed calling the process and then using the `out` attribute for the respective `process` object.
 
