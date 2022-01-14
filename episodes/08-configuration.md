@@ -157,8 +157,21 @@ Existing configuration can be completely ignored by using `-C <custom.config>` t
 > belong to a configuration scope.
 {: .callout}
 
-> ## Determine script output
+> ## Configuring Nextflow vs Configuring a Nextflow workflow
 >
+> Parameters starting with a single dash `-` (e.g., `-c my_config.config`) are configuration
+> options for `nextflow`, while parameters starting with a double
+> dash `--` (e.g., `--outdir`) are workflow parameters defined in the `params` scope.
+>
+> The majority of Nextflow configuration settings must be provided
+> on the command-line, however a handful of settings can also
+> be provided within a configuration file, such as
+> `workdir = '/path/to/work/dir'` (`-w /path/to/work/dir`) or
+> `resume = true` (`-resume`), and do not
+> belong to a configuration scope.
+{: .callout}
+
+> ## Determine script output
 > Determine the outcome of the following script executions.
 > Given the script `print_message.nf`:
 > ~~~
@@ -187,14 +200,13 @@ Existing configuration can be completely ignored by using `-C <custom.config>` t
 > ~~~
 > params.message = 'Are you tired?'
 > ~~~
->
 > What is the outcome of the following commands?
 > 1. `nextflow run print_message.nf`
 > 1. `nextflow run print_message.nf --message '¿Que tal?'`
 > 1. `nextflow run print_message.nf -c print_message.config`
-> 1. `nextflow run print_message.nf -c print_message.config --message '¿Que tal?'`
+> 1. `nextflow run print_message.nf -c pring_message.config --message '¿Que tal?'`
 >
-> > ## Solution
+> > ## Solution
 > >
 > > 1. 'hello' - Workflow script uses the value in `print_message.nf`
 > > 1. '¿Que tal?' - The command-line parameter overrides the script setting.
@@ -202,6 +214,7 @@ Existing configuration can be completely ignored by using `-C <custom.config>` t
 > > 1. '¿Que tal?' - The command-line parameter overrides both the script and configuration settings.
 > {: .solution}
 {: .challenge}
+
 
 ## Configuring process behaviour
 
@@ -557,19 +570,19 @@ environments are stored. By default this is in `conda` folder of the `work` dire
 
 > ## Define a software requirement in the configuration file using conda
 >
-> Create a config file for the Nextflow script `configure_fastp.nf`.
+> Create a config file for the Nextflow script `configuration_fastp.nf`.
 > Add a conda directive for the process name `FASTP` that includes the bioconda package `fastp`, version 0.12.4-0.
 > **Hint** You can specify the conda packages using the syntax `<channel>::<package_name>=<version>` e.g. `bioconda::salmon=1.5.2`
 > Run the Nextflow script `configure_fastp.nf` with the configuration file using the `-c` option.
 >
 > ~~~
-> // configure_fastp.nf
+> // configuration_fastp.nf
 > nextflow.enable.dsl = 2
 >
 > params.input = "data/yeast/reads/ref1_1.fq.gz"
 >
 > workflow {
->     FASTP( Channel.fromPath( params.input ) ).out.view()
+>     FASTP( Channel.fromPath( params.input ) ).view()
 > }
 >
 > process FASTP {
@@ -600,7 +613,7 @@ environments are stored. By default this is in `conda` folder of the `work` dire
 > > {: .language-groovy}
 > >
 > > ~~~
-> > nextflow run configure_fastp.nf -c fastp.config -process.echo
+> > nextflow run configure_fastp.nf -c fastp.config
 > > ~~~
 > > {: .language-bash}
 > > ~~~
