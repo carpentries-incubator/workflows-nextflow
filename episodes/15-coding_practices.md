@@ -44,7 +44,7 @@ improve code readability.
 #! /usr/bin/env nextflow
 
 // Tip: Allow spaces around assignments ( = )
-nextflow.enable.dsl = 2     
+nextflow.enable.dsl = 2
 
 // Tip: Separate blocks of code into groups with common purpose
 //      e.g., parameter blocks, include statements, workflow blocks, process blocks
@@ -61,11 +61,11 @@ workflow {
 
     // Tip: Indent process calls
     // Tip: Use spaces around process/function parameters
-    FOO( Channel.fromPath( params.reads, checkIfExists: true ) )
-    BAR( FOO.out )
+    FOO ( Channel.fromPath( params.reads, checkIfExists: true ) )
+    BAR ( FOO.out )
     // Tip: Use vertical spacing and indentation for many parameters.
-    BAZ(
-        Channel.fromPath( params.gene_list, checkIfExists:true ),
+    BAZ (
+        Channel.fromPath( params.gene_list, checkIfExists: true ),
         FOO.out,
         BAR.out,
         file( params.gene_db, checkIfExists: true )
@@ -73,6 +73,7 @@ workflow {
 
 }
 
+// Tip: Uppercase process names help readability
 process FOO {
 
     // Tip: Separate process parts into distinct blocks
@@ -80,7 +81,7 @@ process FOO {
     path fastq
 
     output:
-    path
+    path "*.fasta"
 
     script:
     prefix = fastq.baseName
@@ -91,38 +92,80 @@ process FOO {
 ~~~
 {: .language-groovy}
 
-> ## Challenge
+> ## Improve the workflow readability
 > Use whitespace to improve the readability of the following code.
-~~~
-#! /usr/bin/env nextflow
-
-nextflow.enable.dsl=2
-params.reads = ''
-workflow {
-foo(Channel.fromPath(params.reads))
-bar(foo.out)
-}
-process foo {
-input:
-path fastq
-output:
-path
-script:
-prefix=fastq.baseName
-"""
-tofasta $fastq > $prefix.fasta
-"""
-}
-process bar {
-input:
-path fasta
-script:
-"""
-fastx_check $fasta
-"""
-}
-~~~
-{: .language-groovy}
+> ~~~
+> #! /usr/bin/env nextflow
+>
+> nextflow.enable.dsl=2
+> params.reads = ''
+> workflow {
+> foo(Channel.fromPath(params.reads))
+> bar(foo.out)
+> }
+> process foo {
+> input:
+> path fastq
+> output:
+> path "*.fasta"
+> script:
+> prefix=fastq.baseName
+> """
+> tofasta $fastq > $prefix.fasta
+> """
+> }
+> process bar {
+> input:
+> path fasta
+> script:
+> """
+> fastx_check $fasta
+> """
+> }
+> ~~~
+> {: .language-groovy}
+> > # Solution
+> > ~~~
+> > #! /usr/bin/env nextflow
+> >
+> > nextflow.enable.dsl = 2
+> >
+> > params.reads = ''
+> >
+> > workflow {
+> >     FOO ( Channel.fromPath( params.reads ) )
+> >     BAR ( FOO.out )
+> > }
+> >
+> > process FOO {
+> >
+> >     input:
+> >     path fastq
+> >
+> >     output:
+> >     path "*.fasta"
+> >
+> >     script:
+> >     prefix = fastq.baseName
+> >     """
+> >     tofasta $fastq > $prefix.fasta
+> >     """
+> > }
+> >
+> > process BAR {
+> >
+> >     input:
+> >     path fasta
+> >
+> >     script:
+> >     """
+> >     fastx_check $fasta
+> >     """
+> > }
+> > ~~~
+> > {: .language-groovy}
+> {: .solution}
+{: .challenge}
 
 ### Use comments
 
