@@ -124,7 +124,7 @@ process FOO {
 > }
 > ~~~
 > {: .language-groovy}
-> > # Solution
+> > ## Solution
 > > ~~~
 > > #! /usr/bin/env nextflow
 > >
@@ -185,17 +185,17 @@ workflow ALIGN_SEQ {
 
     main:
     // Quality Check input reads
-    READ_QC( reads )
+    READ_QC ( reads )
 
     // Align reads to reference
     Channel.empty()
         .set { aligned_reads_ch }
     if( params.aligner == 'hisat2' ){
-        ALIGN_HISAT2( READ_QC.out.reads, reference )
+        ALIGN_HISAT2 ( READ_QC.out.reads, reference )
         aligned_reads_ch.mix( ALIGN_HISAT2.out.bam )
             .set { aligned_reads_ch }
     } else if ( params.aligner == 'star' ) {
-        ALIGN_STAR( READ_QC.out.reads, reference )
+        ALIGN_STAR ( READ_QC.out.reads, reference )
         aligned_reads_ch.mix( ALIGN_STAR.out.bam )
             .set { aligned_reads_ch }
     }
@@ -409,7 +409,7 @@ instead.
 ~~~
 workflow {
 
-    COUNT_KMERS( reads, [] )
+    COUNT_KMERS ( reads, [] )
 }
 
 process COUNT_KMERS {
@@ -446,7 +446,7 @@ workflow REFINE_DATA {
     datapoints
 
     main:
-    BATCH_TASK( datapoints.collate(100) )
+    BATCH_TASK ( datapoints.collate(100) )
 }
 
 process BATCH_TASK {
