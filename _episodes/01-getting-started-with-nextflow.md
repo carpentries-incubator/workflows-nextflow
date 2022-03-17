@@ -27,15 +27,12 @@ keypoints:
 
 Analysing data involves a sequence of tasks, including gathering, cleaning, and processing data. These sequence of tasks are called a workflow or a pipeline. These workflows typically require executing multiple software packages, sometimes running on different computing environments, such as a desktop or a compute cluster. Traditionally these workflows have been joined together in scripts using general purpose programming languages such as Bash or Python.
 
+<p float="left" style="text-align:center">
+<img src="../fig/sarek_workflow.png" width="200" height="400">
+<img src="../fig/flowchart.png" width="200" height="400">
 <br>
-<center>
-<img src="../fig/sarek_workflow.png" width="200" height="400" >
-<img src="../fig/flowchart.png" width="200" height="400" >
-<br>
-<em>Example bioinformatics variant calling workflow/pipeline diagram from nf-core (https://nf-co.re/sarek) and simple RNA-Seq pipeline in DAG format.
-</em>
-</center>
-<br>
+<em> Example bioinformatics variant calling workflow/pipeline diagram from nf-core (https://nf-co.re/sarek) and simple RNA-Seq pipeline in DAG format. </em>
+</p>
 
 However, as workflows become larger and more complex, the management of the programming logic and software becomes difficult.
 
