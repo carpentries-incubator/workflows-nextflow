@@ -28,8 +28,8 @@ keypoints:
 Analysing data involves a sequence of tasks, including gathering, cleaning, and processing data. These sequence of tasks are called a workflow or a pipeline. These workflows typically require executing multiple software packages, sometimes running on different computing environments, such as a desktop or a compute cluster. Traditionally these workflows have been joined together in scripts using general purpose programming languages such as Bash or Python.
 
 <p float="left" style="text-align:center">
-<img src="../fig/sarek_workflow.png" width="200" height="400">
-<img src="../fig/flowchart.png" width="200" height="400">
+<img src="../fig/sarek_workflow.png" width="250" height="500">
+<img src="../fig/flowchart.png" width="250" height="500">
 <br>
 <em> Example bioinformatics variant calling workflow/pipeline diagram from nf-core (https://nf-co.re/sarek) and simple RNA-Seq pipeline in DAG format. </em>
 </p>
@@ -63,7 +63,7 @@ The diagram below illustrates the differences between a dataflow model and a sim
 
 <br>
 <center>
-<img src="../fig/dataflow.png" width="420" height="300" >
+<img src="../fig/dataflow.png" width="525" height="375" >
 <br>
 <em>A simple program (a) and its dataflow equivalent (b) https://doi.org/10.1145/1013208.1013209.
 </em>
@@ -125,7 +125,7 @@ Processes define inputs and outputs for a task. Channels are then used to manipu
 In the following example we have a channel containing three elements, e.g., three data files. We have a process that takes the channel as input. Since the channel has three elements, three independent instances (tasks) of that process are run in parallel. Each task generates an output, which is passed to another channel and used as input for the next process.
 
 <p align="center">
-   <img alt="Processes and channels" src="../fig/channel-process_fqc.png" width="500">
+   <img alt="Processes and channels" src="../fig/channel-process_fqc.png" width="700">
    <br>
    <em>Nextflow process flow diagram</em>
 </p>
@@ -137,7 +137,7 @@ While a `process` defines what command or script has to be executed, the `execut
 If not otherwise specified, processes are executed on the local computer. The local executor is very useful for pipeline development, testing, and small-scale workflows, but for large-scale computational pipelines, a High Performance Cluster (HPC) or Cloud platform is often required.
 
 <p align="center">
-   <img alt="Processes and channels" src="../fig/executor.png" width="250">
+   <img alt="Processes and channels" src="../fig/executor.png" width="350">
    <br>
    <em>Nextflow Executors</em>
 </p>
