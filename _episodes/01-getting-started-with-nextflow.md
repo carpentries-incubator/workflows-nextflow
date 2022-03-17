@@ -38,11 +38,11 @@ However, as workflows become larger and more complex, the management of the prog
 
 ##  Workflow management systems
 
-*Workflow Management Systems* (WfMS), such as Snakemake, Galaxy, and Nextflow have been developed specifically to manage computational data-analysis workflows in fields such as Bioinformatics, Imaging, Physics, and Chemistry.  
+*Workflow Management Systems* (WfMS) such as Snakemake, Galaxy, and Nextflow have been developed specifically to manage computational data-analysis workflows in fields such as bioinformatics, imaging, physics, and chemistry.
 
 WfMS contain multiple features that simplify the development, monitoring, execution and sharing of pipelines.
 
-Key features include;
+Key features include:
 
 * **Run time management**: Management of program execution on the operating system and splitting tasks and data to run at the same time in a process called parallelisation.
 * **Software management**: Use of technology like containers, such as [Docker](https://www.docker.com) or [Singularity](https://sylabs.io/singularity), that packages up code and all its dependencies so the application runs reliably from one computing environment to another.
@@ -55,7 +55,7 @@ from the last successfully executed steps.
 
 Nextflow is a workflow management system that combines a runtime environment, software that is designed to run other software, and a *programming domain specific language (DSL)* that eases the writing of computational pipelines.
 
-Nextflow is built around the idea that Linux is the lingua franca of data science. Nextflow follows Linux's "small pieces loosely joined" philosophy: in which many simple but powerful command-line and scripting tools, when chained together, facilitate more complex data manipulations.
+Nextflow is built around the idea that Linux is the lingua franca of data science. Nextflow follows Linux's "small pieces loosely joined" philosophy: many simple but powerful command-line and scripting tools facilitate, when chained together, more complex data manipulations.
 
 Nextflow extends this approach, adding the ability to define complex program interactions and an accessible (high-level) parallel computational environment based on the [dataflow programming model](https://devopedia.org/dataflow-programming), whereby `processes` are connected via their `outputs` and `inputs` to other `processes`, and run as soon as they receive an input.
 
@@ -92,7 +92,7 @@ the writing of workflows. Languages written for a specific field are called Doma
 In practical terms the Nextflow scripting language is an extension of the [Groovy programming language](https://groovy-lang.org/), which in turn is a super-set of the Java programming language. Groovy simplifies the writing of code and is more approachable than Java. Groovy semantics (syntax, control structures, etc) are documented [here](https://groovy-lang.org/semantics.html).
 
 The approach of having a simple DSL built on top of a more powerful
-general purpose programming language makes Nextflow very flexible. The
+general-purpose programming language makes Nextflow very flexible. The
 Nextflow syntax can handle most workflow use cases with ease, and then
 Groovy can be used to handle corner cases which may be difficult to
 implement using the DSL.
@@ -118,11 +118,11 @@ nextflow.enable.dsl=2
 
 ### Processes, channels, and workflows
 
-Nextflow workflows have three main parts; processes, channels, and workflows. Processes describe a task to be run. A process script can be written in any scripting language that can be executed by the Linux platform (Bash, Perl, Ruby, Python, etc.). Processes spawn a task for each complete input set. Each task is executed independently, and cannot interact with another task. The only way data can be passed between process tasks is via asynchronous queues, called channels.
+Nextflow workflows have three main parts; processes, channels, and workflows. Processes describe a task to be run. A process script can be written in any scripting language that can be executed by the Linux platform (Bash, Perl, Ruby, Python, etc.). Processes spawn a task for each complete input set. Each task is executed independently and cannot interact with other tasks. The only way data can be passed between process tasks is via asynchronous queues, called channels.
 
 Processes define inputs and outputs for a task. Channels are then used to manipulate the flow of data from one process to the next. The interaction between processes, and ultimately the pipeline execution flow itself, is then explicitly defined in a workflow section.
 
-In the following example we have a channel containing three elements, e.g., 3 data files. We have a process that takes the channel as input. Since the channel has three elements, three independent instances (tasks) of that process are run in parallel. Each task generates an output, which is passed to another channel and used as input for the next process.
+In the following example we have a channel containing three elements, e.g., three data files. We have a process that takes the channel as input. Since the channel has three elements, three independent instances (tasks) of that process are run in parallel. Each task generates an output, which is passed to another channel and used as input for the next process.
 
 <p align="center">
    <img alt="Processes and channels" src="../fig/channel-process_fqc.png" width="500">
@@ -134,7 +134,7 @@ In the following example we have a channel containing three elements, e.g., 3 da
 
 While a `process` defines what command or script has to be executed, the `executor` determines how that script is actually run in the target system.
 
-If not otherwise specified, processes are executed on the local computer. The local executor is very useful for pipeline development, testing, and small scale workflows, but for large scale computational pipelines, a High Performance Cluster (HPC) or Cloud platform is often required.
+If not otherwise specified, processes are executed on the local computer. The local executor is very useful for pipeline development, testing, and small-scale workflows, but for large-scale computational pipelines, a High Performance Cluster (HPC) or Cloud platform is often required.
 
 <p align="center">
    <img alt="Processes and channels" src="../fig/executor.png" width="250">
@@ -144,7 +144,7 @@ If not otherwise specified, processes are executed on the local computer. The lo
 
 Nextflow provides a separation between the pipeline’s functional logic and the underlying execution platform. This makes it possible to write a pipeline once, and then run it on your computer, compute cluster, or the cloud, without modifying the workflow, by defining the target execution platform in a configuration file.
 
-Nextflow provides out-of-the-box support for major batch schedulers and cloud platforms such as Sun Grid Engine, SLURM job scheduler, AWS Batch service and Kubernetes. A full list can be found [here](https://www.nextflow.io/docs/latest/executor.html).
+Nextflow provides out-of-the-box support for major batch schedulers and cloud platforms such as Sun Grid Engine, SLURM job scheduler, AWS Batch service and Kubernetes; a full list can be found [here](https://www.nextflow.io/docs/latest/executor.html).
 
 ## Your first script
 
@@ -152,12 +152,11 @@ We are now going to look at a sample Nextflow script that counts the number of l
 
 Open the file `wc.nf` in the script directory with your favourite text editor.
 
-This is a Nextflow script. It contains;
+This is a Nextflow script. It contains:
 
 1. An optional interpreter directive ("Shebang") line, specifying the location of the Nextflow interpreter.
 1. `nextflow.enable.dsl=2` to enable DSL2 syntax.
-1. A multi-line Nextflow comment, written using C style block comments,
-followed by a single line comment.
+1. A multi-line Nextflow comment, written using C style block comments, followed by a single line comment.
 1. A pipeline parameter `params.input` which is given a default value, of the relative path to the location of a compressed fastq file, as a string.
 1. An unnamed `workflow` execution block, which is the default workflow to run.
 1. A Nextflow channel used to read in data to the workflow.
@@ -166,7 +165,7 @@ followed by a single line comment.
 1. A Nextflow `process` block named `NUM_LINES`, which defines what the process does.
 1. An `input` definition block that assigns the input to the variable `read`, and declares that it should be interpreted as a file `path`.
 1. An `output` definition block that uses the Linux/Unix standard output stream `stdout` from the script block.
-1. A `script` block that contains the bash commands ` printf '${read}` to print the name of the read file, and ` gunzip -c ${read} | wc -l` to count the number of lines in the gzipped read file.
+1. A `script` block that contains the bash commands `printf '${read}` to print the name of the read file, and `gunzip -c ${read} | wc -l` to count the number of lines in the gzipped read file.
 
 ~~~
 #!/usr/bin/env nextflow
