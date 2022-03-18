@@ -36,20 +36,41 @@ Analysing data involves a sequence of tasks, including gathering, cleaning, and 
 
 However, as workflows become larger and more complex, the management of the programming logic and software becomes difficult.
 
-##  Workflow management systems
+##  Workflow management systems and Nextflow
 
-*Workflow Management Systems* (WfMS) such as Snakemake, Galaxy, and Nextflow have been developed specifically to manage computational data-analysis workflows in fields such as bioinformatics, imaging, physics, and chemistry.
+*Workflow Management Systems* (WfMS) such as Snakemake, Galaxy, and Nextflow
+have been developed specifically to manage computational data-analysis
+workflows in fields such as bioinformatics, imaging, physics, and chemistry.
+WfMS contain multiple features that simplify the development, monitoring,
+execution and sharing of pipelines.
 
-WfMS contain multiple features that simplify the development, monitoring, execution and sharing of pipelines.
+Key features of Nextflow include:
 
-Key features include:
+* **Fast prototyping**: A simple syntax for writing pipelines that enables you
+  to reuse existing scripts and tools for fast prototyping.
 
-* **Run time management**: Management of program execution on the operating system and splitting tasks and data to run at the same time in a process called parallelisation.
-* **Software management**: Use of technology like containers, such as [Docker](https://www.docker.com) or [Singularity](https://sylabs.io/singularity), that packages up code and all its dependencies so the application runs reliably from one computing environment to another.
-* **Portability & Interoperability**: Workflows written on one system can be run on another computing infrastructure e.g., local computer, compute cluster, or cloud infrastructure.
-* **Reproducibility**: The use of software management systems and a pipeline specification means that the workflow will produce the same results when re-run, including on different computing platforms.
-* **Reentrancy**: Continuous checkpoints allow workflows to resume
-from the last successfully executed steps.
+* **Simple parallelism**:  Nextflow is based on the dataflow programming model
+  which greatly simplifies the splitting of tasks that can be run at the same
+  time (parallelisation).
+
+* **Portability & interoperability**: Nextflow's syntax separates the
+  functional logic (the steps of the workflow) from the execution settings (how
+  the workflow is executed). This allows the pipeline to be run on multiple
+  platforms, e.g. local compute vs. a university compute cluster or a cloud
+  service like AWS, without changing the steps of the workflow.
+
+* **Continuous checkpoints**: All the intermediate results produced during the
+  pipeline execution are automatically tracked. This allows you to resume its
+  execution from the last successfully executed step, no matter what the reason
+  was for it stopping.
+
+* **Reproducibility & software management**: Nextflow supports several
+  container technologies, such as [Docker](https://www.docker.com/) and
+  [Singularity](https://sylabs.io/singularity), as well as the package manager
+  [Conda](https://docs.conda.io). This, along with the integration of the
+  [GitHub](https://www.github.com) code sharing platform, allows you to write
+  self-contained pipelines, manage versions and to reproduce any previous
+  result when re-run, including on different computing platforms.
 
 ## Nextflow basic concepts
 
@@ -71,18 +92,6 @@ The diagram below illustrates the differences between a dataflow model and a sim
 <br>
 
 In a simple program **(a)**, these statements would be executed sequentially. Thus, the program would execute in three units of time. In the dataflow programming model **(b)**, this program takes only two units of time. This is because the read quantitation and QC steps have no dependencies on each other and therefore can execute simultaneously in parallel.
-
-### Nextflow core features
-
-1. **Fast prototyping**: A simple syntax for writing pipelines that enables you to reuse existing scripts and tools for fast prototyping.
-
-1. **Reproducibility**: Nextflow supports several container technologies, such as Docker and Singularity, as well as the package manager [Conda](https://docs.conda.io). This, along with the integration of the [GitHub](https://www.github.com) code sharing platform, allows you to write self-contained pipelines, manage versions and to reproduce any former configuration.
-
-1. **Portability**: Nextflow's syntax separates the functional logic (the steps of the workflow) from the execution settings (how the workflow is executed). This allows the pipeline to be run on multiple platforms, e.g. local compute vs. a university compute cluster or a cloud service like AWS, without changing the steps of the workflow.  
-
-1. **Simple parallelism**:  Nextflow is based on the dataflow programming model which greatly simplifies the splitting of tasks that can be run at the same time (parallelisation).
-
-1. **Continuous checkpoints**: All the intermediate results produced during the pipeline execution are automatically tracked. This allows you to resume its execution from the last successfully executed step, no matter what the reason was for it stopping.
 
 ### Scripting language
 
