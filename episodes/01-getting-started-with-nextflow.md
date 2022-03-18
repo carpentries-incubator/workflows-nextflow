@@ -103,65 +103,7 @@ https://doi.org/10.1038/s41592-021-01254-9
   you to resume its execution from the last successfully executed step, no
   matter what the reason was for it stopping.
 
-
 ## Nextflow basic concepts
-
-Nextflow is a workflow management system that combines a runtime environment,
-software that is designed to run other software, and a *programming domain
-specific language (DSL)* that eases the writing of computational pipelines.
-A DSL is written for a specific field, e.g., SQL is used to work with
-databases and AWK is designed for text processing.
-
-Nextflow is built around the idea that Linux is the lingua franca of data science. Nextflow follows Linux's "small pieces loosely joined" philosophy: many simple but powerful command-line and scripting tools facilitate, when chained together, more complex data manipulations.
-
-Nextflow extends this approach, adding the ability to define complex program interactions and an accessible (high-level) parallel computational environment based on the [dataflow programming model](https://devopedia.org/dataflow-programming), whereby `processes` are connected via their `outputs` and `inputs` to other `processes`, and run as soon as they receive an input.
-
-The diagram below illustrates the differences between a dataflow model and a simple linear program .
-
-<br>
-<center>
-<img src="../fig/dataflow.png" width="525" height="375" >
-<br>
-<em>A simple program (a) and its dataflow equivalent (b) https://doi.org/10.1145/1013208.1013209.
-</em>
-</center>
-<br>
-
-In a simple program **(a)**, these statements would be executed sequentially. Thus, the program would execute in three units of time. In the dataflow programming model **(b)**, this program takes only two units of time. This is because the read quantitation and QC steps have no dependencies on each other and therefore can execute simultaneously in parallel.
-
-### Scripting language
-
-Nextflow scripts are written using a language intended to simplify the writing
-of workflows. In practical terms the Nextflow scripting language is an
-extension of the [Groovy programming language](https://groovy-lang.org/), which
-in turn is a super-set of the Java programming language. Groovy simplifies the
-writing of code and is more approachable than Java. Groovy semantics (syntax,
-control structures, etc) are documented [here](https://groovy-lang.org/semantics.html).
-
-The approach of having a simple DSL built on top of a more powerful
-general-purpose programming language makes Nextflow very flexible. The
-Nextflow syntax can handle most workflow use cases with ease, and then
-Groovy can be used to handle corner cases which may be difficult to
-implement using the DSL.
-
-### DSL2 syntax
-
-Nextflow (version > 20.07.1) provides a revised syntax to the original
-DSL, known as DSL2. The DSL2 syntax introduces several improvements
-such as modularity (separating components to provide flexibility and
-enable reuse), and improved data flow manipulation. This further simplifies the writing of complex data analysis pipelines, and enhances workflow readability, and reusability.
-
-This feature is enabled by the following directive at the beginning a workflow script:
-
-~~~
-nextflow.enable.dsl=2
-~~~
-{: .language-groovy}
-
-> ## Earlier syntax versions
->
-> Scripts that contain the directive `nextflow.preview.dsl=2` use an early version of the DSL2 syntax, which may include experimental features that have been changed or removed in the formal DSL2 syntax. Scripts without these directives use the first version of the Nextflow syntax which we refer to as DSL1. DSL1 workflows use many of the same concepts presented in this lesson, but some aspects such as the flow of data are written differently. DSL1 workflows are also written in a single script, unlike DSL2 workflows which can be spread across many files. This lesson will focus on the DSL2 syntax as, after the DSL1 to DSL2 transition period is over, it will become the default way of writing Nextflow workflows.
-{: .callout}
 
 ### Processes, channels, and workflows
 
