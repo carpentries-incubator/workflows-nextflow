@@ -103,27 +103,45 @@ https://doi.org/10.1038/s41592-021-01254-9
   you to resume its execution from the last successfully executed step, no
   matter what the reason was for it stopping.
 
-## Nextflow basic concepts
+## Processes, channels, and workflows
 
-### Processes, channels, and workflows
+Nextflow workflows have three main parts: *processes*, *channels*, and
+*workflows*.
 
-Nextflow workflows have three main parts; processes, channels, and workflows. Processes describe a task to be run. A process script can be written in any scripting language that can be executed by the Linux platform (Bash, Perl, Ruby, Python, etc.). Processes spawn a task for each complete input set. Each task is executed independently and cannot interact with other tasks. The only way data can be passed between process tasks is via asynchronous queues, called channels.
+* *Processes* describe a task to be run. A process script can be written in any
+  scripting language that can be executed by the Linux platform (Bash, Perl,
+  Ruby, Python, R, etc.). Processes spawn a task for each complete input set.
+  Each task is executed independently and cannot interact with other tasks. The
+  only way data can be passed between process tasks is via asynchronous queues,
+  called *channels*.
 
-Processes define inputs and outputs for a task. Channels are then used to manipulate the flow of data from one process to the next. The interaction between processes, and ultimately the pipeline execution flow itself, is then explicitly defined in a workflow section.
+* Processes define inputs and outputs for a task. *Channels* are then used to
+  manipulate the flow of data from one process to the next.
 
-In the following example we have a channel containing three elements, e.g., three data files. We have a process that takes the channel as input. Since the channel has three elements, three independent instances (tasks) of that process are run in parallel. Each task generates an output, which is passed to another channel and used as input for the next process.
+* The interaction between processes, and ultimately the pipeline execution flow
+  itself, is then explicitly defined in a *workflow* section.
+
+In the following example we have a channel containing three elements, e.g.,
+three data files. We have a process that takes the channel as input. Since the
+channel has three elements, three independent instances (tasks) of that process
+are run in parallel. Each task generates an output, which is passed to another
+channel and used as input for the next process.
 
 <p align="center">
    <img alt="Processes and channels" src="../fig/channel-process_fqc.png" width="700">
    <br>
-   <em>Nextflow process flow diagram</em>
+   <em> Nextflow process flow diagram. </em>
 </p>
 
-### Workflow execution
+## Workflow execution
 
-While a `process` defines what command or script has to be executed, the `executor` determines how that script is actually run in the target system.
+While a `process` defines what command or script has to be executed, the
+`executor` determines how that script is actually run in the target system.
 
-If not otherwise specified, processes are executed on the local computer. The local executor is very useful for pipeline development, testing, and small-scale workflows, but for large-scale computational pipelines, a High Performance Cluster (HPC) or Cloud platform is often required.
+If not otherwise specified, processes are executed on the local computer. The
+local executor is very useful for pipeline development, testing, and
+small-scale workflows, but for large-scale computational pipelines, a High
+Performance Cluster (HPC) or Cloud platform is often required.
 
 <p align="center">
    <img alt="Processes and channels" src="../fig/executor.png" width="350">
@@ -131,9 +149,15 @@ If not otherwise specified, processes are executed on the local computer. The lo
    <em>Nextflow Executors</em>
 </p>
 
-Nextflow provides a separation between the pipeline’s functional logic and the underlying execution platform. This makes it possible to write a pipeline once, and then run it on your computer, compute cluster, or the cloud, without modifying the workflow, by defining the target execution platform in a configuration file.
+Nextflow provides a separation between the pipeline’s functional logic and the
+underlying execution platform. This makes it possible to write a pipeline once,
+and then run it on your computer, compute cluster, or the cloud, without
+modifying the workflow, by defining the target execution platform in
+a configuration file.
 
-Nextflow provides out-of-the-box support for major batch schedulers and cloud platforms such as Sun Grid Engine, SLURM job scheduler, AWS Batch service and Kubernetes; a full list can be found [here](https://www.nextflow.io/docs/latest/executor.html).
+Nextflow provides out-of-the-box support for major batch schedulers and cloud
+platforms such as Sun Grid Engine, SLURM job scheduler, AWS Batch service and
+Kubernetes; a full list can be found [here](https://www.nextflow.io/docs/latest/executor.html).
 
 ## Your first script
 
