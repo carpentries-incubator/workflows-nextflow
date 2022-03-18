@@ -74,7 +74,11 @@ Key features of Nextflow include:
 
 ## Nextflow basic concepts
 
-Nextflow is a workflow management system that combines a runtime environment, software that is designed to run other software, and a *programming domain specific language (DSL)* that eases the writing of computational pipelines.
+Nextflow is a workflow management system that combines a runtime environment,
+software that is designed to run other software, and a *programming domain
+specific language (DSL)* that eases the writing of computational pipelines.
+A DSL is written for a specific field, e.g., SQL is used to work with
+databases and AWK is designed for text processing.
 
 Nextflow is built around the idea that Linux is the lingua franca of data science. Nextflow follows Linux's "small pieces loosely joined" philosophy: many simple but powerful command-line and scripting tools facilitate, when chained together, more complex data manipulations.
 
@@ -95,10 +99,12 @@ In a simple program **(a)**, these statements would be executed sequentially. Th
 
 ### Scripting language
 
-Nextflow scripts are written using a language intended to simplify
-the writing of workflows. Languages written for a specific field are called Domain Specific Languages (DSL), e.g., SQL is used to work with databases, and AWK is designed for text processing.
-
-In practical terms the Nextflow scripting language is an extension of the [Groovy programming language](https://groovy-lang.org/), which in turn is a super-set of the Java programming language. Groovy simplifies the writing of code and is more approachable than Java. Groovy semantics (syntax, control structures, etc) are documented [here](https://groovy-lang.org/semantics.html).
+Nextflow scripts are written using a language intended to simplify the writing
+of workflows. In practical terms the Nextflow scripting language is an
+extension of the [Groovy programming language](https://groovy-lang.org/), which
+in turn is a super-set of the Java programming language. Groovy simplifies the
+writing of code and is more approachable than Java. Groovy semantics (syntax,
+control structures, etc) are documented [here](https://groovy-lang.org/semantics.html).
 
 The approach of having a simple DSL built on top of a more powerful
 general-purpose programming language makes Nextflow very flexible. The
