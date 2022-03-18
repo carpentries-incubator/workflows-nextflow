@@ -161,63 +161,56 @@ Kubernetes; a full list can be found [here](https://www.nextflow.io/docs/latest/
 
 ## Your first script
 
-We are now going to look at a sample Nextflow script that counts the number of lines in a file.
-
-Open the file `wc.nf` in the script directory with your favourite text editor.
-
-This is a Nextflow script. It contains:
-
-1. An optional interpreter directive ("Shebang") line, specifying the location of the Nextflow interpreter.
-1. `nextflow.enable.dsl=2` to enable DSL2 syntax.
-1. A multi-line Nextflow comment, written using C style block comments, followed by a single line comment.
-1. A pipeline parameter `params.input` which is given a default value, of the relative path to the location of a compressed fastq file, as a string.
-1. An unnamed `workflow` execution block, which is the default workflow to run.
-1. A Nextflow channel used to read in data to the workflow.
-1. A call to the process `NUM_LINES`.
-1. An operation on the process output, using the channel operator `view()`.
-1. A Nextflow `process` block named `NUM_LINES`, which defines what the process does.
-1. An `input` definition block that assigns the input to the variable `read`, and declares that it should be interpreted as a file `path`.
-1. An `output` definition block that uses the Linux/Unix standard output stream `stdout` from the script block.
-1. A `script` block that contains the bash commands `printf '${read}` to print the name of the read file, and `gunzip -c ${read} | wc -l` to count the number of lines in the gzipped read file.
+We are now going to look at a sample Nextflow script that counts the number of
+lines in a file. Create the file `word_count.nf` in the current directory using
+your favourite text editor and copy-paste the following code:
 
 ~~~
 #!/usr/bin/env nextflow
 
 nextflow.enable.dsl=2
 
-/*  Comments are uninterpreted text included with the script.
-    They are useful for describing complex parts of the workflow
-    or providing useful information such as workflow usage.
+/*
+========================================================================================
+    Workflow parameters are written as params.<parameter>
+    and can be initialised using the `=` operator.
+========================================================================================
+*/
 
-    Usage:
-       nextflow run wc.nf --input <input_file>
+params.input = "data/untrimmed_fastq/SRR2584863_1.fastq.gz"
 
-    Multi-line comments start with a slash asterisk /* and finish with an asterisk slash. */
-//  Single line comments start with a double slash // and finish on the same line
+/*
+========================================================================================
+    Input data is received through channels
+========================================================================================
+*/
 
-/*  Workflow parameters are written as params.<parameter>
-    and can be initialised using the `=` operator. */
-params.input = "data/yeast/reads/ref1_1.fq.gz"
+input_ch = Channel.fromPath(params.input)
 
-//  The default workflow
+/*
+========================================================================================
+   Main Workflow
+========================================================================================
+*/
+
 workflow {
+    //  The script to execute is called by it's process name, and input is provided between brackets.
 
-    //  Input data is received through channels
-    input_ch = Channel.fromPath(params.input)
-
-    /*  The script to execute is called by its process name,
-        and input is provided between brackets. */
     NUM_LINES(input_ch)
 
     /*  Process output is accessed using the `out` channel.
-        The channel operator view() is used to print
-        process output to the terminal. */
+        The channel operator view() is used to print process output to the terminal. */
+
     NUM_LINES.out.view()
+
 }
 
-/*  A Nextflow process block
-    Process names are written, by convention, in uppercase.
-    This convention is used to enhance workflow readability. */
+/*
+========================================================================================
+    A Nextflow process block. Process names are written, by convention, in uppercase.
+    This convention is used to enhance workflow readability.
+========================================================================================
+*/
 process NUM_LINES {
 
     input:
@@ -227,14 +220,36 @@ process NUM_LINES {
     stdout
 
     script:
-    /* Triple quote syntax """, Triple-single-quoted strings may span multiple lines. The content of the string can cross line boundaries without the need to split the string in several pieces and without concatenation or newline escape characters. */
     """
-    printf '${read} '
+    # Print reads
+    printf '${read}\t'
+
+    # Unzip file and count number of lines
     gunzip -c ${read} | wc -l
     """
 }
 ~~~~
 {: .language-groovy}
+
+This is a Nextflow script, which contains the following:
+
+1. An optional interpreter directive ("Shebang") line, specifying the location of the Nextflow interpreter.
+1. `nextflow.enable.dsl=2` to enable DSL2 syntax.
+1. A multi-line Nextflow comment, written using C style block comments, followed by a single line comment.
+1. A pipeline parameter `params.input` which is given a default value, of the relative path to the location of a compressed fastq file, as a string.
+1. An unnamed `workflow` execution block, which is the default workflow to run.
+1. A Nextflow channel used to read in data to the workflow.
+1. A call to the process `NUM_LINES`.
+1. A Nextflow process block named `NUM_LINES`, which defines what the process does.
+1. An `input` definition block that assigns the `input` to the variable `read`, and declares that it should be interpreted as a file path.
+1. An `output` definition block that uses the Linux/Unix standard output stream `stdout` from the script block.
+1. A script block that contains the bash commands `printf '${read}'` and `gunzip -c ${read} | wc -l`.
+1. A Nextflow channel `input_ch` used to read in data to the workflow.
+1. An unnamed `workflow` execution block, which is the default workflow to run.
+1. A call to the process `NUM_LINES` with input channel `input_ch`.
+1. An operation on the process output, using the channel operator `.view()`.
+
+## Running Nextflow scripts
 
 To run a Nextflow script use the command `nextflow run <script_name>`.
 
@@ -242,7 +257,7 @@ To run a Nextflow script use the command `nextflow run <script_name>`.
 > Run the script by entering the following command in your terminal:
 >
 > ~~~
-> $ nextflow run wc.nf
+> $ nextflow run word_count.nf
 > ~~~
 > {: .language-bash}
 > > ## Solution
@@ -250,7 +265,7 @@ To run a Nextflow script use the command `nextflow run <script_name>`.
 > >
 > > ~~~
 > > N E X T F L O W  ~  version 20.10.0
-> > Launching `wc.nf` [fervent_babbage] - revision: c54a707593
+> > Launching `word_count.nf` [fervent_babbage] - revision: c54a707593
 > > executor >  local (1)
 > > [21/b259be] process > NUM_LINES (1) [100%] 1 of 1 ✔
 > >
@@ -262,19 +277,8 @@ To run a Nextflow script use the command `nextflow run <script_name>`.
 > > 1. The second line shows the run name `fervent_babbage` (adjective and scientist name) and revision id `c54a707593`.
 > > 1. The third line tells you the process has been executed locally (`executor >  local`).
 > > 1. The next line shows the process id `21/b259be`, process name, number of cpus, percentage task completion, and how many instances of the process have been run.
-> > 1. The final line is the output of the `view` operator.
+> > 1. The final line is the output of the `.view()` operator.
 > {: .solution}
 {: .challenge}
-
-
-> ## Process identification
-> The hexadecimal numbers, like 61/1f3ef4, identify the unique process execution.
-> These numbers are also the prefix of the directories where each process is executed.
-> You can inspect the files produced by changing to the directory `$PWD/work` and
-> using these numbers to find the process-specific execution path. We will learn how exactly 
-> nextflow using *work* directory to execute processes in the following sections. 
-{: .callout}
-
-
 
 {% include links.md %}
