@@ -386,13 +386,13 @@ $ nf-core launch -r 3.0 rnaseq
 ~~~
 {: .language-bash}
 
-> ## Exercise : nf-core launch rnaseq
+> ## Exercise : Create nf-core params file
 >
->  Use the launch feature to create a params file named `nf-params.json`.
+>  Use the `nf-core launch` command to create a params file named `nf-params.json`.
 >  1. Use the `nf-core launch` command to launch the interactive command-line wizard.
 >  1. Add an input file name `samples.csv`
 >  1. Add a genome `GRCh38`
-> **Do not run the command now**
+> ** Note ** : Do not run the command now.
 > > ## Solution
 > >
 > > {: .solution}
