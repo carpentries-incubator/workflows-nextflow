@@ -37,11 +37,17 @@ ATAAAAGGACTCTTTTATAATGGAGGCGCATATCGAAGAGGGTTTTCAACGGGATGTTGT
 > ~~~
  {: .callout }
 
+
+
 ~~~
 $ zgrep -c '^>' data/yeast/transcriptome/Saccharomyces_cerevisiae.R64-1-1.cdna.all.fa.gz
 ~~~
 {: .language-bash }
 
+~~~
+6612
+~~~
+ {: .output }
 
 Now we will show how to convert this into a simple Nextflow process.
 
@@ -94,7 +100,7 @@ $ nextflow run process_01.nf -process.echo
 
 ~~~
 N E X T F L O W  ~  version 21.10.6
-Launching `p1.nf` [modest_pike] - revision: 3eaa812b17
+Launching `process_01.nf` [modest_pike] - revision: 3eaa812b17
 executor >  local (1)
 [cd/eab1fd] process > NUMSEQ [100%] 1 of 1 ✔
 6612
@@ -216,6 +222,20 @@ workflow {
 }
 ~~~
 {: .language-groovy }
+
+~~~
+$ nextflow run process_multi_line.nf -process.echo
+~~~
+{: .language-bash }
+
+~~~
+N E X T F L O W  ~  version 21.10.6
+Launching `process_multi_line.nf` [focused_jang] - revision: e32caf0dcb
+executor >  local (1)
+[00/14ce67] process > CHR_COUNT (1) [100%] 1 of 1 ✔
+Number of sequences for chromosome A:118
+~~~
+{: .output }
 
 By default the process command is interpreted as a **Bash** script. However any other scripting language can be used just simply starting the script with the corresponding [Shebang](https://en.wikipedia.org/wiki/Shebang_(Unix)) declaration. For example:
 
