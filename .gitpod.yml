@@ -1,5 +1,12 @@
 image: nfcore/gitpod:latest
 
+tasks:
+  - name: Install local page serve
+    init: |
+      sudo apt-get install ruby ruby-dev build-essential libxml2-dev
+      sudo gem install bundler
+
+
 vscode:
   extensions: # based on nf-core.nf-core-extensionpack
     - codezombiech.gitignore                 # Language support for .gitignore files
