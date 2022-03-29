@@ -16,7 +16,7 @@ objectives:
 - "Use the `publishDir` directive to save result files to a directory."
 keypoints:
 - "Outputs to a process are defined using the output blocks."
-- "You can group input and output data from a process using the tuple qualifer."
+- "You can group input and output data from a process using the tuple qualifier."
 - "The execution of a process can be controlled using the `when` declaration and conditional statements."
 - "Files produced within a process and defined as `output` can be saved to a directory using the `publishDir` directive."
 ---
@@ -372,7 +372,7 @@ The output is now a tuple containing the sample id and the combined fastq files.
 {: .output }
 
 > ## Composite inputs and outputs
-> Fill in the blank ___ input and output qualifers for `process_exercise_tuple.nf`.
+> Fill in the blank ___ input and output qualifiers for `process_exercise_tuple.nf`.
 > **Note:** the output for the COMBINE_REPS process.
 > ~~~
 > //process_exercise_tuple.nf
