@@ -1,5 +1,5 @@
 ---
-title: "Learners Profiles"
+title: "Learner Profiles"
 ---
 
 ### Olivia Henderson
