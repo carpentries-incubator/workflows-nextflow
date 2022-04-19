@@ -5,9 +5,15 @@ title: "Instructor Notes"
 
 ## When to use a workflow system?
 
-You may be asked by the learners when you would need to use a workflow system. The paper [Workflow systems turn raw data into scientific knowledge](https://pubmed.ncbi.nlm.nih.gov/31477884/) has a view on this.
+You may be asked by the learners when you would need to use a workflow system. The paper [Workflow systems turn raw data into scientific knowledge](https://pubmed.ncbi.nlm.nih.gov/31477884/) has a view on this:
 
-"So, do you need a workflow system? Not every task requires one, and there is a learning curve. Scripting usually suffices for one-off tasks and when working out the pipeline itself. The tipping point, most agree, comes when you need to run the same workflow over and over again, or if the data are likely to be published."
+> So, do you need a workflow system? Not every task requires one, and there is a learning curve. Scripting usually suffices for one-off tasks and when working out the pipeline itself. The tipping point, most agree, comes when you need to run the same workflow over and over again, or if the data are likely to be published.
+
+### Which workflow system to use?
+
+The paper [Using prototyping to choose a bioinformatics workflow management system](http://doi.org/10.1371/journal.pcbi.1008622) discusses why they chose nextflow compared to other workflow systems. It also has a view about when to use workflow systems:
+
+> We conclude that many [...] multistep data analysis workflows can be rewritten in a workflow management system, and we advocate prototyping as a low-cost (both time and effort) way of making an informed selection of software for use within a research project.
 
 
 ## Nextflow echo option
@@ -51,8 +57,9 @@ nextflow console
 ## References
 
 * [Di Tommaso P, Chatzou M, Floden EW, Barja PP, Palumbo E, Notredame C. Nextflow enables reproducible computational workflows. Nat Biotechnol. 2017;35(4):316-319.](https://www.nature.com/articles/nbt.3820) doi: 10.1038/nbt.3820). doi: 10.1038/nbt.3820.
-* [Ewels PA, Peltzer A, Fillinger S, et al. The nf-core framework for community-curated bioinformatics pipelines. Nat Biotechnol. 2020;38(3):276-278.] (https://www.nature.com/articles/s41587-020-0439-x)  DOI: [10.1038/s41587-020-0439-x](https://doi.org/10.1038/s41587-020-0439-x)
+* [Ewels PA, Peltzer A, Fillinger S, et al. The nf-core framework for community-curated bioinformatics pipelines. Nat Biotechnol. 2020;38(3):276-278.](https://www.nature.com/articles/s41587-020-0439-x)  DOI: [10.1038/s41587-020-0439-x](https://doi.org/10.1038/s41587-020-0439-x)
 * [Perkel JM. Workflow systems turn raw data into scientific knowledge. Nature. 2019;573(7772):149-150.](https://www.nature.com/articles/d41586-019-02619-z) DOI: 10.1038/d41586-019-02619-z
+* [Jackson M, Wallace EWJ, Kavoussanakis K, PLoS Computational Biology. Using prototyping to choose a bioinformatics workflow management system. 2021; 17 :e1008622.](https://journals.plos.org/ploscompbiol/article?id=10.1371/journal.pcbi.1008622) [doi: 10.1371/journal.pcbi.1008622](http://doi.org/10.1371/journal.pcbi.1008622)
 
 
 {% include links.md %}
