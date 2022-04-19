@@ -39,7 +39,7 @@ script, including channels, processes and operators.
 > [Plotting and Programming in Python](http://swcarpentry.github.io/python-novice-gapminder) or
 > [R for Reproducible Scientific Analysis](http://swcarpentry.github.io/r-novice-gapminder),
 > although this lesson does not specifically rely on Python or R.
-> No previous knowledge of nextflow, other workflow software, or Groovy is required.
+> No previous knowledge of Nextflow, other workflow software, or Groovy is required.
 {: .prereq}
 
 
