@@ -552,7 +552,7 @@ process COUNT {
     zgrep -c "^>" $params.transcriptome
     """
   }  
-  else if( params.methods == 'bases' ) {
+  else if( params.method == 'bases' ) {
     """
     echo Number of bases in transciptome
     zgrep -v "^>" $params.transcriptome|grep -o "."|wc -l
@@ -572,16 +572,16 @@ workflow {
 {: .language-groovy }
 
 ~~~
-nextflow run process_conditional.nf -process.echo --aligner kallisto
+nextflow run process_conditional.nf -process.echo --method ids
 ~~~
 {: .language-bash }
 
 ~~~
 N E X T F L O W  ~  version 21.04.0
 Launching `juggle_processes.nf` [cheeky_shirley] - revision: 588f20ae5a
-executor >  local (1)
-[84/c44f25] process > COUNT [100%] 1 of 1 ✔
-fixme
+[01/60b08d] process > COUNT [100%] 1 of 1 ✔
+Number of sequences in transciptome
+6612
 ~~~
 {: .output}
 
