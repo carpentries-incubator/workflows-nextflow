@@ -1,29 +1,31 @@
-nextflow.enable.dsl = 2
+//process_conditional.nf
+nextflow.enable.dsl=2
 
-params.aligner = 'kallisto'
+params.method = 'ids'
 params.transcriptome = "$projectDir/data/yeast/transcriptome/Saccharomyces_cerevisiae.R64-1-1.cdna.all.fa.gz"
-params.kmer = 31
 
-process INDEX {
 
-    script:
-    if( params.aligner == 'kallisto' ) {
-        """
-        echo indexed using kallisto
-        kallisto index -i index  -k $params.kmer $params.transcriptome
-        """
-    } else if( params.aligner == 'salmon' ) {
-        """
-        echo indexed using salmon
-        salmon index -t $params.transcriptome -i index --kmer $params.kmer
-        """
-    } else {
-        """
-        echo Unknown aligner $params.aligner"
-        """
-    }
+process COUNT {
+  script:
+  if( params.method == 'ids' ) {
+    """
+    echo Number of sequences in transciptome
+    zgrep -c "^>" $params.transcriptome
+    """
+  }  
+  else if( params.method == 'bases' ) {
+    """
+    echo Number of bases in transciptome
+    zgrep -v "^>" $params.transcriptome|grep -o "."|wc -l
+    """
+  }  
+  else {
+    """
+    echo Unknown method $params.method
+    """
+  }  
 }
 
 workflow {
-    INDEX()
+  COUNT()
 }
