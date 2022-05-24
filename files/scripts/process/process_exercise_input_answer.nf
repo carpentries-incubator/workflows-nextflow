@@ -1,19 +1,21 @@
-nextflow.enable.dsl = 2
+nextflow.enable.dsl=2
 
-process FASTQC {
+params.chr = "A"
+params.transcriptome = "${projectDir}/data/yeast/transcriptome/Saccharomyces_cerevisiae.R64-1-1.cdna.all.fa.gz"> >
 
-    input:
-    path reads
+process CHR_COUNT {
+ input:
+ path transcriptome
 
-    script:
-    """
-    mkdir fastqc_out
-    fastqc -o fastqc_out ${reads}
-    ls -1 fastqc_out
-    """
+ script:
+ """
+ printf  'Number of sequences for chromosome '${params.chr}':'
+ zgrep  -c '^>Y'${params.chr} ${transcriptome}
+ """
 }
 
+transcriptome_ch = channel.fromPath(params.transcriptome)
+
 workflow {
-    reads_ch = Channel.fromPath( 'data/yeast/reads/ref1*_{1,2}.fq.gz' )
-    FASTQC( reads_ch )
+ CHR_COUNT(transcriptome_ch)
 }
