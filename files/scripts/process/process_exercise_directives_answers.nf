@@ -14,7 +14,7 @@ process FASTQC {
     script:
     """
     mkdir fastqc_out
-    fastqc $reads -o fastqc_out -t 1
+    fastqc $reads -o fastqc_out -t $task.cpus
     """
 }
 
