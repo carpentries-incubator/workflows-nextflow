@@ -1,18 +1,21 @@
-nextflow.enable.dsl = 2
+//process_shell.nf
+nextflow.enable.dsl=2
 
-params.kmer = 31
+process NUM_IDS {
 
-process INDEX {
+  shell:
+  //Shell script definition requires the use of single-quote ' delimited strings
+  '''
+  #set bash variable NUMIDS
+  NUMIDS=`zgrep -c '^>' !{params.transcriptome}`
 
-    shell:
-    '''
-    #set bash variable KMERSIZE
-    KMERSIZE=!{params.kmer}
-    salmon index -t !{projectDir}/data/yeast/transcriptome/Saccharomyces_cerevisiae.R64-1-1.cdna.all.fa.gz -i index --kmer ${KMERSIZE}
-    echo "kmer size is  !{params.kmer}"
-    '''
+  echo 'Number of sequences'
+  printf  $NUMIDS
+  '''
 }
 
+params.transcriptome = "${projectDir}/data/yeast/transcriptome/Saccharomyces_cerevisiae.R64-1-1.cdna.all.fa.gz"
+
 workflow {
-    INDEX()
+  NUM_IDS()
 }
