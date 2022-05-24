@@ -392,7 +392,7 @@ The output is now a tuple containing the sample id and the combined fastq files.
 >   """
 > }
 >
-> reads_ch = Channel.fromFilePairs('data/yeast/reads/ref{1,2,3}*.fq.gz')
+> reads_ch = Channel.fromFilePairs('data/yeast/reads/ref{1,2,3}*.fq.gz',size:-1)
 >
 > workflow{
 >   COMBINE_REPS(reads_ch)
