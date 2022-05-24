@@ -1,29 +1,24 @@
-nextflow.enable.dsl = 2
+//process_publishDir.nf
+nextflow.enable.dsl=2
 
-process QUANT {
-    publishDir "results/quant"
+process COMBINE_READS {
+  publishDir "results/merged_reads"
 
-    input:
-    tuple val(sample_id), path(reads)
-    each index
+  input:
+  tuple val(sample_id), path(reads)
 
-    output:
-    tuple val(sample_id), path("${sample_id}_salmon_output")
+  output:
+  path("${sample_id}.merged.fq.gz")
 
-    script:
-    """
-    salmon quant -i $index \\
-        -l A \\
-        -1 ${reads[0]} \\
-        -2 ${reads[1]} \\
-        -o ${sample_id}_salmon_output
-    """
+  script:
+  """
+  cat ${reads} > ${sample_id}.merged.fq.gz
+  """
 }
+
+reads_ch = Channel.fromFilePairs('data/yeast/reads/ref1_{1,2}.fq.gz')
 
 
 workflow {
-    reads_ch = Channel.fromFilePairs( 'data/yeast/reads/ref1_{1,2}.fq.gz' )
-    index_ch = Channel.fromPath( 'data/yeast/salmon_index' )
-    QUANT( reads_ch, index_ch )
-    QUANT.out.view()
+  COMBINE_READS(reads_ch)
 }
