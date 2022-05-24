@@ -837,9 +837,9 @@ results/
 > > params.reads= "data/yeast/reads/ref{1,2,3}*{1,2}.fq.gz"
 > >
 > > process MERGE_REPS {
-> >   publishDir "results/merged_reps">
+> >   publishDir "results/merged_reps"
 > >   input:
-> >   tuple val(sample_id), path(reads)>
+> >   tuple val(sample_id), path(reads)
 > >   output:
 > >   path("*fq.gz")
 > >
