@@ -405,7 +405,7 @@ The output is now a tuple containing the sample id and the combined fastq files.
 > > //process_exercise_tuple_answer.nf
 > > nextflow.enable.dsl=2
 > >
-> > process FASTQC {
+> > process COMBINE_REPS {
 > >   input:
 > >   tuple val(sample_id), path(reads)
 > >
@@ -422,8 +422,8 @@ The output is now a tuple containing the sample id and the combined fastq files.
 > > reads_ch = Channel.fromFilePairs('data/yeast/reads/ref{1,2,3}*.fq.gz',size:-1)
 > >
 > > workflow{
-> >   FASTQC(reads_ch)
-> >   FASTQC.out.view()
+> >   COMBINE_REPS(reads_ch)
+> >   COMBINE_REPS.out.view()
 > > }
 > > ~~~
 > > {: .language-groovy }
@@ -431,7 +431,7 @@ The output is now a tuple containing the sample id and the combined fastq files.
 > > N E X T F L O W  ~  version 21.04.0
 > > Launching `process_exercise_tuple.nf` [spontaneous_coulomb] - revision: 06ff22f1a9
 > > executor >  local (3)
-> > [75/f4a44d] process > FASTQC (3) [100%] 3 of 3 ✔
+> > [75/f4a44d] process > COMBINE_REPS (3) [100%] 3 of 3 ✔
 > > [ref3, work/99/a7d9176e332fdc0988973dbb89df63/fastqc_out]
 > > [ref2, /work/53/e3cbd39afa9f0f84a3d9cd060d991a/fastqc_out]
 > > [ref1, work/75/f4a44d0bc761fa4774c2f23a465766/fastqc_out]
