@@ -1,20 +1,20 @@
-nextflow.enable.dsl = 2
+// process_exercise_combine_answer.nf
+nextflow.enable.dsl=2
 
 process COMBINE {
+ input:
+ path transcriptome
+ val chr
 
-    input:
-    <qualifier> <name>
-    <qualifier> <name>
-
-    script:
-    """
-    salmon index -t $transcriptome -i index -k $kmer
-    """
+ script:
+ """
+ zgrep -c ">Y${chr}" ${transcriptome}
+ """
 }
 
-workflow {
+transcriptome_ch = channel.fromPath('data/yeast/transcriptome/Saccharomyces_cerevisiae.R64-1-1.cdna.all.fa.gz', checkIfExists: true)
+chr_ch = channel.of("A")
 
-    transcriptome_ch = Channel.fromPath( 'data/yeast/transcriptome/Saccharomyces_cerevisiae.R64-1-1.cdna.all.fa.gz', checkIfExists: true )
-    kmer_ch = Channel.of( 21 )
-    COMBINE( transcriptome_ch, kmer_ch )
+workflow {
+  COMBINE(transcriptome_ch, chr_ch)
 }
