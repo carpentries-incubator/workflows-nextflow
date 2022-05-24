@@ -3,8 +3,7 @@ nextflow.enable.dsl=2
 
 process COMBINE {
  input:
- path transcriptome
- val chr
+
 
  script:
  """
@@ -16,5 +15,5 @@ transcriptome_ch = channel.fromPath('data/yeast/transcriptome/Saccharomyces_cere
 chr_ch = channel.of("A")
 
 workflow {
-  COMBINE(transcriptome_ch, chr_ch)
+
 }
