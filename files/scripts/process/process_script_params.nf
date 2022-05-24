@@ -1,17 +1,14 @@
 //process_script_params.nf
 nextflow.enable.dsl=2
 
-params.chr = "A"
+process COUNT_BASES {
 
-process CHR_COUNT {
-
-  script:
-  """
-  printf  'Number of sequences for chromosome '${params.chr}':'
-  zgrep  -c '^>Y'${params.chr} ${projectDir}/data/yeast/transcriptome/Saccharomyces_cerevisiae.R64-1-1.cdna.all.fa.gz
-  """
+ script:
+ """
+ zgrep -v  '^>'   ${projectDir}/data/yeast/transcriptome/Saccharomyces_cerevisiae.R64-1-1.cdna.all.fa.gz|grep -o A|wc -l   
+ """
 }
 
 workflow {
-  CHR_COUNT()
+  COUNT_BASES()
 }
