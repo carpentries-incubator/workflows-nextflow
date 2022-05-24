@@ -1,25 +1,24 @@
-nextflow.enable.dsl = 2
+//process_exercise_publishDir_answer.nf
+nextflow.enable.dsl=2
 
-params.transcriptome = "$projectDir/data/yeast/transcriptome/Saccharomyces_cerevisiae.R64-1-1.cdna.all.fa.gz"
+params.reads= "data/yeast/reads/ref{1,2,3}*{1,2}.fq.gz"
 
-process INDEX {
+process MERGE_REPS {
+  publishDir "results/merged_reps">
+  input:
+  tuple val(sample_id), path(reads)>
+  output:
+  path("*fq.gz")
 
-    publishDir "results", mode: "copy"
-
-    input:
-    path transcriptome
-
-    output:
-    path "index"
-
-    script:
-    """
-    salmon index -t $transcriptome -i index
-    """
+  script:
+  """
+  cat *1.fq.gz > ${sample_id}.merged.R1.fq.gz
+  cat *2.fq.gz > ${sample_id}.merged.R2.fq.gz
+  """
 }
 
+reads_ch = Channel.fromFilePairs(params.reads,checkIfExists:true,size:6)
 
-workflow{
-    transcriptome_ch = Channel.fromPath( params.transcriptome, checkIfExists: true )
-    INDEX( transcriptome_ch )
+workflow {
+  MERGE_REPS(reads_ch)
 }
