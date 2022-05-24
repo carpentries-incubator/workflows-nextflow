@@ -145,7 +145,7 @@ work/23/883ccf187b5357137a9a87d98717c0/I_seq_count.txt
 ~~~
 {: .output }
 
-In the above example the process `COUNT_CHR_SEQS` creates a file named `<chr>_seq_count.txt` in the work directory containing the method name.
+In the above example the process `COUNT_CHR_SEQS` creates a file named `<chr>_seq_count.txt` in the work directory containing the number of transcripts within that chromosome.
 
 Since a file parameter using the same name, `<chr>_seq_count.txt`, is declared in the output block, when the task is completed that file is sent over the output channel.
 
