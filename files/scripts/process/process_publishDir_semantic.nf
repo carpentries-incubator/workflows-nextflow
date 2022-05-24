@@ -1,33 +1,31 @@
-nextflow.enable.dsl = 2
+//process_publishDir_semantic.nf
+nextflow.enable.dsl=2
 
-process QUANT {
+params.transcriptome="${projectDir}/data/yeast/transcriptome/Saccharomyces_cerevisiae.R64-1-1.cdna.all.fa.gz"
 
-    publishDir "results/bams", pattern: "*.bam", mode: "copy"
-    publishDir "results/quant", pattern: "${sample_id}_salmon_output", mode: "copy"
+process SPLIT_FASTA {
+  publishDir "results/ids", pattern: "*_ids.txt", mode: "copy"
+  publishDir "results/sequence", pattern: "sequence.txt", mode: "copy"
 
-    input:
-    tuple val(sample_id), path(reads)
-    path index
 
-    output:
-    tuple val(sample_id), path("${sample_id}.bam")
-    path "${sample_id}_salmon_output"
+  input:
+  path transcriptome
 
-    script:
-    """
-    salmon quant -i $index \\
-        -l A \\
-        -1 ${reads[0]} \\
-        -2 ${reads[1]} \\
-        -o ${sample_id}_salmon_output \\
-        --writeMappings \\
-        | samtools sort \\
-        | samtools view -bS -o ${sample_id}.bam
-    """
+  output:
+  path "*"
+
+  script:
+  """
+  zgrep  '^>' $transcriptome > sequence_ids.txt
+  zgrep -v '^>' $transcriptome > sequence.txt
+  """
 }
+// Both 'Channel' and 'channel' keywords work to generate channels.
+// However, it is a good practice to be consistent through the whole pipeline development
+transcriptome_ch = channel.fromPath(params.transcriptome)
 
 workflow {
-    reads_ch = Channel.fromFilePairs( 'data/yeast/reads/ref1_{1,2}.fq.gz' )
-    index_ch = Channel.fromPath( 'data/yeast/salmon_index' )
-    QUANT( reads_ch, index_ch )
+  SPLIT_FASTA(transcriptome_ch)
+  // use the view operator to display contents of the channel
+  SPLIT_FASTA.out.view()
 }
