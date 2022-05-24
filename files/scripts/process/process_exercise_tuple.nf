@@ -1,22 +1,23 @@
-nextflow.enable.dsl = 2
+//process_exercise_tuple.nf
+nextflow.enable.dsl=2
 
-process FASTQC {
+process COMBINE_REPS {
+  input:
+  tuple ___(sample_id), ___(reads)
 
-    input:
-    tuple ___( sample_id ), ___( reads )
+  output:
+  tuple ___(sample_id), ___("*.fq.gz")]
 
-    output:
-    tuple ___( sample_id ), ___( "fastqc_out" )
-
-    script:
-    """
-    mkdir fastqc_out
-    fastqc $reads -o fastqc_out -t 1
-    """
+  script:
+  """
+  cat *_1.fq.gz > ${sample_id}_R1.fq.gz
+  cat *_2.fq.gz > ${sample_id}_R2.fq.gz
+  """
 }
 
+reads_ch = Channel.fromFilePairs('data/yeast/reads/ref{1,2,3}*.fq.gz')
+
 workflow{
-    reads_ch = Channel.fromFilePairs( 'data/yeast/reads/ref*_{1,2}.fq.gz' )
-    FASTQC( reads_ch )
-    FASTQC.out.view()
+  COMBINE_REPS(reads_ch)
+  COMBINE_REPS.out.view()
 }
