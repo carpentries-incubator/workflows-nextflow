@@ -384,7 +384,7 @@ nextflow run process_script_params.nf --chr B
 >
 > For the Nextflow script below.
 > ~~~
-> //process_script_params.nf
+> //process_exercise_script_params.nf
 > nextflow.enable.dsl=2
 >
 > process COUNT_BASES {
@@ -412,7 +412,7 @@ nextflow run process_script_params.nf --chr B
 >
 > > ## Solution
 > > ~~~
-> > //process_script_params.nf
+> > //process_exercise_script_params.nf
 > > nextflow.enable.dsl=2
 > >
 > > params.base='A'
