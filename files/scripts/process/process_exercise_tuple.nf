@@ -6,7 +6,7 @@ process COMBINE_REPS {
   tuple ___(sample_id), ___(reads)
 
   output:
-  tuple ___(sample_id), ___("*.fq.gz")]
+  tuple ___(sample_id), ___("*.fq.gz")
 
   script:
   """
@@ -15,7 +15,7 @@ process COMBINE_REPS {
   """
 }
 
-reads_ch = Channel.fromFilePairs('data/yeast/reads/ref{1,2,3}*.fq.gz')
+reads_ch = Channel.fromFilePairs('data/yeast/reads/ref*{1,2,3}.fq.gz')
 
 workflow{
   COMBINE_REPS(reads_ch)
