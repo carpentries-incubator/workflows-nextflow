@@ -608,7 +608,7 @@ A complete list of directives is available at this [link](https://www.nextflow.i
 > >   script:
 > >   """
 > >   mkdir fastqc_out
-> >   fastqc $reads -o fastqc_out -t 1
+> >   fastqc $reads -o fastqc_out -t $task.cpus
 > >   """
 > > }
 > >
