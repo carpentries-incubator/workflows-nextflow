@@ -776,9 +776,9 @@ sample.fq.gz 58708
 
 
 > ## Add input channel
-> For the script `process_script_params.nf`:
+> For the script `process_exercise_input.nf`:
 > 1. Define a Channel using `fromPath` for the transcriptome `params.transcriptome`.  
-> 1. Add an input channel that takes the transcriptome channel as input.
+> 1. Add an input channel that takes the transcriptome channel as a file input.
 > 1. Replace `params.transcriptome` in the `script:` block with the input variable you defined in the `input:` definition.
 >
 > ~~~
