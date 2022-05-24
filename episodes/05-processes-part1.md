@@ -992,7 +992,7 @@ And include the command below in the script directive
 > ~~~~
   script:
   """
-  zgrep -c ">Y{chr}" ${transcriptome}
+  zgrep -c ">Y${chr}" ${transcriptome}
   """
 > ~~~~
 > {: .language-groovy }
@@ -1007,12 +1007,12 @@ And include the command below in the script directive
 > >
 > >  script:
 > >  """
-> >  zgrep -c ">Y{chr}" ${transcriptome}
+> >  zgrep -c ">Y${chr}" ${transcriptome}
 > >  """
 > > }
 > >
 > > transcriptome_ch = channel.fromPath('data/yeast/transcriptome/Saccharomyces_cerevisiae.R64-1-1.cdna.all.fa.gz', checkIfExists: true)
-> > kmer_ch = channel.of(21)
+> > chr_ch = channel.of("A")
 > >
 > > workflow {
 > >   COMBINE(transcriptome_ch, chr_ch)
