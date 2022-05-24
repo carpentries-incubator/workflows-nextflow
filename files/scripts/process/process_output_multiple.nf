@@ -24,7 +24,4 @@ workflow {
   SPLIT_FASTA(transcriptome_ch)
   // use the view operator to display contents of the channel
   SPLIT_FASTA.out.view()
-}ad_ch = Channel.fromPath( "data/yeast/reads/ref1*.fq.gz" )
-    FASTQC( read_ch )
-    FASTQC.out.view()
 }
