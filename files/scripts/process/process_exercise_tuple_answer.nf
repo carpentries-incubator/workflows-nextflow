@@ -15,7 +15,7 @@ process COMBINE_REPS {
   """
 }
 
-reads_ch = Channel.fromFilePairs('data/yeast/reads/ref*{1,2,3}.fq.gz',size:-1)
+reads_ch = Channel.fromFilePairs('data/yeast/reads/ref{1,2,3}*.fq.gz',size:-1)
 
 workflow{
   COMBINE_REPS(reads_ch)
