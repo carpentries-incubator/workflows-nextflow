@@ -333,7 +333,7 @@ An example can be seen in this script below.
 
 
 ~~~
-//process_tuple_io_fastp.nf
+//process_tuple_io.nf
 nextflow.enable.dsl=2
 
 process COMBINE_FQ {
@@ -360,7 +360,7 @@ workflow {
 {: .language-groovy }
 
 ~~~
-nextflow run process_tuple_io_fastp.nf
+nextflow run process_tuple_io.nf
 ~~~
 {: .language-bash }
 
