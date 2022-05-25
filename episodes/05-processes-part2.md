@@ -812,7 +812,8 @@ results/
 > process MERGE_REPS {
 >   
 >   input:
->   tuple val(sample_id), path(reads)>
+>   tuple val(sample_id), path(reads)
+>   
 >   output:
 >   path("*fq.gz")
 >
