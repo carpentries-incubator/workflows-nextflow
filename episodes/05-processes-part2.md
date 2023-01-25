@@ -213,7 +213,7 @@ executor >  local (1)
 
 > ## Output channels
 > Modify the nextflow script `process_exercise_output.nf` to include an output block that captures the different output file `${chr}_seqids.txt`.
-> Use the `view` operator on the output channel.
+> 
 > ~~~
 > //process_exercise_output.nf
 > nextflow.enable.dsl=2
