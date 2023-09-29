@@ -47,7 +47,7 @@ Like the input, the type of output data is defined using type qualifiers.
 The `val` qualifier allows us to output a value defined in the script.
 
 
-Because Nextflow processes can only communicate through channels, if we want to share a value input into one process as input to another process we would need to define that value in the output declaration block as shown in the following example:
+Because Nextflow processes can only communicate through channels, if we want to share a value output of one process as input to another process, we would need to define that value in the output declaration block as shown in the following example:
 
 
 ~~~
@@ -86,10 +86,15 @@ Launching `p1.nf` [jovial_lavoisier] - revision: a652ef75d4
 executor >  local (16)
 executor >  local (16)
 [6a/d82669] process > COUNT_CHR_SEQS (16) [100%] 16 of 16 ✔
+B
+456
+
 A
-I
-G
-D
+118
+
+C
+186
+
 [..truncated..]
 
 ~~~
@@ -383,7 +388,7 @@ The output is now a tuple containing the sample id and the combined fastq files.
 >   tuple ___(sample_id), ___(reads)
 >
 >   output:
->   tuple ___(sample_id), ___("*.fq.gz")]
+>   tuple ___(sample_id), ___("*.fq.gz")
 >
 >   script:
 >   """
@@ -419,7 +424,7 @@ The output is now a tuple containing the sample id and the combined fastq files.
 > >   """
 > > }
 > >
-> > reads_ch = Channel.fromFilePairs('data/yeast/reads/ref{1,2,3}*.fq.gz',size:-1)
+> > reads_ch = Channel.fromFilePairs('data/yeast/reads/ref*_{1,2,3}.fq.gz',size:-1)
 > >
 > > workflow{
 > >   COMBINE_REPS(reads_ch)
@@ -432,9 +437,9 @@ The output is now a tuple containing the sample id and the combined fastq files.
 > > Launching `process_exercise_tuple.nf` [spontaneous_coulomb] - revision: 06ff22f1a9
 > > executor >  local (3)
 > > [75/f4a44d] process > COMBINE_REPS (3) [100%] 3 of 3 ✔
-> > [ref3, work/99/a7d9176e332fdc0988973dbb89df63/fastqc_out]
-> > [ref2, /work/53/e3cbd39afa9f0f84a3d9cd060d991a/fastqc_out]
-> > [ref1, work/75/f4a44d0bc761fa4774c2f23a465766/fastqc_out]
+> > [ref3, work/99/a7d9176e332fdc0988973dbb89df63/ref3_R1.fq.gz, work/99/a7d9176e332fdc0988973dbb89df63/ref3_R2.fq.gz]
+> > [ref2, /work/53/e3cbd39afa9f0f84a3d9cd060d991a/ref2_R1.fq.gz, /work/53/e3cbd39afa9f0f84a3d9cd060d991a/ref2_R2.fq.gz]
+> > [ref1, work/75/f4a44d0bc761fa4774c2f23a465766/ref1_R1.fq.gz, work/75/f4a44d0bc761fa4774c2f23a465766/ref1_R2.fq.gz]
 > > ~~~
 > > {: .output}
 > {: .solution}
