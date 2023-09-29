@@ -670,11 +670,11 @@ In the above example the process is executed 16 times; each time a value is rece
 
 ### Input files
 
-When you need to handle files as input you need the `path` qualifier. Using the `path` qualifier means that Nextflow will stage it in the process execution directory, and it can be accessed in the script by using the name specified in the input declaration.
+When you need to handle files as input, you need the `path` qualifier. Using the `path` qualifier means that Nextflow will stage it in the process execution directory, and it can be accessed in the script by using the name specified in the input declaration.
 
 The input file name can be defined dynamically by defining the input name as a Nextflow variable and referenced in the script using the  `$variable_name` syntax.
 
-For example in the script below we assign the variable name `read` to the input files using the `path` qualifier. The file is referenced using the variable substitution syntax `${read}` in the script block:
+For example, in the script below, we assign the variable name `read` to the input files using the `path` qualifier. The file is referenced using the variable substitution syntax `${read}` in the script block:
 
 ~~~
 //process_input_file.nf
@@ -721,8 +721,8 @@ ref1_2.fq.gz 58708
 ~~~
 {: .output }
 
-The input name can also be defined as user specified filename inside quotes.
-For example in the script below the name of the file is specified as `'sample.fq.gz'` in the input definition and can be referenced by that name in the script block.
+The input name can also be defined as a user-specified filename inside quotes.
+For example, in the script below, the name of the file is specified as `'sample.fq.gz'` in the input definition and can be referenced by that name in the script block.
 
 ~~~
 //process_input_file_02.nf
@@ -771,7 +771,7 @@ sample.fq.gz 58708
 
 
 > ## File Objects as inputs
-> When a process declares an input file the corresponding channel elements must be file objects i.e. created with the path helper function from the file specific channel factories e.g. `Channel.fromPath` or `Channel.fromFilePairs`.
+> When a process declares an input file, the corresponding channel elements must be file objects, i.e. created with the path helper function from the file specific channel factories, e.g. `Channel.fromPath` or `Channel.fromFilePairs`.
 {: .callout}
 
 
@@ -846,7 +846,7 @@ sample.fq.gz 58708
 ### Combining input channels
 
 A key feature of processes is the ability to handle inputs from multiple channels.
-However it’s important to understand how the number of items within the multiple channels affect the execution of a process.
+However, it’s important to understand how the number of items within the multiple channels affect the execution of a process.
 
 Consider the following example:
 
@@ -1128,7 +1128,7 @@ The process will run eight times.
 > > nextflow run process_exercise_repeat.nf -process.echo
 > > ~~~
 > > {: .language-bash }
-> > This process runs three times.
+> > This process runs 16 times.
 > {: .solution}
 {: .challenge}
 
