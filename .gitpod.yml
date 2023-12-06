@@ -1,0 +1,14 @@
+image: nfcore/gitpod:latest
+
+tasks:
+  - name: Install local page serve
+    init: |
+      sudo apt-get install -y ruby ruby-dev build-essential libxml2-dev
+      sudo gem install bundler
+
+
+vscode:
+  extensions: # minimal helpful extensions from nf-core suggestions.
+    # - nextflow.nextflow                      # Nextflow syntax highlighting
+    - oderwat.indent-rainbow                 # Highlight indentation level
+    - streetsidesoftware.code-spell-checker  # Spelling checker for source code

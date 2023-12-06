@@ -116,6 +116,25 @@ description of Groovy semantics can be found in the [Groovy Documentation](https
 |Tuple|An ordered, immutable list of elements. A tuple can be seen as an ordered collection of objects of different types. These objects do not necessarily relate to each other in any way, but collectively they will have some meaning.|
 
 
-FIXME
+## External references
+
+### Manuals
+
+* [Nextflow documentation](https://www.nextflow.io/docs/latest/index.html)
+* [nf-core](https://nf-co.re/)
+* [nf-core pipelines](https://nf-co.re/pipelines)
+* [A step-by-step usage guide to nf-core pipelines](https://nf-co.re/usage/introduction)
+* [nf-core Troubleshooting guide](https://nf-co.re/usage/troubleshooting)
+* [Example nf-core institutional config file](https://github.com/nf-core/configs/blob/master/conf/eddie.config)
+* If you wanted to check if your institute has nf-core docs (for example a config file), they have a list of the systems [here](https://github.com/nf-coe/configs#documentation)
+* Example of how you can usefully use `log.info` [here](https://github.com/nextflow-io/rnaseq-nf/blob/3b5b49f/main.nf#L41-L48_)
+* [Nextflow have a slack space](https://www.nextflow.io/blog/2022/nextflow-is-moving-to-slack.html)
+* [nf-core slack](https://nf-co.re/join)
+* Here's some details on a nextflow issue relating to cancelling pipelines that are running. [Ability to stop running pipeline](https://github.com/nextflow-io/nextflow/issues/1441). 
+* [Groovy Documentation](https://groovy-lang.org/documentation.html)
+
+### Papers
+* [Using prototyping to choose a bioinformatics workflow management system](https://journals.plos.org/ploscompbiol/article?id=10.1371/journal.pcbi.1008622)
+
 
 {% include links.md %}
