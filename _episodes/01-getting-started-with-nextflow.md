@@ -30,9 +30,9 @@ Analysing data involves a sequence of tasks, including gathering, cleaning, and 
 <br>
 <center>
 <img src="../fig/sarek_workflow.png" width="200" height="400" >
-<img src="../fig/flowchart.png" width="300" height="400" >
+<img src="../fig/flowchart.png" width="200" height="400" >
 <br>
-<em>Example bioinformatics variant calling workflow/pipeline diagram from [nf-core](https://nf-co.re/sarek) and simple RNA-Seq pipeline in DAG format.
+<em>Example bioinformatics variant calling workflow/pipeline diagram from nf-core (https://nf-co.re/sarek) and simple RNA-Seq pipeline in DAG format.
 </em>
 </center>
 <br>

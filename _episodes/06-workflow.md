@@ -1,7 +1,7 @@
 ---
 title: "Workflow"
-teaching: 30
-exercises: 15
+teaching: 20
+exercises: 20
 questions:
 - "How do I connect channels and processes to create a workflow?"
 - "How do I invoke a process inside a workflow?"
@@ -83,6 +83,7 @@ workflow {
 ~~~
 {: .language-groovy }
 
+
 ### Process outputs
 
 In the previous example we assigned the process output to a Nextflow variable `fastqc_obj`.
@@ -111,10 +112,14 @@ When a process defines two or more output channels, each of them can be accessed
 
 ### Process named output
 
+It can be useful to name the output of a process, especially if there are multiple outputs.
+
 The process `output` definition allows the use of the `emit:` option to define a named identifier that can be used to reference the channel in the external scope.
+
 
 For example in the script below we name the output from the `FASTQC` process as `fastqc_results` using the `emit:` option. We can then reference the output as
 `FASTQC.out.fastqc_results` in the workflow scope.
+
 
 ~~~
 //workflow_02.nf
@@ -156,6 +161,7 @@ workflow {
 ~~~
 {: .language-groovy }
 
+
 ### Accessing script parameters
 
 A workflow component can access any variable and parameter defined in the outer scope:
@@ -163,6 +169,7 @@ A workflow component can access any variable and parameter defined in the outer 
 For example:
 
 ~~~
+//workflow_03.nf
 [..truncated..]
 
 params.reads = 'data/yeast/reads/*_{1,2}.fq.gz'
@@ -219,6 +226,7 @@ In this example `params.reads`, defined outside the workflow scope, can be acces
 > 
 > workflow {
 > //connect process FASTQC and PARSEZIP
+> // remember to use the collect operator on the FASTQC output
 > }
 >~~~
 > {: .language-groovy }
@@ -266,6 +274,20 @@ In this example `params.reads`, defined outside the workflow scope, can be acces
 > > }
 > > ~~~
 > > {: .language-groovy }
+> > ~~~
+> > $ nextflow run workflow_exercise.nf
+> > ~~~
+> > {: .language-bash }
+> > ~~~
+> > $ wc -l  results/fqpass/pass_basic.txt
+> > ~~~
+> > {: .language-bash }
+> > ~~~
+> > 18
+> > ~~~
+> > {: .output }
+> > The file `results/fqpass/pass_basic.txt` should have 18 lines. 
+> > If you only have two lines it might mean that you did not use `collect()` operator on the FASTC output channel.
 > {: .solution}
 {: .challenge}
 
