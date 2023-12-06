@@ -1,15 +1,15 @@
-nextflow.enable.dsl = 2
+//process_multi_line.nf
+nextflow.enable.dsl=2
 
-process PROCESSBAM {
-
+process NUMSEQ_CHR {
     script:
     """
-    samtools sort -o ref1.sorted.bam ${projectDir}/data/yeast/bams/ref1.bam
-    samtools index ref1.sorted.bam
-    samtools flagstat ref1.sorted.bam
+    zgrep  '^>' ${projectDir}/data/yeast/transcriptome/Saccharomyces_cerevisiae.R64-1-1.cdna.all.fa.gz > ids.txt
+    zgrep -c '>YA' ids.txt
     """
 }
 
 workflow {
-    PROCESSBAM()
+  NUMSEQ_CHR()
 }
+

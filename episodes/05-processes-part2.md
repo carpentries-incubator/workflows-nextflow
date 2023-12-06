@@ -16,7 +16,7 @@ objectives:
 - "Use the `publishDir` directive to save result files to a directory."
 keypoints:
 - "Outputs to a process are defined using the output blocks."
-- "You can group input and output data from a process using the tuple qualifer."
+- "You can group input and output data from a process using the tuple qualifier."
 - "The execution of a process can be controlled using the `when` declaration and conditional statements."
 - "Files produced within a process and defined as `output` can be saved to a directory using the `publishDir` directive."
 ---
@@ -47,42 +47,56 @@ Like the input, the type of output data is defined using type qualifiers.
 The `val` qualifier allows us to output a value defined in the script.
 
 
-Because Nextflow processes can only communicate through channels, if we want to share a value input into one process as input to another process we would need to define that value in the output declaration block as shown in the following example:
+Because Nextflow processes can only communicate through channels, if we want to share a value output of one process as input to another process, we would need to define that value in the output declaration block as shown in the following example:
 
 
 ~~~
 //process_output_value.nf
 nextflow.enable.dsl=2
 
-process METHOD {
+params.transcriptome="${projectDir}/data/yeast/transcriptome/Saccharomyces_cerevisiae.R64-1-1.cdna.all.fa.gz"
+
+process COUNT_CHR_SEQS {
   input:
-  val x
+  val chr
 
   output:
-  val x
+  val chr
 
   script:
   """
-  echo $x > method.txt
+  zgrep -c '^>Y'$chr $params.transcriptome
   """
 }
 // Both 'Channel' and 'channel' keywords work to generate channels.
 // However, it is a good practice to be consistent through the whole pipeline development
-methods_ch = channel.of('salmon', 'kallisto')
+chr_ch = channel.of('A'..'P')
 
 workflow {
-  METHOD(methods_ch)
+  COUNT_CHR_SEQS(chr_ch)
   // use the view operator to display contents of the channel
-  METHOD.out.view({ "Received: $it" })
+  COUNT_CHR_SEQS.out.view()
 }
 ~~~
 {: .language-groovy }
 
 ~~~
-[d8/fd3f9d] process > METHOD (2) [100%] 2 of 2 ✔
+N E X T F L O W  ~  version 21.10.6
+Launching `p1.nf` [jovial_lavoisier] - revision: a652ef75d4
+executor >  local (16)
+executor >  local (16)
+[6a/d82669] process > COUNT_CHR_SEQS (16) [100%] 16 of 16 ✔
+B
+456
 
-Received: salmon
-Received: kallisto
+A
+118
+
+C
+186
+
+[..truncated..]
+
 ~~~
 {: .output }
 
@@ -95,40 +109,50 @@ If we want to capture a file instead of a value as output we can use the
 //process_output_file.nf
 nextflow.enable.dsl=2
 
-methods_ch = channel.of('salmon', 'kallisto')
+params.transcriptome="${projectDir}/data/yeast/transcriptome/Saccharomyces_cerevisiae.R64-1-1.cdna.all.fa.gz"
 
-process METHOD {
+process COUNT_CHR_SEQS {
   input:
-  val x
+  val chr
 
   output:
-  path 'method.txt'
+  path "${chr}_seq_count.txt"
 
+  script:
   """
-  echo $x > method.txt
+  zgrep -c '^>Y'$chr $params.transcriptome > ${chr}_seq_count.txt
   """
 }
+// Both 'Channel' and 'channel' keywords work to generate channels.
+// However, it is a good practice to be consistent through the whole pipeline development
+chr_ch = channel.of('A'..'P')
 
 workflow {
-  METHOD(methods_ch)
+  COUNT_CHR_SEQS(chr_ch)
   // use the view operator to display contents of the channel
-  METHOD.out.view({ "Received: $it" })
+  COUNT_CHR_SEQS.out.view()
 }
 ~~~
 {: .language-groovy }
 
 ~~~
-executor >  local (2)
-[13/85ecb6] process > METHOD (1) [100%] 2 of 2 ✔
-
-Received: /Users/ggrimes2/Downloads/nf-training/work/ea/f8998abfdcbfc6038757a60806c00a/method.txt
-Received: /Users/ggrimes2/Downloads/nf-training/work/13/85ecb69a9bc85370e749254646984d/method.txt
+N E X T F L O W  ~  version 21.10.6
+Launching `process_output_file.nf` [angry_lichterman] - revision: 6a46c69413
+executor >  local (16)
+[95/ec5d62] process > COUNT_CHR_SEQS (13) [100%] 16 of 16 ✔
+/Users/ggrimes2/Documents/process_wf/work/f2/6d5c44985a15feb0555b7b71c37a9c/J_seq_count.txt
+executor >  local (16)
+[95/ec5d62] process > COUNT_CHR_SEQS (13) [100%] 16 of 16 ✔
+work/f2/6d5c44985a15feb0555b7b71c37a9c/J_seq_count.txt
+work/4f/f810942341d003acc80c2603671177/B_seq_count.txt
+work/23/883ccf187b5357137a9a87d98717c0/I_seq_count.txt
+[..truncated..]
 ~~~
 {: .output }
 
-In the above example the process `METHOD` creates a file named `method.txt` in the work directory containing the method name.
+In the above example the process `COUNT_CHR_SEQS` creates a file named `<chr>_seq_count.txt` in the work directory containing the number of transcripts within that chromosome.
 
-Since a file parameter using the same name, `method.txt`, is declared in the output block, when the task is completed that file is sent over the output channel.
+Since a file parameter using the same name, `<chr>_seq_count.txt`, is declared in the output block, when the task is completed that file is sent over the output channel.
 
 A downstream `operator`, such as `.view` or a `process` declaring the same channel as input will be able to receive it.
 
@@ -137,31 +161,35 @@ A downstream `operator`, such as `.view` or a `process` declaring the same chann
 When an output file name contains a `*` or `?` metacharacter it is interpreted as a pattern match.
 This allows us to capture multiple files into a list and output them as a one item channel.
 
-For example, here we will capture the files `fastqc.html` and directory `fastqc.zip` produced as results from FastQC in the output channel.
+For example, here we will capture the files `sequence_ids.txt` and  `sequence.txt` produced as results from SPLIT_FASTA in the output channel.
 
 ~~~
 //process_output_multiple.nf
 nextflow.enable.dsl=2
 
-process FASTQC {
+params.transcriptome="${projectDir}/data/yeast/transcriptome/Saccharomyces_cerevisiae.R64-1-1.cdna.all.fa.gz"
+
+process SPLIT_FASTA {
   input:
-  path read
+  path transcriptome
 
   output:
-  path "fqc_res/*"
+  path "*"
 
   script:
   """
-  mkdir fqc_res
-  fastqc $read -o fqc_res
+  zgrep  '^>' $transcriptome > sequence_ids.txt
+  zgrep -v '^>' $transcriptome > sequence.txt
   """
 }
-
-read_ch = channel.fromPath("data/yeast/reads/ref1*.fq.gz")
+// Both 'Channel' and 'channel' keywords work to generate channels.
+// However, it is a good practice to be consistent through the whole pipeline development
+transcriptome_ch = channel.fromPath(params.transcriptome)
 
 workflow {
-  FASTQC(read_ch)
-  FASTQC.out.view()
+  SPLIT_FASTA(transcriptome_ch)
+  // use the view operator to display contents of the channel
+  SPLIT_FASTA.out.view()
 }
 ~~~
 {: .language-groovy }
@@ -172,12 +200,12 @@ $ nextflow run process_output_multiple.nf
 {: .language-bash }
 
 ~~~
-[3e/86de98] process > FASTQC (2) [100%] 2 of 2 ✔
-[work/64/9de164199568800a4609c3af78cf71/fqc_res/ref1_2_fastqc.html, work/64/9de164199568800a4609c3af78cf71/fqc_res/ref1_2_fastqc.zip]
-Analysis complete for ref1_2.fq.gz
+N E X T F L O W  ~  version 21.10.6
+Launching `process_output_multiple.nf` [goofy_meitner] - revision: 53cbf7e5a4
+executor >  local (1)
+[21/01e6ba] process > SPLIT_FASTA (1) [100%] 1 of 1 ✔
+[/work/21/01e6baac41d2f37531f86dc7a57034/sequence.txt, work/21/01e6baac41d2f37531f86dc7a57034/sequence_ids.txt]
 
-[work/3e/86de9868ecf321702f2df0b8ccbfd3/fqc_res/ref1_1_fastqc.html, work/3e/86de9868ecf321702f2df0b8ccbfd3/fqc_res/ref1_1_fastqc.zip]
-Analysis complete for ref1_1.fq.gz
 ~~~
 {: .output}
 
@@ -189,31 +217,31 @@ Analysis complete for ref1_1.fq.gz
 
 
 > ## Output channels
-> Modify the nextflow script `process_exercise_output.nf` to include an output block that captures the different index folders `index_$kmer`.
-> Use the `view` operator on the output channel.
+> Modify the nextflow script `process_exercise_output.nf` to include an output block that captures the different output file `${chr}_seqids.txt`.
+> 
 > ~~~
 > //process_exercise_output.nf
 > nextflow.enable.dsl=2
 >
-> process INDEX {
+> process EXTRACT_IDS {
 >   input:
 >   path transcriptome
->   each kmer
-> 
->   //add output block here to capture index folders "index_$kmer"
-> 
+>   each chr
+>
+>   //add output block here to capture the file "${chr}_seqids.txt"
+>
 >   script:
 >   """
->   salmon index -t $transcriptome -i index_$kmer -k $kmer
+>   zgrep '^>Y'$chr $transcriptome > ${chr}_seqids.txt
 >   """
 > }
-> 
+>
 > transcriptome_ch = channel.fromPath('data/yeast/transcriptome/Saccharomyces_cerevisiae.R64-1-1.cdna.all.fa.gz')
-> kmer_ch = channel.of(21, 27, 31)
+> chr_ch = channel.of('A'..'P')
 >
 > workflow {
->   INDEX(transcriptome_ch, kmer_ch)
->   INDEX.out.view()
+>   EXTRACT_IDS(transcriptome_ch, chr_ch)
+>   EXTRACT_IDS.out.view()
 > }
 > ~~~
 > {: .language-groovy }
@@ -222,25 +250,27 @@ Analysis complete for ref1_1.fq.gz
 > > //process_exercise_output_answer.nf
 > > nextflow.enable.dsl=2
 > >
-> > process INDEX {
+> > process EXTRACT_IDS {
 > >   input:
 > >   path transcriptome
-> >   each kmer
-> >  
+> >   each chr
+> >
+> >   //add output block here to capture the file "${chr}_seqids.txt"
 > >   output:
-> >   path "index_${kmer}"
-> >  
+> >   path "${chr}_seqids.txt"
+> >
 > >   script:
 > >   """
-> >   salmon index -t $transcriptome -i index_$kmer -k $kmer
+> >   zgrep '^>Y'$chr $transcriptome > ${chr}_seqids.txt
 > >   """
 > > }
+> >
 > > transcriptome_ch = channel.fromPath('data/yeast/transcriptome/Saccharomyces_cerevisiae.R64-1-1.cdna.all.fa.gz')
-> > kmer_ch = channel.of(21, 27, 31)
+> > chr_ch = channel.of('A'..'P')
 > >
 > > workflow {
-> >   INDEX(transcriptome_ch, kmer_ch)
-> >   INDEX.out.view()
+> >   EXTRACT_IDS(transcriptome_ch, chr_ch)
+> >   EXTRACT_IDS.out.view()
 > > }
 > > ~~~
 > > {: .language-groovy }
@@ -268,7 +298,7 @@ nextflow.enable.dsl=2
 process TUPLEINPUT{
   input:
   tuple val(sample_id), path(reads)
-  
+
   script:
   """
   echo $sample_id
@@ -295,12 +325,12 @@ ref1_1.fq.gz ref1_2.fq.gz
 
 In the same manner an output channel containing tuple of values can be declared using the `tuple` qualifier following by the definition of each tuple element in the tuple.
 
-In the code snippet below the output channel would contain a tuple with the grouping key value as the Nextflow variable `sample_id` and a list containing the files matching the following pattern `"*FP*.fq.gz"`.
+In the code snippet below the output channel would contain a tuple with the grouping key value as the Nextflow variable `sample_id` and a list containing the files matching the following pattern `"${sample_id}.fq.gz"`.
 
 
 ~~~
 output:
-  tuple val(sample_id), path("*FP*.fq.gz")
+  tuple val(sample_id), path("${sample_id}.fq.gz")
 ~~~
 {: .language-groovy }
 
@@ -308,74 +338,70 @@ An example can be seen in this script below.
 
 
 ~~~
-//process_tuple_io_fastp.nf
+//process_tuple_io.nf
 nextflow.enable.dsl=2
 
-process FASTP {
+process COMBINE_FQ {
   input:
   tuple val(sample_id), path(reads)
-  
+
   output:
-  tuple val(sample_id), path("*FP*.fq.gz")
-  
+  tuple val(sample_id), path("${sample_id}.fq.gz")
+
   script:
   """
-  fastp \
-   -i ${reads[0]} \
-   -I ${reads[1]} \
-   -o ${sample_id}_FP_R1.fq.gz \
-   -O ${sample_id}_FP_R2.fq.gz
+  cat $reads > ${sample_id}.fq.gz
   """
 }
 
 reads_ch = Channel.fromFilePairs('data/yeast/reads/ref1_{1,2}.fq.gz')
 
 workflow {
-  FASTP(reads_ch)
-  FASTP.out.view()
+  COMBINE_FQ(reads_ch)
+  COMBINE_FQ.out.view()
 }
 
 ~~~
 {: .language-groovy }
 
 ~~~
-nextflow run process_tuple_io_fastp.nf
+nextflow run process_tuple_io.nf
 ~~~
 {: .language-bash }
 
-The output is now a tuple containing the sample id and the two processed fastq files.
+The output is now a tuple containing the sample id and the combined fastq files.
 
 ~~~
-[ref1, [work/9b/fcca75db83718a15f7a95caabfbc15/ref1_FP_R1.fq.gz, work/9b/fcca75db83718a15f7a95caabfbc15/ref1_FP_R2.fq.gz]]
+[ref1, work/2d/a073d34b5b3231b1f57872599bd308/ref1.fq]
 ~~~
 {: .output }
 
 > ## Composite inputs and outputs
-> Fill in the blank ___ input and output qualifers for `process_exercise_tuple.nf`.
-> **Note:** the output for the FASTQC process is a directory named `fastq_out`.
+> Fill in the blank ___ input and output qualifiers for `process_exercise_tuple.nf`.
+> **Note:** the output for the COMBINE_REPS process.
 > ~~~
 > //process_exercise_tuple.nf
 > nextflow.enable.dsl=2
 >
-> process FASTQC {
+> process COMBINE_REPS {
 >   input:
 >   tuple ___(sample_id), ___(reads)
-> 
+>
 >   output:
->   tuple ___(sample_id), ___("fastqc_out")
-> 
+>   tuple ___(sample_id), ___("*.fq.gz")
+>
 >   script:
 >   """
->   mkdir fastqc_out
->   fastqc $reads -o fastqc_out -t 1
+>   cat *_1.fq.gz > ${sample_id}_R1.fq.gz
+>   cat *_2.fq.gz > ${sample_id}_R2.fq.gz
 >   """
 > }
-> 
-> reads_ch = Channel.fromFilePairs('data/yeast/reads/ref*_{1,2}.fq.gz')
+>
+> reads_ch = Channel.fromFilePairs('data/yeast/reads/ref{1,2,3}*.fq.gz',size:-1)
 >
 > workflow{
->   FASTQC(reads_ch)
->   FASTQC.out.view()
+>   COMBINE_REPS(reads_ch)
+>   COMBINE_REPS.out.view()
 > }
 > ~~~
 > {: .language-groovy }
@@ -384,36 +410,36 @@ The output is now a tuple containing the sample id and the two processed fastq f
 > > //process_exercise_tuple_answer.nf
 > > nextflow.enable.dsl=2
 > >
-> >process FASTQC {
+> > process COMBINE_REPS {
 > >   input:
 > >   tuple val(sample_id), path(reads)
-> >   
+> >
 > >   output:
-> >   tuple val(sample_id), path("fastqc_out")
-> >  
+> >   tuple val(sample_id), path("*.fq.gz")
+> >
 > >   script:
 > >   """
-> >   mkdir fastqc_out
-> >   fastqc $reads -o fastqc_out -t 1
+> >   cat *_1.fq.gz > ${sample_id}_R1.fq.gz
+> >   cat *_2.fq.gz > ${sample_id}_R2.fq.gz
 > >   """
 > > }
-> > 
-> > reads_ch = Channel.fromFilePairs('data/yeast/reads/ref*_{1,2}.fq.gz')
-> > 
+> >
+> > reads_ch = Channel.fromFilePairs('data/yeast/reads/ref*_{1,2,3}.fq.gz',size:-1)
+> >
 > > workflow{
-> >   FASTQC(reads_ch)
-> >   FASTQC.out.view()
-> >}
+> >   COMBINE_REPS(reads_ch)
+> >   COMBINE_REPS.out.view()
+> > }
 > > ~~~
 > > {: .language-groovy }
 > > ~~~
 > > N E X T F L O W  ~  version 21.04.0
 > > Launching `process_exercise_tuple.nf` [spontaneous_coulomb] - revision: 06ff22f1a9
 > > executor >  local (3)
-> > [75/f4a44d] process > FASTQC (3) [100%] 3 of 3 ✔
-> > [ref3, work/99/a7d9176e332fdc0988973dbb89df63/fastqc_out]
-> > [ref2, /work/53/e3cbd39afa9f0f84a3d9cd060d991a/fastqc_out]
-> > [ref1, work/75/f4a44d0bc761fa4774c2f23a465766/fastqc_out]
+> > [75/f4a44d] process > COMBINE_REPS (3) [100%] 3 of 3 ✔
+> > [ref3, work/99/a7d9176e332fdc0988973dbb89df63/ref3_R1.fq.gz, work/99/a7d9176e332fdc0988973dbb89df63/ref3_R2.fq.gz]
+> > [ref2, /work/53/e3cbd39afa9f0f84a3d9cd060d991a/ref2_R1.fq.gz, /work/53/e3cbd39afa9f0f84a3d9cd060d991a/ref2_R2.fq.gz]
+> > [ref1, work/75/f4a44d0bc761fa4774c2f23a465766/ref1_R1.fq.gz, work/75/f4a44d0bc761fa4774c2f23a465766/ref1_R2.fq.gz]
 > > ~~~
 > > {: .output}
 > {: .solution}
@@ -562,7 +588,7 @@ A complete list of directives is available at this [link](https://www.nextflow.i
 > }
 >
 > read_pairs_ch = Channel.fromFilePairs('data/yeast/reads/ref*_{1,2}.fq.gz')
-> 
+>
 > workflow {
 >   FASTQC(read_pairs_ch)
 >   FASTQC.out.view()
@@ -587,7 +613,7 @@ A complete list of directives is available at this [link](https://www.nextflow.i
 > >   script:
 > >   """
 > >   mkdir fastqc_out
-> >   fastqc $reads -o fastqc_out -t 1
+> >   fastqc $reads -o fastqc_out -t $task.cpus
 > >   """
 > > }
 > >
@@ -628,39 +654,33 @@ The files you want the workflow to return as results need to be defined in the `
 publishDir <directory>, parameter: value, parameter2: value ...
 ~~~
 
-For example if we want to capture the results of the `QUANT` process in a `results/quant` output directory we
+For example if we want to capture the results of the `COMBINE_READS` process in a `results/merged_reads` output directory we
 need to define the files in the `output` and  specify the location of the results directory in the `publishDir` directive:
 
 ~~~
 //process_publishDir.nf
 nextflow.enable.dsl=2
 
-process QUANT {
-  publishDir "results/quant"
-  
+process COMBINE_READS {
+  publishDir "results/merged_reads"
+
   input:
   tuple val(sample_id), path(reads)
-  each index
-  
+
   output:
-  tuple val(sample_id), path("${sample_id}_salmon_output")
-  
+  path("${sample_id}.merged.fq.gz")
+
   script:
   """
-  salmon quant -i $index \
-   -l A \
-   -1 ${reads[0]} \
-   -2 ${reads[1]} \
-   -o ${sample_id}_salmon_output
+  cat ${reads} > ${sample_id}.merged.fq.gz
   """
 }
 
 reads_ch = Channel.fromFilePairs('data/yeast/reads/ref1_{1,2}.fq.gz')
-index_ch = Channel.fromPath('data/yeast/salmon_index')
+
 
 workflow {
-  QUANT(reads_ch, index_ch)
-  QUANT.out.view()
+  COMBINE_READS(reads_ch)
 }
 
 ~~~
@@ -675,8 +695,7 @@ N E X T F L O W  ~  version 21.04.0
 Launching `process_publishDir.nf` [friendly_pauling] - revision: 9b5c315893
 executor >  local (1)
 
-[48/f97234] process > QUANT (1) [100%] 1 of 1 ✔
-[ref1, work/48/f97234d7185cbfbd86e2f11c1afab5/ref1_salmon_output]
+[d9/909ed9] process > COMBINE_READS (1) [100%] 1 of 1 ✔
 ~~~
 {: .output }
 
@@ -689,13 +708,13 @@ tree results
 
 ~~~
 results/
-└── quant
-    └── ref1_salmon_output -> work/48/f97234d7185cbfbd86e2f11c1afab5/ref1_salmon_output
+└── merged_reads
+    └── ref1.merged.fq.gz -> work/48/f97234d7185cbfbd86e2f11c1afab5/ref1.merged.fq.gz
 ~~~
 {: .output }
 
 
-In the above example, the `publishDir "results/quant"`,  creates a symbolic link `->` to the output files specified by the process `salmon_quant` to the directory path `results/quant`.
+In the above example, the `publishDir "results/merged_reads"`,  creates a symbolic link `->` to the output files specified by the process `merged_reads` to the directory path `results/merged_reads`.
 
 > ## publishDir
 > The publishDir output is relative to the path the pipeline run has been launched. Hence, it is a good practice to use [implicit variables](https://www.nextflow.io/docs/latest/script.html?highlight=projectdir#script-implicit-variables) like `projectDir` to specify publishDir value.
@@ -705,7 +724,7 @@ In the above example, the `publishDir "results/quant"`,  creates a symbolic link
 
 The `publishDir` directive can take optional parameters, for example the `mode` parameter can take the value `"copy"` to specify that you wish to copy the file to output directory rather than just a symbolic link to the files in the working directory. Since the working directory is generally deleted on completion of a pipeline, it is safest to use `mode: "copy"` for results files. The default mode (symlink) is helpful for checking intermediate files which are not needed in the long term.
 ~~~
-publishDir "results/quant", mode: "copy"
+publishDir "results/merged_reads", mode: "copy"
 ~~~
 {: .language-groovy }
 
@@ -716,40 +735,39 @@ Full list [here](https://www.nextflow.io/docs/latest/process.html#publishdir).
 
 You can use more than one `publishDir` to keep different outputs in separate directories. To specify which files to put in which output directory use the parameter `pattern` with the a glob pattern that selects which files to publish from the overall set of output files.
 
-In the example below we will create an output folder structure in the directory results, which contains a separate sub-directory for bam files, `pattern:"*.bam"` ,  and a salmon output directory, `${sample_id}_salmon_output"`. Remember, we need to specify the files we want to copy as outputs.
+In the example below we will create an output folder structure in the directory results, which contains a separate sub-directory for sequence id file, `pattern:"*_ids.txt"` ,  and a sequence directory, `results/sequence"` for the `sequence.txt` file. Remember, we need to specify the files we want to copy as outputs.
 
 ~~~
 //process_publishDir_semantic.nf
 nextflow.enable.dsl=2
 
-process QUANT {
-  publishDir "results/bams", pattern: "*.bam", mode: "copy"
-  publishDir "results/quant", pattern: "${sample_id}_salmon_output", mode: "copy"
+params.transcriptome="${projectDir}/data/yeast/transcriptome/Saccharomyces_cerevisiae.R64-1-1.cdna.all.fa.gz"
+
+process SPLIT_FASTA {
+  publishDir "results/ids", pattern: "*_ids.txt", mode: "copy"
+  publishDir "results/sequence", pattern: "sequence.txt", mode: "copy"
+
 
   input:
-  tuple val(sample_id), path(reads)
-  path index
-  
+  path transcriptome
+
   output:
-  tuple val(sample_id), path("${sample_id}.bam")
-  path "${sample_id}_salmon_output"
-  
+  path "*"
+
   script:
   """
-  salmon quant -i $index \
-   -l A \
-   -1 ${reads[0]} \
-   -2 ${reads[1]} \
-   -o ${sample_id}_salmon_output \
-   --writeMappings | samtools sort | samtools view -bS -o ${sample_id}.bam
+  zgrep  '^>' $transcriptome > sequence_ids.txt
+  zgrep -v '^>' $transcriptome > sequence.txt
   """
 }
-
-reads_ch = Channel.fromFilePairs('data/yeast/reads/ref1_{1,2}.fq.gz')
-index_ch = Channel.fromPath('data/yeast/salmon_index')
+// Both 'Channel' and 'channel' keywords work to generate channels.
+// However, it is a good practice to be consistent through the whole pipeline development
+transcriptome_ch = channel.fromPath(params.transcriptome)
 
 workflow {
-  QUANT(reads_ch, index_ch)
+  SPLIT_FASTA(transcriptome_ch)
+  // use the view operator to display contents of the channel
+  SPLIT_FASTA.out.view()
 }
 ~~~
 {: .language-groovy }
@@ -765,7 +783,7 @@ N E X T F L O W  ~  version 21.04.0
 Launching `process_publishDir_semantic.nf` [golden_poisson] - revision: 421a604840
 
 executor >  local (1)
-[be/950786] process > QUANT (1) [100%] 1 of 1 ✔
+[be/950786] process > SPLIT_FASTA (1) [100%] 1 of 1 ✔
 ~~~
 {: .output}
 
@@ -778,26 +796,10 @@ $ tree results
 
 ~~~
 results/
-├── bams
-│   └── ref1.bam
-└── quant
-    └── ref1_salmon_output
-        ├── aux_info
-        │   ├── ambig_info.tsv
-        │   ├── expected_bias.gz
-        │   ├── fld.gz
-        │   ├── meta_info.json
-        │   ├── observed_bias.gz
-        │   └── observed_bias_3p.gz
-        ├── cmd_info.json
-        ├── libParams
-        │   └── flenDist.txt
-        ├── lib_format_counts.json
-        ├── logs
-        │   └── salmon_quant.log
-        └── quant.sf
-
-6 directories, 12 files
+├── sequence
+│   └── sequence.txt
+└── ids
+    └── sequence_ids.txt
 ~~~
 {: .output }
 
@@ -805,60 +807,61 @@ results/
 
 
 > ## Publishing results
->  Add a `publishDir` directive to the nextflow script `process_exercise_publishDir.nf` that copies the index directory to the results folder .
+>  Add a `publishDir` directive to the nextflow script `process_exercise_publishDir.nf` that copies the merged reads  to the results folder merged_reps.
 >  ~~~
-> //process_exercise_pubilishDir.nf
+> //process_exercise_publishDir.nf
 > nextflow.enable.dsl=2
 >
-> process INDEX {
->    //add publishDir directive here
->    input:
->    path transcriptome
-> 
->    output:
->    path "index"
+> params.reads= "data/yeast/reads/ref{1,2,3}*{1,2}.fq.gz"
 >
->    script:
->    """
->    salmon index -t $transcriptome -i index
->    """
+> process MERGE_REPS {
+>   
+>   input:
+>   tuple val(sample_id), path(reads)
+>   
+>   output:
+>   path("*fq.gz")
+>
+>   script:
+>   """
+>   cat *1.fq.gz > ${sample_id}.merged.R1.fq.gz
+>   cat *2.fq.gz > ${sample_id}.merged.R2.fq.gz
+>   """
 > }
->
-> params.transcriptome = "data/yeast/transcriptome/Saccharomyces_cerevisiae.R64-1-1.cdna.all.fa.gz"
-> transcriptome_ch = channel.fromPath(params.transcriptome, checkIfExists: true)
+> reads_ch = Channel.fromFilePairs(params.reads,checkIfExists:true,size:6)
 >
 > workflow {
->   INDEX(transcriptome_ch)
+>   MERGE_REPS(reads_ch)
 > }
->  ~~~
+> ~~~
 >  {: .language-groovy }
 > > ## Solution
 > > ~~~
 > > //process_exercise_publishDir_answer.nf
 > > nextflow.enable.dsl=2
 > >
-> > process INDEX {
-> >   publishDir "results", mode: "copy"
-> >   
-> >   input:
-> >   path transcriptome
+> > params.reads= "data/yeast/reads/ref{1,2,3}*{1,2}.fq.gz"
 > >
+> > process MERGE_REPS {
+> >   publishDir "results/merged_reps"
+> >   input:
+> >   tuple val(sample_id), path(reads)
 > >   output:
-> >   path "index"
+> >   path("*fq.gz")
 > >
 > >   script:
 > >   """
-> >   salmon index -t $transcriptome -i index
+> >   cat *1.fq.gz > ${sample_id}.merged.R1.fq.gz
+> >   cat *2.fq.gz > ${sample_id}.merged.R2.fq.gz
 > >   """
 > > }
 > >
-> > params.transcriptome = "data/yeast/transcriptome/Saccharomyces_cerevisiae.R64-1-1.cdna.all.fa.gz"
-> > transcriptome_ch = channel.fromPath(params.transcriptome, checkIfExists: true)
+> > reads_ch = Channel.fromFilePairs(params.reads,checkIfExists:true,size:6)
 > >
-> > workflow{
-> >   INDEX(transcriptome_ch)
+> > workflow {
+> >   MERGE_REPS(reads_ch)
 > > }
-> > ~~~
+> >  ~~~
 > > {: .language-groovy }
 > >
 > > ~~~
@@ -870,7 +873,7 @@ results/
 > > Launching `process_exercise_publishDir.nf` [infallible_becquerel] - revision: 4d865241a8
 > >
 > > executor >  local (1)
-> > [fe/79c042] process > INDEX (1) [100%] 1 of 1 ✔
+> > [22/88aa22] process > MERGE_REPS (1) [100%] 1 of 1 ✔
 > > ~~~
 > > {: .output }
 > {: .solution}

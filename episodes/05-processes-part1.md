@@ -26,51 +26,66 @@ A `process` is the way Nextflow executes commands you would run on the command l
 
 A process can be thought of as a particular step in a workflow, e.g. an alignment step in RNA-seq analysis. Processes are independent of each other (don't require any another process to execute) and can not communicate/write to each other. Data is passed between processes via input and output Channels.
 
-For example, below is the command line you would run to create a index for the yeast transcriptome to be used with the [salmon](https://salmon.readthedocs.io/en/latest/salmon.html) aligner:
+For example, below is the command you would run to count the number of sequence records in a FASTA format file such as the yeast transcriptome:
+
+> ## FASTA format
+FASTA format is a text-based format for representing either nucleotide sequences or peptide sequences. A sequence in FASTA format begins with a single-line description, followed by lines of sequence data. The description line is distinguished from the sequence data by a greater-than (">") symbol in the first column.
+> ~~~
+>  >YBR024W_mRNA cdna chromosome:R64-1-1:II:289445:290350:1 gene:YBR024W gene_biotype:protein_coding transcript_biotype:protein_coding gene_symbol:SCO2 description:Protein anchored to mitochondrial inner membrane; may have a redundant function with Sco1p in delivery of copper to cytochrome c oxidase; interacts with Cox2p; SCO2 has a paralog, SCO1, that arose from the whole genome duplication [Source:SGD;Acc:S000000228]
+ATGTTGAATAGTTCAAGAAAATATGCTTGTCGTTCCCTATTCAGACAAGCGAACGTCTCA
+ATAAAAGGACTCTTTTATAATGGAGGCGCATATCGAAGAGGGTTTTCAACGGGATGTTGT
+> ~~~
+ {: .callout }
+
+
 
 ~~~
-$ salmon index -t data/yeast/transcriptome/Saccharomyces_cerevisiae.R64-1-1.cdna.all.fa.gz -i data/yeast/salmon_index --kmerLen 31
+$ zgrep -c '^>' data/yeast/transcriptome/Saccharomyces_cerevisiae.R64-1-1.cdna.all.fa.gz
 ~~~
 {: .language-bash }
+
+~~~
+6612
+~~~
+ {: .output }
 
 Now we will show how to convert this into a simple Nextflow process.
 
 ## Process definition
 
-The process definition starts with keyword `process`, followed by process name, in this case `INDEX`, and finally the process `body` delimited by curly brackets `{}`. The process body must contain a string  which represents the command or, more generally, a script that is executed by it.
+The process definition starts with keyword `process`, followed by process name, in this case `NUMSEQ`, and finally the process `body` delimited by curly brackets `{}`. The process body must contain a string  which represents the command or, more generally, a script that is executed by it.
 
 ~~~
-process INDEX {
+process NUMSEQ {
   script:
-  "salmon index -t ${projectDir}/data/yeast/transcriptome/Saccharomyces_cerevisiae.R64-1-1.cdna.all.fa.gz -i ${projectDir}/data/yeast/salmon_index --kmerLen 31"
+  "zgrep -c '^>' ${projectDir}/data/yeast/transcriptome/Saccharomyces_cerevisiae.R64-1-1.cdna.all.fa.gz"
 }
-
 ~~~
 {: .language-groovy }
 
 This process would run once.
 
 > ## Implicit variables
-We use the Nextflow implicit variable `${projectDir}` to specify the directory where the main script is located. This is important as Nextflow scripts are executed in a separate working directory. 
+We use the Nextflow implicit variable `${projectDir}` to specify the directory where the main script is located. This is important as Nextflow scripts are executed in a separate working directory.
 A full list of implicit variables can be found [here](https://www.nextflow.io/docs/latest/script.html?highlight=implicit%20variables#implicit-variables)
  {: .callout }
 
-To add the process to a workflow add a `workflow` block, and call the process like a  function. We will learn more about the `workflow` block in the workflow episode.
+To add the process to a workflow add a `workflow` block, and call the process like a function. We will learn more about the `workflow` block in the workflow episode.
 
 **Note:** As we are using DSL2 we need to include `nextflow.enable.dsl=2` in the script.
 
 ~~~
-//process_index.nf
+//process_01.nf
 nextflow.enable.dsl=2
 
-process INDEX {
+process NUMSEQ {
   script:
-  "salmon index -t ${projectDir}/data/yeast/transcriptome/Saccharomyces_cerevisiae.R64-1-1.cdna.all.fa.gz -i data/yeast/salmon_index --kmerLen 31"
+  "zgrep -c '^>' ${projectDir}/data/yeast/transcriptome/Saccharomyces_cerevisiae.R64-1-1.cdna.all.fa.gz"
 }
 
 workflow {
   //process is called like a function in the workflow block
-  INDEX()
+  NUMSEQ()
 }
 ~~~
 {: .language-groovy }
@@ -78,24 +93,25 @@ workflow {
 We can now run the process:
 
 ~~~
-$ nextflow run process_index.nf
+$ nextflow run process_01.nf -process.echo
 ~~~
 {: .language-bash }
 
 
 ~~~
-N E X T F L O W  ~  version 21.04.0
-Launching `process.nf` [lethal_hamilton] - revision: eff6186015
+N E X T F L O W  ~  version 21.10.6
+Launching `process_01.nf` [modest_pike] - revision: 3eaa812b17
 executor >  local (1)
-[10/583af2] process > INDEX [100%] 1 of 1 ✔
+[cd/eab1fd] process > NUMSEQ [100%] 1 of 1 ✔
+6612
 ~~~
 {: .language-bash }
 
 > ## A Simple Process
 >
-> Create a Nextflow script `simple_process.nf` that has one process `SALMON_VERSION` that runs the command.
+> Create a Nextflow script `simple_process.nf` that has one process `COUNT_BASES` that runs the command.
 > ~~~
-> salmon --version
+> zgrep -v '^>' ${projectDir}/data/yeast/transcriptome/Saccharomyces_cerevisiae.R64-1-1.cdna.all.fa.gz|tr -d '\n'|wc -m
 > ~~~
 > {: .language-bash}
 >
@@ -103,16 +119,16 @@ executor >  local (1)
 > > ~~~
 > > nextflow.enable.dsl=2
 > >
-> > process SALMON_VERSION {
+> > process COUNT_BASES {
 > >    
 > >   script:
 > >   """
-> >   salmon --version
+> >   zgrep -v '^>' ${projectDir}/data/yeast/transcriptome/Saccharomyces_cerevisiae.R64-1-1.cdna.all.fa.gz|tr -d '\n'|wc -m
 > >   """
 > > }
 > >
 > > workflow {
-> >   SALMON_VERSION()
+> >   COUNT_BASES()
 > > }
 > > ~~~
 > > {: .language-groovy }
@@ -123,10 +139,10 @@ executor >  local (1)
 > > {: .language-bash}
 > > ~~~
 > > N E X T F L O W  ~  version 21.04.0
-> > Launching `process.nf` [prickly_gilbert] - revision: 471a79c65c
+> > Launching `simple_process.nf`` [prickly_gilbert] - revision: 471a79c65c
 > > executor >  local (1)
-> > [56/5e6001] process > SALMON_VERSION [100%] 1 of 1 ✔
-> > salmon 1.5.2
+> > [56/5e6001] process > COUNT_BASES [100%] 1 of 1 ✔
+> > 8772368
 > > ~~~
 > {: .solution}
 {: .challenge}
@@ -174,13 +190,13 @@ The `script` block can be a simple one line string in quotes e.g.
 ~~~
 nextflow.enable.dsl=2
 
-process PROCESSBAM {
+process NUMSEQ {
     script:
-    "samtools sort -o ref1.sorted.bam ${projectDir}/data/yeast/bams/ref1.bam"
+    "zgrep -c '^>' ${projectDir}/data/yeast/transcriptome/Saccharomyces_cerevisiae.R64-1-1.cdna.all.fa.gz"
 }
 
 workflow {
-  PROCESSBAM()
+  NUMSEQ()
 }
 ~~~
 {: .language-groovy }
@@ -193,22 +209,35 @@ For example:
 //process_multi_line.nf
 nextflow.enable.dsl=2
 
-process PROCESSBAM {
+process NUMSEQ_CHR {
     script:
     """
-    samtools sort -o ref1.sorted.bam ${projectDir}/data/yeast/bams/ref1.bam
-    samtools index ref1.sorted.bam
-    samtools flagstat ref1.sorted.bam
+    zgrep  '^>' ${projectDir}/data/yeast/transcriptome/Saccharomyces_cerevisiae.R64-1-1.cdna.all.fa.gz > ids.txt
+    zgrep -c '>YA' ids.txt
     """
 }
 
 workflow {
-  PROCESSBAM()
+  NUMSEQ_CHR()
 }
 ~~~
 {: .language-groovy }
 
-By default the process command is interpreted as a **Bash** script. However any other scripting language can be used just simply starting the script with the corresponding [Shebang](https://en.wikipedia.org/wiki/Shebang_(Unix)) declaration. For example:
+~~~
+$ nextflow run process_multi_line.nf -process.echo
+~~~
+{: .language-bash }
+
+~~~
+N E X T F L O W  ~  version 21.10.6
+Launching `process_multi_line.nf` [focused_jang] - revision: e32caf0dcb
+executor >  local (1)
+[00/14ce67] process > CHR_COUNT (1) [100%] 1 of 1 ✔
+Number of sequences for chromosome A:118
+~~~
+{: .output }
+
+By default the process command is interpreted as a **Bash** script. However, any other scripting language can be used just simply starting the script with the corresponding [Shebang](https://en.wikipedia.org/wiki/Shebang_(Unix)) declaration. For example:
 
 ~~~
 //process_python.nf
@@ -294,65 +323,59 @@ To reference a variable in the script block you can use the `$` in front of the 
 > Similar to bash scripting Nextflow uses the "$" character to introduce variable substitutions. The variable name to be expanded may be enclosed in braces `{variable_name}`, which are optional but serve to protect the variable to be expanded from characters immediately following it which could be interpreted as part of the name. It is a good rule of thumb to always use the `{}` syntax.
 {: .callout }
 
-In the example below the variable `kmer` is set to the value 31 at the top of the Nextflow script.
-The variable is referenced using the `$kmer` syntax within the multi-line string statement in the `script` block.
+In the example below the variable `chr` is set to the value A at the top of the Nextflow script.
+The variable is referenced using the `$chr` syntax within the multi-line string statement in the `script` block.
 A Nextflow variable can be used multiple times in the script block.
 
 ~~~
 //process_script.nf
 nextflow.enable.dsl=2
 
-kmer = 31
+chr = "A"
 
-process INDEX {
+process CHR_COUNT {
 
   script:
   """
-  salmon index \
-  -t $projectDir/data/yeast/transcriptome/Saccharomyces_cerevisiae.R64-1-1.cdna.all.fa.gz \
-  -i index \
-  --kmer $kmer
-  echo "kmer size is $kmer"
+  printf "Number of sequences for chromosome ${chr} :"
+  zgrep -c '>Y'${chr} ${projectDir}/data/yeast/transcriptome/Saccharomyces_cerevisiae.R64-1-1.cdna.all.fa.gz
   """
 }
 
 workflow {
-  INDEX()
+  CHR_COUNT()
 }
 ~~~
 {: .language-groovy }
 
-In most cases we do not want to hard code parameter values. We saw in the parameter episode the use of a special Nextflow  variable `params` that can be used to assign values from the command line. You would do this by adding a key name to the params variable and specifying a value, like `params.keyname = value`
+In most cases we do not want to hard code parameter values. We saw in the parameter episode the use of a special Nextflow variable `params` that can be used to assign values from the command line. You would do this by adding a key name to the params variable and specifying a value, like `params.keyname = value`
 
-In the example below we define the variable `params.kmer` with a default value of 31 in the Nextflow script.
+In the example below we define the variable `params.chr` with a default value of `A` in the Nextflow script.
 ~~~
 //process_script_params.nf
 nextflow.enable.dsl=2
 
-params.kmer = 31
+params.chr = "A"
 
-process INDEX {
+process CHR_COUNT {
 
   script:
   """
-  salmon index \
-  -t $projectDir/data/yeast/transcriptome/Saccharomyces_cerevisiae.R64-1-1.cdna.all.fa.gz \
-  -i index \
-  --kmer $params.kmer
-  echo "kmer size is $params.kmer"
+  printf  'Number of sequences for chromosome '${params.chr}':'
+  zgrep  -c '^>Y'${params.chr} ${projectDir}/data/yeast/transcriptome/Saccharomyces_cerevisiae.R64-1-1.cdna.all.fa.gz
   """
 }
 
 workflow {
-  INDEX()
+  CHR_COUNT()
 }
 ~~~
 {: .language-groovy }
 
-Remember, we can change the default value of `kmer` to 11 by running the Nextflow script using the command below. **Note:** parameters to the workflow have two hyphens `--`.
+Remember, we can change the default value of `chr` to a different value such as `B`, by running the Nextflow script using the command below. **Note:** parameters to the workflow have two hyphens `--`.
 
 ~~~
-nextflow run process_script_params.nf --kmer 11
+nextflow run process_script_params.nf --chr B
 ~~~
 {: .language-bash }
 
@@ -361,47 +384,62 @@ nextflow run process_script_params.nf --kmer 11
 >
 > For the Nextflow script below.
 > ~~~
-> //process_script_params.nf
+> //process_exercise_script_params.nf
 > nextflow.enable.dsl=2
-> params.kmer = 31
 >
-> process INDEX {
+> process COUNT_BASES {
 >
 >  script:
 >  """
->  salmon index -t $projectDir/data/yeast/transcriptome/Saccharomyces_cerevisiae.R64-1-1.cdna.all.fa.gz -i index --kmer $params.kmer
->  echo "kmer size is" $params.kmer
+>  zgrep -v  '^>'   ${projectDir}/data/yeast/transcriptome/Saccharomyces_cerevisiae.R64-1-1.cdna.all.fa.gz|grep -o A|wc -l   
 >  """
 > }
 >
 > workflow {
->   INDEX()
+>   COUNT_BASES()
 > }
 > ~~~
 > {: .language-groovy}
 >
-> Run the pipeline using a kmer value of `27` using the `--kmer` command line option. 
+> Add a parameter params.base to the script and uses the variable ${param.base} insides the script.
+> Run the pipeline using a base value of `C` using the `--base` command line option.
 >
 > ~~~
-> $ nextflow run process_script_params.nf --kmer <some value> -process.echo
+> $ nextflow run process_script_params.nf --base <some value> -process.echo
 > ~~~
 > {: .language-bash}
 > **Note:** The Nextflow option `-process.echo` will print the process' stdout to the terminal.
 >
 > > ## Solution
 > > ~~~
-> > nextflow run process_script_params.nf --kmer 27 -process.echo
+> > //process_exercise_script_params.nf
+> > nextflow.enable.dsl=2
+> >
+> > params.base='A'
+> >
+> > process COUNT_BASES {
+> >  
+> > script:
+> >  """
+> >  zgrep -v  '^>'   ${projectDir}/data/yeast/transcriptome/Saccharomyces_cerevisiae.R64-1-1.cdna.all.fa.gz|grep -o ${params.base}|wc -l   
+> >  """
+> > }
+> >
+> > workflow {
+> >   COUNT_BASES()
+> > }
+> > ~~~
+> > {: .language-groovy}
+> > ~~~
+> > nextflow run process_script_params.nf --base C -process.echo
 > > ~~~
 > > {: .language-bash }
 > ~~~
 > > N E X T F L O W  ~  version 21.04.0
-> > Launching `juggle_processes.nf` [nostalgic_jones] - revision: 9feb8de4fe
+> > Launching `process_script_params.nf ` [nostalgic_jones] - revision: 9feb8de4fe
 > > executor >  local (1)
-> > [92/cdc9de] process > INDEX [100%] 1 of 1 ✔
-> > Threads = 2
-> > Vertex length = 27
-> > [...Truncated...]
-> > kmer size is 27
+> > [92/cdc9de] process > COUNT_BASES [100%] 1 of 1 ✔
+> >  1677188
 > > ~~~
 > > {: .output}
 > {: .solution}
@@ -413,28 +451,28 @@ nextflow run process_script_params.nf --kmer 11
 Nextflow uses the same Bash syntax for variable substitutions, `$variable`, in strings.
 However, Bash variables need to be escaped using `\` character in front of `\$variable` name.
 
-In the example below we will set the bash variable `KMERSIZE` to the value of `$params.kmer`, and then use `KMERSIZE` in our script block.
+In the example below we will set a bash variable `NUMIDS` then echo the value of `NUMIDS` in our script block.
 
 
 ~~~
-//process_escape_bash.nf
 nextflow.enable.dsl=2
 
-process INDEX {
+process NUM_IDS {
 
   script:
   """
-  #set bash variable KMERSIZE
-  KMERSIZE=$params.kmer
-  salmon index -t $projectDir/data/yeast/transcriptome/Saccharomyces_cerevisiae.R64-1-1.cdna.all.fa.gz -i index --kmer \$KMERSIZE
-  echo "kmer size is $params.kmer"
+  #set bash variable NUMIDS
+  NUMIDS=`zgrep -c '^>' $params.transcriptome`
+
+  echo 'Number of sequences'
+  printf "%'d\n" \$NUMIDS
   """
 }
 
-params.kmer = 31
+params.transcriptome = "${projectDir}/data/yeast/transcriptome/Saccharomyces_cerevisiae.R64-1-1.cdna.all.fa.gz"
 
 workflow {
-  INDEX()
+  NUM_IDS()
 }
 ~~~
 {: .language-groovy }
@@ -446,27 +484,29 @@ When using the `shell` statement Bash variables are referenced in the normal way
 However, the `shell` statement uses a different syntax for Nextflow variable substitutions: `!{nextflow_variable}`, which is needed to use both Nextflow and Bash variables in the same script.
 
 For example in the script below that uses the `shell` statement
-we reference the Nextflow variables as `!{projectDir}` and `!{params.kmer}`, and the Bash variable as `${KMERSIZE}`.
+we reference the Nextflow variables as `!{projectDir}` , and the Bash variable as `${NUMCHAR}` and `${NUMLINES}`.
 
 ```
 //process_shell.nf
 nextflow.enable.dsl=2
 
-params.kmer = 31
-
-process INDEX {
+process NUM_IDS {
 
   shell:
+  //Shell script definition requires the use of single-quote ' delimited strings
   '''
-  #set bash variable KMERSIZE
-  KMERSIZE=!{params.kmer}
-  salmon index -t !{projectDir}/data/yeast/transcriptome/Saccharomyces_cerevisiae.R64-1-1.cdna.all.fa.gz -i index --kmer ${KMERSIZE}
-  echo "kmer size is !{params.kmer}"
+  #set bash variable NUMIDS
+  NUMIDS=`zgrep -c '^>' !{params.transcriptome}`
+
+  echo 'Number of sequences'
+  printf  $NUMIDS
   '''
 }
 
+params.transcriptome = "${projectDir}/data/yeast/transcriptome/Saccharomyces_cerevisiae.R64-1-1.cdna.all.fa.gz"
+
 workflow {
-  INDEX()
+  NUM_IDS()
 }
 ```
 {: .language-groovy }
@@ -494,54 +534,54 @@ else {
 {: .language-groovy }
 
 
-For example, the Nextflow script below will use the `if` statement to change which index is created depending on the Nextflow variable `params.aligner`.
+For example, the Nextflow script below will use the `if` statement to change what the COUNT process counts  depending on the Nextflow variable `params.method`.
 
 ~~~
 //process_conditional.nf
 nextflow.enable.dsl=2
 
-params.aligner = 'kallisto'
+params.method = 'ids'
 params.transcriptome = "$projectDir/data/yeast/transcriptome/Saccharomyces_cerevisiae.R64-1-1.cdna.all.fa.gz"
-params.kmer = 31
 
-process INDEX {
+
+process COUNT {
   script:
-  if( params.aligner == 'kallisto' ) {
+  if( params.method == 'ids' ) {
     """
-    echo indexed using kallisto
-    kallisto index -i index -k $params.kmer $params.transcriptome
+    echo Number of sequences in transciptome
+    zgrep -c "^>" $params.transcriptome
     """
   }  
-  else if( params.aligner == 'salmon' ) {
+  else if( params.method == 'bases' ) {
     """
-    echo indexed using salmon
-    salmon index -t $params.transcriptome -i index --kmer $params.kmer
+    echo Number of bases in transciptome
+    zgrep -v "^>" $params.transcriptome|grep -o "."|wc -l
     """
   }  
   else {
     """
-    echo Unknown aligner $params.aligner
+    echo Unknown method $params.method
     """
   }  
 }
 
 workflow {
-  INDEX()
+  COUNT()
 }
 ~~~
 {: .language-groovy }
 
 ~~~
-nextflow run process_conditional.nf -process.echo --aligner kallisto
+nextflow run process_conditional.nf -process.echo --method ids
 ~~~
 {: .language-bash }
 
 ~~~
 N E X T F L O W  ~  version 21.04.0
 Launching `juggle_processes.nf` [cheeky_shirley] - revision: 588f20ae5a
-executor >  local (1)
-[84/c44f25] process > INDEX [100%] 1 of 1 ✔
-indexed using kallisto
+[01/60b08d] process > COUNT [100%] 1 of 1 ✔
+Number of sequences in transciptome
+6612
 ~~~
 {: .output}
 
@@ -596,7 +636,7 @@ process PRINTCHR {
   """
 }
 
-chr_ch = Channel.of( 1..22, 'X', 'Y' )
+chr_ch = Channel.of( 'A' .. 'P' )
 
 workflow {
 
@@ -612,17 +652,17 @@ $ nextflow run process_input_value.nf -process.echo
 
 ~~~
 N E X T F L O W  ~  version 21.04.0
-Launching `juggle_processes.nf` [wise_kalman] - revision: 7f90e1bfc5
+Launching `process_input_value.nf` [wise_kalman] - revision: 7f90e1bfc5
 executor >  local (24)
-[b1/88df3f] process > PRINTCHR (24) [100%] 24 of 24 ✔
-processing chromosome 3
-processing chromosome 1
-processing chromosome 2
+[b1/88df3f] process > PRINTCHR (16) [100%] 24 of 24 ✔
+processing chromosome C
+processing chromosome L
+processing chromosome A
 ..truncated...
 ~~~
 {: .output}
 
-In the above example the process is executed 24 times; each time a value is received from the queue channel `chr_ch` it is used to run the process.
+In the above example the process is executed 16 times; each time a value is received from the queue channel `chr_ch` it is used to run the process.
 
 > ## Channel order
 > The channel guarantees that items are delivered in the same order as they have been sent, but since the process is executed in a parallel manner, there is no guarantee that they are processed in the same order as they are received.
@@ -630,11 +670,11 @@ In the above example the process is executed 24 times; each time a value is rece
 
 ### Input files
 
-When you need to handle files as input you need the `path` qualifier. Using the `path` qualifier means that Nextflow will stage it in the process execution directory, and it can be accessed in the script by using the name specified in the input declaration.
+When you need to handle files as input, you need the `path` qualifier. Using the `path` qualifier means that Nextflow will stage it in the process execution directory, and it can be accessed in the script by using the name specified in the input declaration.
 
 The input file name can be defined dynamically by defining the input name as a Nextflow variable and referenced in the script using the  `$variable_name` syntax.
 
-For example in the script below we assign the variable name `read` to the input files using the `path` qualifier. The file is referenced using the variable substitution syntax `${read}` in the script block:
+For example, in the script below, we assign the variable name `read` to the input files using the `path` qualifier. The file is referenced using the variable substitution syntax `${read}` in the script block:
 
 ~~~
 //process_input_file.nf
@@ -681,8 +721,8 @@ ref1_2.fq.gz 58708
 ~~~
 {: .output }
 
-The input name can also be defined as user specified filename inside quotes.
-For example in the script below the name of the file is specified as `'sample.fq.gz'` in the input definition and can be referenced by that name in the script block.
+The input name can also be defined as a user-specified filename inside quotes.
+For example, in the script below, the name of the file is specified as `'sample.fq.gz'` in the input definition and can be referenced by that name in the script block.
 
 ~~~
 //process_input_file_02.nf
@@ -731,31 +771,33 @@ sample.fq.gz 58708
 
 
 > ## File Objects as inputs
-> When a process declares an input file the corresponding channel elements must be file objects i.e. created with the path helper function from the file specific channel factories e.g. `Channel.fromPath` or `Channel.fromFilePairs`.
+> When a process declares an input file, the corresponding channel elements must be file objects, i.e. created with the path helper function from the file specific channel factories, e.g. `Channel.fromPath` or `Channel.fromFilePairs`.
 {: .callout}
 
 
 > ## Add input channel
-> Add an input channel to the script below that takes the reads channel as input.
-> [FastQC](https://www.bioinformatics.babraham.ac.uk/projects/fastqc/) is a quality control tool for high throughput sequence data.
+> For the script `process_exercise_input.nf`:
+> 1. Define a Channel using `fromPath` for the transcriptome `params.transcriptome`.  
+> 1. Add an input channel that takes the transcriptome channel as a file input.
+> 1. Replace `params.transcriptome` in the `script:` block with the input variable you defined in the `input:` definition.
+>
 > ~~~
 > //process_exercise_input.nf
 > nextflow.enable.dsl=2
 >
-> process FASTQC {
->    //add input channel
->    
->    script:
->    """
->    mkdir fastqc_out
->    fastqc -o fastqc_out ${reads}
->    ls -1 fastqc_out
->    """
+> params.chr = "A"
+> params.transcriptome = "${projectDir}/data/yeast/transcriptome/Saccharomyces_cerevisiae.R64-1-1.cdna.all.fa.gz"
+> process CHR_COUNT {
+>
+>  script:
+>  """
+>  printf  'Number of sequences for chromosome '${params.chr}':'
+>  zgrep  -c '^>Y'${params.chr} ${params.transcriptome}
+>  """
 > }
-> reads_ch = Channel.fromPath( 'data/yeast/reads/ref1*_{1,2}.fq.gz' )
 >
 > workflow {
->   FASTQC(reads_ch)
+>  CHR_COUNT()
 > }
 > ~~~
 > {: .language-groovy }
@@ -766,38 +808,36 @@ sample.fq.gz 58708
 > {: .language-bash }
 > > ## Solution
 > > ~~~
-> > //process_exercise_input_answer.nf
 > > nextflow.enable.dsl=2
-> > process FASTQC {
-> >    input:
-> >    path reads
-> > 
-> >    script:
-> >    """
-> >    mkdir fastqc_out
-> >    fastqc -o fastqc_out ${reads}
-> >    ls -1 fastqc_out
-> >    """
+> >
+> > params.chr = "A"
+> > params.transcriptome = "${projectDir}/data/yeast/transcriptome/Saccharomyces_cerevisiae.R64-1-1.cdna.all.fa.gz"> >
+> >
+> > process CHR_COUNT {
+> >  input:
+> >  path transcriptome
+> >
+> >  script:
+> >  """
+> >  printf  'Number of sequences for chromosome '${params.chr}':'
+> >  zgrep  -c '^>Y'${params.chr} ${transcriptome}
+> >  """
 > > }
-> > reads_ch = Channel.fromPath( 'data/yeast/reads/ref1*_{1,2}.fq.gz' )
+> >
+> > transcriptome_ch = channel.fromPath(params.transcriptome)
 > >
 > > workflow {
-> >   FASTQC(reads_ch)
+> >  CHR_COUNT(transcriptome_ch)
 > > }
 > > ~~~
 > > {: .language-groovy }
 > > ~~~
-> > N E X T F L O W  ~  version 21.04.0
-> > Launching `process_exercise_input_answer.nf` [jovial_wescoff] - revision: e3db00a4dc
-> > executor >  local (2)
-> > [d9/559a27] process > FASTQC (2) [100%] 2 of 2 ✔
-> > Analysis complete for ref1_1.fq.gz
-> > ref1_1_fastqc.html
-> > ref1_1_fastqc.zip
 > >
-> > Analysis complete for ref1_2.fq.gz
-> > ref1_2_fastqc.html
-> > ref1_2_fastqc.zip
+> > N E X T F L O W  ~  version 21.10.6
+> > Launching `process_exercise_input.nf` [focused_jang] - revision: e32caf0dcb
+> > executor >  local (1)
+> > [00/14ce67] process > CHR_COUNT (1) [100%] 1 of 1 ✔
+> > Number of sequences for chromosome A:118
 > >  ~~~
 > > {: .output}
 > {: .solution}
@@ -806,7 +846,7 @@ sample.fq.gz 58708
 ### Combining input channels
 
 A key feature of processes is the ability to handle inputs from multiple channels.
-However it’s important to understand how the number of items within the multiple channels affect the execution of a process.
+However, it’s important to understand how the number of items within the multiple channels affect the execution of a process.
 
 Consider the following example:
 
@@ -944,7 +984,7 @@ In this example the process is run three times.
 > Write a nextflow script `process_exercise_combine.nf` that combines two input channels
 > ~~~
 > transcriptome_ch = channel.fromPath('data/yeast/transcriptome/Saccharomyces_cerevisiae.R64-1-1.cdna.all.fa.gz')
-> kmer_ch = channel.of(21)
+> chr_ch = channel.of('A')
 > ~~~
 > {: .language-groovy }
 And include the command below in the script directive
@@ -952,7 +992,7 @@ And include the command below in the script directive
 > ~~~~
   script:
   """
-  salmon index -t $transcriptome -i index -k $kmer .
+  zgrep -c ">Y${chr}" ${transcriptome}
   """
 > ~~~~
 > {: .language-groovy }
@@ -963,19 +1003,19 @@ And include the command below in the script directive
 > > process COMBINE {
 > >  input:
 > >  path transcriptome
-> >  val kmer
-> > 
+> >  val chr
+> >
 > >  script:
 > >  """
-> >  salmon index -t $transcriptome -i index -k $kmer
+> >  zgrep -c ">Y${chr}" ${transcriptome}
 > >  """
 > > }
 > >
 > > transcriptome_ch = channel.fromPath('data/yeast/transcriptome/Saccharomyces_cerevisiae.R64-1-1.cdna.all.fa.gz', checkIfExists: true)
-> > kmer_ch = channel.of(21)
+> > chr_ch = channel.of("A")
 > >
 > > workflow {
-> >   COMBINE(transcriptome_ch, kmer_ch)
+> >   COMBINE(transcriptome_ch, chr_ch)
 > > }
 > > ~~~
 > > {: .language-groovy }
@@ -1032,26 +1072,27 @@ The process will run eight times.
 {: .output}
 
 > ## Input repeaters
-> Extend the script `process_exercise_repeat.nf` by adding more values to the `kmer` queue channel e.g. (21, 27, 31) and running the process for each value.
+> Extend the script `process_exercise_repeat.nf` by adding more values to the `chr` queue channel e.g. A to P and running the process for each value.
 >  ~~~
 > //process_exercise_repeat.nf
 >  nextflow.enable.dsl=2
 >  process COMBINE {
 >    input:
 >    path transcriptome
->    val kmer
+>    val chr
 >   
 >    script:
 >    """
->    salmon index -t $transcriptome -i index -k $kmer
+     printf "Number of sequences for chromosome $chr: "
+>    zgrep -c "^>Y${chr}" ${transcriptome}
 >    """
 >  }
 >
 >  transcriptome_ch = channel.fromPath('data/yeast/transcriptome/Saccharomyces_cerevisiae.R64-1-1.cdna.all.fa.gz', checkIfExists: true)
->  kmer_ch = channel.of(21)
+>  chr_ch = channel.of('A')
 >
 >  workflow {
->    COMBINE(transcriptome_ch, kmer_ch)
+>    COMBINE(transcriptome_ch, chr_ch)
 >  }
 >  ~~~
 >  {: .language-groovy }
@@ -1066,19 +1107,20 @@ The process will run eight times.
 > > process COMBINE {
 > >   input:
 > >   path transcriptome
-> >   each kmer
+> >   each chr
 > >  
 > >   script:
 > >   """
-> >   salmon index -t $transcriptome -i index -k $kmer
+> >   printf "Number of sequences for chromosome $chr: "
+> >   zgrep -c "^>Y${chr}" ${transcriptome}
 > >   """
 > > }
 > >
 > > transcriptome_ch = channel.fromPath('data/yeast/transcriptome/Saccharomyces_cerevisiae.R64-1-1.cdna.all.fa.gz', checkIfExists: true)
-> > kmer_ch = channel.of(21, 27, 31)
+> > chr_ch = channel.of('A'..'P')
 > >
 > > workflow {
-> >   COMBINE(transcriptome_ch, kmer_ch)
+> >   COMBINE(transcriptome_ch, chr_ch)
 > > }
 > > ~~~
 > > {: .language-groovy }
@@ -1086,7 +1128,7 @@ The process will run eight times.
 > > nextflow run process_exercise_repeat.nf -process.echo
 > > ~~~
 > > {: .language-bash }
-> > This process runs three times.
+> > This process runs 16 times.
 > {: .solution}
 {: .challenge}
 

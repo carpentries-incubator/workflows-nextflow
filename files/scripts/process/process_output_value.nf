@@ -1,22 +1,26 @@
-nextflow.enable.dsl = 2
+//process_output_value.nf
+nextflow.enable.dsl=2
 
-process METHOD {
+params.transcriptome="${projectDir}/data/yeast/transcriptome/Saccharomyces_cerevisiae.R64-1-1.cdna.all.fa.gz"
 
-    input:
-    val x
+process COUNT_CHR_SEQS {
+  input:
+  val chr
 
-    output:
-    val x
+  output:
+  val chr
 
-    script:
-    """
-    echo $x > method.txt
-    """
+  script:
+  """
+  zgrep -c '^>Y'$chr $params.transcriptome
+  """
 }
+// Both 'Channel' and 'channel' keywords work to generate channels.
+// However, it is a good practice to be consistent through the whole pipeline development
+chr_ch = channel.of('A'..'P')
 
 workflow {
-    methods_ch = Channel.of( 'salmon', 'kallisto' )
-    METHOD( methods_ch )
-    // use the view operator to display contents of the channel
-    METHOD.out.view( { "Received: $it" } )
+  COUNT_CHR_SEQS(chr_ch)
+  // use the view operator to display contents of the channel
+  COUNT_CHR_SEQS.out.view()
 }
