@@ -395,7 +395,6 @@ $ nf-core launch -r 3.0 rnaseq
 > ** Note ** : Do not run the command now.
 > > ## Solution
 > >
-> > {: .solution}
 > > ~~~
 > > $ nf-core launch rnaseq
 > > ~~~

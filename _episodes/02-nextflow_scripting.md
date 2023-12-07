@@ -429,7 +429,6 @@ println mylist.findAll{it%2 == 0}
 > > ~~~
 > > {: .language-groovy }
 > > The fifth element is `5`. Remember that the array index starts at 0.
-> > {: .output}
 > {: .solution}
 {: .challenge}
 
