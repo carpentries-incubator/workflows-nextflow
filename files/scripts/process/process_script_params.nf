@@ -1,19 +1,17 @@
-nextflow.enable.dsl = 2
+//process_script_params.nf
+nextflow.enable.dsl=2
 
-params.kmer = 31
+params.chr = "A"
 
-process INDEX {
+process CHR_COUNT {
 
-    script:
-    """
-    salmon index \\
-        -t $projectDir/data/yeast/transcriptome/Saccharomyces_cerevisiae.R64-1-1.cdna.all.fa.gz \\
-        -i index \\
-        --kmer $params.kmer
-    echo "kmer size is $params.kmer"
-    """
+  script:
+  """
+  printf  'Number of sequences for chromosome '${params.chr}':'
+  zgrep  -c '^>Y'${params.chr} ${projectDir}/data/yeast/transcriptome/Saccharomyces_cerevisiae.R64-1-1.cdna.all.fa.gz
+  """
 }
 
 workflow {
-    INDEX()
+  CHR_COUNT()
 }

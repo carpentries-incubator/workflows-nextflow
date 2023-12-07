@@ -10,8 +10,9 @@ objectives:
 - "Understand how to to connect processes via their inputs and outputs within a workflow."
 keypoints:
 - "A Nextflow workflow is defined by invoking `processes` inside the `workflow` scope."
-- "A process is invoked like a function inside the `workflow` scope passing any required input parameters as arguments. e.g. `INDEX(transcriptome_ch)`."
-- "Process outputs can be accessed using the `out` attribute for the respective `process`. Multiple outputs from a single process can be accessed using the `[]` or , if specified , the output name."
+- "A process is invoked like a function inside the `workflow` scope passing any required input parameters as arguments. e.g. `FASTQC(reads_ch)`."
+- "Process outputs can be accessed using the `out` attribute for the respective `process` object or assigning the output to a Nextflow variable. 
+- Multiple outputs from a single process can be accessed using the list syntax `[]` and it's index or by referencing the a named process output ."
 ---
 
 ## Workflow
@@ -43,71 +44,51 @@ For example:
 //workflow_01.nf
 nextflow.enable.dsl=2
 
-process INDEX {
+
+ process FASTQC {
+    input:
+      tuple(val(sample_id), path(reads))
+    output:
+      path "fastqc_${sample_id}_logs"
+    script:
+      """
+      mkdir fastqc_${sample_id}_logs
+      fastqc -o fastqc_${sample_id}_logs -f fastq -q ${reads}
+      """
+}
+
+process MULTIQC {
+    publishDir "results/mqc"
     input:
       path transcriptome
     output:
-      path 'index'
+      path "*"
     script:
       """
-      salmon index -t $transcriptome -i index
-      """
-}
-
- process QUANT {
-    input:
-      each  path(index)
-      tuple(val(pair_id), path(reads))
-    output:
-      path pair_id
-    script:
-      """
-      salmon quant --threads $task.cpus --libType=U -i $index -1 ${reads[0]} -2 ${reads[1]} -o $pair_id
+      multiqc .
       """
 }
 
 workflow {
-    transcriptome_ch = channel.fromPath('data/yeast/transcriptome/*.fa.gz',checkIfExists: true)
     read_pairs_ch = channel.fromFilePairs('data/yeast/reads/*_{1,2}.fq.gz',checkIfExists: true)
 
     //index process takes 1 input channel as a argument
-    index_ch = INDEX(transcriptome_ch)
+    //assign process output to Nextflow variable fastqc_obj
+    fastqc_obj = FASTQC(read_pairs_ch)
 
-    //quant channel takes 2 input channels as arguments
-    QUANT( index_ch, read_pairs_ch ).view()
+    //quant channel takes 1 input channel as an argument
+    //We use the collect operator to gather multiple channel items into a single item
+    MULTIQC(fastqc_obj.collect()).view()
 }
 ~~~
 {: .language-groovy }
 
-In this example, the `INDEX` process is invoked first and the `QUANT` process second.
-The `INDEX` output channel, assigned to the variable `index_ch`, is passed as the first argument to the `QUANT` process. The `read_pairs_ch` channel is passed as the second argument.
-
-### Process composition
-
-Processes having matching `input`-`output` declaration can be composed so that the output of the first process is passed as input to the following process.
-
-We can therefore rewrite the previous workflow example as follows:
-
-~~~
-[..truncated..]
-
-workflow {
-  transcriptome_ch = channel.fromPath('data/yeast/transcriptome/*.fa.gz')
-  read_pairs_ch = channel.fromFilePairs('data/yeast/reads/*_{1,2}.fq.gz')
-
-  // pass INDEX process as a parameter to the QUANT process
-  QUANT(INDEX(transcriptome_ch),read_pairs_ch ).view()
-}
-~~~
-{: .language-groovy }
 
 ### Process outputs
 
-In the previous examples we have connected the `INDEX` process output to the `QUANT` process by;
-1. Assigning it to a variable `index_ch = INDEX( transcriptome_ch )` and passing it to the `QUANT` process as an argument.
-2. Calling the process as an argument within the `QUANT` process, `QUANT( INDEX( transcriptome_ch ), read_pairs_ch )` 
+In the previous example we assigned the process output to a Nextflow variable `fastqc_obj`.
 
-A process's output channel can also be accessed calling the process and then using the `out` attribute for the respective `process` object.
+A process output can also be accessed directly using the `out` attribute for the respective `process object`.
 
 For example:
 
@@ -115,15 +96,14 @@ For example:
 [..truncated..]
 
 workflow {
-    transcriptome_ch = channel.fromPath('data/yeast/transcriptome/*.fa.gz')
-    read_pairs_ch = channel.fromFilePairs('data/yeast/reads/*_{1,2}.fq.gz')
-    
-    //call INDEX process
-    INDEX(transcriptome_ch)
+  read_pairs_ch = channel.fromFilePairs('data/yeast/reads/*_{1,2}.fq.gz',checkIfExists: true)
 
-    // INDEX process output accessed using the `out` attribute
-    QUANT(INDEX.out,read_pairs_ch)
-    QUANT.out.view()
+  FASTQC(read_pairs_ch)
+
+  // process output  accessed using the `out` attribute of the process object
+  MULTIQC(FASTQC.out.collect()).view()
+  MULTIQC.out.view()
+
 }
 ~~~
 {: .language-groovy }
@@ -136,50 +116,47 @@ It can be useful to name the output of a process, especially if there are multip
 
 The process `output` definition allows the use of the `emit:` option to define a named identifier that can be used to reference the channel in the external scope.
 
-The scope is the part of the Nextflow script where a named variable is accessible.
 
-For example, in the script below we name the output from the `INDEX` process as `salmon_index` using the `emit:` option. 
-We can then reference the output as `INDEX.out.salmon_index` in the `workflow` scope.
+For example in the script below we name the output from the `FASTQC` process as `fastqc_results` using the `emit:` option. We can then reference the output as
+`FASTQC.out.fastqc_results` in the workflow scope.
+
 
 ~~~
 //workflow_02.nf
 nextflow.enable.dsl=2
 
-process INDEX {
-
-  input:
-  path transcriptome
-
-  output:
-  path 'index', emit: salmon_index
-
-  script:
-  """
-  salmon index -t $transcriptome -i index
-  """
+ process FASTQC {
+    input:
+      tuple val(sample_id), path(reads)
+    output:
+      path "fastqc_${sample_id}_logs", emit: fastqc_results
+    script:
+      """
+      mkdir fastqc_${sample_id}_logs
+      fastqc -o fastqc_${sample_id}_logs ${reads}
+      """
 }
 
-process QUANT {
-   input:
-     each  path(index)
-     tuple(val(pair_id), path(reads))
-   output:
-     path pair_id
-   script:
-     """
-     salmon quant --threads $task.cpus --libType=U -i $index -1 ${reads[0]} -2 ${reads[1]} -o $pair_id
-     """
+process MULTIQC {
+    publishDir "results/mqc"
+    input:
+      path fastqc_results
+    output:
+      path "*"
+    script:
+      """
+      multiqc .
+      """
 }
 
 workflow {
-  transcriptome_ch = channel.fromPath('data/yeast/transcriptome/*.fa.gz')
-  read_pairs_ch = channel.fromFilePairs('data/yeast/reads/*_{1,2}.fq.gz')
-  
-  //call INDEX process
-  INDEX(transcriptome_ch)
-  
-  //access INDEX object named output
-  QUANT(INDEX.out.salmon_index,read_pairs_ch).view()
+    read_pairs_ch = channel.fromFilePairs('data/yeast/reads/ref*_{1,2}.fq.gz',checkIfExists: true)
+    
+    //FASTQC process takes 1 input channel as a argument
+    FASTQC(read_pairs_ch)
+
+    //MULTIQC channel takes 1 input channels as arguments
+    MULTIQC(FASTQC.out.fastqc_results.collect()).view()
 }
 ~~~
 {: .language-groovy }
@@ -195,29 +172,24 @@ For example:
 //workflow_03.nf
 [..truncated..]
 
-params.transcriptome = 'data/yeast/transcriptome/*.fa.gz'
-params.reads = 'data/yeast/reads/ref1*_{1,2}.fq.gz'
+params.reads = 'data/yeast/reads/*_{1,2}.fq.gz'
 
 workflow {
-  transcriptome_ch = channel.fromPath(params.transcriptome)
-  read_pairs_ch = channel.fromFilePairs(params.reads)
-  
-  INDEX(transcriptome_ch)
-  QUANT(INDEX.out.salmon_index,read_pairs_ch).view()
+
+  reads_ch_ = channel.fromFilePairs(params.reads)
+  FASTQC(reads_ch_)
+  MULTIQC(FASTQC.out.fastqc_results.collect()).view()
 }
 ~~~
 {: .language-groovy }
 
-In this example `params.transcriptome` and `params.reads` can be accessed inside the `workflow` scope.
+In this example `params.reads`, defined outside the workflow scope, can be accessed inside the `workflow` scope.
 
 
 > ## Workflow
->  Create a workflow by connecting the output of the process `FASTQC` to `PARSEZIP` in the Nextflow script `workflow_exercise.nf`.
-> The process `FASTQC` generates basic quality control metrics for raw sequencing data using the [FASTQC](https://www.bioinformatics.babraham.ac.uk/projects/fastqc/) program.
-> The process `PARSEZIP` extracts the Basic Statistics from FASTQC compressed output file and writes it to a file. 
+> Connect the output of the process `FASTQC` to `PARSEZIP` in the Nextflow script `workflow_exercise.nf`.
+>
 > **Note:** You will need to pass the `read_pairs_ch` as an argument to FASTQC and you will need to use the `collect` operator to gather the items in the FASTQC channel output to a single List item. 
-> Look at the contents of the file `pass_basic.txt` in `results/fqpass` folder. 
-> How many lines does the file have?
 > ~~~
 >//workflow_exercise.nf
 >nextflow.enable.dsl=2
@@ -231,17 +203,16 @@ In this example `params.transcriptome` and `params.reads` can be accessed inside
 >  path "fastqc_${sample_id}_logs/*.zip"
 >
 >  script:
->  //flagstat simple stats on bam file
 >  """
 >  mkdir fastqc_${sample_id}_logs
->  fastqc -o fastqc_${sample_id}_logs -f fastq -q ${reads} -t ${task.cpus}
+>  fastqc -o fastqc_${sample_id}_logs  ${reads}
 >  """
 > }
 >
 >process PARSEZIP {
 >  publishDir "results/fqpass", mode:"copy"
 >  input:
->  path flagstats
+>  path fastqc_logs
 >
 >  output:
 >  path 'pass_basic.txt'
@@ -251,7 +222,8 @@ In this example `params.transcriptome` and `params.reads` can be accessed inside
 >  for zip in *.zip; do zipgrep 'Basic Statistics' \$zip|grep 'summary.txt'; done > pass_basic.txt
 >  """
 >}
->read_pairs_ch = channel.fromFilePairs(params.reads,checkIfExists: true)
+> read_pairs_ch = channel.fromFilePairs(params.reads,checkIfExists: true)
+> 
 > workflow {
 > //connect process FASTQC and PARSEZIP
 > // remember to use the collect operator on the FASTQC output
@@ -275,17 +247,16 @@ In this example `params.transcriptome` and `params.reads` can be accessed inside
 > >   path "fastqc_${sample_id}_logs/*.zip"
 > >
 > >   script:
-> >   //flagstat simple stats on bam file
 > >   """
 > >   mkdir fastqc_${sample_id}_logs
-> >   fastqc -o fastqc_${sample_id}_logs -f fastq -q ${reads} -t ${task.cpus}
+> >   fastqc -o fastqc_${sample_id}_logs  ${reads}
 > >   """
 > > }
 > >
 > > process PARSEZIP {
 > >   publishDir "results/fqpass", mode:"copy"
 > >   input:
-> >   path flagstats
+> >   path fastqc_logs
 > >
 > >   output:
 > >   path 'pass_basic.txt'

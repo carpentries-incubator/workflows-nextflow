@@ -1,28 +1,22 @@
-nextflow.enable.dsl = 2
+//process_tuple_io.nf
+nextflow.enable.dsl=2
 
-process QUANT {
+process COMBINE_FQ {
+  input:
+  tuple val(sample_id), path(reads)
 
-    input:
-    tuple val(sample_id), path(reads)
-    //each is needed so the process can run multiple times
-    each index
+  output:
+  tuple val(sample_id), path("${sample_id}.fq.gz")
 
-    output:
-    tuple val(sample_id), path("${sample_id}_salmon_output")
-
-    script:
-    """
-    salmon quant  -i $index \\
-        -l A \\
-        -1 ${reads[0]} \\
-        -2 ${reads[1]} \\
-        -o ${sample_id}_salmon_output
-    """
+  script:
+  """
+  cat $reads > ${sample_id}.fq.gz
+  """
 }
 
+reads_ch = Channel.fromFilePairs('data/yeast/reads/ref1_{1,2}.fq.gz')
+
 workflow {
-    reads_ch = Channel.fromFilePairs( 'data/yeast/reads/ref1_{1,2}.fq.gz' )
-    index_ch = Channel.fromPath( 'data/yeast/salmon_index' )
-    QUANT( reads_ch, index_ch )
-    QUANT.out.view()
+  COMBINE_FQ(reads_ch)
+  COMBINE_FQ.out.view()
 }
