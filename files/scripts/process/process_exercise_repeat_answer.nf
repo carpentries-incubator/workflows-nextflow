@@ -1,20 +1,21 @@
-nextflow.enable.dsl = 2
+//process_exercise_repeat_answer.nf
+nextflow.enable.dsl=2
 
 process COMBINE {
-
-    input:
-    path transcriptome
-    each kmer
-
-    script:
-    """
-    salmon index -t $transcriptome -i index -k $kmer
-    """
+  input:
+  path transcriptome
+  each chr
+ 
+  script:
+  """
+  printf "Number of sequences for chromosome $chr: "
+  zgrep -c "^>Y${chr}" ${transcriptome}
+  """
 }
 
+transcriptome_ch = channel.fromPath('data/yeast/transcriptome/Saccharomyces_cerevisiae.R64-1-1.cdna.all.fa.gz', checkIfExists: true)
+chr_ch = channel.of('A'..'P')
 
 workflow {
-    transcriptome_ch = Channel.fromPath( 'data/yeast/transcriptome/Saccharomyces_cerevisiae.R64-1-1.cdna.all.fa.gz', checkIfExists: true )
-    kmer_ch = Channel.of( 21, 27, 31 )
-    COMBINE( transcriptome_ch, kmer_ch )
+  COMBINE(transcriptome_ch, chr_ch)
 }

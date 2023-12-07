@@ -1,22 +1,23 @@
-nextflow.enable.dsl = 2
+//process_exercise_output.nf
+nextflow.enable.dsl=2
 
-process INDEX {
+process EXTRACT_IDS {
+  input:
+  path transcriptome
+  each chr
 
-    input:
-    path transcriptome
-    each kmer
+  //add output block here to capture the file "${chr}_seqids.txt"
 
-    //add output block here to capture index folders
-
-    script:
-    """
-    salmon index -t $transcriptome -i index_$kmer -k $kmer
-    """
+  script:
+  """
+  zgrep '^>Y'$chr $transcriptome > ${chr}_seqids.txt
+  """
 }
 
+transcriptome_ch = channel.fromPath('data/yeast/transcriptome/Saccharomyces_cerevisiae.R64-1-1.cdna.all.fa.gz')
+chr_ch = channel.of('A'..'P')
+
 workflow {
-    transcriptome_ch = Channel.fromPath( 'data/yeast/transcriptome/Saccharomyces_cerevisiae.R64-1-1.cdna.all.fa.gz' )
-    kmer_ch = Channel.of( 21, 27, 31 )
-    INDEX( transcriptome_ch, kmer_ch )
-    INDEX.out.view()
+  EXTRACT_IDS(transcriptome_ch, chr_ch)
+  EXTRACT_IDS.out.view()
 }
