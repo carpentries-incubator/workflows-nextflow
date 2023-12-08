@@ -1,0 +1,4 @@
+{
+  "sleep": 5,
+  "input": "data/yeast/reads/etoh60_1*.fq.gz"
+}
