@@ -31,7 +31,7 @@ Analysing data involves a sequence of tasks, including gathering, cleaning, and 
 <center>
 <img src="https://sateeshperi.github.io/nextflow_varcal/nextflow/images/analysis_workflow.PNG" width="200">
 <br>
-<em> Example bioinformatics variant calling workflow/pipeline diagram from nf-core (https://nf-co.re/sarek) and simple RNA-Seq pipeline in DAG format. </em>
+<em> An example of a simple bioinformatics RNA-Seq pipeline. </em>
 </center>
 <br>
 
