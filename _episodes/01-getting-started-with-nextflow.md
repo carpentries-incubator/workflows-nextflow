@@ -221,8 +221,8 @@ process NUM_LINES {
 
     script:
     """
-    # Print reads
-    printf '${read}\t'
+    # Print file name
+    printf '${read}\\t'
 
     # Unzip file and count number of lines
     gunzip -c ${read} | wc -l
