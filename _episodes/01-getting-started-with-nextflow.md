@@ -44,7 +44,7 @@ However, as workflows become larger and more complex, the management of the prog
 developed specifically to manage computational data-analysis workflows in
 fields such as bioinformatics, imaging, physics, and chemistry. These systems
 contain multiple features that simplify the development, monitoring, execution
-and sharing of pipelines:
+and sharing of pipelines, such as:
 
 * Run time management
 * Software management
