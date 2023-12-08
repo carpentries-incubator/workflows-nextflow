@@ -2,20 +2,22 @@
 title: "Processes"
 teaching: 30
 exercises: 15
-questions:
-- "How do I run tasks/processes in Nextflow?"
-- "How do I get data, files and values, into a processes?"
-objectives:
+---
+
+::::::::::::::::::::::::::::::::::::::: objectives
+
 - "Understand how Nextflow uses processes to execute tasks."
 - "Create a Nextflow process."
 - "Define inputs to a process."
-keypoints:
-- "A Nextflow process is an independent step in a workflow"
-- "Processes contain up to five definition blocks including: directives, inputs, outputs, when clause and finally a script block."
-- "The script block contains the commands you would like to run."
-- "A process should have a script but the other four blocks are optional"
-- "Inputs are defined in the input block with a type qualifier and a name."
----
+
+::::::::::::::::::::::::::::::::::::::::::::::::::
+
+:::::::::::::::::::::::::::::::::::::::: questions
+
+- "How do I run tasks/processes in Nextflow?"
+- "How do I get data, files and values, into a processes?"
+
+::::::::::::::::::::::::::::::::::::::::::::::::::
 
 
 # Processes
@@ -28,26 +30,28 @@ A process can be thought of as a particular step in a workflow, e.g. an alignmen
 
 For example, below is the command you would run to count the number of sequence records in a FASTA format file such as the yeast transcriptome:
 
-> ## FASTA format
+:::::::::::::::::::::::::::::::::::::::::  callout
+
+## FASTA format
 FASTA format is a text-based format for representing either nucleotide sequences or peptide sequences. A sequence in FASTA format begins with a single-line description, followed by lines of sequence data. The description line is distinguished from the sequence data by a greater-than (">") symbol in the first column.
-> ~~~
->  >YBR024W_mRNA cdna chromosome:R64-1-1:II:289445:290350:1 gene:YBR024W gene_biotype:protein_coding transcript_biotype:protein_coding gene_symbol:SCO2 description:Protein anchored to mitochondrial inner membrane; may have a redundant function with Sco1p in delivery of copper to cytochrome c oxidase; interacts with Cox2p; SCO2 has a paralog, SCO1, that arose from the whole genome duplication [Source:SGD;Acc:S000000228]
+```bash
+>YBR024W_mRNA cdna chromosome:R64-1-1:II:289445:290350:1 gene:YBR024W gene_biotype:protein_coding transcript_biotype:protein_coding gene_symbol:SCO2 description:Protein anchored to mitochondrial inner membrane; may have a redundant function with Sco1p in delivery of copper to cytochrome c oxidase; interacts with Cox2p; SCO2 has a paralog, SCO1, that arose from the whole genome duplication [Source:SGD;Acc:S000000228]
 ATGTTGAATAGTTCAAGAAAATATGCTTGTCGTTCCCTATTCAGACAAGCGAACGTCTCA
 ATAAAAGGACTCTTTTATAATGGAGGCGCATATCGAAGAGGGTTTTCAACGGGATGTTGT
-> ~~~
- {: .callout }
+```
+
+::::::::::::::::::::::::::::::::::::::::::::::::::
 
 
 
-~~~
+```bash
 $ zgrep -c '^>' data/yeast/transcriptome/Saccharomyces_cerevisiae.R64-1-1.cdna.all.fa.gz
-~~~
-{: .language-bash }
+```
 
-~~~
+```output
 6612
-~~~
- {: .output }
+```
+
 
 Now we will show how to convert this into a simple Nextflow process.
 
@@ -55,26 +59,30 @@ Now we will show how to convert this into a simple Nextflow process.
 
 The process definition starts with keyword `process`, followed by process name, in this case `NUMSEQ`, and finally the process `body` delimited by curly brackets `{}`. The process body must contain a string  which represents the command or, more generally, a script that is executed by it.
 
-~~~
+```groovy
 process NUMSEQ {
   script:
   "zgrep -c '^>' ${projectDir}/data/yeast/transcriptome/Saccharomyces_cerevisiae.R64-1-1.cdna.all.fa.gz"
 }
-~~~
-{: .language-groovy }
+```
 
 This process would run once.
 
-> ## Implicit variables
+:::::::::::::::::::::::::::::::::::::::::  callout
+
+## Implicit variables
+
 We use the Nextflow implicit variable `${projectDir}` to specify the directory where the main script is located. This is important as Nextflow scripts are executed in a separate working directory.
 A full list of implicit variables can be found [here](https://www.nextflow.io/docs/latest/script.html?highlight=implicit%20variables#implicit-variables)
- {: .callout }
+
+
+::::::::::::::::::::::::::::::::::::::::::::::::::
 
 To add the process to a workflow add a `workflow` block, and call the process like a function. We will learn more about the `workflow` block in the workflow episode.
 
 **Note:** As we are using DSL2 we need to include `nextflow.enable.dsl=2` in the script.
 
-~~~
+```groovy
 //process_01.nf
 nextflow.enable.dsl=2
 
@@ -87,65 +95,70 @@ workflow {
   //process is called like a function in the workflow block
   NUMSEQ()
 }
-~~~
-{: .language-groovy }
+```
 
 We can now run the process:
 
-~~~
+```bash
 $ nextflow run process_01.nf -process.echo
-~~~
-{: .language-bash }
+```
 
 
-~~~
+```output
 N E X T F L O W  ~  version 21.10.6
 Launching `process_01.nf` [modest_pike] - revision: 3eaa812b17
 executor >  local (1)
 [cd/eab1fd] process > NUMSEQ [100%] 1 of 1 ✔
 6612
-~~~
-{: .language-bash }
+```
 
-> ## A Simple Process
->
-> Create a Nextflow script `simple_process.nf` that has one process `COUNT_BASES` that runs the command.
-> ~~~
-> zgrep -v '^>' ${projectDir}/data/yeast/transcriptome/Saccharomyces_cerevisiae.R64-1-1.cdna.all.fa.gz|tr -d '\n'|wc -m
-> ~~~
-> {: .language-bash}
->
-> > ## Solution
-> > ~~~
-> > nextflow.enable.dsl=2
-> >
-> > process COUNT_BASES {
-> >    
-> >   script:
-> >   """
-> >   zgrep -v '^>' ${projectDir}/data/yeast/transcriptome/Saccharomyces_cerevisiae.R64-1-1.cdna.all.fa.gz|tr -d '\n'|wc -m
-> >   """
-> > }
-> >
-> > workflow {
-> >   COUNT_BASES()
-> > }
-> > ~~~
-> > {: .language-groovy }
-> > **Note** We need to add the Nextflow run option `-process.echo` to print the output to the terminal.
-> > ~~~
-> > $ nextflow run simple_process.nf -process.echo
-> > ~~~
-> > {: .language-bash}
-> > ~~~
-> > N E X T F L O W  ~  version 21.04.0
-> > Launching `simple_process.nf`` [prickly_gilbert] - revision: 471a79c65c
-> > executor >  local (1)
-> > [56/5e6001] process > COUNT_BASES [100%] 1 of 1 ✔
-> > 8772368
-> > ~~~
-> {: .solution}
-{: .challenge}
+
+:::::::::::::::::::::::::::::::::::::::  challenge
+
+## A Simple Process
+
+Create a Nextflow script `simple_process.nf` that has one process `COUNT_BASES` that runs the command.
+```bash
+zgrep -v '^>' ${projectDir}/data/yeast/transcriptome/Saccharomyces_cerevisiae.R64-1-1.cdna.all.fa.gz|tr -d '\n'|wc -m
+```
+
+:::::::::::::::  solution
+
+## Solution
+```groovy
+nextflow.enable.dsl=2
+
+process COUNT_BASES {
+   
+script:
+"""
+zgrep -v '^>' ${projectDir}/data/yeast/transcriptome/Saccharomyces_cerevisiae.R64-1-1.cdna.all.fa.gz|tr -d '\n'|wc -m
+"""
+}
+
+workflow {
+COUNT_BASES()
+}
+~~~
+```
+
+
+ **Note** We need to add the Nextflow run option `-process.echo` to print the output to the terminal.
+```bash
+$ nextflow run simple_process.nf -process.echo
+```
+
+```output
+N E X T F L O W  ~  version 21.04.0
+Launching `simple_process.nf`` [prickly_gilbert] - revision: 471a79c65c
+executor >  local (1)
+[56/5e6001] process > COUNT_BASES [100%] 1 of 1 ✔
+8772368
+```
+
+:::::::::::::::::::::::::
+
+::::::::::::::::::::::::::::::::::::::::::::::::::
 
 
 ### Definition blocks
@@ -161,7 +174,7 @@ The previous example was a simple `process` with no defined inputs and outputs t
 
 The syntax is defined as follows:
 
-~~~
+```groovy
 process < NAME > {
   [ directives ]        
   input:                
@@ -173,8 +186,7 @@ process < NAME > {
   [script|shell|exec]:  
   < user script to be executed >
 }
-~~~
-{: .language-groovy }
+```
 
 
 ## Script
@@ -187,7 +199,7 @@ A process contains only one `script` block, and it must be the last statement wh
 
 The `script` block can be a simple one line string in quotes e.g.
 
-~~~
+```groovy
 nextflow.enable.dsl=2
 
 process NUMSEQ {
@@ -199,13 +211,13 @@ workflow {
   NUMSEQ()
 }
 ~~~
-{: .language-groovy }
+```
 
 Or, for commands that span multiple lines you can encase the command in  triple quotes `"""`.
 
 For example:
 
-~~~
+```groovy
 //process_multi_line.nf
 nextflow.enable.dsl=2
 
@@ -220,26 +232,23 @@ process NUMSEQ_CHR {
 workflow {
   NUMSEQ_CHR()
 }
-~~~
-{: .language-groovy }
+```
 
-~~~
+```bash
 $ nextflow run process_multi_line.nf -process.echo
-~~~
-{: .language-bash }
+```
 
-~~~
+```output
 N E X T F L O W  ~  version 21.10.6
 Launching `process_multi_line.nf` [focused_jang] - revision: e32caf0dcb
 executor >  local (1)
 [00/14ce67] process > CHR_COUNT (1) [100%] 1 of 1 ✔
 Number of sequences for chromosome A:118
-~~~
-{: .output }
+```
 
 By default the process command is interpreted as a **Bash** script. However, any other scripting language can be used just simply starting the script with the corresponding [Shebang](https://en.wikipedia.org/wiki/Shebang_(Unix)) declaration. For example:
 
-~~~
+```groovy
 //process_python.nf
 nextflow.enable.dsl=2
 
@@ -268,10 +277,9 @@ process PYSTUFF {
 workflow {
   PYSTUFF()
 }
-~~~
-{: .language-groovy }
+```
 
-~~~
+```groovy
 //process_rscript.nf
 nextflow.enable.dsl=2
 
@@ -287,12 +295,11 @@ process RSTUFF {
 workflow {
   RSTUFF()
 }
-~~~
-{: .language-groovy }
+```
 
 This allows the use of a different programming languages which may better fit a particular job. However, for large chunks of code it is suggested to save them into separate files and invoke them from the process script.
 
-~~~
+```groovy
 nextflow.enable.dsl=2
 
 process PYSTUFF {
@@ -306,12 +313,15 @@ process PYSTUFF {
 workflow {
   PYSTUFF()
 }
-~~~
-{: .language-groovy }
+```
 
-> ## Associated scripts
-> Scripts such as the one in the example above, `myscript.py`, can be stored in a `bin` folder at the same directory level as the Nextflow workflow script that invokes them, and given execute permission. Nextflow will automatically add this folder to the `PATH` environment variable. To invoke the script in a Nextflow process, simply use its filename on its own rather than invoking the interpreter e.g. `myscript.py` instead of `python myscript.py`.
-{: .callout }
+:::::::::::::::::::::::::::::::::::::::::  callout
+
+## Associated scripts
+
+Scripts such as the one in the example above, `myscript.py`, can be stored in a `bin` folder at the same directory level as the Nextflow workflow script that invokes them, and given execute permission. Nextflow will automatically add this folder to the `PATH` environment variable. To invoke the script in a Nextflow process, simply use its filename on its own rather than invoking the interpreter e.g. `myscript.py` instead of `python myscript.py`.
+
+::::::::::::::::::::::::::::::::::::::::::::::::::
 
 
 ### Script parameters
@@ -319,15 +329,19 @@ workflow {
 The command in the `script` block can be defined dynamically using Nextflow variables e.g. `${projectDir}`.
 To reference a variable in the script block you can use the `$` in front of the Nextflow variable name, and additionally you can add `{}` around the variable name e.g. `${projectDir}`.
 
-> ##  Variable substitutions
-> Similar to bash scripting Nextflow uses the "$" character to introduce variable substitutions. The variable name to be expanded may be enclosed in braces `{variable_name}`, which are optional but serve to protect the variable to be expanded from characters immediately following it which could be interpreted as part of the name. It is a good rule of thumb to always use the `{}` syntax.
-{: .callout }
+:::::::::::::::::::::::::::::::::::::::::  callout
+
+##  Variable substitutions
+
+Similar to bash scripting Nextflow uses the "$" character to introduce variable substitutions. The variable name to be expanded may be enclosed in braces `{variable_name}`, which are optional but serve to protect the variable to be expanded from characters immediately following it which could be interpreted as part of the name. It is a good rule of thumb to always use the `{}` syntax.
+
+::::::::::::::::::::::::::::::::::::::::::::::::::
 
 In the example below the variable `chr` is set to the value A at the top of the Nextflow script.
 The variable is referenced using the `$chr` syntax within the multi-line string statement in the `script` block.
 A Nextflow variable can be used multiple times in the script block.
 
-~~~
+```groovy
 //process_script.nf
 nextflow.enable.dsl=2
 
@@ -345,13 +359,12 @@ process CHR_COUNT {
 workflow {
   CHR_COUNT()
 }
-~~~
-{: .language-groovy }
+```
 
 In most cases we do not want to hard code parameter values. We saw in the parameter episode the use of a special Nextflow variable `params` that can be used to assign values from the command line. You would do this by adding a key name to the params variable and specifying a value, like `params.keyname = value`
 
 In the example below we define the variable `params.chr` with a default value of `A` in the Nextflow script.
-~~~
+```groovy
 //process_script_params.nf
 nextflow.enable.dsl=2
 
@@ -369,82 +382,85 @@ process CHR_COUNT {
 workflow {
   CHR_COUNT()
 }
-~~~
-{: .language-groovy }
+```
 
 Remember, we can change the default value of `chr` to a different value such as `B`, by running the Nextflow script using the command below. **Note:** parameters to the workflow have two hyphens `--`.
 
-~~~
+```bash
 nextflow run process_script_params.nf --chr B
-~~~
-{: .language-bash }
+```
+
+:::::::::::::::::::::::::::::::::::::::  challenge
+
+## Script parameters
+
+For the Nextflow script below.
+```groovy
+//process_exercise_script_params.nf
+nextflow.enable.dsl=2
+
+process COUNT_BASES {
+
+script:
+"""
+zgrep -v  '^>'   ${projectDir}/data/yeast/transcriptome/Saccharomyces_cerevisiae.R64-1-1.cdna.all.fa.gz|grep -o A|wc -l   
+"""
+}
+
+workflow {
+   COUNT_BASES()
+ }
+ ~~~
+```
+
+ Add a parameter params.base to the script and uses the variable ${param.base} insides the script.
+ Run the pipeline using a base value of `C` using the `--base` command line option.
+
+```bash
+$ nextflow run process_script_params.nf --base <some value> -process.echo
+```
+
+**Note:** The Nextflow option `-process.echo` will print the process' stdout to the terminal.
 
 
-> ## Script parameters
->
-> For the Nextflow script below.
-> ~~~
-> //process_exercise_script_params.nf
-> nextflow.enable.dsl=2
->
-> process COUNT_BASES {
->
->  script:
->  """
->  zgrep -v  '^>'   ${projectDir}/data/yeast/transcriptome/Saccharomyces_cerevisiae.R64-1-1.cdna.all.fa.gz|grep -o A|wc -l   
->  """
-> }
->
-> workflow {
->   COUNT_BASES()
-> }
-> ~~~
-> {: .language-groovy}
->
-> Add a parameter params.base to the script and uses the variable ${param.base} insides the script.
-> Run the pipeline using a base value of `C` using the `--base` command line option.
->
-> ~~~
-> $ nextflow run process_script_params.nf --base <some value> -process.echo
-> ~~~
-> {: .language-bash}
-> **Note:** The Nextflow option `-process.echo` will print the process' stdout to the terminal.
->
-> > ## Solution
-> > ~~~
-> > //process_exercise_script_params.nf
-> > nextflow.enable.dsl=2
-> >
-> > params.base='A'
-> >
-> > process COUNT_BASES {
-> >  
-> > script:
-> >  """
-> >  zgrep -v  '^>'   ${projectDir}/data/yeast/transcriptome/Saccharomyces_cerevisiae.R64-1-1.cdna.all.fa.gz|grep -o ${params.base}|wc -l   
-> >  """
-> > }
-> >
-> > workflow {
-> >   COUNT_BASES()
-> > }
-> > ~~~
-> > {: .language-groovy}
-> > ~~~
-> > nextflow run process_script_params.nf --base C -process.echo
-> > ~~~
-> > {: .language-bash }
-> ~~~
-> > N E X T F L O W  ~  version 21.04.0
-> > Launching `process_script_params.nf ` [nostalgic_jones] - revision: 9feb8de4fe
-> > executor >  local (1)
-> > [92/cdc9de] process > COUNT_BASES [100%] 1 of 1 ✔
-> >  1677188
-> > ~~~
-> > {: .output}
-> {: .solution}
-{: .challenge}
+:::::::::::::::  solution
 
+
+## Solution
+```groovy
+ //process_exercise_script_params.nf
+ nextflow.enable.dsl=2
+
+ params.base='A'
+
+ process COUNT_BASES {
+  
+ script:
+  """
+  zgrep -v  '^>'   ${projectDir}/data/yeast/transcriptome/Saccharomyces_cerevisiae.R64-1-1.cdna.all.fa.gz|grep -o ${params.base}|wc -l   
+  """
+ }
+
+ workflow {
+   COUNT_BASES()
+ }
+```
+
+```bash
+$ nextflow run process_script_params.nf --base C -process.echo
+```
+
+```output
+  N E X T F L O W  ~  version 21.04.0
+  Launching `process_script_params.nf ` [nostalgic_jones] - revision: 9feb8de4fe
+  executor >  local (1)
+  [92/cdc9de] process > COUNT_BASES [100%] 1 of 1 ✔
+  1677188
+```
+
+:::::::::::::::::::::::::
+
+::::::::::::::::::::::::::::::::::::::::::::::::::
 
 ### Bash variables
 
@@ -454,7 +470,7 @@ However, Bash variables need to be escaped using `\` character in front of `\$va
 In the example below we will set a bash variable `NUMIDS` then echo the value of `NUMIDS` in our script block.
 
 
-~~~
+```groovy
 nextflow.enable.dsl=2
 
 process NUM_IDS {
@@ -474,8 +490,7 @@ params.transcriptome = "${projectDir}/data/yeast/transcriptome/Saccharomyces_cer
 workflow {
   NUM_IDS()
 }
-~~~
-{: .language-groovy }
+```
 
 ### Shell
 
@@ -486,7 +501,7 @@ However, the `shell` statement uses a different syntax for Nextflow variable sub
 For example in the script below that uses the `shell` statement
 we reference the Nextflow variables as `!{projectDir}` , and the Bash variable as `${NUMCHAR}` and `${NUMLINES}`.
 
-```
+```groovy
 //process_shell.nf
 nextflow.enable.dsl=2
 
@@ -509,7 +524,6 @@ workflow {
   NUM_IDS()
 }
 ```
-{: .language-groovy }
 
 
 ### Conditional script execution
@@ -520,7 +534,7 @@ Sometimes you want to change how a process is run depending on some condition. I
 
 The `if` statement uses the same syntax common to other programming languages such Java, C, JavaScript, etc.
 
-~~~
+```groovy
 if( < boolean expression > ) {
     // true branch
 }
@@ -530,13 +544,12 @@ else if ( < boolean expression > ) {
 else {
     // false branch
 }
-~~~
-{: .language-groovy }
+```
 
 
 For example, the Nextflow script below will use the `if` statement to change what the COUNT process counts  depending on the Nextflow variable `params.method`.
 
-~~~
+```groovy
 //process_conditional.nf
 nextflow.enable.dsl=2
 
@@ -568,22 +581,19 @@ process COUNT {
 workflow {
   COUNT()
 }
-~~~
-{: .language-groovy }
+```
 
-~~~
-nextflow run process_conditional.nf -process.echo --method ids
-~~~
-{: .language-bash }
+```bash
+$ nextflow run process_conditional.nf -process.echo --method ids
+```
 
-~~~
+```output
 N E X T F L O W  ~  version 21.04.0
 Launching `juggle_processes.nf` [cheeky_shirley] - revision: 588f20ae5a
 [01/60b08d] process > COUNT [100%] 1 of 1 ✔
 Number of sequences in transciptome
 6612
-~~~
-{: .output}
+```
 
 ## Inputs
 
@@ -599,29 +609,29 @@ You can only define one input block at a time and it must contain one or more in
 
 The input block follows the syntax shown below:
 
-~~~
+```groovy
 input:
   <input qualifier> <input name>
-~~~
-{: .language-groovy }
+```
 
 The input qualifier declares the type of data to be received.
 
-> ## Input qualifiers
-> * `val`: Lets you access the received input value by its name as a variable in the process script.
-> * `env`: Lets you use the input value to set an environment variable named as the specified input name.
-> * `path`: Lets you handle the received value as a file, staging the file properly in the execution context.
-> * `stdin`: Lets you forward the received value to the process stdin special file.
-> * `tuple`: Lets you handle a group of input values having one of the above qualifiers.
-> * `each`: Lets you execute the process for each entry in the input collection.
-> A complete list of inputs can be found [here](https://www.nextflow.io/docs/latest/process.html#inputs).
-{: .callout}
+:::::::::::::::::::::::::::::::::::::::::  callout
+## Input qualifiers
+* `val`: Lets you access the received input value by its name as a variable in the process script.
+* `env`: Lets you use the input value to set an environment variable named as the specified input name.
+* `path`: Lets you handle the received value as a file, staging the file properly in the execution context.
+* `stdin`: Lets you forward the received value to the process stdin special file.
+* `tuple`: Lets you handle a group of input values having one of the above qualifiers.
+* `each`: Lets you execute the process for each entry in the input collection.
+A complete list of inputs can be found [here](https://www.nextflow.io/docs/latest/process.html#inputs).
+::::::::::::::::::::::::::::::::::::::::::::::::::
 
 ### Input values
 
 The `val` qualifier allows you to receive value data as input. It can be accessed in the process script by using the specified input name, as shown in the following example:
 
-~~~
+```groovy
 //process_input_value.nf
 nextflow.enable.dsl=2
 
@@ -642,15 +652,13 @@ workflow {
 
   PRINTCHR(chr_ch)
 }
-~~~
-{: .language-groovy }
+```
 
-~~~
+```bash
 $ nextflow run process_input_value.nf -process.echo
-~~~
-{: .language-bash }
+```
 
-~~~
+```output
 N E X T F L O W  ~  version 21.04.0
 Launching `process_input_value.nf` [wise_kalman] - revision: 7f90e1bfc5
 executor >  local (24)
@@ -659,14 +667,18 @@ processing chromosome C
 processing chromosome L
 processing chromosome A
 ..truncated...
-~~~
-{: .output}
+```
 
 In the above example the process is executed 16 times; each time a value is received from the queue channel `chr_ch` it is used to run the process.
 
-> ## Channel order
-> The channel guarantees that items are delivered in the same order as they have been sent, but since the process is executed in a parallel manner, there is no guarantee that they are processed in the same order as they are received.
-{: .callout}
+:::::::::::::::::::::::::::::::::::::::::  callout
+
+## Channel order
+
+The channel guarantees that items are delivered in the same order as they have been sent, but since the process is executed in a parallel manner, there is no guarantee that they are processed in the same order as they are received.
+
+::::::::::::::::::::::::::::::::::::::::::::::::::
+
 
 ### Input files
 
@@ -676,7 +688,7 @@ The input file name can be defined dynamically by defining the input name as a N
 
 For example, in the script below, we assign the variable name `read` to the input files using the `path` qualifier. The file is referenced using the variable substitution syntax `${read}` in the script block:
 
-~~~
+```groovy
 //process_input_file.nf
 nextflow.enable.dsl=2
 
@@ -697,15 +709,13 @@ workflow {
   NUMLINES(reads_ch)
 }
 
-~~~
-{: .language-groovy }
+```
 
-~~~
+```bash
 $ nextflow run process_input_file.nf -process.echo
-~~~
-{: .language-bash }
+```
 
-~~~
+```output
 [cd/77af6d] process > NUMLINES (1) [100%] 6 of 6 ✔
 ref1_1.fq.gz 58708
 
@@ -718,13 +728,12 @@ ref2_1.fq.gz 81720
 ref3_1.fq.gz 52592
 
 ref1_2.fq.gz 58708
-~~~
-{: .output }
+```
 
 The input name can also be defined as a user-specified filename inside quotes.
 For example, in the script below, the name of the file is specified as `'sample.fq.gz'` in the input definition and can be referenced by that name in the script block.
 
-~~~
+```groovy
 //process_input_file_02.nf
 nextflow.enable.dsl=2
 
@@ -745,15 +754,13 @@ workflow {
   NUMLINES(reads_ch)
 }
 
-~~~
-{: .language-groovy }
+```
 
-~~~
+```bash
 $ nextflow run process_input_file_02.nf -process.echo
-~~~
-{: .language-bash }
+```
 
-~~~
+```output
 [d2/eb0e9d] process > NUMLINES (1) [100%] 6 of 6 ✔
 sample.fq.gz 58708
 
@@ -766,82 +773,86 @@ sample.fq.gz 81720
 sample.fq.gz 52592
 
 sample.fq.gz 58708
-~~~
-{: .output }
+```
+
+:::::::::::::::::::::::::::::::::::::::::  callout
+## File Objects as inputs
+When a process declares an input file, the corresponding channel elements must be file objects, i.e. created with the path helper function from the file specific channel factories, e.g. `Channel.fromPath` or `Channel.fromFilePairs`.
+
+::::::::::::::::::::::::::::::::::::::::::::::::::
 
 
-> ## File Objects as inputs
-> When a process declares an input file, the corresponding channel elements must be file objects, i.e. created with the path helper function from the file specific channel factories, e.g. `Channel.fromPath` or `Channel.fromFilePairs`.
-{: .callout}
+:::::::::::::::::::::::::::::::::::::::  challenge
+## Add input channel
+For the script `process_exercise_input.nf`:
+1. Define a Channel using `fromPath` for the transcriptome `params.transcriptome`.  
+2. Add an input channel that takes the transcriptome channel as a file input.
+3. Replace `params.transcriptome` in the `script:` block with the input variable you defined in the `input:` definition.
+
+```groovy
+//process_exercise_input.nf
+nextflow.enable.dsl=2
+
+params.chr = "A"
+params.transcriptome = "${projectDir}/data/yeast/transcriptome/Saccharomyces_cerevisiae.R64-1-1.cdna.all.fa.gz"
+process CHR_COUNT {
+
+script:
+"""
+printf  'Number of sequences for chromosome '${params.chr}':'
+zgrep  -c '^>Y'${params.chr} ${params.transcriptome}
+"""
+}
+
+workflow {
+CHR_COUNT()
+}
+```
+
+Then run your script using
+
+```bash
+nextflow run process_exercise_input.nf -process.echo
+```
+:::::::::::::::  solution
+
+ ## Solution
+```groovy
+ nextflow.enable.dsl=2
+
+ params.chr = "A"
+ params.transcriptome = "${projectDir}/data/yeast/transcriptome/Saccharomyces_cerevisiae.R64-1-1.cdna.all.fa.gz"
+
+ process CHR_COUNT {
+  input:
+  path transcriptome
+
+  script:
+  """
+  printf  'Number of sequences for chromosome '${params.chr}':'
+  zgrep  -c '^>Y'${params.chr} ${transcriptome}
+  """
+ }
+
+ transcriptome_ch = channel.fromPath(params.transcriptome)
+
+ workflow {
+  CHR_COUNT(transcriptome_ch)
+ }
+```
+
+```output
+N E X T F L O W  ~  version 21.10.6
+Launching `process_exercise_input.nf` [focused_jang] - revision: e32caf0dcb
+executor >  local (1)
+[00/14ce67] process > CHR_COUNT (1) [100%] 1 of 1 ✔
+Number of sequences for chromosome A:118
+```
 
 
-> ## Add input channel
-> For the script `process_exercise_input.nf`:
-> 1. Define a Channel using `fromPath` for the transcriptome `params.transcriptome`.  
-> 1. Add an input channel that takes the transcriptome channel as a file input.
-> 1. Replace `params.transcriptome` in the `script:` block with the input variable you defined in the `input:` definition.
->
-> ~~~
-> //process_exercise_input.nf
-> nextflow.enable.dsl=2
->
-> params.chr = "A"
-> params.transcriptome = "${projectDir}/data/yeast/transcriptome/Saccharomyces_cerevisiae.R64-1-1.cdna.all.fa.gz"
-> process CHR_COUNT {
->
->  script:
->  """
->  printf  'Number of sequences for chromosome '${params.chr}':'
->  zgrep  -c '^>Y'${params.chr} ${params.transcriptome}
->  """
-> }
->
-> workflow {
->  CHR_COUNT()
-> }
-> ~~~
-> {: .language-groovy }
-> Then run your script using
-> ~~~
-> nextflow run process_exercise_input.nf -process.echo
-> ~~~
-> {: .language-bash }
-> > ## Solution
-> > ~~~
-> > nextflow.enable.dsl=2
-> >
-> > params.chr = "A"
-> > params.transcriptome = "${projectDir}/data/yeast/transcriptome/Saccharomyces_cerevisiae.R64-1-1.cdna.all.fa.gz"> >
-> >
-> > process CHR_COUNT {
-> >  input:
-> >  path transcriptome
-> >
-> >  script:
-> >  """
-> >  printf  'Number of sequences for chromosome '${params.chr}':'
-> >  zgrep  -c '^>Y'${params.chr} ${transcriptome}
-> >  """
-> > }
-> >
-> > transcriptome_ch = channel.fromPath(params.transcriptome)
-> >
-> > workflow {
-> >  CHR_COUNT(transcriptome_ch)
-> > }
-> > ~~~
-> > {: .language-groovy }
-> > ~~~
-> >
-> > N E X T F L O W  ~  version 21.10.6
-> > Launching `process_exercise_input.nf` [focused_jang] - revision: e32caf0dcb
-> > executor >  local (1)
-> > [00/14ce67] process > CHR_COUNT (1) [100%] 1 of 1 ✔
-> > Number of sequences for chromosome A:118
-> >  ~~~
-> > {: .output}
-> {: .solution}
-{: .challenge}
+:::::::::::::::::::::::::
+
+::::::::::::::::::::::::::::::::::::::::::::::::::
 
 ### Combining input channels
 
@@ -850,7 +861,7 @@ However, it’s important to understand how the number of items within the multi
 
 Consider the following example:
 
-~~~
+```groovy
 //process_combine.nf
 nextflow.enable.dsl=2
 
@@ -871,24 +882,21 @@ letters_ch = Channel.of('a', 'b', 'c')
 workflow {
   COMBINE(num_ch, letters_ch)
 }
-~~~
-{: .language-groovy }
+```
 
-~~~
+```bash
 $ nextflow run process_combine.nf -process.echo
-~~~
-{: .language-bash }
+```
 
 Both channels contain three elements, therefore the process is executed three times, each time with a different pair:
 
-~~~
+```output
 2 and b
 
 1 and a
 
 3 and c
-~~~
-{: .output}
+```
 
 What is happening is that the process waits until it receives an input value from all the queue channels declared as input.
 
@@ -898,7 +906,7 @@ What happens when not all channels have the same number of elements?
 
 For example:
 
-~~~
+```groovy
 //process_combine_02.nf
 nextflow.enable.dsl=2
 
@@ -919,22 +927,19 @@ ch_letters = Channel.of('a', 'b', 'c', 'd')
 workflow {
   COMBINE(ch_num, ch_letters)
 }
-~~~
-{: .language-groovy }
+```
 
-~~~
+```bash
 $ nextflow run process_combine_02.nf -process.echo
-~~~
-{: .language-bash }
+```
 
 In the above example the process is executed only two times, because when a queue channel has no more data to be processed it stops the process execution.
 
-~~~
+```output
 2 and b
 
 1 and a
-~~~
-{: .output}
+```
 
 ### Value channels and process termination
 
@@ -942,7 +947,7 @@ In the above example the process is executed only two times, because when a queu
 
 To better understand this behaviour compare the previous example with the following one:
 
-~~~
+```groovy
 //process_combine_03.nf
 nextflow.enable.dsl=2
 
@@ -962,65 +967,66 @@ ch_letters = Channel.of('a', 'b', 'c')
 workflow {
   COMBINE(ch_num, ch_letters)
 }
-~~~
-{: .language-groovy }
+```
 
-~~~
+```bash
 $ nextflow run process_combine_03.nf -process.echo
-~~~
-{: .language-bash }
+```
 
 In this example the process is run three times.
 
-~~~
+```output
 1 and b
 1 and a
 1 and c
-~~~
-{: .output}
+```
 
+:::::::::::::::::::::::::::::::::::::::  challenge
 
-> ##  Combining input channels
-> Write a nextflow script `process_exercise_combine.nf` that combines two input channels
-> ~~~
-> transcriptome_ch = channel.fromPath('data/yeast/transcriptome/Saccharomyces_cerevisiae.R64-1-1.cdna.all.fa.gz')
-> chr_ch = channel.of('A')
-> ~~~
-> {: .language-groovy }
+##  Combining input channels
+ Write a nextflow script `process_exercise_combine.nf` that combines two input channels
+ 
+```groovy
+ transcriptome_ch = channel.fromPath('data/yeast/transcriptome/Saccharomyces_cerevisiae.R64-1-1.cdna.all.fa.gz')
+ chr_ch = channel.of('A')
+```
+
 And include the command below in the script directive
->
-> ~~~~
+
+```groovy
   script:
   """
   zgrep -c ">Y${chr}" ${transcriptome}
   """
-> ~~~~
-> {: .language-groovy }
-> > ## Solution
-> > ~~~
-> > // process_exercise_combine_answer.nf
-> > nextflow.enable.dsl=2
-> > process COMBINE {
-> >  input:
-> >  path transcriptome
-> >  val chr
-> >
-> >  script:
-> >  """
-> >  zgrep -c ">Y${chr}" ${transcriptome}
-> >  """
-> > }
-> >
-> > transcriptome_ch = channel.fromPath('data/yeast/transcriptome/Saccharomyces_cerevisiae.R64-1-1.cdna.all.fa.gz', checkIfExists: true)
-> > chr_ch = channel.of("A")
-> >
-> > workflow {
-> >   COMBINE(transcriptome_ch, chr_ch)
-> > }
-> > ~~~
-> > {: .language-groovy }
-> {: .solution}
-{: .challenge}
+```
+:::::::::::::::  solution
+
+ ## Solution
+```groovy
+ // process_exercise_combine_answer.nf
+ nextflow.enable.dsl=2
+ process COMBINE {
+  input:
+  path transcriptome
+  val chr
+
+  script:
+  """
+  zgrep -c ">Y${chr}" ${transcriptome}
+  """
+ }
+
+ transcriptome_ch = channel.fromPath('data/yeast/transcriptome/Saccharomyces_cerevisiae.R64-1-1.cdna.all.fa.gz', checkIfExists: true)
+ chr_ch = channel.of("A")
+
+ workflow {
+   COMBINE(transcriptome_ch, chr_ch)
+ }
+```
+
+:::::::::::::::::::::::::
+
+::::::::::::::::::::::::::::::::::::::::::::::::::
 
 # Input repeaters
 
@@ -1028,7 +1034,7 @@ We saw previously that by default the number of times a process runs is defined 
 
 For example if we can fix the previous example by using the input qualifer `each` for the letters queue channel:
 
-~~~
+```groovy
 //process_repeat.nf
 nextflow.enable.dsl=2
 
@@ -1049,17 +1055,15 @@ ch_letters = Channel.of('a', 'b', 'c', 'd')
 workflow {
   COMBINE(ch_num, ch_letters)
 }
-~~~
-{: .language-groovy }
+```
 
-~~~
+```bash
 $ nextflow run process_repeat.nf -process.echo
-~~~
-{: .language-bash }
+```
 
 The process will run eight times.
 
-~~~
+```output
 2 and d
 1 and a
 1 and c
@@ -1068,8 +1072,12 @@ The process will run eight times.
 1 and d
 1 and b
 2 and a
-~~~
-{: .output}
+```
+
+:::::::::::::::::::::::::::::::::::::::  challenge
+
+
+
 
 > ## Input repeaters
 > Extend the script `process_exercise_repeat.nf` by adding more values to the `chr` queue channel e.g. A to P and running the process for each value.
@@ -1098,40 +1106,50 @@ The process will run eight times.
 >  {: .language-groovy }
 >
 > How many times does this process run?
->
-> > ## Solution
-> > ~~~
-> > //process_exercise_repeat_answer.nf
-> > nextflow.enable.dsl=2
-> >
-> > process COMBINE {
-> >   input:
-> >   path transcriptome
-> >   each chr
-> >  
-> >   script:
-> >   """
-> >   printf "Number of sequences for chromosome $chr: "
-> >   zgrep -c "^>Y${chr}" ${transcriptome}
-> >   """
-> > }
-> >
-> > transcriptome_ch = channel.fromPath('data/yeast/transcriptome/Saccharomyces_cerevisiae.R64-1-1.cdna.all.fa.gz', checkIfExists: true)
-> > chr_ch = channel.of('A'..'P')
-> >
-> > workflow {
-> >   COMBINE(transcriptome_ch, chr_ch)
-> > }
-> > ~~~
-> > {: .language-groovy }
-> > ~~~
-> > nextflow run process_exercise_repeat.nf -process.echo
-> > ~~~
-> > {: .language-bash }
-> > This process runs 16 times.
-> {: .solution}
-{: .challenge}
 
+:::::::::::::::  solution
 
-{: .output }
-{% include links.md %}
+## Solution
+```groovy
+ //process_exercise_repeat_answer.nf
+ nextflow.enable.dsl=2
+
+ process COMBINE {
+   input:
+   path transcriptome
+   each chr
+  
+   script:
+   """
+   printf "Number of sequences for chromosome $chr: "
+   zgrep -c "^>Y${chr}" ${transcriptome}
+   """
+ }
+
+ transcriptome_ch = channel.fromPath('data/yeast/transcriptome/Saccharomyces_cerevisiae.R64-1-1.cdna.all.fa.gz', checkIfExists: true)
+ chr_ch = channel.of('A'..'P')
+
+ workflow {
+   COMBINE(transcriptome_ch, chr_ch)
+ }
+```
+
+```bash
+$ nextflow run process_exercise_repeat.nf -process.echo
+```
+
+ This process runs 16 times.
+
+:::::::::::::::::::::::::
+
+::::::::::::::::::::::::::::::::::::::::::::::::::
+
+:::::::::::::::::::::::::::::::::::::::: keypoints
+
+- "A Nextflow process is an independent step in a workflow"
+- "Processes contain up to five definition blocks including: directives, inputs, outputs, when clause and finally a script block."
+- "The script block contains the commands you would like to run."
+- "A process should have a script but the other four blocks are optional"
+- "Inputs are defined in the input block with a type qualifier and a name."
+
+::::::::::::::::::::::::::::::::::::::::::::::::::
