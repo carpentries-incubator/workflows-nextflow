@@ -14,7 +14,7 @@ carpentry: 'incubator'
 title: 'Introduction to Bioinformatics workflows with Nextflow and nf-core'
 
 # Date the lesson was created (YYYY-MM-DD, this is empty by default)
-created: 
+created: 2021-02-01
 
 # Comma-separated list of keywords for the lesson
 keywords: 'software, data, lesson, The Carpentries'
@@ -91,7 +91,3 @@ profiles:
 # sandpaper and varnish versions) should live
 
 
-url: https://preview.carpentries.org/workflows-nextflow
-analytics: carpentries
-lang: en
-workbench-beta: yes
