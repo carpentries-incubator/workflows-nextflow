@@ -1,28 +1,24 @@
 ---
-title: "Nextflow coding practices"
+title: Nextflow coding practices
 teaching: 30
 exercises: 15
-questions:
-- "How do I make my code readable?"
-- "How do I make my code portable?"
-- "How do I make my code maintainable?"
-objectives:
-- "Learn how to use whitespace and comments to improve code readability."
-- "Understand coding pitfalls that reduce portability."
-- "Understand coding pitfalls that reduce maintainability."
-keypoints:
-- "Nextflow is not sensitive to whitespace. Use it to layout code for readability."
-- "Use comments and whitespace to group chunks of code to describe big picture functionality."
-- "Report tool versions in the scripts."
-- "Name channel outputs using the `emit:` keyword."
-- "Avoid `params.parameter` in a process. Pass all parameters using input channels."
-- "Input files should be passed using input channels."
-- "Group short running commands into a larger process."
-- "Include a test profile which runs the workflow on a small test data set."
-- "Write your processes to reuse existing containers/software bundles."
-- "Use compressed files and temporary disk space when possible."
-- "Use consistent naming conventions."
 ---
+
+::::::::::::::::::::::::::::::::::::::: objectives
+
+- Learn how to use whitespace and comments to improve code readability.
+- Understand coding pitfalls that reduce portability.
+- Understand coding pitfalls that reduce maintainability.
+
+::::::::::::::::::::::::::::::::::::::::::::::::::
+
+:::::::::::::::::::::::::::::::::::::::: questions
+
+- How do I make my code readable?
+- How do I make my code portable?
+- How do I make my code maintainable?
+
+::::::::::::::::::::::::::::::::::::::::::::::::::
 
 ## Nextflow coding practices
 
@@ -40,7 +36,7 @@ Nextflow is generally not sensitive to whitespace in code. This allows you
 to use indentation, vertical spacing, new-lines, and increased spacing to
 improve code readability.
 
-~~~
+```groovy
 #! /usr/bin/env nextflow
 
 // Tip: Allow spaces around assignments ( = )
@@ -89,94 +85,102 @@ process FOO {
     tofasta $fastq > $prefix.fasta
     """
 }
-~~~
-{: .language-groovy}
+```
 
-> ## Improve the workflow readability
-> Use whitespace to improve the readability of the following code.
-> ~~~
-> #! /usr/bin/env nextflow
->
-> nextflow.enable.dsl=2
-> params.reads = ''
-> workflow {
-> foo(Channel.fromPath(params.reads))
-> bar(foo.out)
-> }
-> process foo {
-> input:
-> path fastq
-> output:
-> path "*.fasta"
-> script:
-> prefix=fastq.baseName
-> """
-> tofasta $fastq > $prefix.fasta
-> """
-> }
-> process bar {
-> input:
-> path fasta
-> script:
-> """
-> fastx_check $fasta
-> """
-> }
-> ~~~
-> {: .language-groovy}
-> > ## Solution
-> > ~~~
-> > #! /usr/bin/env nextflow
-> >
-> > nextflow.enable.dsl = 2
-> >
-> > params.reads = ''
-> >
-> > workflow {
-> >     FOO ( Channel.fromPath( params.reads ) )
-> >     BAR ( FOO.out )
-> > }
-> >
-> > process FOO {
-> >
-> >     input:
-> >     path fastq
-> >
-> >     output:
-> >     path "*.fasta"
-> >
-> >     script:
-> >     prefix = fastq.baseName
-> >     """
-> >     tofasta $fastq > $prefix.fasta
-> >     """
-> > }
-> >
-> > process BAR {
-> >
-> >     input:
-> >     path fasta
-> >
-> >     script:
-> >     """
-> >     fastx_check $fasta
-> >     """
-> > }
-> > ~~~
-> > {: .language-groovy}
-> {: .solution}
-{: .challenge}
+:::::::::::::::::::::::::::::::::::::::  challenge
+
+## Improve the workflow readability
+
+Use whitespace to improve the readability of the following code.
+
+```groovy
+#! /usr/bin/env nextflow
+
+nextflow.enable.dsl=2
+params.reads = ''
+workflow {
+foo(Channel.fromPath(params.reads))
+bar(foo.out)
+}
+process foo {
+input:
+path fastq
+output:
+path "*.fasta"
+script:
+prefix=fastq.baseName
+"""
+tofasta $fastq > $prefix.fasta
+"""
+}
+process bar {
+input:
+path fasta
+script:
+"""
+fastx_check $fasta
+"""
+}
+```
+
+:::::::::::::::  solution
+
+## Solution
+
+```groovy
+#! /usr/bin/env nextflow
+
+nextflow.enable.dsl = 2
+
+params.reads = ''
+
+workflow {
+    FOO ( Channel.fromPath( params.reads ) )
+    BAR ( FOO.out )
+}
+
+process FOO {
+
+    input:
+    path fastq
+
+    output:
+    path "*.fasta"
+
+    script:
+    prefix = fastq.baseName
+    """
+    tofasta $fastq > $prefix.fasta
+    """
+}
+
+process BAR {
+
+    input:
+    path fasta
+
+    script:
+    """
+    fastx_check $fasta
+    """
+}
+```
+
+:::::::::::::::::::::::::
+
+::::::::::::::::::::::::::::::::::::::::::::::::::
 
 ### Use comments
 
 Comments are an important tool to improve readability and maintenance.
 Use them to:
+
 - Annotate data structures expected in a channel.
 - Describe higher level functionality.
 - Describe presence/absence of (un)expected code.
 - Mandatory and optional process inputs.
 
-~~~
+```groovy
 workflow ALIGN_SEQ {
 
     take:
@@ -216,8 +220,7 @@ process COUNT_KMERS {
 
     ...
 }
-~~~
-{: .language-groovy}
+```
 
 ### Report tool versions
 
@@ -228,7 +231,7 @@ in a package, when only a handful of tools are used. This means
 that it's up to us to effectively report the versions of the tools
 we use to aid reproducibility.
 
-~~~
+```groovy
 process HISAT2_ALIGN {
 
     ...
@@ -245,15 +248,14 @@ process HISAT2_ALIGN {
     END_VERSIONS
     """
 }
-~~~
-{: .language-groovy}
+```
 
 ### Name output channels
 
 Output channels from processes and workflows can be named
 using the `emit:` keyword, which helps readability.
 
-~~~
+```groovy
 workflow ALIGN_HISAT2 {
 
     ...
@@ -274,8 +276,7 @@ process HISAT2_ALIGN {
 
     ...
 }
-~~~
-{: .language-groovy}
+```
 
 ### Use params.parameters in workflow blocks, not in process blocks
 
@@ -285,7 +286,7 @@ decision making options. For example, one could use a `params.aligner`
 variable in a workflow to select a particular alignment tool. This
 in turn could be coded like:
 
-~~~
+```groovy
 process ALIGN {
 
     input:
@@ -309,11 +310,11 @@ process ALIGN {
         """
     }
 }
-~~~
-{: .language-groovy}
+```
 
 A better practice is to use it as an input value.
-~~~
+
+```groovy
 process ALIGN {
 
     input:
@@ -338,8 +339,7 @@ process ALIGN {
         """
     }
 }
-~~~
-{: .language-groovy}
+```
 
 This allows one to see from the `workflow` block where all
 parameters are being used, making the workflow easier to maintain.
@@ -356,7 +356,7 @@ support this. The example below could work well on your
 system, but fail on another (for example compute nodes without
 internet connection).
 
-~~~
+```groovy
 process READ_CHECK {
 
     input:
@@ -372,19 +372,19 @@ process READ_CHECK {
     ...
     """
 }
-~~~
-{: .language-groovy}
+```
 
 A strength of Nextflow is file staging, i.e.,
 preparing files for use in process tasks.
 Staging files by providing them as process input has several benefits.
+
 - Files are updated only when necessary.
 - A single file/folder can be shared, without downloading multiple
-times as in the example above.
+  times as in the example above.
 - Nextflow supports retrieving files from any valid URL, meaning
-potentially fewer lines of code.
+  potentially fewer lines of code.
 
-~~~
+```groovy
 process READ_CHECK {
 
     input:
@@ -399,14 +399,13 @@ process READ_CHECK {
     ...
     """
 }
-~~~
-{: .language-groovy}
+```
 
 If may be that a file is an optional input depending on other parameters.
 In cases when no file should be provided, one can pass an empty list `[]`
 instead.
 
-~~~
+```
 workflow {
 
     COUNT_KMERS ( reads, [] )
@@ -422,7 +421,7 @@ process COUNT_KMERS {
 
     ...
 }
-~~~
+```
 
 ### Avoid lots of short running processes
 
@@ -439,7 +438,7 @@ The short tasks themselves can also be parallelised
 inside a process script using the command-line tools
 `xargs` or `parallel`.
 
-~~~
+```groovy
 workflow REFINE_DATA {
 
     take:
@@ -464,8 +463,7 @@ process BATCH_TASK {
     # parallel --jobs $task.cpus "short_task {1}" :::: $data
     """
 }
-~~~
-{: .language-groovy}
+```
 
 ### Include a test profile
 
@@ -477,7 +475,7 @@ benefit is the possibility of automated testing of your
 workflow, ensuring the workflow keeps working as you add
 new functionality.
 
-~~~
+```groovy
 profiles {
     test {
         params {
@@ -486,8 +484,7 @@ profiles {
         }
     }
 }
-~~~
-{: .language-groovy}
+```
 
 ### Write modules that use existing containers
 
@@ -505,7 +502,7 @@ the bioconda channel. Multi-package containers (known
 as mulled containers) can also be created following the
 instructions on the [Multi Package Containers repository](https://github.com/BioContainers/multi-package-containers).
 
-~~~
+```
 process FASTQC {
 
     container "${ workflow.containerEngine == 'singularity' ?
@@ -514,7 +511,7 @@ process FASTQC {
 
     ...
 }
-~~~
+```
 
 Building your own container images should be used as a last resort.
 A preferred option is to write a conda recipe for the tool
@@ -533,7 +530,7 @@ process substitution (`>( command_list )`, or `<( command_list)`)
 can also help working with compressed data. Lastly,
 named pipes can also be used if the above approaches fail.
 
-~~~
+```groovy
 process COUNT_FASTA {
 
     input:
@@ -544,8 +541,7 @@ process COUNT_FASTA {
     zgrep -c '^>' $fasta
     """
 }
-~~~
-{: .language-groovy}
+```
 
 Another good practice is to use local temporary disk space (also
 known as scratch space). Often, the workDir is located on a
@@ -557,12 +553,11 @@ across for caching. The process directive `process.scratch`
 can be provided with either a boolean or the path to use
 for scratch space.
 
-~~~
+```groovy
 process {
     scratch = '/tmp'
 }
-~~~
-{: .language-groovy}
+```
 
 ### Use consistent naming conventions
 
@@ -572,4 +567,22 @@ distinguish them from other workflow components like
 channels or operators. Here are other suggestions one
 can follow from [Nf-core](https://nf-co.re/developers/adding_modules#naming-conventions).
 
-{% include links.md %}
+
+
+:::::::::::::::::::::::::::::::::::::::: keypoints
+
+- Nextflow is not sensitive to whitespace. Use it to layout code for readability.
+- Use comments and whitespace to group chunks of code to describe big picture functionality.
+- Report tool versions in the scripts.
+- Name channel outputs using the `emit:` keyword.
+- Avoid `params.parameter` in a process. Pass all parameters using input channels.
+- Input files should be passed using input channels.
+- Group short running commands into a larger process.
+- Include a test profile which runs the workflow on a small test data set.
+- Write your processes to reuse existing containers/software bundles.
+- Use compressed files and temporary disk space when possible.
+- Use consistent naming conventions.
+
+::::::::::::::::::::::::::::::::::::::::::::::::::
+
+

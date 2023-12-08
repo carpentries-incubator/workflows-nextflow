@@ -1,19 +1,23 @@
 ---
-title: "Sub-workflows"
+title: Sub-workflows
 teaching: 20
 exercises: 0
-questions:
-- "How do I reuse a workflow as part of a larger workflow?"
-- "How do I run only a part of a workflow?"
-objectives:
-- "Understand how to create a sub-workflow."
-- "Understand how to run part of a workflow."
-keypoints:
-- "Nextflow allows for definition of reusable sub-workflow libraries."
-- "Sub-workflow allows the definition of workflow processes that can be included from any other script and invoked as a custom function within the new workflow scope. This enables reuse of workflow components"
-- "The `entry` option of the nextflow `run` command specifies the workflow name to be executed"
-
 ---
+
+::::::::::::::::::::::::::::::::::::::: objectives
+
+- Understand how to create a sub-workflow.
+- Understand how to run part of a workflow.
+
+::::::::::::::::::::::::::::::::::::::::::::::::::
+
+:::::::::::::::::::::::::::::::::::::::: questions
+
+- How do I reuse a workflow as part of a larger workflow?
+- How do I run only a part of a workflow?
+
+::::::::::::::::::::::::::::::::::::::::::::::::::
+
 ## Sub-workflows
 
 We have seen previously the Nextflow DSL2 syntax allows for the definition of reusable processes (modules). Nextflow DSL2 also allow the definition reusable  sub-workflow libraries.
@@ -24,7 +28,7 @@ The `workflow` keyword allows the definition of workflow components that enclose
 
 For example,:
 
-~~~
+```groovy 
 nextflow.enable.dsl=2
 
 include {QUANT;INDEX} from './modules/module.nf'
@@ -34,12 +38,11 @@ workflow RNASEQ_QUANT_PIPE {
   transcriptome_ch = channel.fromPath('/data/yeast/transcriptome/*.fa.gz')
   QUANT(INDEX(transcriptome_ch),read_pairs_ch)
 }
-~~~
-{: .language-groovy }
+```
 
 The above snippet defines a workflow component, named `RNASEQ_QUANT_PIPE`, that can be invoked from another workflow component definition in the same way as any other function or `process` i.e. `RNASEQ_QUANT()`.
 
-~~~
+```groovy 
 nextflow.enable.dsl=2
 
 include {QUANT;INDEX} from './modules/module.nf'
@@ -57,12 +60,16 @@ workflow  {
   */
   RNASEQ_QUANT_PIPE()
 }
-~~~
-{: .language-groovy }
+```
 
-> ## Implicit workflow
-> A workflow definition which does not declare any name is assumed to be the main workflow, and it is implicitly executed. Therefore it’s the entry point of the workflow application.
-{: .callout }
+::::::::::::::::::::::::::::::::::::::::  callout
+
+## Implicit workflow
+
+A workflow definition which does not declare any name is assumed to be the main workflow, and it is implicitly executed. Therefore it's the entry point of the workflow application.
+
+
+::::::::::::::::::::::::::::::::::::::::::::::::::
 
 ### Workflow parameters
 
@@ -70,7 +77,7 @@ A workflow component can access any variable and parameter defined in the outer 
 
 For Example:
 
-~~~
+```groovy 
 nextflow.enable.dsl=2
 
 include {QUANT;INDEX} from './modules/module.nf'
@@ -83,8 +90,7 @@ workflow RNASEQ_QUANT_PIPE {
   transcriptome_ch = channel.fromPath(params.transcriptome)
   QUANT(INDEX(transcriptome_ch),read_pairs_ch)
 }
-~~~
-{: .language-groovy }
+```
 
 ### Workflow inputs
 
@@ -92,7 +98,7 @@ A workflow component can declare one or more input channels using the `take` key
 
 For example:
 
-~~~
+```groovy 
 nextflow.enable.dsl=2
 
 include {QUANT;INDEX} from './modules/module.nf'
@@ -109,17 +115,21 @@ workflow RNASEQ_QUANT_PIPE {
       INDEX(transcriptome_ch)
       QUANT(INDEX.out,read_pairs_ch)
 }
-~~~
-{: .language-groovy }
+```
 
-> ## Warning
-> When the `take` keyword is used, the beginning of the workflow body needs to be identified with the `main` keyword.
-> Then, the input can be specified as an argument in the workflow invocation statement:
-{: .callout}  
+:::::::::::::::::::::::::::::::::::::::::  callout
+
+## Warning
+
+When the `take` keyword is used, the beginning of the workflow body needs to be identified with the `main` keyword.
+Then, the input can be specified as an argument in the workflow invocation statement:
+
+
+::::::::::::::::::::::::::::::::::::::::::::::::::
 
 These input channels can then be passed to the workflow as parameters inside the `()`. Multiple parameters are separated by a comma `,` and must be specified in the order they appear under `take`:
 
-~~~
+```groovy 
 nextflow.enable.dsl=2
 
 include {QUANT;INDEX} from './modules/module.nf'
@@ -140,12 +150,16 @@ workflow RNASEQ_QUANT_PIPE {
 workflow {
     RNASEQ_QUANT_PIPE(transcriptome_ch,read_pairs_ch )
 }
-~~~
-{: .language-groovy }
+```
 
-> ## Note
-> Workflow inputs are by definition channel data structures. If a basic data type is provided instead, ie. number, string, list, etc. it’s implicitly converted to a channel value (ie. non-consumable).
-{: .callout}  
+:::::::::::::::::::::::::::::::::::::::::  callout
+
+## Note
+
+Workflow inputs are by definition channel data structures. If a basic data type is provided instead, ie. number, string, list, etc. it's implicitly converted to a channel value (ie. non-consumable).
+
+
+::::::::::::::::::::::::::::::::::::::::::::::::::
 
 ### Workflow outputs
 
@@ -153,7 +167,7 @@ A workflow component can declare one or more output channels using the `emit` ke
 
 For example:
 
-~~~
+```groovy 
 nextflow.enable.dsl=2
 
 include {QUANT;INDEX} from './modules/module.nf'
@@ -172,8 +186,7 @@ workflow RNASEQ_QUANT_PIPE {
       INDEX(transcriptome_ch)
       QUANT(INDEX.out,read_pairs_ch)
 }
-~~~
-{: .language-groovy }
+```
 
 The above script declares one output, `QUANT.out`.
 
@@ -181,17 +194,16 @@ The result of the `RNASEQ_QUANT_PIPE` execution can be accessed using the `out` 
 
 When there are multiple output channels declared, use the array bracket notation to access each output component as described for the Process outputs definition.
 
-~~~
+```groovy 
 RNASEQ_QUANT_PIPE.out[0]
 RNASEQ_QUANT_PIPE.out[1]
-~~~
- {: .language-groovy }
+```
 
-Alternatively, the output channel can be accessed using a name which it’s assigned to in the emit declaration:
+Alternatively, the output channel can be accessed using a name which it's assigned to in the emit declaration:
 
 For example:
 
-~~~
+```groovy 
 nextflow.enable.dsl=2
 
 workflow RNASEQ_QUANT_PIPE {
@@ -201,29 +213,29 @@ workflow RNASEQ_QUANT_PIPE {
    emit:
      read_quant = QUANT.out
 }
-~~~
-{: .language-groovy }
+```
 
 The output `QUANT.out` is assigned the name `read_quant`
 The the result of the above snippet can accessed using:
 
-~~~
+```groovy 
 RNASEQ_QUANT_PIPE.out.read_quant`.
-~~~
-{: .language-groovy }
+```
+
+:::::::::::::::::::::::::::::::::::::::::  callout
+
+## Note
+
+Implicit workflow definition is ignored when a script is included as module. This allows the writing a workflow script that can be used either as a library module and as application script.
 
 
-
-> ## Note
-> Implicit workflow definition is ignored when a script is included as module. This allows the writing a workflow script that can be used either as a library module and as application script.
-{: .callout}
-
+::::::::::::::::::::::::::::::::::::::::::::::::::
 
 ### Workflow composition
 
 As with `modules` workflows components can be defined within your script or imported by a `include` statment. After which thet can then be invoked and composed as any other `workflow component` or process in your script.
 
-~~~
+```groovy
 nextflow.enable.dsl=2
 
 // file modules/qc.nf
@@ -238,10 +250,9 @@ workflow READ_QC_PIPE {
     emit:
         FASTQC.out
 }
-~~~
-{: .language-groovy}
+```
 
-~~~
+```source
 nextflow.enable.dsl=2
 
 include { READ_QC_PIPE } from './modules/qc.nf'
@@ -270,12 +281,16 @@ workflow {
       READ_QC(read_pairs_ch,RNASEQ_QUANT.out)
       MULTIQC(RNASEQ_QUANT.out.mix(READ_QC).collect())
 }
-~~~
-{: .source}  
+```
 
-> ## Nested workflow execution
-> Nested workflow execution determines an implicit scope. Therefore the same process can be invoked in two different workflow scopes, like for example in the above snippet `INDEX` could be used either in `RNASEQ_QUANT` and `RNASEQ_QC`. The workflow execution path along with the process names defines the process fully qualified name that is used to distinguish the two different process invocations i.e. `RNASEQ_QUANT:INDEX` and `RNASEQ_QC:INDEX` in the above example.
-{: .callout}  
+:::::::::::::::::::::::::::::::::::::::::  callout
+
+## Nested workflow execution
+
+Nested workflow execution determines an implicit scope. Therefore the same process can be invoked in two different workflow scopes, like for example in the above snippet `INDEX` could be used either in `RNASEQ_QUANT` and `RNASEQ_QC`. The workflow execution path along with the process names defines the process fully qualified name that is used to distinguish the two different process invocations i.e. `RNASEQ_QUANT:INDEX` and `RNASEQ_QC:INDEX` in the above example.
+
+
+::::::::::::::::::::::::::::::::::::::::::::::::::
 
 ### Specific workflow entry points
 
@@ -283,11 +298,20 @@ By default, the unnamed workflow is assumed to be the main entry point for the s
 
 For example:
 
-~~~
+```bash
 $ nextflow run main.nf -entry RNASEQ_QUANT_PIPE
-~~~
-{: .language-bash}
+```
 
 The above command would run the `RNASEQ_QUANT_PIPE` sub-workflow.
 
-{% include links.md %}
+
+
+:::::::::::::::::::::::::::::::::::::::: keypoints
+
+- Nextflow allows for definition of reusable sub-workflow libraries.
+- Sub-workflow allows the definition of workflow processes that can be included from any other script and invoked as a custom function within the new workflow scope. This enables reuse of workflow components
+- The `entry` option of the nextflow `run` command specifies the workflow name to be executed
+
+::::::::::::::::::::::::::::::::::::::::::::::::::
+
+

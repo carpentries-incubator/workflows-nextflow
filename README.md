@@ -1,4 +1,3 @@
-
 This lesson is an introduction to the workflow manager Nextflow, and nf-core, a community effort to collect a curated set of analysis pipelines built using Nextflow.
 
 [Nextflow](https://www.nextflow.io/) enables scalable and reproducible scientific workflows using software containers such as Docker and Singularity. It allows the adaptation of pipelines written in the most common scripting languages such as R and Python. Nextflow is a Domain Specific Language (DSL) that simplifies the implementation and the deployment of complex parallel and reactive workflows on clouds and clusters.
@@ -18,16 +17,16 @@ how to write new episodes.
 
 Please see the current list of [issues][https://github.com/carpentries-incubator/workflows-nextflow/issues] for ideas for contributing to this
 repository. For making your contribution, we use the GitHub flow, which is
-nicely explained in the chapter [Contributing to a Project](http://git-scm.com/book/en/v2/GitHub-Contributing-to-a-Project) in Pro Git
+nicely explained in the chapter [Contributing to a Project](https://git-scm.com/book/en/v2/GitHub-Contributing-to-a-Project) in Pro Git
 by Scott Chacon.
-Look for the tag ![good_first_issue](https://img.shields.io/badge/-good%20first%20issue-gold.svg). This indicates that the maintainers will welcome a pull request fixing this issue.
+Look for the tag ![good\_first\_issue](https://img.shields.io/badge/-good%20first%20issue-gold.svg). This indicates that the maintainers will welcome a pull request fixing this issue.
 
 ## Maintainer(s)
 
 Current maintainers of this lesson are
 
-* Graeme R. Grimes
-* Mahesh Binzer-Panchal
+- Graeme R. Grimes
+- Mahesh Binzer-Panchal
 
 ## Authors
 
@@ -42,3 +41,5 @@ To cite this lesson, please consult with [CITATION](CITATION)
 - [Carpentries Development Handbook](https://cdh.carpentries.org)
 - [community-lessons](https://carpentries.org/community-lessons)
 - [lesson-example](https://carpentries.github.io/lesson-example)
+
+
