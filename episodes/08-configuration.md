@@ -163,22 +163,6 @@ belong to a configuration scope.
 
 :::::::::::::::::::::::::::::::::::::::::  callout
 
-## Configuring Nextflow vs Configuring a Nextflow workflow
-
-Parameters starting with a single dash `-` (e.g., `-c my_config.config`) are configuration
-options for `nextflow`, while parameters starting with a double
-dash `--` (e.g., `--outdir`) are workflow parameters defined in the `params` scope.
-
-The majority of Nextflow configuration settings must be provided
-on the command-line, however a handful of settings can also
-be provided within a configuration file, such as
-`workdir = '/path/to/work/dir'` (`-w /path/to/work/dir`) or
-`resume = true` (`-resume`), and do not
-belong to a configuration scope.
-
-
-::::::::::::::::::::::::::::::::::::::::::::::::::
-
 :::::::::::::::::::::::::::::::::::::::  challenge
 
 ## Determine script output
@@ -725,9 +709,9 @@ singularity.enabled = true
 
 The following protocols are supported:
 
-- \`docker://\`\`: download the container image from the Docker Hub and convert it to the Singularity format (default).
-- \`library://\`\`: download the container image from the Singularity Library service.
-- \`shub://\`\`: download the container image from the Singularity Hub.
+- `docker://`: download the container image from the Docker Hub and convert it to the Singularity format (default).
+- `library://`: download the container image from the Singularity Library service.
+- `shub://`: download the container image from the Singularity Hub.
 - `docker-daemon://`: pull the container image from a local Docker installation and convert it to a Singularity image file.
 - `https://`: download the singularity image from the given URL.
 - `file://`: use a singularity image on local computer storage.
