@@ -565,7 +565,7 @@ The working directory should be considered a temporary storage space and any dat
 
 **Note:** by default the `publishDir` directive creates a symbolic link to the files in the working this behaviour can be changed using the `mode` parameter.
 
-> ## Add a publishDir directive
+## Add a publishDir directive
 
 Add a `publishDir` directive to the quantification process of `script4.nf` to store the process results into folder specified by the `params.outdir` Nextflow variable. Include the `publishDir` `mode` option to copy the output.
 
@@ -642,36 +642,30 @@ $ nextflow run script5.nf -resume
 
 The `FASTQC` process will not run as the process has not been declared in the workflow scope.
 
-> ## Add FASTQC process
-> 
-> Add the `FASTQC` process to the `workflow scope` of `script5.nf` adding the `read_pairs_ch` channel as an input.
-> Run the nextflow script using the `-resume` option.
-> 
-> ```bash
-> $ nextflow run script5.nf -resume
-> ```
-> 
-> > ## Solution
-> > 
-> > ```
-> > workflow {
-> >  read_pairs_ch = Channel.fromFilePairs( params.reads, checkIfExists:true )
-> >  transcriptome_ch = Channel.fromPath( params.transcriptome, checkIfExists:true )
-> > 
-> >  index_ch = INDEX( transcriptome_ch )
-> >  quant_ch=QUANT(index_ch,read_pairs_ch)
-> >  fastqc_ch=FASTQC(read_pairs_ch)
-> > ```
-
-}
-
 :::::::::::::::::::::::::::::::::::::::  challenge
 
-:::::::::::::::  solution
+## Add FASTQC process
+ 
+Add the `FASTQC` process to the `workflow scope` of `script5.nf` adding the `read_pairs_ch` channel as an input.
+Run the nextflow script using the `-resume` option.
 
+```bash
+$ nextflow run script5.nf -resume
 ```
-{: .language-groovy }    
+:::::::::::::::  solution 
+## Solution
+
+```groovy
+workflow {
+read_pairs_ch = Channel.fromFilePairs( params.reads, checkIfExists:true )
+transcriptome_ch = Channel.fromPath( params.transcriptome, checkIfExists:true )
+
+index_ch = INDEX( transcriptome_ch )
+quant_ch=QUANT(index_ch,read_pairs_ch)
+fastqc_ch=FASTQC(read_pairs_ch)
 ```
+
+}
 
 :::::::::::::::::::::::::
 
