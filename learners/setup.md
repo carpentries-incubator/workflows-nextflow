@@ -29,13 +29,13 @@ To install conda see [here](https://carpentries-incubator.github.io/introduction
 To create the training environment run:
 
 ```bash
-conda env create -f environment.yml
+$ conda env create -f environment.yml
 ```
 
 Then activate the environment by running
 
 ```bash
-conda activate nf-training
+$ conda activate nf-training
 ```
 
 ## Training scripts
@@ -103,7 +103,7 @@ curl get.nextflow.io | bash
 ## Add Nextflow binary to your user's PATH:
 
 ```bash
-mv nextflow ~/bin/
+$ mv nextflow ~/bin/
 # OR system-wide installation:
 # sudo mv nextflow /usr/local/bin
 ```
@@ -111,13 +111,7 @@ mv nextflow ~/bin/
 Check the correct installation running the following command:
 
 ```bash
-nextflow info
-```
-
-Check the correct installation running the following command:
-
-```bash
-nextflow info
+$ nextflow info
 ```
 
 ## nf-core/tools installation without conda
