@@ -41,8 +41,7 @@ $ conda activate nf-training
 ## Training scripts
 
 To aid in the delivery of the lesson, the scripts mentioned in each episode, can be found in the respective episode folders in the github repository.
-
-[https://github.com/carpentries-incubator/workflows-nextflow/tree/gh-pages/files/scripts](https://github.com/carpentries-incubator/workflows-nextflow/tree/gh-pages/files/scripts)
+[https://github.com/carpentries-incubator/workflows-nextflow/tree/main/episodes/files/scripts](https://github.com/carpentries-incubator/workflows-nextflow/tree/gh-pages/files/scripts)
 
 ### Data
 
