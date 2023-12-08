@@ -1,0 +1,93 @@
+#------------------------------------------------------------
+# Values for this lesson.
+#------------------------------------------------------------
+
+# Which carpentry is this (swc, dc, lc, or cp)?
+# swc: Software Carpentry
+# dc: Data Carpentry
+# lc: Library Carpentry
+# cp: Carpentries (to use for instructor training for instance)
+# incubator: The Carpentries Incubator
+carpentry: 'incubator'
+
+# Overall title for pages.
+title: 'Introduction to Bioinformatics workflows with Nextflow and nf-core'
+
+# Date the lesson was created (YYYY-MM-DD, this is empty by default)
+created: 2021-02-01
+
+# Comma-separated list of keywords for the lesson
+keywords: 'software, data, lesson, The Carpentries'
+
+# Life cycle stage of the lesson
+# possible values: pre-alpha, alpha, beta, stable
+life_cycle: 'beta'
+
+# License of the lesson materials (recommended CC-BY 4.0)
+license: 'CC-BY 4.0'
+
+# Link to the source repository for this lesson
+source: 'https://github.com/fishtree-attempt/workflows-nextflow/'
+
+# Default branch of your lesson
+branch: 'main'
+
+# Who to contact if there are any issues
+contact: 'graeme.grimes@igmm.ed.ac.uk&quot;'
+
+# Navigation ------------------------------------------------
+#
+# Use the following menu items to specify the order of
+# individual pages in each dropdown section. Leave blank to
+# include all pages in the folder.
+#
+# Example -------------
+#
+# episodes:
+# - introduction.md
+# - first-steps.md
+#
+# learners:
+# - setup.md
+#
+# instructors:
+# - instructor-notes.md
+#
+# profiles:
+# - one-learner.md
+# - another-learner.md
+
+# Order of episodes in your lesson
+episodes: 
+- 01-getting-started-with-nextflow.md
+- 02-nextflow_scripting.md
+- 03-workflow_parameters.md
+- 04-channels.md
+- 05-processes-part1.md
+- 05-processes-part2.md
+- 06-workflow.md
+- 07-operators.md
+- 08-configuration.md
+- 09-Simple_Rna-Seq_pipeline.md
+- 10-Modules.md
+- 11-subworkflows.md
+- 12-reporting.md
+- 13-workflow_checkpoint_caching.md
+- 14-nfcore.md
+- 15-coding_practices.md
+
+# Information for Learners
+learners: 
+
+# Information for Instructors
+instructors: 
+
+# Learner Profiles
+profiles: 
+
+# Customisation ---------------------------------------------
+#
+# This space below is where custom yaml items (e.g. pinning
+# sandpaper and varnish versions) should live
+
+
