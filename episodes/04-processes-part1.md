@@ -405,6 +405,7 @@ nextflow run process_script_params.nf --chr B
 ## Script parameters
 
 For the Nextflow script below.
+
 ```groovy
 //process_exercise_script_params.nf
 nextflow.enable.dsl=2
@@ -420,10 +421,9 @@ zgrep -v  '^>'   ${projectDir}/data/yeast/transcriptome/Saccharomyces_cerevisiae
 workflow {
    COUNT_BASES()
  }
- ~~~
 ```
 
- Add a parameter params.base to the script and uses the variable ${param.base} insides the script.
+ Add a parameter `params.base` to the script and uses the variable `${param.base}` insides the script.
  Run the pipeline using a base value of `C` using the `--base` command line option.
 
 ```bash
