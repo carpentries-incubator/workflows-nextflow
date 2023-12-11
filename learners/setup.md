@@ -3,14 +3,10 @@ title: Setup
 permalink: /setup/
 ---
 
+
+
+
 # Running the lessons on your local machine
-
-There are three items that you need to download:
-
-1. The training directory.
-2. The training software.
-2. The training dataset.
-3. The workshop scripts.
 
 ## Training directory
 
@@ -20,6 +16,16 @@ Each learner should setup a training folder e.g. `nf-training`
 $ mkdir nf-training
 $ cd nf-training
 ```
+
+
+There are three items that you need to download:
+
+
+1. The training software.
+2. The training dataset.
+3. The workshop scripts.
+
+
 
 ## Training software
 
@@ -56,7 +62,7 @@ $ conda activate nf-training
 
 ## Training scripts
 
-To get the script associated with each episode you will need to download the scripts folder from the github repository.
+To get the scripts associated with each episode you will need to download the scripts folder from the github repository.
 
 Below is a series of commands to download and unpack scripts folder.
 
