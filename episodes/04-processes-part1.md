@@ -249,6 +249,13 @@ executor >  local (1)
 Number of sequences for chromosome A:118
 ```
 
+::::::::::::::::::::::::::::::::::::: instructor
+
+The following section on python and R scripts is not meant to be run by the instructor or learners. 
+It is meant to be a demonstration of the different ways to run a process.
+
+:::::::::::::::::::::::::::::::::::::::::::::::::
+
 By default the process command is interpreted as a **Bash** script. However, any other scripting language can be used just simply starting the script with the corresponding [Shebang](https://en.wikipedia.org/wiki/Shebang_(Unix)) declaration. For example:
 
 ```groovy
