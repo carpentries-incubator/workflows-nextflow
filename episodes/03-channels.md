@@ -398,7 +398,7 @@ all_files_ch.view()
 
 ```output 
 N E X T F L O W  ~  version 21.04.0
-Launching `nf-training/scripts/channels/channel_fromPath.nf` [reverent_mclean] - revision: cf02269bcb
+Launching `channel_fromPath.nf` [reverent_mclean] - revision: cf02269bcb
 data/yeast/samples.csv
 data/yeast/reads/etoh60_3_2.fq.gz
 data/yeast/reads/temp33_1_2.fq.gz
