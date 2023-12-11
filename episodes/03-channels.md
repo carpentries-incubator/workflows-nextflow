@@ -372,7 +372,7 @@ This will give an error as there is no data/chicken directory.
 
 ```output
 N E X T F L O W  ~  version 20.10.0
-Launching `hello.nf` [intergalactic_mcclintock] - revision: d2c138894b
+Launching `channels.nf` [intergalactic_mcclintock] - revision: d2c138894b
 No files match pattern `*.fq.gz` at path: data/chicken/reads/
 ```
 
