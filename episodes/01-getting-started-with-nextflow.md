@@ -161,6 +161,19 @@ We are now going to look at a sample Nextflow script that counts the number of
 lines in a file. Create the file `word_count.nf` in the current directory using
 your favourite text editor and copy-paste the following code:
 
+::::::::::::::::::::::::::::::::::::: instructor
+
+The nextflow scripts for each lesson episode are available in the `scripts` directory created
+during the course setup. You should copy the script into the current directory
+
+For example, to copy the script for this lesson episode, run the following command:
+
+```bash
+$ cp scripts/introduction/word_count.nf .
+```
+
+:::::::::::::::::::::::::::::::::::::::::::::::::
+
 ```groovy
 #!/usr/bin/env nextflow
 
