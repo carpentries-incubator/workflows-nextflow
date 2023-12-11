@@ -423,8 +423,8 @@ workflow {
  }
 ```
 
- Add a parameter `params.base` to the script and uses the variable `${param.base}` insides the script.
- Run the pipeline using a base value of `C` using the `--base` command line option.
+Add a parameter `params.base` to the script and uses the variable `${param.base}` insides the script.
+Run the pipeline using a base value of `C` using the `--base` command line option.
 
 ```bash
 $ nextflow run process_script_params.nf --base <some value> -process.echo
