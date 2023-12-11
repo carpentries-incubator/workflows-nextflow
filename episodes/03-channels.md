@@ -87,6 +87,21 @@ What type of channel would you use to store the following?
 
 ::::::::::::::::::::::::::::::::::::::::::::::::::
 
+
+::::::::::::::::::::::::::::::::::::: instructor
+
+Create a nextflow script called to `channel.nf` for the following examples.
+Explain that as you are just setting up channels you do not need to add any processes 
+or a workflow block.
+
+Run using:
+
+```bash
+$ nextflow run channel.nf
+```
+
+:::::::::::::::::::::::::::::::::::::::::::::::::
+
 ## Creating Channels using Channel factories
 
 Channel factories are used to explicitly create channels. In programming,
@@ -126,6 +141,27 @@ The value method can only take 1 argument, however, this can be a single list or
 ```groovy 
 myList = [1776, -1, 33, 99, 0, 928734928763]
 myMap = [ p1 : "start", q2 : "end" ]
+```
+
+To view the contents of a value channel, use the `view` operator.
+We will learn more about channel operators in a later episode.
+
+
+```groovy
+ch1 = Channel.value( 'GRCh38' )
+ch2 = Channel.value( ['chr1', 'chr2', 'chr3', 'chr4', 'chr5'] )
+ch3 = Channel.value( ['chr1' : 248956422, 'chr2' : 242193529, 'chr3' : 198295559] )
+ch1.view()
+ch2.view()
+ch3.view()
+```
+
+Each item in the channel is printed on a separate line.
+
+```output
+GRCh38
+[chr1, chr2, chr3, chr4, chr5]
+[chr1:248956422, chr2:242193529, chr3:198295559]
 ```
 
 ## Queue channel factory
