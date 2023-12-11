@@ -400,9 +400,9 @@ all_files_ch.view()
 N E X T F L O W  ~  version 21.04.0
 Launching `nf-training/scripts/channels/channel_fromPath.nf` [reverent_mclean] - revision: cf02269bcb
 data/yeast/samples.csv
-data/yeast/bams/ref1.bam.bai
-data/yeast/bams/ref3.bam
-data/yeast/bams/etoh60_3.
+data/yeast/reads/etoh60_3_2.fq.gz
+data/yeast/reads/temp33_1_2.fq.gz
+data/yeast/reads/temp33_2_1.fq.gz
 [..truncated..]
 ```
 
