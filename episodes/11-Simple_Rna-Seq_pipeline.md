@@ -193,7 +193,7 @@ The second example, `script2.nf` adds,
 
 1. The  process `INDEX` which generate a directory with the index of the transcriptome. This process takes one input, a transcriptome file, and emits one output a salmon index directory.
 2. A queue Channel `transcriptome_ch` taking the  transcriptome file defined in params variable `params.transcriptome`.
-3. Finally the script adds a `workflow` definition block which calls the `INDEX` process using the Channel `transcriptome_ch` as input.
+3. Finally the script adds a `workflow` definition block which calls the `INDEX` process.
 
 ```groovy 
 //script2.nf
@@ -237,7 +237,7 @@ process INDEX {
 transcriptome_ch = channel.fromPath(params.transcriptome)
 
 workflow {
-   INDEX(transcriptome_ch)
+   INDEX()
 }
 ```
 
@@ -247,47 +247,64 @@ Try to run it by using the command:
 $ nextflow run script2.nf
 ```
 
-The execution will fail because the program `salmon` is not avialable in your environment.
+```output
+N E X T F L O W  ~  version 22.04.0
+Launching `script2.nf` [happy_brown] DSL2 - revision: 90e932bb8d
+R N A S E Q - N F   P I P E L I N E
+===================================
+transcriptome: data/yeast/transcriptome/Saccharomyces_cerevisiae.R64-1-1.cdna.all.fa.gz
+reads        : data/yeast/reads/*_{1,2}.fq.gz
+outdir       : results
 
-Add the command line option `-profile conda` to launch the execution through a conda environment as shown below:
+Process `INDEX` declares 1 input channel but 0 were specified
 
-```bash 
-$ nextflow run script2.nf -profile conda
+ -- Check script 'script2.nf' at line: 41 or see '.nextflow.log' file for more details
 ```
 
-This time it works because it uses the conda environment  /home/training/miniconda3/envs/nf`defined in the`nextflow.config\` file.
+The execution will fail because the program the process, `INDEX` , has not been passed any input channel.
 
-```groovy 
-//nextflow.config
-profiles {
-  conda {
-    process.conda = '/home/training/miniconda3/envs/nf'
-  }
+Add the `transcriptome_ch` channel to the `INDEX` process call.
+
+
+```groovy
+[truncated]
+workflow {
+   INDEX(transcriptome_ch)
 }
 ```
 
-:::::::::::::::::::::::::::::::::::::::  challenge
+Now try to run it again by using the command:
 
-## Enable conda by default
 
-Enable the conda execution by removing the profile block in the  `nextflow.config` file.
-
-:::::::::::::::  solution
-
-## Solution
-
-```source 
-//nextflow.config file
-process.conda = '/home/training/miniconda3/envs/nf'
+```bash 
+$ nextflow run script2.nf
 ```
 
-:::::::::::::::::::::::::
+Now the workflow will run successfully.
 
-::::::::::::::::::::::::::::::::::::::::::::::::::
+```output
+N E X T F L O W  ~  version 22.04.0
+Launching `script2.nf` [mad_aryabhata] DSL2 - revision: 811396b67b
+R N A S E Q - N F   P I P E L I N E
+===================================
+transcriptome:data/yeast/transcriptome/Saccharomyces_cerevisiae.R64-1-1.cdna.all.fa.gz
+reads        : data/yeast/reads/*_{1,2}.fq.gz
+outdir       : results
+
+executor >  local (1)
+[c0/418d78] process > INDEX (1) [100%] 1 of 1 ✔
+
+```
+
+The `INDEX` process also defines one `output` channel. 
+This channel will be  populated with `index` directory created during process.
+To view the contents of the channel we can use the `view` operator.
+
+
 
 :::::::::::::::::::::::::::::::::::::::  challenge
 
-## View the contents of the index\_ch
+## View the contents of the index_ch
 
 1. Assign the output of the `INDEX` process to the variable `index_ch`.
 2. View the contents of the `index_ch` channel by using the `view` operator.
@@ -316,9 +333,9 @@ In this step you have learned:
 
 - How process inputs are declared
 
-- How process outputs are declared
+- How to assign a channel as input to a process call
 
-- How to use a nextflow configuration file to define and enable a `conda` environment.
+- How process outputs are declared
 
 - How to print the content of a channel `view()`
 
