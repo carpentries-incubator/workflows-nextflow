@@ -161,6 +161,19 @@ We are now going to look at a sample Nextflow script that counts the number of
 lines in a file. Create the file `word_count.nf` in the current directory using
 your favourite text editor and copy-paste the following code:
 
+::::::::::::::::::::::::::::::::::::: instructor
+
+The nextflow scripts for each lesson episode are available in the `scripts` directory created
+during the course setup. You should copy the script into the current directory
+
+For example, to copy the script for this lesson episode, run the following command:
+
+```bash
+$ cp scripts/introduction/word_count.nf .
+```
+
+:::::::::::::::::::::::::::::::::::::::::::::::::
+
 ```groovy
 #!/usr/bin/env nextflow
 
@@ -285,86 +298,7 @@ executor >  local (1)
 
 ::::::::::::::::::::::::::::::::::::::::::::::::::
 
-## Pipeline parameters
 
-The Nextflow `word_count.nf` script defines a pipeline parameter
-`params.input`. Pipeline parameters enable you to change the input to the
-workflow at runtime, via the command line or a configuration file, so they are
-not hard-coded into the script.
-
-Pipeline parameters are declared in the workflow by prepending the prefix
-`params`, separated by dot character, to a variable name e.g., `params.input`.
-Their value can be specified on the command line by prefixing the parameter
-name with a double dash character, e.g., `--input`.
-
-We can also use wild cards to specify multiple input files. In the example
-below we use the `*` to match any sequence of characters with `.fastq.gz`. Note
-that if you use wild card characters on the command line you must enclose the
-value in quotes.
-
-Re-run the Nextflow script by entering the following command in your terminal:
-
-```bash
-nextflow run word_count.nf --input 'data/untrimmed_fastq/*.fastq.gz'
-```
-
-```output
-N E X T F L O W  ~  version 21.04.3
-Launching `word_count.nf` [desperate_agnesi] - revision: bf77afb9d7
-executor >  local (6)
-[60/584db8] process > NUM_LINES (5) [100%] 6 of 6 ✔
-SRR2589044_1.fastq.gz 4428360
-SRR2589044_2.fastq.gz 4428360
-SRR2584863_1.fastq.gz 6213036
-SRR2584863_2.fastq.gz 6213036
-SRR2584866_2.fastq.gz 11073592
-SRR2584866_1.fastq.gz 11073592
-```
-
-The pipeline executes the process 6 times; one process for each file matching
-the string. Since each process is executed in parallel, there is no guarantee
-of which output is reported first. When you run this script, you may see the
-process output in a different order.
-
-Nextflow stores intermediate files in a `work` sub-directory in your current
-directory, which might look like this:
-
-```output
-work/
-├── 13
-│   └── 46936e3927b74ea6e5555ce7b7b56a
-│       └── SRR2589044_2.fastq.gz -> nextflow_tutorial/data/untrimmed_fastq/SRR2589044_2.fastq.gz
-├── 43
-│   └── 3819a4bc046dd7dc528de8eae1c6b8
-│       └── SRR2584863_1.fastq.gz -> nextflow_tutorial/data/untrimmed_fastq/SRR2584863_1.fastq.gz
-├── 5a
-│   └── d446a792db2781ccd0c7aaafdff329
-│       └── SRR2584866_2.fastq.gz -> nextflow_tutorial/data/untrimmed_fastq/SRR2584866_2.fastq.gz
-├── 76
-│   └── b1e11f2e706b901e0c57768a2af59f
-│       └── SRR2589044_1.fastq.gz -> nextflow_tutorial/data/untrimmed_fastq/SRR2589044_1.fastq.gz
-├── 9c
-│   └── 1b1ebc2ea11a395e4e9dcf805b2c7d
-│       └── SRR2584863_2.fastq.gz -> nextflow_tutorial/data/untrimmed_fastq/SRR2584863_2.fastq.gz
-└── ce
-    └── b94ef609ee54f4b7ea79dc23eb32bb
-        └── SRR2584866_1.fastq.gz -> nextflow_tutorial/data/untrimmed_fastq/SRR2584866_1.fastq.gz
-
-12 directories, 6 files
-```
-
-Nextflow has a log command to display the logs of all previous executions. Type
-the following on the command line to display an output similar as below:
-
-```bash
-nextflow log
-```
-
-```output
-TIMESTAMP               DURATION        RUN NAME                STATUS  REVISION ID     SESSION ID                              COMMAND
-2021-11-16 07:17:23     5.9s            irreverent_leakey       OK      bf77afb9d7      17d06cd0-3bb9-4d32-9d75-48bfdf5401a9    nextflow run word_count.nf
-2021-11-16 07:23:00     11.1s           desperate_agnesi        OK      bf77afb9d7      41f78242-27d7-462a-a88d-80b6ec9dc5db    nextflow run word_count.nf --input 'data/untrimmed_fastq/*.fastq.gz'
-```
 
 ## Quick recap
 
@@ -374,9 +308,6 @@ TIMESTAMP               DURATION        RUN NAME                STATUS  REVISION
 - Nextflow scripts comprise of *channels* for controlling inputs and outputs,
   and *processes* for defining workflow tasks.
 - You run a Nextflow script using the `nextflow run` command.
-- Nextflow stores working files in the `work` directory.
-- The `nextflow log` command can be used to see information about executed
-  pipelines.
 
 
 
