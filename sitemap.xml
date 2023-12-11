@@ -7,10 +7,19 @@
     <loc>https://fishtree-attempt.github.io/workflows-nextflow/02-nextflow_scripting.html</loc>
   </url>
   <url>
+    <loc>https://fishtree-attempt.github.io/workflows-nextflow/02-workflow_parameters.html</loc>
+  </url>
+  <url>
+    <loc>https://fishtree-attempt.github.io/workflows-nextflow/03-channels.html</loc>
+  </url>
+  <url>
     <loc>https://fishtree-attempt.github.io/workflows-nextflow/03-workflow_parameters.html</loc>
   </url>
   <url>
     <loc>https://fishtree-attempt.github.io/workflows-nextflow/04-channels.html</loc>
+  </url>
+  <url>
+    <loc>https://fishtree-attempt.github.io/workflows-nextflow/04-processes-part1.html</loc>
   </url>
   <url>
     <loc>https://fishtree-attempt.github.io/workflows-nextflow/05-processes-part1.html</loc>
@@ -28,16 +37,34 @@
     <loc>https://fishtree-attempt.github.io/workflows-nextflow/08-configuration.html</loc>
   </url>
   <url>
+    <loc>https://fishtree-attempt.github.io/workflows-nextflow/08-reporting.html</loc>
+  </url>
+  <url>
     <loc>https://fishtree-attempt.github.io/workflows-nextflow/09-Simple_Rna-Seq_pipeline.html</loc>
+  </url>
+  <url>
+    <loc>https://fishtree-attempt.github.io/workflows-nextflow/09-configuration.html</loc>
   </url>
   <url>
     <loc>https://fishtree-attempt.github.io/workflows-nextflow/10-Modules.html</loc>
   </url>
   <url>
+    <loc>https://fishtree-attempt.github.io/workflows-nextflow/10-workflow_checkpoint_caching.html</loc>
+  </url>
+  <url>
+    <loc>https://fishtree-attempt.github.io/workflows-nextflow/11-Simple_Rna-Seq_pipeline.html</loc>
+  </url>
+  <url>
     <loc>https://fishtree-attempt.github.io/workflows-nextflow/11-subworkflows.html</loc>
   </url>
   <url>
+    <loc>https://fishtree-attempt.github.io/workflows-nextflow/12-Modules.html</loc>
+  </url>
+  <url>
     <loc>https://fishtree-attempt.github.io/workflows-nextflow/12-reporting.html</loc>
+  </url>
+  <url>
+    <loc>https://fishtree-attempt.github.io/workflows-nextflow/13-subworkflows.html</loc>
   </url>
   <url>
     <loc>https://fishtree-attempt.github.io/workflows-nextflow/13-workflow_checkpoint_caching.html</loc>
@@ -47,6 +74,9 @@
   </url>
   <url>
     <loc>https://fishtree-attempt.github.io/workflows-nextflow/15-coding_practices.html</loc>
+  </url>
+  <url>
+    <loc>https://fishtree-attempt.github.io/workflows-nextflow/16-nextflow_scripting.html</loc>
   </url>
   <url>
     <loc>https://fishtree-attempt.github.io/workflows-nextflow/404.html</loc>
@@ -76,10 +106,19 @@
     <loc>https://fishtree-attempt.github.io/workflows-nextflow/instructor/02-nextflow_scripting.html</loc>
   </url>
   <url>
+    <loc>https://fishtree-attempt.github.io/workflows-nextflow/instructor/02-workflow_parameters.html</loc>
+  </url>
+  <url>
+    <loc>https://fishtree-attempt.github.io/workflows-nextflow/instructor/03-channels.html</loc>
+  </url>
+  <url>
     <loc>https://fishtree-attempt.github.io/workflows-nextflow/instructor/03-workflow_parameters.html</loc>
   </url>
   <url>
     <loc>https://fishtree-attempt.github.io/workflows-nextflow/instructor/04-channels.html</loc>
+  </url>
+  <url>
+    <loc>https://fishtree-attempt.github.io/workflows-nextflow/instructor/04-processes-part1.html</loc>
   </url>
   <url>
     <loc>https://fishtree-attempt.github.io/workflows-nextflow/instructor/05-processes-part1.html</loc>
@@ -97,16 +136,34 @@
     <loc>https://fishtree-attempt.github.io/workflows-nextflow/instructor/08-configuration.html</loc>
   </url>
   <url>
+    <loc>https://fishtree-attempt.github.io/workflows-nextflow/instructor/08-reporting.html</loc>
+  </url>
+  <url>
     <loc>https://fishtree-attempt.github.io/workflows-nextflow/instructor/09-Simple_Rna-Seq_pipeline.html</loc>
+  </url>
+  <url>
+    <loc>https://fishtree-attempt.github.io/workflows-nextflow/instructor/09-configuration.html</loc>
   </url>
   <url>
     <loc>https://fishtree-attempt.github.io/workflows-nextflow/instructor/10-Modules.html</loc>
   </url>
   <url>
+    <loc>https://fishtree-attempt.github.io/workflows-nextflow/instructor/10-workflow_checkpoint_caching.html</loc>
+  </url>
+  <url>
+    <loc>https://fishtree-attempt.github.io/workflows-nextflow/instructor/11-Simple_Rna-Seq_pipeline.html</loc>
+  </url>
+  <url>
     <loc>https://fishtree-attempt.github.io/workflows-nextflow/instructor/11-subworkflows.html</loc>
   </url>
   <url>
+    <loc>https://fishtree-attempt.github.io/workflows-nextflow/instructor/12-Modules.html</loc>
+  </url>
+  <url>
     <loc>https://fishtree-attempt.github.io/workflows-nextflow/instructor/12-reporting.html</loc>
+  </url>
+  <url>
+    <loc>https://fishtree-attempt.github.io/workflows-nextflow/instructor/13-subworkflows.html</loc>
   </url>
   <url>
     <loc>https://fishtree-attempt.github.io/workflows-nextflow/instructor/13-workflow_checkpoint_caching.html</loc>
@@ -116,6 +173,9 @@
   </url>
   <url>
     <loc>https://fishtree-attempt.github.io/workflows-nextflow/instructor/15-coding_practices.html</loc>
+  </url>
+  <url>
+    <loc>https://fishtree-attempt.github.io/workflows-nextflow/instructor/16-nextflow_scripting.html</loc>
   </url>
   <url>
     <loc>https://fishtree-attempt.github.io/workflows-nextflow/instructor/404.html</loc>

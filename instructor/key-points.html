@@ -196,7 +196,7 @@
 <div class="accordion accordion-flush" id="accordionFlush3">
   <div class="accordion-item">
     <div class="accordion-header" id="flush-heading3">
-        <a href="02-nextflow_scripting.html">2. Nextflow scripting</a>
+        <a href="02-workflow_parameters.html">2. Workflow parameterisation</a>
     </div>
 <!--/div.accordion-header-->
         
@@ -208,7 +208,7 @@
 <div class="accordion accordion-flush" id="accordionFlush4">
   <div class="accordion-item">
     <div class="accordion-header" id="flush-heading4">
-        <a href="03-workflow_parameters.html">3. Workflow parameterisation</a>
+        <a href="03-channels.html">3. Channels</a>
     </div>
 <!--/div.accordion-header-->
         
@@ -220,7 +220,7 @@
 <div class="accordion accordion-flush" id="accordionFlush5">
   <div class="accordion-item">
     <div class="accordion-header" id="flush-heading5">
-        <a href="04-channels.html">4. Channels</a>
+        <a href="04-processes-part1.html">4. Processes</a>
     </div>
 <!--/div.accordion-header-->
         
@@ -232,7 +232,7 @@
 <div class="accordion accordion-flush" id="accordionFlush6">
   <div class="accordion-item">
     <div class="accordion-header" id="flush-heading6">
-        <a href="05-processes-part1.html">5. Processes</a>
+        <a href="05-processes-part2.html">5. Processes Part 2</a>
     </div>
 <!--/div.accordion-header-->
         
@@ -244,7 +244,7 @@
 <div class="accordion accordion-flush" id="accordionFlush7">
   <div class="accordion-item">
     <div class="accordion-header" id="flush-heading7">
-        <a href="05-processes-part2.html">6. Processes Part 2</a>
+        <a href="06-workflow.html">6. Workflow</a>
     </div>
 <!--/div.accordion-header-->
         
@@ -256,7 +256,7 @@
 <div class="accordion accordion-flush" id="accordionFlush8">
   <div class="accordion-item">
     <div class="accordion-header" id="flush-heading8">
-        <a href="06-workflow.html">7. Workflow</a>
+        <a href="07-operators.html">7. Operators</a>
     </div>
 <!--/div.accordion-header-->
         
@@ -268,7 +268,7 @@
 <div class="accordion accordion-flush" id="accordionFlush9">
   <div class="accordion-item">
     <div class="accordion-header" id="flush-heading9">
-        <a href="07-operators.html">8. Operators</a>
+        <a href="08-reporting.html">8. Reporting</a>
     </div>
 <!--/div.accordion-header-->
         
@@ -280,7 +280,7 @@
 <div class="accordion accordion-flush" id="accordionFlush10">
   <div class="accordion-item">
     <div class="accordion-header" id="flush-heading10">
-        <a href="08-configuration.html">9. Nextflow configuration</a>
+        <a href="09-configuration.html">9. Nextflow configuration</a>
     </div>
 <!--/div.accordion-header-->
         
@@ -292,7 +292,7 @@
 <div class="accordion accordion-flush" id="accordionFlush11">
   <div class="accordion-item">
     <div class="accordion-header" id="flush-heading11">
-        <a href="09-Simple_Rna-Seq_pipeline.html">10. Simple RNA-Seq pipeline</a>
+        <a href="10-workflow_checkpoint_caching.html">10. Workflow caching and checkpointing</a>
     </div>
 <!--/div.accordion-header-->
         
@@ -304,7 +304,7 @@
 <div class="accordion accordion-flush" id="accordionFlush12">
   <div class="accordion-item">
     <div class="accordion-header" id="flush-heading12">
-        <a href="10-Modules.html">11. Modules</a>
+        <a href="11-Simple_Rna-Seq_pipeline.html">11. Simple RNA-Seq pipeline</a>
     </div>
 <!--/div.accordion-header-->
         
@@ -316,7 +316,7 @@
 <div class="accordion accordion-flush" id="accordionFlush13">
   <div class="accordion-item">
     <div class="accordion-header" id="flush-heading13">
-        <a href="11-subworkflows.html">12. Sub-workflows</a>
+        <a href="12-Modules.html">12. Modules</a>
     </div>
 <!--/div.accordion-header-->
         
@@ -328,7 +328,7 @@
 <div class="accordion accordion-flush" id="accordionFlush14">
   <div class="accordion-item">
     <div class="accordion-header" id="flush-heading14">
-        <a href="12-reporting.html">13. Reporting</a>
+        <a href="13-subworkflows.html">13. Sub-workflows</a>
     </div>
 <!--/div.accordion-header-->
         
@@ -340,7 +340,7 @@
 <div class="accordion accordion-flush" id="accordionFlush15">
   <div class="accordion-item">
     <div class="accordion-header" id="flush-heading15">
-        <a href="13-workflow_checkpoint_caching.html">14. Workflow caching and checkpointing</a>
+        <a href="14-nfcore.html">14. Deploying nf-core pipelines</a>
     </div>
 <!--/div.accordion-header-->
         
@@ -352,7 +352,7 @@
 <div class="accordion accordion-flush" id="accordionFlush16">
   <div class="accordion-item">
     <div class="accordion-header" id="flush-heading16">
-        <a href="14-nfcore.html">15. Deploying nf-core pipelines</a>
+        <a href="15-coding_practices.html">15. Nextflow coding practices</a>
     </div>
 <!--/div.accordion-header-->
         
@@ -364,7 +364,7 @@
 <div class="accordion accordion-flush" id="accordionFlush17">
   <div class="accordion-item">
     <div class="accordion-header" id="flush-heading17">
-        <a href="15-coding_practices.html">16. Nextflow coding practices</a>
+        <a href="16-nextflow_scripting.html">16. Nextflow scripting</a>
     </div>
 <!--/div.accordion-header-->
         
@@ -443,25 +443,7 @@ runtime environment and a domain specific language (DSL).</li>
 outputs, and processes for defining workflow tasks.</li>
 <li>You run a Nextflow script using the <code>nextflow run</code>
 command.</li>
-</ul></section><section id="02-nextflow_scripting"><h2 class="section-heading"><a href="02-nextflow_scripting.html">Nextflow scripting</a></h2>
-<hr class="half-width">
-<ul>
-<li>Nextflow is a Domain Specific Language (DSL) implemented on top of
-the Groovy programming language.</li>
-<li>To define a variable, assign a value to it e.g., <code>a = 1</code>
-.</li>
-<li>Comments use the same syntax as in the C-family programming
-languages: <code>//</code> or multiline <code>/* */</code>.</li>
-<li>Multiple values can be stored in lists <span class="math display">\[value1, value2, value3, ...\]</span> or maps
-<span class="math display">\[chromosome: 1, start :1\]</span>.</li>
-<li>Lists are indexed and sliced with square brackets (e.g., list<span class="math display">\[0\]</span> and list<span class="math display">\[2..9\]</span>)</li>
-<li>String interpolation (variable interpolation, variable substitution,
-or variable expansion) is the process of evaluating a string literal
-containing one or more placeholders, yielding a result in which the
-placeholders are replaced with their corresponding values.</li>
-<li>A closure is an expression (block of code) encased in
-<code>{}</code> e.g. <code>{ it * it }</code>.</li>
-</ul></section><section id="03-workflow_parameters"><h2 class="section-heading"><a href="03-workflow_parameters.html">Workflow parameterisation</a></h2>
+</ul></section><section id="02-workflow_parameters"><h2 class="section-heading"><a href="02-workflow_parameters.html">Workflow parameterisation</a></h2>
 <hr class="half-width">
 <ul>
 <li>“Pipeline parameters are specified by prepending the prefix
@@ -471,7 +453,7 @@ character.”</li>
 run use <code>--variable_name</code> syntax.”</li>
 <li>“You can add parameters to a JSON or YAML formatted file and pass
 them to the script using option <code>-params-file</code>.”</li>
-</ul></section><section id="04-channels"><h2 class="section-heading"><a href="04-channels.html">Channels</a></h2>
+</ul></section><section id="03-channels"><h2 class="section-heading"><a href="03-channels.html">Channels</a></h2>
 <hr class="half-width">
 <ul>
 <li>Channels must be used to import data into Nextflow.</li>
@@ -485,7 +467,7 @@ to create channels.</li>
 <li>Channel factory methods have optional parameters e.g.,
 <code>checkIfExists</code>, that can be used to alter the creation and
 behaviour of a channel.</li>
-</ul></section><section id="05-processes-part1"><h2 class="section-heading"><a href="05-processes-part1.html">ProcessesProcesses<a class="anchor" aria-label="anchor" href="#processes"></a>Input repeaters<a class="anchor" aria-label="anchor" href="#input-repeaters"></a></a></h2>
+</ul></section><section id="04-processes-part1"><h2 class="section-heading"><a href="04-processes-part1.html">ProcessesProcesses<a class="anchor" aria-label="anchor" href="#processes"></a>Input repeaters<a class="anchor" aria-label="anchor" href="#input-repeaters"></a></a></h2>
 <hr class="half-width">
 <ul>
 <li>“A Nextflow process is an independent step in a workflow”</li>
@@ -532,7 +514,14 @@ transforming , splitting , combining , forking and Maths operators</li>
 e.g. <code>my_ch.view()</code>.</li>
 <li>You can parse text items emitted by a channel, that are formatted
 using the CSV format, using the <code>splitCsv</code> operator.</li>
-</ul></section><section id="08-configuration"><h2 class="section-heading"><a href="08-configuration.html">Nextflow configuration</a></h2>
+</ul></section><section id="08-reporting"><h2 class="section-heading"><a href="08-reporting.html">Reporting</a></h2>
+<hr class="half-width">
+<ul>
+<li>Nextflow can produce a custom execution report with run information
+using the <code>log</code> command.</li>
+<li>You can generate a report using the <code>-t</code> option
+specifying a template file.</li>
+</ul></section><section id="09-configuration"><h2 class="section-heading"><a href="09-configuration.html">Nextflow configuration</a></h2>
 <hr class="half-width">
 <ul>
 <li>Nextflow configuration can be managed using a Nextflow configuration
@@ -551,7 +540,18 @@ command-line option</li>
 read-in.</li>
 <li>Workflow configuration settings can be inspected using
 <code>nextflow config &lt;script&gt; [options]</code>.</li>
-</ul></section><section id="09-Simple_Rna-Seq_pipeline"><h2 class="section-heading"><a href="09-Simple_Rna-Seq_pipeline.html">Simple RNA-Seq pipeline</a></h2>
+</ul></section><section id="10-workflow_checkpoint_caching"><h2 class="section-heading"><a href="10-workflow_checkpoint_caching.html">Workflow caching and checkpointing</a></h2>
+<hr class="half-width">
+<ul>
+<li>Nextflow automatically keeps track of all the processes executed in
+your pipeline via checkpointing.</li>
+<li>Nextflow caches intermediate data in task directories within the
+work directory.</li>
+<li>Nextflow caching and checkpointing allows re-entrancy into a
+workflow after a pipeline error or using new data, skipping steps that
+have been successfully executed. - Re-entrancy is enabled using the
+<code>-resume</code> option.</li>
+</ul></section><section id="11-Simple_Rna-Seq_pipeline"><h2 class="section-heading"><a href="11-Simple_Rna-Seq_pipeline.html">Simple RNA-Seq pipeline</a></h2>
 <hr class="half-width">
 <ul>
 <li>Nextflow can combined tasks (processes) and manage data flows using
@@ -575,7 +575,7 @@ several runtime metrics and execution information using the command line
 options <code>-with-report</code>, <code>-with-trace</code>,
 <code>-with-timeline</code> and produce a graph using
 <code>-with-dag</code>.</li>
-</ul></section><section id="10-Modules"><h2 class="section-heading"><a href="10-Modules.html">Modules</a></h2>
+</ul></section><section id="12-Modules"><h2 class="section-heading"><a href="12-Modules.html">Modules</a></h2>
 <hr class="half-width">
 <ul>
 <li>A module file is a Nextflow script containing one or more
@@ -587,7 +587,7 @@ keyword.</li>
 syntax of a Nextflow workflow script.</li>
 <li>The module inherits the parameters define before the include
 statement, therefore any further parameter set later is ignored.</li>
-</ul></section><section id="11-subworkflows"><h2 class="section-heading"><a href="11-subworkflows.html">Sub-workflows</a></h2>
+</ul></section><section id="13-subworkflows"><h2 class="section-heading"><a href="13-subworkflows.html">Sub-workflows</a></h2>
 <hr class="half-width">
 <ul>
 <li>Nextflow allows for definition of reusable sub-workflow
@@ -597,24 +597,6 @@ included from any other script and invoked as a custom function within
 the new workflow scope. This enables reuse of workflow components</li>
 <li>The <code>entry</code> option of the nextflow <code>run</code>
 command specifies the workflow name to be executed</li>
-</ul></section><section id="12-reporting"><h2 class="section-heading"><a href="12-reporting.html">Reporting</a></h2>
-<hr class="half-width">
-<ul>
-<li>Nextflow can produce a custom execution report with run information
-using the <code>log</code> command.</li>
-<li>You can generate a report using the <code>-t</code> option
-specifying a template file.</li>
-</ul></section><section id="13-workflow_checkpoint_caching"><h2 class="section-heading"><a href="13-workflow_checkpoint_caching.html">Workflow caching and checkpointing</a></h2>
-<hr class="half-width">
-<ul>
-<li>Nextflow automatically keeps track of all the processes executed in
-your pipeline via checkpointing.</li>
-<li>Nextflow caches intermediate data in task directories within the
-work directory.</li>
-<li>Nextflow caching and checkpointing allows re-entrancy into a
-workflow after a pipeline error or using new data, skipping steps that
-have been successfully executed. - Re-entrancy is enabled using the
-<code>-resume</code> option.</li>
 </ul></section><section id="14-nfcore"><h2 class="section-heading"><a href="14-nfcore.html">Deploying nf-core pipelines</a></h2>
 <hr class="half-width">
 <ul>
@@ -651,6 +633,24 @@ set.</li>
 bundles.</li>
 <li>Use compressed files and temporary disk space when possible.</li>
 <li>Use consistent naming conventions.</li>
+</ul></section><section id="16-nextflow_scripting"><h2 class="section-heading"><a href="16-nextflow_scripting.html">Nextflow scripting</a></h2>
+<hr class="half-width">
+<ul>
+<li>Nextflow is a Domain Specific Language (DSL) implemented on top of
+the Groovy programming language.</li>
+<li>To define a variable, assign a value to it e.g., <code>a = 1</code>
+.</li>
+<li>Comments use the same syntax as in the C-family programming
+languages: <code>//</code> or multiline <code>/* */</code>.</li>
+<li>Multiple values can be stored in lists <span class="math display">\[value1, value2, value3, ...\]</span> or maps
+<span class="math display">\[chromosome: 1, start :1\]</span>.</li>
+<li>Lists are indexed and sliced with square brackets (e.g., list<span class="math display">\[0\]</span> and list<span class="math display">\[2..9\]</span>)</li>
+<li>String interpolation (variable interpolation, variable substitution,
+or variable expansion) is the process of evaluating a string literal
+containing one or more placeholders, yielding a result in which the
+placeholders are replaced with their corresponding values.</li>
+<li>A closure is an expression (block of code) encased in
+<code>{}</code> e.g. <code>{ it * it }</code>.</li>
 </ul></section>
 </div>
     </main>
@@ -700,8 +700,8 @@ bundles.</li>
   "url": "https://fishtree-attempt.github.io/workflows-nextflow/instructor/key-points.html",
   "identifier": "https://fishtree-attempt.github.io/workflows-nextflow/instructor/key-points.html",
   "dateCreated": "2021-02-01",
-  "dateModified": "2023-12-08",
-  "datePublished": "2023-12-08"
+  "dateModified": "2023-12-11",
+  "datePublished": "2023-12-11"
 }
 
   </script><script>

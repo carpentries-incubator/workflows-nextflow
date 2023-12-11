@@ -196,7 +196,7 @@
 <div class="accordion accordion-flush" id="accordionFlush3">
   <div class="accordion-item">
     <div class="accordion-header" id="flush-heading3">
-        <a href="02-nextflow_scripting.html">2. Nextflow scripting</a>
+        <a href="02-workflow_parameters.html">2. Workflow parameterisation</a>
     </div>
 <!--/div.accordion-header-->
         
@@ -208,7 +208,7 @@
 <div class="accordion accordion-flush" id="accordionFlush4">
   <div class="accordion-item">
     <div class="accordion-header" id="flush-heading4">
-        <a href="03-workflow_parameters.html">3. Workflow parameterisation</a>
+        <a href="03-channels.html">3. Channels</a>
     </div>
 <!--/div.accordion-header-->
         
@@ -220,7 +220,7 @@
 <div class="accordion accordion-flush" id="accordionFlush5">
   <div class="accordion-item">
     <div class="accordion-header" id="flush-heading5">
-        <a href="04-channels.html">4. Channels</a>
+        <a href="04-processes-part1.html">4. Processes</a>
     </div>
 <!--/div.accordion-header-->
         
@@ -232,7 +232,7 @@
 <div class="accordion accordion-flush" id="accordionFlush6">
   <div class="accordion-item">
     <div class="accordion-header" id="flush-heading6">
-        <a href="05-processes-part1.html">5. Processes</a>
+        <a href="05-processes-part2.html">5. Processes Part 2</a>
     </div>
 <!--/div.accordion-header-->
         
@@ -244,7 +244,7 @@
 <div class="accordion accordion-flush" id="accordionFlush7">
   <div class="accordion-item">
     <div class="accordion-header" id="flush-heading7">
-        <a href="05-processes-part2.html">6. Processes Part 2</a>
+        <a href="06-workflow.html">6. Workflow</a>
     </div>
 <!--/div.accordion-header-->
         
@@ -256,7 +256,7 @@
 <div class="accordion accordion-flush" id="accordionFlush8">
   <div class="accordion-item">
     <div class="accordion-header" id="flush-heading8">
-        <a href="06-workflow.html">7. Workflow</a>
+        <a href="07-operators.html">7. Operators</a>
     </div>
 <!--/div.accordion-header-->
         
@@ -268,7 +268,7 @@
 <div class="accordion accordion-flush" id="accordionFlush9">
   <div class="accordion-item">
     <div class="accordion-header" id="flush-heading9">
-        <a href="07-operators.html">8. Operators</a>
+        <a href="08-reporting.html">8. Reporting</a>
     </div>
 <!--/div.accordion-header-->
         
@@ -280,7 +280,7 @@
 <div class="accordion accordion-flush" id="accordionFlush10">
   <div class="accordion-item">
     <div class="accordion-header" id="flush-heading10">
-        <a href="08-configuration.html">9. Nextflow configuration</a>
+        <a href="09-configuration.html">9. Nextflow configuration</a>
     </div>
 <!--/div.accordion-header-->
         
@@ -292,7 +292,7 @@
 <div class="accordion accordion-flush" id="accordionFlush11">
   <div class="accordion-item">
     <div class="accordion-header" id="flush-heading11">
-        <a href="09-Simple_Rna-Seq_pipeline.html">10. Simple RNA-Seq pipeline</a>
+        <a href="10-workflow_checkpoint_caching.html">10. Workflow caching and checkpointing</a>
     </div>
 <!--/div.accordion-header-->
         
@@ -304,7 +304,7 @@
 <div class="accordion accordion-flush" id="accordionFlush12">
   <div class="accordion-item">
     <div class="accordion-header" id="flush-heading12">
-        <a href="10-Modules.html">11. Modules</a>
+        <a href="11-Simple_Rna-Seq_pipeline.html">11. Simple RNA-Seq pipeline</a>
     </div>
 <!--/div.accordion-header-->
         
@@ -316,7 +316,7 @@
 <div class="accordion accordion-flush" id="accordionFlush13">
   <div class="accordion-item">
     <div class="accordion-header" id="flush-heading13">
-        <a href="11-subworkflows.html">12. Sub-workflows</a>
+        <a href="12-Modules.html">12. Modules</a>
     </div>
 <!--/div.accordion-header-->
         
@@ -328,7 +328,7 @@
 <div class="accordion accordion-flush" id="accordionFlush14">
   <div class="accordion-item">
     <div class="accordion-header" id="flush-heading14">
-        <a href="12-reporting.html">13. Reporting</a>
+        <a href="13-subworkflows.html">13. Sub-workflows</a>
     </div>
 <!--/div.accordion-header-->
         
@@ -340,7 +340,7 @@
 <div class="accordion accordion-flush" id="accordionFlush15">
   <div class="accordion-item">
     <div class="accordion-header" id="flush-heading15">
-        <a href="13-workflow_checkpoint_caching.html">14. Workflow caching and checkpointing</a>
+        <a href="14-nfcore.html">14. Deploying nf-core pipelines</a>
     </div>
 <!--/div.accordion-header-->
         
@@ -352,7 +352,7 @@
 <div class="accordion accordion-flush" id="accordionFlush16">
   <div class="accordion-item">
     <div class="accordion-header" id="flush-heading16">
-        <a href="14-nfcore.html">15. Deploying nf-core pipelines</a>
+        <a href="15-coding_practices.html">15. Nextflow coding practices</a>
     </div>
 <!--/div.accordion-header-->
         
@@ -364,7 +364,7 @@
 <div class="accordion accordion-flush" id="accordionFlush17">
   <div class="accordion-item">
     <div class="accordion-header" id="flush-heading17">
-        <a href="15-coding_practices.html">16. Nextflow coding practices</a>
+        <a href="16-nextflow_scripting.html">16. Nextflow scripting</a>
     </div>
 <!--/div.accordion-header-->
         
@@ -528,21 +528,58 @@ prototyping to choose a bioinformatics workflow management system. 2021;
 10.1371/journal.pcbi.1008622</a>
 </li>
 </ul></section><section id="aggregate-instructor-notes"><section id="01-getting-started-with-nextflow"><h2 class="section-heading"><a href="01-getting-started-with-nextflow.html">Getting Started with Nextflow</a></h2>
-<hr class="half-width"></section><section id="02-nextflow_scripting"><h2 class="section-heading"><a href="02-nextflow_scripting.html">Nextflow scripting</a></h2>
-<hr class="half-width"></section><section id="03-workflow_parameters"><h2 class="section-heading"><a href="03-workflow_parameters.html">Workflow parameterisation</a></h2>
-<hr class="half-width"></section><section id="04-channels"><h2 class="section-heading"><a href="04-channels.html">Channels</a></h2>
-<hr class="half-width"></section><section id="05-processes-part1"><h2 class="section-heading"><a href="05-processes-part1.html">ProcessesProcesses<a class="anchor" aria-label="anchor" href="#processes"></a>Input repeaters<a class="anchor" aria-label="anchor" href="#input-repeaters"></a></a></h2>
-<hr class="half-width"></section><section id="05-processes-part2"><h2 class="section-heading"><a href="05-processes-part2.html">Processes Part 2</a></h2>
+<hr class="half-width">
+<h3 id="01-getting-started-with-nextflow-headingInstructor1">
+<a href="01-getting-started-with-nextflow.html#headingInstructor1">Instructor Note</a><a class="anchor" aria-label="anchor" href="#01-getting-started-with-nextflow-headingInstructor1"></a>
+</h3>
+<p>The nextflow scripts for each lesson episode are available in the
+<code>scripts</code> directory created during the course setup. You
+should copy the script into the current directory</p>
+<p>For example, to copy the script for this lesson episode, run the
+following command:</p>
+<div class="codewrapper sourceCode" id="cb1">
+<h3 class="code-label">BASH<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="sourceCode bash" tabindex="0"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> cp scripts/introduction/word_count.nf .</span></code></pre>
+</div>
+<hr>
+<br></section><section id="02-workflow_parameters"><h2 class="section-heading"><a href="02-workflow_parameters.html">Workflow parameterisation</a></h2>
+<hr class="half-width"></section><section id="03-channels"><h2 class="section-heading"><a href="03-channels.html">Channels</a></h2>
+<hr class="half-width">
+<h3 id="03-channels-headingInstructor1">
+<a href="03-channels.html#headingInstructor1">Instructor Note</a><a class="anchor" aria-label="anchor" href="#03-channels-headingInstructor1"></a>
+</h3>
+<p>Create a nextflow script called to <code>channel.nf</code> for the
+following examples. Explain that as you are just setting up channels you
+do not need to add any processes or a workflow block.</p>
+<p>Run using:</p>
+<div class="codewrapper sourceCode" id="cb1">
+<h3 class="code-label">BASH<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="sourceCode bash" tabindex="0"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> nextflow run channel.nf</span></code></pre>
+</div>
+<hr>
+<br></section><section id="04-processes-part1"><h2 class="section-heading"><a href="04-processes-part1.html">ProcessesProcesses<a class="anchor" aria-label="anchor" href="#processes"></a>Input repeaters<a class="anchor" aria-label="anchor" href="#input-repeaters"></a></a></h2>
+<hr class="half-width">
+<h3 id="04-processes-part1-headingInstructor1">
+<a href="04-processes-part1.html#headingInstructor1">Instructor Note</a><a class="anchor" aria-label="anchor" href="#04-processes-part1-headingInstructor1"></a>
+</h3>
+<p>The following section on python and R scripts is not meant to be run
+by the instructor or learners. It is meant to be a demonstration of the
+different ways to run a process.</p>
+<hr>
+<br></section><section id="05-processes-part2"><h2 class="section-heading"><a href="05-processes-part2.html">Processes Part 2</a></h2>
 <hr class="half-width"></section><section id="06-workflow"><h2 class="section-heading"><a href="06-workflow.html">Workflow</a></h2>
 <hr class="half-width"></section><section id="07-operators"><h2 class="section-heading"><a href="07-operators.html">Operators</a></h2>
-<hr class="half-width"></section><section id="08-configuration"><h2 class="section-heading"><a href="08-configuration.html">Nextflow configuration</a></h2>
-<hr class="half-width"></section><section id="09-Simple_Rna-Seq_pipeline"><h2 class="section-heading"><a href="09-Simple_Rna-Seq_pipeline.html">Simple RNA-Seq pipeline</a></h2>
-<hr class="half-width"></section><section id="10-Modules"><h2 class="section-heading"><a href="10-Modules.html">Modules</a></h2>
-<hr class="half-width"></section><section id="11-subworkflows"><h2 class="section-heading"><a href="11-subworkflows.html">Sub-workflows</a></h2>
-<hr class="half-width"></section><section id="12-reporting"><h2 class="section-heading"><a href="12-reporting.html">Reporting</a></h2>
-<hr class="half-width"></section><section id="13-workflow_checkpoint_caching"><h2 class="section-heading"><a href="13-workflow_checkpoint_caching.html">Workflow caching and checkpointing</a></h2>
+<hr class="half-width"></section><section id="08-reporting"><h2 class="section-heading"><a href="08-reporting.html">Reporting</a></h2>
+<hr class="half-width"></section><section id="09-configuration"><h2 class="section-heading"><a href="09-configuration.html">Nextflow configuration</a></h2>
+<hr class="half-width"></section><section id="10-workflow_checkpoint_caching"><h2 class="section-heading"><a href="10-workflow_checkpoint_caching.html">Workflow caching and checkpointing</a></h2>
+<hr class="half-width"></section><section id="11-Simple_Rna-Seq_pipeline"><h2 class="section-heading"><a href="11-Simple_Rna-Seq_pipeline.html">Simple RNA-Seq pipeline</a></h2>
+<hr class="half-width"></section><section id="12-Modules"><h2 class="section-heading"><a href="12-Modules.html">Modules</a></h2>
+<hr class="half-width"></section><section id="13-subworkflows"><h2 class="section-heading"><a href="13-subworkflows.html">Sub-workflows</a></h2>
 <hr class="half-width"></section><section id="14-nfcore"><h2 class="section-heading"><a href="14-nfcore.html">Deploying nf-core pipelines</a></h2>
 <hr class="half-width"></section><section id="15-coding_practices"><h2 class="section-heading"><a href="15-coding_practices.html">Nextflow coding practices</a></h2>
+<hr class="half-width"></section><section id="16-nextflow_scripting"><h2 class="section-heading"><a href="16-nextflow_scripting.html">Nextflow scripting</a></h2>
 <hr class="half-width"></section></section>
 </div>
     </main>
@@ -592,8 +629,8 @@ prototyping to choose a bioinformatics workflow management system. 2021;
   "url": "https://fishtree-attempt.github.io/workflows-nextflow/instructor/instructor-notes.html",
   "identifier": "https://fishtree-attempt.github.io/workflows-nextflow/instructor/instructor-notes.html",
   "dateCreated": "2021-02-01",
-  "dateModified": "2023-12-08",
-  "datePublished": "2023-12-08"
+  "dateModified": "2023-12-11",
+  "datePublished": "2023-12-11"
 }
 
   </script><script>
