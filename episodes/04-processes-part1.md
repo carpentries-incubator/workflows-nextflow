@@ -343,7 +343,7 @@ To reference a variable in the script block you can use the `$` in front of the 
 
 ##  Variable substitutions
 
-Similar to bash scripting Nextflow uses the "$" character to introduce variable substitutions. The variable name to be expanded may be enclosed in braces `{variable_name}`, which are optional but serve to protect the variable to be expanded from characters immediately following it which could be interpreted as part of the name. It is a good rule of thumb to always use the `{}` syntax.
+Similar to bash scripting Nextflow uses the `$` character to introduce variable substitutions. The variable name to be expanded may be enclosed in braces `{variable_name}`, which are optional but serve to protect the variable to be expanded from characters immediately following it which could be interpreted as part of the name. It is a good rule of thumb to always use the `{}` syntax because it enhances readability and clarity, ensures correct variable interpretation, and prevents potential syntax errors in complex expressions.
 
 ::::::::::::::::::::::::::::::::::::::::::::::::::
 
