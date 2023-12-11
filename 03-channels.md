@@ -87,6 +87,21 @@ What type of channel would you use to store the following?
 
 ::::::::::::::::::::::::::::::::::::::::::::::::::
 
+
+::::::::::::::::::::::::::::::::::::: instructor
+
+Create a nextflow script called to `channel.nf` for the following examples.
+Explain that as you are just setting up channels you do not need to add any processes 
+or a workflow block.
+
+Run using:
+
+```bash
+$ nextflow run channel.nf
+```
+
+:::::::::::::::::::::::::::::::::::::::::::::::::
+
 ## Creating Channels using Channel factories
 
 Channel factories are used to explicitly create channels. In programming,
@@ -126,6 +141,27 @@ The value method can only take 1 argument, however, this can be a single list or
 ```groovy 
 myList = [1776, -1, 33, 99, 0, 928734928763]
 myMap = [ p1 : "start", q2 : "end" ]
+```
+
+To view the contents of a value channel, use the `view` operator.
+We will learn more about channel operators in a later episode.
+
+
+```groovy
+ch1 = Channel.value( 'GRCh38' )
+ch2 = Channel.value( ['chr1', 'chr2', 'chr3', 'chr4', 'chr5'] )
+ch3 = Channel.value( ['chr1' : 248956422, 'chr2' : 242193529, 'chr3' : 198295559] )
+ch1.view()
+ch2.view()
+ch3.view()
+```
+
+Each item in the channel is printed on a separate line.
+
+```output
+GRCh38
+[chr1, chr2, chr3, chr4, chr5]
+[chr1:248956422, chr2:242193529, chr3:198295559]
 ```
 
 ## Queue channel factory
@@ -372,7 +408,7 @@ This will give an error as there is no data/chicken directory.
 
 ```output
 N E X T F L O W  ~  version 20.10.0
-Launching `hello.nf` [intergalactic_mcclintock] - revision: d2c138894b
+Launching `channels.nf` [intergalactic_mcclintock] - revision: d2c138894b
 No files match pattern `*.fq.gz` at path: data/chicken/reads/
 ```
 
@@ -398,11 +434,11 @@ all_files_ch.view()
 
 ```output 
 N E X T F L O W  ~  version 21.04.0
-Launching `nf-training/scripts/channels/channel_fromPath.nf` [reverent_mclean] - revision: cf02269bcb
+Launching `channel_fromPath.nf` [reverent_mclean] - revision: cf02269bcb
 data/yeast/samples.csv
-data/yeast/bams/ref1.bam.bai
-data/yeast/bams/ref3.bam
-data/yeast/bams/etoh60_3.
+data/yeast/reads/etoh60_3_2.fq.gz
+data/yeast/reads/temp33_1_2.fq.gz
+data/yeast/reads/temp33_2_1.fq.gz
 [..truncated..]
 ```
 

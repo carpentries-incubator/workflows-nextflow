@@ -42,7 +42,11 @@ ATAAAAGGACTCTTTTATAATGGAGGCGCATATCGAAGAGGGTTTTCAACGGGATGTTGT
 
 ::::::::::::::::::::::::::::::::::::::::::::::::::
 
+:::::::::::::::::::::::::::::::::::::::::  callout
 
+## zgrep -c '^>'
+The command `zgrep -c '^>' data/yeast/transcriptome/Saccharomyces_cerevisiae.R64-1-1.cdna.all.fa.gz` is used in Unix-like systems for a specific purpose: it counts the number of sequences in a compressed FASTA file. The tool `zgrep` combines the functionalities of 'grep' for pattern searching and 'gzip' for handling compressed files. The `-c` option modifies this command to count the occurrences of lines matching the pattern, instead of displaying them. The pattern `'^>'` is designed to find lines that start with '>', which in FASTA files, denotes the beginning of a new sequence. Thus, this command efficiently counts how many sequences are contained within the specified compressed FASTA file.
+::::::::::::::::::::::::::::::::::::::::::::::::::
 
 ```bash
 $ zgrep -c '^>' data/yeast/transcriptome/Saccharomyces_cerevisiae.R64-1-1.cdna.all.fa.gz
@@ -139,7 +143,6 @@ zgrep -v '^>' ${projectDir}/data/yeast/transcriptome/Saccharomyces_cerevisiae.R6
 workflow {
 COUNT_BASES()
 }
-~~~
 ```
 
 
@@ -246,6 +249,13 @@ executor >  local (1)
 Number of sequences for chromosome A:118
 ```
 
+::::::::::::::::::::::::::::::::::::: instructor
+
+The following section on python and R scripts is not meant to be run by the instructor or learners. 
+It is meant to be a demonstration of the different ways to run a process.
+
+:::::::::::::::::::::::::::::::::::::::::::::::::
+
 By default the process command is interpreted as a **Bash** script. However, any other scripting language can be used just simply starting the script with the corresponding [Shebang](https://en.wikipedia.org/wiki/Shebang_(Unix)) declaration. For example:
 
 ```groovy
@@ -333,7 +343,7 @@ To reference a variable in the script block you can use the `$` in front of the 
 
 ##  Variable substitutions
 
-Similar to bash scripting Nextflow uses the "$" character to introduce variable substitutions. The variable name to be expanded may be enclosed in braces `{variable_name}`, which are optional but serve to protect the variable to be expanded from characters immediately following it which could be interpreted as part of the name. It is a good rule of thumb to always use the `{}` syntax.
+Similar to bash scripting Nextflow uses the `$` character to introduce variable substitutions. The variable name to be expanded may be enclosed in braces `{variable_name}`, which are optional but serve to protect the variable to be expanded from characters immediately following it which could be interpreted as part of the name. It is a good rule of thumb to always use the `{}` syntax because it enhances readability and clarity, ensures correct variable interpretation, and prevents potential syntax errors in complex expressions.
 
 ::::::::::::::::::::::::::::::::::::::::::::::::::
 
@@ -395,6 +405,7 @@ nextflow run process_script_params.nf --chr B
 ## Script parameters
 
 For the Nextflow script below.
+
 ```groovy
 //process_exercise_script_params.nf
 nextflow.enable.dsl=2
@@ -410,11 +421,10 @@ zgrep -v  '^>'   ${projectDir}/data/yeast/transcriptome/Saccharomyces_cerevisiae
 workflow {
    COUNT_BASES()
  }
- ~~~
 ```
 
- Add a parameter params.base to the script and uses the variable ${param.base} insides the script.
- Run the pipeline using a base value of `C` using the `--base` command line option.
+Add a parameter `params.base` to the script and uses the variable `${param.base}` insides the script.
+Run the pipeline using a base value of `C` using the `--base` command line option.
 
 ```bash
 $ nextflow run process_script_params.nf --base <some value> -process.echo

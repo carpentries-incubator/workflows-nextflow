@@ -22,14 +22,14 @@ exercises: 5
 
 
 
-In the first episode we ran the Nextflow script, `wc.nf`, from the
+In the first episode we ran the Nextflow script, `word_count.nf`, from the
 command line and it counted the number of lines in the file
 `data/yeast/reads/ref1_1.fq.gz`. To change the input to script we can
 make use of pipeline parameters.
 
 ## Pipeline parameters
 
-The Nextflow `wc.nf` script defines a pipeline parameter `params.input`.
+The Nextflow `word_count.nf` script defines a pipeline parameter `params.input`.
 Pipeline parameters enable you to change the input to the workflow at
 runtime, via the command line or a configuration file, so they are not
 hard-coded into the script.
@@ -41,19 +41,19 @@ e.g., `params.input`.
 Their value can be specified on the command line by prefixing the
 parameter name with a **double dash** character, e.g., `--input`.
 
-In the script `wc.nf` the pipeline parameter `params.input` was
+In the script `word_count.nf` the pipeline parameter `params.input` was
 specified with a value of `"data/yeast/reads/ref1_1.fq.gz"`.
 
 To process a different file, e.g. `data/yeast/reads/ref2_2.fq.gz`, in
-the `wc.nf` script we would run:
+the `word_count.nf` script we would run:
 
 ``` bash
-$ nextflow run wc.nf --input 'data/yeast/reads/ref2_2.fq.gz'
+$ nextflow run word_count.nf --input 'data/yeast/reads/ref2_2.fq.gz'
 ```
 
 ``` output
 N E X T F L O W  ~  version 21.04.0
-Launching `wc.nf` [gigantic_woese] - revision: 8acb5cb9b0
+Launching `word_count.nf` [gigantic_woese] - revision: 8acb5cb9b0
 executor >  local (1)
 [26/3cf986] process > NUM_LINES (1) [100%] 1 of 1 ✔
 ref2_2.fq.gz 81720
@@ -66,14 +66,14 @@ If you use wild card characters on the command line you must enclose the
 value in quotes.
 
 ``` bash
-$ nextflow run wc.nf --input 'data/yeast/reads/ref2_*.fq.gz'
+$ nextflow run word_count.nf --input 'data/yeast/reads/ref2_*.fq.gz'
 ```
 
 This runs the process NUM_LINES twice, once for each file it matches.
 
 ``` output
 N E X T F L O W  ~  version 21.04.0
-Launching `wc.nf` [tender_lumiere] - revision: 8acb5cb9b0
+Launching `word_count.nf` [tender_lumiere] - revision: 8acb5cb9b0
 executor >  local (2)
 [cc/b6f793] process > NUM_LINES (1) [100%] 2 of 2 ✔
 ref2_2.fq.gz 81720
@@ -85,7 +85,7 @@ ref2_1.fq.gz 81720
 
 ## Change a pipeline's input using a parameter
 
-Re-run the Nextflow script `wc.nf` by changing the pipeline input to all
+Re-run the Nextflow script `word_count.nf` by changing the pipeline input to all
 files in the directory `data/yeast/reads/` that begin with `ref` and end
 with `.fq.gz`:
 
@@ -94,7 +94,7 @@ with `.fq.gz`:
 ## Solution
 
 ``` bash
-$ nextflow run wc.nf --input 'data/yeast/reads/ref*.fq.gz'
+$ nextflow run word_count.nf --input 'data/yeast/reads/ref*.fq.gz'
 ```
 
 The string specified on the command line will override the default value
@@ -102,7 +102,7 @@ of the parameter in the script. The output will look like this:
 
 ``` output
 N E X T F L O W  ~  version 20.10.0
-Launching `wc.nf` [soggy_miescher] - revision: c54a707593
+Launching `word_count.nf` [soggy_miescher] - revision: c54a707593
 executor >  local (6)
 [d3/9ca185] process > NUM_LINES (2) [100%] 6 of 6 ✔
 ref3_2.fq.gz 52592
@@ -129,7 +129,7 @@ To add a pipeline parameter to a script prepend the prefix `params`,
 separated by a dot character `.`, to a variable name e.g.,
 `params.input`.
 
-Let's make a copy of the `wc.nf` script as `wc-params.nf` and add a new
+Let's make a copy of the `word_count.nf` script as `wc-params.nf` and add a new
 input parameter.
 
 ``` bash
@@ -175,10 +175,10 @@ nextflow run wc-params.nf --sleep 10
 
 ## Add a pipeline parameter
 
-If you haven't already make a copy of the `wc.nf` as `wc-params.nf`.
+If you haven't already make a copy of the `word_count.nf` as `wc-params.nf`.
 
 ```bash
-$ cp wc.nf wc-params.nf
+$ cp word_count.nf wc-params.nf
 ```
 
 Add the param `sleep` with a default value of 2 below the `params.input` line. 
