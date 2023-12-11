@@ -143,7 +143,6 @@ zgrep -v '^>' ${projectDir}/data/yeast/transcriptome/Saccharomyces_cerevisiae.R6
 workflow {
 COUNT_BASES()
 }
-~~~
 ```
 
 
