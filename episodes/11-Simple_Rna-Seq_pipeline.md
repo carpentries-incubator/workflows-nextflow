@@ -30,7 +30,7 @@ This pipeline will have 4 processes that:
 - Indexes a transcriptome file.
 
 ```bash
-$ salmon index --threads $task.cpus -t $transcriptome -i index
+$ salmon index --threads <cpus> -t <transcriptome file> -i index
 ```
 
 - Performs quality controls
@@ -52,19 +52,15 @@ $ salmon quant --threads <cpus> --libType=U -i <index> -1 <read1> -2 <read2> -o 
 $ multiqc .
 ```
 
-To start move to `scripts/rnaseq_pipeline` folder.
+To start move the episode's nextflow scripts in the `scripts/rnaseq_pipeline` folder to your home directory.
 
 ```bash
-$ cd scripts/rnaseq_pipeline
+$ cp scripts/rnaseq_pipeline/* .
 ```
 
 This folder contains files we will be modifying in this episode.
 
-We will also create a symbolic link to the data directory.
 
-```bash
-$ ln -s ../../data data
-```
 
 ## Define the pipeline parameters
 
