@@ -56,9 +56,9 @@ $ conda activate nf-training
 
 ## Training scripts
 
-To get the script associated with each episode you will need to donwload the scripts from the github repository.
+To get the script associated with each episode you will need to download the scripts folder from the github repository.
 
-Below is a series of commands to download the scripts folder.
+Below is a series of commands to download and unpack scripts folder.
 
 ```bash
 # get the gitrepo as a zip file
@@ -74,7 +74,7 @@ mv workflows-nextflow-main/episodes/files/scripts .
 rm -r workflows-nextflow-main main.zip
 ```
 
-The nextflow scripts for each episode, can be found in the respective episode folders in the scripts folder.
+The nextflow scripts for each episode, can be found in the respective episode folders inside this the scripts folder.
 
 
 
