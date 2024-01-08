@@ -314,55 +314,7 @@
 <div class="accordion accordion-flush" id="accordionFlush13">
   <div class="accordion-item">
     <div class="accordion-header" id="flush-heading13">
-        <a href="12-Modules.html">12. Modules</a>
-    </div>
-<!--/div.accordion-header-->
-        
-  </div>
-<!--/div.accordion-item-->
-</div>
-<!--/div.accordion-flush-->
-
-<div class="accordion accordion-flush" id="accordionFlush14">
-  <div class="accordion-item">
-    <div class="accordion-header" id="flush-heading14">
-        <a href="13-subworkflows.html">13. Sub-workflows</a>
-    </div>
-<!--/div.accordion-header-->
-        
-  </div>
-<!--/div.accordion-item-->
-</div>
-<!--/div.accordion-flush-->
-
-<div class="accordion accordion-flush" id="accordionFlush15">
-  <div class="accordion-item">
-    <div class="accordion-header" id="flush-heading15">
-        <a href="14-nfcore.html">14. Deploying nf-core pipelines</a>
-    </div>
-<!--/div.accordion-header-->
-        
-  </div>
-<!--/div.accordion-item-->
-</div>
-<!--/div.accordion-flush-->
-
-<div class="accordion accordion-flush" id="accordionFlush16">
-  <div class="accordion-item">
-    <div class="accordion-header" id="flush-heading16">
-        <a href="15-coding_practices.html">15. Nextflow coding practices</a>
-    </div>
-<!--/div.accordion-header-->
-        
-  </div>
-<!--/div.accordion-item-->
-</div>
-<!--/div.accordion-flush-->
-
-<div class="accordion accordion-flush" id="accordionFlush17">
-  <div class="accordion-item">
-    <div class="accordion-header" id="flush-heading17">
-        <a href="16-nextflow_scripting.html">16. Nextflow scripting</a>
+        <a href="12-nfcore.html">12. Deploying nf-core pipelines</a>
     </div>
 <!--/div.accordion-header-->
         
@@ -571,29 +523,7 @@ several runtime metrics and execution information using the command line
 options <code>-with-report</code>, <code>-with-trace</code>,
 <code>-with-timeline</code> and produce a graph using
 <code>-with-dag</code>.</li>
-</ul></section><section id="12-Modules"><h2 class="section-heading"><a href="12-Modules.html">Modules</a></h2>
-<hr class="half-width">
-<ul>
-<li>A module file is a Nextflow script containing one or more
-<code>process</code> definitions that can be imported from another
-Nextflow script.</li>
-<li>To import a module into a workflow use the <code>include</code>
-keyword.</li>
-<li>A module script can define one or more parameters using the same
-syntax of a Nextflow workflow script.</li>
-<li>The module inherits the parameters define before the include
-statement, therefore any further parameter set later is ignored.</li>
-</ul></section><section id="13-subworkflows"><h2 class="section-heading"><a href="13-subworkflows.html">Sub-workflows</a></h2>
-<hr class="half-width">
-<ul>
-<li>Nextflow allows for definition of reusable sub-workflow
-libraries.</li>
-<li>Sub-workflow allows the definition of workflow processes that can be
-included from any other script and invoked as a custom function within
-the new workflow scope. This enables reuse of workflow components</li>
-<li>The <code>entry</code> option of the nextflow <code>run</code>
-command specifies the workflow name to be executed</li>
-</ul></section><section id="14-nfcore"><h2 class="section-heading"><a href="14-nfcore.html">Deploying nf-core pipelines</a></h2>
+</ul></section><section id="12-nfcore"><h2 class="section-heading"><a href="12-nfcore.html">Deploying nf-core pipelines</a></h2>
 <hr class="half-width">
 <ul>
 <li>nf-core is a community-led project to develop a set of best-practice
@@ -610,43 +540,6 @@ the pipeline using the <code>-params-file</code> option.</li>
 <code>nextflow run nf-core/&lt;pipeline&gt;</code> syntax.</li>
 <li>nf-core pipelines can be reconfigured by using custom config files
 and/or adding command line parameters.</li>
-</ul></section><section id="15-coding_practices"><h2 class="section-heading"><a href="15-coding_practices.html">Nextflow coding practices</a></h2>
-<hr class="half-width">
-<ul>
-<li>Nextflow is not sensitive to whitespace. Use it to layout code for
-readability.</li>
-<li>Use comments and whitespace to group chunks of code to describe big
-picture functionality.</li>
-<li>Report tool versions in the scripts.</li>
-<li>Name channel outputs using the <code>emit:</code> keyword.</li>
-<li>Avoid <code>params.parameter</code> in a process. Pass all
-parameters using input channels.</li>
-<li>Input files should be passed using input channels.</li>
-<li>Group short running commands into a larger process.</li>
-<li>Include a test profile which runs the workflow on a small test data
-set.</li>
-<li>Write your processes to reuse existing containers/software
-bundles.</li>
-<li>Use compressed files and temporary disk space when possible.</li>
-<li>Use consistent naming conventions.</li>
-</ul></section><section id="16-nextflow_scripting"><h2 class="section-heading"><a href="16-nextflow_scripting.html">Nextflow scripting</a></h2>
-<hr class="half-width">
-<ul>
-<li>Nextflow is a Domain Specific Language (DSL) implemented on top of
-the Groovy programming language.</li>
-<li>To define a variable, assign a value to it e.g., <code>a = 1</code>
-.</li>
-<li>Comments use the same syntax as in the C-family programming
-languages: <code>//</code> or multiline <code>/* */</code>.</li>
-<li>Multiple values can be stored in lists <span class="math display">\[value1, value2, value3, ...\]</span> or maps
-<span class="math display">\[chromosome: 1, start :1\]</span>.</li>
-<li>Lists are indexed and sliced with square brackets (e.g., list<span class="math display">\[0\]</span> and list<span class="math display">\[2..9\]</span>)</li>
-<li>String interpolation (variable interpolation, variable substitution,
-or variable expansion) is the process of evaluating a string literal
-containing one or more placeholders, yielding a result in which the
-placeholders are replaced with their corresponding values.</li>
-<li>A closure is an expression (block of code) encased in
-<code>{}</code> e.g. <code>{ it * it }</code>.</li>
 </ul></section>
 </div>
     </main>
@@ -695,8 +588,8 @@ placeholders are replaced with their corresponding values.</li>
   "url": "https://fishtree-attempt.github.io/workflows-nextflow/key-points.html",
   "identifier": "https://fishtree-attempt.github.io/workflows-nextflow/key-points.html",
   "dateCreated": "2021-02-01",
-  "dateModified": "2024-01-02",
-  "datePublished": "2024-01-02"
+  "dateModified": "2024-01-08",
+  "datePublished": "2024-01-08"
 }
 
   </script><script>

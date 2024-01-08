@@ -61,6 +61,9 @@
     <loc>https://fishtree-attempt.github.io/workflows-nextflow/12-Modules.html</loc>
   </url>
   <url>
+    <loc>https://fishtree-attempt.github.io/workflows-nextflow/12-nfcore.html</loc>
+  </url>
+  <url>
     <loc>https://fishtree-attempt.github.io/workflows-nextflow/12-reporting.html</loc>
   </url>
   <url>
@@ -158,6 +161,9 @@
   </url>
   <url>
     <loc>https://fishtree-attempt.github.io/workflows-nextflow/instructor/12-Modules.html</loc>
+  </url>
+  <url>
+    <loc>https://fishtree-attempt.github.io/workflows-nextflow/instructor/12-nfcore.html</loc>
   </url>
   <url>
     <loc>https://fishtree-attempt.github.io/workflows-nextflow/instructor/12-reporting.html</loc>

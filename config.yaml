@@ -70,11 +70,8 @@ episodes:
 - 09-configuration.md
 - 10-workflow_checkpoint_caching.md
 - 11-Simple_Rna-Seq_pipeline.md
-- 12-Modules.md
-- 13-subworkflows.md
-- 14-nfcore.md
-- 15-coding_practices.md
-- 16-nextflow_scripting.md
+- 12-nfcore.md
+
 
 # Information for Learners
 learners: 
