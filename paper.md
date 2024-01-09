@@ -39,6 +39,7 @@ The module's learning objectives include:
 
 - Understanding the principles of workflow management with Nextflow.
 - Developing skills to write, execute, and debug Nextflow workflows.
+- Understanding of nf-core community nextflow pipelines.
 
 
 The design incorporates practical exercises, discussions, and challenges, aligning with The Carpentries' teaching philosophy. The materials encourage active learning and peer-to-peer interaction, making the workshop engaging and effective.
