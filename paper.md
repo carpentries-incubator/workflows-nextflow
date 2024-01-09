@@ -56,7 +56,7 @@ The design incorporates practical exercises, discussions, and challenges, aligni
 
 The development of this module was motivated by the growing popularity of Nextflow[ditommaso2017nextflow] and nf-core[ewels2020nfcore] in bioinformatics and the lack of comprehensive, beginner-friendly resources. 
 
-We aimed to fill this gap by adapting, with permission, [training materials]( https://training.nextflow.io/) from [seqera](https://seqera.io) into a Carpentries-style lesson within the UKRI-funded Ed-DaSH project.
+We aimed to fill this gap by adapting, with permission, [training materials](https://github.com/seqeralabs/nextflow-tutorial) from [seqera](https://seqera.io) into a Carpentries-style lesson within the UKRI-funded Ed-DaSH project.
 
 Drawing on existing Carpentries materials and the experience of the author(s) in computational biology, the module was iteratively developed and refined based on learner feedback.
 
