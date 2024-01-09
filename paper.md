@@ -53,7 +53,7 @@ The design incorporates practical exercises, discussions, and challenges, aligni
 
 # How the Lesson Came to Be
 
-The development of this module was motivated by the growing popularity of Nextflow[ditommaso2017nextflow] in bioinformatics and the lack of comprehensive, beginner-friendly resources. 
+The development of this module was motivated by the growing popularity of Nextflow[ditommaso2017nextflow] and nf-core[ewels2020nfcore] in bioinformatics and the lack of comprehensive, beginner-friendly resources. 
 
 We aimed to fill this gap by adapting, with permission, [training materials]( https://training.nextflow.io/) from [seqera](https://seqera.io) into a Carpentries-style lesson within the UKRI-funded Ed-DaSH project.
 
