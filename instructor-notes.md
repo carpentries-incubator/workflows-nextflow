@@ -50,6 +50,13 @@ See the blog post [here](https://www.nextflow.io/blog/2015/introducing-nextflow-
 nextflow console
 ```
 
+## Next Steps
+
+Nextflow produces a [blog post](https://www.nextflow.io/blog/2023/learn-nextflow-in-2023.html) each year with links to training materials and workshops.
+This is a good website to show learners who want to learn more.
+
+
+
 ## References
 
 - [Di Tommaso P, Chatzou M, Floden EW, Barja PP, Palumbo E, Notredame C. Nextflow enables reproducible computational workflows. Nat Biotechnol. 2017;35(4):316-319.](https://www.nature.com/articles/nbt.3820) doi: 10.1038/nbt.3820). doi: 10.1038/nbt.3820.
