@@ -4,50 +4,53 @@ title: Learner Profiles
 
 ### Olivia Henderson
 
-Olivia Henderson is a graduate student in Genetics who is about to starting a four year PhD program in Cancer Genetics. She has attended Unix, git and R/Python Software carpentries as part of her PhD training induction.
+Olivia Henderson is a graduate student in genetics who is about to begin a four-year PhD program in Cancer Genetics. As part of her training, she has attended workshops on Unix, Git, and R/Python Software Carpentry.
 
-Olivia's supervisor is studying the effect of a drug on the transcriptome of cancer cells. She will generate 6 samples (3 control and 3 drug treatment) in a lab experiment. These samples will be sent to a local research facility for RNA sequencing.
+Olivia's supervisor is studying the effect of a drug on the transcriptome of cancer cells. For her project, she will generate six samples: three control and three drug-treated, in a lab experiment. These samples will be sent to a local research facility for RNA sequencing.
 
-The research facility sends a link to the raw data files to Olivia once the sequencing is completed. Olivia will download the files and perform pre-processing. Pre-processing will be done by running a series of bioinformatics programs on the University's compute cluster. She will then assess the quality of data and uses R to analyse the processed data.
+Once the sequencing is complete, the research facility will send Olivia a link to the raw data files. She will download the files and perform pre-processing using a series of bioinformatics programs on the University's compute cluster. She will then assess the data quality and use R to analyze the processed data.
 
-Olivia is new to Unix and has never run and RNA-Seq analysis before or worked on a compute cluster. She is very nervous about working on the cluster and feels overwhelmed about managing the software she will need to use for the analysis.
+Olivia is new to Unix and has never run an RNA-Seq analysis or worked on a compute cluster before. She is understandably nervous and feels overwhelmed about managing the software she needs for the analysis.
 
-Workflow management with Nextflow and nf-core will teach Olivia how to run reproducible workflows and how to track the software she is working with so that her work can be reproduced.
+The Nextflow and nf-core workshop will teach Olivia how to run reproducible workflows and track the software she uses, ensuring her work can be easily replicated.
+
+
 
 #### Background knowledge and skills:
 
-- Recently attended Unix, Git and R Software carpentries courses
+- Recently attended Unix, Git and R Software carpentries workshops
 - Can install software using GUI's
 - Comfortable using Windows interface
 
 #### Goals:
 
-- Running an RNA-Seq pipeline using current community best practises.
+- Run an RNA-Seq pipeline using current best practices in the community
 - Documenting her analysis
 
 ### Isabelle Craig
 
-Isabelle is a PostDoc working on the genetic causes of severe abnormalities that occur in early human development.
+sabelle Craig is a postdoctoral researcher studying the genetic causes of severe abnormalities in early human development.
 
-She writes her own analysis pipelines using shell scripts that she has developed over years and is comfortable running bioinformatics programs on the University compute cluster.
+Isabelle writes her own analysis pipelines using shell scripts that she's developed over the years and is comfortable running bioinformatics programs on the University's compute cluster.
 
-She has sent her scripts to a collaborator in another research institute and they are having problems running her pipeline as it is heavily tied to her own research environment.
+She sent her scripts to a collaborator at another research institute, who struggled to run the pipeline because it's heavily tied to her own research environment.
 
-Isabelle needs to publish her own pipeline for the detection of pathogenic variants so that others can use her work and so she can publish. Her PI has heard good things about Nextflow and wants her to migrate her existing pipline from a shell script to nextflow.
+Isabelle needs to publish her own pipeline for detecting pathogenic variants to both share her work and fulfill publication requirements. Her PI has heard positive things about Nextflow and suggests she migrate her existing pipeline from shell scripts to it.
 
-Isabelle is wary about migrating pipeline to a new techology and wants to publish asap.
+Isabelle is apprehensive about switching to a new technology and wants to publish as soon as possible.
 
 #### Background knowledge and skills:
 
-- Comfortable with Unix and Shell scripting
-- Uses Git to manage her own code
-- Can install software using conda and write here own environment files.
+- Proficient in Unix and shell scripting
+- Uses Git to manage her code
+- Can install software using conda and write her own environment files
+
 
 #### Goals:
 
-- Porting her exiting pipeline into Nextflow
-- Specifying her pipeline's software requirements
-- Publishing her pipeline on her github repository so others can benefit from her research
+- Convert her existing pipeline to Nextflow
+- Specify her pipeline's software requirements
+- Publish her pipeline on her Github repository for broader research use
 
 
 
