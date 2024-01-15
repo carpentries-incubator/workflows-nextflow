@@ -9,11 +9,14 @@ authors:
   - name: Graeme Grimes
     orcid: 0000-0002-3106-5996
     affiliation: "1"
-  - XXX
+  - name: Alison Meynert
+    email: alison.meynert@ed.ac.uk
+    orcid: 0000-0001-5839-1751
+    affiliation: "1"
 affiliations:
   - name: MRC Human Genetics Unit, The University of Edinburgh
     index: 1
-date: XXX
+date: 2024-01-15
 bibliography: paper.bib
 ---
 
