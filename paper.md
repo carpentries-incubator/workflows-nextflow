@@ -13,9 +13,17 @@ authors:
     email: alison.meynert@ed.ac.uk
     orcid: 0000-0001-5839-1751
     affiliation: "1"
+  - name: Mahesh Binzer-Panchal
+    email: mahesh.binzer-panchal@nbis.se
+    orcid: 0000-0003-1675-0677
+    affiliation: "2,3"
 affiliations:
   - name: MRC Human Genetics Unit, The University of Edinburgh
     index: 1
+  - name: Department of Medical Biochemistry and Microbiology, Uppsala University, Uppsala, Sweden
+    index: 2
+  - name: National Bioinformatics Infrastructure Sweden (NBIS), SciLifeLab, Uppsala University, Uppsala, Sweden
+    index: 3
 date: 2024-01-15
 bibliography: paper.bib
 ---
@@ -51,13 +59,13 @@ The design incorporates practical exercises, discussions, and challenges, aligni
 
 * Describe the submission, and explain its eligibility for JOSE.
 
-   
+
 
 <!-- Tell us the “story” of the project: how did it come to be? -->
 
 # How the Lesson Came to Be
 
-The development of this module was motivated by the growing popularity of Nextflow[ditommaso2017nextflow] and nf-core[ewels2020nfcore] in bioinformatics and the lack of comprehensive, beginner-friendly resources. 
+The development of this module was motivated by the growing popularity of Nextflow[ditommaso2017nextflow] and nf-core[ewels2020nfcore] in bioinformatics and the lack of comprehensive, beginner-friendly resources.
 
 We aimed to fill this gap by adapting, with permission, [training materials](https://github.com/seqeralabs/nextflow-tutorial) from [seqera](https://seqera.io) into a Carpentries-style lesson within the UKRI-funded Ed-DaSH project.
 
