@@ -28,7 +28,7 @@ The nextflow lesson material has been adapted from the sequera-labs training cou
 
 ## Editors
 
-The preferred code editor is [Visual Studio Code](https://code.visualstudio.com).  Visual Studio Code has a [syntax highlighting]([https://atom.io/packages/language-nextflow](https://marketplace.visualstudio.com/items?itemName=nextflow.nextflow) extension that adds the Nextflow language support.
+The preferred code editor is [Visual Studio Code](https://code.visualstudio.com).  Visual Studio Code has a [syntax highlighting](https://marketplace.visualstudio.com/items?itemName=nextflow.nextflow) extension that adds the Nextflow language support.
 
 ## Getting Help
 
