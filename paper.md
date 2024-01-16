@@ -22,7 +22,7 @@ affiliations:
     index: 1
   - name: Department of Medical Biochemistry and Microbiology, Uppsala University, Uppsala, Sweden
     index: 2
-  - name: SciLifeLab, Uppsala University, Uppsala, Sweden
+  - name: National Bioinformatics Infrastructure Sweden (NBIS), SciLifeLab, Uppsala University, Uppsala, Sweden
     index: 3
 date: 2024-01-15
 bibliography: paper.bib
