@@ -569,6 +569,12 @@ creation of a Conda environment by the Conda package manager.
 For example, `conda.cacheDir` specifies the path where the Conda
 environments are stored. By default this is in `conda` folder of the `work` directory.
 
+::::::::::::::::::::::::::::::::::::: instructor
+
+This following exercise necessitates the installation of conda, a package and environment management software, on your system for downloading and installing the FASTP software. If conda is not installed, then this exercise should be omitted.
+
+:::::::::::::::::::::::::::::::::::::::::::::::::
+
 :::::::::::::::::::::::::::::::::::::::  challenge
 
 ## Define a software requirement in the configuration file using conda
