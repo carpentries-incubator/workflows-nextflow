@@ -24,33 +24,39 @@ exercises: 40
 
 ::::::::::::::::::::::::::::::::::::::::::::::::::
 
-We are finally ready to implement a simple RNA-Seq pipeline in Nextflow.
-This pipeline will have 4 processes that:
 
-- Indexes a transcriptome file.
+We're now set to develop a multi-step pipeline using Nextflow, for analyzing and performing quality control on our yeast RNA-Seq experiment.
 
-```bash
-$ salmon index --threads <cpus> -t <transcriptome file> -i index
-```
+In this RNA-Seq pipeline, we'll undertake the following steps to thoroughly analyze gene expression data:
 
-- Performs quality controls
+1. **Quality Control with FastQC**: [FastQC](https://www.bioinformatics.babraham.ac.uk/projects/fastqc/) assesses the quality of the data by generating reports that highlight any potential issues, such as low-quality sequences or contamination. FastQC's output includes an HTML report and a directory containing detailed analyses, which are essential for evaluating the integrity of the sequencing data.
 
 ```bash
 $ mkdir fastqc_<sample_id>_logs
 $ fastqc -o fastqc_<sample_id>_logs -f fastq -q <reads>
 ```
 
-- Performs transcript level quantification.
+2. **Transcriptome Indexing with Salmon**: [Salmon](https://salmon.readthedocs.io/en/latest/) is a tool to quantify transcript expression in RNA-seq data. The first step in the process is for Salmon to create an index of the transcriptome. This step involves processing a reference transcriptome,  which allows for efficient and accurate mapping and quantification of RNA-Seq reads.
+
+```bash
+$ salmon index --threads <cpus> -t <transcriptome file> -i index
+```
+
+3. **Quantification with Salmon**: After indexing, Salmon is used for the quantification step. In this step, Salmon maps the reads to the transcriptome index and quantifies the transcript abundances. This process is crucial for determining the expression levels of genes in the sample.
 
 ```bash
 $ salmon quant --threads <cpus> --libType=U -i <index> -1 <read1> -2 <read2> -o <pair_id>
 ```
 
-- Create a MultiqQC report form the FastQC and salmon results.
+4. **Aggregating Reports with MultiQC**: Finally, the pipeline employs [MultiQC](https://multiqc.info/) to aggregate logs and outputs from the  FastQC and Salmon. MultiQC scans the outputs and compiles a summary report, which provides an overview of the results and highlights any areas that may need further investigation.
+
 
 ```bash
 $ multiqc .
 ```
+
+This pipeline  provides an overview of RNA-Seq data, from quality control to expression quantification, culminating in an aggregated report for easy interpretation of the results.
+
 
 To start move the episode's nextflow scripts in the `scripts/rnaseq_pipeline` folder to your home directory.
 
