@@ -579,10 +579,26 @@ This following exercise necessitates the installation of conda, a package and en
 
 ## Define a software requirement in the configuration file using conda
 
-Create a config file for the Nextflow script `configuration_fastp.nf`.
-Add a conda directive for the process name `FASTP` that includes the bioconda package `fastp`, version 0.12.4-0.
+We are going to define a software requirement using the "conda" directive.
+
+The software we are going to uses is `fastp`, a tool used for fast processing of next-generation sequencing data (like RNA or DNA sequences). 
+
+Each time the `process` is called we are going to run `fastp -A -i ${read} -o out.fq 2>&1`
+
+* `fastp` is the main command that invokes the fastp program.
+* -A:  option tells fastp to automatically detect and trim adapters. Adapters are short, artificially added sequences used in sequencing that are not part of the target DNA or RNA. -i ${read}:
+* The `-i` flag specifies the input file. `${read}` represents a nextflow variable that contains the path to the sequencing reads.
+* `-o`: The `-o` flag specifies the output file. In this case, the processed sequencing data will be written to a file named `out.fq`.
+* `2>&1`: This is a shell redirection command, it means that both the regular output and error messages will be sent to the console.
+
+
+1. Create a config file for the Nextflow script `configuration_fastp.nf`.
+
+2. Add a conda directive for the process name `FASTP` that includes the bioconda package `fastp`, version 0.12.4-0.
+
 **Hint** You can specify the conda packages using the syntax `<channel>::<package_name>=<version>` e.g. `bioconda::salmon=1.5.2`
-Run the Nextflow script `configure_fastp.nf` with the configuration file using the `-c` option.
+
+3. Run the Nextflow script `configure_fastp.nf` with the configuration file using the `-c` option.
 
 ```groovy 
 // configuration_fastp.nf
