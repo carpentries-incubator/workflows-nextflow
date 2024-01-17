@@ -481,7 +481,7 @@ running locally, to running on HPC clusters or cloud infrastructures.
 See [https://www.nextflow.io/docs/latest/executor.html](https://www.nextflow.io/docs/latest/executor.html) for the
 full list of supported executors.
 
-![](https://seqera.io/training/fig/nf-executors.png){alt='nf-executors'}
+![](fig/nf-executors.png){alt='digram of different nextflow-executors'}
 
 The default executor configuration is defined within the `executor`
 scope ([https://www.nextflow.io/docs/latest/config.html#scope-executor](https://www.nextflow.io/docs/latest/config.html#scope-executor)).
