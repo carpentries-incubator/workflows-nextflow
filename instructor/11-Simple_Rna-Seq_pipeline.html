@@ -329,7 +329,7 @@
       </div>
       <hr></nav><main id="main-content" class="main-content"><div class="container lesson-content">
         <h1>Simple RNA-Seq pipeline</h1>
-        <p>Last updated on 2023-12-11 |
+        <p>Last updated on 2024-01-17 |
         
         <a href="https://github.com/fishtree-attempt/workflows-nextflow/edit/main/episodes/11-Simple_Rna-Seq_pipeline.md" class="external-link">Edit this page <i aria-hidden="true" data-feather="edit"></i></a></p>
         
@@ -376,33 +376,61 @@ pipeline run.</li>
 </div>
 </div>
 </div>
-<p>We are finally ready to implement a simple RNA-Seq pipeline in
-Nextflow. This pipeline will have 4 processes that:</p>
-<ul><li>Indexes a transcriptome file.</li>
-</ul><div class="codewrapper sourceCode" id="cb1">
+<p>We’re now set to develop a multi-step pipeline using Nextflow, for
+analyzing and performing quality control on our yeast RNA-Seq
+experiment.</p>
+<p>In this RNA-Seq pipeline, we’ll undertake the following steps to
+thoroughly analyze gene expression data:</p>
+<ol style="list-style-type: decimal"><li>
+<strong>Quality Control with FastQC</strong>: <a href="https://www.bioinformatics.babraham.ac.uk/projects/fastqc/" class="external-link">FastQC</a>
+assesses the quality of the data by generating reports that highlight
+any potential issues, such as low-quality sequences or contamination.
+FastQC’s output includes an HTML report and a directory containing
+detailed analyses, which are essential for evaluating the integrity of
+the sequencing data.</li>
+</ol><div class="codewrapper sourceCode" id="cb1">
 <h3 class="code-label">BASH<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode bash" tabindex="0"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> salmon index <span class="at">--threads</span> <span class="op">&lt;</span>cpus<span class="op">&gt;</span> -t <span class="op">&lt;</span>transcriptome file<span class="op">&gt;</span> -i index</span></code></pre>
+<pre class="sourceCode bash" tabindex="0"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> mkdir fastqc_<span class="op">&lt;</span>sample_id<span class="op">&gt;</span>_logs</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> fastqc <span class="at">-o</span> fastqc_<span class="op">&lt;</span>sample_id<span class="op">&gt;</span>_logs <span class="at">-f</span> fastq <span class="at">-q</span> <span class="op">&lt;</span>reads<span class="op">&gt;</span></span></code></pre>
 </div>
-<ul><li>Performs quality controls</li>
-</ul><div class="codewrapper sourceCode" id="cb2">
+<ol start="2" style="list-style-type: decimal"><li>
+<strong>Transcriptome Indexing with Salmon</strong>: <a href="https://salmon.readthedocs.io/en/latest/" class="external-link">Salmon</a> is a tool to
+quantify transcript expression in RNA-seq data. The first step in the
+process is for Salmon to create an index of the transcriptome. This step
+involves processing a reference transcriptome, which allows for
+efficient and accurate mapping and quantification of RNA-Seq reads.</li>
+</ol><div class="codewrapper sourceCode" id="cb2">
 <h3 class="code-label">BASH<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode bash" tabindex="0"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> mkdir fastqc_<span class="op">&lt;</span>sample_id<span class="op">&gt;</span>_logs</span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> fastqc <span class="at">-o</span> fastqc_<span class="op">&lt;</span>sample_id<span class="op">&gt;</span>_logs <span class="at">-f</span> fastq <span class="at">-q</span> <span class="op">&lt;</span>reads<span class="op">&gt;</span></span></code></pre>
+<pre class="sourceCode bash" tabindex="0"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> salmon index <span class="at">--threads</span> <span class="op">&lt;</span>cpus<span class="op">&gt;</span> -t <span class="op">&lt;</span>transcriptome file<span class="op">&gt;</span> -i index</span></code></pre>
 </div>
-<ul><li>Performs transcript level quantification.</li>
-</ul><div class="codewrapper sourceCode" id="cb3">
+<ol start="3" style="list-style-type: decimal"><li>
+<strong>Quantification with Salmon</strong>: After indexing, Salmon
+is used for the quantification step. In this step, Salmon maps the reads
+to the transcriptome index and quantifies the transcript abundances.
+This process is crucial for determining the expression levels of genes
+in the sample.</li>
+</ol><div class="codewrapper sourceCode" id="cb3">
 <h3 class="code-label">BASH<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="sourceCode bash" tabindex="0"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> salmon quant <span class="at">--threads</span> <span class="op">&lt;</span>cpus<span class="op">&gt;</span> --libType=U <span class="at">-i</span> <span class="op">&lt;</span>index<span class="op">&gt;</span> -1 <span class="op">&lt;</span>read1<span class="op">&gt;</span> -2 <span class="op">&lt;</span>read2<span class="op">&gt;</span> -o <span class="op">&lt;</span>pair_id<span class="op">&gt;</span></span></code></pre>
 </div>
-<ul><li>Create a MultiqQC report form the FastQC and salmon results.</li>
-</ul><div class="codewrapper sourceCode" id="cb4">
+<ol start="4" style="list-style-type: decimal"><li>
+<strong>Aggregating Reports with MultiQC</strong>: Finally, the
+pipeline employs <a href="https://multiqc.info/" class="external-link">MultiQC</a> to
+aggregate logs and outputs from the FastQC and Salmon. MultiQC scans the
+outputs and compiles a summary report, which provides an overview of the
+results and highlights any areas that may need further
+investigation.</li>
+</ol><div class="codewrapper sourceCode" id="cb4">
 <h3 class="code-label">BASH<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="sourceCode bash" tabindex="0"><code class="sourceCode bash"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> multiqc .</span></code></pre>
 </div>
+<p>This pipeline provides an overview of RNA-Seq data, from quality
+control to expression quantification, culminating in an aggregated
+report for easy interpretation of the results.</p>
 <p>To start move the episode’s nextflow scripts in the
 <code>scripts/rnaseq_pipeline</code> folder to your home directory.</p>
 <div class="codewrapper sourceCode" id="cb5">
@@ -460,7 +488,7 @@ will be used as the pipeline output directory.</p>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution1" aria-expanded="false" aria-controls="collapseSolution1">
   <h4 class="accordion-header" id="headingSolution1">Show me the solution</h4>
 </button>
-<div id="collapseSolution1" class="accordion-collapse collapse" data-bs-parent="#accordionSolution1" aria-labelledby="headingSolution1">
+<div id="collapseSolution1" class="accordion-collapse collapse" aria-labelledby="headingSolution1" data-bs-parent="#accordionSolution1">
 <div class="accordion-body">
 <div class="codewrapper sourceCode" id="cb10">
 <h3 class="code-label">GROOVY<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
@@ -510,7 +538,7 @@ multiline string statement. See an example <a href="https://github.com/nextflow-
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution2" aria-expanded="false" aria-controls="collapseSolution2">
   <h4 class="accordion-header" id="headingSolution2">Show me the solution</h4>
 </button>
-<div id="collapseSolution2" class="accordion-collapse collapse" data-bs-parent="#accordionSolution2" aria-labelledby="headingSolution2">
+<div id="collapseSolution2" class="accordion-collapse collapse" aria-labelledby="headingSolution2" data-bs-parent="#accordionSolution2">
 <div class="accordion-body">
 <p>Below is an example log.info command printing all the pipeline
 parameters.</p>
@@ -696,7 +724,7 @@ can use the <code>view</code> operator.</p>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution3" aria-expanded="false" aria-controls="collapseSolution3">
   <h4 class="accordion-header" id="headingSolution3">Show me the solution</h4>
 </button>
-<div id="collapseSolution3" class="accordion-collapse collapse" data-bs-parent="#accordionSolution3" aria-labelledby="headingSolution3">
+<div id="collapseSolution3" class="accordion-collapse collapse" aria-labelledby="headingSolution3" data-bs-parent="#accordionSolution3">
 <div class="accordion-body">
 <div class="codewrapper sourceCode" id="cb22">
 <h3 class="code-label">GROOVY<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
@@ -845,7 +873,7 @@ pattern to read in all the read pairs files from the
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution4" aria-expanded="false" aria-controls="collapseSolution4">
   <h4 class="accordion-header" id="headingSolution4">Show me the solution</h4>
 </button>
-<div id="collapseSolution4" class="accordion-collapse collapse" data-bs-parent="#accordionSolution4" aria-labelledby="headingSolution4">
+<div id="collapseSolution4" class="accordion-collapse collapse" aria-labelledby="headingSolution4" data-bs-parent="#accordionSolution4">
 <div class="accordion-body">
 <div class="codewrapper sourceCode" id="cb32">
 <h3 class="code-label">GROOVY<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
@@ -990,7 +1018,7 @@ to add some descriptive text to instance of the process being run.</p>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution5" aria-expanded="false" aria-controls="collapseSolution5">
   <h4 class="accordion-header" id="headingSolution5">Show me the solution</h4>
 </button>
-<div id="collapseSolution5" class="accordion-collapse collapse" data-bs-parent="#accordionSolution5" aria-labelledby="headingSolution5">
+<div id="collapseSolution5" class="accordion-collapse collapse" aria-labelledby="headingSolution5" data-bs-parent="#accordionSolution5">
 <div class="accordion-body">
 <div class="codewrapper sourceCode" id="cb40">
 <h3 class="code-label">GROOVY<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
@@ -1034,7 +1062,7 @@ output.</p>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution6" aria-expanded="false" aria-controls="collapseSolution6">
   <h4 class="accordion-header" id="headingSolution6">Show me the solution</h4>
 </button>
-<div id="collapseSolution6" class="accordion-collapse collapse" data-bs-parent="#accordionSolution6" aria-labelledby="headingSolution6">
+<div id="collapseSolution6" class="accordion-collapse collapse" aria-labelledby="headingSolution6" data-bs-parent="#accordionSolution6">
 <div class="accordion-body">
 <div class="codewrapper sourceCode" id="cb41">
 <h3 class="code-label">GROOVY<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
@@ -1133,7 +1161,7 @@ using the <code>-resume</code> option.</p>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution7" aria-expanded="false" aria-controls="collapseSolution7">
   <h4 class="accordion-header" id="headingSolution7">Show me the solution</h4>
 </button>
-<div id="collapseSolution7" class="accordion-collapse collapse" data-bs-parent="#accordionSolution7" aria-labelledby="headingSolution7">
+<div id="collapseSolution7" class="accordion-collapse collapse" aria-labelledby="headingSolution7" data-bs-parent="#accordionSolution7">
 <div class="accordion-body">
 <div class="codewrapper sourceCode" id="cb45">
 <h3 class="code-label">GROOVY<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
@@ -1219,7 +1247,7 @@ one List item?</p>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution8" aria-expanded="false" aria-controls="collapseSolution8">
   <h4 class="accordion-header" id="headingSolution8">Show me the solution</h4>
 </button>
-<div id="collapseSolution8" class="accordion-collapse collapse" data-bs-parent="#accordionSolution8" aria-labelledby="headingSolution8">
+<div id="collapseSolution8" class="accordion-collapse collapse" aria-labelledby="headingSolution8" data-bs-parent="#accordionSolution8">
 <div class="accordion-body">
 <p>You need to use the <code>mix</code> operator first to combine the
 channels followed by the <code>collect</code> operator to collect all
@@ -1382,7 +1410,7 @@ report created with the above command.</li>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution9" aria-expanded="false" aria-controls="collapseSolution9">
   <h4 class="accordion-header" id="headingSolution9">Show me the solution</h4>
 </button>
-<div id="collapseSolution9" class="accordion-collapse collapse" data-bs-parent="#accordionSolution9" aria-labelledby="headingSolution9">
+<div id="collapseSolution9" class="accordion-collapse collapse" aria-labelledby="headingSolution9" data-bs-parent="#accordionSolution9">
 <div class="accordion-body">
 <p>The <code>INDEX</code> process should be the longest running process.
 dag.png <img src="../fig/dag.png" alt="dag" class="figure"> The vertices in the graph
@@ -1495,8 +1523,8 @@ options <code>-with-report</code>, <code>-with-trace</code>,
   "url": "https://fishtree-attempt.github.io/workflows-nextflow/instructor/11-Simple_Rna-Seq_pipeline.html",
   "identifier": "https://fishtree-attempt.github.io/workflows-nextflow/instructor/11-Simple_Rna-Seq_pipeline.html",
   "dateCreated": "2021-02-01",
-  "dateModified": "2023-12-11",
-  "datePublished": "2024-01-16"
+  "dateModified": "2024-01-17",
+  "datePublished": "2024-01-17"
 }
 
   </script><script>
