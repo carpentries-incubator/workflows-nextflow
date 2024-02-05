@@ -460,7 +460,7 @@ input. Since the channel has three elements, three independent instances
 output, which is passed to another channel and used as input for the
 next process.</p>
 <p align="center">
-<img alt="Processes and channels" src="fig/channel-process_fqc.png" width="700" class="figure"><br><em> Nextflow process flow diagram. </em>
+<img src="fig/channel-process_fqc.png" alt="Diagram depicting part of a bioinformatics data processing workflow. On the left, there is a 'channel' labeled 'samples' containing three items: Fastq1, Fastq2, and Fastq3. This channel flows into a 'process' called 'fastqc' represented by a rounded rectangle containing the command 'fastqc -o out ${reads}'. The output of this process goes into a channel named 'out_ch', which lists 'outdir' three times as its contents. This channel then flows into a channel operator 'collect' and then into  another 'process' called 'multiqc', indicated by a rounded rectangle with the command 'multiqc -o mqc_res .'. The output of 'multiqc' goes into a channel called 'mqc_ch', which also lists 'outdir' one time." width="700" class="figure"><br><em> Nextflow process flow diagram. </em>
 </p>
 </section><section id="workflow-execution"><h2 class="section-heading">Workflow execution<a class="anchor" aria-label="anchor" href="#workflow-execution"></a>
 </h2>
@@ -473,7 +473,7 @@ testing, and small-scale workflows, but for large-scale computational
 pipelines, a High Performance Cluster (HPC) or Cloud platform is often
 required.</p>
 <p align="center">
-<img alt="Processes and channels" src="fig/executor.png" width="350" class="figure"><br><em>Nextflow Executors</em>
+<img src="fig/executor.png" alt="Diagram of a computational process within a bioinformatics workflow. The image features a large, central, rounded rectangle labeled 'process' with a smaller rectangle inside it labeled 'script', indicating the code or commands that are being executed. Above the script box, there is a smaller inset labeled 'Executors' with three icons: a desktop computer labeled 'Local', a stack of servers labeled 'High Performance Compute Cluster', and a cloud symbol labeled 'Cloud Compute'. These represent the different computing environments where the script can be executed. To the left of the process box is a green left-pointing arrowhead, suggesting input into the process, and to the right is a yellow right-pointing arrowhead, indicating the direction of output from the process." width="350" class="figure"><br><em>Nextflow Executors</em>
 </p>
 <p>Nextflow provides a separation between the pipeline’s functional
 logic and the underlying execution platform. This makes it possible to
@@ -615,7 +615,7 @@ terminal:</p>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution1" aria-expanded="false" aria-controls="collapseSolution1">
   <h4 class="accordion-header" id="headingSolution1">Show me the solution</h4>
 </button>
-<div id="collapseSolution1" class="accordion-collapse collapse" data-bs-parent="#accordionSolution1" aria-labelledby="headingSolution1">
+<div id="collapseSolution1" class="accordion-collapse collapse" aria-labelledby="headingSolution1" data-bs-parent="#accordionSolution1">
 <div class="accordion-body">
 <p>You should see output similar to the text shown below:</p>
 <div class="codewrapper">
