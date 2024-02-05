@@ -130,7 +130,7 @@ channel has three elements, three independent instances (tasks) of that process
 are run in parallel. Each task generates an output, which is passed to another
 channel and used as input for the next process.
 
-<p align="center">   <img alt="Processes and channels" src="fig/channel-process_fqc.png" width="700">   <br>   <em> Nextflow process flow diagram. </em>
+<p align="center">   <img alt="Processes and channels" src="fig/channel-process_fqc.png" alt="Diagram depicting part of a bioinformatics data processing workflow. On the left, there is a 'channel' labeled 'samples' containing three items: Fastq1, Fastq2, and Fastq3. This channel flows into a 'process' called 'fastqc' represented by a rounded rectangle containing the command 'fastqc -o out ${reads}'. The output of this process goes into a channel named 'out_ch', which lists 'outdir' three times as its contents. This channel then flows into a channel operator 'collect' and then into  another 'process' called 'multiqc', indicated by a rounded rectangle with the command 'multiqc -o mqc_res .'. The output of 'multiqc' goes into a channel called 'mqc_ch', which also lists 'outdir' one time." width="700">   <br>   <em> Nextflow process flow diagram. </em>
 </p>
 
 ## Workflow execution
