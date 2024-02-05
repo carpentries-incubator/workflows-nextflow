@@ -143,7 +143,7 @@ local executor is very useful for pipeline development, testing, and
 small-scale workflows, but for large-scale computational pipelines, a High
 Performance Cluster (HPC) or Cloud platform is often required.
 
-<p align="center">   <img alt="Processes and channels" src="fig/executor.png" width="350">   <br>   <em>Nextflow Executors</em>
+<p align="center">   <img alt="Processes and channels" src="fig/executor.png" alt="Diagram of a computational process within a bioinformatics workflow. The image features a large, central, rounded rectangle labeled 'process' with a smaller rectangle inside it labeled 'script', indicating the code or commands that are being executed. Above the script box, there is a smaller inset labeled 'Executors' with three icons: a desktop computer labeled 'Local', a stack of servers labeled 'High Performance Compute Cluster', and a cloud symbol labeled 'Cloud Compute'. These represent the different computing environments where the script can be executed. To the left of the process box is a green left-pointing arrowhead, suggesting input into the process, and to the right is a yellow right-pointing arrowhead, indicating the direction of output from the process." width="350">   <br>   <em>Nextflow Executors</em>
 </p>
 
 Nextflow provides a separation between the pipeline's functional logic and the
