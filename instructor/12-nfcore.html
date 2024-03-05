@@ -388,13 +388,12 @@ under the, permissive free software, <a href="https://en.wikipedia.org/wiki/MIT_
 develop pipelines. The <a href="https://nf-co.re/tools" class="external-link">nf-core
 tools</a> package is written in Python and can run from the command line
 or imported and used within other packages.</p>
-<div id="automatic-version-check" class="callout callout">
+<div id="callout1" class="callout">
 <div class="callout-square">
 <i class="callout-icon" data-feather="bell"></i>
 </div>
-<div id="automatic-version-check" class="callout-inner">
-<h3 class="callout-title">Automatic version check<a class="anchor" aria-label="anchor" href="#automatic-version-check"></a>
-</h3>
+<div class="section level3 callout-title callout-inner">
+<h3 class="callout-title" id="automatic-version-check">Automatic version check<a class="anchor" aria-label="anchor" href="#automatic-version-check"></a></h3>
 <div class="callout-content">
 <p>nf-core/tools automatically checks the web to see if there is a new
 version of nf-core/tools available. If you would prefer to skip this
@@ -403,7 +402,7 @@ example:</p>
 <div class="codewrapper sourceCode" id="cb1">
 <h3 class="code-label">BASH<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode bash" tabindex="0"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="bu">export</span> <span class="va">NFCORE_NO_VERSION_CHECK</span><span class="op">=</span>1</span></code></pre>
+<pre class="sourceCode bash" tabindex="0"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a><span class="bu">export</span> <span class="va">NFCORE_NO_VERSION_CHECK</span><span class="op">=</span>1</span></code></pre>
 </div>
 </div>
 </div>
@@ -418,7 +417,7 @@ pipelines.</p>
 <div class="codewrapper sourceCode" id="cb2">
 <h3 class="code-label">BASH<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode bash" tabindex="0"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> nf-core <span class="at">--help</span></span></code></pre>
+<pre class="sourceCode bash" tabindex="0"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" tabindex="-1"></a><span class="ex">$</span> nf-core <span class="at">--help</span></span></code></pre>
 </div>
 <div class="codewrapper">
 <h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
@@ -466,7 +465,7 @@ tells you when that was and whether you have the latest version.</p>
 <div class="codewrapper sourceCode" id="cb4">
 <h3 class="code-label">BASH<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode bash" tabindex="0"><code class="sourceCode bash"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> nf-core list</span></code></pre>
+<pre class="sourceCode bash" tabindex="0"><code class="sourceCode bash"><span id="cb4-1"><a href="#cb4-1" tabindex="-1"></a><span class="ex">$</span> nf-core list</span></code></pre>
 </div>
 <p>An example of the output from the command is as follows:</p>
 <div class="codewrapper">
@@ -508,7 +507,7 @@ output, including keywords and description text.</p>
 <div class="codewrapper sourceCode" id="cb6">
 <h3 class="code-label">BASH<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode bash" tabindex="0"><code class="sourceCode bash"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> nf-core list rna rna-seq</span></code></pre>
+<pre class="sourceCode bash" tabindex="0"><code class="sourceCode bash"><span id="cb6-1"><a href="#cb6-1" tabindex="-1"></a><span class="ex">$</span> nf-core list rna rna-seq</span></code></pre>
 </div>
 <div class="codewrapper">
 <h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
@@ -547,7 +546,7 @@ or number of GitHub stars (<code>--sort stars</code>).</p>
 <div class="codewrapper sourceCode" id="cb8">
 <h3 class="code-label">BASH<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode bash" tabindex="0"><code class="sourceCode bash"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="ex">nf-core</span> list rna rna-seq <span class="at">--sort</span> stars</span></code></pre>
+<pre class="sourceCode bash" tabindex="0"><code class="sourceCode bash"><span id="cb8-1"><a href="#cb8-1" tabindex="-1"></a><span class="ex">nf-core</span> list rna rna-seq <span class="at">--sort</span> stars</span></code></pre>
 </div>
 <div class="codewrapper">
 <h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
@@ -574,13 +573,12 @@ nf-core/tools version 2.1
 │ dualrnaseq    │     4 │          1.0.0 │ 7 months ago │           - │ -                    │
 └───────────────┴───────┴────────────────┴──────────────┴─────────────┴──────────────────────┘</code></pre>
 </div>
-<div id="archived-pipelines" class="callout callout">
+<div id="callout2" class="callout">
 <div class="callout-square">
 <i class="callout-icon" data-feather="bell"></i>
 </div>
-<div id="archived-pipelines" class="callout-inner">
-<h3 class="callout-title">Archived pipelines<a class="anchor" aria-label="anchor" href="#archived-pipelines"></a>
-</h3>
+<div class="section level3 callout-title callout-inner">
+<h3 class="callout-title" id="archived-pipelines">Archived pipelines<a class="anchor" aria-label="anchor" href="#archived-pipelines"></a></h3>
 <div class="callout-content">
 <p>Archived pipelines are not returned by default. To include them, use
 the <code>--show_archived</code> flag.</p>
@@ -609,25 +607,25 @@ there are?</li>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution1" aria-expanded="false" aria-controls="collapseSolution1">
   <h4 class="accordion-header" id="headingSolution1">Show me the solution</h4>
 </button>
-<div id="collapseSolution1" class="accordion-collapse collapse" data-bs-parent="#accordionSolution1" aria-labelledby="headingSolution1">
+<div id="collapseSolution1" class="accordion-collapse collapse" aria-labelledby="headingSolution1" data-bs-parent="#accordionSolution1">
 <div class="accordion-body">
 <p>Use the <code>--help</code> flag to print the list command usage.</p>
 <div class="codewrapper sourceCode" id="cb10">
 <h3 class="code-label">BASH<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode bash" tabindex="0"><code class="sourceCode bash"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> nf-core list <span class="at">--help</span></span></code></pre>
+<pre class="sourceCode bash" tabindex="0"><code class="sourceCode bash"><span id="cb10-1"><a href="#cb10-1" tabindex="-1"></a><span class="ex">$</span> nf-core list <span class="at">--help</span></span></code></pre>
 </div>
 <p>Sort all pipelines by popularity (stars).</p>
 <div class="codewrapper sourceCode" id="cb11">
 <h3 class="code-label">BASH<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode bash" tabindex="0"><code class="sourceCode bash"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> nf-core list <span class="at">--sort</span> stars</span></code></pre>
+<pre class="sourceCode bash" tabindex="0"><code class="sourceCode bash"><span id="cb11-1"><a href="#cb11-1" tabindex="-1"></a><span class="ex">$</span> nf-core list <span class="at">--sort</span> stars</span></code></pre>
 </div>
 <p>Filter pipelines for those that work with RNA.</p>
 <div class="codewrapper sourceCode" id="cb12">
 <h3 class="code-label">BASH<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode bash" tabindex="0"><code class="sourceCode bash"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> nf-core list rna</span></code></pre>
+<pre class="sourceCode bash" tabindex="0"><code class="sourceCode bash"><span id="cb12-1"><a href="#cb12-1" tabindex="-1"></a><span class="ex">$</span> nf-core list rna</span></code></pre>
 </div>
 </div>
 </div>
@@ -656,14 +654,14 @@ github site.;</p>
 <div class="codewrapper sourceCode" id="cb13">
 <h3 class="code-label">BASH<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode bash" tabindex="0"><code class="sourceCode bash"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> nextflow pull nf-core/<span class="op">&lt;</span>PIPELINE<span class="op">&gt;</span></span></code></pre>
+<pre class="sourceCode bash" tabindex="0"><code class="sourceCode bash"><span id="cb13-1"><a href="#cb13-1" tabindex="-1"></a><span class="ex">$</span> nextflow pull nf-core/<span class="op">&lt;</span>PIPELINE<span class="op">&gt;</span></span></code></pre>
 </div>
 <p>Nextflow will also automatically fetch the pipeline code when you
 run</p>
 <div class="codewrapper sourceCode" id="cb14">
 <h3 class="code-label">BASH<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode bash" tabindex="0"><code class="sourceCode bash"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> nextflow run nf-core/<span class="op">&lt;</span>pipeline<span class="op">&gt;</span><span class="kw">`</span><span class="bu">.</span></span></code></pre>
+<pre class="sourceCode bash" tabindex="0"><code class="sourceCode bash"><span id="cb14-1"><a href="#cb14-1" tabindex="-1"></a><span class="ex">$</span> nextflow run nf-core/<span class="op">&lt;</span>pipeline<span class="op">&gt;</span><span class="kw">`</span><span class="bu">.</span></span></code></pre>
 </div>
 <p>For the best reproducibility, it is good to explicitly reference the
 pipeline version number that you wish to use with the
@@ -673,14 +671,14 @@ pipeline version number that you wish to use with the
 <div class="codewrapper sourceCode" id="cb15">
 <h3 class="code-label">BASH<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode bash" tabindex="0"><code class="sourceCode bash"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> nextflow pull nf-core/rnaseq <span class="at">-revision</span> 3.0</span></code></pre>
+<pre class="sourceCode bash" tabindex="0"><code class="sourceCode bash"><span id="cb15-1"><a href="#cb15-1" tabindex="-1"></a><span class="ex">$</span> nextflow pull nf-core/rnaseq <span class="at">-revision</span> 3.0</span></code></pre>
 </div>
 <p>We can check the pipeline has been pulled using the
 <code>nf-core list</code> command.</p>
 <div class="codewrapper sourceCode" id="cb16">
 <h3 class="code-label">BASH<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode bash" tabindex="0"><code class="sourceCode bash"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="ex">nf-core</span> list rnaseq <span class="at">-s</span> pulled</span></code></pre>
+<pre class="sourceCode bash" tabindex="0"><code class="sourceCode bash"><span id="cb16-1"><a href="#cb16-1" tabindex="-1"></a><span class="ex">nf-core</span> list rnaseq <span class="at">-s</span> pulled</span></code></pre>
 </div>
 <p>We can see from the output we have the latest release.</p>
 <div class="codewrapper">
@@ -702,13 +700,12 @@ nf-core/tools version 2.1
 │ rnaseq            │   394 │            3.4 │  4 weeks ago  │ 1 minutes ago  │ Yes (v3.4)           │
 [..truncated..]</code></pre>
 </div>
-<div id="development-releases" class="callout callout">
+<div id="callout3" class="callout">
 <div class="callout-square">
 <i class="callout-icon" data-feather="bell"></i>
 </div>
-<div id="development-releases" class="callout-inner">
-<h3 class="callout-title">Development Releases<a class="anchor" aria-label="anchor" href="#development-releases"></a>
-</h3>
+<div class="section level3 callout-title callout-inner">
+<h3 class="callout-title" id="development-releases">Development Releases<a class="anchor" aria-label="anchor" href="#development-releases"></a></h3>
 <div class="callout-content">
 <p>If not specified, Nextflow will fetch the default git branch. For
 pipelines with a stable release this the default branch is
@@ -739,21 +736,21 @@ latest version of the pipeline</p></li>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution2" aria-expanded="false" aria-controls="collapseSolution2">
   <h4 class="accordion-header" id="headingSolution2">Show me the solution</h4>
 </button>
-<div id="collapseSolution2" class="accordion-collapse collapse" data-bs-parent="#accordionSolution2" aria-labelledby="headingSolution2">
+<div id="collapseSolution2" class="accordion-collapse collapse" aria-labelledby="headingSolution2" data-bs-parent="#accordionSolution2">
 <div class="accordion-body">
 <p>Use the <code>nextflow pull</code> command to download the latest
 <code>nf-core/rnaseq</code> pipeline</p>
 <div class="codewrapper sourceCode" id="cb18">
 <h3 class="code-label">BASH<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode bash" tabindex="0"><code class="sourceCode bash"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> nextflow pull nf-core/rnaseq</span></code></pre>
+<pre class="sourceCode bash" tabindex="0"><code class="sourceCode bash"><span id="cb18-1"><a href="#cb18-1" tabindex="-1"></a><span class="ex">$</span> nextflow pull nf-core/rnaseq</span></code></pre>
 </div>
 <p>Use the <code>nf-core list</code> command to see if you have the
 latest version of the pipeline</p>
 <div class="codewrapper sourceCode" id="cb19">
 <h3 class="code-label">BASH<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode bash" tabindex="0"><code class="sourceCode bash"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> nf-core list rnaseq <span class="at">--sort</span> pulled</span></code></pre>
+<pre class="sourceCode bash" tabindex="0"><code class="sourceCode bash"><span id="cb19-1"><a href="#cb19-1" tabindex="-1"></a><span class="ex">$</span> nf-core list rnaseq <span class="at">--sort</span> pulled</span></code></pre>
 </div>
 </div>
 </div>
@@ -776,7 +773,7 @@ the parameter <code>--help</code> , for example:</p>
 <div class="codewrapper sourceCode" id="cb20">
 <h3 class="code-label">BASH<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode bash" tabindex="0"><code class="sourceCode bash"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> nextflow run <span class="at">-r</span> 3.4 nf-core/rnaseq <span class="at">--help</span></span></code></pre>
+<pre class="sourceCode bash" tabindex="0"><code class="sourceCode bash"><span id="cb20-1"><a href="#cb20-1" tabindex="-1"></a><span class="ex">$</span> nextflow run <span class="at">-r</span> 3.4 nf-core/rnaseq <span class="at">--help</span></span></code></pre>
 </div>
 <div class="codewrapper">
 <h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
@@ -826,7 +823,7 @@ can be launched there and then.</p>
 <div class="codewrapper sourceCode" id="cb22">
 <h3 class="code-label">BASH<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode bash" tabindex="0"><code class="sourceCode bash"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> nf-core launch <span class="at">-r</span> 3.0 rnaseq</span></code></pre>
+<pre class="sourceCode bash" tabindex="0"><code class="sourceCode bash"><span id="cb22-1"><a href="#cb22-1" tabindex="-1"></a><span class="ex">$</span> nf-core launch <span class="at">-r</span> 3.0 rnaseq</span></code></pre>
 </div>
 <div id="exercise-create-nf-core-params-file" class="callout challenge">
 <div class="callout-square">
@@ -852,12 +849,12 @@ now.</li>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution3" aria-expanded="false" aria-controls="collapseSolution3">
   <h4 class="accordion-header" id="headingSolution3">Show me the solution</h4>
 </button>
-<div id="collapseSolution3" class="accordion-collapse collapse" data-bs-parent="#accordionSolution3" aria-labelledby="headingSolution3">
+<div id="collapseSolution3" class="accordion-collapse collapse" aria-labelledby="headingSolution3" data-bs-parent="#accordionSolution3">
 <div class="accordion-body">
 <div class="codewrapper sourceCode" id="cb23">
 <h3 class="code-label">BASH<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode bash" tabindex="0"><code class="sourceCode bash"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> nf-core launch rnaseq</span></code></pre>
+<pre class="sourceCode bash" tabindex="0"><code class="sourceCode bash"><span id="cb23-1"><a href="#cb23-1" tabindex="-1"></a><span class="ex">$</span> nf-core launch rnaseq</span></code></pre>
 </div>
 <p>The contents of the <code>nf-params.json</code> file should be</p>
 <pre><code>{
@@ -903,14 +900,14 @@ flag</li>
 </ol><div class="codewrapper sourceCode" id="cb25">
 <h3 class="code-label">BASH<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode bash" tabindex="0"><code class="sourceCode bash"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> nextflow run nf-core/rnaseq <span class="at">-r</span> 3.0 <span class="at">-c</span> mylocal.config</span></code></pre>
+<pre class="sourceCode bash" tabindex="0"><code class="sourceCode bash"><span id="cb25-1"><a href="#cb25-1" tabindex="-1"></a><span class="ex">$</span> nextflow run nf-core/rnaseq <span class="at">-r</span> 3.0 <span class="at">-c</span> mylocal.config</span></code></pre>
 </div>
 <p>5. Command line configuration: pipeline parameters can be passed on
 the command line using the <code>--&lt;parameter&gt;</code> syntax.</p>
 <div class="codewrapper sourceCode" id="cb26">
 <h3 class="code-label">BASH<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode bash" tabindex="0"><code class="sourceCode bash"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> nextflow run nf-core/rnaseq <span class="at">-r</span> 3.0 <span class="at">--email</span> <span class="st">"my@email.com"</span><span class="kw">`</span></span></code></pre>
+<pre class="sourceCode bash" tabindex="0"><code class="sourceCode bash"><span id="cb26-1"><a href="#cb26-1" tabindex="-1"></a><span class="ex">$</span> nextflow run nf-core/rnaseq <span class="at">-r</span> 3.0 <span class="at">--email</span> <span class="st">"my@email.com"</span><span class="kw">`</span></span></code></pre>
 </div>
 <div class="section level4">
 <h4 id="config-profiles">Config Profiles<a class="anchor" aria-label="anchor" href="#config-profiles"></a></h4>
@@ -928,18 +925,17 @@ profile takes priority.</p>
 <div class="codewrapper sourceCode" id="cb27">
 <h3 class="code-label">BASH<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode bash" tabindex="0"><code class="sourceCode bash"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> nextflow run nf-core/rnaseq <span class="at">-r</span> 3.0 <span class="at">-profile</span> test,conda</span>
-<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> nextflow run nf-core/rnaseq <span class="at">-r</span> 3.0 <span class="at">-profile</span> <span class="op">&lt;</span>institutional_config_profile<span class="op">&gt;</span>, test, conda</span></code></pre>
+<pre class="sourceCode bash" tabindex="0"><code class="sourceCode bash"><span id="cb27-1"><a href="#cb27-1" tabindex="-1"></a><span class="ex">$</span> nextflow run nf-core/rnaseq <span class="at">-r</span> 3.0 <span class="at">-profile</span> test,conda</span>
+<span id="cb27-2"><a href="#cb27-2" tabindex="-1"></a><span class="ex">$</span> nextflow run nf-core/rnaseq <span class="at">-r</span> 3.0 <span class="at">-profile</span> <span class="op">&lt;</span>institutional_config_profile<span class="op">&gt;</span>, test, conda</span></code></pre>
 </div>
 <p><strong>Note</strong> The order in which config profiles are
 specified matters. Their priority increases from left to right.</p>
-<div id="multiple-nextflow-configuration-locations" class="callout callout">
+<div id="callout4" class="callout">
 <div class="callout-square">
 <i class="callout-icon" data-feather="bell"></i>
 </div>
-<div id="multiple-nextflow-configuration-locations" class="callout-inner">
-<h3 class="callout-title">Multiple Nextflow configuration locations<a class="anchor" aria-label="anchor" href="#multiple-nextflow-configuration-locations"></a>
-</h3>
+<div class="section level3 callout-title callout-inner">
+<h3 class="callout-title" id="multiple-nextflow-configuration-locations">Multiple Nextflow configuration locations<a class="anchor" aria-label="anchor" href="#multiple-nextflow-configuration-locations"></a></h3>
 <div class="callout-content">
 <p>Be clever with multiple Nextflow configuration locations. For
 example, use <code>-profile</code> for your cluster configuration, the
@@ -968,7 +964,7 @@ configuration.</p>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution4" aria-expanded="false" aria-controls="collapseSolution4">
   <h4 class="accordion-header" id="headingSolution4">Show me the solution</h4>
 </button>
-<div id="collapseSolution4" class="accordion-collapse collapse" data-bs-parent="#accordionSolution4" aria-labelledby="headingSolution4">
+<div id="collapseSolution4" class="accordion-collapse collapse" aria-labelledby="headingSolution4" data-bs-parent="#accordionSolution4">
 <div class="accordion-body">
 <p>A line similar to one below in the file custom.config</p>
 <pre><code><span><span class="va">params.email</span> <span class="op">=</span> <span class="st">"myemail@address.com"</span></span></code></pre>
@@ -989,15 +985,14 @@ with a full size data set:</p>
 <div class="codewrapper sourceCode" id="cb29">
 <h3 class="code-label">BASH<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode bash" tabindex="0"><code class="sourceCode bash"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> nextflow run nf-core/<span class="op">&lt;</span>pipeline_name<span class="op">&gt;</span> -profile test</span></code></pre>
+<pre class="sourceCode bash" tabindex="0"><code class="sourceCode bash"><span id="cb29-1"><a href="#cb29-1" tabindex="-1"></a><span class="ex">$</span> nextflow run nf-core/<span class="op">&lt;</span>pipeline_name<span class="op">&gt;</span> -profile test</span></code></pre>
 </div>
-<div id="software-configuration-profile" class="callout callout">
+<div id="callout5" class="callout">
 <div class="callout-square">
 <i class="callout-icon" data-feather="bell"></i>
 </div>
-<div id="software-configuration-profile" class="callout-inner">
-<h3 class="callout-title">Software configuration profile<a class="anchor" aria-label="anchor" href="#software-configuration-profile"></a>
-</h3>
+<div class="section level3 callout-title callout-inner">
+<h3 class="callout-title" id="software-configuration-profile">Software configuration profile<a class="anchor" aria-label="anchor" href="#software-configuration-profile"></a></h3>
 <div class="callout-content">
 <p>Note that you will typically still need to combine this with a
 software configuration profile for your system - e.g.
@@ -1032,26 +1027,26 @@ executed.</p>
 <div class="codewrapper sourceCode" id="cb31">
 <h3 class="code-label">BASH<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode bash" tabindex="0"><code class="sourceCode bash"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a>                                          <span class="ex">,--./,-.</span></span>
-<span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a>          <span class="ex">___</span>     __   __   __   ___     /,-._.--~<span class="dt">\</span></span>
-<span id="cb31-4"><a href="#cb31-4" aria-hidden="true" tabindex="-1"></a>    <span class="kw">|</span><span class="ex">\ </span><span class="kw">|</span> <span class="kw">|</span><span class="ex">__</span>  __ /  <span class="kw">`</span> <span class="ex">/</span>  <span class="dt">\ </span><span class="kw">|</span><span class="ex">__</span><span class="er">)</span> <span class="kw">|</span><span class="ex">__</span>         }  {</span>
-<span id="cb31-5"><a href="#cb31-5" aria-hidden="true" tabindex="-1"></a>    <span class="kw">|</span> <span class="ex">\|</span> <span class="kw">|</span>       <span class="ex">\__,</span> <span class="dt">\_</span>_/ <span class="kw">|</span>  <span class="ex">\ </span><span class="kw">|</span><span class="ex">___</span>     <span class="dt">\`</span>-._,-<span class="kw">`</span><span class="at">-,</span></span>
-<span id="cb31-6"><a href="#cb31-6" aria-hidden="true" tabindex="-1"></a>                                          <span class="kw">`</span><span class="ex">._,._,</span><span class="st">'</span></span>
-<span id="cb31-7"><a href="#cb31-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb31-8"><a href="#cb31-8" aria-hidden="true" tabindex="-1"></a><span class="st">    nf-core/tools version 2.1</span></span>
-<span id="cb31-9"><a href="#cb31-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb31-10"><a href="#cb31-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb31-11"><a href="#cb31-11" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb31-12"><a href="#cb31-12" aria-hidden="true" tabindex="-1"></a><span class="st">INFO     Saving nf-core/rnaseq                                                                                                                                                                                                                                         download.py:148</span></span>
-<span id="cb31-13"><a href="#cb31-13" aria-hidden="true" tabindex="-1"></a><span class="st">          Pipeline release: '</span><span class="ex">3.4</span><span class="st">'</span></span>
-<span id="cb31-14"><a href="#cb31-14" aria-hidden="true" tabindex="-1"></a><span class="st">          Pull singularity containers: '</span><span class="ex">No</span><span class="st">'</span></span>
-<span id="cb31-15"><a href="#cb31-15" aria-hidden="true" tabindex="-1"></a><span class="st">          Output file: '</span><span class="ex">nf-core-rnaseq-3.4.tar.gz</span><span class="st">'</span></span>
-<span id="cb31-16"><a href="#cb31-16" aria-hidden="true" tabindex="-1"></a><span class="st">INFO     Downloading workflow files from GitHub                                                                                                                                                                                                                        download.py:151</span></span>
-<span id="cb31-17"><a href="#cb31-17" aria-hidden="true" tabindex="-1"></a><span class="st">INFO     Downloading centralised configs from GitHub                                                                                                                                                                                                                   download.py:155</span></span>
-<span id="cb31-18"><a href="#cb31-18" aria-hidden="true" tabindex="-1"></a><span class="st">INFO     Compressing download..                                                                                                                                                                                                                                        download.py:166</span></span>
-<span id="cb31-19"><a href="#cb31-19" aria-hidden="true" tabindex="-1"></a><span class="st">INFO     Command to extract files: tar -xzf nf-core-rnaseq-3.4.tar.gz                                                                                                                                                                                                  download.py:653</span></span>
-<span id="cb31-20"><a href="#cb31-20" aria-hidden="true" tabindex="-1"></a><span class="st">INFO     MD5 checksum for nf-core-rnaseq-3.4.tar.gz: f0e0c239bdb39c613d6a080f1dee88e9</span></span></code></pre>
+<pre class="sourceCode bash" tabindex="0"><code class="sourceCode bash"><span id="cb31-1"><a href="#cb31-1" tabindex="-1"></a></span>
+<span id="cb31-2"><a href="#cb31-2" tabindex="-1"></a>                                          <span class="ex">,--./,-.</span></span>
+<span id="cb31-3"><a href="#cb31-3" tabindex="-1"></a>          <span class="ex">___</span>     __   __   __   ___     /,-._.--~<span class="dt">\</span></span>
+<span id="cb31-4"><a href="#cb31-4" tabindex="-1"></a>    <span class="kw">|</span><span class="ex">\ </span><span class="kw">|</span> <span class="kw">|</span><span class="ex">__</span>  __ /  <span class="kw">`</span> <span class="ex">/</span>  <span class="dt">\ </span><span class="kw">|</span><span class="ex">__</span><span class="er">)</span> <span class="kw">|</span><span class="ex">__</span>         }  {</span>
+<span id="cb31-5"><a href="#cb31-5" tabindex="-1"></a>    <span class="kw">|</span> <span class="ex">\|</span> <span class="kw">|</span>       <span class="ex">\__,</span> <span class="dt">\_</span>_/ <span class="kw">|</span>  <span class="ex">\ </span><span class="kw">|</span><span class="ex">___</span>     <span class="dt">\`</span>-._,-<span class="kw">`</span><span class="at">-,</span></span>
+<span id="cb31-6"><a href="#cb31-6" tabindex="-1"></a>                                          <span class="kw">`</span><span class="ex">._,._,</span><span class="st">'</span></span>
+<span id="cb31-7"><a href="#cb31-7" tabindex="-1"></a></span>
+<span id="cb31-8"><a href="#cb31-8" tabindex="-1"></a><span class="st">    nf-core/tools version 2.1</span></span>
+<span id="cb31-9"><a href="#cb31-9" tabindex="-1"></a></span>
+<span id="cb31-10"><a href="#cb31-10" tabindex="-1"></a></span>
+<span id="cb31-11"><a href="#cb31-11" tabindex="-1"></a></span>
+<span id="cb31-12"><a href="#cb31-12" tabindex="-1"></a><span class="st">INFO     Saving nf-core/rnaseq                                                                                                                                                                                                                                         download.py:148</span></span>
+<span id="cb31-13"><a href="#cb31-13" tabindex="-1"></a><span class="st">          Pipeline release: '</span><span class="ex">3.4</span><span class="st">'</span></span>
+<span id="cb31-14"><a href="#cb31-14" tabindex="-1"></a><span class="st">          Pull singularity containers: '</span><span class="ex">No</span><span class="st">'</span></span>
+<span id="cb31-15"><a href="#cb31-15" tabindex="-1"></a><span class="st">          Output file: '</span><span class="ex">nf-core-rnaseq-3.4.tar.gz</span><span class="st">'</span></span>
+<span id="cb31-16"><a href="#cb31-16" tabindex="-1"></a><span class="st">INFO     Downloading workflow files from GitHub                                                                                                                                                                                                                        download.py:151</span></span>
+<span id="cb31-17"><a href="#cb31-17" tabindex="-1"></a><span class="st">INFO     Downloading centralised configs from GitHub                                                                                                                                                                                                                   download.py:155</span></span>
+<span id="cb31-18"><a href="#cb31-18" tabindex="-1"></a><span class="st">INFO     Compressing download..                                                                                                                                                                                                                                        download.py:166</span></span>
+<span id="cb31-19"><a href="#cb31-19" tabindex="-1"></a><span class="st">INFO     Command to extract files: tar -xzf nf-core-rnaseq-3.4.tar.gz                                                                                                                                                                                                  download.py:653</span></span>
+<span id="cb31-20"><a href="#cb31-20" tabindex="-1"></a><span class="st">INFO     MD5 checksum for nf-core-rnaseq-3.4.tar.gz: f0e0c239bdb39c613d6a080f1dee88e9</span></span></code></pre>
 </div>
 <div id="exercise-run-a-test-nf-core-pipeline" class="callout challenge">
 <div class="callout-square">
@@ -1078,7 +1073,7 @@ Antigen (HLA) typing and should run quickly.</p>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution5" aria-expanded="false" aria-controls="collapseSolution5">
   <h4 class="accordion-header" id="headingSolution5">Show me the solution</h4>
 </button>
-<div id="collapseSolution5" class="accordion-collapse collapse" data-bs-parent="#accordionSolution5" aria-labelledby="headingSolution5">
+<div id="collapseSolution5" class="accordion-collapse collapse" aria-labelledby="headingSolution5" data-bs-parent="#accordionSolution5">
 <div class="accordion-body">
 <pre><code>$ nextflow run nf-core/hlatyping -r 1.2.0 -profile test,conda  --max_memory 3G</code></pre>
 <div class="codewrapper">
@@ -1272,7 +1267,7 @@ and/or adding command line parameters.</li>
   "identifier": "https://carpentries-incubator.github.io/workflows-nextflow/instructor/12-nfcore.html",
   "dateCreated": "2021-02-01",
   "dateModified": "2024-01-08",
-  "datePublished": "2024-02-27"
+  "datePublished": "2024-03-05"
 }
 
   </script><script>

@@ -391,8 +391,8 @@ the sequencing data.</li>
 </ol><div class="codewrapper sourceCode" id="cb1">
 <h3 class="code-label">BASH<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode bash" tabindex="0"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> mkdir fastqc_<span class="op">&lt;</span>sample_id<span class="op">&gt;</span>_logs</span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> fastqc <span class="at">-o</span> fastqc_<span class="op">&lt;</span>sample_id<span class="op">&gt;</span>_logs <span class="at">-f</span> fastq <span class="at">-q</span> <span class="op">&lt;</span>reads<span class="op">&gt;</span></span></code></pre>
+<pre class="sourceCode bash" tabindex="0"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a><span class="ex">$</span> mkdir fastqc_<span class="op">&lt;</span>sample_id<span class="op">&gt;</span>_logs</span>
+<span id="cb1-2"><a href="#cb1-2" tabindex="-1"></a><span class="ex">$</span> fastqc <span class="at">-o</span> fastqc_<span class="op">&lt;</span>sample_id<span class="op">&gt;</span>_logs <span class="at">-f</span> fastq <span class="at">-q</span> <span class="op">&lt;</span>reads<span class="op">&gt;</span></span></code></pre>
 </div>
 <ol start="2" style="list-style-type: decimal"><li>
 <strong>Transcriptome Indexing with Salmon</strong>: <a href="https://salmon.readthedocs.io/en/latest/" class="external-link">Salmon</a> is a tool to
@@ -403,7 +403,7 @@ efficient and accurate mapping and quantification of RNA-Seq reads.</li>
 </ol><div class="codewrapper sourceCode" id="cb2">
 <h3 class="code-label">BASH<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode bash" tabindex="0"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> salmon index <span class="at">--threads</span> <span class="op">&lt;</span>cpus<span class="op">&gt;</span> -t <span class="op">&lt;</span>transcriptome file<span class="op">&gt;</span> -i index</span></code></pre>
+<pre class="sourceCode bash" tabindex="0"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" tabindex="-1"></a><span class="ex">$</span> salmon index <span class="at">--threads</span> <span class="op">&lt;</span>cpus<span class="op">&gt;</span> -t <span class="op">&lt;</span>transcriptome file<span class="op">&gt;</span> -i index</span></code></pre>
 </div>
 <ol start="3" style="list-style-type: decimal"><li>
 <strong>Quantification with Salmon</strong>: After indexing, Salmon
@@ -414,7 +414,7 @@ in the sample.</li>
 </ol><div class="codewrapper sourceCode" id="cb3">
 <h3 class="code-label">BASH<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode bash" tabindex="0"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> salmon quant <span class="at">--threads</span> <span class="op">&lt;</span>cpus<span class="op">&gt;</span> --libType=U <span class="at">-i</span> <span class="op">&lt;</span>index<span class="op">&gt;</span> -1 <span class="op">&lt;</span>read1<span class="op">&gt;</span> -2 <span class="op">&lt;</span>read2<span class="op">&gt;</span> -o <span class="op">&lt;</span>pair_id<span class="op">&gt;</span></span></code></pre>
+<pre class="sourceCode bash" tabindex="0"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" tabindex="-1"></a><span class="ex">$</span> salmon quant <span class="at">--threads</span> <span class="op">&lt;</span>cpus<span class="op">&gt;</span> --libType=U <span class="at">-i</span> <span class="op">&lt;</span>index<span class="op">&gt;</span> -1 <span class="op">&lt;</span>read1<span class="op">&gt;</span> -2 <span class="op">&lt;</span>read2<span class="op">&gt;</span> -o <span class="op">&lt;</span>pair_id<span class="op">&gt;</span></span></code></pre>
 </div>
 <ol start="4" style="list-style-type: decimal"><li>
 <strong>Aggregating Reports with MultiQC</strong>: Finally, the
@@ -426,7 +426,7 @@ investigation.</li>
 </ol><div class="codewrapper sourceCode" id="cb4">
 <h3 class="code-label">BASH<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode bash" tabindex="0"><code class="sourceCode bash"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> multiqc .</span></code></pre>
+<pre class="sourceCode bash" tabindex="0"><code class="sourceCode bash"><span id="cb4-1"><a href="#cb4-1" tabindex="-1"></a><span class="ex">$</span> multiqc .</span></code></pre>
 </div>
 <p>This pipeline provides an overview of RNA-Seq data, from quality
 control to expression quantification, culminating in an aggregated
@@ -436,7 +436,7 @@ report for easy interpretation of the results.</p>
 <div class="codewrapper sourceCode" id="cb5">
 <h3 class="code-label">BASH<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode bash" tabindex="0"><code class="sourceCode bash"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> cp scripts/rnaseq_pipeline/<span class="pp">*</span> .</span></code></pre>
+<pre class="sourceCode bash" tabindex="0"><code class="sourceCode bash"><span id="cb5-1"><a href="#cb5-1" tabindex="-1"></a><span class="ex">$</span> cp scripts/rnaseq_pipeline/<span class="pp">*</span> .</span></code></pre>
 </div>
 <p>This folder contains files we will be modifying in this episode.</p>
 <section id="define-the-pipeline-parameters"><h2 class="section-heading">Define the pipeline parameters<a class="anchor" aria-label="anchor" href="#define-the-pipeline-parameters"></a>
@@ -447,12 +447,12 @@ pipeline input parameters.</p>
 <div class="codewrapper sourceCode" id="cb6">
 <h3 class="code-label">GROOVY<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode groovy" tabindex="0"><code class="sourceCode groovy"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co">//script1.nf</span></span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>params<span class="op">.</span>reads <span class="op">=</span> <span class="st">"data/yeast/reads/*_{1,2}.fq.gz"</span></span>
-<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>params<span class="op">.</span>transcriptome <span class="op">=</span> <span class="st">"data/yeast/transcriptome/*.fa.gz"</span></span>
-<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>println <span class="st">"reads: </span><span class="ss">$params</span><span class="op">.</span><span class="ss">reads</span><span class="st">"</span></span></code></pre>
+<pre class="sourceCode groovy" tabindex="0"><code class="sourceCode groovy"><span id="cb6-1"><a href="#cb6-1" tabindex="-1"></a><span class="co">//script1.nf</span></span>
+<span id="cb6-2"><a href="#cb6-2" tabindex="-1"></a>params<span class="op">.</span>reads <span class="op">=</span> <span class="st">"data/yeast/reads/*_{1,2}.fq.gz"</span></span>
+<span id="cb6-3"><a href="#cb6-3" tabindex="-1"></a>params<span class="op">.</span>transcriptome <span class="op">=</span> <span class="st">"data/yeast/transcriptome/*.fa.gz"</span></span>
+<span id="cb6-4"><a href="#cb6-4" tabindex="-1"></a></span>
+<span id="cb6-5"><a href="#cb6-5" tabindex="-1"></a></span>
+<span id="cb6-6"><a href="#cb6-6" tabindex="-1"></a>println <span class="st">"reads: </span><span class="ss">$params</span><span class="op">.</span><span class="ss">reads</span><span class="st">"</span></span></code></pre>
 </div>
 <p>Run it by using the following command:</p>
 <pre><code>$ nextflow run script1.nf</code></pre>
@@ -462,7 +462,7 @@ pipeline input parameters.</p>
 <div class="codewrapper sourceCode" id="cb8">
 <h3 class="code-label">GROOVY<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode groovy" tabindex="0"><code class="sourceCode groovy"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>$ nextflow run script1<span class="op">.</span>nf <span class="op">--</span>reads <span class="st">"data/yeast/reads/ref1*_{1,2}.fq.gz"</span></span></code></pre>
+<pre class="sourceCode groovy" tabindex="0"><code class="sourceCode groovy"><span id="cb8-1"><a href="#cb8-1" tabindex="-1"></a>$ nextflow run script1<span class="op">.</span>nf <span class="op">--</span>reads <span class="st">"data/yeast/reads/ref1*_{1,2}.fq.gz"</span></span></code></pre>
 </div>
 <div class="codewrapper">
 <h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
@@ -488,12 +488,12 @@ will be used as the pipeline output directory.</p>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution1" aria-expanded="false" aria-controls="collapseSolution1">
   <h4 class="accordion-header" id="headingSolution1">Show me the solution</h4>
 </button>
-<div id="collapseSolution1" class="accordion-collapse collapse" data-bs-parent="#accordionSolution1" aria-labelledby="headingSolution1">
+<div id="collapseSolution1" class="accordion-collapse collapse" aria-labelledby="headingSolution1" data-bs-parent="#accordionSolution1">
 <div class="accordion-body">
 <div class="codewrapper sourceCode" id="cb10">
 <h3 class="code-label">GROOVY<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode groovy" tabindex="0"><code class="sourceCode groovy"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>params<span class="op">.</span>outdir <span class="op">=</span> <span class="st">"results"</span></span></code></pre>
+<pre class="sourceCode groovy" tabindex="0"><code class="sourceCode groovy"><span id="cb10-1"><a href="#cb10-1" tabindex="-1"></a>params<span class="op">.</span>outdir <span class="op">=</span> <span class="st">"results"</span></span></code></pre>
 </div>
 </div>
 </div>
@@ -508,10 +508,10 @@ is used to remove the indentation on multi-line strings.
 <div class="codewrapper sourceCode" id="cb11">
 <h3 class="code-label">GROOVY<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode groovy" tabindex="0"><code class="sourceCode groovy"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>log<span class="op">.</span><span class="fu">info</span> <span class="st">"""</span><span class="op">\</span></span>
-<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a><span class="st">         transcriptome: </span><span class="ss">${</span>params<span class="op">.</span>transcriptome<span class="ss">}</span></span>
-<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a><span class="st">         """</span></span>
-<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>         <span class="op">.</span><span class="fu">stripIndent</span><span class="op">()</span></span></code></pre>
+<pre class="sourceCode groovy" tabindex="0"><code class="sourceCode groovy"><span id="cb11-1"><a href="#cb11-1" tabindex="-1"></a>log<span class="op">.</span><span class="fu">info</span> <span class="st">"""</span><span class="op">\</span></span>
+<span id="cb11-2"><a href="#cb11-2" tabindex="-1"></a><span class="st">         transcriptome: </span><span class="ss">${</span>params<span class="op">.</span>transcriptome<span class="ss">}</span></span>
+<span id="cb11-3"><a href="#cb11-3" tabindex="-1"></a><span class="st">         """</span></span>
+<span id="cb11-4"><a href="#cb11-4" tabindex="-1"></a>         <span class="op">.</span><span class="fu">stripIndent</span><span class="op">()</span></span></code></pre>
 </div>
 <div id="log.info" class="callout challenge">
 <div class="callout-square">
@@ -527,7 +527,7 @@ multiline string statement. See an example <a href="https://github.com/nextflow-
 <div class="codewrapper sourceCode" id="cb12">
 <h3 class="code-label">BASH<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode bash" tabindex="0"><code class="sourceCode bash"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> nextflow run script1.nf</span></code></pre>
+<pre class="sourceCode bash" tabindex="0"><code class="sourceCode bash"><span id="cb12-1"><a href="#cb12-1" tabindex="-1"></a><span class="ex">$</span> nextflow run script1.nf</span></code></pre>
 </div>
 <p>Look at the output log <code>.nextflow.log</code>.</p>
 </div>
@@ -538,26 +538,26 @@ multiline string statement. See an example <a href="https://github.com/nextflow-
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution2" aria-expanded="false" aria-controls="collapseSolution2">
   <h4 class="accordion-header" id="headingSolution2">Show me the solution</h4>
 </button>
-<div id="collapseSolution2" class="accordion-collapse collapse" data-bs-parent="#accordionSolution2" aria-labelledby="headingSolution2">
+<div id="collapseSolution2" class="accordion-collapse collapse" aria-labelledby="headingSolution2" data-bs-parent="#accordionSolution2">
 <div class="accordion-body">
 <p>Below is an example log.info command printing all the pipeline
 parameters.</p>
 <div class="codewrapper sourceCode" id="cb13">
 <h3 class="code-label">GROOVY<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode groovy" tabindex="0"><code class="sourceCode groovy"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>log<span class="op">.</span><span class="fu">info</span> <span class="st">"""</span><span class="op">\</span></span>
-<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a><span class="st">        R N A S E Q - N F   P I P E L I N E    </span></span>
-<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a><span class="st">        ===================================</span></span>
-<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a><span class="st">        transcriptome: </span><span class="ss">${</span>params<span class="op">.</span>transcriptome<span class="ss">}</span></span>
-<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a><span class="st">        reads        : </span><span class="ss">${</span>params<span class="op">.</span>reads<span class="ss">}</span></span>
-<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a><span class="st">        outdir       : </span><span class="ss">${</span>params<span class="op">.</span>outdir<span class="ss">}</span></span>
-<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a><span class="st">        """</span></span>
-<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a>        <span class="op">.</span><span class="fu">stripIndent</span><span class="op">()</span></span></code></pre>
+<pre class="sourceCode groovy" tabindex="0"><code class="sourceCode groovy"><span id="cb13-1"><a href="#cb13-1" tabindex="-1"></a>log<span class="op">.</span><span class="fu">info</span> <span class="st">"""</span><span class="op">\</span></span>
+<span id="cb13-2"><a href="#cb13-2" tabindex="-1"></a><span class="st">        R N A S E Q - N F   P I P E L I N E    </span></span>
+<span id="cb13-3"><a href="#cb13-3" tabindex="-1"></a><span class="st">        ===================================</span></span>
+<span id="cb13-4"><a href="#cb13-4" tabindex="-1"></a><span class="st">        transcriptome: </span><span class="ss">${</span>params<span class="op">.</span>transcriptome<span class="ss">}</span></span>
+<span id="cb13-5"><a href="#cb13-5" tabindex="-1"></a><span class="st">        reads        : </span><span class="ss">${</span>params<span class="op">.</span>reads<span class="ss">}</span></span>
+<span id="cb13-6"><a href="#cb13-6" tabindex="-1"></a><span class="st">        outdir       : </span><span class="ss">${</span>params<span class="op">.</span>outdir<span class="ss">}</span></span>
+<span id="cb13-7"><a href="#cb13-7" tabindex="-1"></a><span class="st">        """</span></span>
+<span id="cb13-8"><a href="#cb13-8" tabindex="-1"></a>        <span class="op">.</span><span class="fu">stripIndent</span><span class="op">()</span></span></code></pre>
 </div>
 <div class="codewrapper sourceCode" id="cb14">
 <h3 class="code-label">BASH<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode bash" tabindex="0"><code class="sourceCode bash"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> less .nextflow.log</span></code></pre>
+<pre class="sourceCode bash" tabindex="0"><code class="sourceCode bash"><span id="cb14-1"><a href="#cb14-1" tabindex="-1"></a><span class="ex">$</span> less .nextflow.log</span></code></pre>
 </div>
 </div>
 </div>
@@ -582,7 +582,7 @@ a <code>process</code> definition.</p>
 <div class="codewrapper sourceCode" id="cb15">
 <h3 class="code-label">BASH<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode bash" tabindex="0"><code class="sourceCode bash"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> salmon index <span class="at">--threads</span> <span class="va">$task</span>.cpus <span class="at">-t</span> <span class="va">$transcriptome</span> <span class="at">-i</span> index</span></code></pre>
+<pre class="sourceCode bash" tabindex="0"><code class="sourceCode bash"><span id="cb15-1"><a href="#cb15-1" tabindex="-1"></a><span class="ex">$</span> salmon index <span class="at">--threads</span> <span class="va">$task</span>.cpus <span class="at">-t</span> <span class="va">$transcriptome</span> <span class="at">-i</span> index</span></code></pre>
 </div>
 <p>A process is defined by providing three main declarations:</p>
 <ol style="list-style-type: decimal"><li>The process <a href="https://www.nextflow.io/docs/latest/process.html#inputs" class="external-link">inputs</a>,</li>
@@ -601,55 +601,55 @@ which calls the <code>INDEX</code> process.</li>
 </ol><div class="codewrapper sourceCode" id="cb16">
 <h3 class="code-label">GROOVY<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode groovy" tabindex="0"><code class="sourceCode groovy"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="co">//script2.nf</span></span>
-<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>nextflow<span class="op">.</span>enable<span class="op">.</span>dsl<span class="op">=</span><span class="dv">2</span></span>
-<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a><span class="co">/*</span></span>
-<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a><span class="co"> * pipeline input parameters</span></span>
-<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a><span class="co"> */</span></span>
-<span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a>params<span class="op">.</span>reads <span class="op">=</span> <span class="st">"data/yeast/reads/*_{1,2}.fq.gz"</span></span>
-<span id="cb16-8"><a href="#cb16-8" aria-hidden="true" tabindex="-1"></a>params<span class="op">.</span>transcriptome <span class="op">=</span> <span class="st">"data/yeast/transcriptome/Saccharomyces_cerevisiae.R64-1-1.cdna.all.fa.gz"</span></span>
-<span id="cb16-9"><a href="#cb16-9" aria-hidden="true" tabindex="-1"></a>params<span class="op">.</span>outdir <span class="op">=</span> <span class="st">"results"</span></span>
-<span id="cb16-10"><a href="#cb16-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb16-11"><a href="#cb16-11" aria-hidden="true" tabindex="-1"></a>println <span class="st">"""</span><span class="op">\</span></span>
-<span id="cb16-12"><a href="#cb16-12" aria-hidden="true" tabindex="-1"></a><span class="st">         R N A S E Q - N F   P I P E L I N E</span></span>
-<span id="cb16-13"><a href="#cb16-13" aria-hidden="true" tabindex="-1"></a><span class="st">         ===================================</span></span>
-<span id="cb16-14"><a href="#cb16-14" aria-hidden="true" tabindex="-1"></a><span class="st">         transcriptome: </span><span class="ss">${</span>params<span class="op">.</span>transcriptome<span class="ss">}</span></span>
-<span id="cb16-15"><a href="#cb16-15" aria-hidden="true" tabindex="-1"></a><span class="st">         reads        : </span><span class="ss">${</span>params<span class="op">.</span>reads<span class="ss">}</span></span>
-<span id="cb16-16"><a href="#cb16-16" aria-hidden="true" tabindex="-1"></a><span class="st">         outdir       : </span><span class="ss">${</span>params<span class="op">.</span>outdir<span class="ss">}</span></span>
-<span id="cb16-17"><a href="#cb16-17" aria-hidden="true" tabindex="-1"></a><span class="st">         """</span></span>
-<span id="cb16-18"><a href="#cb16-18" aria-hidden="true" tabindex="-1"></a>         <span class="op">.</span><span class="fu">stripIndent</span><span class="op">()</span></span>
-<span id="cb16-19"><a href="#cb16-19" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb16-20"><a href="#cb16-20" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb16-21"><a href="#cb16-21" aria-hidden="true" tabindex="-1"></a><span class="st">/*</span></span>
-<span id="cb16-22"><a href="#cb16-22" aria-hidden="true" tabindex="-1"></a><span class="st"> * define the `INDEX` process that create a binary index</span></span>
-<span id="cb16-23"><a href="#cb16-23" aria-hidden="true" tabindex="-1"></a><span class="st"> * given the transcriptome file</span></span>
-<span id="cb16-24"><a href="#cb16-24" aria-hidden="true" tabindex="-1"></a><span class="st"> */</span></span>
-<span id="cb16-25"><a href="#cb16-25" aria-hidden="true" tabindex="-1"></a>process INDEX <span class="op">{</span></span>
-<span id="cb16-26"><a href="#cb16-26" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb16-27"><a href="#cb16-27" aria-hidden="true" tabindex="-1"></a>    input<span class="op">:</span></span>
-<span id="cb16-28"><a href="#cb16-28" aria-hidden="true" tabindex="-1"></a>    path transcriptome</span>
-<span id="cb16-29"><a href="#cb16-29" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb16-30"><a href="#cb16-30" aria-hidden="true" tabindex="-1"></a>    output<span class="op">:</span></span>
-<span id="cb16-31"><a href="#cb16-31" aria-hidden="true" tabindex="-1"></a>    path <span class="st">'index'</span></span>
-<span id="cb16-32"><a href="#cb16-32" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb16-33"><a href="#cb16-33" aria-hidden="true" tabindex="-1"></a>    script<span class="op">:</span></span>
-<span id="cb16-34"><a href="#cb16-34" aria-hidden="true" tabindex="-1"></a>    <span class="st">"""</span></span>
-<span id="cb16-35"><a href="#cb16-35" aria-hidden="true" tabindex="-1"></a><span class="st">    salmon index --threads </span><span class="ss">$task</span><span class="op">.</span><span class="ss">cpus</span><span class="st"> -t </span><span class="ss">$transcriptome</span><span class="st"> -i index</span></span>
-<span id="cb16-36"><a href="#cb16-36" aria-hidden="true" tabindex="-1"></a><span class="st">    """</span></span>
-<span id="cb16-37"><a href="#cb16-37" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span>
-<span id="cb16-38"><a href="#cb16-38" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb16-39"><a href="#cb16-39" aria-hidden="true" tabindex="-1"></a>transcriptome_ch <span class="op">=</span> channel<span class="op">.</span><span class="fu">fromPath</span><span class="op">(</span>params<span class="op">.</span>transcriptome<span class="op">)</span></span>
-<span id="cb16-40"><a href="#cb16-40" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb16-41"><a href="#cb16-41" aria-hidden="true" tabindex="-1"></a>workflow <span class="op">{</span></span>
-<span id="cb16-42"><a href="#cb16-42" aria-hidden="true" tabindex="-1"></a>   <span class="fu">INDEX</span><span class="op">()</span></span>
-<span id="cb16-43"><a href="#cb16-43" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre>
+<pre class="sourceCode groovy" tabindex="0"><code class="sourceCode groovy"><span id="cb16-1"><a href="#cb16-1" tabindex="-1"></a><span class="co">//script2.nf</span></span>
+<span id="cb16-2"><a href="#cb16-2" tabindex="-1"></a>nextflow<span class="op">.</span>enable<span class="op">.</span>dsl<span class="op">=</span><span class="dv">2</span></span>
+<span id="cb16-3"><a href="#cb16-3" tabindex="-1"></a></span>
+<span id="cb16-4"><a href="#cb16-4" tabindex="-1"></a><span class="co">/*</span></span>
+<span id="cb16-5"><a href="#cb16-5" tabindex="-1"></a><span class="co"> * pipeline input parameters</span></span>
+<span id="cb16-6"><a href="#cb16-6" tabindex="-1"></a><span class="co"> */</span></span>
+<span id="cb16-7"><a href="#cb16-7" tabindex="-1"></a>params<span class="op">.</span>reads <span class="op">=</span> <span class="st">"data/yeast/reads/*_{1,2}.fq.gz"</span></span>
+<span id="cb16-8"><a href="#cb16-8" tabindex="-1"></a>params<span class="op">.</span>transcriptome <span class="op">=</span> <span class="st">"data/yeast/transcriptome/Saccharomyces_cerevisiae.R64-1-1.cdna.all.fa.gz"</span></span>
+<span id="cb16-9"><a href="#cb16-9" tabindex="-1"></a>params<span class="op">.</span>outdir <span class="op">=</span> <span class="st">"results"</span></span>
+<span id="cb16-10"><a href="#cb16-10" tabindex="-1"></a></span>
+<span id="cb16-11"><a href="#cb16-11" tabindex="-1"></a>println <span class="st">"""</span><span class="op">\</span></span>
+<span id="cb16-12"><a href="#cb16-12" tabindex="-1"></a><span class="st">         R N A S E Q - N F   P I P E L I N E</span></span>
+<span id="cb16-13"><a href="#cb16-13" tabindex="-1"></a><span class="st">         ===================================</span></span>
+<span id="cb16-14"><a href="#cb16-14" tabindex="-1"></a><span class="st">         transcriptome: </span><span class="ss">${</span>params<span class="op">.</span>transcriptome<span class="ss">}</span></span>
+<span id="cb16-15"><a href="#cb16-15" tabindex="-1"></a><span class="st">         reads        : </span><span class="ss">${</span>params<span class="op">.</span>reads<span class="ss">}</span></span>
+<span id="cb16-16"><a href="#cb16-16" tabindex="-1"></a><span class="st">         outdir       : </span><span class="ss">${</span>params<span class="op">.</span>outdir<span class="ss">}</span></span>
+<span id="cb16-17"><a href="#cb16-17" tabindex="-1"></a><span class="st">         """</span></span>
+<span id="cb16-18"><a href="#cb16-18" tabindex="-1"></a>         <span class="op">.</span><span class="fu">stripIndent</span><span class="op">()</span></span>
+<span id="cb16-19"><a href="#cb16-19" tabindex="-1"></a></span>
+<span id="cb16-20"><a href="#cb16-20" tabindex="-1"></a></span>
+<span id="cb16-21"><a href="#cb16-21" tabindex="-1"></a><span class="st">/*</span></span>
+<span id="cb16-22"><a href="#cb16-22" tabindex="-1"></a><span class="st"> * define the `INDEX` process that create a binary index</span></span>
+<span id="cb16-23"><a href="#cb16-23" tabindex="-1"></a><span class="st"> * given the transcriptome file</span></span>
+<span id="cb16-24"><a href="#cb16-24" tabindex="-1"></a><span class="st"> */</span></span>
+<span id="cb16-25"><a href="#cb16-25" tabindex="-1"></a>process INDEX <span class="op">{</span></span>
+<span id="cb16-26"><a href="#cb16-26" tabindex="-1"></a></span>
+<span id="cb16-27"><a href="#cb16-27" tabindex="-1"></a>    input<span class="op">:</span></span>
+<span id="cb16-28"><a href="#cb16-28" tabindex="-1"></a>    path transcriptome</span>
+<span id="cb16-29"><a href="#cb16-29" tabindex="-1"></a></span>
+<span id="cb16-30"><a href="#cb16-30" tabindex="-1"></a>    output<span class="op">:</span></span>
+<span id="cb16-31"><a href="#cb16-31" tabindex="-1"></a>    path <span class="st">'index'</span></span>
+<span id="cb16-32"><a href="#cb16-32" tabindex="-1"></a></span>
+<span id="cb16-33"><a href="#cb16-33" tabindex="-1"></a>    script<span class="op">:</span></span>
+<span id="cb16-34"><a href="#cb16-34" tabindex="-1"></a>    <span class="st">"""</span></span>
+<span id="cb16-35"><a href="#cb16-35" tabindex="-1"></a><span class="st">    salmon index --threads </span><span class="ss">$task</span><span class="op">.</span><span class="ss">cpus</span><span class="st"> -t </span><span class="ss">$transcriptome</span><span class="st"> -i index</span></span>
+<span id="cb16-36"><a href="#cb16-36" tabindex="-1"></a><span class="st">    """</span></span>
+<span id="cb16-37"><a href="#cb16-37" tabindex="-1"></a><span class="op">}</span></span>
+<span id="cb16-38"><a href="#cb16-38" tabindex="-1"></a></span>
+<span id="cb16-39"><a href="#cb16-39" tabindex="-1"></a>transcriptome_ch <span class="op">=</span> channel<span class="op">.</span><span class="fu">fromPath</span><span class="op">(</span>params<span class="op">.</span>transcriptome<span class="op">)</span></span>
+<span id="cb16-40"><a href="#cb16-40" tabindex="-1"></a></span>
+<span id="cb16-41"><a href="#cb16-41" tabindex="-1"></a>workflow <span class="op">{</span></span>
+<span id="cb16-42"><a href="#cb16-42" tabindex="-1"></a>   <span class="fu">INDEX</span><span class="op">()</span></span>
+<span id="cb16-43"><a href="#cb16-43" tabindex="-1"></a><span class="op">}</span></span></code></pre>
 </div>
 <p>Try to run it by using the command:</p>
 <div class="codewrapper sourceCode" id="cb17">
 <h3 class="code-label">BASH<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode bash" tabindex="0"><code class="sourceCode bash"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> nextflow run script2.nf</span></code></pre>
+<pre class="sourceCode bash" tabindex="0"><code class="sourceCode bash"><span id="cb17-1"><a href="#cb17-1" tabindex="-1"></a><span class="ex">$</span> nextflow run script2.nf</span></code></pre>
 </div>
 <div class="codewrapper">
 <h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
@@ -673,16 +673,16 @@ Process `INDEX` declares 1 input channel but 0 were specified
 <div class="codewrapper sourceCode" id="cb19">
 <h3 class="code-label">GROOVY<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode groovy" tabindex="0"><code class="sourceCode groovy"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="op">[</span>truncated<span class="op">]</span></span>
-<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>workflow <span class="op">{</span></span>
-<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>   <span class="fu">INDEX</span><span class="op">(</span>transcriptome_ch<span class="op">)</span></span>
-<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre>
+<pre class="sourceCode groovy" tabindex="0"><code class="sourceCode groovy"><span id="cb19-1"><a href="#cb19-1" tabindex="-1"></a><span class="op">[</span>truncated<span class="op">]</span></span>
+<span id="cb19-2"><a href="#cb19-2" tabindex="-1"></a>workflow <span class="op">{</span></span>
+<span id="cb19-3"><a href="#cb19-3" tabindex="-1"></a>   <span class="fu">INDEX</span><span class="op">(</span>transcriptome_ch<span class="op">)</span></span>
+<span id="cb19-4"><a href="#cb19-4" tabindex="-1"></a><span class="op">}</span></span></code></pre>
 </div>
 <p>Now try to run it again by using the command:</p>
 <div class="codewrapper sourceCode" id="cb20">
 <h3 class="code-label">BASH<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode bash" tabindex="0"><code class="sourceCode bash"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> nextflow run script2.nf</span></code></pre>
+<pre class="sourceCode bash" tabindex="0"><code class="sourceCode bash"><span id="cb20-1"><a href="#cb20-1" tabindex="-1"></a><span class="ex">$</span> nextflow run script2.nf</span></code></pre>
 </div>
 <p>Now the workflow will run successfully.</p>
 <div class="codewrapper">
@@ -724,16 +724,16 @@ can use the <code>view</code> operator.</p>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution3" aria-expanded="false" aria-controls="collapseSolution3">
   <h4 class="accordion-header" id="headingSolution3">Show me the solution</h4>
 </button>
-<div id="collapseSolution3" class="accordion-collapse collapse" data-bs-parent="#accordionSolution3" aria-labelledby="headingSolution3">
+<div id="collapseSolution3" class="accordion-collapse collapse" aria-labelledby="headingSolution3" data-bs-parent="#accordionSolution3">
 <div class="accordion-body">
 <div class="codewrapper sourceCode" id="cb22">
 <h3 class="code-label">GROOVY<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode groovy" tabindex="0"><code class="sourceCode groovy"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="op">[..</span>truncated<span class="op">..]</span></span>
-<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>workflow <span class="op">{</span></span>
-<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>  index_ch<span class="op">=</span><span class="fu">INDEX</span><span class="op">(</span>transcriptome_ch<span class="op">)</span></span>
-<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a>  index_ch<span class="op">.</span><span class="fu">view</span><span class="op">()</span></span>
-<span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre>
+<pre class="sourceCode groovy" tabindex="0"><code class="sourceCode groovy"><span id="cb22-1"><a href="#cb22-1" tabindex="-1"></a><span class="op">[..</span>truncated<span class="op">..]</span></span>
+<span id="cb22-2"><a href="#cb22-2" tabindex="-1"></a>workflow <span class="op">{</span></span>
+<span id="cb22-3"><a href="#cb22-3" tabindex="-1"></a>  index_ch<span class="op">=</span><span class="fu">INDEX</span><span class="op">(</span>transcriptome_ch<span class="op">)</span></span>
+<span id="cb22-4"><a href="#cb22-4" tabindex="-1"></a>  index_ch<span class="op">.</span><span class="fu">view</span><span class="op">()</span></span>
+<span id="cb22-5"><a href="#cb22-5" tabindex="-1"></a><span class="op">}</span></span></code></pre>
 </div>
 </div>
 </div>
@@ -759,40 +759,40 @@ so they can be mapped by salmon.</p>
 <div class="codewrapper sourceCode" id="cb23">
 <h3 class="code-label">GROOVY<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode groovy" tabindex="0"><code class="sourceCode groovy"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="co">//script3.nf</span></span>
-<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>nextflow<span class="op">.</span>enable<span class="op">.</span>dsl <span class="op">=</span> <span class="dv">2</span></span>
-<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a><span class="co">/*</span></span>
-<span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a><span class="co"> * pipeline input parameters</span></span>
-<span id="cb23-6"><a href="#cb23-6" aria-hidden="true" tabindex="-1"></a><span class="co"> */</span></span>
-<span id="cb23-7"><a href="#cb23-7" aria-hidden="true" tabindex="-1"></a>params<span class="op">.</span>reads <span class="op">=</span> <span class="st">"data/yeast/reads/ref1_{1,2}.fq.gz"</span></span>
-<span id="cb23-8"><a href="#cb23-8" aria-hidden="true" tabindex="-1"></a>params<span class="op">.</span>transcriptome <span class="op">=</span> <span class="st">"data/yeast/transcriptome/Saccharomyces_cerevisiae.R64-1-1.cdna.all.fa.gz"</span></span>
-<span id="cb23-9"><a href="#cb23-9" aria-hidden="true" tabindex="-1"></a>params<span class="op">.</span>outdir <span class="op">=</span> <span class="st">"results"</span></span>
-<span id="cb23-10"><a href="#cb23-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb23-11"><a href="#cb23-11" aria-hidden="true" tabindex="-1"></a>log<span class="op">.</span><span class="fu">info</span> <span class="st">"""</span><span class="op">\</span></span>
-<span id="cb23-12"><a href="#cb23-12" aria-hidden="true" tabindex="-1"></a><span class="st">         R N A S E Q - N F   P I P E L I N E</span></span>
-<span id="cb23-13"><a href="#cb23-13" aria-hidden="true" tabindex="-1"></a><span class="st">         ===================================</span></span>
-<span id="cb23-14"><a href="#cb23-14" aria-hidden="true" tabindex="-1"></a><span class="st">         transcriptome: </span><span class="ss">${</span>params<span class="op">.</span>transcriptome<span class="ss">}</span></span>
-<span id="cb23-15"><a href="#cb23-15" aria-hidden="true" tabindex="-1"></a><span class="st">         reads        : </span><span class="ss">${</span>params<span class="op">.</span>reads<span class="ss">}</span></span>
-<span id="cb23-16"><a href="#cb23-16" aria-hidden="true" tabindex="-1"></a><span class="st">         outdir       : </span><span class="ss">${</span>params<span class="op">.</span>outdir<span class="ss">}</span></span>
-<span id="cb23-17"><a href="#cb23-17" aria-hidden="true" tabindex="-1"></a><span class="st">         """</span></span>
-<span id="cb23-18"><a href="#cb23-18" aria-hidden="true" tabindex="-1"></a>         <span class="op">.</span><span class="fu">stripIndent</span><span class="op">()</span></span>
-<span id="cb23-19"><a href="#cb23-19" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb23-20"><a href="#cb23-20" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb23-21"><a href="#cb23-21" aria-hidden="true" tabindex="-1"></a>read_pairs_ch <span class="op">=</span> <span class="bu">Channel</span><span class="op">.</span><span class="fu">fromFilePairs</span><span class="op">(</span> params<span class="op">.</span>reads <span class="op">)</span></span></code></pre>
+<pre class="sourceCode groovy" tabindex="0"><code class="sourceCode groovy"><span id="cb23-1"><a href="#cb23-1" tabindex="-1"></a><span class="co">//script3.nf</span></span>
+<span id="cb23-2"><a href="#cb23-2" tabindex="-1"></a>nextflow<span class="op">.</span>enable<span class="op">.</span>dsl <span class="op">=</span> <span class="dv">2</span></span>
+<span id="cb23-3"><a href="#cb23-3" tabindex="-1"></a></span>
+<span id="cb23-4"><a href="#cb23-4" tabindex="-1"></a><span class="co">/*</span></span>
+<span id="cb23-5"><a href="#cb23-5" tabindex="-1"></a><span class="co"> * pipeline input parameters</span></span>
+<span id="cb23-6"><a href="#cb23-6" tabindex="-1"></a><span class="co"> */</span></span>
+<span id="cb23-7"><a href="#cb23-7" tabindex="-1"></a>params<span class="op">.</span>reads <span class="op">=</span> <span class="st">"data/yeast/reads/ref1_{1,2}.fq.gz"</span></span>
+<span id="cb23-8"><a href="#cb23-8" tabindex="-1"></a>params<span class="op">.</span>transcriptome <span class="op">=</span> <span class="st">"data/yeast/transcriptome/Saccharomyces_cerevisiae.R64-1-1.cdna.all.fa.gz"</span></span>
+<span id="cb23-9"><a href="#cb23-9" tabindex="-1"></a>params<span class="op">.</span>outdir <span class="op">=</span> <span class="st">"results"</span></span>
+<span id="cb23-10"><a href="#cb23-10" tabindex="-1"></a></span>
+<span id="cb23-11"><a href="#cb23-11" tabindex="-1"></a>log<span class="op">.</span><span class="fu">info</span> <span class="st">"""</span><span class="op">\</span></span>
+<span id="cb23-12"><a href="#cb23-12" tabindex="-1"></a><span class="st">         R N A S E Q - N F   P I P E L I N E</span></span>
+<span id="cb23-13"><a href="#cb23-13" tabindex="-1"></a><span class="st">         ===================================</span></span>
+<span id="cb23-14"><a href="#cb23-14" tabindex="-1"></a><span class="st">         transcriptome: </span><span class="ss">${</span>params<span class="op">.</span>transcriptome<span class="ss">}</span></span>
+<span id="cb23-15"><a href="#cb23-15" tabindex="-1"></a><span class="st">         reads        : </span><span class="ss">${</span>params<span class="op">.</span>reads<span class="ss">}</span></span>
+<span id="cb23-16"><a href="#cb23-16" tabindex="-1"></a><span class="st">         outdir       : </span><span class="ss">${</span>params<span class="op">.</span>outdir<span class="ss">}</span></span>
+<span id="cb23-17"><a href="#cb23-17" tabindex="-1"></a><span class="st">         """</span></span>
+<span id="cb23-18"><a href="#cb23-18" tabindex="-1"></a>         <span class="op">.</span><span class="fu">stripIndent</span><span class="op">()</span></span>
+<span id="cb23-19"><a href="#cb23-19" tabindex="-1"></a></span>
+<span id="cb23-20"><a href="#cb23-20" tabindex="-1"></a></span>
+<span id="cb23-21"><a href="#cb23-21" tabindex="-1"></a>read_pairs_ch <span class="op">=</span> <span class="bu">Channel</span><span class="op">.</span><span class="fu">fromFilePairs</span><span class="op">(</span> params<span class="op">.</span>reads <span class="op">)</span></span></code></pre>
 </div>
 <p>We can view the contents of the <code>read_pairs_ch</code> by adding
 the following statement as the last line:</p>
 <div class="codewrapper sourceCode" id="cb24">
 <h3 class="code-label">GROOVY<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode groovy" tabindex="0"><code class="sourceCode groovy"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>read_pairs_ch<span class="op">.</span><span class="fu">view</span><span class="op">()</span></span></code></pre>
+<pre class="sourceCode groovy" tabindex="0"><code class="sourceCode groovy"><span id="cb24-1"><a href="#cb24-1" tabindex="-1"></a>read_pairs_ch<span class="op">.</span><span class="fu">view</span><span class="op">()</span></span></code></pre>
 </div>
 <p>Now if we execute it with the following command:</p>
 <div class="codewrapper sourceCode" id="cb25">
 <h3 class="code-label">BASH<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode bash" tabindex="0"><code class="sourceCode bash"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> nextflow run script3.nf</span></code></pre>
+<pre class="sourceCode bash" tabindex="0"><code class="sourceCode bash"><span id="cb25-1"><a href="#cb25-1" tabindex="-1"></a><span class="ex">$</span> nextflow run script3.nf</span></code></pre>
 </div>
 <p>It will print an output similar to the one shown below that shows how
 the <code>read_pairs_ch</code> channel emits a tuple. The tuple is
@@ -813,7 +813,7 @@ read in add the ref samples:</p>
 <div class="codewrapper sourceCode" id="cb27">
 <h3 class="code-label">BASH<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode bash" tabindex="0"><code class="sourceCode bash"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> nextflow run script3.nf <span class="at">--reads</span> <span class="st">'data/yeast/reads/ref*_{1,2}.fq.gz'</span></span></code></pre>
+<pre class="sourceCode bash" tabindex="0"><code class="sourceCode bash"><span id="cb27-1"><a href="#cb27-1" tabindex="-1"></a><span class="ex">$</span> nextflow run script3.nf <span class="at">--reads</span> <span class="st">'data/yeast/reads/ref*_{1,2}.fq.gz'</span></span></code></pre>
 </div>
 <div class="codewrapper">
 <h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
@@ -833,16 +833,16 @@ file doesn’t exist.</p>
 <div class="codewrapper sourceCode" id="cb29">
 <h3 class="code-label">GROOVY<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode groovy" tabindex="0"><code class="sourceCode groovy"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="co">//script3.nf</span></span>
-<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a><span class="op">[..</span>truncated<span class="op">..]</span></span>
-<span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a>read_pairs_ch <span class="op">=</span> <span class="bu">Channel</span><span class="op">.</span><span class="fu">fromFilePairs</span><span class="op">(</span> params<span class="op">.</span>reads<span class="op">,</span> checkIfExists<span class="op">:</span> <span class="kw">true</span> <span class="op">)</span></span></code></pre>
+<pre class="sourceCode groovy" tabindex="0"><code class="sourceCode groovy"><span id="cb29-1"><a href="#cb29-1" tabindex="-1"></a><span class="co">//script3.nf</span></span>
+<span id="cb29-2"><a href="#cb29-2" tabindex="-1"></a><span class="op">[..</span>truncated<span class="op">..]</span></span>
+<span id="cb29-3"><a href="#cb29-3" tabindex="-1"></a>read_pairs_ch <span class="op">=</span> <span class="bu">Channel</span><span class="op">.</span><span class="fu">fromFilePairs</span><span class="op">(</span> params<span class="op">.</span>reads<span class="op">,</span> checkIfExists<span class="op">:</span> <span class="kw">true</span> <span class="op">)</span></span></code></pre>
 </div>
 <p>If we now run the script with the <code>--reads</code> parameter
 <code>data/yeast/reads/*_1,2}.fq.gz</code></p>
 <div class="codewrapper sourceCode" id="cb30">
 <h3 class="code-label">BASH<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode bash" tabindex="0"><code class="sourceCode bash"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> nextflow run script3.nf <span class="at">--reads</span> <span class="st">'data/yeast/reads/*_1,2}.fq.gz'</span></span></code></pre>
+<pre class="sourceCode bash" tabindex="0"><code class="sourceCode bash"><span id="cb30-1"><a href="#cb30-1" tabindex="-1"></a><span class="ex">$</span> nextflow run script3.nf <span class="at">--reads</span> <span class="st">'data/yeast/reads/*_1,2}.fq.gz'</span></span></code></pre>
 </div>
 <p>it will return the message .</p>
 <div class="codewrapper">
@@ -873,17 +873,17 @@ pattern to read in all the read pairs files from the
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution4" aria-expanded="false" aria-controls="collapseSolution4">
   <h4 class="accordion-header" id="headingSolution4">Show me the solution</h4>
 </button>
-<div id="collapseSolution4" class="accordion-collapse collapse" data-bs-parent="#accordionSolution4" aria-labelledby="headingSolution4">
+<div id="collapseSolution4" class="accordion-collapse collapse" aria-labelledby="headingSolution4" data-bs-parent="#accordionSolution4">
 <div class="accordion-body">
 <div class="codewrapper sourceCode" id="cb32">
 <h3 class="code-label">GROOVY<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode groovy" tabindex="0"><code class="sourceCode groovy"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a>read_pairs_ch <span class="op">=</span><span class="bu">Channel</span><span class="op">.</span><span class="fu">fromFilePairs</span><span class="op">(</span>params<span class="op">.</span>reads<span class="op">,</span> checkIfExists<span class="op">:</span> <span class="kw">true</span><span class="op">)</span></span></code></pre>
+<pre class="sourceCode groovy" tabindex="0"><code class="sourceCode groovy"><span id="cb32-1"><a href="#cb32-1" tabindex="-1"></a>read_pairs_ch <span class="op">=</span><span class="bu">Channel</span><span class="op">.</span><span class="fu">fromFilePairs</span><span class="op">(</span>params<span class="op">.</span>reads<span class="op">,</span> checkIfExists<span class="op">:</span> <span class="kw">true</span><span class="op">)</span></span></code></pre>
 </div>
 <div class="codewrapper sourceCode" id="cb33">
 <h3 class="code-label">BASH<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode bash" tabindex="0"><code class="sourceCode bash"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="ex">nextflow</span> run script3.nf <span class="at">--reads</span> <span class="st">'data/yeast/reads/*_{1,2}.fq.gz'</span></span></code></pre>
+<pre class="sourceCode bash" tabindex="0"><code class="sourceCode bash"><span id="cb33-1"><a href="#cb33-1" tabindex="-1"></a><span class="ex">nextflow</span> run script3.nf <span class="at">--reads</span> <span class="st">'data/yeast/reads/*_{1,2}.fq.gz'</span></span></code></pre>
 </div>
 <div class="codewrapper">
 <h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
@@ -919,34 +919,34 @@ file existence</p></li>
 </ol><div class="codewrapper sourceCode" id="cb35">
 <h3 class="code-label">GROOVY<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode groovy" tabindex="0"><code class="sourceCode groovy"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a><span class="co">//script4.nf</span></span>
-<span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a><span class="op">..</span>truncated<span class="op">..</span></span>
-<span id="cb35-3"><a href="#cb35-3" aria-hidden="true" tabindex="-1"></a><span class="st">/*</span></span>
-<span id="cb35-4"><a href="#cb35-4" aria-hidden="true" tabindex="-1"></a><span class="st"> * Run Salmon to perform the quantification of expression using</span></span>
-<span id="cb35-5"><a href="#cb35-5" aria-hidden="true" tabindex="-1"></a><span class="st"> * the index and the matched read files</span></span>
-<span id="cb35-6"><a href="#cb35-6" aria-hidden="true" tabindex="-1"></a><span class="st"> */</span></span>
-<span id="cb35-7"><a href="#cb35-7" aria-hidden="true" tabindex="-1"></a>process QUANT <span class="op">{</span></span>
-<span id="cb35-8"><a href="#cb35-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb35-9"><a href="#cb35-9" aria-hidden="true" tabindex="-1"></a>    input<span class="op">:</span></span>
-<span id="cb35-10"><a href="#cb35-10" aria-hidden="true" tabindex="-1"></a>    path index</span>
-<span id="cb35-11"><a href="#cb35-11" aria-hidden="true" tabindex="-1"></a>    tuple <span class="fu">val</span><span class="op">(</span>pair_id<span class="op">),</span> <span class="fu">path</span><span class="op">(</span>reads<span class="op">)</span></span>
-<span id="cb35-12"><a href="#cb35-12" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb35-13"><a href="#cb35-13" aria-hidden="true" tabindex="-1"></a>    output<span class="op">:</span></span>
-<span id="cb35-14"><a href="#cb35-14" aria-hidden="true" tabindex="-1"></a>    <span class="fu">path</span><span class="op">(</span>pair_id<span class="op">)</span></span>
-<span id="cb35-15"><a href="#cb35-15" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb35-16"><a href="#cb35-16" aria-hidden="true" tabindex="-1"></a>    script<span class="op">:</span></span>
-<span id="cb35-17"><a href="#cb35-17" aria-hidden="true" tabindex="-1"></a>    <span class="st">"""</span></span>
-<span id="cb35-18"><a href="#cb35-18" aria-hidden="true" tabindex="-1"></a><span class="st">    salmon quant --threads </span><span class="ss">$task</span><span class="op">.</span><span class="ss">cpus</span><span class="st"> --libType=U -i </span><span class="ss">$index</span><span class="st"> -1 </span><span class="ss">${</span>reads<span class="op">[</span><span class="dv">0</span><span class="op">]</span><span class="ss">}</span><span class="st"> -2 </span><span class="ss">${</span>reads<span class="op">[</span><span class="dv">1</span><span class="op">]</span><span class="ss">}</span><span class="st"> -o </span><span class="ss">$pair_id</span></span>
-<span id="cb35-19"><a href="#cb35-19" aria-hidden="true" tabindex="-1"></a><span class="st">    """</span></span>
-<span id="cb35-20"><a href="#cb35-20" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span>
-<span id="cb35-21"><a href="#cb35-21" aria-hidden="true" tabindex="-1"></a><span class="op">..</span>truncated<span class="op">..</span></span>
-<span id="cb35-22"><a href="#cb35-22" aria-hidden="true" tabindex="-1"></a><span class="fu">workflow</span> <span class="op">{</span></span>
-<span id="cb35-23"><a href="#cb35-23" aria-hidden="true" tabindex="-1"></a>  read_pairs_ch <span class="op">=</span> <span class="bu">Channel</span><span class="op">.</span><span class="fu">fromFilePairs</span><span class="op">(</span> params<span class="op">.</span>reads<span class="op">,</span> checkIfExists<span class="op">:</span><span class="kw">true</span> <span class="op">)</span></span>
-<span id="cb35-24"><a href="#cb35-24" aria-hidden="true" tabindex="-1"></a>  transcriptome_ch <span class="op">=</span> <span class="bu">Channel</span><span class="op">.</span><span class="fu">fromPath</span><span class="op">(</span> params<span class="op">.</span>transcriptome<span class="op">,</span> checkIfExists<span class="op">:</span><span class="kw">true</span> <span class="op">)</span></span>
-<span id="cb35-25"><a href="#cb35-25" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb35-26"><a href="#cb35-26" aria-hidden="true" tabindex="-1"></a>  index_ch<span class="op">=</span><span class="fu">INDEX</span><span class="op">(</span>transcriptome_ch<span class="op">)</span></span>
-<span id="cb35-27"><a href="#cb35-27" aria-hidden="true" tabindex="-1"></a>  quant_ch<span class="op">=</span><span class="fu">QUANT</span><span class="op">(</span>index_ch<span class="op">,</span>read_pairs_ch<span class="op">)</span></span>
-<span id="cb35-28"><a href="#cb35-28" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre>
+<pre class="sourceCode groovy" tabindex="0"><code class="sourceCode groovy"><span id="cb35-1"><a href="#cb35-1" tabindex="-1"></a><span class="co">//script4.nf</span></span>
+<span id="cb35-2"><a href="#cb35-2" tabindex="-1"></a><span class="op">..</span>truncated<span class="op">..</span></span>
+<span id="cb35-3"><a href="#cb35-3" tabindex="-1"></a><span class="st">/*</span></span>
+<span id="cb35-4"><a href="#cb35-4" tabindex="-1"></a><span class="st"> * Run Salmon to perform the quantification of expression using</span></span>
+<span id="cb35-5"><a href="#cb35-5" tabindex="-1"></a><span class="st"> * the index and the matched read files</span></span>
+<span id="cb35-6"><a href="#cb35-6" tabindex="-1"></a><span class="st"> */</span></span>
+<span id="cb35-7"><a href="#cb35-7" tabindex="-1"></a>process QUANT <span class="op">{</span></span>
+<span id="cb35-8"><a href="#cb35-8" tabindex="-1"></a></span>
+<span id="cb35-9"><a href="#cb35-9" tabindex="-1"></a>    input<span class="op">:</span></span>
+<span id="cb35-10"><a href="#cb35-10" tabindex="-1"></a>    path index</span>
+<span id="cb35-11"><a href="#cb35-11" tabindex="-1"></a>    tuple <span class="fu">val</span><span class="op">(</span>pair_id<span class="op">),</span> <span class="fu">path</span><span class="op">(</span>reads<span class="op">)</span></span>
+<span id="cb35-12"><a href="#cb35-12" tabindex="-1"></a></span>
+<span id="cb35-13"><a href="#cb35-13" tabindex="-1"></a>    output<span class="op">:</span></span>
+<span id="cb35-14"><a href="#cb35-14" tabindex="-1"></a>    <span class="fu">path</span><span class="op">(</span>pair_id<span class="op">)</span></span>
+<span id="cb35-15"><a href="#cb35-15" tabindex="-1"></a></span>
+<span id="cb35-16"><a href="#cb35-16" tabindex="-1"></a>    script<span class="op">:</span></span>
+<span id="cb35-17"><a href="#cb35-17" tabindex="-1"></a>    <span class="st">"""</span></span>
+<span id="cb35-18"><a href="#cb35-18" tabindex="-1"></a><span class="st">    salmon quant --threads </span><span class="ss">$task</span><span class="op">.</span><span class="ss">cpus</span><span class="st"> --libType=U -i </span><span class="ss">$index</span><span class="st"> -1 </span><span class="ss">${</span>reads<span class="op">[</span><span class="dv">0</span><span class="op">]</span><span class="ss">}</span><span class="st"> -2 </span><span class="ss">${</span>reads<span class="op">[</span><span class="dv">1</span><span class="op">]</span><span class="ss">}</span><span class="st"> -o </span><span class="ss">$pair_id</span></span>
+<span id="cb35-19"><a href="#cb35-19" tabindex="-1"></a><span class="st">    """</span></span>
+<span id="cb35-20"><a href="#cb35-20" tabindex="-1"></a><span class="op">}</span></span>
+<span id="cb35-21"><a href="#cb35-21" tabindex="-1"></a><span class="op">..</span>truncated<span class="op">..</span></span>
+<span id="cb35-22"><a href="#cb35-22" tabindex="-1"></a><span class="fu">workflow</span> <span class="op">{</span></span>
+<span id="cb35-23"><a href="#cb35-23" tabindex="-1"></a>  read_pairs_ch <span class="op">=</span> <span class="bu">Channel</span><span class="op">.</span><span class="fu">fromFilePairs</span><span class="op">(</span> params<span class="op">.</span>reads<span class="op">,</span> checkIfExists<span class="op">:</span><span class="kw">true</span> <span class="op">)</span></span>
+<span id="cb35-24"><a href="#cb35-24" tabindex="-1"></a>  transcriptome_ch <span class="op">=</span> <span class="bu">Channel</span><span class="op">.</span><span class="fu">fromPath</span><span class="op">(</span> params<span class="op">.</span>transcriptome<span class="op">,</span> checkIfExists<span class="op">:</span><span class="kw">true</span> <span class="op">)</span></span>
+<span id="cb35-25"><a href="#cb35-25" tabindex="-1"></a></span>
+<span id="cb35-26"><a href="#cb35-26" tabindex="-1"></a>  index_ch<span class="op">=</span><span class="fu">INDEX</span><span class="op">(</span>transcriptome_ch<span class="op">)</span></span>
+<span id="cb35-27"><a href="#cb35-27" tabindex="-1"></a>  quant_ch<span class="op">=</span><span class="fu">QUANT</span><span class="op">(</span>index_ch<span class="op">,</span>read_pairs_ch<span class="op">)</span></span>
+<span id="cb35-28"><a href="#cb35-28" tabindex="-1"></a><span class="op">}</span></span></code></pre>
 </div>
 <p>The <code>index_ch</code> channel, declared as output in the
 <code>INDEX</code> process, is used as the first input argument to the
@@ -958,7 +958,7 @@ the <code>pair_id</code> and the <code>reads</code>.</p>
 <div class="codewrapper sourceCode" id="cb36">
 <h3 class="code-label">BASH<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode bash" tabindex="0"><code class="sourceCode bash"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> nextflow run script4.nf</span></code></pre>
+<pre class="sourceCode bash" tabindex="0"><code class="sourceCode bash"><span id="cb36-1"><a href="#cb36-1" tabindex="-1"></a><span class="ex">$</span> nextflow run script4.nf</span></code></pre>
 </div>
 <p>You will see the execution of the index and quantification
 process.</p>
@@ -966,7 +966,7 @@ process.</p>
 <div class="codewrapper sourceCode" id="cb37">
 <h3 class="code-label">BASH<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode bash" tabindex="0"><code class="sourceCode bash"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> nextflow run script4.nf <span class="at">-resume</span></span></code></pre>
+<pre class="sourceCode bash" tabindex="0"><code class="sourceCode bash"><span id="cb37-1"><a href="#cb37-1" tabindex="-1"></a><span class="ex">$</span> nextflow run script4.nf <span class="at">-resume</span></span></code></pre>
 </div>
 <p>The <code>-resume</code> option cause the execution of any step that
 has been already processed to be skipped.</p>
@@ -974,7 +974,7 @@ has been already processed to be skipped.</p>
 <div class="codewrapper sourceCode" id="cb38">
 <h3 class="code-label">BASH<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode bash" tabindex="0"><code class="sourceCode bash"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> nextflow run script4.nf <span class="at">-resume</span> <span class="at">--reads</span> <span class="st">'data/yeast/reads/ref*_{1,2}.fq.gz'</span></span></code></pre>
+<pre class="sourceCode bash" tabindex="0"><code class="sourceCode bash"><span id="cb38-1"><a href="#cb38-1" tabindex="-1"></a><span class="ex">$</span> nextflow run script4.nf <span class="at">-resume</span> <span class="at">--reads</span> <span class="st">'data/yeast/reads/ref*_{1,2}.fq.gz'</span></span></code></pre>
 </div>
 <div class="codewrapper">
 <h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
@@ -1018,12 +1018,12 @@ to add some descriptive text to instance of the process being run.</p>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution5" aria-expanded="false" aria-controls="collapseSolution5">
   <h4 class="accordion-header" id="headingSolution5">Show me the solution</h4>
 </button>
-<div id="collapseSolution5" class="accordion-collapse collapse" data-bs-parent="#accordionSolution5" aria-labelledby="headingSolution5">
+<div id="collapseSolution5" class="accordion-collapse collapse" aria-labelledby="headingSolution5" data-bs-parent="#accordionSolution5">
 <div class="accordion-body">
 <div class="codewrapper sourceCode" id="cb40">
 <h3 class="code-label">GROOVY<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode groovy" tabindex="0"><code class="sourceCode groovy"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a>tag <span class="st">"quantification on </span><span class="ss">$pair_id</span><span class="st">"</span></span></code></pre>
+<pre class="sourceCode groovy" tabindex="0"><code class="sourceCode groovy"><span id="cb40-1"><a href="#cb40-1" tabindex="-1"></a>tag <span class="st">"quantification on </span><span class="ss">$pair_id</span><span class="st">"</span></span></code></pre>
 </div>
 </div>
 </div>
@@ -1062,12 +1062,12 @@ output.</p>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution6" aria-expanded="false" aria-controls="collapseSolution6">
   <h4 class="accordion-header" id="headingSolution6">Show me the solution</h4>
 </button>
-<div id="collapseSolution6" class="accordion-collapse collapse" data-bs-parent="#accordionSolution6" aria-labelledby="headingSolution6">
+<div id="collapseSolution6" class="accordion-collapse collapse" aria-labelledby="headingSolution6" data-bs-parent="#accordionSolution6">
 <div class="accordion-body">
 <div class="codewrapper sourceCode" id="cb41">
 <h3 class="code-label">GROOVY<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode groovy" tabindex="0"><code class="sourceCode groovy"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a>publishDir <span class="st">"</span><span class="ss">${</span>params<span class="op">.</span>outdir<span class="ss">}</span><span class="st">/quant"</span><span class="op">,</span> mode<span class="op">:</span><span class="st">'copy'</span></span></code></pre>
+<pre class="sourceCode groovy" tabindex="0"><code class="sourceCode groovy"><span id="cb41-1"><a href="#cb41-1" tabindex="-1"></a>publishDir <span class="st">"</span><span class="ss">${</span>params<span class="op">.</span>outdir<span class="ss">}</span><span class="st">/quant"</span><span class="op">,</span> mode<span class="op">:</span><span class="st">'copy'</span></span></code></pre>
 </div>
 </div>
 </div>
@@ -1094,45 +1094,45 @@ quantification process <code>QUANT</code> .</p>
 <div class="codewrapper sourceCode" id="cb42">
 <h3 class="code-label">GROOVY<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode groovy" tabindex="0"><code class="sourceCode groovy"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a><span class="co">//script5.nf</span></span>
-<span id="cb42-2"><a href="#cb42-2" aria-hidden="true" tabindex="-1"></a><span class="op">[..</span>truncated<span class="op">..]</span></span>
-<span id="cb42-3"><a href="#cb42-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb42-4"><a href="#cb42-4" aria-hidden="true" tabindex="-1"></a><span class="st">/*</span></span>
-<span id="cb42-5"><a href="#cb42-5" aria-hidden="true" tabindex="-1"></a><span class="st"> * Run fastQC to check quality of reads files</span></span>
-<span id="cb42-6"><a href="#cb42-6" aria-hidden="true" tabindex="-1"></a><span class="st"> */</span></span>
-<span id="cb42-7"><a href="#cb42-7" aria-hidden="true" tabindex="-1"></a>process FASTQC <span class="op">{</span></span>
-<span id="cb42-8"><a href="#cb42-8" aria-hidden="true" tabindex="-1"></a>    tag <span class="st">"FASTQC on </span><span class="ss">$sample_id</span><span class="st">"</span></span>
-<span id="cb42-9"><a href="#cb42-9" aria-hidden="true" tabindex="-1"></a>    cpus <span class="dv">1</span></span>
-<span id="cb42-10"><a href="#cb42-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb42-11"><a href="#cb42-11" aria-hidden="true" tabindex="-1"></a>    input<span class="op">:</span></span>
-<span id="cb42-12"><a href="#cb42-12" aria-hidden="true" tabindex="-1"></a>    tuple <span class="fu">val</span><span class="op">(</span>sample_id<span class="op">),</span> <span class="fu">path</span><span class="op">(</span>reads<span class="op">)</span></span>
-<span id="cb42-13"><a href="#cb42-13" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb42-14"><a href="#cb42-14" aria-hidden="true" tabindex="-1"></a>    output<span class="op">:</span></span>
-<span id="cb42-15"><a href="#cb42-15" aria-hidden="true" tabindex="-1"></a>    <span class="fu">path</span><span class="op">(</span><span class="st">"fastqc_</span><span class="ss">${</span>sample_id<span class="ss">}</span><span class="st">_logs"</span><span class="op">)</span></span>
-<span id="cb42-16"><a href="#cb42-16" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb42-17"><a href="#cb42-17" aria-hidden="true" tabindex="-1"></a>    script<span class="op">:</span></span>
-<span id="cb42-18"><a href="#cb42-18" aria-hidden="true" tabindex="-1"></a>    <span class="st">"""</span></span>
-<span id="cb42-19"><a href="#cb42-19" aria-hidden="true" tabindex="-1"></a><span class="st">    mkdir fastqc_</span><span class="ss">${</span>sample_id<span class="ss">}</span><span class="st">_logs</span></span>
-<span id="cb42-20"><a href="#cb42-20" aria-hidden="true" tabindex="-1"></a><span class="st">    fastqc -o fastqc_</span><span class="ss">${</span>sample_id<span class="ss">}</span><span class="st">_logs -f fastq -q </span><span class="ss">${</span>reads<span class="ss">}</span><span class="st"> -t </span><span class="ss">${</span>task<span class="op">.</span>cpus<span class="ss">}</span></span>
-<span id="cb42-21"><a href="#cb42-21" aria-hidden="true" tabindex="-1"></a><span class="st">    """</span></span>
-<span id="cb42-22"><a href="#cb42-22" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span>
-<span id="cb42-23"><a href="#cb42-23" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb42-24"><a href="#cb42-24" aria-hidden="true" tabindex="-1"></a><span class="op">[..</span>truncated<span class="op">..]</span></span>
-<span id="cb42-25"><a href="#cb42-25" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb42-26"><a href="#cb42-26" aria-hidden="true" tabindex="-1"></a>workflow <span class="op">{</span></span>
-<span id="cb42-27"><a href="#cb42-27" aria-hidden="true" tabindex="-1"></a>  read_pairs_ch <span class="op">=</span> <span class="bu">Channel</span><span class="op">.</span><span class="fu">fromFilePairs</span><span class="op">(</span> params<span class="op">.</span>reads<span class="op">,</span> checkIfExists<span class="op">:</span><span class="kw">true</span> <span class="op">)</span></span>
-<span id="cb42-28"><a href="#cb42-28" aria-hidden="true" tabindex="-1"></a>  transcriptome_ch <span class="op">=</span> <span class="bu">Channel</span><span class="op">.</span><span class="fu">fromPath</span><span class="op">(</span> params<span class="op">.</span>transcriptome<span class="op">,</span> checkIfExists<span class="op">:</span><span class="kw">true</span> <span class="op">)</span></span>
-<span id="cb42-29"><a href="#cb42-29" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb42-30"><a href="#cb42-30" aria-hidden="true" tabindex="-1"></a>  index_ch<span class="op">=</span><span class="fu">INDEX</span><span class="op">(</span>transcriptome_ch<span class="op">)</span></span>
-<span id="cb42-31"><a href="#cb42-31" aria-hidden="true" tabindex="-1"></a>  quant_ch<span class="op">=</span><span class="fu">QUANT</span><span class="op">(</span>index_ch<span class="op">,</span>read_pairs_ch<span class="op">)</span></span>
-<span id="cb42-32"><a href="#cb42-32" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre>
+<pre class="sourceCode groovy" tabindex="0"><code class="sourceCode groovy"><span id="cb42-1"><a href="#cb42-1" tabindex="-1"></a><span class="co">//script5.nf</span></span>
+<span id="cb42-2"><a href="#cb42-2" tabindex="-1"></a><span class="op">[..</span>truncated<span class="op">..]</span></span>
+<span id="cb42-3"><a href="#cb42-3" tabindex="-1"></a></span>
+<span id="cb42-4"><a href="#cb42-4" tabindex="-1"></a><span class="st">/*</span></span>
+<span id="cb42-5"><a href="#cb42-5" tabindex="-1"></a><span class="st"> * Run fastQC to check quality of reads files</span></span>
+<span id="cb42-6"><a href="#cb42-6" tabindex="-1"></a><span class="st"> */</span></span>
+<span id="cb42-7"><a href="#cb42-7" tabindex="-1"></a>process FASTQC <span class="op">{</span></span>
+<span id="cb42-8"><a href="#cb42-8" tabindex="-1"></a>    tag <span class="st">"FASTQC on </span><span class="ss">$sample_id</span><span class="st">"</span></span>
+<span id="cb42-9"><a href="#cb42-9" tabindex="-1"></a>    cpus <span class="dv">1</span></span>
+<span id="cb42-10"><a href="#cb42-10" tabindex="-1"></a></span>
+<span id="cb42-11"><a href="#cb42-11" tabindex="-1"></a>    input<span class="op">:</span></span>
+<span id="cb42-12"><a href="#cb42-12" tabindex="-1"></a>    tuple <span class="fu">val</span><span class="op">(</span>sample_id<span class="op">),</span> <span class="fu">path</span><span class="op">(</span>reads<span class="op">)</span></span>
+<span id="cb42-13"><a href="#cb42-13" tabindex="-1"></a></span>
+<span id="cb42-14"><a href="#cb42-14" tabindex="-1"></a>    output<span class="op">:</span></span>
+<span id="cb42-15"><a href="#cb42-15" tabindex="-1"></a>    <span class="fu">path</span><span class="op">(</span><span class="st">"fastqc_</span><span class="ss">${</span>sample_id<span class="ss">}</span><span class="st">_logs"</span><span class="op">)</span></span>
+<span id="cb42-16"><a href="#cb42-16" tabindex="-1"></a></span>
+<span id="cb42-17"><a href="#cb42-17" tabindex="-1"></a>    script<span class="op">:</span></span>
+<span id="cb42-18"><a href="#cb42-18" tabindex="-1"></a>    <span class="st">"""</span></span>
+<span id="cb42-19"><a href="#cb42-19" tabindex="-1"></a><span class="st">    mkdir fastqc_</span><span class="ss">${</span>sample_id<span class="ss">}</span><span class="st">_logs</span></span>
+<span id="cb42-20"><a href="#cb42-20" tabindex="-1"></a><span class="st">    fastqc -o fastqc_</span><span class="ss">${</span>sample_id<span class="ss">}</span><span class="st">_logs -f fastq -q </span><span class="ss">${</span>reads<span class="ss">}</span><span class="st"> -t </span><span class="ss">${</span>task<span class="op">.</span>cpus<span class="ss">}</span></span>
+<span id="cb42-21"><a href="#cb42-21" tabindex="-1"></a><span class="st">    """</span></span>
+<span id="cb42-22"><a href="#cb42-22" tabindex="-1"></a><span class="op">}</span></span>
+<span id="cb42-23"><a href="#cb42-23" tabindex="-1"></a></span>
+<span id="cb42-24"><a href="#cb42-24" tabindex="-1"></a><span class="op">[..</span>truncated<span class="op">..]</span></span>
+<span id="cb42-25"><a href="#cb42-25" tabindex="-1"></a></span>
+<span id="cb42-26"><a href="#cb42-26" tabindex="-1"></a>workflow <span class="op">{</span></span>
+<span id="cb42-27"><a href="#cb42-27" tabindex="-1"></a>  read_pairs_ch <span class="op">=</span> <span class="bu">Channel</span><span class="op">.</span><span class="fu">fromFilePairs</span><span class="op">(</span> params<span class="op">.</span>reads<span class="op">,</span> checkIfExists<span class="op">:</span><span class="kw">true</span> <span class="op">)</span></span>
+<span id="cb42-28"><a href="#cb42-28" tabindex="-1"></a>  transcriptome_ch <span class="op">=</span> <span class="bu">Channel</span><span class="op">.</span><span class="fu">fromPath</span><span class="op">(</span> params<span class="op">.</span>transcriptome<span class="op">,</span> checkIfExists<span class="op">:</span><span class="kw">true</span> <span class="op">)</span></span>
+<span id="cb42-29"><a href="#cb42-29" tabindex="-1"></a></span>
+<span id="cb42-30"><a href="#cb42-30" tabindex="-1"></a>  index_ch<span class="op">=</span><span class="fu">INDEX</span><span class="op">(</span>transcriptome_ch<span class="op">)</span></span>
+<span id="cb42-31"><a href="#cb42-31" tabindex="-1"></a>  quant_ch<span class="op">=</span><span class="fu">QUANT</span><span class="op">(</span>index_ch<span class="op">,</span>read_pairs_ch<span class="op">)</span></span>
+<span id="cb42-32"><a href="#cb42-32" tabindex="-1"></a><span class="op">}</span></span></code></pre>
 </div>
 <p>Run the script <code>script5.nf</code> by using the following
 command:</p>
 <div class="codewrapper sourceCode" id="cb43">
 <h3 class="code-label">BASH<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode bash" tabindex="0"><code class="sourceCode bash"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> nextflow run script5.nf <span class="at">-resume</span></span></code></pre>
+<pre class="sourceCode bash" tabindex="0"><code class="sourceCode bash"><span id="cb43-1"><a href="#cb43-1" tabindex="-1"></a><span class="ex">$</span> nextflow run script5.nf <span class="at">-resume</span></span></code></pre>
 </div>
 <p>The <code>FASTQC</code> process will not run as the process has not
 been declared in the workflow scope.</p>
@@ -1151,7 +1151,7 @@ using the <code>-resume</code> option.</p>
 <div class="codewrapper sourceCode" id="cb44">
 <h3 class="code-label">BASH<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode bash" tabindex="0"><code class="sourceCode bash"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> nextflow run script5.nf <span class="at">-resume</span></span></code></pre>
+<pre class="sourceCode bash" tabindex="0"><code class="sourceCode bash"><span id="cb44-1"><a href="#cb44-1" tabindex="-1"></a><span class="ex">$</span> nextflow run script5.nf <span class="at">-resume</span></span></code></pre>
 </div>
 </div>
 </div>
@@ -1161,18 +1161,18 @@ using the <code>-resume</code> option.</p>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution7" aria-expanded="false" aria-controls="collapseSolution7">
   <h4 class="accordion-header" id="headingSolution7">Show me the solution</h4>
 </button>
-<div id="collapseSolution7" class="accordion-collapse collapse" data-bs-parent="#accordionSolution7" aria-labelledby="headingSolution7">
+<div id="collapseSolution7" class="accordion-collapse collapse" aria-labelledby="headingSolution7" data-bs-parent="#accordionSolution7">
 <div class="accordion-body">
 <div class="codewrapper sourceCode" id="cb45">
 <h3 class="code-label">GROOVY<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode groovy" tabindex="0"><code class="sourceCode groovy"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true" tabindex="-1"></a>workflow <span class="op">{</span></span>
-<span id="cb45-2"><a href="#cb45-2" aria-hidden="true" tabindex="-1"></a>read_pairs_ch <span class="op">=</span> <span class="bu">Channel</span><span class="op">.</span><span class="fu">fromFilePairs</span><span class="op">(</span> params<span class="op">.</span>reads<span class="op">,</span> checkIfExists<span class="op">:</span><span class="kw">true</span> <span class="op">)</span></span>
-<span id="cb45-3"><a href="#cb45-3" aria-hidden="true" tabindex="-1"></a>transcriptome_ch <span class="op">=</span> <span class="bu">Channel</span><span class="op">.</span><span class="fu">fromPath</span><span class="op">(</span> params<span class="op">.</span>transcriptome<span class="op">,</span> checkIfExists<span class="op">:</span><span class="kw">true</span> <span class="op">)</span></span>
-<span id="cb45-4"><a href="#cb45-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb45-5"><a href="#cb45-5" aria-hidden="true" tabindex="-1"></a>index_ch <span class="op">=</span> <span class="fu">INDEX</span><span class="op">(</span> transcriptome_ch <span class="op">)</span></span>
-<span id="cb45-6"><a href="#cb45-6" aria-hidden="true" tabindex="-1"></a>quant_ch<span class="op">=</span><span class="fu">QUANT</span><span class="op">(</span>index_ch<span class="op">,</span>read_pairs_ch<span class="op">)</span></span>
-<span id="cb45-7"><a href="#cb45-7" aria-hidden="true" tabindex="-1"></a>fastqc_ch<span class="op">=</span><span class="fu">FASTQC</span><span class="op">(</span>read_pairs_ch<span class="op">)</span></span></code></pre>
+<pre class="sourceCode groovy" tabindex="0"><code class="sourceCode groovy"><span id="cb45-1"><a href="#cb45-1" tabindex="-1"></a>workflow <span class="op">{</span></span>
+<span id="cb45-2"><a href="#cb45-2" tabindex="-1"></a>read_pairs_ch <span class="op">=</span> <span class="bu">Channel</span><span class="op">.</span><span class="fu">fromFilePairs</span><span class="op">(</span> params<span class="op">.</span>reads<span class="op">,</span> checkIfExists<span class="op">:</span><span class="kw">true</span> <span class="op">)</span></span>
+<span id="cb45-3"><a href="#cb45-3" tabindex="-1"></a>transcriptome_ch <span class="op">=</span> <span class="bu">Channel</span><span class="op">.</span><span class="fu">fromPath</span><span class="op">(</span> params<span class="op">.</span>transcriptome<span class="op">,</span> checkIfExists<span class="op">:</span><span class="kw">true</span> <span class="op">)</span></span>
+<span id="cb45-4"><a href="#cb45-4" tabindex="-1"></a></span>
+<span id="cb45-5"><a href="#cb45-5" tabindex="-1"></a>index_ch <span class="op">=</span> <span class="fu">INDEX</span><span class="op">(</span> transcriptome_ch <span class="op">)</span></span>
+<span id="cb45-6"><a href="#cb45-6" tabindex="-1"></a>quant_ch<span class="op">=</span><span class="fu">QUANT</span><span class="op">(</span>index_ch<span class="op">,</span>read_pairs_ch<span class="op">)</span></span>
+<span id="cb45-7"><a href="#cb45-7" tabindex="-1"></a>fastqc_ch<span class="op">=</span><span class="fu">FASTQC</span><span class="op">(</span>read_pairs_ch<span class="op">)</span></span></code></pre>
 </div>
 <p>}</p>
 </div>
@@ -1198,10 +1198,10 @@ two channels into a single channel</li>
 </ul><div class="codewrapper sourceCode" id="cb46">
 <h3 class="code-label">GROOVY<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode groovy" tabindex="0"><code class="sourceCode groovy"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a><span class="co">//example of the mix operator</span></span>
-<span id="cb46-2"><a href="#cb46-2" aria-hidden="true" tabindex="-1"></a>ch1 <span class="op">=</span> <span class="bu">Channel</span><span class="op">.</span><span class="fu">of</span><span class="op">(</span><span class="dv">1</span><span class="op">,</span><span class="dv">2</span><span class="op">)</span></span>
-<span id="cb46-3"><a href="#cb46-3" aria-hidden="true" tabindex="-1"></a>ch2 <span class="op">=</span> <span class="bu">Channel</span><span class="op">.</span><span class="fu">of</span><span class="op">(</span><span class="st">'a'</span><span class="op">)</span></span>
-<span id="cb46-4"><a href="#cb46-4" aria-hidden="true" tabindex="-1"></a>ch1<span class="op">.</span><span class="fu">mix</span><span class="op">(</span>ch2<span class="op">).</span><span class="fu">view</span><span class="op">()</span></span></code></pre>
+<pre class="sourceCode groovy" tabindex="0"><code class="sourceCode groovy"><span id="cb46-1"><a href="#cb46-1" tabindex="-1"></a><span class="co">//example of the mix operator</span></span>
+<span id="cb46-2"><a href="#cb46-2" tabindex="-1"></a>ch1 <span class="op">=</span> <span class="bu">Channel</span><span class="op">.</span><span class="fu">of</span><span class="op">(</span><span class="dv">1</span><span class="op">,</span><span class="dv">2</span><span class="op">)</span></span>
+<span id="cb46-3"><a href="#cb46-3" tabindex="-1"></a>ch2 <span class="op">=</span> <span class="bu">Channel</span><span class="op">.</span><span class="fu">of</span><span class="op">(</span><span class="st">'a'</span><span class="op">)</span></span>
+<span id="cb46-4"><a href="#cb46-4" tabindex="-1"></a>ch1<span class="op">.</span><span class="fu">mix</span><span class="op">(</span>ch2<span class="op">).</span><span class="fu">view</span><span class="op">()</span></span></code></pre>
 </div>
 <div class="codewrapper">
 <h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
@@ -1215,9 +1215,9 @@ items in the new combined channel into a single item.</li>
 </ul><div class="codewrapper sourceCode" id="cb48">
 <h3 class="code-label">GROOVY<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode groovy" tabindex="0"><code class="sourceCode groovy"><span id="cb48-1"><a href="#cb48-1" aria-hidden="true" tabindex="-1"></a><span class="co">//example of the collect operator</span></span>
-<span id="cb48-2"><a href="#cb48-2" aria-hidden="true" tabindex="-1"></a>ch1 <span class="op">=</span> <span class="bu">Channel</span><span class="op">.</span><span class="fu">of</span><span class="op">(</span><span class="dv">1</span><span class="op">,</span><span class="dv">2</span><span class="op">,</span><span class="dv">3</span><span class="op">)</span></span>
-<span id="cb48-3"><a href="#cb48-3" aria-hidden="true" tabindex="-1"></a>ch1<span class="op">.</span><span class="fu">collect</span><span class="op">().</span><span class="fu">view</span><span class="op">()</span></span></code></pre>
+<pre class="sourceCode groovy" tabindex="0"><code class="sourceCode groovy"><span id="cb48-1"><a href="#cb48-1" tabindex="-1"></a><span class="co">//example of the collect operator</span></span>
+<span id="cb48-2"><a href="#cb48-2" tabindex="-1"></a>ch1 <span class="op">=</span> <span class="bu">Channel</span><span class="op">.</span><span class="fu">of</span><span class="op">(</span><span class="dv">1</span><span class="op">,</span><span class="dv">2</span><span class="op">,</span><span class="dv">3</span><span class="op">)</span></span>
+<span id="cb48-3"><a href="#cb48-3" tabindex="-1"></a>ch1<span class="op">.</span><span class="fu">collect</span><span class="op">().</span><span class="fu">view</span><span class="op">()</span></span></code></pre>
 </div>
 <div class="codewrapper">
 <h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
@@ -1247,7 +1247,7 @@ one List item?</p>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution8" aria-expanded="false" aria-controls="collapseSolution8">
   <h4 class="accordion-header" id="headingSolution8">Show me the solution</h4>
 </button>
-<div id="collapseSolution8" class="accordion-collapse collapse" data-bs-parent="#accordionSolution8" aria-labelledby="headingSolution8">
+<div id="collapseSolution8" class="accordion-collapse collapse" aria-labelledby="headingSolution8" data-bs-parent="#accordionSolution8">
 <div class="accordion-body">
 <p>You need to use the <code>mix</code> operator first to combine the
 channels followed by the <code>collect</code> operator to collect all
@@ -1263,43 +1263,43 @@ create the required input for the <code>MULTIQC</code> process.</p>
 <div class="codewrapper sourceCode" id="cb50">
 <h3 class="code-label">GROOVY<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode groovy" tabindex="0"><code class="sourceCode groovy"><span id="cb50-1"><a href="#cb50-1" aria-hidden="true" tabindex="-1"></a><span class="op">[..</span>truncated<span class="op">..]</span></span>
-<span id="cb50-2"><a href="#cb50-2" aria-hidden="true" tabindex="-1"></a><span class="co">//script6.nf</span></span>
-<span id="cb50-3"><a href="#cb50-3" aria-hidden="true" tabindex="-1"></a><span class="co">/*</span></span>
-<span id="cb50-4"><a href="#cb50-4" aria-hidden="true" tabindex="-1"></a><span class="co"> * Create a report using multiQC for the quantification</span></span>
-<span id="cb50-5"><a href="#cb50-5" aria-hidden="true" tabindex="-1"></a><span class="co"> * and fastqc processes</span></span>
-<span id="cb50-6"><a href="#cb50-6" aria-hidden="true" tabindex="-1"></a><span class="co"> */</span></span>
-<span id="cb50-7"><a href="#cb50-7" aria-hidden="true" tabindex="-1"></a>process MULTIQC <span class="op">{</span></span>
-<span id="cb50-8"><a href="#cb50-8" aria-hidden="true" tabindex="-1"></a>    publishDir <span class="st">"</span><span class="ss">${</span>params<span class="op">.</span>outdir<span class="ss">}</span><span class="st">/multiqc"</span><span class="op">,</span> mode<span class="op">:</span><span class="st">'copy'</span></span>
-<span id="cb50-9"><a href="#cb50-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb50-10"><a href="#cb50-10" aria-hidden="true" tabindex="-1"></a>    input<span class="op">:</span></span>
-<span id="cb50-11"><a href="#cb50-11" aria-hidden="true" tabindex="-1"></a>    <span class="fu">path</span><span class="op">(</span><span class="st">'*'</span><span class="op">)</span></span>
-<span id="cb50-12"><a href="#cb50-12" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb50-13"><a href="#cb50-13" aria-hidden="true" tabindex="-1"></a>    output<span class="op">:</span></span>
-<span id="cb50-14"><a href="#cb50-14" aria-hidden="true" tabindex="-1"></a>    <span class="fu">path</span><span class="op">(</span><span class="st">'multiqc_report.html'</span><span class="op">)</span></span>
-<span id="cb50-15"><a href="#cb50-15" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb50-16"><a href="#cb50-16" aria-hidden="true" tabindex="-1"></a>    script<span class="op">:</span></span>
-<span id="cb50-17"><a href="#cb50-17" aria-hidden="true" tabindex="-1"></a>    <span class="st">"""</span></span>
-<span id="cb50-18"><a href="#cb50-18" aria-hidden="true" tabindex="-1"></a><span class="st">    multiqc .</span></span>
-<span id="cb50-19"><a href="#cb50-19" aria-hidden="true" tabindex="-1"></a><span class="st">    """</span></span>
-<span id="cb50-20"><a href="#cb50-20" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span>
-<span id="cb50-21"><a href="#cb50-21" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb50-22"><a href="#cb50-22" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb50-23"><a href="#cb50-23" aria-hidden="true" tabindex="-1"></a>workflow <span class="op">{</span></span>
-<span id="cb50-24"><a href="#cb50-24" aria-hidden="true" tabindex="-1"></a>  read_pairs_ch <span class="op">=</span> <span class="bu">Channel</span><span class="op">.</span><span class="fu">fromFilePairs</span><span class="op">(</span> params<span class="op">.</span>reads<span class="op">,</span> checkIfExists<span class="op">:</span><span class="kw">true</span> <span class="op">)</span></span>
-<span id="cb50-25"><a href="#cb50-25" aria-hidden="true" tabindex="-1"></a>  transcriptome_ch <span class="op">=</span> <span class="bu">Channel</span><span class="op">.</span><span class="fu">fromPath</span><span class="op">(</span> params<span class="op">.</span>transcriptome<span class="op">,</span> checkIfExists<span class="op">:</span><span class="kw">true</span> <span class="op">)</span></span>
-<span id="cb50-26"><a href="#cb50-26" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb50-27"><a href="#cb50-27" aria-hidden="true" tabindex="-1"></a>  index_ch<span class="op">=</span><span class="fu">INDEX</span><span class="op">(</span>transcriptome_ch<span class="op">)</span></span>
-<span id="cb50-28"><a href="#cb50-28" aria-hidden="true" tabindex="-1"></a>  quant_ch<span class="op">=</span><span class="fu">QUANT</span><span class="op">(</span>index_ch<span class="op">,</span>read_pairs_ch<span class="op">)</span></span>
-<span id="cb50-29"><a href="#cb50-29" aria-hidden="true" tabindex="-1"></a>  fastqc_ch<span class="op">=</span><span class="fu">FASTQC</span><span class="op">(</span>read_pairs_ch<span class="op">)</span></span>
-<span id="cb50-30"><a href="#cb50-30" aria-hidden="true" tabindex="-1"></a>  <span class="fu">MULTIQC</span><span class="op">(</span>quant_ch<span class="op">.</span><span class="fu">mix</span><span class="op">(</span>fastqc_ch<span class="op">).</span><span class="fu">collect</span><span class="op">())</span></span>
-<span id="cb50-31"><a href="#cb50-31" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre>
+<pre class="sourceCode groovy" tabindex="0"><code class="sourceCode groovy"><span id="cb50-1"><a href="#cb50-1" tabindex="-1"></a><span class="op">[..</span>truncated<span class="op">..]</span></span>
+<span id="cb50-2"><a href="#cb50-2" tabindex="-1"></a><span class="co">//script6.nf</span></span>
+<span id="cb50-3"><a href="#cb50-3" tabindex="-1"></a><span class="co">/*</span></span>
+<span id="cb50-4"><a href="#cb50-4" tabindex="-1"></a><span class="co"> * Create a report using multiQC for the quantification</span></span>
+<span id="cb50-5"><a href="#cb50-5" tabindex="-1"></a><span class="co"> * and fastqc processes</span></span>
+<span id="cb50-6"><a href="#cb50-6" tabindex="-1"></a><span class="co"> */</span></span>
+<span id="cb50-7"><a href="#cb50-7" tabindex="-1"></a>process MULTIQC <span class="op">{</span></span>
+<span id="cb50-8"><a href="#cb50-8" tabindex="-1"></a>    publishDir <span class="st">"</span><span class="ss">${</span>params<span class="op">.</span>outdir<span class="ss">}</span><span class="st">/multiqc"</span><span class="op">,</span> mode<span class="op">:</span><span class="st">'copy'</span></span>
+<span id="cb50-9"><a href="#cb50-9" tabindex="-1"></a></span>
+<span id="cb50-10"><a href="#cb50-10" tabindex="-1"></a>    input<span class="op">:</span></span>
+<span id="cb50-11"><a href="#cb50-11" tabindex="-1"></a>    <span class="fu">path</span><span class="op">(</span><span class="st">'*'</span><span class="op">)</span></span>
+<span id="cb50-12"><a href="#cb50-12" tabindex="-1"></a></span>
+<span id="cb50-13"><a href="#cb50-13" tabindex="-1"></a>    output<span class="op">:</span></span>
+<span id="cb50-14"><a href="#cb50-14" tabindex="-1"></a>    <span class="fu">path</span><span class="op">(</span><span class="st">'multiqc_report.html'</span><span class="op">)</span></span>
+<span id="cb50-15"><a href="#cb50-15" tabindex="-1"></a></span>
+<span id="cb50-16"><a href="#cb50-16" tabindex="-1"></a>    script<span class="op">:</span></span>
+<span id="cb50-17"><a href="#cb50-17" tabindex="-1"></a>    <span class="st">"""</span></span>
+<span id="cb50-18"><a href="#cb50-18" tabindex="-1"></a><span class="st">    multiqc .</span></span>
+<span id="cb50-19"><a href="#cb50-19" tabindex="-1"></a><span class="st">    """</span></span>
+<span id="cb50-20"><a href="#cb50-20" tabindex="-1"></a><span class="op">}</span></span>
+<span id="cb50-21"><a href="#cb50-21" tabindex="-1"></a></span>
+<span id="cb50-22"><a href="#cb50-22" tabindex="-1"></a></span>
+<span id="cb50-23"><a href="#cb50-23" tabindex="-1"></a>workflow <span class="op">{</span></span>
+<span id="cb50-24"><a href="#cb50-24" tabindex="-1"></a>  read_pairs_ch <span class="op">=</span> <span class="bu">Channel</span><span class="op">.</span><span class="fu">fromFilePairs</span><span class="op">(</span> params<span class="op">.</span>reads<span class="op">,</span> checkIfExists<span class="op">:</span><span class="kw">true</span> <span class="op">)</span></span>
+<span id="cb50-25"><a href="#cb50-25" tabindex="-1"></a>  transcriptome_ch <span class="op">=</span> <span class="bu">Channel</span><span class="op">.</span><span class="fu">fromPath</span><span class="op">(</span> params<span class="op">.</span>transcriptome<span class="op">,</span> checkIfExists<span class="op">:</span><span class="kw">true</span> <span class="op">)</span></span>
+<span id="cb50-26"><a href="#cb50-26" tabindex="-1"></a></span>
+<span id="cb50-27"><a href="#cb50-27" tabindex="-1"></a>  index_ch<span class="op">=</span><span class="fu">INDEX</span><span class="op">(</span>transcriptome_ch<span class="op">)</span></span>
+<span id="cb50-28"><a href="#cb50-28" tabindex="-1"></a>  quant_ch<span class="op">=</span><span class="fu">QUANT</span><span class="op">(</span>index_ch<span class="op">,</span>read_pairs_ch<span class="op">)</span></span>
+<span id="cb50-29"><a href="#cb50-29" tabindex="-1"></a>  fastqc_ch<span class="op">=</span><span class="fu">FASTQC</span><span class="op">(</span>read_pairs_ch<span class="op">)</span></span>
+<span id="cb50-30"><a href="#cb50-30" tabindex="-1"></a>  <span class="fu">MULTIQC</span><span class="op">(</span>quant_ch<span class="op">.</span><span class="fu">mix</span><span class="op">(</span>fastqc_ch<span class="op">).</span><span class="fu">collect</span><span class="op">())</span></span>
+<span id="cb50-31"><a href="#cb50-31" tabindex="-1"></a><span class="op">}</span></span></code></pre>
 </div>
 <p>Execute the script with the following command:</p>
 <div class="codewrapper sourceCode" id="cb51">
 <h3 class="code-label">BASH<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode bash" tabindex="0"><code class="sourceCode bash"><span id="cb51-1"><a href="#cb51-1" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> nextflow run script6.nf <span class="at">--reads</span> <span class="st">'data/yeast/reads/*_{1,2}.fq.gz'</span> <span class="at">-resume</span></span></code></pre>
+<pre class="sourceCode bash" tabindex="0"><code class="sourceCode bash"><span id="cb51-1"><a href="#cb51-1" tabindex="-1"></a><span class="ex">$</span> nextflow run script6.nf <span class="at">--reads</span> <span class="st">'data/yeast/reads/*_{1,2}.fq.gz'</span> <span class="at">-resume</span></span></code></pre>
 </div>
 <div class="codewrapper">
 <h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
@@ -1344,9 +1344,9 @@ message when the script completes.</p>
 <div class="codewrapper sourceCode" id="cb53">
 <h3 class="code-label">GROOVY<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode groovy" tabindex="0"><code class="sourceCode groovy"><span id="cb53-1"><a href="#cb53-1" aria-hidden="true" tabindex="-1"></a>workflow<span class="op">.</span><span class="fu">onComplete</span> <span class="op">{</span></span>
-<span id="cb53-2"><a href="#cb53-2" aria-hidden="true" tabindex="-1"></a>	log<span class="op">.</span><span class="fu">info</span> <span class="op">(</span> workflow<span class="op">.</span>success <span class="op">?</span> <span class="st">"</span><span class="sc">\n</span><span class="st">Done! Open the following report in your browser --&gt; </span><span class="ss">$params</span><span class="op">.</span><span class="ss">outdir</span><span class="st">/multiqc/multiqc_report.html</span><span class="sc">\n</span><span class="st">"</span> <span class="op">:</span> <span class="st">"Oops .. something went wrong"</span> <span class="op">)</span></span>
-<span id="cb53-3"><a href="#cb53-3" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre>
+<pre class="sourceCode groovy" tabindex="0"><code class="sourceCode groovy"><span id="cb53-1"><a href="#cb53-1" tabindex="-1"></a>workflow<span class="op">.</span><span class="fu">onComplete</span> <span class="op">{</span></span>
+<span id="cb53-2"><a href="#cb53-2" tabindex="-1"></a>	log<span class="op">.</span><span class="fu">info</span> <span class="op">(</span> workflow<span class="op">.</span>success <span class="op">?</span> <span class="st">"</span><span class="sc">\n</span><span class="st">Done! Open the following report in your browser --&gt; </span><span class="ss">$params</span><span class="op">.</span><span class="ss">outdir</span><span class="st">/multiqc/multiqc_report.html</span><span class="sc">\n</span><span class="st">"</span> <span class="op">:</span> <span class="st">"Oops .. something went wrong"</span> <span class="op">)</span></span>
+<span id="cb53-3"><a href="#cb53-3" tabindex="-1"></a><span class="op">}</span></span></code></pre>
 </div>
 <p>This code uses the ternary operator that is a shortcut expression
 that is equivalent to an if/else branch assigning some value to a
@@ -1356,7 +1356,7 @@ variable.</p>
 <div class="codewrapper sourceCode" id="cb55">
 <h3 class="code-label">BASH<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode bash" tabindex="0"><code class="sourceCode bash"><span id="cb55-1"><a href="#cb55-1" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> nextflow run script7.nf <span class="at">-resume</span> <span class="at">--reads</span> <span class="st">'data/yeast/reads/*_{1,2}.fq.gz'</span></span></code></pre>
+<pre class="sourceCode bash" tabindex="0"><code class="sourceCode bash"><span id="cb55-1"><a href="#cb55-1" tabindex="-1"></a><span class="ex">$</span> nextflow run script7.nf <span class="at">-resume</span> <span class="at">--reads</span> <span class="st">'data/yeast/reads/*_{1,2}.fq.gz'</span></span></code></pre>
 </div>
 <div class="codewrapper">
 <h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
@@ -1395,7 +1395,7 @@ visualization software, in your system.</p></li>
 <div class="codewrapper sourceCode" id="cb57">
 <h3 class="code-label">BASH<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode bash" tabindex="0"><code class="sourceCode bash"><span id="cb57-1"><a href="#cb57-1" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> nextflow run script7.nf <span class="at">-resume</span> <span class="at">-with-report</span> <span class="at">-with-trace</span> <span class="at">-with-timeline</span> <span class="at">-with-dag</span> dag.png</span></code></pre>
+<pre class="sourceCode bash" tabindex="0"><code class="sourceCode bash"><span id="cb57-1"><a href="#cb57-1" tabindex="-1"></a><span class="ex">$</span> nextflow run script7.nf <span class="at">-resume</span> <span class="at">-with-report</span> <span class="at">-with-trace</span> <span class="at">-with-timeline</span> <span class="at">-with-dag</span> dag.png</span></code></pre>
 </div>
 <ol style="list-style-type: decimal"><li>Open the file <code>report.html</code> with a browser to see the
 report created with the above command.</li>
@@ -1410,7 +1410,7 @@ report created with the above command.</li>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution9" aria-expanded="false" aria-controls="collapseSolution9">
   <h4 class="accordion-header" id="headingSolution9">Show me the solution</h4>
 </button>
-<div id="collapseSolution9" class="accordion-collapse collapse" data-bs-parent="#accordionSolution9" aria-labelledby="headingSolution9">
+<div id="collapseSolution9" class="accordion-collapse collapse" aria-labelledby="headingSolution9" data-bs-parent="#accordionSolution9">
 <div class="accordion-body">
 <p>The <code>INDEX</code> process should be the longest running process.
 dag.png <img src="../fig/dag.png" alt="dag" class="figure"> The vertices in the graph
@@ -1420,13 +1420,12 @@ represent the data connections (i.e. channels) between them.</p>
 </div>
 </div>
 </div>
-<div id="short-running-tasks" class="callout callout">
+<div id="callout1" class="callout">
 <div class="callout-square">
 <i class="callout-icon" data-feather="bell"></i>
 </div>
-<div id="short-running-tasks" class="callout-inner">
-<h3 class="callout-title">short running tasks<a class="anchor" aria-label="anchor" href="#short-running-tasks"></a>
-</h3>
+<div class="section level3 callout-title callout-inner">
+<h3 class="callout-title" id="short-running-tasks">short running tasks<a class="anchor" aria-label="anchor" href="#short-running-tasks"></a></h3>
 <div class="callout-content">
 <p>Note: runtime metrics may be incomplete for run short running
 tasks..</p>
@@ -1524,7 +1523,7 @@ options <code>-with-report</code>, <code>-with-trace</code>,
   "identifier": "https://carpentries-incubator.github.io/workflows-nextflow/instructor/11-Simple_Rna-Seq_pipeline.html",
   "dateCreated": "2021-02-01",
   "dateModified": "2024-01-17",
-  "datePublished": "2024-02-27"
+  "datePublished": "2024-03-05"
 }
 
   </script><script>

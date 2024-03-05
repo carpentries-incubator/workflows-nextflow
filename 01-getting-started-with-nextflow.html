@@ -493,68 +493,68 @@ the following code:</p>
 <div class="codewrapper sourceCode" id="cb2">
 <h3 class="code-label">GROOVY<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode groovy" tabindex="0"><code class="sourceCode groovy"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>#<span class="op">!</span><span class="st">/usr/</span>bin<span class="op">/</span>env nextflow</span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>nextflow<span class="op">.</span>enable<span class="op">.</span>dsl<span class="op">=</span><span class="dv">2</span></span>
-<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a><span class="co">/*</span></span>
-<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a><span class="co">========================================================================================</span></span>
-<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a><span class="co">    Workflow parameters are written as params.&lt;parameter&gt;</span></span>
-<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a><span class="co">    and can be initialised using the `=` operator.</span></span>
-<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a><span class="co">========================================================================================</span></span>
-<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a><span class="co">*/</span></span>
-<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>params<span class="op">.</span>input <span class="op">=</span> <span class="st">"data/untrimmed_fastq/SRR2584863_1.fastq.gz"</span></span>
-<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a><span class="co">/*</span></span>
-<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a><span class="co">========================================================================================</span></span>
-<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a><span class="co">    Input data is received through channels</span></span>
-<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a><span class="co">========================================================================================</span></span>
-<span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a><span class="co">*/</span></span>
-<span id="cb2-19"><a href="#cb2-19" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-20"><a href="#cb2-20" aria-hidden="true" tabindex="-1"></a>input_ch <span class="op">=</span> <span class="bu">Channel</span><span class="op">.</span><span class="fu">fromPath</span><span class="op">(</span>params<span class="op">.</span>input<span class="op">)</span></span>
-<span id="cb2-21"><a href="#cb2-21" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-22"><a href="#cb2-22" aria-hidden="true" tabindex="-1"></a><span class="st">/*</span></span>
-<span id="cb2-23"><a href="#cb2-23" aria-hidden="true" tabindex="-1"></a><span class="st">========================================================================================</span></span>
-<span id="cb2-24"><a href="#cb2-24" aria-hidden="true" tabindex="-1"></a><span class="st">   Main Workflow</span></span>
-<span id="cb2-25"><a href="#cb2-25" aria-hidden="true" tabindex="-1"></a><span class="st">========================================================================================</span></span>
-<span id="cb2-26"><a href="#cb2-26" aria-hidden="true" tabindex="-1"></a><span class="st">*/</span></span>
-<span id="cb2-27"><a href="#cb2-27" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-28"><a href="#cb2-28" aria-hidden="true" tabindex="-1"></a>workflow <span class="op">{</span></span>
-<span id="cb2-29"><a href="#cb2-29" aria-hidden="true" tabindex="-1"></a>    <span class="co">//  The script to execute is called by it's process name, and input is provided between brackets.</span></span>
-<span id="cb2-30"><a href="#cb2-30" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-31"><a href="#cb2-31" aria-hidden="true" tabindex="-1"></a>    <span class="fu">NUM_LINES</span><span class="op">(</span>input_ch<span class="op">)</span></span>
-<span id="cb2-32"><a href="#cb2-32" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-33"><a href="#cb2-33" aria-hidden="true" tabindex="-1"></a>    <span class="st">/*  Process output is accessed using the `out` channel.</span></span>
-<span id="cb2-34"><a href="#cb2-34" aria-hidden="true" tabindex="-1"></a><span class="st">        The channel operator view() is used to print process output to the terminal. */</span></span>
-<span id="cb2-35"><a href="#cb2-35" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-36"><a href="#cb2-36" aria-hidden="true" tabindex="-1"></a>    NUM_LINES<span class="op">.</span>out<span class="op">.</span><span class="fu">view</span><span class="op">()</span></span>
-<span id="cb2-37"><a href="#cb2-37" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-38"><a href="#cb2-38" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span>
-<span id="cb2-39"><a href="#cb2-39" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-40"><a href="#cb2-40" aria-hidden="true" tabindex="-1"></a><span class="st">/*</span></span>
-<span id="cb2-41"><a href="#cb2-41" aria-hidden="true" tabindex="-1"></a><span class="st">========================================================================================</span></span>
-<span id="cb2-42"><a href="#cb2-42" aria-hidden="true" tabindex="-1"></a><span class="st">    A Nextflow process block. Process names are written, by convention, in uppercase.</span></span>
-<span id="cb2-43"><a href="#cb2-43" aria-hidden="true" tabindex="-1"></a><span class="st">    This convention is used to enhance workflow readability.</span></span>
-<span id="cb2-44"><a href="#cb2-44" aria-hidden="true" tabindex="-1"></a><span class="st">========================================================================================</span></span>
-<span id="cb2-45"><a href="#cb2-45" aria-hidden="true" tabindex="-1"></a><span class="st">*/</span></span>
-<span id="cb2-46"><a href="#cb2-46" aria-hidden="true" tabindex="-1"></a>process NUM_LINES <span class="op">{</span></span>
-<span id="cb2-47"><a href="#cb2-47" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-48"><a href="#cb2-48" aria-hidden="true" tabindex="-1"></a>    input<span class="op">:</span></span>
-<span id="cb2-49"><a href="#cb2-49" aria-hidden="true" tabindex="-1"></a>    path read</span>
-<span id="cb2-50"><a href="#cb2-50" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-51"><a href="#cb2-51" aria-hidden="true" tabindex="-1"></a>    output<span class="op">:</span></span>
-<span id="cb2-52"><a href="#cb2-52" aria-hidden="true" tabindex="-1"></a>    stdout</span>
-<span id="cb2-53"><a href="#cb2-53" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-54"><a href="#cb2-54" aria-hidden="true" tabindex="-1"></a>    script<span class="op">:</span></span>
-<span id="cb2-55"><a href="#cb2-55" aria-hidden="true" tabindex="-1"></a>    <span class="st">"""</span></span>
-<span id="cb2-56"><a href="#cb2-56" aria-hidden="true" tabindex="-1"></a><span class="st">    # Print file name</span></span>
-<span id="cb2-57"><a href="#cb2-57" aria-hidden="true" tabindex="-1"></a><span class="st">    printf '</span><span class="ss">${</span>read<span class="ss">}</span><span class="sc">\\</span><span class="st">t'</span></span>
-<span id="cb2-58"><a href="#cb2-58" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-59"><a href="#cb2-59" aria-hidden="true" tabindex="-1"></a><span class="st">    # Unzip file and count number of lines</span></span>
-<span id="cb2-60"><a href="#cb2-60" aria-hidden="true" tabindex="-1"></a><span class="st">    gunzip -c </span><span class="ss">${</span>read<span class="ss">}</span><span class="st"> | wc -l</span></span>
-<span id="cb2-61"><a href="#cb2-61" aria-hidden="true" tabindex="-1"></a><span class="st">    """</span></span>
-<span id="cb2-62"><a href="#cb2-62" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre>
+<pre class="sourceCode groovy" tabindex="0"><code class="sourceCode groovy"><span id="cb2-1"><a href="#cb2-1" tabindex="-1"></a>#<span class="op">!</span><span class="st">/usr/</span>bin<span class="op">/</span>env nextflow</span>
+<span id="cb2-2"><a href="#cb2-2" tabindex="-1"></a></span>
+<span id="cb2-3"><a href="#cb2-3" tabindex="-1"></a>nextflow<span class="op">.</span>enable<span class="op">.</span>dsl<span class="op">=</span><span class="dv">2</span></span>
+<span id="cb2-4"><a href="#cb2-4" tabindex="-1"></a></span>
+<span id="cb2-5"><a href="#cb2-5" tabindex="-1"></a><span class="co">/*</span></span>
+<span id="cb2-6"><a href="#cb2-6" tabindex="-1"></a><span class="co">========================================================================================</span></span>
+<span id="cb2-7"><a href="#cb2-7" tabindex="-1"></a><span class="co">    Workflow parameters are written as params.&lt;parameter&gt;</span></span>
+<span id="cb2-8"><a href="#cb2-8" tabindex="-1"></a><span class="co">    and can be initialised using the `=` operator.</span></span>
+<span id="cb2-9"><a href="#cb2-9" tabindex="-1"></a><span class="co">========================================================================================</span></span>
+<span id="cb2-10"><a href="#cb2-10" tabindex="-1"></a><span class="co">*/</span></span>
+<span id="cb2-11"><a href="#cb2-11" tabindex="-1"></a></span>
+<span id="cb2-12"><a href="#cb2-12" tabindex="-1"></a>params<span class="op">.</span>input <span class="op">=</span> <span class="st">"data/untrimmed_fastq/SRR2584863_1.fastq.gz"</span></span>
+<span id="cb2-13"><a href="#cb2-13" tabindex="-1"></a></span>
+<span id="cb2-14"><a href="#cb2-14" tabindex="-1"></a><span class="co">/*</span></span>
+<span id="cb2-15"><a href="#cb2-15" tabindex="-1"></a><span class="co">========================================================================================</span></span>
+<span id="cb2-16"><a href="#cb2-16" tabindex="-1"></a><span class="co">    Input data is received through channels</span></span>
+<span id="cb2-17"><a href="#cb2-17" tabindex="-1"></a><span class="co">========================================================================================</span></span>
+<span id="cb2-18"><a href="#cb2-18" tabindex="-1"></a><span class="co">*/</span></span>
+<span id="cb2-19"><a href="#cb2-19" tabindex="-1"></a></span>
+<span id="cb2-20"><a href="#cb2-20" tabindex="-1"></a>input_ch <span class="op">=</span> <span class="bu">Channel</span><span class="op">.</span><span class="fu">fromPath</span><span class="op">(</span>params<span class="op">.</span>input<span class="op">)</span></span>
+<span id="cb2-21"><a href="#cb2-21" tabindex="-1"></a></span>
+<span id="cb2-22"><a href="#cb2-22" tabindex="-1"></a><span class="st">/*</span></span>
+<span id="cb2-23"><a href="#cb2-23" tabindex="-1"></a><span class="st">========================================================================================</span></span>
+<span id="cb2-24"><a href="#cb2-24" tabindex="-1"></a><span class="st">   Main Workflow</span></span>
+<span id="cb2-25"><a href="#cb2-25" tabindex="-1"></a><span class="st">========================================================================================</span></span>
+<span id="cb2-26"><a href="#cb2-26" tabindex="-1"></a><span class="st">*/</span></span>
+<span id="cb2-27"><a href="#cb2-27" tabindex="-1"></a></span>
+<span id="cb2-28"><a href="#cb2-28" tabindex="-1"></a>workflow <span class="op">{</span></span>
+<span id="cb2-29"><a href="#cb2-29" tabindex="-1"></a>    <span class="co">//  The script to execute is called by it's process name, and input is provided between brackets.</span></span>
+<span id="cb2-30"><a href="#cb2-30" tabindex="-1"></a></span>
+<span id="cb2-31"><a href="#cb2-31" tabindex="-1"></a>    <span class="fu">NUM_LINES</span><span class="op">(</span>input_ch<span class="op">)</span></span>
+<span id="cb2-32"><a href="#cb2-32" tabindex="-1"></a></span>
+<span id="cb2-33"><a href="#cb2-33" tabindex="-1"></a>    <span class="st">/*  Process output is accessed using the `out` channel.</span></span>
+<span id="cb2-34"><a href="#cb2-34" tabindex="-1"></a><span class="st">        The channel operator view() is used to print process output to the terminal. */</span></span>
+<span id="cb2-35"><a href="#cb2-35" tabindex="-1"></a></span>
+<span id="cb2-36"><a href="#cb2-36" tabindex="-1"></a>    NUM_LINES<span class="op">.</span>out<span class="op">.</span><span class="fu">view</span><span class="op">()</span></span>
+<span id="cb2-37"><a href="#cb2-37" tabindex="-1"></a></span>
+<span id="cb2-38"><a href="#cb2-38" tabindex="-1"></a><span class="op">}</span></span>
+<span id="cb2-39"><a href="#cb2-39" tabindex="-1"></a></span>
+<span id="cb2-40"><a href="#cb2-40" tabindex="-1"></a><span class="st">/*</span></span>
+<span id="cb2-41"><a href="#cb2-41" tabindex="-1"></a><span class="st">========================================================================================</span></span>
+<span id="cb2-42"><a href="#cb2-42" tabindex="-1"></a><span class="st">    A Nextflow process block. Process names are written, by convention, in uppercase.</span></span>
+<span id="cb2-43"><a href="#cb2-43" tabindex="-1"></a><span class="st">    This convention is used to enhance workflow readability.</span></span>
+<span id="cb2-44"><a href="#cb2-44" tabindex="-1"></a><span class="st">========================================================================================</span></span>
+<span id="cb2-45"><a href="#cb2-45" tabindex="-1"></a><span class="st">*/</span></span>
+<span id="cb2-46"><a href="#cb2-46" tabindex="-1"></a>process NUM_LINES <span class="op">{</span></span>
+<span id="cb2-47"><a href="#cb2-47" tabindex="-1"></a></span>
+<span id="cb2-48"><a href="#cb2-48" tabindex="-1"></a>    input<span class="op">:</span></span>
+<span id="cb2-49"><a href="#cb2-49" tabindex="-1"></a>    path read</span>
+<span id="cb2-50"><a href="#cb2-50" tabindex="-1"></a></span>
+<span id="cb2-51"><a href="#cb2-51" tabindex="-1"></a>    output<span class="op">:</span></span>
+<span id="cb2-52"><a href="#cb2-52" tabindex="-1"></a>    stdout</span>
+<span id="cb2-53"><a href="#cb2-53" tabindex="-1"></a></span>
+<span id="cb2-54"><a href="#cb2-54" tabindex="-1"></a>    script<span class="op">:</span></span>
+<span id="cb2-55"><a href="#cb2-55" tabindex="-1"></a>    <span class="st">"""</span></span>
+<span id="cb2-56"><a href="#cb2-56" tabindex="-1"></a><span class="st">    # Print file name</span></span>
+<span id="cb2-57"><a href="#cb2-57" tabindex="-1"></a><span class="st">    printf '</span><span class="ss">${</span>read<span class="ss">}</span><span class="sc">\\</span><span class="st">t'</span></span>
+<span id="cb2-58"><a href="#cb2-58" tabindex="-1"></a></span>
+<span id="cb2-59"><a href="#cb2-59" tabindex="-1"></a><span class="st">    # Unzip file and count number of lines</span></span>
+<span id="cb2-60"><a href="#cb2-60" tabindex="-1"></a><span class="st">    gunzip -c </span><span class="ss">${</span>read<span class="ss">}</span><span class="st"> | wc -l</span></span>
+<span id="cb2-61"><a href="#cb2-61" tabindex="-1"></a><span class="st">    """</span></span>
+<span id="cb2-62"><a href="#cb2-62" tabindex="-1"></a><span class="op">}</span></span></code></pre>
 </div>
 <p>This is a Nextflow script, which contains the following:</p>
 <ol style="list-style-type: decimal"><li>An optional interpreter directive (“Shebang”) line, specifying the
@@ -605,7 +605,7 @@ terminal:</p>
 <div class="codewrapper sourceCode" id="cb3">
 <h3 class="code-label">BASH<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode bash" tabindex="0"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> nextflow run word_count.nf</span></code></pre>
+<pre class="sourceCode bash" tabindex="0"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" tabindex="-1"></a><span class="ex">$</span> nextflow run word_count.nf</span></code></pre>
 </div>
 </div>
 </div>
@@ -734,7 +734,7 @@ command.</li>
   "identifier": "https://carpentries-incubator.github.io/workflows-nextflow/01-getting-started-with-nextflow.html",
   "dateCreated": "2021-02-01",
   "dateModified": "2024-02-05",
-  "datePublished": "2024-02-27"
+  "datePublished": "2024-03-05"
 }
 
   </script><script>

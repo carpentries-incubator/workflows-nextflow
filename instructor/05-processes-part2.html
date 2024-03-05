@@ -384,10 +384,10 @@ one or more output declarations.</p>
 <div class="codewrapper sourceCode" id="cb1">
 <h3 class="code-label">GROOVY<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode groovy" tabindex="0"><code class="sourceCode groovy"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>output<span class="op">:</span></span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>  <span class="op">&lt;</span>output qualifier<span class="op">&gt;</span> <span class="op">&lt;</span>output name<span class="op">&gt;</span></span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>  <span class="op">&lt;</span>output qualifier<span class="op">&gt;</span> <span class="op">&lt;</span>output name<span class="op">&gt;</span></span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>  <span class="op">...</span></span></code></pre>
+<pre class="sourceCode groovy" tabindex="0"><code class="sourceCode groovy"><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a>output<span class="op">:</span></span>
+<span id="cb1-2"><a href="#cb1-2" tabindex="-1"></a>  <span class="op">&lt;</span>output qualifier<span class="op">&gt;</span> <span class="op">&lt;</span>output name<span class="op">&gt;</span></span>
+<span id="cb1-3"><a href="#cb1-3" tabindex="-1"></a>  <span class="op">&lt;</span>output qualifier<span class="op">&gt;</span> <span class="op">&lt;</span>output name<span class="op">&gt;</span></span>
+<span id="cb1-4"><a href="#cb1-4" tabindex="-1"></a>  <span class="op">...</span></span></code></pre>
 </div>
 <div class="section level3">
 <h3 id="output-values">Output values<a class="anchor" aria-label="anchor" href="#output-values"></a></h3>
@@ -402,32 +402,32 @@ block as shown in the following example:</p>
 <div class="codewrapper sourceCode" id="cb2">
 <h3 class="code-label">GROOVY<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode groovy" tabindex="0"><code class="sourceCode groovy"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co">//process_output_value.nf</span></span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>nextflow<span class="op">.</span>enable<span class="op">.</span>dsl<span class="op">=</span><span class="dv">2</span></span>
-<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>params<span class="op">.</span>transcriptome<span class="op">=</span><span class="st">"</span><span class="ss">${</span>projectDir<span class="ss">}</span><span class="st">/data/yeast/transcriptome/Saccharomyces_cerevisiae.R64-1-1.cdna.all.fa.gz"</span></span>
-<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>process COUNT_CHR_SEQS <span class="op">{</span></span>
-<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>  input<span class="op">:</span></span>
-<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>  val chr</span>
-<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>  output<span class="op">:</span></span>
-<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>  val chr</span>
-<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a>  script<span class="op">:</span></span>
-<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a>  <span class="st">"""</span></span>
-<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a><span class="st">  zgrep -c '^&gt;Y'</span><span class="ss">$chr</span><span class="st"> </span><span class="ss">$params</span><span class="op">.</span><span class="ss">transcriptome</span></span>
-<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a><span class="st">  """</span></span>
-<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span>
-<span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a><span class="co">// Both 'Channel' and 'channel' keywords work to generate channels.</span></span>
-<span id="cb2-19"><a href="#cb2-19" aria-hidden="true" tabindex="-1"></a><span class="co">// However, it is a good practice to be consistent through the whole pipeline development</span></span>
-<span id="cb2-20"><a href="#cb2-20" aria-hidden="true" tabindex="-1"></a>chr_ch <span class="op">=</span> channel<span class="op">.</span><span class="fu">of</span><span class="op">(</span><span class="st">'A'</span><span class="op">..</span><span class="st">'P'</span><span class="op">)</span></span>
-<span id="cb2-21"><a href="#cb2-21" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-22"><a href="#cb2-22" aria-hidden="true" tabindex="-1"></a>workflow <span class="op">{</span></span>
-<span id="cb2-23"><a href="#cb2-23" aria-hidden="true" tabindex="-1"></a>  <span class="fu">COUNT_CHR_SEQS</span><span class="op">(</span>chr_ch<span class="op">)</span></span>
-<span id="cb2-24"><a href="#cb2-24" aria-hidden="true" tabindex="-1"></a>  <span class="co">// use the view operator to display contents of the channel</span></span>
-<span id="cb2-25"><a href="#cb2-25" aria-hidden="true" tabindex="-1"></a>  COUNT_CHR_SEQS<span class="op">.</span>out<span class="op">.</span><span class="fu">view</span><span class="op">()</span></span>
-<span id="cb2-26"><a href="#cb2-26" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre>
+<pre class="sourceCode groovy" tabindex="0"><code class="sourceCode groovy"><span id="cb2-1"><a href="#cb2-1" tabindex="-1"></a><span class="co">//process_output_value.nf</span></span>
+<span id="cb2-2"><a href="#cb2-2" tabindex="-1"></a>nextflow<span class="op">.</span>enable<span class="op">.</span>dsl<span class="op">=</span><span class="dv">2</span></span>
+<span id="cb2-3"><a href="#cb2-3" tabindex="-1"></a></span>
+<span id="cb2-4"><a href="#cb2-4" tabindex="-1"></a>params<span class="op">.</span>transcriptome<span class="op">=</span><span class="st">"</span><span class="ss">${</span>projectDir<span class="ss">}</span><span class="st">/data/yeast/transcriptome/Saccharomyces_cerevisiae.R64-1-1.cdna.all.fa.gz"</span></span>
+<span id="cb2-5"><a href="#cb2-5" tabindex="-1"></a></span>
+<span id="cb2-6"><a href="#cb2-6" tabindex="-1"></a>process COUNT_CHR_SEQS <span class="op">{</span></span>
+<span id="cb2-7"><a href="#cb2-7" tabindex="-1"></a>  input<span class="op">:</span></span>
+<span id="cb2-8"><a href="#cb2-8" tabindex="-1"></a>  val chr</span>
+<span id="cb2-9"><a href="#cb2-9" tabindex="-1"></a></span>
+<span id="cb2-10"><a href="#cb2-10" tabindex="-1"></a>  output<span class="op">:</span></span>
+<span id="cb2-11"><a href="#cb2-11" tabindex="-1"></a>  val chr</span>
+<span id="cb2-12"><a href="#cb2-12" tabindex="-1"></a></span>
+<span id="cb2-13"><a href="#cb2-13" tabindex="-1"></a>  script<span class="op">:</span></span>
+<span id="cb2-14"><a href="#cb2-14" tabindex="-1"></a>  <span class="st">"""</span></span>
+<span id="cb2-15"><a href="#cb2-15" tabindex="-1"></a><span class="st">  zgrep -c '^&gt;Y'</span><span class="ss">$chr</span><span class="st"> </span><span class="ss">$params</span><span class="op">.</span><span class="ss">transcriptome</span></span>
+<span id="cb2-16"><a href="#cb2-16" tabindex="-1"></a><span class="st">  """</span></span>
+<span id="cb2-17"><a href="#cb2-17" tabindex="-1"></a><span class="op">}</span></span>
+<span id="cb2-18"><a href="#cb2-18" tabindex="-1"></a><span class="co">// Both 'Channel' and 'channel' keywords work to generate channels.</span></span>
+<span id="cb2-19"><a href="#cb2-19" tabindex="-1"></a><span class="co">// However, it is a good practice to be consistent through the whole pipeline development</span></span>
+<span id="cb2-20"><a href="#cb2-20" tabindex="-1"></a>chr_ch <span class="op">=</span> channel<span class="op">.</span><span class="fu">of</span><span class="op">(</span><span class="st">'A'</span><span class="op">..</span><span class="st">'P'</span><span class="op">)</span></span>
+<span id="cb2-21"><a href="#cb2-21" tabindex="-1"></a></span>
+<span id="cb2-22"><a href="#cb2-22" tabindex="-1"></a>workflow <span class="op">{</span></span>
+<span id="cb2-23"><a href="#cb2-23" tabindex="-1"></a>  <span class="fu">COUNT_CHR_SEQS</span><span class="op">(</span>chr_ch<span class="op">)</span></span>
+<span id="cb2-24"><a href="#cb2-24" tabindex="-1"></a>  <span class="co">// use the view operator to display contents of the channel</span></span>
+<span id="cb2-25"><a href="#cb2-25" tabindex="-1"></a>  COUNT_CHR_SEQS<span class="op">.</span>out<span class="op">.</span><span class="fu">view</span><span class="op">()</span></span>
+<span id="cb2-26"><a href="#cb2-26" tabindex="-1"></a><span class="op">}</span></span></code></pre>
 </div>
 <div class="codewrapper">
 <h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
@@ -458,32 +458,32 @@ produced by the process, over the specified channel.</p>
 <div class="codewrapper sourceCode" id="cb4">
 <h3 class="code-label">GROOVY<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode groovy" tabindex="0"><code class="sourceCode groovy"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co">//process_output_file.nf</span></span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>nextflow<span class="op">.</span>enable<span class="op">.</span>dsl<span class="op">=</span><span class="dv">2</span></span>
-<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>params<span class="op">.</span>transcriptome<span class="op">=</span><span class="st">"</span><span class="ss">${</span>projectDir<span class="ss">}</span><span class="st">/data/yeast/transcriptome/Saccharomyces_cerevisiae.R64-1-1.cdna.all.fa.gz"</span></span>
-<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>process COUNT_CHR_SEQS <span class="op">{</span></span>
-<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>  input<span class="op">:</span></span>
-<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>  val chr</span>
-<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>  output<span class="op">:</span></span>
-<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a>  path <span class="st">"</span><span class="ss">${</span>chr<span class="ss">}</span><span class="st">_seq_count.txt"</span></span>
-<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a>  script<span class="op">:</span></span>
-<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a>  <span class="st">"""</span></span>
-<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a><span class="st">  zgrep -c '^&gt;Y'</span><span class="ss">$chr</span><span class="st"> </span><span class="ss">$params</span><span class="op">.</span><span class="ss">transcriptome</span><span class="st"> &gt; </span><span class="ss">${</span>chr<span class="ss">}</span><span class="st">_seq_count.txt</span></span>
-<span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a><span class="st">  """</span></span>
-<span id="cb4-17"><a href="#cb4-17" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span>
-<span id="cb4-18"><a href="#cb4-18" aria-hidden="true" tabindex="-1"></a><span class="co">// Both 'Channel' and 'channel' keywords work to generate channels.</span></span>
-<span id="cb4-19"><a href="#cb4-19" aria-hidden="true" tabindex="-1"></a><span class="co">// However, it is a good practice to be consistent through the whole pipeline development</span></span>
-<span id="cb4-20"><a href="#cb4-20" aria-hidden="true" tabindex="-1"></a>chr_ch <span class="op">=</span> channel<span class="op">.</span><span class="fu">of</span><span class="op">(</span><span class="st">'A'</span><span class="op">..</span><span class="st">'P'</span><span class="op">)</span></span>
-<span id="cb4-21"><a href="#cb4-21" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-22"><a href="#cb4-22" aria-hidden="true" tabindex="-1"></a>workflow <span class="op">{</span></span>
-<span id="cb4-23"><a href="#cb4-23" aria-hidden="true" tabindex="-1"></a>  <span class="fu">COUNT_CHR_SEQS</span><span class="op">(</span>chr_ch<span class="op">)</span></span>
-<span id="cb4-24"><a href="#cb4-24" aria-hidden="true" tabindex="-1"></a>  <span class="co">// use the view operator to display contents of the channel</span></span>
-<span id="cb4-25"><a href="#cb4-25" aria-hidden="true" tabindex="-1"></a>  COUNT_CHR_SEQS<span class="op">.</span>out<span class="op">.</span><span class="fu">view</span><span class="op">()</span></span>
-<span id="cb4-26"><a href="#cb4-26" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre>
+<pre class="sourceCode groovy" tabindex="0"><code class="sourceCode groovy"><span id="cb4-1"><a href="#cb4-1" tabindex="-1"></a><span class="co">//process_output_file.nf</span></span>
+<span id="cb4-2"><a href="#cb4-2" tabindex="-1"></a>nextflow<span class="op">.</span>enable<span class="op">.</span>dsl<span class="op">=</span><span class="dv">2</span></span>
+<span id="cb4-3"><a href="#cb4-3" tabindex="-1"></a></span>
+<span id="cb4-4"><a href="#cb4-4" tabindex="-1"></a>params<span class="op">.</span>transcriptome<span class="op">=</span><span class="st">"</span><span class="ss">${</span>projectDir<span class="ss">}</span><span class="st">/data/yeast/transcriptome/Saccharomyces_cerevisiae.R64-1-1.cdna.all.fa.gz"</span></span>
+<span id="cb4-5"><a href="#cb4-5" tabindex="-1"></a></span>
+<span id="cb4-6"><a href="#cb4-6" tabindex="-1"></a>process COUNT_CHR_SEQS <span class="op">{</span></span>
+<span id="cb4-7"><a href="#cb4-7" tabindex="-1"></a>  input<span class="op">:</span></span>
+<span id="cb4-8"><a href="#cb4-8" tabindex="-1"></a>  val chr</span>
+<span id="cb4-9"><a href="#cb4-9" tabindex="-1"></a></span>
+<span id="cb4-10"><a href="#cb4-10" tabindex="-1"></a>  output<span class="op">:</span></span>
+<span id="cb4-11"><a href="#cb4-11" tabindex="-1"></a>  path <span class="st">"</span><span class="ss">${</span>chr<span class="ss">}</span><span class="st">_seq_count.txt"</span></span>
+<span id="cb4-12"><a href="#cb4-12" tabindex="-1"></a></span>
+<span id="cb4-13"><a href="#cb4-13" tabindex="-1"></a>  script<span class="op">:</span></span>
+<span id="cb4-14"><a href="#cb4-14" tabindex="-1"></a>  <span class="st">"""</span></span>
+<span id="cb4-15"><a href="#cb4-15" tabindex="-1"></a><span class="st">  zgrep -c '^&gt;Y'</span><span class="ss">$chr</span><span class="st"> </span><span class="ss">$params</span><span class="op">.</span><span class="ss">transcriptome</span><span class="st"> &gt; </span><span class="ss">${</span>chr<span class="ss">}</span><span class="st">_seq_count.txt</span></span>
+<span id="cb4-16"><a href="#cb4-16" tabindex="-1"></a><span class="st">  """</span></span>
+<span id="cb4-17"><a href="#cb4-17" tabindex="-1"></a><span class="op">}</span></span>
+<span id="cb4-18"><a href="#cb4-18" tabindex="-1"></a><span class="co">// Both 'Channel' and 'channel' keywords work to generate channels.</span></span>
+<span id="cb4-19"><a href="#cb4-19" tabindex="-1"></a><span class="co">// However, it is a good practice to be consistent through the whole pipeline development</span></span>
+<span id="cb4-20"><a href="#cb4-20" tabindex="-1"></a>chr_ch <span class="op">=</span> channel<span class="op">.</span><span class="fu">of</span><span class="op">(</span><span class="st">'A'</span><span class="op">..</span><span class="st">'P'</span><span class="op">)</span></span>
+<span id="cb4-21"><a href="#cb4-21" tabindex="-1"></a></span>
+<span id="cb4-22"><a href="#cb4-22" tabindex="-1"></a>workflow <span class="op">{</span></span>
+<span id="cb4-23"><a href="#cb4-23" tabindex="-1"></a>  <span class="fu">COUNT_CHR_SEQS</span><span class="op">(</span>chr_ch<span class="op">)</span></span>
+<span id="cb4-24"><a href="#cb4-24" tabindex="-1"></a>  <span class="co">// use the view operator to display contents of the channel</span></span>
+<span id="cb4-25"><a href="#cb4-25" tabindex="-1"></a>  COUNT_CHR_SEQS<span class="op">.</span>out<span class="op">.</span><span class="fu">view</span><span class="op">()</span></span>
+<span id="cb4-26"><a href="#cb4-26" tabindex="-1"></a><span class="op">}</span></span></code></pre>
 </div>
 <div class="codewrapper">
 <h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
@@ -524,38 +524,38 @@ results from SPLIT_FASTA in the output channel.</p>
 <div class="codewrapper sourceCode" id="cb6">
 <h3 class="code-label">GROOVY<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode groovy" tabindex="0"><code class="sourceCode groovy"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co">//process_output_multiple.nf</span></span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>nextflow<span class="op">.</span>enable<span class="op">.</span>dsl<span class="op">=</span><span class="dv">2</span></span>
-<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>params<span class="op">.</span>transcriptome<span class="op">=</span><span class="st">"</span><span class="ss">${</span>projectDir<span class="ss">}</span><span class="st">/data/yeast/transcriptome/Saccharomyces_cerevisiae.R64-1-1.cdna.all.fa.gz"</span></span>
-<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>process SPLIT_FASTA <span class="op">{</span></span>
-<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>  input<span class="op">:</span></span>
-<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>  path transcriptome</span>
-<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a>  output<span class="op">:</span></span>
-<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a>  path <span class="st">"*"</span></span>
-<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a>  script<span class="op">:</span></span>
-<span id="cb6-14"><a href="#cb6-14" aria-hidden="true" tabindex="-1"></a>  <span class="st">"""</span></span>
-<span id="cb6-15"><a href="#cb6-15" aria-hidden="true" tabindex="-1"></a><span class="st">  zgrep  '^&gt;' </span><span class="ss">$transcriptome</span><span class="st"> &gt; sequence_ids.txt</span></span>
-<span id="cb6-16"><a href="#cb6-16" aria-hidden="true" tabindex="-1"></a><span class="st">  zgrep -v '^&gt;' </span><span class="ss">$transcriptome</span><span class="st"> &gt; sequence.txt</span></span>
-<span id="cb6-17"><a href="#cb6-17" aria-hidden="true" tabindex="-1"></a><span class="st">  """</span></span>
-<span id="cb6-18"><a href="#cb6-18" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span>
-<span id="cb6-19"><a href="#cb6-19" aria-hidden="true" tabindex="-1"></a><span class="co">// Both 'Channel' and 'channel' keywords work to generate channels.</span></span>
-<span id="cb6-20"><a href="#cb6-20" aria-hidden="true" tabindex="-1"></a><span class="co">// However, it is a good practice to be consistent through the whole pipeline development</span></span>
-<span id="cb6-21"><a href="#cb6-21" aria-hidden="true" tabindex="-1"></a>transcriptome_ch <span class="op">=</span> channel<span class="op">.</span><span class="fu">fromPath</span><span class="op">(</span>params<span class="op">.</span>transcriptome<span class="op">)</span></span>
-<span id="cb6-22"><a href="#cb6-22" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-23"><a href="#cb6-23" aria-hidden="true" tabindex="-1"></a>workflow <span class="op">{</span></span>
-<span id="cb6-24"><a href="#cb6-24" aria-hidden="true" tabindex="-1"></a>  <span class="fu">SPLIT_FASTA</span><span class="op">(</span>transcriptome_ch<span class="op">)</span></span>
-<span id="cb6-25"><a href="#cb6-25" aria-hidden="true" tabindex="-1"></a>  <span class="co">// use the view operator to display contents of the channel</span></span>
-<span id="cb6-26"><a href="#cb6-26" aria-hidden="true" tabindex="-1"></a>  SPLIT_FASTA<span class="op">.</span>out<span class="op">.</span><span class="fu">view</span><span class="op">()</span></span>
-<span id="cb6-27"><a href="#cb6-27" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre>
+<pre class="sourceCode groovy" tabindex="0"><code class="sourceCode groovy"><span id="cb6-1"><a href="#cb6-1" tabindex="-1"></a><span class="co">//process_output_multiple.nf</span></span>
+<span id="cb6-2"><a href="#cb6-2" tabindex="-1"></a>nextflow<span class="op">.</span>enable<span class="op">.</span>dsl<span class="op">=</span><span class="dv">2</span></span>
+<span id="cb6-3"><a href="#cb6-3" tabindex="-1"></a></span>
+<span id="cb6-4"><a href="#cb6-4" tabindex="-1"></a>params<span class="op">.</span>transcriptome<span class="op">=</span><span class="st">"</span><span class="ss">${</span>projectDir<span class="ss">}</span><span class="st">/data/yeast/transcriptome/Saccharomyces_cerevisiae.R64-1-1.cdna.all.fa.gz"</span></span>
+<span id="cb6-5"><a href="#cb6-5" tabindex="-1"></a></span>
+<span id="cb6-6"><a href="#cb6-6" tabindex="-1"></a>process SPLIT_FASTA <span class="op">{</span></span>
+<span id="cb6-7"><a href="#cb6-7" tabindex="-1"></a>  input<span class="op">:</span></span>
+<span id="cb6-8"><a href="#cb6-8" tabindex="-1"></a>  path transcriptome</span>
+<span id="cb6-9"><a href="#cb6-9" tabindex="-1"></a></span>
+<span id="cb6-10"><a href="#cb6-10" tabindex="-1"></a>  output<span class="op">:</span></span>
+<span id="cb6-11"><a href="#cb6-11" tabindex="-1"></a>  path <span class="st">"*"</span></span>
+<span id="cb6-12"><a href="#cb6-12" tabindex="-1"></a></span>
+<span id="cb6-13"><a href="#cb6-13" tabindex="-1"></a>  script<span class="op">:</span></span>
+<span id="cb6-14"><a href="#cb6-14" tabindex="-1"></a>  <span class="st">"""</span></span>
+<span id="cb6-15"><a href="#cb6-15" tabindex="-1"></a><span class="st">  zgrep  '^&gt;' </span><span class="ss">$transcriptome</span><span class="st"> &gt; sequence_ids.txt</span></span>
+<span id="cb6-16"><a href="#cb6-16" tabindex="-1"></a><span class="st">  zgrep -v '^&gt;' </span><span class="ss">$transcriptome</span><span class="st"> &gt; sequence.txt</span></span>
+<span id="cb6-17"><a href="#cb6-17" tabindex="-1"></a><span class="st">  """</span></span>
+<span id="cb6-18"><a href="#cb6-18" tabindex="-1"></a><span class="op">}</span></span>
+<span id="cb6-19"><a href="#cb6-19" tabindex="-1"></a><span class="co">// Both 'Channel' and 'channel' keywords work to generate channels.</span></span>
+<span id="cb6-20"><a href="#cb6-20" tabindex="-1"></a><span class="co">// However, it is a good practice to be consistent through the whole pipeline development</span></span>
+<span id="cb6-21"><a href="#cb6-21" tabindex="-1"></a>transcriptome_ch <span class="op">=</span> channel<span class="op">.</span><span class="fu">fromPath</span><span class="op">(</span>params<span class="op">.</span>transcriptome<span class="op">)</span></span>
+<span id="cb6-22"><a href="#cb6-22" tabindex="-1"></a></span>
+<span id="cb6-23"><a href="#cb6-23" tabindex="-1"></a>workflow <span class="op">{</span></span>
+<span id="cb6-24"><a href="#cb6-24" tabindex="-1"></a>  <span class="fu">SPLIT_FASTA</span><span class="op">(</span>transcriptome_ch<span class="op">)</span></span>
+<span id="cb6-25"><a href="#cb6-25" tabindex="-1"></a>  <span class="co">// use the view operator to display contents of the channel</span></span>
+<span id="cb6-26"><a href="#cb6-26" tabindex="-1"></a>  SPLIT_FASTA<span class="op">.</span>out<span class="op">.</span><span class="fu">view</span><span class="op">()</span></span>
+<span id="cb6-27"><a href="#cb6-27" tabindex="-1"></a><span class="op">}</span></span></code></pre>
 </div>
 <div class="codewrapper sourceCode" id="cb7">
 <h3 class="code-label">BASH<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode bash" tabindex="0"><code class="sourceCode bash"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> nextflow run process_output_multiple.nf</span></code></pre>
+<pre class="sourceCode bash" tabindex="0"><code class="sourceCode bash"><span id="cb7-1"><a href="#cb7-1" tabindex="-1"></a><span class="ex">$</span> nextflow run process_output_multiple.nf</span></code></pre>
 </div>
 <div class="codewrapper">
 <h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
@@ -588,29 +588,29 @@ include an output block that captures the different output file
 <div class="codewrapper sourceCode" id="cb9">
 <h3 class="code-label">GROOVY<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode groovy" tabindex="0"><code class="sourceCode groovy"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co">//process_exercise_output.nf</span></span>
-<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>nextflow<span class="op">.</span>enable<span class="op">.</span>dsl<span class="op">=</span><span class="dv">2</span></span>
-<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>process EXTRACT_IDS <span class="op">{</span></span>
-<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>  input<span class="op">:</span></span>
-<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>  path transcriptome</span>
-<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>  each chr</span>
-<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a>  <span class="co">//add output block here to capture the file "${chr}_seqids.txt"</span></span>
-<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a>  script<span class="op">:</span></span>
-<span id="cb9-12"><a href="#cb9-12" aria-hidden="true" tabindex="-1"></a>  <span class="st">"""</span></span>
-<span id="cb9-13"><a href="#cb9-13" aria-hidden="true" tabindex="-1"></a><span class="st">  zgrep '^&gt;Y'</span><span class="ss">$chr</span><span class="st"> </span><span class="ss">$transcriptome</span><span class="st"> &gt; </span><span class="ss">${</span>chr<span class="ss">}</span><span class="st">_seqids.txt</span></span>
-<span id="cb9-14"><a href="#cb9-14" aria-hidden="true" tabindex="-1"></a><span class="st">  """</span></span>
-<span id="cb9-15"><a href="#cb9-15" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span>
-<span id="cb9-16"><a href="#cb9-16" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-17"><a href="#cb9-17" aria-hidden="true" tabindex="-1"></a>transcriptome_ch <span class="op">=</span> channel<span class="op">.</span><span class="fu">fromPath</span><span class="op">(</span><span class="st">'data/yeast/transcriptome/Saccharomyces_cerevisiae.R64-1-1.cdna.all.fa.gz'</span><span class="op">)</span></span>
-<span id="cb9-18"><a href="#cb9-18" aria-hidden="true" tabindex="-1"></a>chr_ch <span class="op">=</span> channel<span class="op">.</span><span class="fu">of</span><span class="op">(</span><span class="st">'A'</span><span class="op">..</span><span class="st">'P'</span><span class="op">)</span></span>
-<span id="cb9-19"><a href="#cb9-19" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-20"><a href="#cb9-20" aria-hidden="true" tabindex="-1"></a>workflow <span class="op">{</span></span>
-<span id="cb9-21"><a href="#cb9-21" aria-hidden="true" tabindex="-1"></a>  <span class="fu">EXTRACT_IDS</span><span class="op">(</span>transcriptome_ch<span class="op">,</span> chr_ch<span class="op">)</span></span>
-<span id="cb9-22"><a href="#cb9-22" aria-hidden="true" tabindex="-1"></a>  EXTRACT_IDS<span class="op">.</span>out<span class="op">.</span><span class="fu">view</span><span class="op">()</span></span>
-<span id="cb9-23"><a href="#cb9-23" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre>
+<pre class="sourceCode groovy" tabindex="0"><code class="sourceCode groovy"><span id="cb9-1"><a href="#cb9-1" tabindex="-1"></a><span class="co">//process_exercise_output.nf</span></span>
+<span id="cb9-2"><a href="#cb9-2" tabindex="-1"></a>nextflow<span class="op">.</span>enable<span class="op">.</span>dsl<span class="op">=</span><span class="dv">2</span></span>
+<span id="cb9-3"><a href="#cb9-3" tabindex="-1"></a></span>
+<span id="cb9-4"><a href="#cb9-4" tabindex="-1"></a>process EXTRACT_IDS <span class="op">{</span></span>
+<span id="cb9-5"><a href="#cb9-5" tabindex="-1"></a>  input<span class="op">:</span></span>
+<span id="cb9-6"><a href="#cb9-6" tabindex="-1"></a>  path transcriptome</span>
+<span id="cb9-7"><a href="#cb9-7" tabindex="-1"></a>  each chr</span>
+<span id="cb9-8"><a href="#cb9-8" tabindex="-1"></a></span>
+<span id="cb9-9"><a href="#cb9-9" tabindex="-1"></a>  <span class="co">//add output block here to capture the file "${chr}_seqids.txt"</span></span>
+<span id="cb9-10"><a href="#cb9-10" tabindex="-1"></a></span>
+<span id="cb9-11"><a href="#cb9-11" tabindex="-1"></a>  script<span class="op">:</span></span>
+<span id="cb9-12"><a href="#cb9-12" tabindex="-1"></a>  <span class="st">"""</span></span>
+<span id="cb9-13"><a href="#cb9-13" tabindex="-1"></a><span class="st">  zgrep '^&gt;Y'</span><span class="ss">$chr</span><span class="st"> </span><span class="ss">$transcriptome</span><span class="st"> &gt; </span><span class="ss">${</span>chr<span class="ss">}</span><span class="st">_seqids.txt</span></span>
+<span id="cb9-14"><a href="#cb9-14" tabindex="-1"></a><span class="st">  """</span></span>
+<span id="cb9-15"><a href="#cb9-15" tabindex="-1"></a><span class="op">}</span></span>
+<span id="cb9-16"><a href="#cb9-16" tabindex="-1"></a></span>
+<span id="cb9-17"><a href="#cb9-17" tabindex="-1"></a>transcriptome_ch <span class="op">=</span> channel<span class="op">.</span><span class="fu">fromPath</span><span class="op">(</span><span class="st">'data/yeast/transcriptome/Saccharomyces_cerevisiae.R64-1-1.cdna.all.fa.gz'</span><span class="op">)</span></span>
+<span id="cb9-18"><a href="#cb9-18" tabindex="-1"></a>chr_ch <span class="op">=</span> channel<span class="op">.</span><span class="fu">of</span><span class="op">(</span><span class="st">'A'</span><span class="op">..</span><span class="st">'P'</span><span class="op">)</span></span>
+<span id="cb9-19"><a href="#cb9-19" tabindex="-1"></a></span>
+<span id="cb9-20"><a href="#cb9-20" tabindex="-1"></a>workflow <span class="op">{</span></span>
+<span id="cb9-21"><a href="#cb9-21" tabindex="-1"></a>  <span class="fu">EXTRACT_IDS</span><span class="op">(</span>transcriptome_ch<span class="op">,</span> chr_ch<span class="op">)</span></span>
+<span id="cb9-22"><a href="#cb9-22" tabindex="-1"></a>  EXTRACT_IDS<span class="op">.</span>out<span class="op">.</span><span class="fu">view</span><span class="op">()</span></span>
+<span id="cb9-23"><a href="#cb9-23" tabindex="-1"></a><span class="op">}</span></span></code></pre>
 </div>
 </div>
 </div>
@@ -625,31 +625,31 @@ include an output block that captures the different output file
 <div class="codewrapper sourceCode" id="cb10">
 <h3 class="code-label">GROOVY<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode groovy" tabindex="0"><code class="sourceCode groovy"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="co">//process_exercise_output_answer.nf</span></span>
-<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>nextflow<span class="op">.</span>enable<span class="op">.</span>dsl<span class="op">=</span><span class="dv">2</span></span>
-<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>process EXTRACT_IDS <span class="op">{</span></span>
-<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>  input<span class="op">:</span></span>
-<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>  path transcriptome</span>
-<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a>  each chr</span>
-<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a>  <span class="co">//add output block here to capture the file "${chr}_seqids.txt"</span></span>
-<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a>  output<span class="op">:</span></span>
-<span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a>  path <span class="st">"</span><span class="ss">${</span>chr<span class="ss">}</span><span class="st">_seqids.txt"</span></span>
-<span id="cb10-12"><a href="#cb10-12" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-13"><a href="#cb10-13" aria-hidden="true" tabindex="-1"></a>  script<span class="op">:</span></span>
-<span id="cb10-14"><a href="#cb10-14" aria-hidden="true" tabindex="-1"></a>  <span class="st">"""</span></span>
-<span id="cb10-15"><a href="#cb10-15" aria-hidden="true" tabindex="-1"></a><span class="st">  zgrep '^&gt;Y'</span><span class="ss">$chr</span><span class="st"> </span><span class="ss">$transcriptome</span><span class="st"> &gt; </span><span class="ss">${</span>chr<span class="ss">}</span><span class="st">_seqids.txt</span></span>
-<span id="cb10-16"><a href="#cb10-16" aria-hidden="true" tabindex="-1"></a><span class="st">  """</span></span>
-<span id="cb10-17"><a href="#cb10-17" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span>
-<span id="cb10-18"><a href="#cb10-18" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-19"><a href="#cb10-19" aria-hidden="true" tabindex="-1"></a>transcriptome_ch <span class="op">=</span> channel<span class="op">.</span><span class="fu">fromPath</span><span class="op">(</span><span class="st">'data/yeast/transcriptome/Saccharomyces_cerevisiae.R64-1-1.cdna.all.fa.gz'</span><span class="op">)</span></span>
-<span id="cb10-20"><a href="#cb10-20" aria-hidden="true" tabindex="-1"></a>chr_ch <span class="op">=</span> channel<span class="op">.</span><span class="fu">of</span><span class="op">(</span><span class="st">'A'</span><span class="op">..</span><span class="st">'P'</span><span class="op">)</span></span>
-<span id="cb10-21"><a href="#cb10-21" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-22"><a href="#cb10-22" aria-hidden="true" tabindex="-1"></a>workflow <span class="op">{</span></span>
-<span id="cb10-23"><a href="#cb10-23" aria-hidden="true" tabindex="-1"></a>  <span class="fu">EXTRACT_IDS</span><span class="op">(</span>transcriptome_ch<span class="op">,</span> chr_ch<span class="op">)</span></span>
-<span id="cb10-24"><a href="#cb10-24" aria-hidden="true" tabindex="-1"></a>  EXTRACT_IDS<span class="op">.</span>out<span class="op">.</span><span class="fu">view</span><span class="op">()</span></span>
-<span id="cb10-25"><a href="#cb10-25" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre>
+<pre class="sourceCode groovy" tabindex="0"><code class="sourceCode groovy"><span id="cb10-1"><a href="#cb10-1" tabindex="-1"></a><span class="co">//process_exercise_output_answer.nf</span></span>
+<span id="cb10-2"><a href="#cb10-2" tabindex="-1"></a>nextflow<span class="op">.</span>enable<span class="op">.</span>dsl<span class="op">=</span><span class="dv">2</span></span>
+<span id="cb10-3"><a href="#cb10-3" tabindex="-1"></a></span>
+<span id="cb10-4"><a href="#cb10-4" tabindex="-1"></a>process EXTRACT_IDS <span class="op">{</span></span>
+<span id="cb10-5"><a href="#cb10-5" tabindex="-1"></a>  input<span class="op">:</span></span>
+<span id="cb10-6"><a href="#cb10-6" tabindex="-1"></a>  path transcriptome</span>
+<span id="cb10-7"><a href="#cb10-7" tabindex="-1"></a>  each chr</span>
+<span id="cb10-8"><a href="#cb10-8" tabindex="-1"></a></span>
+<span id="cb10-9"><a href="#cb10-9" tabindex="-1"></a>  <span class="co">//add output block here to capture the file "${chr}_seqids.txt"</span></span>
+<span id="cb10-10"><a href="#cb10-10" tabindex="-1"></a>  output<span class="op">:</span></span>
+<span id="cb10-11"><a href="#cb10-11" tabindex="-1"></a>  path <span class="st">"</span><span class="ss">${</span>chr<span class="ss">}</span><span class="st">_seqids.txt"</span></span>
+<span id="cb10-12"><a href="#cb10-12" tabindex="-1"></a></span>
+<span id="cb10-13"><a href="#cb10-13" tabindex="-1"></a>  script<span class="op">:</span></span>
+<span id="cb10-14"><a href="#cb10-14" tabindex="-1"></a>  <span class="st">"""</span></span>
+<span id="cb10-15"><a href="#cb10-15" tabindex="-1"></a><span class="st">  zgrep '^&gt;Y'</span><span class="ss">$chr</span><span class="st"> </span><span class="ss">$transcriptome</span><span class="st"> &gt; </span><span class="ss">${</span>chr<span class="ss">}</span><span class="st">_seqids.txt</span></span>
+<span id="cb10-16"><a href="#cb10-16" tabindex="-1"></a><span class="st">  """</span></span>
+<span id="cb10-17"><a href="#cb10-17" tabindex="-1"></a><span class="op">}</span></span>
+<span id="cb10-18"><a href="#cb10-18" tabindex="-1"></a></span>
+<span id="cb10-19"><a href="#cb10-19" tabindex="-1"></a>transcriptome_ch <span class="op">=</span> channel<span class="op">.</span><span class="fu">fromPath</span><span class="op">(</span><span class="st">'data/yeast/transcriptome/Saccharomyces_cerevisiae.R64-1-1.cdna.all.fa.gz'</span><span class="op">)</span></span>
+<span id="cb10-20"><a href="#cb10-20" tabindex="-1"></a>chr_ch <span class="op">=</span> channel<span class="op">.</span><span class="fu">of</span><span class="op">(</span><span class="st">'A'</span><span class="op">..</span><span class="st">'P'</span><span class="op">)</span></span>
+<span id="cb10-21"><a href="#cb10-21" tabindex="-1"></a></span>
+<span id="cb10-22"><a href="#cb10-22" tabindex="-1"></a>workflow <span class="op">{</span></span>
+<span id="cb10-23"><a href="#cb10-23" tabindex="-1"></a>  <span class="fu">EXTRACT_IDS</span><span class="op">(</span>transcriptome_ch<span class="op">,</span> chr_ch<span class="op">)</span></span>
+<span id="cb10-24"><a href="#cb10-24" tabindex="-1"></a>  EXTRACT_IDS<span class="op">.</span>out<span class="op">.</span><span class="fu">view</span><span class="op">()</span></span>
+<span id="cb10-25"><a href="#cb10-25" tabindex="-1"></a><span class="op">}</span></span></code></pre>
 </div>
 </div>
 </div>
@@ -672,25 +672,25 @@ followed by definition of each item in the tuple.</p>
 <div class="codewrapper sourceCode" id="cb12">
 <h3 class="code-label">GROOVY<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode groovy" tabindex="0"><code class="sourceCode groovy"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="co">//process_tuple_input.nf</span></span>
-<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>nextflow<span class="op">.</span>enable<span class="op">.</span>dsl<span class="op">=</span><span class="dv">2</span></span>
-<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>process TUPLEINPUT<span class="op">{</span></span>
-<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>  input<span class="op">:</span></span>
-<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a>  tuple <span class="fu">val</span><span class="op">(</span>sample_id<span class="op">),</span> <span class="fu">path</span><span class="op">(</span>reads<span class="op">)</span></span>
-<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a>  script<span class="op">:</span></span>
-<span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a>  <span class="st">"""</span></span>
-<span id="cb12-10"><a href="#cb12-10" aria-hidden="true" tabindex="-1"></a><span class="st">  echo </span><span class="ss">$sample_id</span></span>
-<span id="cb12-11"><a href="#cb12-11" aria-hidden="true" tabindex="-1"></a><span class="st">  echo </span><span class="ss">$reads</span></span>
-<span id="cb12-12"><a href="#cb12-12" aria-hidden="true" tabindex="-1"></a><span class="st">  """</span></span>
-<span id="cb12-13"><a href="#cb12-13" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span>
-<span id="cb12-14"><a href="#cb12-14" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-15"><a href="#cb12-15" aria-hidden="true" tabindex="-1"></a>reads_ch <span class="op">=</span> <span class="bu">Channel</span><span class="op">.</span><span class="fu">fromFilePairs</span><span class="op">(</span><span class="st">'data/yeast/reads/ref1_{1,2}.fq.gz'</span><span class="op">)</span></span>
-<span id="cb12-16"><a href="#cb12-16" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-17"><a href="#cb12-17" aria-hidden="true" tabindex="-1"></a>workflow <span class="op">{</span></span>
-<span id="cb12-18"><a href="#cb12-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">TUPLEINPUT</span><span class="op">(</span>reads_ch<span class="op">)</span></span>
-<span id="cb12-19"><a href="#cb12-19" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre>
+<pre class="sourceCode groovy" tabindex="0"><code class="sourceCode groovy"><span id="cb12-1"><a href="#cb12-1" tabindex="-1"></a><span class="co">//process_tuple_input.nf</span></span>
+<span id="cb12-2"><a href="#cb12-2" tabindex="-1"></a>nextflow<span class="op">.</span>enable<span class="op">.</span>dsl<span class="op">=</span><span class="dv">2</span></span>
+<span id="cb12-3"><a href="#cb12-3" tabindex="-1"></a></span>
+<span id="cb12-4"><a href="#cb12-4" tabindex="-1"></a>process TUPLEINPUT<span class="op">{</span></span>
+<span id="cb12-5"><a href="#cb12-5" tabindex="-1"></a>  input<span class="op">:</span></span>
+<span id="cb12-6"><a href="#cb12-6" tabindex="-1"></a>  tuple <span class="fu">val</span><span class="op">(</span>sample_id<span class="op">),</span> <span class="fu">path</span><span class="op">(</span>reads<span class="op">)</span></span>
+<span id="cb12-7"><a href="#cb12-7" tabindex="-1"></a></span>
+<span id="cb12-8"><a href="#cb12-8" tabindex="-1"></a>  script<span class="op">:</span></span>
+<span id="cb12-9"><a href="#cb12-9" tabindex="-1"></a>  <span class="st">"""</span></span>
+<span id="cb12-10"><a href="#cb12-10" tabindex="-1"></a><span class="st">  echo </span><span class="ss">$sample_id</span></span>
+<span id="cb12-11"><a href="#cb12-11" tabindex="-1"></a><span class="st">  echo </span><span class="ss">$reads</span></span>
+<span id="cb12-12"><a href="#cb12-12" tabindex="-1"></a><span class="st">  """</span></span>
+<span id="cb12-13"><a href="#cb12-13" tabindex="-1"></a><span class="op">}</span></span>
+<span id="cb12-14"><a href="#cb12-14" tabindex="-1"></a></span>
+<span id="cb12-15"><a href="#cb12-15" tabindex="-1"></a>reads_ch <span class="op">=</span> <span class="bu">Channel</span><span class="op">.</span><span class="fu">fromFilePairs</span><span class="op">(</span><span class="st">'data/yeast/reads/ref1_{1,2}.fq.gz'</span><span class="op">)</span></span>
+<span id="cb12-16"><a href="#cb12-16" tabindex="-1"></a></span>
+<span id="cb12-17"><a href="#cb12-17" tabindex="-1"></a>workflow <span class="op">{</span></span>
+<span id="cb12-18"><a href="#cb12-18" tabindex="-1"></a>  <span class="fu">TUPLEINPUT</span><span class="op">(</span>reads_ch<span class="op">)</span></span>
+<span id="cb12-19"><a href="#cb12-19" tabindex="-1"></a><span class="op">}</span></span></code></pre>
 </div>
 <p>outputs</p>
 <div class="codewrapper">
@@ -709,40 +709,40 @@ following pattern <code>"${sample_id}.fq.gz"</code>.</p>
 <div class="codewrapper sourceCode" id="cb14">
 <h3 class="code-label">GROOVY<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode groovy" tabindex="0"><code class="sourceCode groovy"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>output<span class="op">:</span></span>
-<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>  tuple <span class="fu">val</span><span class="op">(</span>sample_id<span class="op">),</span> <span class="fu">path</span><span class="op">(</span><span class="st">"</span><span class="ss">${</span>sample_id<span class="ss">}</span><span class="st">.fq.gz"</span><span class="op">)</span></span></code></pre>
+<pre class="sourceCode groovy" tabindex="0"><code class="sourceCode groovy"><span id="cb14-1"><a href="#cb14-1" tabindex="-1"></a>output<span class="op">:</span></span>
+<span id="cb14-2"><a href="#cb14-2" tabindex="-1"></a>  tuple <span class="fu">val</span><span class="op">(</span>sample_id<span class="op">),</span> <span class="fu">path</span><span class="op">(</span><span class="st">"</span><span class="ss">${</span>sample_id<span class="ss">}</span><span class="st">.fq.gz"</span><span class="op">)</span></span></code></pre>
 </div>
 <p>An example can be seen in this script below.</p>
 <div class="codewrapper sourceCode" id="cb15">
 <h3 class="code-label">GROOVY<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode groovy" tabindex="0"><code class="sourceCode groovy"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="co">//process_tuple_io.nf</span></span>
-<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>nextflow<span class="op">.</span>enable<span class="op">.</span>dsl<span class="op">=</span><span class="dv">2</span></span>
-<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>process COMBINE_FQ <span class="op">{</span></span>
-<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>  input<span class="op">:</span></span>
-<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a>  tuple <span class="fu">val</span><span class="op">(</span>sample_id<span class="op">),</span> <span class="fu">path</span><span class="op">(</span>reads<span class="op">)</span></span>
-<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb15-8"><a href="#cb15-8" aria-hidden="true" tabindex="-1"></a>  output<span class="op">:</span></span>
-<span id="cb15-9"><a href="#cb15-9" aria-hidden="true" tabindex="-1"></a>  tuple <span class="fu">val</span><span class="op">(</span>sample_id<span class="op">),</span> <span class="fu">path</span><span class="op">(</span><span class="st">"</span><span class="ss">${</span>sample_id<span class="ss">}</span><span class="st">.fq.gz"</span><span class="op">)</span></span>
-<span id="cb15-10"><a href="#cb15-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb15-11"><a href="#cb15-11" aria-hidden="true" tabindex="-1"></a>  script<span class="op">:</span></span>
-<span id="cb15-12"><a href="#cb15-12" aria-hidden="true" tabindex="-1"></a>  <span class="st">"""</span></span>
-<span id="cb15-13"><a href="#cb15-13" aria-hidden="true" tabindex="-1"></a><span class="st">  cat </span><span class="ss">$reads</span><span class="st"> &gt; </span><span class="ss">${</span>sample_id<span class="ss">}</span><span class="st">.fq.gz</span></span>
-<span id="cb15-14"><a href="#cb15-14" aria-hidden="true" tabindex="-1"></a><span class="st">  """</span></span>
-<span id="cb15-15"><a href="#cb15-15" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span>
-<span id="cb15-16"><a href="#cb15-16" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb15-17"><a href="#cb15-17" aria-hidden="true" tabindex="-1"></a>reads_ch <span class="op">=</span> <span class="bu">Channel</span><span class="op">.</span><span class="fu">fromFilePairs</span><span class="op">(</span><span class="st">'data/yeast/reads/ref1_{1,2}.fq.gz'</span><span class="op">)</span></span>
-<span id="cb15-18"><a href="#cb15-18" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb15-19"><a href="#cb15-19" aria-hidden="true" tabindex="-1"></a>workflow <span class="op">{</span></span>
-<span id="cb15-20"><a href="#cb15-20" aria-hidden="true" tabindex="-1"></a>  <span class="fu">COMBINE_FQ</span><span class="op">(</span>reads_ch<span class="op">)</span></span>
-<span id="cb15-21"><a href="#cb15-21" aria-hidden="true" tabindex="-1"></a>  COMBINE_FQ<span class="op">.</span>out<span class="op">.</span><span class="fu">view</span><span class="op">()</span></span>
-<span id="cb15-22"><a href="#cb15-22" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre>
+<pre class="sourceCode groovy" tabindex="0"><code class="sourceCode groovy"><span id="cb15-1"><a href="#cb15-1" tabindex="-1"></a><span class="co">//process_tuple_io.nf</span></span>
+<span id="cb15-2"><a href="#cb15-2" tabindex="-1"></a>nextflow<span class="op">.</span>enable<span class="op">.</span>dsl<span class="op">=</span><span class="dv">2</span></span>
+<span id="cb15-3"><a href="#cb15-3" tabindex="-1"></a></span>
+<span id="cb15-4"><a href="#cb15-4" tabindex="-1"></a>process COMBINE_FQ <span class="op">{</span></span>
+<span id="cb15-5"><a href="#cb15-5" tabindex="-1"></a>  input<span class="op">:</span></span>
+<span id="cb15-6"><a href="#cb15-6" tabindex="-1"></a>  tuple <span class="fu">val</span><span class="op">(</span>sample_id<span class="op">),</span> <span class="fu">path</span><span class="op">(</span>reads<span class="op">)</span></span>
+<span id="cb15-7"><a href="#cb15-7" tabindex="-1"></a></span>
+<span id="cb15-8"><a href="#cb15-8" tabindex="-1"></a>  output<span class="op">:</span></span>
+<span id="cb15-9"><a href="#cb15-9" tabindex="-1"></a>  tuple <span class="fu">val</span><span class="op">(</span>sample_id<span class="op">),</span> <span class="fu">path</span><span class="op">(</span><span class="st">"</span><span class="ss">${</span>sample_id<span class="ss">}</span><span class="st">.fq.gz"</span><span class="op">)</span></span>
+<span id="cb15-10"><a href="#cb15-10" tabindex="-1"></a></span>
+<span id="cb15-11"><a href="#cb15-11" tabindex="-1"></a>  script<span class="op">:</span></span>
+<span id="cb15-12"><a href="#cb15-12" tabindex="-1"></a>  <span class="st">"""</span></span>
+<span id="cb15-13"><a href="#cb15-13" tabindex="-1"></a><span class="st">  cat </span><span class="ss">$reads</span><span class="st"> &gt; </span><span class="ss">${</span>sample_id<span class="ss">}</span><span class="st">.fq.gz</span></span>
+<span id="cb15-14"><a href="#cb15-14" tabindex="-1"></a><span class="st">  """</span></span>
+<span id="cb15-15"><a href="#cb15-15" tabindex="-1"></a><span class="op">}</span></span>
+<span id="cb15-16"><a href="#cb15-16" tabindex="-1"></a></span>
+<span id="cb15-17"><a href="#cb15-17" tabindex="-1"></a>reads_ch <span class="op">=</span> <span class="bu">Channel</span><span class="op">.</span><span class="fu">fromFilePairs</span><span class="op">(</span><span class="st">'data/yeast/reads/ref1_{1,2}.fq.gz'</span><span class="op">)</span></span>
+<span id="cb15-18"><a href="#cb15-18" tabindex="-1"></a></span>
+<span id="cb15-19"><a href="#cb15-19" tabindex="-1"></a>workflow <span class="op">{</span></span>
+<span id="cb15-20"><a href="#cb15-20" tabindex="-1"></a>  <span class="fu">COMBINE_FQ</span><span class="op">(</span>reads_ch<span class="op">)</span></span>
+<span id="cb15-21"><a href="#cb15-21" tabindex="-1"></a>  COMBINE_FQ<span class="op">.</span>out<span class="op">.</span><span class="fu">view</span><span class="op">()</span></span>
+<span id="cb15-22"><a href="#cb15-22" tabindex="-1"></a><span class="op">}</span></span></code></pre>
 </div>
 <div class="codewrapper sourceCode" id="cb16">
 <h3 class="code-label">BASH<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode bash" tabindex="0"><code class="sourceCode bash"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="ex">nextflow</span> run process_tuple_io.nf</span></code></pre>
+<pre class="sourceCode bash" tabindex="0"><code class="sourceCode bash"><span id="cb16-1"><a href="#cb16-1" tabindex="-1"></a><span class="ex">nextflow</span> run process_tuple_io.nf</span></code></pre>
 </div>
 <p>The output is now a tuple containing the sample id and the combined
 fastq files.</p>
@@ -765,29 +765,29 @@ output for the COMBINE_REPS process.</p>
 <div class="codewrapper sourceCode" id="cb18">
 <h3 class="code-label">GROOVY<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode groovy" tabindex="0"><code class="sourceCode groovy"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="co">//process_exercise_tuple.nf</span></span>
-<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>nextflow<span class="op">.</span>enable<span class="op">.</span>dsl<span class="op">=</span><span class="dv">2</span></span>
-<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a>process COMBINE_REPS <span class="op">{</span></span>
-<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a>  input<span class="op">:</span></span>
-<span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a>  tuple <span class="fu">___</span><span class="op">(</span>sample_id<span class="op">),</span> <span class="fu">___</span><span class="op">(</span>reads<span class="op">)</span></span>
-<span id="cb18-7"><a href="#cb18-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb18-8"><a href="#cb18-8" aria-hidden="true" tabindex="-1"></a>  output<span class="op">:</span></span>
-<span id="cb18-9"><a href="#cb18-9" aria-hidden="true" tabindex="-1"></a>  tuple <span class="fu">___</span><span class="op">(</span>sample_id<span class="op">),</span> <span class="fu">___</span><span class="op">(</span><span class="st">"*.fq.gz"</span><span class="op">)</span></span>
-<span id="cb18-10"><a href="#cb18-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb18-11"><a href="#cb18-11" aria-hidden="true" tabindex="-1"></a>  script<span class="op">:</span></span>
-<span id="cb18-12"><a href="#cb18-12" aria-hidden="true" tabindex="-1"></a>  <span class="st">"""</span></span>
-<span id="cb18-13"><a href="#cb18-13" aria-hidden="true" tabindex="-1"></a><span class="st">  cat *_1.fq.gz &gt; </span><span class="ss">${</span>sample_id<span class="ss">}</span><span class="st">_R1.fq.gz</span></span>
-<span id="cb18-14"><a href="#cb18-14" aria-hidden="true" tabindex="-1"></a><span class="st">  cat *_2.fq.gz &gt; </span><span class="ss">${</span>sample_id<span class="ss">}</span><span class="st">_R2.fq.gz</span></span>
-<span id="cb18-15"><a href="#cb18-15" aria-hidden="true" tabindex="-1"></a><span class="st">  """</span></span>
-<span id="cb18-16"><a href="#cb18-16" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span>
-<span id="cb18-17"><a href="#cb18-17" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb18-18"><a href="#cb18-18" aria-hidden="true" tabindex="-1"></a>reads_ch <span class="op">=</span> <span class="bu">Channel</span><span class="op">.</span><span class="fu">fromFilePairs</span><span class="op">(</span><span class="st">'data/yeast/reads/ref{1,2,3}*.fq.gz'</span><span class="op">,</span>size<span class="op">:-</span><span class="dv">1</span><span class="op">)</span></span>
-<span id="cb18-19"><a href="#cb18-19" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb18-20"><a href="#cb18-20" aria-hidden="true" tabindex="-1"></a>workflow<span class="op">{</span></span>
-<span id="cb18-21"><a href="#cb18-21" aria-hidden="true" tabindex="-1"></a>  <span class="fu">COMBINE_REPS</span><span class="op">(</span>reads_ch<span class="op">)</span></span>
-<span id="cb18-22"><a href="#cb18-22" aria-hidden="true" tabindex="-1"></a>  COMBINE_REPS<span class="op">.</span>out<span class="op">.</span><span class="fu">view</span><span class="op">()</span></span>
-<span id="cb18-23"><a href="#cb18-23" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre>
+<pre class="sourceCode groovy" tabindex="0"><code class="sourceCode groovy"><span id="cb18-1"><a href="#cb18-1" tabindex="-1"></a><span class="co">//process_exercise_tuple.nf</span></span>
+<span id="cb18-2"><a href="#cb18-2" tabindex="-1"></a>nextflow<span class="op">.</span>enable<span class="op">.</span>dsl<span class="op">=</span><span class="dv">2</span></span>
+<span id="cb18-3"><a href="#cb18-3" tabindex="-1"></a></span>
+<span id="cb18-4"><a href="#cb18-4" tabindex="-1"></a>process COMBINE_REPS <span class="op">{</span></span>
+<span id="cb18-5"><a href="#cb18-5" tabindex="-1"></a>  input<span class="op">:</span></span>
+<span id="cb18-6"><a href="#cb18-6" tabindex="-1"></a>  tuple <span class="fu">___</span><span class="op">(</span>sample_id<span class="op">),</span> <span class="fu">___</span><span class="op">(</span>reads<span class="op">)</span></span>
+<span id="cb18-7"><a href="#cb18-7" tabindex="-1"></a></span>
+<span id="cb18-8"><a href="#cb18-8" tabindex="-1"></a>  output<span class="op">:</span></span>
+<span id="cb18-9"><a href="#cb18-9" tabindex="-1"></a>  tuple <span class="fu">___</span><span class="op">(</span>sample_id<span class="op">),</span> <span class="fu">___</span><span class="op">(</span><span class="st">"*.fq.gz"</span><span class="op">)</span></span>
+<span id="cb18-10"><a href="#cb18-10" tabindex="-1"></a></span>
+<span id="cb18-11"><a href="#cb18-11" tabindex="-1"></a>  script<span class="op">:</span></span>
+<span id="cb18-12"><a href="#cb18-12" tabindex="-1"></a>  <span class="st">"""</span></span>
+<span id="cb18-13"><a href="#cb18-13" tabindex="-1"></a><span class="st">  cat *_1.fq.gz &gt; </span><span class="ss">${</span>sample_id<span class="ss">}</span><span class="st">_R1.fq.gz</span></span>
+<span id="cb18-14"><a href="#cb18-14" tabindex="-1"></a><span class="st">  cat *_2.fq.gz &gt; </span><span class="ss">${</span>sample_id<span class="ss">}</span><span class="st">_R2.fq.gz</span></span>
+<span id="cb18-15"><a href="#cb18-15" tabindex="-1"></a><span class="st">  """</span></span>
+<span id="cb18-16"><a href="#cb18-16" tabindex="-1"></a><span class="op">}</span></span>
+<span id="cb18-17"><a href="#cb18-17" tabindex="-1"></a></span>
+<span id="cb18-18"><a href="#cb18-18" tabindex="-1"></a>reads_ch <span class="op">=</span> <span class="bu">Channel</span><span class="op">.</span><span class="fu">fromFilePairs</span><span class="op">(</span><span class="st">'data/yeast/reads/ref{1,2,3}*.fq.gz'</span><span class="op">,</span>size<span class="op">:-</span><span class="dv">1</span><span class="op">)</span></span>
+<span id="cb18-19"><a href="#cb18-19" tabindex="-1"></a></span>
+<span id="cb18-20"><a href="#cb18-20" tabindex="-1"></a>workflow<span class="op">{</span></span>
+<span id="cb18-21"><a href="#cb18-21" tabindex="-1"></a>  <span class="fu">COMBINE_REPS</span><span class="op">(</span>reads_ch<span class="op">)</span></span>
+<span id="cb18-22"><a href="#cb18-22" tabindex="-1"></a>  COMBINE_REPS<span class="op">.</span>out<span class="op">.</span><span class="fu">view</span><span class="op">()</span></span>
+<span id="cb18-23"><a href="#cb18-23" tabindex="-1"></a><span class="op">}</span></span></code></pre>
 </div>
 </div>
 </div>
@@ -802,29 +802,29 @@ output for the COMBINE_REPS process.</p>
 <div class="codewrapper sourceCode" id="cb19">
 <h3 class="code-label">GROOVY<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode groovy" tabindex="0"><code class="sourceCode groovy"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="co">//process_exercise_tuple_answer.nf</span></span>
-<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>nextflow<span class="op">.</span>enable<span class="op">.</span>dsl<span class="op">=</span><span class="dv">2</span></span>
-<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a>process COMBINE_REPS <span class="op">{</span></span>
-<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a>  input<span class="op">:</span></span>
-<span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a>  tuple <span class="fu">val</span><span class="op">(</span>sample_id<span class="op">),</span> <span class="fu">path</span><span class="op">(</span>reads<span class="op">)</span></span>
-<span id="cb19-7"><a href="#cb19-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-8"><a href="#cb19-8" aria-hidden="true" tabindex="-1"></a>  output<span class="op">:</span></span>
-<span id="cb19-9"><a href="#cb19-9" aria-hidden="true" tabindex="-1"></a>  tuple <span class="fu">val</span><span class="op">(</span>sample_id<span class="op">),</span> <span class="fu">path</span><span class="op">(</span><span class="st">"*.fq.gz"</span><span class="op">)</span></span>
-<span id="cb19-10"><a href="#cb19-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-11"><a href="#cb19-11" aria-hidden="true" tabindex="-1"></a>  script<span class="op">:</span></span>
-<span id="cb19-12"><a href="#cb19-12" aria-hidden="true" tabindex="-1"></a>  <span class="st">"""</span></span>
-<span id="cb19-13"><a href="#cb19-13" aria-hidden="true" tabindex="-1"></a><span class="st">  cat *_1.fq.gz &gt; </span><span class="ss">${</span>sample_id<span class="ss">}</span><span class="st">_R1.fq.gz</span></span>
-<span id="cb19-14"><a href="#cb19-14" aria-hidden="true" tabindex="-1"></a><span class="st">  cat *_2.fq.gz &gt; </span><span class="ss">${</span>sample_id<span class="ss">}</span><span class="st">_R2.fq.gz</span></span>
-<span id="cb19-15"><a href="#cb19-15" aria-hidden="true" tabindex="-1"></a><span class="st">  """</span></span>
-<span id="cb19-16"><a href="#cb19-16" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span>
-<span id="cb19-17"><a href="#cb19-17" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-18"><a href="#cb19-18" aria-hidden="true" tabindex="-1"></a>reads_ch <span class="op">=</span> <span class="bu">Channel</span><span class="op">.</span><span class="fu">fromFilePairs</span><span class="op">(</span><span class="st">'data/yeast/reads/ref*_{1,2,3}.fq.gz'</span><span class="op">,</span>size<span class="op">:-</span><span class="dv">1</span><span class="op">)</span></span>
-<span id="cb19-19"><a href="#cb19-19" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-20"><a href="#cb19-20" aria-hidden="true" tabindex="-1"></a>workflow<span class="op">{</span></span>
-<span id="cb19-21"><a href="#cb19-21" aria-hidden="true" tabindex="-1"></a>  <span class="fu">COMBINE_REPS</span><span class="op">(</span>reads_ch<span class="op">)</span></span>
-<span id="cb19-22"><a href="#cb19-22" aria-hidden="true" tabindex="-1"></a>  COMBINE_REPS<span class="op">.</span>out<span class="op">.</span><span class="fu">view</span><span class="op">()</span></span>
-<span id="cb19-23"><a href="#cb19-23" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre>
+<pre class="sourceCode groovy" tabindex="0"><code class="sourceCode groovy"><span id="cb19-1"><a href="#cb19-1" tabindex="-1"></a><span class="co">//process_exercise_tuple_answer.nf</span></span>
+<span id="cb19-2"><a href="#cb19-2" tabindex="-1"></a>nextflow<span class="op">.</span>enable<span class="op">.</span>dsl<span class="op">=</span><span class="dv">2</span></span>
+<span id="cb19-3"><a href="#cb19-3" tabindex="-1"></a></span>
+<span id="cb19-4"><a href="#cb19-4" tabindex="-1"></a>process COMBINE_REPS <span class="op">{</span></span>
+<span id="cb19-5"><a href="#cb19-5" tabindex="-1"></a>  input<span class="op">:</span></span>
+<span id="cb19-6"><a href="#cb19-6" tabindex="-1"></a>  tuple <span class="fu">val</span><span class="op">(</span>sample_id<span class="op">),</span> <span class="fu">path</span><span class="op">(</span>reads<span class="op">)</span></span>
+<span id="cb19-7"><a href="#cb19-7" tabindex="-1"></a></span>
+<span id="cb19-8"><a href="#cb19-8" tabindex="-1"></a>  output<span class="op">:</span></span>
+<span id="cb19-9"><a href="#cb19-9" tabindex="-1"></a>  tuple <span class="fu">val</span><span class="op">(</span>sample_id<span class="op">),</span> <span class="fu">path</span><span class="op">(</span><span class="st">"*.fq.gz"</span><span class="op">)</span></span>
+<span id="cb19-10"><a href="#cb19-10" tabindex="-1"></a></span>
+<span id="cb19-11"><a href="#cb19-11" tabindex="-1"></a>  script<span class="op">:</span></span>
+<span id="cb19-12"><a href="#cb19-12" tabindex="-1"></a>  <span class="st">"""</span></span>
+<span id="cb19-13"><a href="#cb19-13" tabindex="-1"></a><span class="st">  cat *_1.fq.gz &gt; </span><span class="ss">${</span>sample_id<span class="ss">}</span><span class="st">_R1.fq.gz</span></span>
+<span id="cb19-14"><a href="#cb19-14" tabindex="-1"></a><span class="st">  cat *_2.fq.gz &gt; </span><span class="ss">${</span>sample_id<span class="ss">}</span><span class="st">_R2.fq.gz</span></span>
+<span id="cb19-15"><a href="#cb19-15" tabindex="-1"></a><span class="st">  """</span></span>
+<span id="cb19-16"><a href="#cb19-16" tabindex="-1"></a><span class="op">}</span></span>
+<span id="cb19-17"><a href="#cb19-17" tabindex="-1"></a></span>
+<span id="cb19-18"><a href="#cb19-18" tabindex="-1"></a>reads_ch <span class="op">=</span> <span class="bu">Channel</span><span class="op">.</span><span class="fu">fromFilePairs</span><span class="op">(</span><span class="st">'data/yeast/reads/ref*_{1,2,3}.fq.gz'</span><span class="op">,</span>size<span class="op">:-</span><span class="dv">1</span><span class="op">)</span></span>
+<span id="cb19-19"><a href="#cb19-19" tabindex="-1"></a></span>
+<span id="cb19-20"><a href="#cb19-20" tabindex="-1"></a>workflow<span class="op">{</span></span>
+<span id="cb19-21"><a href="#cb19-21" tabindex="-1"></a>  <span class="fu">COMBINE_REPS</span><span class="op">(</span>reads_ch<span class="op">)</span></span>
+<span id="cb19-22"><a href="#cb19-22" tabindex="-1"></a>  COMBINE_REPS<span class="op">.</span>out<span class="op">.</span><span class="fu">view</span><span class="op">()</span></span>
+<span id="cb19-23"><a href="#cb19-23" tabindex="-1"></a><span class="op">}</span></span></code></pre>
 </div>
 <div class="codewrapper">
 <h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
@@ -856,27 +856,27 @@ equal to 5:</p>
 <div class="codewrapper sourceCode" id="cb21">
 <h3 class="code-label">GROOVY<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode groovy" tabindex="0"><code class="sourceCode groovy"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="co">//process_when.nf</span></span>
-<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>nextflow<span class="op">.</span>enable<span class="op">.</span>dsl<span class="op">=</span><span class="dv">2</span></span>
-<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a>process CONDITIONAL <span class="op">{</span></span>
-<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a>  input<span class="op">:</span></span>
-<span id="cb21-6"><a href="#cb21-6" aria-hidden="true" tabindex="-1"></a>  val chr</span>
-<span id="cb21-7"><a href="#cb21-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb21-8"><a href="#cb21-8" aria-hidden="true" tabindex="-1"></a>  when<span class="op">:</span></span>
-<span id="cb21-9"><a href="#cb21-9" aria-hidden="true" tabindex="-1"></a>  chr <span class="op">&lt;=</span> <span class="dv">5</span></span>
-<span id="cb21-10"><a href="#cb21-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb21-11"><a href="#cb21-11" aria-hidden="true" tabindex="-1"></a>  script<span class="op">:</span></span>
-<span id="cb21-12"><a href="#cb21-12" aria-hidden="true" tabindex="-1"></a>  <span class="st">"""</span></span>
-<span id="cb21-13"><a href="#cb21-13" aria-hidden="true" tabindex="-1"></a><span class="st">  echo </span><span class="ss">$chr</span></span>
-<span id="cb21-14"><a href="#cb21-14" aria-hidden="true" tabindex="-1"></a><span class="st">  """</span></span>
-<span id="cb21-15"><a href="#cb21-15" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span>
-<span id="cb21-16"><a href="#cb21-16" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb21-17"><a href="#cb21-17" aria-hidden="true" tabindex="-1"></a>chr_ch <span class="op">=</span> channel<span class="op">.</span><span class="fu">of</span><span class="op">(</span><span class="fl">1..22</span><span class="op">)</span></span>
-<span id="cb21-18"><a href="#cb21-18" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb21-19"><a href="#cb21-19" aria-hidden="true" tabindex="-1"></a>workflow <span class="op">{</span></span>
-<span id="cb21-20"><a href="#cb21-20" aria-hidden="true" tabindex="-1"></a>  <span class="fu">CONDITIONAL</span><span class="op">(</span>chr_ch<span class="op">)</span></span>
-<span id="cb21-21"><a href="#cb21-21" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre>
+<pre class="sourceCode groovy" tabindex="0"><code class="sourceCode groovy"><span id="cb21-1"><a href="#cb21-1" tabindex="-1"></a><span class="co">//process_when.nf</span></span>
+<span id="cb21-2"><a href="#cb21-2" tabindex="-1"></a>nextflow<span class="op">.</span>enable<span class="op">.</span>dsl<span class="op">=</span><span class="dv">2</span></span>
+<span id="cb21-3"><a href="#cb21-3" tabindex="-1"></a></span>
+<span id="cb21-4"><a href="#cb21-4" tabindex="-1"></a>process CONDITIONAL <span class="op">{</span></span>
+<span id="cb21-5"><a href="#cb21-5" tabindex="-1"></a>  input<span class="op">:</span></span>
+<span id="cb21-6"><a href="#cb21-6" tabindex="-1"></a>  val chr</span>
+<span id="cb21-7"><a href="#cb21-7" tabindex="-1"></a></span>
+<span id="cb21-8"><a href="#cb21-8" tabindex="-1"></a>  when<span class="op">:</span></span>
+<span id="cb21-9"><a href="#cb21-9" tabindex="-1"></a>  chr <span class="op">&lt;=</span> <span class="dv">5</span></span>
+<span id="cb21-10"><a href="#cb21-10" tabindex="-1"></a></span>
+<span id="cb21-11"><a href="#cb21-11" tabindex="-1"></a>  script<span class="op">:</span></span>
+<span id="cb21-12"><a href="#cb21-12" tabindex="-1"></a>  <span class="st">"""</span></span>
+<span id="cb21-13"><a href="#cb21-13" tabindex="-1"></a><span class="st">  echo </span><span class="ss">$chr</span></span>
+<span id="cb21-14"><a href="#cb21-14" tabindex="-1"></a><span class="st">  """</span></span>
+<span id="cb21-15"><a href="#cb21-15" tabindex="-1"></a><span class="op">}</span></span>
+<span id="cb21-16"><a href="#cb21-16" tabindex="-1"></a></span>
+<span id="cb21-17"><a href="#cb21-17" tabindex="-1"></a>chr_ch <span class="op">=</span> channel<span class="op">.</span><span class="fu">of</span><span class="op">(</span><span class="fl">1..22</span><span class="op">)</span></span>
+<span id="cb21-18"><a href="#cb21-18" tabindex="-1"></a></span>
+<span id="cb21-19"><a href="#cb21-19" tabindex="-1"></a>workflow <span class="op">{</span></span>
+<span id="cb21-20"><a href="#cb21-20" tabindex="-1"></a>  <span class="fu">CONDITIONAL</span><span class="op">(</span>chr_ch<span class="op">)</span></span>
+<span id="cb21-21"><a href="#cb21-21" tabindex="-1"></a><span class="op">}</span></span></code></pre>
 </div>
 <div class="codewrapper">
 <h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
@@ -909,29 +909,29 @@ purpose.</p>
 <div class="codewrapper sourceCode" id="cb23">
 <h3 class="code-label">GROOVY<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode groovy" tabindex="0"><code class="sourceCode groovy"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="co">//process_directive.nf</span></span>
-<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>nextflow<span class="op">.</span>enable<span class="op">.</span>dsl<span class="op">=</span><span class="dv">2</span></span>
-<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a>process PRINTCHR <span class="op">{</span></span>
-<span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a>  tag <span class="st">"tagging with chr</span><span class="ss">$chr</span><span class="st">"</span></span>
-<span id="cb23-6"><a href="#cb23-6" aria-hidden="true" tabindex="-1"></a>  cpus <span class="dv">1</span></span>
-<span id="cb23-7"><a href="#cb23-7" aria-hidden="true" tabindex="-1"></a>  echo <span class="kw">true</span></span>
-<span id="cb23-8"><a href="#cb23-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb23-9"><a href="#cb23-9" aria-hidden="true" tabindex="-1"></a>  input<span class="op">:</span></span>
-<span id="cb23-10"><a href="#cb23-10" aria-hidden="true" tabindex="-1"></a>  val chr</span>
-<span id="cb23-11"><a href="#cb23-11" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb23-12"><a href="#cb23-12" aria-hidden="true" tabindex="-1"></a>  script<span class="op">:</span></span>
-<span id="cb23-13"><a href="#cb23-13" aria-hidden="true" tabindex="-1"></a>  <span class="st">"""</span></span>
-<span id="cb23-14"><a href="#cb23-14" aria-hidden="true" tabindex="-1"></a><span class="st">  echo processing chromosome: </span><span class="ss">$chr</span></span>
-<span id="cb23-15"><a href="#cb23-15" aria-hidden="true" tabindex="-1"></a><span class="st">  echo number of cpus </span><span class="ss">$task</span><span class="op">.</span><span class="ss">cpus</span></span>
-<span id="cb23-16"><a href="#cb23-16" aria-hidden="true" tabindex="-1"></a><span class="st">  """</span></span>
-<span id="cb23-17"><a href="#cb23-17" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span>
-<span id="cb23-18"><a href="#cb23-18" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb23-19"><a href="#cb23-19" aria-hidden="true" tabindex="-1"></a>chr_ch <span class="op">=</span> channel<span class="op">.</span><span class="fu">of</span><span class="op">(</span><span class="fl">1..22</span><span class="op">,</span> <span class="st">'X'</span><span class="op">,</span> <span class="st">'Y'</span><span class="op">)</span></span>
-<span id="cb23-20"><a href="#cb23-20" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb23-21"><a href="#cb23-21" aria-hidden="true" tabindex="-1"></a>workflow <span class="op">{</span></span>
-<span id="cb23-22"><a href="#cb23-22" aria-hidden="true" tabindex="-1"></a>  <span class="fu">PRINTCHR</span><span class="op">(</span>chr_ch<span class="op">)</span></span>
-<span id="cb23-23"><a href="#cb23-23" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre>
+<pre class="sourceCode groovy" tabindex="0"><code class="sourceCode groovy"><span id="cb23-1"><a href="#cb23-1" tabindex="-1"></a><span class="co">//process_directive.nf</span></span>
+<span id="cb23-2"><a href="#cb23-2" tabindex="-1"></a>nextflow<span class="op">.</span>enable<span class="op">.</span>dsl<span class="op">=</span><span class="dv">2</span></span>
+<span id="cb23-3"><a href="#cb23-3" tabindex="-1"></a></span>
+<span id="cb23-4"><a href="#cb23-4" tabindex="-1"></a>process PRINTCHR <span class="op">{</span></span>
+<span id="cb23-5"><a href="#cb23-5" tabindex="-1"></a>  tag <span class="st">"tagging with chr</span><span class="ss">$chr</span><span class="st">"</span></span>
+<span id="cb23-6"><a href="#cb23-6" tabindex="-1"></a>  cpus <span class="dv">1</span></span>
+<span id="cb23-7"><a href="#cb23-7" tabindex="-1"></a>  echo <span class="kw">true</span></span>
+<span id="cb23-8"><a href="#cb23-8" tabindex="-1"></a></span>
+<span id="cb23-9"><a href="#cb23-9" tabindex="-1"></a>  input<span class="op">:</span></span>
+<span id="cb23-10"><a href="#cb23-10" tabindex="-1"></a>  val chr</span>
+<span id="cb23-11"><a href="#cb23-11" tabindex="-1"></a></span>
+<span id="cb23-12"><a href="#cb23-12" tabindex="-1"></a>  script<span class="op">:</span></span>
+<span id="cb23-13"><a href="#cb23-13" tabindex="-1"></a>  <span class="st">"""</span></span>
+<span id="cb23-14"><a href="#cb23-14" tabindex="-1"></a><span class="st">  echo processing chromosome: </span><span class="ss">$chr</span></span>
+<span id="cb23-15"><a href="#cb23-15" tabindex="-1"></a><span class="st">  echo number of cpus </span><span class="ss">$task</span><span class="op">.</span><span class="ss">cpus</span></span>
+<span id="cb23-16"><a href="#cb23-16" tabindex="-1"></a><span class="st">  """</span></span>
+<span id="cb23-17"><a href="#cb23-17" tabindex="-1"></a><span class="op">}</span></span>
+<span id="cb23-18"><a href="#cb23-18" tabindex="-1"></a></span>
+<span id="cb23-19"><a href="#cb23-19" tabindex="-1"></a>chr_ch <span class="op">=</span> channel<span class="op">.</span><span class="fu">of</span><span class="op">(</span><span class="fl">1..22</span><span class="op">,</span> <span class="st">'X'</span><span class="op">,</span> <span class="st">'Y'</span><span class="op">)</span></span>
+<span id="cb23-20"><a href="#cb23-20" tabindex="-1"></a></span>
+<span id="cb23-21"><a href="#cb23-21" tabindex="-1"></a>workflow <span class="op">{</span></span>
+<span id="cb23-22"><a href="#cb23-22" tabindex="-1"></a>  <span class="fu">PRINTCHR</span><span class="op">(</span>chr_ch<span class="op">)</span></span>
+<span id="cb23-23"><a href="#cb23-23" tabindex="-1"></a><span class="op">}</span></span></code></pre>
 </div>
 <div class="codewrapper">
 <h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
@@ -990,32 +990,32 @@ execution output.</li>
 </ol><div class="codewrapper sourceCode" id="cb25">
 <h3 class="code-label">GROOVY<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode groovy" tabindex="0"><code class="sourceCode groovy"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="co">//process_exercise_directives.nf</span></span>
-<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a>nextflow<span class="op">.</span>enable<span class="op">.</span>dsl<span class="op">=</span><span class="dv">2</span></span>
-<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a>process FASTQC <span class="op">{</span></span>
-<span id="cb25-5"><a href="#cb25-5" aria-hidden="true" tabindex="-1"></a>  <span class="co">//add tag directive</span></span>
-<span id="cb25-6"><a href="#cb25-6" aria-hidden="true" tabindex="-1"></a>  <span class="co">//add cpu directive</span></span>
-<span id="cb25-7"><a href="#cb25-7" aria-hidden="true" tabindex="-1"></a> </span>
-<span id="cb25-8"><a href="#cb25-8" aria-hidden="true" tabindex="-1"></a>  input<span class="op">:</span></span>
-<span id="cb25-9"><a href="#cb25-9" aria-hidden="true" tabindex="-1"></a>  tuple <span class="fu">val</span><span class="op">(</span>sample_id<span class="op">),</span> <span class="fu">path</span><span class="op">(</span>reads<span class="op">)</span></span>
-<span id="cb25-10"><a href="#cb25-10" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb25-11"><a href="#cb25-11" aria-hidden="true" tabindex="-1"></a>  output<span class="op">:</span></span>
-<span id="cb25-12"><a href="#cb25-12" aria-hidden="true" tabindex="-1"></a>  tuple <span class="fu">val</span><span class="op">(</span>sample_id<span class="op">),</span> <span class="fu">path</span><span class="op">(</span><span class="st">"fastqc_out"</span><span class="op">)</span></span>
-<span id="cb25-13"><a href="#cb25-13" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb25-14"><a href="#cb25-14" aria-hidden="true" tabindex="-1"></a>  script<span class="op">:</span></span>
-<span id="cb25-15"><a href="#cb25-15" aria-hidden="true" tabindex="-1"></a>  <span class="st">"""</span></span>
-<span id="cb25-16"><a href="#cb25-16" aria-hidden="true" tabindex="-1"></a><span class="st">  mkdir fastqc_out</span></span>
-<span id="cb25-17"><a href="#cb25-17" aria-hidden="true" tabindex="-1"></a><span class="st">  fastqc </span><span class="ss">$reads</span><span class="st"> -o fastqc_out -t 1</span></span>
-<span id="cb25-18"><a href="#cb25-18" aria-hidden="true" tabindex="-1"></a><span class="st">  """</span></span>
-<span id="cb25-19"><a href="#cb25-19" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span>
-<span id="cb25-20"><a href="#cb25-20" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb25-21"><a href="#cb25-21" aria-hidden="true" tabindex="-1"></a>read_pairs_ch <span class="op">=</span> <span class="bu">Channel</span><span class="op">.</span><span class="fu">fromFilePairs</span><span class="op">(</span><span class="st">'data/yeast/reads/ref*_{1,2}.fq.gz'</span><span class="op">)</span></span>
-<span id="cb25-22"><a href="#cb25-22" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb25-23"><a href="#cb25-23" aria-hidden="true" tabindex="-1"></a>workflow <span class="op">{</span></span>
-<span id="cb25-24"><a href="#cb25-24" aria-hidden="true" tabindex="-1"></a>  <span class="fu">FASTQC</span><span class="op">(</span>read_pairs_ch<span class="op">)</span></span>
-<span id="cb25-25"><a href="#cb25-25" aria-hidden="true" tabindex="-1"></a>  FASTQC<span class="op">.</span>out<span class="op">.</span><span class="fu">view</span><span class="op">()</span></span>
-<span id="cb25-26"><a href="#cb25-26" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre>
+<pre class="sourceCode groovy" tabindex="0"><code class="sourceCode groovy"><span id="cb25-1"><a href="#cb25-1" tabindex="-1"></a><span class="co">//process_exercise_directives.nf</span></span>
+<span id="cb25-2"><a href="#cb25-2" tabindex="-1"></a>nextflow<span class="op">.</span>enable<span class="op">.</span>dsl<span class="op">=</span><span class="dv">2</span></span>
+<span id="cb25-3"><a href="#cb25-3" tabindex="-1"></a></span>
+<span id="cb25-4"><a href="#cb25-4" tabindex="-1"></a>process FASTQC <span class="op">{</span></span>
+<span id="cb25-5"><a href="#cb25-5" tabindex="-1"></a>  <span class="co">//add tag directive</span></span>
+<span id="cb25-6"><a href="#cb25-6" tabindex="-1"></a>  <span class="co">//add cpu directive</span></span>
+<span id="cb25-7"><a href="#cb25-7" tabindex="-1"></a> </span>
+<span id="cb25-8"><a href="#cb25-8" tabindex="-1"></a>  input<span class="op">:</span></span>
+<span id="cb25-9"><a href="#cb25-9" tabindex="-1"></a>  tuple <span class="fu">val</span><span class="op">(</span>sample_id<span class="op">),</span> <span class="fu">path</span><span class="op">(</span>reads<span class="op">)</span></span>
+<span id="cb25-10"><a href="#cb25-10" tabindex="-1"></a>  </span>
+<span id="cb25-11"><a href="#cb25-11" tabindex="-1"></a>  output<span class="op">:</span></span>
+<span id="cb25-12"><a href="#cb25-12" tabindex="-1"></a>  tuple <span class="fu">val</span><span class="op">(</span>sample_id<span class="op">),</span> <span class="fu">path</span><span class="op">(</span><span class="st">"fastqc_out"</span><span class="op">)</span></span>
+<span id="cb25-13"><a href="#cb25-13" tabindex="-1"></a>  </span>
+<span id="cb25-14"><a href="#cb25-14" tabindex="-1"></a>  script<span class="op">:</span></span>
+<span id="cb25-15"><a href="#cb25-15" tabindex="-1"></a>  <span class="st">"""</span></span>
+<span id="cb25-16"><a href="#cb25-16" tabindex="-1"></a><span class="st">  mkdir fastqc_out</span></span>
+<span id="cb25-17"><a href="#cb25-17" tabindex="-1"></a><span class="st">  fastqc </span><span class="ss">$reads</span><span class="st"> -o fastqc_out -t 1</span></span>
+<span id="cb25-18"><a href="#cb25-18" tabindex="-1"></a><span class="st">  """</span></span>
+<span id="cb25-19"><a href="#cb25-19" tabindex="-1"></a><span class="op">}</span></span>
+<span id="cb25-20"><a href="#cb25-20" tabindex="-1"></a></span>
+<span id="cb25-21"><a href="#cb25-21" tabindex="-1"></a>read_pairs_ch <span class="op">=</span> <span class="bu">Channel</span><span class="op">.</span><span class="fu">fromFilePairs</span><span class="op">(</span><span class="st">'data/yeast/reads/ref*_{1,2}.fq.gz'</span><span class="op">)</span></span>
+<span id="cb25-22"><a href="#cb25-22" tabindex="-1"></a></span>
+<span id="cb25-23"><a href="#cb25-23" tabindex="-1"></a>workflow <span class="op">{</span></span>
+<span id="cb25-24"><a href="#cb25-24" tabindex="-1"></a>  <span class="fu">FASTQC</span><span class="op">(</span>read_pairs_ch<span class="op">)</span></span>
+<span id="cb25-25"><a href="#cb25-25" tabindex="-1"></a>  FASTQC<span class="op">.</span>out<span class="op">.</span><span class="fu">view</span><span class="op">()</span></span>
+<span id="cb25-26"><a href="#cb25-26" tabindex="-1"></a><span class="op">}</span></span></code></pre>
 </div>
 </div>
 </div>
@@ -1030,32 +1030,32 @@ execution output.</li>
 <div class="codewrapper sourceCode" id="cb26">
 <h3 class="code-label">GROOVY<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode groovy" tabindex="0"><code class="sourceCode groovy"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="co">//process_directives_answer.nf</span></span>
-<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>nextflow<span class="op">.</span>enable<span class="op">.</span>dsl<span class="op">=</span><span class="dv">2</span></span>
-<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a>process FASTQC <span class="op">{</span></span>
-<span id="cb26-5"><a href="#cb26-5" aria-hidden="true" tabindex="-1"></a>  tag <span class="st">"</span><span class="ss">$sample_id</span><span class="st">"</span></span>
-<span id="cb26-6"><a href="#cb26-6" aria-hidden="true" tabindex="-1"></a>  cpus <span class="dv">2</span></span>
-<span id="cb26-7"><a href="#cb26-7" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb26-8"><a href="#cb26-8" aria-hidden="true" tabindex="-1"></a>  input<span class="op">:</span></span>
-<span id="cb26-9"><a href="#cb26-9" aria-hidden="true" tabindex="-1"></a>  tuple <span class="fu">val</span><span class="op">(</span>sample_id<span class="op">),</span> <span class="fu">path</span><span class="op">(</span>reads<span class="op">)</span></span>
-<span id="cb26-10"><a href="#cb26-10" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb26-11"><a href="#cb26-11" aria-hidden="true" tabindex="-1"></a>  output<span class="op">:</span></span>
-<span id="cb26-12"><a href="#cb26-12" aria-hidden="true" tabindex="-1"></a>  tuple <span class="fu">val</span><span class="op">(</span>sample_id<span class="op">),</span> <span class="fu">path</span><span class="op">(</span><span class="st">"fastqc_out"</span><span class="op">)</span></span>
-<span id="cb26-13"><a href="#cb26-13" aria-hidden="true" tabindex="-1"></a> </span>
-<span id="cb26-14"><a href="#cb26-14" aria-hidden="true" tabindex="-1"></a>  script<span class="op">:</span></span>
-<span id="cb26-15"><a href="#cb26-15" aria-hidden="true" tabindex="-1"></a>  <span class="st">"""</span></span>
-<span id="cb26-16"><a href="#cb26-16" aria-hidden="true" tabindex="-1"></a><span class="st">  mkdir fastqc_out</span></span>
-<span id="cb26-17"><a href="#cb26-17" aria-hidden="true" tabindex="-1"></a><span class="st">  fastqc </span><span class="ss">$reads</span><span class="st"> -o fastqc_out -t </span><span class="ss">$task</span><span class="op">.</span><span class="ss">cpus</span></span>
-<span id="cb26-18"><a href="#cb26-18" aria-hidden="true" tabindex="-1"></a><span class="st">  """</span></span>
-<span id="cb26-19"><a href="#cb26-19" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span>
-<span id="cb26-20"><a href="#cb26-20" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb26-21"><a href="#cb26-21" aria-hidden="true" tabindex="-1"></a>read_pairs_ch <span class="op">=</span> <span class="bu">Channel</span><span class="op">.</span><span class="fu">fromFilePairs</span><span class="op">(</span><span class="st">'data/yeast/reads/ref*_{1,2}.fq.gz'</span><span class="op">)</span></span>
-<span id="cb26-22"><a href="#cb26-22" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb26-23"><a href="#cb26-23" aria-hidden="true" tabindex="-1"></a>workflow <span class="op">{</span></span>
-<span id="cb26-24"><a href="#cb26-24" aria-hidden="true" tabindex="-1"></a>  <span class="fu">FASTQC</span><span class="op">(</span>read_pairs_ch<span class="op">)</span></span>
-<span id="cb26-25"><a href="#cb26-25" aria-hidden="true" tabindex="-1"></a>  FASTQC<span class="op">.</span>out<span class="op">.</span><span class="fu">view</span><span class="op">()</span></span>
-<span id="cb26-26"><a href="#cb26-26" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre>
+<pre class="sourceCode groovy" tabindex="0"><code class="sourceCode groovy"><span id="cb26-1"><a href="#cb26-1" tabindex="-1"></a><span class="co">//process_directives_answer.nf</span></span>
+<span id="cb26-2"><a href="#cb26-2" tabindex="-1"></a>nextflow<span class="op">.</span>enable<span class="op">.</span>dsl<span class="op">=</span><span class="dv">2</span></span>
+<span id="cb26-3"><a href="#cb26-3" tabindex="-1"></a></span>
+<span id="cb26-4"><a href="#cb26-4" tabindex="-1"></a>process FASTQC <span class="op">{</span></span>
+<span id="cb26-5"><a href="#cb26-5" tabindex="-1"></a>  tag <span class="st">"</span><span class="ss">$sample_id</span><span class="st">"</span></span>
+<span id="cb26-6"><a href="#cb26-6" tabindex="-1"></a>  cpus <span class="dv">2</span></span>
+<span id="cb26-7"><a href="#cb26-7" tabindex="-1"></a>  </span>
+<span id="cb26-8"><a href="#cb26-8" tabindex="-1"></a>  input<span class="op">:</span></span>
+<span id="cb26-9"><a href="#cb26-9" tabindex="-1"></a>  tuple <span class="fu">val</span><span class="op">(</span>sample_id<span class="op">),</span> <span class="fu">path</span><span class="op">(</span>reads<span class="op">)</span></span>
+<span id="cb26-10"><a href="#cb26-10" tabindex="-1"></a>  </span>
+<span id="cb26-11"><a href="#cb26-11" tabindex="-1"></a>  output<span class="op">:</span></span>
+<span id="cb26-12"><a href="#cb26-12" tabindex="-1"></a>  tuple <span class="fu">val</span><span class="op">(</span>sample_id<span class="op">),</span> <span class="fu">path</span><span class="op">(</span><span class="st">"fastqc_out"</span><span class="op">)</span></span>
+<span id="cb26-13"><a href="#cb26-13" tabindex="-1"></a> </span>
+<span id="cb26-14"><a href="#cb26-14" tabindex="-1"></a>  script<span class="op">:</span></span>
+<span id="cb26-15"><a href="#cb26-15" tabindex="-1"></a>  <span class="st">"""</span></span>
+<span id="cb26-16"><a href="#cb26-16" tabindex="-1"></a><span class="st">  mkdir fastqc_out</span></span>
+<span id="cb26-17"><a href="#cb26-17" tabindex="-1"></a><span class="st">  fastqc </span><span class="ss">$reads</span><span class="st"> -o fastqc_out -t </span><span class="ss">$task</span><span class="op">.</span><span class="ss">cpus</span></span>
+<span id="cb26-18"><a href="#cb26-18" tabindex="-1"></a><span class="st">  """</span></span>
+<span id="cb26-19"><a href="#cb26-19" tabindex="-1"></a><span class="op">}</span></span>
+<span id="cb26-20"><a href="#cb26-20" tabindex="-1"></a></span>
+<span id="cb26-21"><a href="#cb26-21" tabindex="-1"></a>read_pairs_ch <span class="op">=</span> <span class="bu">Channel</span><span class="op">.</span><span class="fu">fromFilePairs</span><span class="op">(</span><span class="st">'data/yeast/reads/ref*_{1,2}.fq.gz'</span><span class="op">)</span></span>
+<span id="cb26-22"><a href="#cb26-22" tabindex="-1"></a></span>
+<span id="cb26-23"><a href="#cb26-23" tabindex="-1"></a>workflow <span class="op">{</span></span>
+<span id="cb26-24"><a href="#cb26-24" tabindex="-1"></a>  <span class="fu">FASTQC</span><span class="op">(</span>read_pairs_ch<span class="op">)</span></span>
+<span id="cb26-25"><a href="#cb26-25" tabindex="-1"></a>  FASTQC<span class="op">.</span>out<span class="op">.</span><span class="fu">view</span><span class="op">()</span></span>
+<span id="cb26-26"><a href="#cb26-26" tabindex="-1"></a><span class="op">}</span></span></code></pre>
 </div>
 <div class="codewrapper">
 <h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
@@ -1099,35 +1099,35 @@ directory in the <code>publishDir</code> directive:</p>
 <div class="codewrapper sourceCode" id="cb29">
 <h3 class="code-label">GROOVY<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode groovy" tabindex="0"><code class="sourceCode groovy"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="co">//process_publishDir.nf</span></span>
-<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a>nextflow<span class="op">.</span>enable<span class="op">.</span>dsl<span class="op">=</span><span class="dv">2</span></span>
-<span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb29-4"><a href="#cb29-4" aria-hidden="true" tabindex="-1"></a>process COMBINE_READS <span class="op">{</span></span>
-<span id="cb29-5"><a href="#cb29-5" aria-hidden="true" tabindex="-1"></a>  publishDir <span class="st">"results/merged_reads"</span></span>
-<span id="cb29-6"><a href="#cb29-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb29-7"><a href="#cb29-7" aria-hidden="true" tabindex="-1"></a>  input<span class="op">:</span></span>
-<span id="cb29-8"><a href="#cb29-8" aria-hidden="true" tabindex="-1"></a>  tuple <span class="fu">val</span><span class="op">(</span>sample_id<span class="op">),</span> <span class="fu">path</span><span class="op">(</span>reads<span class="op">)</span></span>
-<span id="cb29-9"><a href="#cb29-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb29-10"><a href="#cb29-10" aria-hidden="true" tabindex="-1"></a>  output<span class="op">:</span></span>
-<span id="cb29-11"><a href="#cb29-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">path</span><span class="op">(</span><span class="st">"</span><span class="ss">${</span>sample_id<span class="ss">}</span><span class="st">.merged.fq.gz"</span><span class="op">)</span></span>
-<span id="cb29-12"><a href="#cb29-12" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb29-13"><a href="#cb29-13" aria-hidden="true" tabindex="-1"></a>  script<span class="op">:</span></span>
-<span id="cb29-14"><a href="#cb29-14" aria-hidden="true" tabindex="-1"></a>  <span class="st">"""</span></span>
-<span id="cb29-15"><a href="#cb29-15" aria-hidden="true" tabindex="-1"></a><span class="st">  cat </span><span class="ss">${</span>reads<span class="ss">}</span><span class="st"> &gt; </span><span class="ss">${</span>sample_id<span class="ss">}</span><span class="st">.merged.fq.gz</span></span>
-<span id="cb29-16"><a href="#cb29-16" aria-hidden="true" tabindex="-1"></a><span class="st">  """</span></span>
-<span id="cb29-17"><a href="#cb29-17" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span>
-<span id="cb29-18"><a href="#cb29-18" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb29-19"><a href="#cb29-19" aria-hidden="true" tabindex="-1"></a>reads_ch <span class="op">=</span> <span class="bu">Channel</span><span class="op">.</span><span class="fu">fromFilePairs</span><span class="op">(</span><span class="st">'data/yeast/reads/ref1_{1,2}.fq.gz'</span><span class="op">)</span></span>
-<span id="cb29-20"><a href="#cb29-20" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb29-21"><a href="#cb29-21" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb29-22"><a href="#cb29-22" aria-hidden="true" tabindex="-1"></a>workflow <span class="op">{</span></span>
-<span id="cb29-23"><a href="#cb29-23" aria-hidden="true" tabindex="-1"></a>  <span class="fu">COMBINE_READS</span><span class="op">(</span>reads_ch<span class="op">)</span></span>
-<span id="cb29-24"><a href="#cb29-24" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre>
+<pre class="sourceCode groovy" tabindex="0"><code class="sourceCode groovy"><span id="cb29-1"><a href="#cb29-1" tabindex="-1"></a><span class="co">//process_publishDir.nf</span></span>
+<span id="cb29-2"><a href="#cb29-2" tabindex="-1"></a>nextflow<span class="op">.</span>enable<span class="op">.</span>dsl<span class="op">=</span><span class="dv">2</span></span>
+<span id="cb29-3"><a href="#cb29-3" tabindex="-1"></a></span>
+<span id="cb29-4"><a href="#cb29-4" tabindex="-1"></a>process COMBINE_READS <span class="op">{</span></span>
+<span id="cb29-5"><a href="#cb29-5" tabindex="-1"></a>  publishDir <span class="st">"results/merged_reads"</span></span>
+<span id="cb29-6"><a href="#cb29-6" tabindex="-1"></a></span>
+<span id="cb29-7"><a href="#cb29-7" tabindex="-1"></a>  input<span class="op">:</span></span>
+<span id="cb29-8"><a href="#cb29-8" tabindex="-1"></a>  tuple <span class="fu">val</span><span class="op">(</span>sample_id<span class="op">),</span> <span class="fu">path</span><span class="op">(</span>reads<span class="op">)</span></span>
+<span id="cb29-9"><a href="#cb29-9" tabindex="-1"></a></span>
+<span id="cb29-10"><a href="#cb29-10" tabindex="-1"></a>  output<span class="op">:</span></span>
+<span id="cb29-11"><a href="#cb29-11" tabindex="-1"></a>  <span class="fu">path</span><span class="op">(</span><span class="st">"</span><span class="ss">${</span>sample_id<span class="ss">}</span><span class="st">.merged.fq.gz"</span><span class="op">)</span></span>
+<span id="cb29-12"><a href="#cb29-12" tabindex="-1"></a></span>
+<span id="cb29-13"><a href="#cb29-13" tabindex="-1"></a>  script<span class="op">:</span></span>
+<span id="cb29-14"><a href="#cb29-14" tabindex="-1"></a>  <span class="st">"""</span></span>
+<span id="cb29-15"><a href="#cb29-15" tabindex="-1"></a><span class="st">  cat </span><span class="ss">${</span>reads<span class="ss">}</span><span class="st"> &gt; </span><span class="ss">${</span>sample_id<span class="ss">}</span><span class="st">.merged.fq.gz</span></span>
+<span id="cb29-16"><a href="#cb29-16" tabindex="-1"></a><span class="st">  """</span></span>
+<span id="cb29-17"><a href="#cb29-17" tabindex="-1"></a><span class="op">}</span></span>
+<span id="cb29-18"><a href="#cb29-18" tabindex="-1"></a></span>
+<span id="cb29-19"><a href="#cb29-19" tabindex="-1"></a>reads_ch <span class="op">=</span> <span class="bu">Channel</span><span class="op">.</span><span class="fu">fromFilePairs</span><span class="op">(</span><span class="st">'data/yeast/reads/ref1_{1,2}.fq.gz'</span><span class="op">)</span></span>
+<span id="cb29-20"><a href="#cb29-20" tabindex="-1"></a></span>
+<span id="cb29-21"><a href="#cb29-21" tabindex="-1"></a></span>
+<span id="cb29-22"><a href="#cb29-22" tabindex="-1"></a>workflow <span class="op">{</span></span>
+<span id="cb29-23"><a href="#cb29-23" tabindex="-1"></a>  <span class="fu">COMBINE_READS</span><span class="op">(</span>reads_ch<span class="op">)</span></span>
+<span id="cb29-24"><a href="#cb29-24" tabindex="-1"></a><span class="op">}</span></span></code></pre>
 </div>
 <div class="codewrapper sourceCode" id="cb30">
 <h3 class="code-label">BASH<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode bash" tabindex="0"><code class="sourceCode bash"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> nextflow run process_publishDir.nf</span></code></pre>
+<pre class="sourceCode bash" tabindex="0"><code class="sourceCode bash"><span id="cb30-1"><a href="#cb30-1" tabindex="-1"></a><span class="ex">$</span> nextflow run process_publishDir.nf</span></code></pre>
 </div>
 <div class="codewrapper">
 <h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
@@ -1143,7 +1143,7 @@ of the results directory.</p>
 <div class="codewrapper sourceCode" id="cb32">
 <h3 class="code-label">BASH<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode bash" tabindex="0"><code class="sourceCode bash"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="ex">tree</span> results</span></code></pre>
+<pre class="sourceCode bash" tabindex="0"><code class="sourceCode bash"><span id="cb32-1"><a href="#cb32-1" tabindex="-1"></a><span class="ex">tree</span> results</span></code></pre>
 </div>
 <div class="codewrapper">
 <h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
@@ -1157,13 +1157,12 @@ of the results directory.</p>
 <code>-&gt;</code> to the output files specified by the process
 <code>merged_reads</code> to the directory path
 <code>results/merged_reads</code>.</p>
-<div id="publishdir" class="callout callout">
+<div id="callout1" class="callout">
 <div class="callout-square">
 <i class="callout-icon" data-feather="bell"></i>
 </div>
-<div id="publishdir" class="callout-inner">
-<h3 class="callout-title">publishDir<a class="anchor" aria-label="anchor" href="#publishdir"></a>
-</h3>
+<div class="section level3 callout-title callout-inner">
+<h3 class="callout-title" id="publishdir">publishDir<a class="anchor" aria-label="anchor" href="#publishdir"></a></h3>
 <div class="callout-content">
 <p>The publishDir output is relative to the path the pipeline run has
 been launched. Hence, it is a good practice to use <a href="https://www.nextflow.io/docs/latest/script.html?highlight=projectdir#script-implicit-variables" class="external-link">implicit
@@ -1186,7 +1185,7 @@ intermediate files which are not needed in the long term.</p>
 <div class="codewrapper sourceCode" id="cb34">
 <h3 class="code-label">GROOVY<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode groovy" tabindex="0"><code class="sourceCode groovy"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a>publishDir <span class="st">"results/merged_reads"</span><span class="op">,</span> mode<span class="op">:</span> <span class="st">"copy"</span></span></code></pre>
+<pre class="sourceCode groovy" tabindex="0"><code class="sourceCode groovy"><span id="cb34-1"><a href="#cb34-1" tabindex="-1"></a>publishDir <span class="st">"results/merged_reads"</span><span class="op">,</span> mode<span class="op">:</span> <span class="st">"copy"</span></span></code></pre>
 </div>
 <p>Full list <a href="https://www.nextflow.io/docs/latest/process.html#publishdir" class="external-link">here</a>.</p>
 </div>
@@ -1205,42 +1204,42 @@ Remember, we need to specify the files we want to copy as outputs.</p>
 <div class="codewrapper sourceCode" id="cb35">
 <h3 class="code-label">GROOVY<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode groovy" tabindex="0"><code class="sourceCode groovy"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a><span class="co">//process_publishDir_semantic.nf</span></span>
-<span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a>nextflow<span class="op">.</span>enable<span class="op">.</span>dsl<span class="op">=</span><span class="dv">2</span></span>
-<span id="cb35-3"><a href="#cb35-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb35-4"><a href="#cb35-4" aria-hidden="true" tabindex="-1"></a>params<span class="op">.</span>transcriptome<span class="op">=</span><span class="st">"</span><span class="ss">${</span>projectDir<span class="ss">}</span><span class="st">/data/yeast/transcriptome/Saccharomyces_cerevisiae.R64-1-1.cdna.all.fa.gz"</span></span>
-<span id="cb35-5"><a href="#cb35-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb35-6"><a href="#cb35-6" aria-hidden="true" tabindex="-1"></a>process SPLIT_FASTA <span class="op">{</span></span>
-<span id="cb35-7"><a href="#cb35-7" aria-hidden="true" tabindex="-1"></a>  publishDir <span class="st">"results/ids"</span><span class="op">,</span> pattern<span class="op">:</span> <span class="st">"*_ids.txt"</span><span class="op">,</span> mode<span class="op">:</span> <span class="st">"copy"</span></span>
-<span id="cb35-8"><a href="#cb35-8" aria-hidden="true" tabindex="-1"></a>  publishDir <span class="st">"results/sequence"</span><span class="op">,</span> pattern<span class="op">:</span> <span class="st">"sequence.txt"</span><span class="op">,</span> mode<span class="op">:</span> <span class="st">"copy"</span></span>
-<span id="cb35-9"><a href="#cb35-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb35-10"><a href="#cb35-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb35-11"><a href="#cb35-11" aria-hidden="true" tabindex="-1"></a>  input<span class="op">:</span></span>
-<span id="cb35-12"><a href="#cb35-12" aria-hidden="true" tabindex="-1"></a>  path transcriptome</span>
-<span id="cb35-13"><a href="#cb35-13" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb35-14"><a href="#cb35-14" aria-hidden="true" tabindex="-1"></a>  output<span class="op">:</span></span>
-<span id="cb35-15"><a href="#cb35-15" aria-hidden="true" tabindex="-1"></a>  path <span class="st">"*"</span></span>
-<span id="cb35-16"><a href="#cb35-16" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb35-17"><a href="#cb35-17" aria-hidden="true" tabindex="-1"></a>  script<span class="op">:</span></span>
-<span id="cb35-18"><a href="#cb35-18" aria-hidden="true" tabindex="-1"></a>  <span class="st">"""</span></span>
-<span id="cb35-19"><a href="#cb35-19" aria-hidden="true" tabindex="-1"></a><span class="st">  zgrep  '^&gt;' </span><span class="ss">$transcriptome</span><span class="st"> &gt; sequence_ids.txt</span></span>
-<span id="cb35-20"><a href="#cb35-20" aria-hidden="true" tabindex="-1"></a><span class="st">  zgrep -v '^&gt;' </span><span class="ss">$transcriptome</span><span class="st"> &gt; sequence.txt</span></span>
-<span id="cb35-21"><a href="#cb35-21" aria-hidden="true" tabindex="-1"></a><span class="st">  """</span></span>
-<span id="cb35-22"><a href="#cb35-22" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span>
-<span id="cb35-23"><a href="#cb35-23" aria-hidden="true" tabindex="-1"></a><span class="co">// Both 'Channel' and 'channel' keywords work to generate channels.</span></span>
-<span id="cb35-24"><a href="#cb35-24" aria-hidden="true" tabindex="-1"></a><span class="co">// However, it is a good practice to be consistent through the whole pipeline development</span></span>
-<span id="cb35-25"><a href="#cb35-25" aria-hidden="true" tabindex="-1"></a>transcriptome_ch <span class="op">=</span> channel<span class="op">.</span><span class="fu">fromPath</span><span class="op">(</span>params<span class="op">.</span>transcriptome<span class="op">)</span></span>
-<span id="cb35-26"><a href="#cb35-26" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb35-27"><a href="#cb35-27" aria-hidden="true" tabindex="-1"></a>workflow <span class="op">{</span></span>
-<span id="cb35-28"><a href="#cb35-28" aria-hidden="true" tabindex="-1"></a>  <span class="fu">SPLIT_FASTA</span><span class="op">(</span>transcriptome_ch<span class="op">)</span></span>
-<span id="cb35-29"><a href="#cb35-29" aria-hidden="true" tabindex="-1"></a>  <span class="co">// use the view operator to display contents of the channel</span></span>
-<span id="cb35-30"><a href="#cb35-30" aria-hidden="true" tabindex="-1"></a>  SPLIT_FASTA<span class="op">.</span>out<span class="op">.</span><span class="fu">view</span><span class="op">()</span></span>
-<span id="cb35-31"><a href="#cb35-31" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre>
+<pre class="sourceCode groovy" tabindex="0"><code class="sourceCode groovy"><span id="cb35-1"><a href="#cb35-1" tabindex="-1"></a><span class="co">//process_publishDir_semantic.nf</span></span>
+<span id="cb35-2"><a href="#cb35-2" tabindex="-1"></a>nextflow<span class="op">.</span>enable<span class="op">.</span>dsl<span class="op">=</span><span class="dv">2</span></span>
+<span id="cb35-3"><a href="#cb35-3" tabindex="-1"></a></span>
+<span id="cb35-4"><a href="#cb35-4" tabindex="-1"></a>params<span class="op">.</span>transcriptome<span class="op">=</span><span class="st">"</span><span class="ss">${</span>projectDir<span class="ss">}</span><span class="st">/data/yeast/transcriptome/Saccharomyces_cerevisiae.R64-1-1.cdna.all.fa.gz"</span></span>
+<span id="cb35-5"><a href="#cb35-5" tabindex="-1"></a></span>
+<span id="cb35-6"><a href="#cb35-6" tabindex="-1"></a>process SPLIT_FASTA <span class="op">{</span></span>
+<span id="cb35-7"><a href="#cb35-7" tabindex="-1"></a>  publishDir <span class="st">"results/ids"</span><span class="op">,</span> pattern<span class="op">:</span> <span class="st">"*_ids.txt"</span><span class="op">,</span> mode<span class="op">:</span> <span class="st">"copy"</span></span>
+<span id="cb35-8"><a href="#cb35-8" tabindex="-1"></a>  publishDir <span class="st">"results/sequence"</span><span class="op">,</span> pattern<span class="op">:</span> <span class="st">"sequence.txt"</span><span class="op">,</span> mode<span class="op">:</span> <span class="st">"copy"</span></span>
+<span id="cb35-9"><a href="#cb35-9" tabindex="-1"></a></span>
+<span id="cb35-10"><a href="#cb35-10" tabindex="-1"></a></span>
+<span id="cb35-11"><a href="#cb35-11" tabindex="-1"></a>  input<span class="op">:</span></span>
+<span id="cb35-12"><a href="#cb35-12" tabindex="-1"></a>  path transcriptome</span>
+<span id="cb35-13"><a href="#cb35-13" tabindex="-1"></a></span>
+<span id="cb35-14"><a href="#cb35-14" tabindex="-1"></a>  output<span class="op">:</span></span>
+<span id="cb35-15"><a href="#cb35-15" tabindex="-1"></a>  path <span class="st">"*"</span></span>
+<span id="cb35-16"><a href="#cb35-16" tabindex="-1"></a></span>
+<span id="cb35-17"><a href="#cb35-17" tabindex="-1"></a>  script<span class="op">:</span></span>
+<span id="cb35-18"><a href="#cb35-18" tabindex="-1"></a>  <span class="st">"""</span></span>
+<span id="cb35-19"><a href="#cb35-19" tabindex="-1"></a><span class="st">  zgrep  '^&gt;' </span><span class="ss">$transcriptome</span><span class="st"> &gt; sequence_ids.txt</span></span>
+<span id="cb35-20"><a href="#cb35-20" tabindex="-1"></a><span class="st">  zgrep -v '^&gt;' </span><span class="ss">$transcriptome</span><span class="st"> &gt; sequence.txt</span></span>
+<span id="cb35-21"><a href="#cb35-21" tabindex="-1"></a><span class="st">  """</span></span>
+<span id="cb35-22"><a href="#cb35-22" tabindex="-1"></a><span class="op">}</span></span>
+<span id="cb35-23"><a href="#cb35-23" tabindex="-1"></a><span class="co">// Both 'Channel' and 'channel' keywords work to generate channels.</span></span>
+<span id="cb35-24"><a href="#cb35-24" tabindex="-1"></a><span class="co">// However, it is a good practice to be consistent through the whole pipeline development</span></span>
+<span id="cb35-25"><a href="#cb35-25" tabindex="-1"></a>transcriptome_ch <span class="op">=</span> channel<span class="op">.</span><span class="fu">fromPath</span><span class="op">(</span>params<span class="op">.</span>transcriptome<span class="op">)</span></span>
+<span id="cb35-26"><a href="#cb35-26" tabindex="-1"></a></span>
+<span id="cb35-27"><a href="#cb35-27" tabindex="-1"></a>workflow <span class="op">{</span></span>
+<span id="cb35-28"><a href="#cb35-28" tabindex="-1"></a>  <span class="fu">SPLIT_FASTA</span><span class="op">(</span>transcriptome_ch<span class="op">)</span></span>
+<span id="cb35-29"><a href="#cb35-29" tabindex="-1"></a>  <span class="co">// use the view operator to display contents of the channel</span></span>
+<span id="cb35-30"><a href="#cb35-30" tabindex="-1"></a>  SPLIT_FASTA<span class="op">.</span>out<span class="op">.</span><span class="fu">view</span><span class="op">()</span></span>
+<span id="cb35-31"><a href="#cb35-31" tabindex="-1"></a><span class="op">}</span></span></code></pre>
 </div>
 <div class="codewrapper sourceCode" id="cb36">
 <h3 class="code-label">BASH<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode bash" tabindex="0"><code class="sourceCode bash"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> nextflow run process_publishDir_semantic.nf</span></code></pre>
+<pre class="sourceCode bash" tabindex="0"><code class="sourceCode bash"><span id="cb36-1"><a href="#cb36-1" tabindex="-1"></a><span class="ex">$</span> nextflow run process_publishDir_semantic.nf</span></code></pre>
 </div>
 <div class="codewrapper">
 <h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
@@ -1256,7 +1255,7 @@ directory.</p>
 <div class="codewrapper sourceCode" id="cb38">
 <h3 class="code-label">BASH<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode bash" tabindex="0"><code class="sourceCode bash"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> tree results</span></code></pre>
+<pre class="sourceCode bash" tabindex="0"><code class="sourceCode bash"><span id="cb38-1"><a href="#cb38-1" tabindex="-1"></a><span class="ex">$</span> tree results</span></code></pre>
 </div>
 <div class="codewrapper">
 <h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
@@ -1281,30 +1280,30 @@ to the results folder merged_reps.</p>
 <div class="codewrapper sourceCode" id="cb40">
 <h3 class="code-label">GROOVY<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode groovy" tabindex="0"><code class="sourceCode groovy"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a><span class="co">//process_exercise_publishDir.nf</span></span>
-<span id="cb40-2"><a href="#cb40-2" aria-hidden="true" tabindex="-1"></a>nextflow<span class="op">.</span>enable<span class="op">.</span>dsl<span class="op">=</span><span class="dv">2</span></span>
-<span id="cb40-3"><a href="#cb40-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb40-4"><a href="#cb40-4" aria-hidden="true" tabindex="-1"></a>params<span class="op">.</span>reads<span class="op">=</span> <span class="st">"data/yeast/reads/ref{1,2,3}*{1,2}.fq.gz"</span></span>
-<span id="cb40-5"><a href="#cb40-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb40-6"><a href="#cb40-6" aria-hidden="true" tabindex="-1"></a>process MERGE_REPS <span class="op">{</span></span>
-<span id="cb40-7"><a href="#cb40-7" aria-hidden="true" tabindex="-1"></a> </span>
-<span id="cb40-8"><a href="#cb40-8" aria-hidden="true" tabindex="-1"></a> input<span class="op">:</span></span>
-<span id="cb40-9"><a href="#cb40-9" aria-hidden="true" tabindex="-1"></a> tuple <span class="fu">val</span><span class="op">(</span>sample_id<span class="op">),</span> <span class="fu">path</span><span class="op">(</span>reads<span class="op">)</span></span>
-<span id="cb40-10"><a href="#cb40-10" aria-hidden="true" tabindex="-1"></a> </span>
-<span id="cb40-11"><a href="#cb40-11" aria-hidden="true" tabindex="-1"></a> output<span class="op">:</span></span>
-<span id="cb40-12"><a href="#cb40-12" aria-hidden="true" tabindex="-1"></a> <span class="fu">path</span><span class="op">(</span><span class="st">"*fq.gz"</span><span class="op">)</span></span>
-<span id="cb40-13"><a href="#cb40-13" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb40-14"><a href="#cb40-14" aria-hidden="true" tabindex="-1"></a> script<span class="op">:</span></span>
-<span id="cb40-15"><a href="#cb40-15" aria-hidden="true" tabindex="-1"></a> <span class="st">"""</span></span>
-<span id="cb40-16"><a href="#cb40-16" aria-hidden="true" tabindex="-1"></a><span class="st"> cat *1.fq.gz &gt; </span><span class="ss">${</span>sample_id<span class="ss">}</span><span class="st">.merged.R1.fq.gz</span></span>
-<span id="cb40-17"><a href="#cb40-17" aria-hidden="true" tabindex="-1"></a><span class="st"> cat *2.fq.gz &gt; </span><span class="ss">${</span>sample_id<span class="ss">}</span><span class="st">.merged.R2.fq.gz</span></span>
-<span id="cb40-18"><a href="#cb40-18" aria-hidden="true" tabindex="-1"></a><span class="st"> """</span></span>
-<span id="cb40-19"><a href="#cb40-19" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span>
-<span id="cb40-20"><a href="#cb40-20" aria-hidden="true" tabindex="-1"></a>reads_ch <span class="op">=</span> <span class="bu">Channel</span><span class="op">.</span><span class="fu">fromFilePairs</span><span class="op">(</span>params<span class="op">.</span>reads<span class="op">,</span>checkIfExists<span class="op">:</span><span class="kw">true</span><span class="op">,</span>size<span class="op">:</span><span class="dv">6</span><span class="op">)</span></span>
-<span id="cb40-21"><a href="#cb40-21" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb40-22"><a href="#cb40-22" aria-hidden="true" tabindex="-1"></a>workflow <span class="op">{</span></span>
-<span id="cb40-23"><a href="#cb40-23" aria-hidden="true" tabindex="-1"></a> <span class="fu">MERGE_REPS</span><span class="op">(</span>reads_ch<span class="op">)</span></span>
-<span id="cb40-24"><a href="#cb40-24" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre>
+<pre class="sourceCode groovy" tabindex="0"><code class="sourceCode groovy"><span id="cb40-1"><a href="#cb40-1" tabindex="-1"></a><span class="co">//process_exercise_publishDir.nf</span></span>
+<span id="cb40-2"><a href="#cb40-2" tabindex="-1"></a>nextflow<span class="op">.</span>enable<span class="op">.</span>dsl<span class="op">=</span><span class="dv">2</span></span>
+<span id="cb40-3"><a href="#cb40-3" tabindex="-1"></a></span>
+<span id="cb40-4"><a href="#cb40-4" tabindex="-1"></a>params<span class="op">.</span>reads<span class="op">=</span> <span class="st">"data/yeast/reads/ref{1,2,3}*{1,2}.fq.gz"</span></span>
+<span id="cb40-5"><a href="#cb40-5" tabindex="-1"></a></span>
+<span id="cb40-6"><a href="#cb40-6" tabindex="-1"></a>process MERGE_REPS <span class="op">{</span></span>
+<span id="cb40-7"><a href="#cb40-7" tabindex="-1"></a> </span>
+<span id="cb40-8"><a href="#cb40-8" tabindex="-1"></a> input<span class="op">:</span></span>
+<span id="cb40-9"><a href="#cb40-9" tabindex="-1"></a> tuple <span class="fu">val</span><span class="op">(</span>sample_id<span class="op">),</span> <span class="fu">path</span><span class="op">(</span>reads<span class="op">)</span></span>
+<span id="cb40-10"><a href="#cb40-10" tabindex="-1"></a> </span>
+<span id="cb40-11"><a href="#cb40-11" tabindex="-1"></a> output<span class="op">:</span></span>
+<span id="cb40-12"><a href="#cb40-12" tabindex="-1"></a> <span class="fu">path</span><span class="op">(</span><span class="st">"*fq.gz"</span><span class="op">)</span></span>
+<span id="cb40-13"><a href="#cb40-13" tabindex="-1"></a></span>
+<span id="cb40-14"><a href="#cb40-14" tabindex="-1"></a> script<span class="op">:</span></span>
+<span id="cb40-15"><a href="#cb40-15" tabindex="-1"></a> <span class="st">"""</span></span>
+<span id="cb40-16"><a href="#cb40-16" tabindex="-1"></a><span class="st"> cat *1.fq.gz &gt; </span><span class="ss">${</span>sample_id<span class="ss">}</span><span class="st">.merged.R1.fq.gz</span></span>
+<span id="cb40-17"><a href="#cb40-17" tabindex="-1"></a><span class="st"> cat *2.fq.gz &gt; </span><span class="ss">${</span>sample_id<span class="ss">}</span><span class="st">.merged.R2.fq.gz</span></span>
+<span id="cb40-18"><a href="#cb40-18" tabindex="-1"></a><span class="st"> """</span></span>
+<span id="cb40-19"><a href="#cb40-19" tabindex="-1"></a><span class="op">}</span></span>
+<span id="cb40-20"><a href="#cb40-20" tabindex="-1"></a>reads_ch <span class="op">=</span> <span class="bu">Channel</span><span class="op">.</span><span class="fu">fromFilePairs</span><span class="op">(</span>params<span class="op">.</span>reads<span class="op">,</span>checkIfExists<span class="op">:</span><span class="kw">true</span><span class="op">,</span>size<span class="op">:</span><span class="dv">6</span><span class="op">)</span></span>
+<span id="cb40-21"><a href="#cb40-21" tabindex="-1"></a></span>
+<span id="cb40-22"><a href="#cb40-22" tabindex="-1"></a>workflow <span class="op">{</span></span>
+<span id="cb40-23"><a href="#cb40-23" tabindex="-1"></a> <span class="fu">MERGE_REPS</span><span class="op">(</span>reads_ch<span class="op">)</span></span>
+<span id="cb40-24"><a href="#cb40-24" tabindex="-1"></a><span class="op">}</span></span></code></pre>
 </div>
 </div>
 </div>
@@ -1319,35 +1318,35 @@ to the results folder merged_reps.</p>
 <div class="codewrapper sourceCode" id="cb41">
 <h3 class="code-label">GROOVY<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode groovy" tabindex="0"><code class="sourceCode groovy"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a><span class="co">//process_exercise_publishDir_answer.nf</span></span>
-<span id="cb41-2"><a href="#cb41-2" aria-hidden="true" tabindex="-1"></a>nextflow<span class="op">.</span>enable<span class="op">.</span>dsl<span class="op">=</span><span class="dv">2</span></span>
-<span id="cb41-3"><a href="#cb41-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb41-4"><a href="#cb41-4" aria-hidden="true" tabindex="-1"></a>params<span class="op">.</span>reads<span class="op">=</span> <span class="st">"data/yeast/reads/ref{1,2,3}*{1,2}.fq.gz"</span></span>
-<span id="cb41-5"><a href="#cb41-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb41-6"><a href="#cb41-6" aria-hidden="true" tabindex="-1"></a>process MERGE_REPS <span class="op">{</span></span>
-<span id="cb41-7"><a href="#cb41-7" aria-hidden="true" tabindex="-1"></a>  publishDir <span class="st">"results/merged_reps"</span></span>
-<span id="cb41-8"><a href="#cb41-8" aria-hidden="true" tabindex="-1"></a>  input<span class="op">:</span></span>
-<span id="cb41-9"><a href="#cb41-9" aria-hidden="true" tabindex="-1"></a>  tuple <span class="fu">val</span><span class="op">(</span>sample_id<span class="op">),</span> <span class="fu">path</span><span class="op">(</span>reads<span class="op">)</span></span>
-<span id="cb41-10"><a href="#cb41-10" aria-hidden="true" tabindex="-1"></a>  output<span class="op">:</span></span>
-<span id="cb41-11"><a href="#cb41-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">path</span><span class="op">(</span><span class="st">"*fq.gz"</span><span class="op">)</span></span>
-<span id="cb41-12"><a href="#cb41-12" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb41-13"><a href="#cb41-13" aria-hidden="true" tabindex="-1"></a>  script<span class="op">:</span></span>
-<span id="cb41-14"><a href="#cb41-14" aria-hidden="true" tabindex="-1"></a>  <span class="st">"""</span></span>
-<span id="cb41-15"><a href="#cb41-15" aria-hidden="true" tabindex="-1"></a><span class="st">  cat *1.fq.gz &gt; </span><span class="ss">${</span>sample_id<span class="ss">}</span><span class="st">.merged.R1.fq.gz</span></span>
-<span id="cb41-16"><a href="#cb41-16" aria-hidden="true" tabindex="-1"></a><span class="st">  cat *2.fq.gz &gt; </span><span class="ss">${</span>sample_id<span class="ss">}</span><span class="st">.merged.R2.fq.gz</span></span>
-<span id="cb41-17"><a href="#cb41-17" aria-hidden="true" tabindex="-1"></a><span class="st">  """</span></span>
-<span id="cb41-18"><a href="#cb41-18" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span>
-<span id="cb41-19"><a href="#cb41-19" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb41-20"><a href="#cb41-20" aria-hidden="true" tabindex="-1"></a>reads_ch <span class="op">=</span> <span class="bu">Channel</span><span class="op">.</span><span class="fu">fromFilePairs</span><span class="op">(</span>params<span class="op">.</span>reads<span class="op">,</span>checkIfExists<span class="op">:</span><span class="kw">true</span><span class="op">,</span>size<span class="op">:</span><span class="dv">6</span><span class="op">)</span></span>
-<span id="cb41-21"><a href="#cb41-21" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb41-22"><a href="#cb41-22" aria-hidden="true" tabindex="-1"></a>workflow <span class="op">{</span></span>
-<span id="cb41-23"><a href="#cb41-23" aria-hidden="true" tabindex="-1"></a>  <span class="fu">MERGE_REPS</span><span class="op">(</span>reads_ch<span class="op">)</span></span>
-<span id="cb41-24"><a href="#cb41-24" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre>
+<pre class="sourceCode groovy" tabindex="0"><code class="sourceCode groovy"><span id="cb41-1"><a href="#cb41-1" tabindex="-1"></a><span class="co">//process_exercise_publishDir_answer.nf</span></span>
+<span id="cb41-2"><a href="#cb41-2" tabindex="-1"></a>nextflow<span class="op">.</span>enable<span class="op">.</span>dsl<span class="op">=</span><span class="dv">2</span></span>
+<span id="cb41-3"><a href="#cb41-3" tabindex="-1"></a></span>
+<span id="cb41-4"><a href="#cb41-4" tabindex="-1"></a>params<span class="op">.</span>reads<span class="op">=</span> <span class="st">"data/yeast/reads/ref{1,2,3}*{1,2}.fq.gz"</span></span>
+<span id="cb41-5"><a href="#cb41-5" tabindex="-1"></a></span>
+<span id="cb41-6"><a href="#cb41-6" tabindex="-1"></a>process MERGE_REPS <span class="op">{</span></span>
+<span id="cb41-7"><a href="#cb41-7" tabindex="-1"></a>  publishDir <span class="st">"results/merged_reps"</span></span>
+<span id="cb41-8"><a href="#cb41-8" tabindex="-1"></a>  input<span class="op">:</span></span>
+<span id="cb41-9"><a href="#cb41-9" tabindex="-1"></a>  tuple <span class="fu">val</span><span class="op">(</span>sample_id<span class="op">),</span> <span class="fu">path</span><span class="op">(</span>reads<span class="op">)</span></span>
+<span id="cb41-10"><a href="#cb41-10" tabindex="-1"></a>  output<span class="op">:</span></span>
+<span id="cb41-11"><a href="#cb41-11" tabindex="-1"></a>  <span class="fu">path</span><span class="op">(</span><span class="st">"*fq.gz"</span><span class="op">)</span></span>
+<span id="cb41-12"><a href="#cb41-12" tabindex="-1"></a></span>
+<span id="cb41-13"><a href="#cb41-13" tabindex="-1"></a>  script<span class="op">:</span></span>
+<span id="cb41-14"><a href="#cb41-14" tabindex="-1"></a>  <span class="st">"""</span></span>
+<span id="cb41-15"><a href="#cb41-15" tabindex="-1"></a><span class="st">  cat *1.fq.gz &gt; </span><span class="ss">${</span>sample_id<span class="ss">}</span><span class="st">.merged.R1.fq.gz</span></span>
+<span id="cb41-16"><a href="#cb41-16" tabindex="-1"></a><span class="st">  cat *2.fq.gz &gt; </span><span class="ss">${</span>sample_id<span class="ss">}</span><span class="st">.merged.R2.fq.gz</span></span>
+<span id="cb41-17"><a href="#cb41-17" tabindex="-1"></a><span class="st">  """</span></span>
+<span id="cb41-18"><a href="#cb41-18" tabindex="-1"></a><span class="op">}</span></span>
+<span id="cb41-19"><a href="#cb41-19" tabindex="-1"></a></span>
+<span id="cb41-20"><a href="#cb41-20" tabindex="-1"></a>reads_ch <span class="op">=</span> <span class="bu">Channel</span><span class="op">.</span><span class="fu">fromFilePairs</span><span class="op">(</span>params<span class="op">.</span>reads<span class="op">,</span>checkIfExists<span class="op">:</span><span class="kw">true</span><span class="op">,</span>size<span class="op">:</span><span class="dv">6</span><span class="op">)</span></span>
+<span id="cb41-21"><a href="#cb41-21" tabindex="-1"></a></span>
+<span id="cb41-22"><a href="#cb41-22" tabindex="-1"></a>workflow <span class="op">{</span></span>
+<span id="cb41-23"><a href="#cb41-23" tabindex="-1"></a>  <span class="fu">MERGE_REPS</span><span class="op">(</span>reads_ch<span class="op">)</span></span>
+<span id="cb41-24"><a href="#cb41-24" tabindex="-1"></a><span class="op">}</span></span></code></pre>
 </div>
 <div class="codewrapper sourceCode" id="cb42">
 <h3 class="code-label">BASH<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode bash" tabindex="0"><code class="sourceCode bash"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> nextflow run process_exercise_publishDir.nf</span></code></pre>
+<pre class="sourceCode bash" tabindex="0"><code class="sourceCode bash"><span id="cb42-1"><a href="#cb42-1" tabindex="-1"></a><span class="ex">$</span> nextflow run process_exercise_publishDir.nf</span></code></pre>
 </div>
 <div class="codewrapper">
 <h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
@@ -1362,13 +1361,12 @@ executor &gt;  local (1)
 </div>
 </div>
 </div>
-<div id="nextflow-patterns" class="callout callout">
+<div id="callout2" class="callout">
 <div class="callout-square">
 <i class="callout-icon" data-feather="bell"></i>
 </div>
-<div id="nextflow-patterns" class="callout-inner">
-<h3 class="callout-title">Nextflow Patterns<a class="anchor" aria-label="anchor" href="#nextflow-patterns"></a>
-</h3>
+<div class="section level3 callout-title callout-inner">
+<h3 class="callout-title" id="nextflow-patterns">Nextflow Patterns<a class="anchor" aria-label="anchor" href="#nextflow-patterns"></a></h3>
 <div class="callout-content">
 <p>If you want to find out common structures of Nextflow processes, the
 <a href="https://nextflow-io.github.io/patterns/" class="external-link">Nextflow Patterns
@@ -1456,7 +1454,7 @@ directive.</li>
   "identifier": "https://carpentries-incubator.github.io/workflows-nextflow/instructor/05-processes-part2.html",
   "dateCreated": "2021-02-01",
   "dateModified": "2024-01-16",
-  "datePublished": "2024-02-27"
+  "datePublished": "2024-03-05"
 }
 
   </script><script>

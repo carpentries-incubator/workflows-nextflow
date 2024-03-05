@@ -386,7 +386,7 @@ e.g. <code>data/yeast/reads/ref2_2.fq.gz</code>, in the
 <div class="codewrapper sourceCode" id="cb1">
 <h3 class="code-label">BASH<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode bash" tabindex="0"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> nextflow run word_count.nf <span class="at">--input</span> <span class="st">'data/yeast/reads/ref2_2.fq.gz'</span></span></code></pre>
+<pre class="sourceCode bash" tabindex="0"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a><span class="ex">$</span> nextflow run word_count.nf <span class="at">--input</span> <span class="st">'data/yeast/reads/ref2_2.fq.gz'</span></span></code></pre>
 </div>
 <div class="codewrapper">
 <h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
@@ -406,7 +406,7 @@ value in quotes.</p>
 <div class="codewrapper sourceCode" id="cb3">
 <h3 class="code-label">BASH<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode bash" tabindex="0"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> nextflow run word_count.nf <span class="at">--input</span> <span class="st">'data/yeast/reads/ref2_*.fq.gz'</span></span></code></pre>
+<pre class="sourceCode bash" tabindex="0"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" tabindex="-1"></a><span class="ex">$</span> nextflow run word_count.nf <span class="at">--input</span> <span class="st">'data/yeast/reads/ref2_*.fq.gz'</span></span></code></pre>
 </div>
 <p>This runs the process NUM_LINES twice, once for each file it
 matches.</p>
@@ -447,7 +447,7 @@ with <code>.fq.gz</code>:</p>
 <div class="codewrapper sourceCode" id="cb5">
 <h3 class="code-label">BASH<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode bash" tabindex="0"><code class="sourceCode bash"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> nextflow run word_count.nf <span class="at">--input</span> <span class="st">'data/yeast/reads/ref*.fq.gz'</span></span></code></pre>
+<pre class="sourceCode bash" tabindex="0"><code class="sourceCode bash"><span id="cb5-1"><a href="#cb5-1" tabindex="-1"></a><span class="ex">$</span> nextflow run word_count.nf <span class="at">--input</span> <span class="st">'data/yeast/reads/ref*.fq.gz'</span></span></code></pre>
 </div>
 <p>The string specified on the command line will override the default
 value of the parameter in the script. The output will look like
@@ -485,14 +485,14 @@ variable name e.g., <code>params.input</code>.</p>
 <div class="codewrapper sourceCode" id="cb7">
 <h3 class="code-label">BASH<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode bash" tabindex="0"><code class="sourceCode bash"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> cp wc.nf wc-params.nf</span></code></pre>
+<pre class="sourceCode bash" tabindex="0"><code class="sourceCode bash"><span id="cb7-1"><a href="#cb7-1" tabindex="-1"></a><span class="ex">$</span> cp wc.nf wc-params.nf</span></code></pre>
 </div>
 <p>To add a parameter <code>sleep</code> with the default value
 <code>2</code> to <code>wc-params.nf</code> we add the line:</p>
 <div class="codewrapper sourceCode" id="cb8">
 <h3 class="code-label">GROOVY<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode groovy" tabindex="0"><code class="sourceCode groovy"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>params<span class="op">.</span>sleep <span class="op">=</span> <span class="dv">2</span></span></code></pre>
+<pre class="sourceCode groovy" tabindex="0"><code class="sourceCode groovy"><span id="cb8-1"><a href="#cb8-1" tabindex="-1"></a>params<span class="op">.</span>sleep <span class="op">=</span> <span class="dv">2</span></span></code></pre>
 </div>
 <p><strong>Note:</strong> You should always add a sensible default value
 to the pipeline parameter. We can use this parameter to add another step
@@ -500,12 +500,12 @@ to our <code>NUM_LINES</code> process.</p>
 <div class="codewrapper sourceCode" id="cb9">
 <h3 class="code-label">GROOVY<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode groovy" tabindex="0"><code class="sourceCode groovy"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>script<span class="op">:</span></span>
-<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a> <span class="st">"""</span></span>
-<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a><span class="st"> sleep </span><span class="ss">${</span>params<span class="op">.</span>sleep<span class="ss">}</span></span>
-<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a><span class="st"> printf '</span><span class="ss">${</span>read<span class="ss">}</span><span class="st"> '</span></span>
-<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a><span class="st"> gunzip -c </span><span class="ss">${</span>read<span class="ss">}</span><span class="st"> | wc -l</span></span>
-<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a><span class="st"> """</span></span></code></pre>
+<pre class="sourceCode groovy" tabindex="0"><code class="sourceCode groovy"><span id="cb9-1"><a href="#cb9-1" tabindex="-1"></a>script<span class="op">:</span></span>
+<span id="cb9-2"><a href="#cb9-2" tabindex="-1"></a> <span class="st">"""</span></span>
+<span id="cb9-3"><a href="#cb9-3" tabindex="-1"></a><span class="st"> sleep </span><span class="ss">${</span>params<span class="op">.</span>sleep<span class="ss">}</span></span>
+<span id="cb9-4"><a href="#cb9-4" tabindex="-1"></a><span class="st"> printf '</span><span class="ss">${</span>read<span class="ss">}</span><span class="st"> '</span></span>
+<span id="cb9-5"><a href="#cb9-5" tabindex="-1"></a><span class="st"> gunzip -c </span><span class="ss">${</span>read<span class="ss">}</span><span class="st"> | wc -l</span></span>
+<span id="cb9-6"><a href="#cb9-6" tabindex="-1"></a><span class="st"> """</span></span></code></pre>
 </div>
 <p>This step, <code>sleep ${params.sleep}</code>, will add a delay for
 the amount of time specified in the <code>params.sleep</code> variable,
@@ -517,7 +517,7 @@ Example:</p>
 <div class="codewrapper sourceCode" id="cb10">
 <h3 class="code-label">BASH<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode bash" tabindex="0"><code class="sourceCode bash"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="ex">nextflow</span> run wc-params.nf <span class="at">--sleep</span> 10</span></code></pre>
+<pre class="sourceCode bash" tabindex="0"><code class="sourceCode bash"><span id="cb10-1"><a href="#cb10-1" tabindex="-1"></a><span class="ex">nextflow</span> run wc-params.nf <span class="at">--sleep</span> 10</span></code></pre>
 </div>
 <div id="add-a-pipeline-parameter" class="callout challenge">
 <div class="callout-square">
@@ -532,7 +532,7 @@ as <code>wc-params.nf</code>.</p>
 <div class="codewrapper sourceCode" id="cb11">
 <h3 class="code-label">BASH<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode bash" tabindex="0"><code class="sourceCode bash"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> cp word_count.nf wc-params.nf</span></code></pre>
+<pre class="sourceCode bash" tabindex="0"><code class="sourceCode bash"><span id="cb11-1"><a href="#cb11-1" tabindex="-1"></a><span class="ex">$</span> cp word_count.nf wc-params.nf</span></code></pre>
 </div>
 <p>Add the param <code>sleep</code> with a default value of 2 below the
 <code>params.input</code> line. Add the line
@@ -557,21 +557,21 @@ input to 1 second?</p>
 <div class="codewrapper sourceCode" id="cb12">
 <h3 class="code-label">GROOVY<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode groovy" tabindex="0"><code class="sourceCode groovy"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>params<span class="op">.</span>sleep<span class="op">=</span><span class="dv">2</span></span></code></pre>
+<pre class="sourceCode groovy" tabindex="0"><code class="sourceCode groovy"><span id="cb12-1"><a href="#cb12-1" tabindex="-1"></a>params<span class="op">.</span>sleep<span class="op">=</span><span class="dv">2</span></span></code></pre>
 </div>
 <div class="codewrapper sourceCode" id="cb13">
 <h3 class="code-label">GROOVY<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode groovy" tabindex="0"><code class="sourceCode groovy"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>script<span class="op">:</span> </span>
-<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a><span class="st">"""</span></span>
-<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a><span class="st">sleep </span><span class="ss">${</span>params<span class="op">.</span>sleep<span class="ss">}</span><span class="st"> &gt; printf '</span><span class="ss">${</span>read<span class="ss">}</span><span class="st"> '</span></span>
-<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a><span class="st">gunzip -c </span><span class="ss">${</span>read<span class="ss">}</span><span class="st"> | wc -l </span></span>
-<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a><span class="st">"""</span></span></code></pre>
+<pre class="sourceCode groovy" tabindex="0"><code class="sourceCode groovy"><span id="cb13-1"><a href="#cb13-1" tabindex="-1"></a>script<span class="op">:</span> </span>
+<span id="cb13-2"><a href="#cb13-2" tabindex="-1"></a><span class="st">"""</span></span>
+<span id="cb13-3"><a href="#cb13-3" tabindex="-1"></a><span class="st">sleep </span><span class="ss">${</span>params<span class="op">.</span>sleep<span class="ss">}</span><span class="st"> &gt; printf '</span><span class="ss">${</span>read<span class="ss">}</span><span class="st"> '</span></span>
+<span id="cb13-4"><a href="#cb13-4" tabindex="-1"></a><span class="st">gunzip -c </span><span class="ss">${</span>read<span class="ss">}</span><span class="st"> | wc -l </span></span>
+<span id="cb13-5"><a href="#cb13-5" tabindex="-1"></a><span class="st">"""</span></span></code></pre>
 </div>
 <div class="codewrapper sourceCode" id="cb14">
 <h3 class="code-label">BASH<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode bash" tabindex="0"><code class="sourceCode bash"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> nextflow run wc-params.nf <span class="at">--sleep</span> 1 </span></code></pre>
+<pre class="sourceCode bash" tabindex="0"><code class="sourceCode bash"><span id="cb14-1"><a href="#cb14-1" tabindex="-1"></a><span class="ex">$</span> nextflow run wc-params.nf <span class="at">--sleep</span> 1 </span></code></pre>
 </div>
 <p>This would use 1 as a value of <code>sleep</code> parameter instead
 of default value (which is 2) and run the pipeline. The input file would
@@ -581,7 +581,7 @@ run all input files we could add the param
 <div class="codewrapper sourceCode" id="cb15">
 <h3 class="code-label">BASH<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode bash" tabindex="0"><code class="sourceCode bash"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> nextflow run wc-params.nf <span class="at">--sleep</span> 1 <span class="at">--input</span> <span class="st">'data/yeast/reads/\*.fq.gz'</span> </span></code></pre>
+<pre class="sourceCode bash" tabindex="0"><code class="sourceCode bash"><span id="cb15-1"><a href="#cb15-1" tabindex="-1"></a><span class="ex">$</span> nextflow run wc-params.nf <span class="at">--sleep</span> 1 <span class="at">--input</span> <span class="st">'data/yeast/reads/\*.fq.gz'</span> </span></code></pre>
 </div>
 </div>
 </div>
@@ -601,10 +601,10 @@ parameters <code>sleep</code> and <code>input</code> in JSON format.</p>
 <div class="codewrapper sourceCode" id="cb16">
 <h3 class="code-label">JSON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode json" tabindex="0"><code class="sourceCode json"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span></span>
-<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"sleep"</span><span class="fu">:</span> <span class="dv">5</span><span class="fu">,</span></span>
-<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"input"</span><span class="fu">:</span> <span class="st">"data/yeast/reads/etoh60_1*.fq.gz"</span></span>
-<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a><span class="fu">}</span></span></code></pre>
+<pre class="sourceCode json" tabindex="0"><code class="sourceCode json"><span id="cb16-1"><a href="#cb16-1" tabindex="-1"></a><span class="fu">{</span></span>
+<span id="cb16-2"><a href="#cb16-2" tabindex="-1"></a>  <span class="dt">"sleep"</span><span class="fu">:</span> <span class="dv">5</span><span class="fu">,</span></span>
+<span id="cb16-3"><a href="#cb16-3" tabindex="-1"></a>  <span class="dt">"input"</span><span class="fu">:</span> <span class="st">"data/yeast/reads/etoh60_1*.fq.gz"</span></span>
+<span id="cb16-4"><a href="#cb16-4" tabindex="-1"></a><span class="fu">}</span></span></code></pre>
 </div>
 <p>To run the <code>wc-params.nf</code> script using these parameters we
 add the option <code>-params-file</code> and pass the file
@@ -612,7 +612,7 @@ add the option <code>-params-file</code> and pass the file
 <div class="codewrapper sourceCode" id="cb17">
 <h3 class="code-label">BASH<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode bash" tabindex="0"><code class="sourceCode bash"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> nextflow run wc-params.nf <span class="at">-params-file</span> wc-params.json</span></code></pre>
+<pre class="sourceCode bash" tabindex="0"><code class="sourceCode bash"><span id="cb17-1"><a href="#cb17-1" tabindex="-1"></a><span class="ex">$</span> nextflow run wc-params.nf <span class="at">-params-file</span> wc-params.json</span></code></pre>
 </div>
 <div class="codewrapper">
 <h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
@@ -652,12 +652,12 @@ created parameter file, specifying:</p>
 <div class="codewrapper sourceCode" id="cb19">
 <h3 class="code-label">JSON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode json" tabindex="0"><code class="sourceCode json"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span></span>
-<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a><span class="dt">"sleep"</span><span class="fu">:</span> <span class="dv">10</span><span class="fu">,</span></span>
-<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a><span class="dt">"input"</span><span class="fu">:</span> <span class="st">"data/yeast/reads/ref3_1.fq.gz"</span></span>
-<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a><span class="er">```bash</span></span>
-<span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a><span class="er">$</span> <span class="er">nextflow</span> <span class="er">run</span> <span class="er">wc-params.nf</span> <span class="er">-params-file</span> <span class="er">params.json</span> </span></code></pre>
+<pre class="sourceCode json" tabindex="0"><code class="sourceCode json"><span id="cb19-1"><a href="#cb19-1" tabindex="-1"></a><span class="fu">{</span></span>
+<span id="cb19-2"><a href="#cb19-2" tabindex="-1"></a><span class="dt">"sleep"</span><span class="fu">:</span> <span class="dv">10</span><span class="fu">,</span></span>
+<span id="cb19-3"><a href="#cb19-3" tabindex="-1"></a><span class="dt">"input"</span><span class="fu">:</span> <span class="st">"data/yeast/reads/ref3_1.fq.gz"</span></span>
+<span id="cb19-4"><a href="#cb19-4" tabindex="-1"></a></span>
+<span id="cb19-5"><a href="#cb19-5" tabindex="-1"></a><span class="er">```bash</span></span>
+<span id="cb19-6"><a href="#cb19-6" tabindex="-1"></a><span class="er">$</span> <span class="er">nextflow</span> <span class="er">run</span> <span class="er">wc-params.nf</span> <span class="er">-params-file</span> <span class="er">params.json</span> </span></code></pre>
 </div>
 <div class="codewrapper">
 <h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
@@ -748,7 +748,7 @@ them to the script using option <code>-params-file</code>.”</li>
   "identifier": "https://carpentries-incubator.github.io/workflows-nextflow/02-workflow_parameters.html",
   "dateCreated": "2021-02-01",
   "dateModified": "2023-12-11",
-  "datePublished": "2024-02-27"
+  "datePublished": "2024-03-05"
 }
 
   </script><script>

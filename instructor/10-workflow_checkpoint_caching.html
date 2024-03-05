@@ -381,7 +381,7 @@ script from the last successful process.</p>
 <div class="codewrapper sourceCode" id="cb1">
 <h3 class="code-label">BASH<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode bash" tabindex="0"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> nextflow run wc.nf <span class="at">--input</span> <span class="st">'data/yeast/reads/ref1*.fq.gz'</span> <span class="at">-resume</span></span></code></pre>
+<pre class="sourceCode bash" tabindex="0"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a><span class="ex">$</span> nextflow run wc.nf <span class="at">--input</span> <span class="st">'data/yeast/reads/ref1*.fq.gz'</span> <span class="at">-resume</span></span></code></pre>
 </div>
 <p>We can see in the output that the results from the process
 <code>NUM_LINES</code> has been retrieved from the cache.</p>
@@ -413,7 +413,7 @@ command and adding the parameter <code>-resume</code> and the parameter
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution1" aria-expanded="false" aria-controls="collapseSolution1">
   <h4 class="accordion-header" id="headingSolution1">Show me the solution</h4>
 </button>
-<div id="collapseSolution1" class="accordion-collapse collapse" data-bs-parent="#accordionSolution1" aria-labelledby="headingSolution1">
+<div id="collapseSolution1" class="accordion-collapse collapse" aria-labelledby="headingSolution1" data-bs-parent="#accordionSolution1">
 <div class="accordion-body">
 <pre><code>$ nextflow run wc.nf --input 'data/yeast/reads/temp33*' -resume</code></pre>
 <p>If your previous run was successful the output will look similar to
@@ -486,7 +486,7 @@ without having to re-execute it from scratch.</p>
 <div class="codewrapper sourceCode" id="cb5">
 <h3 class="code-label">BASH<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode bash" tabindex="0"><code class="sourceCode bash"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> touch data/yeast/reads/temp33_3_2.fq.gz</span></code></pre>
+<pre class="sourceCode bash" tabindex="0"><code class="sourceCode bash"><span id="cb5-1"><a href="#cb5-1" tabindex="-1"></a><span class="ex">$</span> touch data/yeast/reads/temp33_3_2.fq.gz</span></code></pre>
 </div>
 <p>Run command below.</p>
 <pre><code>$ nextflow run wc.nf --input 'data/yeast/reads/temp33*' -resume</code></pre>
@@ -500,7 +500,7 @@ without having to re-execute it from scratch.</p>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution2" aria-expanded="false" aria-controls="collapseSolution2">
   <h4 class="accordion-header" id="headingSolution2">Show me the solution</h4>
 </button>
-<div id="collapseSolution2" class="accordion-collapse collapse" data-bs-parent="#accordionSolution2" aria-labelledby="headingSolution2">
+<div id="collapseSolution2" class="accordion-collapse collapse" aria-labelledby="headingSolution2" data-bs-parent="#accordionSolution2">
 <div class="accordion-body">
 <p>The output will look similar to this:</p>
 <div class="codewrapper">
@@ -540,7 +540,7 @@ print hidden files (those beginning with a dot <code>.</code>). Use the
 <div class="codewrapper sourceCode" id="cb8">
 <h3 class="code-label">BASH<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode bash" tabindex="0"><code class="sourceCode bash"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> tree <span class="at">-a</span> work</span></code></pre>
+<pre class="sourceCode bash" tabindex="0"><code class="sourceCode bash"><span id="cb8-1"><a href="#cb8-1" tabindex="-1"></a><span class="ex">$</span> tree <span class="at">-a</span> work</span></code></pre>
 </div>
 <p>Example output</p>
 <div class="codewrapper">
@@ -642,7 +642,7 @@ beginning.</p>
 <div class="codewrapper sourceCode" id="cb10">
 <h3 class="code-label">BASH<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode bash" tabindex="0"><code class="sourceCode bash"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> nextflow run wc.nf <span class="at">--input</span> <span class="st">'data/yeast/reads/temp33*'</span> <span class="at">-w</span> second_work_dir <span class="at">-resume</span></span></code></pre>
+<pre class="sourceCode bash" tabindex="0"><code class="sourceCode bash"><span id="cb10-1"><a href="#cb10-1" tabindex="-1"></a><span class="ex">$</span> nextflow run wc.nf <span class="at">--input</span> <span class="st">'data/yeast/reads/temp33*'</span> <span class="at">-w</span> second_work_dir <span class="at">-resume</span></span></code></pre>
 </div>
 <div class="codewrapper">
 <h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
@@ -671,7 +671,7 @@ folder periodically using the command <code>nextflow clean</code>.</p>
 <div class="codewrapper sourceCode" id="cb12">
 <h3 class="code-label">BASH<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode bash" tabindex="0"><code class="sourceCode bash"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> nextflow clean [run_name<span class="kw">|</span><span class="ex">session_id]</span> [options]</span></code></pre>
+<pre class="sourceCode bash" tabindex="0"><code class="sourceCode bash"><span id="cb12-1"><a href="#cb12-1" tabindex="-1"></a><span class="ex">$</span> nextflow clean [run_name<span class="kw">|</span><span class="ex">session_id]</span> <span class="pp">[</span><span class="ss">options</span><span class="pp">]</span></span></code></pre>
 </div>
 <p>Supply the option <code>-n</code> to print names of files to be
 removed without deleting them, or <code>-f</code> to force the removal
@@ -684,7 +684,7 @@ entries for runs before the run <code>gigantic_minsky</code>.</p>
 <div class="codewrapper sourceCode" id="cb13">
 <h3 class="code-label">BASH<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode bash" tabindex="0"><code class="sourceCode bash"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> nextflow clean <span class="at">-f</span> <span class="at">-before</span> gigantic_minsky</span></code></pre>
+<pre class="sourceCode bash" tabindex="0"><code class="sourceCode bash"><span id="cb13-1"><a href="#cb13-1" tabindex="-1"></a><span class="ex">$</span> nextflow clean <span class="at">-f</span> <span class="at">-before</span> gigantic_minsky</span></code></pre>
 </div>
 <div id="remove-a-nextflow-run." class="callout challenge">
 <div class="callout-square">
@@ -706,19 +706,19 @@ associated files.</p>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution3" aria-expanded="false" aria-controls="collapseSolution3">
   <h4 class="accordion-header" id="headingSolution3">Show me the solution</h4>
 </button>
-<div id="collapseSolution3" class="accordion-collapse collapse" data-bs-parent="#accordionSolution3" aria-labelledby="headingSolution3">
+<div id="collapseSolution3" class="accordion-collapse collapse" aria-labelledby="headingSolution3" data-bs-parent="#accordionSolution3">
 <div class="accordion-body">
 <p>An example nextflow clean command with <code>dry-run</code> .</p>
 <div class="codewrapper sourceCode" id="cb14">
 <h3 class="code-label">BASH<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode bash" tabindex="0"><code class="sourceCode bash"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> nextflow clean nauseous_leavitt <span class="at">-dry-run</span></span></code></pre>
+<pre class="sourceCode bash" tabindex="0"><code class="sourceCode bash"><span id="cb14-1"><a href="#cb14-1" tabindex="-1"></a><span class="ex">$</span> nextflow clean nauseous_leavitt <span class="at">-dry-run</span></span></code></pre>
 </div>
 <p>An example nextflow clean command removing the files.</p>
 <div class="codewrapper sourceCode" id="cb15">
 <h3 class="code-label">BASH<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode bash" tabindex="0"><code class="sourceCode bash"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> nextflow clean nauseous_leavitt <span class="at">-f</span></span></code></pre>
+<pre class="sourceCode bash" tabindex="0"><code class="sourceCode bash"><span id="cb15-1"><a href="#cb15-1" tabindex="-1"></a><span class="ex">$</span> nextflow clean nauseous_leavitt <span class="at">-f</span></span></code></pre>
 </div>
 </div>
 </div>
@@ -803,7 +803,7 @@ have been successfully executed. - Re-entrancy is enabled using the
   "identifier": "https://carpentries-incubator.github.io/workflows-nextflow/instructor/10-workflow_checkpoint_caching.html",
   "dateCreated": "2021-02-01",
   "dateModified": "2023-12-11",
-  "datePublished": "2024-02-27"
+  "datePublished": "2024-03-05"
 }
 
   </script><script>

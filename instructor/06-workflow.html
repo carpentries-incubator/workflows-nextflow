@@ -373,13 +373,12 @@ multiple processes to create a workflow.</p>
 <code>workflow</code> scope. The workflow scope starts with the keyword
 <code>workflow</code>, followed by an optional name and finally the
 workflow body delimited by curly brackets <code>{}</code>.</p>
-<div id="implicit-workflow" class="callout callout">
+<div id="callout1" class="callout">
 <div class="callout-square">
 <i class="callout-icon" data-feather="bell"></i>
 </div>
-<div id="implicit-workflow" class="callout-inner">
-<h3 class="callout-title">Implicit workflow<a class="anchor" aria-label="anchor" href="#implicit-workflow"></a>
-</h3>
+<div class="section level3 callout-title callout-inner">
+<h3 class="callout-title" id="implicit-workflow">Implicit workflow<a class="anchor" aria-label="anchor" href="#implicit-workflow"></a></h3>
 <div class="callout-content">
 <p>A workflow definition which does not declare any name is assumed to
 be the main workflow, and it is implicitly executed. Therefore it’s the
@@ -401,45 +400,45 @@ provide them in the same order in which they are declared in the
 <div class="codewrapper sourceCode" id="cb2">
 <h3 class="code-label">GROOVY<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode groovy" tabindex="0"><code class="sourceCode groovy"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co">//workflow_01.nf</span></span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>nextflow<span class="op">.</span>enable<span class="op">.</span>dsl<span class="op">=</span><span class="dv">2</span></span>
-<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a> process FASTQC <span class="op">{</span></span>
-<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>    input<span class="op">:</span></span>
-<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>      <span class="fu">tuple</span><span class="op">(</span><span class="fu">val</span><span class="op">(</span>sample_id<span class="op">),</span> <span class="fu">path</span><span class="op">(</span>reads<span class="op">))</span></span>
-<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>    output<span class="op">:</span></span>
-<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>      path <span class="st">"fastqc_</span><span class="ss">${</span>sample_id<span class="ss">}</span><span class="st">_logs"</span></span>
-<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>    script<span class="op">:</span></span>
-<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>      <span class="st">"""</span></span>
-<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a><span class="st">      mkdir fastqc_</span><span class="ss">${</span>sample_id<span class="ss">}</span><span class="st">_logs</span></span>
-<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a><span class="st">      fastqc -o fastqc_</span><span class="ss">${</span>sample_id<span class="ss">}</span><span class="st">_logs -f fastq -q </span><span class="ss">${</span>reads<span class="ss">}</span></span>
-<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a><span class="st">      """</span></span>
-<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span>
-<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a>process MULTIQC <span class="op">{</span></span>
-<span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a>    publishDir <span class="st">"results/mqc"</span></span>
-<span id="cb2-19"><a href="#cb2-19" aria-hidden="true" tabindex="-1"></a>    input<span class="op">:</span></span>
-<span id="cb2-20"><a href="#cb2-20" aria-hidden="true" tabindex="-1"></a>      path transcriptome</span>
-<span id="cb2-21"><a href="#cb2-21" aria-hidden="true" tabindex="-1"></a>    output<span class="op">:</span></span>
-<span id="cb2-22"><a href="#cb2-22" aria-hidden="true" tabindex="-1"></a>      path <span class="st">"*"</span></span>
-<span id="cb2-23"><a href="#cb2-23" aria-hidden="true" tabindex="-1"></a>    script<span class="op">:</span></span>
-<span id="cb2-24"><a href="#cb2-24" aria-hidden="true" tabindex="-1"></a>      <span class="st">"""</span></span>
-<span id="cb2-25"><a href="#cb2-25" aria-hidden="true" tabindex="-1"></a><span class="st">      multiqc .</span></span>
-<span id="cb2-26"><a href="#cb2-26" aria-hidden="true" tabindex="-1"></a><span class="st">      """</span></span>
-<span id="cb2-27"><a href="#cb2-27" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span>
-<span id="cb2-28"><a href="#cb2-28" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-29"><a href="#cb2-29" aria-hidden="true" tabindex="-1"></a>workflow <span class="op">{</span></span>
-<span id="cb2-30"><a href="#cb2-30" aria-hidden="true" tabindex="-1"></a>    read_pairs_ch <span class="op">=</span> channel<span class="op">.</span><span class="fu">fromFilePairs</span><span class="op">(</span><span class="st">'data/yeast/reads/*_{1,2}.fq.gz'</span><span class="op">,</span>checkIfExists<span class="op">:</span> <span class="kw">true</span><span class="op">)</span></span>
-<span id="cb2-31"><a href="#cb2-31" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-32"><a href="#cb2-32" aria-hidden="true" tabindex="-1"></a>    <span class="co">//index process takes 1 input channel as a argument</span></span>
-<span id="cb2-33"><a href="#cb2-33" aria-hidden="true" tabindex="-1"></a>    <span class="co">//assign process output to Nextflow variable fastqc_obj</span></span>
-<span id="cb2-34"><a href="#cb2-34" aria-hidden="true" tabindex="-1"></a>    fastqc_obj <span class="op">=</span> <span class="fu">FASTQC</span><span class="op">(</span>read_pairs_ch<span class="op">)</span></span>
-<span id="cb2-35"><a href="#cb2-35" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-36"><a href="#cb2-36" aria-hidden="true" tabindex="-1"></a>    <span class="co">//quant channel takes 1 input channel as an argument</span></span>
-<span id="cb2-37"><a href="#cb2-37" aria-hidden="true" tabindex="-1"></a>    <span class="co">//We use the collect operator to gather multiple channel items into a single item</span></span>
-<span id="cb2-38"><a href="#cb2-38" aria-hidden="true" tabindex="-1"></a>    <span class="fu">MULTIQC</span><span class="op">(</span>fastqc_obj<span class="op">.</span><span class="fu">collect</span><span class="op">()).</span><span class="fu">view</span><span class="op">()</span></span>
-<span id="cb2-39"><a href="#cb2-39" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre>
+<pre class="sourceCode groovy" tabindex="0"><code class="sourceCode groovy"><span id="cb2-1"><a href="#cb2-1" tabindex="-1"></a><span class="co">//workflow_01.nf</span></span>
+<span id="cb2-2"><a href="#cb2-2" tabindex="-1"></a>nextflow<span class="op">.</span>enable<span class="op">.</span>dsl<span class="op">=</span><span class="dv">2</span></span>
+<span id="cb2-3"><a href="#cb2-3" tabindex="-1"></a></span>
+<span id="cb2-4"><a href="#cb2-4" tabindex="-1"></a></span>
+<span id="cb2-5"><a href="#cb2-5" tabindex="-1"></a> process FASTQC <span class="op">{</span></span>
+<span id="cb2-6"><a href="#cb2-6" tabindex="-1"></a>    input<span class="op">:</span></span>
+<span id="cb2-7"><a href="#cb2-7" tabindex="-1"></a>      <span class="fu">tuple</span><span class="op">(</span><span class="fu">val</span><span class="op">(</span>sample_id<span class="op">),</span> <span class="fu">path</span><span class="op">(</span>reads<span class="op">))</span></span>
+<span id="cb2-8"><a href="#cb2-8" tabindex="-1"></a>    output<span class="op">:</span></span>
+<span id="cb2-9"><a href="#cb2-9" tabindex="-1"></a>      path <span class="st">"fastqc_</span><span class="ss">${</span>sample_id<span class="ss">}</span><span class="st">_logs"</span></span>
+<span id="cb2-10"><a href="#cb2-10" tabindex="-1"></a>    script<span class="op">:</span></span>
+<span id="cb2-11"><a href="#cb2-11" tabindex="-1"></a>      <span class="st">"""</span></span>
+<span id="cb2-12"><a href="#cb2-12" tabindex="-1"></a><span class="st">      mkdir fastqc_</span><span class="ss">${</span>sample_id<span class="ss">}</span><span class="st">_logs</span></span>
+<span id="cb2-13"><a href="#cb2-13" tabindex="-1"></a><span class="st">      fastqc -o fastqc_</span><span class="ss">${</span>sample_id<span class="ss">}</span><span class="st">_logs -f fastq -q </span><span class="ss">${</span>reads<span class="ss">}</span></span>
+<span id="cb2-14"><a href="#cb2-14" tabindex="-1"></a><span class="st">      """</span></span>
+<span id="cb2-15"><a href="#cb2-15" tabindex="-1"></a><span class="op">}</span></span>
+<span id="cb2-16"><a href="#cb2-16" tabindex="-1"></a></span>
+<span id="cb2-17"><a href="#cb2-17" tabindex="-1"></a>process MULTIQC <span class="op">{</span></span>
+<span id="cb2-18"><a href="#cb2-18" tabindex="-1"></a>    publishDir <span class="st">"results/mqc"</span></span>
+<span id="cb2-19"><a href="#cb2-19" tabindex="-1"></a>    input<span class="op">:</span></span>
+<span id="cb2-20"><a href="#cb2-20" tabindex="-1"></a>      path transcriptome</span>
+<span id="cb2-21"><a href="#cb2-21" tabindex="-1"></a>    output<span class="op">:</span></span>
+<span id="cb2-22"><a href="#cb2-22" tabindex="-1"></a>      path <span class="st">"*"</span></span>
+<span id="cb2-23"><a href="#cb2-23" tabindex="-1"></a>    script<span class="op">:</span></span>
+<span id="cb2-24"><a href="#cb2-24" tabindex="-1"></a>      <span class="st">"""</span></span>
+<span id="cb2-25"><a href="#cb2-25" tabindex="-1"></a><span class="st">      multiqc .</span></span>
+<span id="cb2-26"><a href="#cb2-26" tabindex="-1"></a><span class="st">      """</span></span>
+<span id="cb2-27"><a href="#cb2-27" tabindex="-1"></a><span class="op">}</span></span>
+<span id="cb2-28"><a href="#cb2-28" tabindex="-1"></a></span>
+<span id="cb2-29"><a href="#cb2-29" tabindex="-1"></a>workflow <span class="op">{</span></span>
+<span id="cb2-30"><a href="#cb2-30" tabindex="-1"></a>    read_pairs_ch <span class="op">=</span> channel<span class="op">.</span><span class="fu">fromFilePairs</span><span class="op">(</span><span class="st">'data/yeast/reads/*_{1,2}.fq.gz'</span><span class="op">,</span>checkIfExists<span class="op">:</span> <span class="kw">true</span><span class="op">)</span></span>
+<span id="cb2-31"><a href="#cb2-31" tabindex="-1"></a></span>
+<span id="cb2-32"><a href="#cb2-32" tabindex="-1"></a>    <span class="co">//index process takes 1 input channel as a argument</span></span>
+<span id="cb2-33"><a href="#cb2-33" tabindex="-1"></a>    <span class="co">//assign process output to Nextflow variable fastqc_obj</span></span>
+<span id="cb2-34"><a href="#cb2-34" tabindex="-1"></a>    fastqc_obj <span class="op">=</span> <span class="fu">FASTQC</span><span class="op">(</span>read_pairs_ch<span class="op">)</span></span>
+<span id="cb2-35"><a href="#cb2-35" tabindex="-1"></a></span>
+<span id="cb2-36"><a href="#cb2-36" tabindex="-1"></a>    <span class="co">//quant channel takes 1 input channel as an argument</span></span>
+<span id="cb2-37"><a href="#cb2-37" tabindex="-1"></a>    <span class="co">//We use the collect operator to gather multiple channel items into a single item</span></span>
+<span id="cb2-38"><a href="#cb2-38" tabindex="-1"></a>    <span class="fu">MULTIQC</span><span class="op">(</span>fastqc_obj<span class="op">.</span><span class="fu">collect</span><span class="op">()).</span><span class="fu">view</span><span class="op">()</span></span>
+<span id="cb2-39"><a href="#cb2-39" tabindex="-1"></a><span class="op">}</span></span></code></pre>
 </div>
 </div>
 <div class="section level3">
@@ -453,18 +452,18 @@ variable <code>fastqc_obj</code>.</p>
 <div class="codewrapper sourceCode" id="cb3">
 <h3 class="code-label">GROOVY<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode groovy" tabindex="0"><code class="sourceCode groovy"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="op">[..</span>truncated<span class="op">..]</span></span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>workflow <span class="op">{</span></span>
-<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>  read_pairs_ch <span class="op">=</span> channel<span class="op">.</span><span class="fu">fromFilePairs</span><span class="op">(</span><span class="st">'data/yeast/reads/*_{1,2}.fq.gz'</span><span class="op">,</span>checkIfExists<span class="op">:</span> <span class="kw">true</span><span class="op">)</span></span>
-<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">FASTQC</span><span class="op">(</span>read_pairs_ch<span class="op">)</span></span>
-<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>  <span class="co">// process output  accessed using the `out` attribute of the process object</span></span>
-<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">MULTIQC</span><span class="op">(</span>FASTQC<span class="op">.</span>out<span class="op">.</span><span class="fu">collect</span><span class="op">()).</span><span class="fu">view</span><span class="op">()</span></span>
-<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>  MULTIQC<span class="op">.</span>out<span class="op">.</span><span class="fu">view</span><span class="op">()</span></span>
-<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre>
+<pre class="sourceCode groovy" tabindex="0"><code class="sourceCode groovy"><span id="cb3-1"><a href="#cb3-1" tabindex="-1"></a><span class="op">[..</span>truncated<span class="op">..]</span></span>
+<span id="cb3-2"><a href="#cb3-2" tabindex="-1"></a></span>
+<span id="cb3-3"><a href="#cb3-3" tabindex="-1"></a>workflow <span class="op">{</span></span>
+<span id="cb3-4"><a href="#cb3-4" tabindex="-1"></a>  read_pairs_ch <span class="op">=</span> channel<span class="op">.</span><span class="fu">fromFilePairs</span><span class="op">(</span><span class="st">'data/yeast/reads/*_{1,2}.fq.gz'</span><span class="op">,</span>checkIfExists<span class="op">:</span> <span class="kw">true</span><span class="op">)</span></span>
+<span id="cb3-5"><a href="#cb3-5" tabindex="-1"></a></span>
+<span id="cb3-6"><a href="#cb3-6" tabindex="-1"></a>  <span class="fu">FASTQC</span><span class="op">(</span>read_pairs_ch<span class="op">)</span></span>
+<span id="cb3-7"><a href="#cb3-7" tabindex="-1"></a></span>
+<span id="cb3-8"><a href="#cb3-8" tabindex="-1"></a>  <span class="co">// process output  accessed using the `out` attribute of the process object</span></span>
+<span id="cb3-9"><a href="#cb3-9" tabindex="-1"></a>  <span class="fu">MULTIQC</span><span class="op">(</span>FASTQC<span class="op">.</span>out<span class="op">.</span><span class="fu">collect</span><span class="op">()).</span><span class="fu">view</span><span class="op">()</span></span>
+<span id="cb3-10"><a href="#cb3-10" tabindex="-1"></a>  MULTIQC<span class="op">.</span>out<span class="op">.</span><span class="fu">view</span><span class="op">()</span></span>
+<span id="cb3-11"><a href="#cb3-11" tabindex="-1"></a></span>
+<span id="cb3-12"><a href="#cb3-12" tabindex="-1"></a><span class="op">}</span></span></code></pre>
 </div>
 <p>When a process defines two or more output channels, each of them can
 be accessed using the list element operator e.g. <code>out[0]</code>,
@@ -484,42 +483,42 @@ to reference the channel in the external scope.</p>
 <div class="codewrapper sourceCode" id="cb4">
 <h3 class="code-label">GROOVY<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode groovy" tabindex="0"><code class="sourceCode groovy"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co">//workflow_02.nf</span></span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>nextflow<span class="op">.</span>enable<span class="op">.</span>dsl<span class="op">=</span><span class="dv">2</span></span>
-<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a> process FASTQC <span class="op">{</span></span>
-<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>    input<span class="op">:</span></span>
-<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>      tuple <span class="fu">val</span><span class="op">(</span>sample_id<span class="op">),</span> <span class="fu">path</span><span class="op">(</span>reads<span class="op">)</span></span>
-<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>    output<span class="op">:</span></span>
-<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>      path <span class="st">"fastqc_</span><span class="ss">${</span>sample_id<span class="ss">}</span><span class="st">_logs"</span><span class="op">,</span> emit<span class="op">:</span> fastqc_results</span>
-<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>    script<span class="op">:</span></span>
-<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>      <span class="st">"""</span></span>
-<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a><span class="st">      mkdir fastqc_</span><span class="ss">${</span>sample_id<span class="ss">}</span><span class="st">_logs</span></span>
-<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a><span class="st">      fastqc -o fastqc_</span><span class="ss">${</span>sample_id<span class="ss">}</span><span class="st">_logs </span><span class="ss">${</span>reads<span class="ss">}</span></span>
-<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a><span class="st">      """</span></span>
-<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span>
-<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a>process MULTIQC <span class="op">{</span></span>
-<span id="cb4-17"><a href="#cb4-17" aria-hidden="true" tabindex="-1"></a>    publishDir <span class="st">"results/mqc"</span></span>
-<span id="cb4-18"><a href="#cb4-18" aria-hidden="true" tabindex="-1"></a>    input<span class="op">:</span></span>
-<span id="cb4-19"><a href="#cb4-19" aria-hidden="true" tabindex="-1"></a>      path fastqc_results</span>
-<span id="cb4-20"><a href="#cb4-20" aria-hidden="true" tabindex="-1"></a>    output<span class="op">:</span></span>
-<span id="cb4-21"><a href="#cb4-21" aria-hidden="true" tabindex="-1"></a>      path <span class="st">"*"</span></span>
-<span id="cb4-22"><a href="#cb4-22" aria-hidden="true" tabindex="-1"></a>    script<span class="op">:</span></span>
-<span id="cb4-23"><a href="#cb4-23" aria-hidden="true" tabindex="-1"></a>      <span class="st">"""</span></span>
-<span id="cb4-24"><a href="#cb4-24" aria-hidden="true" tabindex="-1"></a><span class="st">      multiqc .</span></span>
-<span id="cb4-25"><a href="#cb4-25" aria-hidden="true" tabindex="-1"></a><span class="st">      """</span></span>
-<span id="cb4-26"><a href="#cb4-26" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span>
-<span id="cb4-27"><a href="#cb4-27" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-28"><a href="#cb4-28" aria-hidden="true" tabindex="-1"></a>workflow <span class="op">{</span></span>
-<span id="cb4-29"><a href="#cb4-29" aria-hidden="true" tabindex="-1"></a>    read_pairs_ch <span class="op">=</span> channel<span class="op">.</span><span class="fu">fromFilePairs</span><span class="op">(</span><span class="st">'data/yeast/reads/ref*_{1,2}.fq.gz'</span><span class="op">,</span>checkIfExists<span class="op">:</span> <span class="kw">true</span><span class="op">)</span></span>
-<span id="cb4-30"><a href="#cb4-30" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb4-31"><a href="#cb4-31" aria-hidden="true" tabindex="-1"></a>    <span class="co">//FASTQC process takes 1 input channel as a argument</span></span>
-<span id="cb4-32"><a href="#cb4-32" aria-hidden="true" tabindex="-1"></a>    <span class="fu">FASTQC</span><span class="op">(</span>read_pairs_ch<span class="op">)</span></span>
-<span id="cb4-33"><a href="#cb4-33" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-34"><a href="#cb4-34" aria-hidden="true" tabindex="-1"></a>    <span class="co">//MULTIQC channel takes 1 input channels as arguments</span></span>
-<span id="cb4-35"><a href="#cb4-35" aria-hidden="true" tabindex="-1"></a>    <span class="fu">MULTIQC</span><span class="op">(</span>FASTQC<span class="op">.</span>out<span class="op">.</span>fastqc_results<span class="op">.</span><span class="fu">collect</span><span class="op">()).</span><span class="fu">view</span><span class="op">()</span></span>
-<span id="cb4-36"><a href="#cb4-36" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre>
+<pre class="sourceCode groovy" tabindex="0"><code class="sourceCode groovy"><span id="cb4-1"><a href="#cb4-1" tabindex="-1"></a><span class="co">//workflow_02.nf</span></span>
+<span id="cb4-2"><a href="#cb4-2" tabindex="-1"></a>nextflow<span class="op">.</span>enable<span class="op">.</span>dsl<span class="op">=</span><span class="dv">2</span></span>
+<span id="cb4-3"><a href="#cb4-3" tabindex="-1"></a></span>
+<span id="cb4-4"><a href="#cb4-4" tabindex="-1"></a> process FASTQC <span class="op">{</span></span>
+<span id="cb4-5"><a href="#cb4-5" tabindex="-1"></a>    input<span class="op">:</span></span>
+<span id="cb4-6"><a href="#cb4-6" tabindex="-1"></a>      tuple <span class="fu">val</span><span class="op">(</span>sample_id<span class="op">),</span> <span class="fu">path</span><span class="op">(</span>reads<span class="op">)</span></span>
+<span id="cb4-7"><a href="#cb4-7" tabindex="-1"></a>    output<span class="op">:</span></span>
+<span id="cb4-8"><a href="#cb4-8" tabindex="-1"></a>      path <span class="st">"fastqc_</span><span class="ss">${</span>sample_id<span class="ss">}</span><span class="st">_logs"</span><span class="op">,</span> emit<span class="op">:</span> fastqc_results</span>
+<span id="cb4-9"><a href="#cb4-9" tabindex="-1"></a>    script<span class="op">:</span></span>
+<span id="cb4-10"><a href="#cb4-10" tabindex="-1"></a>      <span class="st">"""</span></span>
+<span id="cb4-11"><a href="#cb4-11" tabindex="-1"></a><span class="st">      mkdir fastqc_</span><span class="ss">${</span>sample_id<span class="ss">}</span><span class="st">_logs</span></span>
+<span id="cb4-12"><a href="#cb4-12" tabindex="-1"></a><span class="st">      fastqc -o fastqc_</span><span class="ss">${</span>sample_id<span class="ss">}</span><span class="st">_logs </span><span class="ss">${</span>reads<span class="ss">}</span></span>
+<span id="cb4-13"><a href="#cb4-13" tabindex="-1"></a><span class="st">      """</span></span>
+<span id="cb4-14"><a href="#cb4-14" tabindex="-1"></a><span class="op">}</span></span>
+<span id="cb4-15"><a href="#cb4-15" tabindex="-1"></a></span>
+<span id="cb4-16"><a href="#cb4-16" tabindex="-1"></a>process MULTIQC <span class="op">{</span></span>
+<span id="cb4-17"><a href="#cb4-17" tabindex="-1"></a>    publishDir <span class="st">"results/mqc"</span></span>
+<span id="cb4-18"><a href="#cb4-18" tabindex="-1"></a>    input<span class="op">:</span></span>
+<span id="cb4-19"><a href="#cb4-19" tabindex="-1"></a>      path fastqc_results</span>
+<span id="cb4-20"><a href="#cb4-20" tabindex="-1"></a>    output<span class="op">:</span></span>
+<span id="cb4-21"><a href="#cb4-21" tabindex="-1"></a>      path <span class="st">"*"</span></span>
+<span id="cb4-22"><a href="#cb4-22" tabindex="-1"></a>    script<span class="op">:</span></span>
+<span id="cb4-23"><a href="#cb4-23" tabindex="-1"></a>      <span class="st">"""</span></span>
+<span id="cb4-24"><a href="#cb4-24" tabindex="-1"></a><span class="st">      multiqc .</span></span>
+<span id="cb4-25"><a href="#cb4-25" tabindex="-1"></a><span class="st">      """</span></span>
+<span id="cb4-26"><a href="#cb4-26" tabindex="-1"></a><span class="op">}</span></span>
+<span id="cb4-27"><a href="#cb4-27" tabindex="-1"></a></span>
+<span id="cb4-28"><a href="#cb4-28" tabindex="-1"></a>workflow <span class="op">{</span></span>
+<span id="cb4-29"><a href="#cb4-29" tabindex="-1"></a>    read_pairs_ch <span class="op">=</span> channel<span class="op">.</span><span class="fu">fromFilePairs</span><span class="op">(</span><span class="st">'data/yeast/reads/ref*_{1,2}.fq.gz'</span><span class="op">,</span>checkIfExists<span class="op">:</span> <span class="kw">true</span><span class="op">)</span></span>
+<span id="cb4-30"><a href="#cb4-30" tabindex="-1"></a>    </span>
+<span id="cb4-31"><a href="#cb4-31" tabindex="-1"></a>    <span class="co">//FASTQC process takes 1 input channel as a argument</span></span>
+<span id="cb4-32"><a href="#cb4-32" tabindex="-1"></a>    <span class="fu">FASTQC</span><span class="op">(</span>read_pairs_ch<span class="op">)</span></span>
+<span id="cb4-33"><a href="#cb4-33" tabindex="-1"></a></span>
+<span id="cb4-34"><a href="#cb4-34" tabindex="-1"></a>    <span class="co">//MULTIQC channel takes 1 input channels as arguments</span></span>
+<span id="cb4-35"><a href="#cb4-35" tabindex="-1"></a>    <span class="fu">MULTIQC</span><span class="op">(</span>FASTQC<span class="op">.</span>out<span class="op">.</span>fastqc_results<span class="op">.</span><span class="fu">collect</span><span class="op">()).</span><span class="fu">view</span><span class="op">()</span></span>
+<span id="cb4-36"><a href="#cb4-36" tabindex="-1"></a><span class="op">}</span></span></code></pre>
 </div>
 </div>
 <div class="section level3">
@@ -530,17 +529,17 @@ the outer scope:</p>
 <div class="codewrapper sourceCode" id="cb5">
 <h3 class="code-label">GROOVY<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode groovy" tabindex="0"><code class="sourceCode groovy"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co">//workflow_03.nf</span></span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="op">[..</span>truncated<span class="op">..]</span></span>
-<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>params<span class="op">.</span>reads <span class="op">=</span> <span class="st">'data/yeast/reads/*_{1,2}.fq.gz'</span></span>
-<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>workflow <span class="op">{</span></span>
-<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>  reads_ch_ <span class="op">=</span> channel<span class="op">.</span><span class="fu">fromFilePairs</span><span class="op">(</span>params<span class="op">.</span>reads<span class="op">)</span></span>
-<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">FASTQC</span><span class="op">(</span>reads_ch_<span class="op">)</span></span>
-<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">MULTIQC</span><span class="op">(</span>FASTQC<span class="op">.</span>out<span class="op">.</span>fastqc_results<span class="op">.</span><span class="fu">collect</span><span class="op">()).</span><span class="fu">view</span><span class="op">()</span></span>
-<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre>
+<pre class="sourceCode groovy" tabindex="0"><code class="sourceCode groovy"><span id="cb5-1"><a href="#cb5-1" tabindex="-1"></a><span class="co">//workflow_03.nf</span></span>
+<span id="cb5-2"><a href="#cb5-2" tabindex="-1"></a><span class="op">[..</span>truncated<span class="op">..]</span></span>
+<span id="cb5-3"><a href="#cb5-3" tabindex="-1"></a></span>
+<span id="cb5-4"><a href="#cb5-4" tabindex="-1"></a>params<span class="op">.</span>reads <span class="op">=</span> <span class="st">'data/yeast/reads/*_{1,2}.fq.gz'</span></span>
+<span id="cb5-5"><a href="#cb5-5" tabindex="-1"></a></span>
+<span id="cb5-6"><a href="#cb5-6" tabindex="-1"></a>workflow <span class="op">{</span></span>
+<span id="cb5-7"><a href="#cb5-7" tabindex="-1"></a></span>
+<span id="cb5-8"><a href="#cb5-8" tabindex="-1"></a>  reads_ch_ <span class="op">=</span> channel<span class="op">.</span><span class="fu">fromFilePairs</span><span class="op">(</span>params<span class="op">.</span>reads<span class="op">)</span></span>
+<span id="cb5-9"><a href="#cb5-9" tabindex="-1"></a>  <span class="fu">FASTQC</span><span class="op">(</span>reads_ch_<span class="op">)</span></span>
+<span id="cb5-10"><a href="#cb5-10" tabindex="-1"></a>  <span class="fu">MULTIQC</span><span class="op">(</span>FASTQC<span class="op">.</span>out<span class="op">.</span>fastqc_results<span class="op">.</span><span class="fu">collect</span><span class="op">()).</span><span class="fu">view</span><span class="op">()</span></span>
+<span id="cb5-11"><a href="#cb5-11" tabindex="-1"></a><span class="op">}</span></span></code></pre>
 </div>
 <p>In this example <code>params.reads</code>, defined outside the
 workflow scope, can be accessed inside the <code>workflow</code>
@@ -563,43 +562,43 @@ channel output to a single List item.</p>
 <div class="codewrapper sourceCode" id="cb6">
 <h3 class="code-label">GROOVY<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode groovy" tabindex="0"><code class="sourceCode groovy"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co">//workflow_exercise.nf</span></span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>nextflow<span class="op">.</span>enable<span class="op">.</span>dsl<span class="op">=</span><span class="dv">2</span></span>
-<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>params<span class="op">.</span>reads <span class="op">=</span> <span class="st">'data/yeast/reads/*_{1,2}.fq.gz'</span></span>
-<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>process FASTQC <span class="op">{</span></span>
-<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a> input<span class="op">:</span></span>
-<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a> tuple <span class="fu">val</span><span class="op">(</span>sample_id<span class="op">),</span> <span class="fu">path</span><span class="op">(</span>reads<span class="op">)</span></span>
-<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a> output<span class="op">:</span></span>
-<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a> path <span class="st">"fastqc_</span><span class="ss">${</span>sample_id<span class="ss">}</span><span class="st">_logs/*.zip"</span></span>
-<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a> script<span class="op">:</span></span>
-<span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a> <span class="st">"""</span></span>
-<span id="cb6-14"><a href="#cb6-14" aria-hidden="true" tabindex="-1"></a><span class="st"> mkdir fastqc_</span><span class="ss">${</span>sample_id<span class="ss">}</span><span class="st">_logs</span></span>
-<span id="cb6-15"><a href="#cb6-15" aria-hidden="true" tabindex="-1"></a><span class="st"> fastqc -o fastqc_</span><span class="ss">${</span>sample_id<span class="ss">}</span><span class="st">_logs  </span><span class="ss">${</span>reads<span class="ss">}</span></span>
-<span id="cb6-16"><a href="#cb6-16" aria-hidden="true" tabindex="-1"></a><span class="st"> """</span></span>
-<span id="cb6-17"><a href="#cb6-17" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span>
-<span id="cb6-18"><a href="#cb6-18" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-19"><a href="#cb6-19" aria-hidden="true" tabindex="-1"></a>process PARSEZIP <span class="op">{</span></span>
-<span id="cb6-20"><a href="#cb6-20" aria-hidden="true" tabindex="-1"></a> publishDir <span class="st">"results/fqpass"</span><span class="op">,</span> mode<span class="op">:</span><span class="st">"copy"</span></span>
-<span id="cb6-21"><a href="#cb6-21" aria-hidden="true" tabindex="-1"></a> input<span class="op">:</span></span>
-<span id="cb6-22"><a href="#cb6-22" aria-hidden="true" tabindex="-1"></a> path fastqc_logs</span>
-<span id="cb6-23"><a href="#cb6-23" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-24"><a href="#cb6-24" aria-hidden="true" tabindex="-1"></a> output<span class="op">:</span></span>
-<span id="cb6-25"><a href="#cb6-25" aria-hidden="true" tabindex="-1"></a> path <span class="st">'pass_basic.txt'</span></span>
-<span id="cb6-26"><a href="#cb6-26" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-27"><a href="#cb6-27" aria-hidden="true" tabindex="-1"></a> script<span class="op">:</span></span>
-<span id="cb6-28"><a href="#cb6-28" aria-hidden="true" tabindex="-1"></a> <span class="st">"""</span></span>
-<span id="cb6-29"><a href="#cb6-29" aria-hidden="true" tabindex="-1"></a><span class="st"> for zip in *.zip; do zipgrep 'Basic Statistics' </span><span class="er">\$</span><span class="st">zip|grep 'summary.txt'; done &gt; pass_basic.txt</span></span>
-<span id="cb6-30"><a href="#cb6-30" aria-hidden="true" tabindex="-1"></a><span class="st"> """</span></span>
-<span id="cb6-31"><a href="#cb6-31" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span>
-<span id="cb6-32"><a href="#cb6-32" aria-hidden="true" tabindex="-1"></a>read_pairs_ch <span class="op">=</span> channel<span class="op">.</span><span class="fu">fromFilePairs</span><span class="op">(</span>params<span class="op">.</span>reads<span class="op">,</span>checkIfExists<span class="op">:</span> <span class="kw">true</span><span class="op">)</span></span>
-<span id="cb6-33"><a href="#cb6-33" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-34"><a href="#cb6-34" aria-hidden="true" tabindex="-1"></a>workflow <span class="op">{</span></span>
-<span id="cb6-35"><a href="#cb6-35" aria-hidden="true" tabindex="-1"></a><span class="co">//connect process FASTQC and PARSEZIP</span></span>
-<span id="cb6-36"><a href="#cb6-36" aria-hidden="true" tabindex="-1"></a><span class="co">// remember to use the collect operator on the FASTQC output</span></span>
-<span id="cb6-37"><a href="#cb6-37" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre>
+<pre class="sourceCode groovy" tabindex="0"><code class="sourceCode groovy"><span id="cb6-1"><a href="#cb6-1" tabindex="-1"></a><span class="co">//workflow_exercise.nf</span></span>
+<span id="cb6-2"><a href="#cb6-2" tabindex="-1"></a>nextflow<span class="op">.</span>enable<span class="op">.</span>dsl<span class="op">=</span><span class="dv">2</span></span>
+<span id="cb6-3"><a href="#cb6-3" tabindex="-1"></a>params<span class="op">.</span>reads <span class="op">=</span> <span class="st">'data/yeast/reads/*_{1,2}.fq.gz'</span></span>
+<span id="cb6-4"><a href="#cb6-4" tabindex="-1"></a></span>
+<span id="cb6-5"><a href="#cb6-5" tabindex="-1"></a>process FASTQC <span class="op">{</span></span>
+<span id="cb6-6"><a href="#cb6-6" tabindex="-1"></a> input<span class="op">:</span></span>
+<span id="cb6-7"><a href="#cb6-7" tabindex="-1"></a> tuple <span class="fu">val</span><span class="op">(</span>sample_id<span class="op">),</span> <span class="fu">path</span><span class="op">(</span>reads<span class="op">)</span></span>
+<span id="cb6-8"><a href="#cb6-8" tabindex="-1"></a></span>
+<span id="cb6-9"><a href="#cb6-9" tabindex="-1"></a> output<span class="op">:</span></span>
+<span id="cb6-10"><a href="#cb6-10" tabindex="-1"></a> path <span class="st">"fastqc_</span><span class="ss">${</span>sample_id<span class="ss">}</span><span class="st">_logs/*.zip"</span></span>
+<span id="cb6-11"><a href="#cb6-11" tabindex="-1"></a></span>
+<span id="cb6-12"><a href="#cb6-12" tabindex="-1"></a> script<span class="op">:</span></span>
+<span id="cb6-13"><a href="#cb6-13" tabindex="-1"></a> <span class="st">"""</span></span>
+<span id="cb6-14"><a href="#cb6-14" tabindex="-1"></a><span class="st"> mkdir fastqc_</span><span class="ss">${</span>sample_id<span class="ss">}</span><span class="st">_logs</span></span>
+<span id="cb6-15"><a href="#cb6-15" tabindex="-1"></a><span class="st"> fastqc -o fastqc_</span><span class="ss">${</span>sample_id<span class="ss">}</span><span class="st">_logs  </span><span class="ss">${</span>reads<span class="ss">}</span></span>
+<span id="cb6-16"><a href="#cb6-16" tabindex="-1"></a><span class="st"> """</span></span>
+<span id="cb6-17"><a href="#cb6-17" tabindex="-1"></a><span class="op">}</span></span>
+<span id="cb6-18"><a href="#cb6-18" tabindex="-1"></a></span>
+<span id="cb6-19"><a href="#cb6-19" tabindex="-1"></a>process PARSEZIP <span class="op">{</span></span>
+<span id="cb6-20"><a href="#cb6-20" tabindex="-1"></a> publishDir <span class="st">"results/fqpass"</span><span class="op">,</span> mode<span class="op">:</span><span class="st">"copy"</span></span>
+<span id="cb6-21"><a href="#cb6-21" tabindex="-1"></a> input<span class="op">:</span></span>
+<span id="cb6-22"><a href="#cb6-22" tabindex="-1"></a> path fastqc_logs</span>
+<span id="cb6-23"><a href="#cb6-23" tabindex="-1"></a></span>
+<span id="cb6-24"><a href="#cb6-24" tabindex="-1"></a> output<span class="op">:</span></span>
+<span id="cb6-25"><a href="#cb6-25" tabindex="-1"></a> path <span class="st">'pass_basic.txt'</span></span>
+<span id="cb6-26"><a href="#cb6-26" tabindex="-1"></a></span>
+<span id="cb6-27"><a href="#cb6-27" tabindex="-1"></a> script<span class="op">:</span></span>
+<span id="cb6-28"><a href="#cb6-28" tabindex="-1"></a> <span class="st">"""</span></span>
+<span id="cb6-29"><a href="#cb6-29" tabindex="-1"></a><span class="st"> for zip in *.zip; do zipgrep 'Basic Statistics' </span><span class="er">\$</span><span class="st">zip|grep 'summary.txt'; done &gt; pass_basic.txt</span></span>
+<span id="cb6-30"><a href="#cb6-30" tabindex="-1"></a><span class="st"> """</span></span>
+<span id="cb6-31"><a href="#cb6-31" tabindex="-1"></a><span class="op">}</span></span>
+<span id="cb6-32"><a href="#cb6-32" tabindex="-1"></a>read_pairs_ch <span class="op">=</span> channel<span class="op">.</span><span class="fu">fromFilePairs</span><span class="op">(</span>params<span class="op">.</span>reads<span class="op">,</span>checkIfExists<span class="op">:</span> <span class="kw">true</span><span class="op">)</span></span>
+<span id="cb6-33"><a href="#cb6-33" tabindex="-1"></a></span>
+<span id="cb6-34"><a href="#cb6-34" tabindex="-1"></a>workflow <span class="op">{</span></span>
+<span id="cb6-35"><a href="#cb6-35" tabindex="-1"></a><span class="co">//connect process FASTQC and PARSEZIP</span></span>
+<span id="cb6-36"><a href="#cb6-36" tabindex="-1"></a><span class="co">// remember to use the collect operator on the FASTQC output</span></span>
+<span id="cb6-37"><a href="#cb6-37" tabindex="-1"></a><span class="op">}</span></span></code></pre>
 </div>
 </div>
 </div>
@@ -609,60 +608,60 @@ channel output to a single List item.</p>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution1" aria-expanded="false" aria-controls="collapseSolution1">
   <h4 class="accordion-header" id="headingSolution1">Show me the solution</h4>
 </button>
-<div id="collapseSolution1" class="accordion-collapse collapse" aria-labelledby="headingSolution1" data-bs-parent="#accordionSolution1">
+<div id="collapseSolution1" class="accordion-collapse collapse" data-bs-parent="#accordionSolution1" aria-labelledby="headingSolution1">
 <div class="accordion-body">
 <div class="codewrapper sourceCode" id="cb7">
 <h3 class="code-label">GROOVY<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode groovy" tabindex="0"><code class="sourceCode groovy"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co">//workflow_exercise.nf</span></span>
-<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>nextflow<span class="op">.</span>enable<span class="op">.</span>dsl<span class="op">=</span><span class="dv">2</span></span>
-<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>params<span class="op">.</span>reads <span class="op">=</span> <span class="st">'data/yeast/reads/*_{1,2}.fq.gz'</span></span>
-<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>process FASTQC <span class="op">{</span></span>
-<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>  input<span class="op">:</span></span>
-<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>  tuple <span class="fu">val</span><span class="op">(</span>sample_id<span class="op">),</span> <span class="fu">path</span><span class="op">(</span>reads<span class="op">)</span></span>
-<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a>  output<span class="op">:</span></span>
-<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a>  path <span class="st">"fastqc_</span><span class="ss">${</span>sample_id<span class="ss">}</span><span class="st">_logs/*.zip"</span></span>
-<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a>  script<span class="op">:</span></span>
-<span id="cb7-15"><a href="#cb7-15" aria-hidden="true" tabindex="-1"></a>  <span class="st">"""</span></span>
-<span id="cb7-16"><a href="#cb7-16" aria-hidden="true" tabindex="-1"></a><span class="st">  mkdir fastqc_</span><span class="ss">${</span>sample_id<span class="ss">}</span><span class="st">_logs</span></span>
-<span id="cb7-17"><a href="#cb7-17" aria-hidden="true" tabindex="-1"></a><span class="st">  fastqc -o fastqc_</span><span class="ss">${</span>sample_id<span class="ss">}</span><span class="st">_logs  </span><span class="ss">${</span>reads<span class="ss">}</span></span>
-<span id="cb7-18"><a href="#cb7-18" aria-hidden="true" tabindex="-1"></a><span class="st">  """</span></span>
-<span id="cb7-19"><a href="#cb7-19" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span>
-<span id="cb7-20"><a href="#cb7-20" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-21"><a href="#cb7-21" aria-hidden="true" tabindex="-1"></a>process PARSEZIP <span class="op">{</span></span>
-<span id="cb7-22"><a href="#cb7-22" aria-hidden="true" tabindex="-1"></a>  publishDir <span class="st">"results/fqpass"</span><span class="op">,</span> mode<span class="op">:</span><span class="st">"copy"</span></span>
-<span id="cb7-23"><a href="#cb7-23" aria-hidden="true" tabindex="-1"></a>  input<span class="op">:</span></span>
-<span id="cb7-24"><a href="#cb7-24" aria-hidden="true" tabindex="-1"></a>  path fastqc_logs</span>
-<span id="cb7-25"><a href="#cb7-25" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-26"><a href="#cb7-26" aria-hidden="true" tabindex="-1"></a>  output<span class="op">:</span></span>
-<span id="cb7-27"><a href="#cb7-27" aria-hidden="true" tabindex="-1"></a>  path <span class="st">'pass_basic.txt'</span></span>
-<span id="cb7-28"><a href="#cb7-28" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-29"><a href="#cb7-29" aria-hidden="true" tabindex="-1"></a>  script<span class="op">:</span></span>
-<span id="cb7-30"><a href="#cb7-30" aria-hidden="true" tabindex="-1"></a>  <span class="st">"""</span></span>
-<span id="cb7-31"><a href="#cb7-31" aria-hidden="true" tabindex="-1"></a><span class="st">  for zip in *.zip; do zipgrep 'Basic Statistics' </span><span class="er">\$</span><span class="st">zip|grep 'summary.txt'; done &gt; pass_basic.txt</span></span>
-<span id="cb7-32"><a href="#cb7-32" aria-hidden="true" tabindex="-1"></a><span class="st">  """</span></span>
-<span id="cb7-33"><a href="#cb7-33" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span>
-<span id="cb7-34"><a href="#cb7-34" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-35"><a href="#cb7-35" aria-hidden="true" tabindex="-1"></a>read_pairs_ch <span class="op">=</span> channel<span class="op">.</span><span class="fu">fromFilePairs</span><span class="op">(</span>params<span class="op">.</span>reads<span class="op">,</span>checkIfExists<span class="op">:</span> <span class="kw">true</span><span class="op">)</span></span>
-<span id="cb7-36"><a href="#cb7-36" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-37"><a href="#cb7-37" aria-hidden="true" tabindex="-1"></a>workflow <span class="op">{</span></span>
-<span id="cb7-38"><a href="#cb7-38" aria-hidden="true" tabindex="-1"></a>  <span class="fu">PARSEZIP</span><span class="op">(</span><span class="fu">FASTQC</span><span class="op">(</span>read_pairs_ch<span class="op">).</span><span class="fu">collect</span><span class="op">())</span></span>
-<span id="cb7-39"><a href="#cb7-39" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre>
+<pre class="sourceCode groovy" tabindex="0"><code class="sourceCode groovy"><span id="cb7-1"><a href="#cb7-1" tabindex="-1"></a><span class="co">//workflow_exercise.nf</span></span>
+<span id="cb7-2"><a href="#cb7-2" tabindex="-1"></a></span>
+<span id="cb7-3"><a href="#cb7-3" tabindex="-1"></a>nextflow<span class="op">.</span>enable<span class="op">.</span>dsl<span class="op">=</span><span class="dv">2</span></span>
+<span id="cb7-4"><a href="#cb7-4" tabindex="-1"></a></span>
+<span id="cb7-5"><a href="#cb7-5" tabindex="-1"></a>params<span class="op">.</span>reads <span class="op">=</span> <span class="st">'data/yeast/reads/*_{1,2}.fq.gz'</span></span>
+<span id="cb7-6"><a href="#cb7-6" tabindex="-1"></a></span>
+<span id="cb7-7"><a href="#cb7-7" tabindex="-1"></a>process FASTQC <span class="op">{</span></span>
+<span id="cb7-8"><a href="#cb7-8" tabindex="-1"></a>  input<span class="op">:</span></span>
+<span id="cb7-9"><a href="#cb7-9" tabindex="-1"></a>  tuple <span class="fu">val</span><span class="op">(</span>sample_id<span class="op">),</span> <span class="fu">path</span><span class="op">(</span>reads<span class="op">)</span></span>
+<span id="cb7-10"><a href="#cb7-10" tabindex="-1"></a></span>
+<span id="cb7-11"><a href="#cb7-11" tabindex="-1"></a>  output<span class="op">:</span></span>
+<span id="cb7-12"><a href="#cb7-12" tabindex="-1"></a>  path <span class="st">"fastqc_</span><span class="ss">${</span>sample_id<span class="ss">}</span><span class="st">_logs/*.zip"</span></span>
+<span id="cb7-13"><a href="#cb7-13" tabindex="-1"></a></span>
+<span id="cb7-14"><a href="#cb7-14" tabindex="-1"></a>  script<span class="op">:</span></span>
+<span id="cb7-15"><a href="#cb7-15" tabindex="-1"></a>  <span class="st">"""</span></span>
+<span id="cb7-16"><a href="#cb7-16" tabindex="-1"></a><span class="st">  mkdir fastqc_</span><span class="ss">${</span>sample_id<span class="ss">}</span><span class="st">_logs</span></span>
+<span id="cb7-17"><a href="#cb7-17" tabindex="-1"></a><span class="st">  fastqc -o fastqc_</span><span class="ss">${</span>sample_id<span class="ss">}</span><span class="st">_logs  </span><span class="ss">${</span>reads<span class="ss">}</span></span>
+<span id="cb7-18"><a href="#cb7-18" tabindex="-1"></a><span class="st">  """</span></span>
+<span id="cb7-19"><a href="#cb7-19" tabindex="-1"></a><span class="op">}</span></span>
+<span id="cb7-20"><a href="#cb7-20" tabindex="-1"></a></span>
+<span id="cb7-21"><a href="#cb7-21" tabindex="-1"></a>process PARSEZIP <span class="op">{</span></span>
+<span id="cb7-22"><a href="#cb7-22" tabindex="-1"></a>  publishDir <span class="st">"results/fqpass"</span><span class="op">,</span> mode<span class="op">:</span><span class="st">"copy"</span></span>
+<span id="cb7-23"><a href="#cb7-23" tabindex="-1"></a>  input<span class="op">:</span></span>
+<span id="cb7-24"><a href="#cb7-24" tabindex="-1"></a>  path fastqc_logs</span>
+<span id="cb7-25"><a href="#cb7-25" tabindex="-1"></a></span>
+<span id="cb7-26"><a href="#cb7-26" tabindex="-1"></a>  output<span class="op">:</span></span>
+<span id="cb7-27"><a href="#cb7-27" tabindex="-1"></a>  path <span class="st">'pass_basic.txt'</span></span>
+<span id="cb7-28"><a href="#cb7-28" tabindex="-1"></a></span>
+<span id="cb7-29"><a href="#cb7-29" tabindex="-1"></a>  script<span class="op">:</span></span>
+<span id="cb7-30"><a href="#cb7-30" tabindex="-1"></a>  <span class="st">"""</span></span>
+<span id="cb7-31"><a href="#cb7-31" tabindex="-1"></a><span class="st">  for zip in *.zip; do zipgrep 'Basic Statistics' </span><span class="er">\$</span><span class="st">zip|grep 'summary.txt'; done &gt; pass_basic.txt</span></span>
+<span id="cb7-32"><a href="#cb7-32" tabindex="-1"></a><span class="st">  """</span></span>
+<span id="cb7-33"><a href="#cb7-33" tabindex="-1"></a><span class="op">}</span></span>
+<span id="cb7-34"><a href="#cb7-34" tabindex="-1"></a></span>
+<span id="cb7-35"><a href="#cb7-35" tabindex="-1"></a>read_pairs_ch <span class="op">=</span> channel<span class="op">.</span><span class="fu">fromFilePairs</span><span class="op">(</span>params<span class="op">.</span>reads<span class="op">,</span>checkIfExists<span class="op">:</span> <span class="kw">true</span><span class="op">)</span></span>
+<span id="cb7-36"><a href="#cb7-36" tabindex="-1"></a></span>
+<span id="cb7-37"><a href="#cb7-37" tabindex="-1"></a>workflow <span class="op">{</span></span>
+<span id="cb7-38"><a href="#cb7-38" tabindex="-1"></a>  <span class="fu">PARSEZIP</span><span class="op">(</span><span class="fu">FASTQC</span><span class="op">(</span>read_pairs_ch<span class="op">).</span><span class="fu">collect</span><span class="op">())</span></span>
+<span id="cb7-39"><a href="#cb7-39" tabindex="-1"></a><span class="op">}</span></span></code></pre>
 </div>
 <div class="codewrapper sourceCode" id="cb8">
 <h3 class="code-label">BASH<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode bash" tabindex="0"><code class="sourceCode bash"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> nextflow run workflow_exercise.nf</span></code></pre>
+<pre class="sourceCode bash" tabindex="0"><code class="sourceCode bash"><span id="cb8-1"><a href="#cb8-1" tabindex="-1"></a><span class="ex">$</span> nextflow run workflow_exercise.nf</span></code></pre>
 </div>
 <div class="codewrapper sourceCode" id="cb9">
 <h3 class="code-label">BASH<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode bash" tabindex="0"><code class="sourceCode bash"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> wc <span class="at">-l</span>  results/fqpass/pass_basic.txt</span></code></pre>
+<pre class="sourceCode bash" tabindex="0"><code class="sourceCode bash"><span id="cb9-1"><a href="#cb9-1" tabindex="-1"></a><span class="ex">$</span> wc <span class="at">-l</span>  results/fqpass/pass_basic.txt</span></code></pre>
 </div>
 <div class="codewrapper">
 <h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
@@ -757,7 +756,7 @@ referencing the a named process output .</li>
   "identifier": "https://carpentries-incubator.github.io/workflows-nextflow/instructor/06-workflow.html",
   "dateCreated": "2021-02-01",
   "dateModified": "2023-12-08",
-  "datePublished": "2024-02-27"
+  "datePublished": "2024-03-05"
 }
 
   </script><script>
