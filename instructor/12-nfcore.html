@@ -388,12 +388,13 @@ under the, permissive free software, <a href="https://en.wikipedia.org/wiki/MIT_
 develop pipelines. The <a href="https://nf-co.re/tools" class="external-link">nf-core
 tools</a> package is written in Python and can run from the command line
 or imported and used within other packages.</p>
-<div id="callout1" class="callout">
+<div id="automatic-version-check" class="callout">
 <div class="callout-square">
 <i class="callout-icon" data-feather="bell"></i>
 </div>
-<div class="section level3 callout-title callout-inner">
-<h3 class="callout-title" id="automatic-version-check">Automatic version check<a class="anchor" aria-label="anchor" href="#automatic-version-check"></a></h3>
+<div id="automatic-version-check" class="callout-inner">
+<h3 class="callout-title">Automatic version check<a class="anchor" aria-label="anchor" href="#automatic-version-check"></a>
+</h3>
 <div class="callout-content">
 <p>nf-core/tools automatically checks the web to see if there is a new
 version of nf-core/tools available. If you would prefer to skip this
@@ -573,12 +574,13 @@ nf-core/tools version 2.1
 │ dualrnaseq    │     4 │          1.0.0 │ 7 months ago │           - │ -                    │
 └───────────────┴───────┴────────────────┴──────────────┴─────────────┴──────────────────────┘</code></pre>
 </div>
-<div id="callout2" class="callout">
+<div id="archived-pipelines" class="callout">
 <div class="callout-square">
 <i class="callout-icon" data-feather="bell"></i>
 </div>
-<div class="section level3 callout-title callout-inner">
-<h3 class="callout-title" id="archived-pipelines">Archived pipelines<a class="anchor" aria-label="anchor" href="#archived-pipelines"></a></h3>
+<div id="archived-pipelines" class="callout-inner">
+<h3 class="callout-title">Archived pipelines<a class="anchor" aria-label="anchor" href="#archived-pipelines"></a>
+</h3>
 <div class="callout-content">
 <p>Archived pipelines are not returned by default. To include them, use
 the <code>--show_archived</code> flag.</p>
@@ -700,12 +702,13 @@ nf-core/tools version 2.1
 │ rnaseq            │   394 │            3.4 │  4 weeks ago  │ 1 minutes ago  │ Yes (v3.4)           │
 [..truncated..]</code></pre>
 </div>
-<div id="callout3" class="callout">
+<div id="development-releases" class="callout">
 <div class="callout-square">
 <i class="callout-icon" data-feather="bell"></i>
 </div>
-<div class="section level3 callout-title callout-inner">
-<h3 class="callout-title" id="development-releases">Development Releases<a class="anchor" aria-label="anchor" href="#development-releases"></a></h3>
+<div id="development-releases" class="callout-inner">
+<h3 class="callout-title">Development Releases<a class="anchor" aria-label="anchor" href="#development-releases"></a>
+</h3>
 <div class="callout-content">
 <p>If not specified, Nextflow will fetch the default git branch. For
 pipelines with a stable release this the default branch is
@@ -930,12 +933,13 @@ profile takes priority.</p>
 </div>
 <p><strong>Note</strong> The order in which config profiles are
 specified matters. Their priority increases from left to right.</p>
-<div id="callout4" class="callout">
+<div id="multiple-nextflow-configuration-locations" class="callout">
 <div class="callout-square">
 <i class="callout-icon" data-feather="bell"></i>
 </div>
-<div class="section level3 callout-title callout-inner">
-<h3 class="callout-title" id="multiple-nextflow-configuration-locations">Multiple Nextflow configuration locations<a class="anchor" aria-label="anchor" href="#multiple-nextflow-configuration-locations"></a></h3>
+<div id="multiple-nextflow-configuration-locations" class="callout-inner">
+<h3 class="callout-title">Multiple Nextflow configuration locations<a class="anchor" aria-label="anchor" href="#multiple-nextflow-configuration-locations"></a>
+</h3>
 <div class="callout-content">
 <p>Be clever with multiple Nextflow configuration locations. For
 example, use <code>-profile</code> for your cluster configuration, the
@@ -987,12 +991,13 @@ with a full size data set:</p>
 </h3>
 <pre class="sourceCode bash" tabindex="0"><code class="sourceCode bash"><span id="cb29-1"><a href="#cb29-1" tabindex="-1"></a><span class="ex">$</span> nextflow run nf-core/<span class="op">&lt;</span>pipeline_name<span class="op">&gt;</span> -profile test</span></code></pre>
 </div>
-<div id="callout5" class="callout">
+<div id="software-configuration-profile" class="callout">
 <div class="callout-square">
 <i class="callout-icon" data-feather="bell"></i>
 </div>
-<div class="section level3 callout-title callout-inner">
-<h3 class="callout-title" id="software-configuration-profile">Software configuration profile<a class="anchor" aria-label="anchor" href="#software-configuration-profile"></a></h3>
+<div id="software-configuration-profile" class="callout-inner">
+<h3 class="callout-title">Software configuration profile<a class="anchor" aria-label="anchor" href="#software-configuration-profile"></a>
+</h3>
 <div class="callout-content">
 <p>Note that you will typically still need to combine this with a
 software configuration profile for your system - e.g.
@@ -1244,7 +1249,7 @@ and/or adding command line parameters.</li>
         <p>Materials licensed under <a href="LICENSE.html">CC-BY 4.0</a> by the authors</p>
         
         <p>Template licensed under <a href="https://creativecommons.org/licenses/by-sa/4.0/" class="external-link">CC-BY 4.0</a> by <a href="https://carpentries.org/" class="external-link">The Carpentries</a></p>
-        <p>Built with <a href="https://github.com/carpentries/sandpaper/tree/0.16.2" class="external-link">sandpaper (0.16.2)</a>, <a href="https://github.com/carpentries/pegboard/tree/0.7.4" class="external-link">pegboard (0.7.4)</a>, and <a href="https://github.com/carpentries/varnish/tree/1.0.1" class="external-link">varnish (1.0.1)</a></p>
+        <p>Built with <a href="https://github.com/carpentries/sandpaper/tree/0.16.3" class="external-link">sandpaper (0.16.3)</a>, <a href="https://github.com/carpentries/pegboard/tree/0.7.4" class="external-link">pegboard (0.7.4)</a>, and <a href="https://github.com/carpentries/varnish/tree/1.0.1" class="external-link">varnish (1.0.1)</a></p>
 			</div>
 		</footer></div> <!-- / div.container -->
 	<div id="to-top">
@@ -1267,7 +1272,7 @@ and/or adding command line parameters.</li>
   "identifier": "https://carpentries-incubator.github.io/workflows-nextflow/instructor/12-nfcore.html",
   "dateCreated": "2021-02-01",
   "dateModified": "2024-01-08",
-  "datePublished": "2024-03-12"
+  "datePublished": "2024-03-19"
 }
 
   </script><script>

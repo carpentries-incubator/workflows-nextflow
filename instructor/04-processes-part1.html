@@ -367,12 +367,13 @@ input and output Channels.</p>
 <p>For example, below is the command you would run to count the number
 of sequence records in a FASTA format file such as the yeast
 transcriptome:</p>
-<div id="callout1" class="callout">
+<div id="fasta-format" class="callout">
 <div class="callout-square">
 <i class="callout-icon" data-feather="bell"></i>
 </div>
-<div class="section level3 callout-title callout-inner">
-<h3 class="callout-title" id="fasta-format">FASTA format<a class="anchor" aria-label="anchor" href="#fasta-format"></a></h3>
+<div id="fasta-format" class="callout-inner">
+<h3 class="callout-title">FASTA format<a class="anchor" aria-label="anchor" href="#fasta-format"></a>
+</h3>
 <div class="callout-content">
 <p>FASTA format is a text-based format for representing either
 nucleotide sequences or peptide sequences. A sequence in FASTA format
@@ -389,12 +390,13 @@ greater-than (“&gt;”) symbol in the first column.</p>
 </div>
 </div>
 </div>
-<div id="callout2" class="callout">
+<div id="zgrep--c" class="callout">
 <div class="callout-square">
 <i class="callout-icon" data-feather="bell"></i>
 </div>
-<div class="section level3 callout-title callout-inner">
-<h3 class="callout-title" id="zgrep--c">zgrep -c ‘^&gt;’<a class="anchor" aria-label="anchor" href="#zgrep--c"></a></h3>
+<div id="zgrep--c" class="callout-inner">
+<h3 class="callout-title">zgrep -c ‘^&gt;’<a class="anchor" aria-label="anchor" href="#zgrep--c"></a>
+</h3>
 <div class="callout-content">
 <p>The command
 <code>zgrep -c '^&gt;' data/yeast/transcriptome/Saccharomyces_cerevisiae.R64-1-1.cdna.all.fa.gz</code>
@@ -439,12 +441,13 @@ the command or, more generally, a script that is executed by it.</p>
 <span id="cb4-4"><a href="#cb4-4" tabindex="-1"></a><span class="op">}</span></span></code></pre>
 </div>
 <p>This process would run once.</p>
-<div id="callout3" class="callout">
+<div id="implicit-variables" class="callout">
 <div class="callout-square">
 <i class="callout-icon" data-feather="bell"></i>
 </div>
-<div class="section level3 callout-title callout-inner">
-<h3 class="callout-title" id="implicit-variables">Implicit variables<a class="anchor" aria-label="anchor" href="#implicit-variables"></a></h3>
+<div id="implicit-variables" class="callout-inner">
+<h3 class="callout-title">Implicit variables<a class="anchor" aria-label="anchor" href="#implicit-variables"></a>
+</h3>
 <div class="callout-content">
 <p>We use the Nextflow implicit variable <code>${projectDir}</code> to
 specify the directory where the main script is located. This is
@@ -748,12 +751,13 @@ process script.</p>
 <span id="cb19-12"><a href="#cb19-12" tabindex="-1"></a>  <span class="fu">PYSTUFF</span><span class="op">()</span></span>
 <span id="cb19-13"><a href="#cb19-13" tabindex="-1"></a><span class="op">}</span></span></code></pre>
 </div>
-<div id="callout4" class="callout">
+<div id="associated-scripts" class="callout">
 <div class="callout-square">
 <i class="callout-icon" data-feather="bell"></i>
 </div>
-<div class="section level3 callout-title callout-inner">
-<h3 class="callout-title" id="associated-scripts">Associated scripts<a class="anchor" aria-label="anchor" href="#associated-scripts"></a></h3>
+<div id="associated-scripts" class="callout-inner">
+<h3 class="callout-title">Associated scripts<a class="anchor" aria-label="anchor" href="#associated-scripts"></a>
+</h3>
 <div class="callout-content">
 <p>Scripts such as the one in the example above,
 <code>myscript.py</code>, can be stored in a <code>bin</code> folder at
@@ -774,12 +778,13 @@ reference a variable in the script block you can use the <code>$</code>
 in front of the Nextflow variable name, and additionally you can add
 <code>{}</code> around the variable name
 e.g. <code>${projectDir}</code>.</p>
-<div id="callout5" class="callout">
+<div id="variable-substitutions" class="callout">
 <div class="callout-square">
 <i class="callout-icon" data-feather="bell"></i>
 </div>
-<div class="section level3 callout-title callout-inner">
-<h3 class="callout-title" id="variable-substitutions">Variable substitutions<a class="anchor" aria-label="anchor" href="#variable-substitutions"></a></h3>
+<div id="variable-substitutions" class="callout-inner">
+<h3 class="callout-title">Variable substitutions<a class="anchor" aria-label="anchor" href="#variable-substitutions"></a>
+</h3>
 <div class="callout-content">
 <p>Similar to bash scripting Nextflow uses the <code>$</code> character
 to introduce variable substitutions. The variable name to be expanded
@@ -1112,12 +1117,13 @@ or more input declarations.</p>
 <span id="cb34-2"><a href="#cb34-2" tabindex="-1"></a>  <span class="op">&lt;</span>input qualifier<span class="op">&gt;</span> <span class="op">&lt;</span>input name<span class="op">&gt;</span></span></code></pre>
 </div>
 <p>The input qualifier declares the type of data to be received.</p>
-<div id="callout6" class="callout">
+<div id="input-qualifiers" class="callout">
 <div class="callout-square">
 <i class="callout-icon" data-feather="bell"></i>
 </div>
-<div class="section level3 callout-title callout-inner">
-<h3 class="callout-title" id="input-qualifiers">Input qualifiers<a class="anchor" aria-label="anchor" href="#input-qualifiers"></a></h3>
+<div id="input-qualifiers" class="callout-inner">
+<h3 class="callout-title">Input qualifiers<a class="anchor" aria-label="anchor" href="#input-qualifiers"></a>
+</h3>
 <div class="callout-content">
 <ul><li>
 <code>val</code>: Lets you access the received input value by its
@@ -1189,12 +1195,13 @@ processing chromosome A
 <p>In the above example the process is executed 16 times; each time a
 value is received from the queue channel <code>chr_ch</code> it is used
 to run the process.</p>
-<div id="callout7" class="callout">
+<div id="channel-order" class="callout">
 <div class="callout-square">
 <i class="callout-icon" data-feather="bell"></i>
 </div>
-<div class="section level3 callout-title callout-inner">
-<h3 class="callout-title" id="channel-order">Channel order<a class="anchor" aria-label="anchor" href="#channel-order"></a></h3>
+<div id="channel-order" class="callout-inner">
+<h3 class="callout-title">Channel order<a class="anchor" aria-label="anchor" href="#channel-order"></a>
+</h3>
 <div class="callout-content">
 <p>The channel guarantees that items are delivered in the same order as
 they have been sent, but since the process is executed in a parallel
@@ -1310,12 +1317,13 @@ sample.fq.gz 52592
 
 sample.fq.gz 58708</code></pre>
 </div>
-<div id="callout8" class="callout">
+<div id="file-objects-as-inputs" class="callout">
 <div class="callout-square">
 <i class="callout-icon" data-feather="bell"></i>
 </div>
-<div class="section level3 callout-title callout-inner">
-<h3 class="callout-title" id="file-objects-as-inputs">File Objects as inputs<a class="anchor" aria-label="anchor" href="#file-objects-as-inputs"></a></h3>
+<div id="file-objects-as-inputs" class="callout-inner">
+<h3 class="callout-title">File Objects as inputs<a class="anchor" aria-label="anchor" href="#file-objects-as-inputs"></a>
+</h3>
 <div class="callout-content">
 <p>When a process declares an input file, the corresponding channel
 elements must be file objects, i.e. created with the path helper
@@ -1801,7 +1809,7 @@ name.”</li>
         <p>Materials licensed under <a href="LICENSE.html">CC-BY 4.0</a> by the authors</p>
         
         <p>Template licensed under <a href="https://creativecommons.org/licenses/by-sa/4.0/" class="external-link">CC-BY 4.0</a> by <a href="https://carpentries.org/" class="external-link">The Carpentries</a></p>
-        <p>Built with <a href="https://github.com/carpentries/sandpaper/tree/0.16.2" class="external-link">sandpaper (0.16.2)</a>, <a href="https://github.com/carpentries/pegboard/tree/0.7.4" class="external-link">pegboard (0.7.4)</a>, and <a href="https://github.com/carpentries/varnish/tree/1.0.1" class="external-link">varnish (1.0.1)</a></p>
+        <p>Built with <a href="https://github.com/carpentries/sandpaper/tree/0.16.3" class="external-link">sandpaper (0.16.3)</a>, <a href="https://github.com/carpentries/pegboard/tree/0.7.4" class="external-link">pegboard (0.7.4)</a>, and <a href="https://github.com/carpentries/varnish/tree/1.0.1" class="external-link">varnish (1.0.1)</a></p>
 			</div>
 		</footer></div> <!-- / div.container -->
 	<div id="to-top">
@@ -1824,7 +1832,7 @@ name.”</li>
   "identifier": "https://carpentries-incubator.github.io/workflows-nextflow/instructor/04-processes-part1.html",
   "dateCreated": "2021-02-01",
   "dateModified": "2023-12-11",
-  "datePublished": "2024-03-12"
+  "datePublished": "2024-03-19"
 }
 
   </script><script>

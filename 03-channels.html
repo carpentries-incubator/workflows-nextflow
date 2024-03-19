@@ -399,12 +399,13 @@ in two ways:</p>
 <ol style="list-style-type: decimal"><li>As the outputs of a process.</li>
 <li>Explicitly using channel factory methods such as <a href="https://www.nextflow.io/docs/latest/channel.html#of" class="external-link">Channel.of</a>
 or <a href="https://www.nextflow.io/docs/latest/channel.html#frompath" class="external-link">Channel.fromPath</a>.</li>
-</ol><div id="callout1" class="callout">
+</ol><div id="dsl1" class="callout">
 <div class="callout-square">
 <i class="callout-icon" data-feather="bell"></i>
 </div>
-<div class="section level3 callout-title callout-inner">
-<h3 class="callout-title" id="dsl1">DSL1<a class="anchor" aria-label="anchor" href="#dsl1"></a></h3>
+<div id="dsl1" class="callout-inner">
+<h3 class="callout-title">DSL1<a class="anchor" aria-label="anchor" href="#dsl1"></a>
+</h3>
 <div class="callout-content">
 <p>In Nextflow DSL1 queue channels can only be used once in a workflow,
 either connecting workflow input to process input, or process output to
@@ -570,12 +571,13 @@ time. More information on the range operator can be found <a href="https://www.l
 <p>Arguments passed to the <code>of</code> method can be of varying
 types e.g., combinations of numbers, strings, or objects. In the above
 examples we have examples of both string and number data types.</p>
-<div id="callout2" class="callout">
+<div id="channel.from" class="callout">
 <div class="callout-square">
 <i class="callout-icon" data-feather="bell"></i>
 </div>
-<div class="section level3 callout-title callout-inner">
-<h3 class="callout-title" id="channel-from">Channel.from<a class="anchor" aria-label="anchor" href="#channel-from"></a></h3>
+<div id="channel.from" class="callout-inner">
+<h3 class="callout-title">Channel.from<a class="anchor" aria-label="anchor" href="#channel.from"></a>
+</h3>
 <div class="callout-content">
 <p>You may see the method <code>Channel.from</code> in older nextflow
 scripts. This performs a similar function but is now deprecated (no
@@ -659,12 +661,13 @@ queue channel from a list object.</p>
 <pre class="output" tabindex="0"><code><span><span class="va">salmon</span></span>
 <span><span class="va">kallisto</span></span></code></pre>
 </div>
-<div id="callout3" class="callout">
+<div id="channel.fromlist-vs-channel.of" class="callout">
 <div class="callout-square">
 <i class="callout-icon" data-feather="bell"></i>
 </div>
-<div class="section level3 callout-title callout-inner">
-<h3 class="callout-title" id="channel-fromlist-vs-channel-of">Channel.fromList vs Channel.of<a class="anchor" aria-label="anchor" href="#channel-fromlist-vs-channel-of"></a></h3>
+<div id="channel.fromlist-vs-channel.of" class="callout-inner">
+<h3 class="callout-title">Channel.fromList vs Channel.of<a class="anchor" aria-label="anchor" href="#channel.fromlist-vs-channel.of"></a>
+</h3>
 <div class="callout-content">
 <p>In the above example, the channel has two elements. If you has used
 the Channel.of(aligner_list) it would have contained only 1 element
@@ -1003,12 +1006,13 @@ pattern.</p>
 </div>
 <p>See more information about the channel factory
 <code>fromFilePairs</code> <a href="https://www.nextflow.io/docs/latest/channel.html#fromfilepairs" class="external-link">here</a></p>
-<div id="callout4" class="callout">
+<div id="more-complex-patterns" class="callout">
 <div class="callout-square">
 <i class="callout-icon" data-feather="bell"></i>
 </div>
-<div class="section level3 callout-title callout-inner">
-<h3 class="callout-title" id="more-complex-patterns">More complex patterns<a class="anchor" aria-label="anchor" href="#more-complex-patterns"></a></h3>
+<div id="more-complex-patterns" class="callout-inner">
+<h3 class="callout-title">More complex patterns<a class="anchor" aria-label="anchor" href="#more-complex-patterns"></a>
+</h3>
 <div class="callout-content">
 <p>If you need to match more complex patterns you should create a sample
 sheet specifying the files and create a channel from that. This will be
@@ -1107,12 +1111,13 @@ project accession.</p>
 [ERR908506, [ftp://ftp.sra.ebi.ac.uk/vol1/fastq/ERR908/ERR908506/ERR908506_1.fastq.gz, ftp://ftp.sra.ebi.ac.uk/vol1/fastq/ERR908/ERR908506/ERR908506_2.fastq.gz]]
 [ERR908505, [ftp://ftp.sra.ebi.ac.uk/vol1/fastq/ERR908/ERR908505/ERR908505_1.fastq.gz, ftp://ftp.sra.ebi.ac.uk/vol1/fastq/ERR908/ERR908505/ERR908505_2.fastq.gz]]</code></pre>
 </div>
-<div id="callout5" class="callout">
+<div id="read-pairs-from-sra" class="callout">
 <div class="callout-square">
 <i class="callout-icon" data-feather="bell"></i>
 </div>
-<div class="section level3 callout-title callout-inner">
-<h3 class="callout-title" id="read-pairs-from-sra">Read pairs from SRA<a class="anchor" aria-label="anchor" href="#read-pairs-from-sra"></a></h3>
+<div id="read-pairs-from-sra" class="callout-inner">
+<h3 class="callout-title">Read pairs from SRA<a class="anchor" aria-label="anchor" href="#read-pairs-from-sra"></a>
+</h3>
 <div class="callout-content">
 <p>Read pairs are implicitly managed, and are returned as a list of
 files.</p>
@@ -1178,7 +1183,7 @@ behaviour of a channel.</li>
         <p>Materials licensed under <a href="LICENSE.html">CC-BY 4.0</a> by the authors</p>
         
         <p>Template licensed under <a href="https://creativecommons.org/licenses/by-sa/4.0/" class="external-link">CC-BY 4.0</a> by <a href="https://carpentries.org/" class="external-link">The Carpentries</a></p>
-        <p>Built with <a href="https://github.com/carpentries/sandpaper/tree/0.16.2" class="external-link">sandpaper (0.16.2)</a>, <a href="https://github.com/carpentries/pegboard/tree/0.7.4" class="external-link">pegboard (0.7.4)</a>, and <a href="https://github.com/carpentries/varnish/tree/1.0.1" class="external-link">varnish (1.0.1)</a></p>
+        <p>Built with <a href="https://github.com/carpentries/sandpaper/tree/0.16.3" class="external-link">sandpaper (0.16.3)</a>, <a href="https://github.com/carpentries/pegboard/tree/0.7.4" class="external-link">pegboard (0.7.4)</a>, and <a href="https://github.com/carpentries/varnish/tree/1.0.1" class="external-link">varnish (1.0.1)</a></p>
 			</div>
 		</footer></div> <!-- / div.container -->
 	<div id="to-top">
@@ -1201,7 +1206,7 @@ behaviour of a channel.</li>
   "identifier": "https://carpentries-incubator.github.io/workflows-nextflow/03-channels.html",
   "dateCreated": "2021-02-01",
   "dateModified": "2023-12-11",
-  "datePublished": "2024-03-12"
+  "datePublished": "2024-03-19"
 }
 
   </script><script>
