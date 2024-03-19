@@ -214,7 +214,6 @@ process NUMSEQ {
 workflow {
   NUMSEQ()
 }
-~~~
 ```
 
 Or, for commands that span multiple lines you can encase the command in  triple quotes `"""`.
