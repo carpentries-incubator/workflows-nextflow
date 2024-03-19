@@ -116,6 +116,13 @@ description of Groovy semantics can be found in the [Groovy Documentation](https
 | Script Block              | A block within a Nextflow workflow that contains custom script code. Script blocks allow for the embedding of standard programming constructs and commands within the flow of a workflow.                                           |
 | Executor                  | The component responsible for managing the execution of processes in a Nextflow workflow. Executors handle task scheduling, execution, and resource allocation across different computing environments.                             |
 | Directive                 | Directives are annotations in a Nextflow script that provide execution instructions for processes. They control aspects like resource allocation, process retries, and container usage.                                             |
+| Pipeline                  | A sequence of processes orchestrated by Nextflow to perform a complex data analysis task. Pipelines are defined in Nextflow scripts and can be composed of multiple workflow blocks and processes.                               |
+| Singularity and Docker    | Containerization platforms supported by Nextflow for isolating and reproducing computational environments. They ensure that workflows are portable and can be executed consistently across different computing platforms.        |
+| Parameters                | Variables defined in a Nextflow script or passed at runtime to customize the execution of a workflow. Parameters allow for the dynamic configuration of workflows based on input data or user-defined settings.                   |
+| Groovy                    | The programming language used to write Nextflow scripts. Groovy is a powerful, optionally typed, and dynamic language, with static-typing and static compilation capabilities. It enhances Nextflow with scripting flexibility.  |
+| DSL2                      | The second version of the Nextflow domain-specific language, introducing modular and reusable workflow components. DSL2 allows for more structured and maintainable pipeline development.                                         |
+| Profile                   | A set of configuration options in Nextflow that can be activated to adapt the execution environment of a workflow. Profiles enable easy switching between different computing environments, like local, cloud, or cluster execution.|
+| Cache                     | In Nextflow, caching refers to the mechanism of reusing the results of executed processes in subsequent runs. This feature reduces computation time by avoiding the re-execution of unchanged tasks.                                |
 
 ## External references
 
