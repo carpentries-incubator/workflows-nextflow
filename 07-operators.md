@@ -711,14 +711,12 @@ csv_ch=channel
 
 ### Solution
 
-```
+```groovy
  csv_ch=channel
         .fromPath('data/yeast/samples.csv')
         .splitCsv(header:true)
 
 csv_ch.view({it.sample_id})
-~~~
-{: .language-groovy }
 ```
 
 :::::::::::::::::::::::::
