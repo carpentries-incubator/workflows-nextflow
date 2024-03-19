@@ -1675,16 +1675,15 @@ qualifer <code>each</code> for the letters queue channel:</p>
 <h2 id="input-repeaters-1">Input repeaters</h2>
 <p>Extend the script <code>process_exercise_repeat.nf</code> by adding
 more values to the <code>chr</code> queue channel e.g. A to P and
-running the process for each value. ~~~ //process_exercise_repeat.nf
-nextflow.enable.dsl=2 process COMBINE { input: path transcriptome val
-chr</p>
+running the process for each value. ```groovy
+//process_exercise_repeat.nf nextflow.enable.dsl=2 process COMBINE {
+input: path transcriptome val chr</p>
 <p>script: ““” printf “Number of sequences for chromosome <span class="math inline">\(chr: "
    zgrep -c "^&gt;Y\)</span>{chr}” ${transcriptome} ““” }</p>
 <p>transcriptome_ch =
 channel.fromPath(‘data/yeast/transcriptome/Saccharomyces_cerevisiae.R64-1-1.cdna.all.fa.gz’,
 checkIfExists: true) chr_ch = channel.of(‘A’)</p>
-<p>workflow { COMBINE(transcriptome_ch, chr_ch) } ~~~ {:
-.language-groovy }</p>
+<p>workflow { COMBINE(transcriptome_ch, chr_ch) } ```</p>
 <p>How many times does this process run?</p>
 </blockquote>
 </div>
