@@ -20,7 +20,7 @@ exercises: 15
 ::::::::::::::::::::::::::::::::::::::::::::::::::
 
 
-# Processes
+## Processes
 
 We now know how to create and use Channels to send data around a workflow. We will now see how to run tasks within a workflow using processes.
 
@@ -32,7 +32,7 @@ For example, below is the command you would run to count the number of sequence 
 
 :::::::::::::::::::::::::::::::::::::::::  callout
 
-## FASTA format
+### FASTA format
 FASTA format is a text-based format for representing either nucleotide sequences or peptide sequences. A sequence in FASTA format begins with a single-line description, followed by lines of sequence data. The description line is distinguished from the sequence data by a greater-than (">") symbol in the first column.
 ```bash
 >YBR024W_mRNA cdna chromosome:R64-1-1:II:289445:290350:1 gene:YBR024W gene_biotype:protein_coding transcript_biotype:protein_coding gene_symbol:SCO2 description:Protein anchored to mitochondrial inner membrane; may have a redundant function with Sco1p in delivery of copper to cytochrome c oxidase; interacts with Cox2p; SCO2 has a paralog, SCO1, that arose from the whole genome duplication [Source:SGD;Acc:S000000228]
@@ -44,7 +44,7 @@ ATAAAAGGACTCTTTTATAATGGAGGCGCATATCGAAGAGGGTTTTCAACGGGATGTTGT
 
 :::::::::::::::::::::::::::::::::::::::::  callout
 
-## zgrep -c '^>'
+### zgrep -c '^>'
 The command `zgrep -c '^>' data/yeast/transcriptome/Saccharomyces_cerevisiae.R64-1-1.cdna.all.fa.gz` is used in Unix-like systems for a specific purpose: it counts the number of sequences in a compressed FASTA file. The tool `zgrep` combines the functionalities of 'grep' for pattern searching and 'gzip' for handling compressed files. The `-c` option modifies this command to count the occurrences of lines matching the pattern, instead of displaying them. The pattern `'^>'` is designed to find lines that start with '>', which in FASTA files, denotes the beginning of a new sequence. Thus, this command efficiently counts how many sequences are contained within the specified compressed FASTA file.
 
 ::::::::::::::::::::::::::::::::::::::::::::::::::
@@ -1157,10 +1157,10 @@ This process runs 16 times.
 
 :::::::::::::::::::::::::::::::::::::::: keypoints
 
-- "A Nextflow process is an independent step in a workflow"
-- "Processes contain up to five definition blocks including: directives, inputs, outputs, when clause and finally a script block."
-- "The script block contains the commands you would like to run."
-- "A process should have a script but the other four blocks are optional"
-- "Inputs are defined in the input block with a type qualifier and a name."
+- A Nextflow process is an independent step in a workflow.
+- Processes contain up to five definition blocks including: directives, inputs, outputs, when clause and finally a script block.
+- The script block contains the commands you would like to run.
+- A process should have a script but the other four blocks are optional.
+- Inputs are defined in the input block with a type qualifier and a name.
 
 ::::::::::::::::::::::::::::::::::::::::::::::::::
