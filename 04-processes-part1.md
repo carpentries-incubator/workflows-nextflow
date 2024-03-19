@@ -46,6 +46,7 @@ ATAAAAGGACTCTTTTATAATGGAGGCGCATATCGAAGAGGGTTTTCAACGGGATGTTGT
 
 ## zgrep -c '^>'
 The command `zgrep -c '^>' data/yeast/transcriptome/Saccharomyces_cerevisiae.R64-1-1.cdna.all.fa.gz` is used in Unix-like systems for a specific purpose: it counts the number of sequences in a compressed FASTA file. The tool `zgrep` combines the functionalities of 'grep' for pattern searching and 'gzip' for handling compressed files. The `-c` option modifies this command to count the occurrences of lines matching the pattern, instead of displaying them. The pattern `'^>'` is designed to find lines that start with '>', which in FASTA files, denotes the beginning of a new sequence. Thus, this command efficiently counts how many sequences are contained within the specified compressed FASTA file.
+
 ::::::::::::::::::::::::::::::::::::::::::::::::::
 
 ```bash
