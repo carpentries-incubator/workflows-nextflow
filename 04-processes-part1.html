@@ -174,12 +174,23 @@
 <div class="accordion accordion-flush" id="accordionFlushcurrent">
   <div class="accordion-item">
     <div class="accordion-header" id="flush-headingcurrent">
+      <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapsecurrent" aria-expanded="true" aria-controls="flush-collapsecurrent">
         <span class="visually-hidden">Current Chapter</span>
         <span class="current-chapter">
         4. Processes
         </span>
-      
+      </button>
     </div><!--/div.accordion-header-->
+        
+    <div id="flush-collapsecurrent" class="accordion-collapse collapse show" aria-labelledby="flush-headingcurrent" data-bs-parent="#accordionFlushcurrent">
+      <div class="accordion-body">
+        <ul><li><a href="#processes">Processes</a></li>
+<li><a href="#process-definition">Process definition</a></li>
+<li><a href="#script">Script</a></li>
+<li><a href="#inputs">Inputs</a></li>
+<li><a href="#input-repeaters">Input repeaters</a></li>
+        </ul></div><!--/div.accordion-body-->
+    </div><!--/div.accordion-collapse-->
         
   </div><!--/div.accordion-item-->
 </div><!--/div.accordion-flush-->
@@ -350,9 +361,9 @@
 </div>
 </div>
 </div>
-<div class="section level1">
-<h1 id="processes">Processes<a class="anchor" aria-label="anchor" href="#processes"></a></h1>
-<p>We now know how to create and use Channels to send data around a
+<section id="processes"><h2 class="section-heading">Processes<a class="anchor" aria-label="anchor" href="#processes"></a>
+</h2>
+<hr class="half-width"><p>We now know how to create and use Channels to send data around a
 workflow. We will now see how to run tasks within a workflow using
 processes.</p>
 <p>A <code>process</code> is the way Nextflow executes commands you
@@ -423,9 +434,9 @@ the specified compressed FASTA file.</p>
 </div>
 <p>Now we will show how to convert this into a simple Nextflow
 process.</p>
-<div class="section level2">
-<h2 id="process-definition">Process definition<a class="anchor" aria-label="anchor" href="#process-definition"></a></h2>
-<p>The process definition starts with keyword <code>process</code>,
+</section><section id="process-definition"><h2 class="section-heading">Process definition<a class="anchor" aria-label="anchor" href="#process-definition"></a>
+</h2>
+<hr class="half-width"><p>The process definition starts with keyword <code>process</code>,
 followed by process name, in this case <code>NUMSEQ</code>, and finally
 the process <code>body</code> delimited by curly brackets
 <code>{}</code>. The process body must contain a string which represents
@@ -513,7 +524,7 @@ process <code>COUNT_BASES</code> that runs the command.</p>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution1" aria-expanded="false" aria-controls="collapseSolution1">
   <h4 class="accordion-header" id="headingSolution1">Show me the solution</h4>
 </button>
-<div id="collapseSolution1" class="accordion-collapse collapse" data-bs-parent="#accordionSolution1" aria-labelledby="headingSolution1">
+<div id="collapseSolution1" class="accordion-collapse collapse" aria-labelledby="headingSolution1" data-bs-parent="#accordionSolution1">
 <div class="accordion-body">
 <div class="codewrapper sourceCode" id="cb9">
 <h3 class="code-label">GROOVY<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
@@ -595,10 +606,9 @@ its task.</li>
 <span id="cb12-11"><a href="#cb12-11" tabindex="-1"></a><span class="op">}</span></span></code></pre>
 </div>
 </div>
-</div>
-<div class="section level2">
-<h2 id="script">Script<a class="anchor" aria-label="anchor" href="#script"></a></h2>
-<p>At minimum a process block must contain a <code>script</code>
+</section><section id="script"><h2 class="section-heading">Script<a class="anchor" aria-label="anchor" href="#script"></a>
+</h2>
+<hr class="half-width"><p>At minimum a process block must contain a <code>script</code>
 block.</p>
 <p>The <code>script</code> block is a String “statement” that defines
 the command that is executed by the process to carry out its task. These
@@ -890,7 +900,7 @@ will print the process’ stdout to the terminal.</p>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution2" aria-expanded="false" aria-controls="collapseSolution2">
   <h4 class="accordion-header" id="headingSolution2">Show me the solution</h4>
 </button>
-<div id="collapseSolution2" class="accordion-collapse collapse" data-bs-parent="#accordionSolution2" aria-labelledby="headingSolution2">
+<div id="collapseSolution2" class="accordion-collapse collapse" aria-labelledby="headingSolution2" data-bs-parent="#accordionSolution2">
 <div class="accordion-body">
 <div class="codewrapper sourceCode" id="cb25">
 <h3 class="code-label">GROOVY<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
@@ -1079,10 +1089,9 @@ Number of sequences in transciptome
 6612</code></pre>
 </div>
 </div>
-</div>
-<div class="section level2">
-<h2 id="inputs">Inputs<a class="anchor" aria-label="anchor" href="#inputs"></a></h2>
-<p>Processes are isolated from each other but can communicate by sending
+</section><section id="inputs"><h2 class="section-heading">Inputs<a class="anchor" aria-label="anchor" href="#inputs"></a>
+</h2>
+<hr class="half-width"><p>Processes are isolated from each other but can communicate by sending
 values and files via Nextflow channels from <code>input</code> and into
 <code>output</code> blocks.</p>
 <p>The <code>input</code> block defines which channels the process is
@@ -1366,7 +1375,7 @@ input. 3. Replace <code>params.transcriptome</code> in the
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution3" aria-expanded="false" aria-controls="collapseSolution3">
   <h4 class="accordion-header" id="headingSolution3">Show me the solution</h4>
 </button>
-<div id="collapseSolution3" class="accordion-collapse collapse" data-bs-parent="#accordionSolution3" aria-labelledby="headingSolution3">
+<div id="collapseSolution3" class="accordion-collapse collapse" aria-labelledby="headingSolution3" data-bs-parent="#accordionSolution3">
 <div class="accordion-body">
 <p>## Solution</p>
 <div class="codewrapper sourceCode" id="cb46">
@@ -1579,7 +1588,7 @@ combines two input channels</p>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution4" aria-expanded="false" aria-controls="collapseSolution4">
   <h4 class="accordion-header" id="headingSolution4">Show me the solution</h4>
 </button>
-<div id="collapseSolution4" class="accordion-collapse collapse" data-bs-parent="#accordionSolution4" aria-labelledby="headingSolution4">
+<div id="collapseSolution4" class="accordion-collapse collapse" aria-labelledby="headingSolution4" data-bs-parent="#accordionSolution4">
 <div class="accordion-body">
 <p>## Solution</p>
 <div class="codewrapper sourceCode" id="cb59">
@@ -1610,10 +1619,9 @@ combines two input channels</p>
 </div>
 </div>
 </div>
-</div>
-<div class="section level2">
-<h2 id="input-repeaters">Input repeaters<a class="anchor" aria-label="anchor" href="#input-repeaters"></a></h2>
-<p>We saw previously that by default the number of times a process runs
+</section><section id="input-repeaters"><h2 class="section-heading">Input repeaters<a class="anchor" aria-label="anchor" href="#input-repeaters"></a>
+</h2>
+<hr class="half-width"><p>We saw previously that by default the number of times a process runs
 is defined by the queue channel with the fewest items. However, the
 <code>each</code> qualifier allows you to repeat the execution of a
 process for each item in a list or a queue channel, every time new data
@@ -1706,7 +1714,7 @@ running the process for each value.</p>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution5" aria-expanded="false" aria-controls="collapseSolution5">
   <h4 class="accordion-header" id="headingSolution5">Show me the solution</h4>
 </button>
-<div id="collapseSolution5" class="accordion-collapse collapse" data-bs-parent="#accordionSolution5" aria-labelledby="headingSolution5">
+<div id="collapseSolution5" class="accordion-collapse collapse" aria-labelledby="headingSolution5" data-bs-parent="#accordionSolution5">
 <div class="accordion-body">
 <div class="codewrapper sourceCode" id="cb64">
 <h3 class="code-label">GROOVY<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
@@ -1752,24 +1760,19 @@ running the process for each value.</p>
 <h3 class="callout-title">Key Points<a class="anchor" aria-label="anchor" href="#keypoints1"></a>
 </h3>
 <div class="callout-content">
-<ul><li>“A Nextflow process is an independent step in a workflow”</li>
-<li>“Processes contain up to five definition blocks including:
+<ul><li>A Nextflow process is an independent step in a workflow.</li>
+<li>Processes contain up to five definition blocks including:
 directives, inputs, outputs, when clause and finally a script
-block.”</li>
-<li>“The script block contains the commands you would like to run.”</li>
-<li>“A process should have a script but the other four blocks are
-optional”</li>
-<li>“Inputs are defined in the input block with a type qualifier and a
-name.”</li>
+block.</li>
+<li>The script block contains the commands you would like to run.</li>
+<li>A process should have a script but the other four blocks are
+optional.</li>
+<li>Inputs are defined in the input block with a type qualifier and a
+name.</li>
 </ul></div>
 </div>
 </div>
-</div>
-</div>
-
-
-
-      </div> <!-- / div.lesson-content -->
+</section></div> <!-- / div.lesson-content -->
     </main><!-- / main#main-content.main-content --><nav class="bottom-pagination mx-md-4" aria-label="Previous and Next Chapter"><div class="d-block d-sm-block d-md-none">
         <a class="chapter-link" href="03-channels.html"><i aria-hidden="true" class="small-arrow" data-feather="arrow-left"></i>Previous</a>
         <a class="chapter-link float-end" href="05-processes-part2.html">Next<i aria-hidden="true" class="small-arrow" data-feather="arrow-right"></i></a>
