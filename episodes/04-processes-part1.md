@@ -1091,7 +1091,7 @@ The process will run eight times.
 
 > ## Input repeaters
 > Extend the script `process_exercise_repeat.nf` by adding more values to the `chr` queue channel e.g. A to P and running the process for each value.
->  ~~~
+>  ```groovy
 > //process_exercise_repeat.nf
 >  nextflow.enable.dsl=2
 >  process COMBINE {
@@ -1112,8 +1112,7 @@ The process will run eight times.
 >  workflow {
 >    COMBINE(transcriptome_ch, chr_ch)
 >  }
->  ~~~
->  {: .language-groovy }
+> ```
 >
 > How many times does this process run?
 
