@@ -515,7 +515,7 @@ process <code>COUNT_BASES</code> that runs the command.</p>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution1" aria-expanded="false" aria-controls="collapseSolution1">
   <h4 class="accordion-header" id="headingSolution1">Show me the solution</h4>
 </button>
-<div id="collapseSolution1" class="accordion-collapse collapse" data-bs-parent="#accordionSolution1" aria-labelledby="headingSolution1">
+<div id="collapseSolution1" class="accordion-collapse collapse" aria-labelledby="headingSolution1" data-bs-parent="#accordionSolution1">
 <div class="accordion-body">
 <div class="codewrapper sourceCode" id="cb9">
 <h3 class="code-label">GROOVY<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
@@ -665,7 +665,7 @@ Number of sequences for chromosome A:118</code></pre>
   <h3 class="accordion-header" id="headingInstructor1">
 <div class="note-square"><i aria-hidden="true" class="callout-icon" data-feather="edit-2"></i></div>Instructor Note</h3>
 </button>
-<div id="collapseInstructor1" class="accordion-collapse collapse" data-bs-parent="#accordionInstructor1" aria-labelledby="headingInstructor1">
+<div id="collapseInstructor1" class="accordion-collapse collapse" aria-labelledby="headingInstructor1" data-bs-parent="#accordionInstructor1">
 <div class="accordion-body">
 <p>The following section on python and R scripts is not meant to be run
 by the instructor or learners. It is meant to be a demonstration of the
@@ -906,7 +906,7 @@ will print the process’ stdout to the terminal.</p>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution2" aria-expanded="false" aria-controls="collapseSolution2">
   <h4 class="accordion-header" id="headingSolution2">Show me the solution</h4>
 </button>
-<div id="collapseSolution2" class="accordion-collapse collapse" data-bs-parent="#accordionSolution2" aria-labelledby="headingSolution2">
+<div id="collapseSolution2" class="accordion-collapse collapse" aria-labelledby="headingSolution2" data-bs-parent="#accordionSolution2">
 <div class="accordion-body">
 <div class="codewrapper sourceCode" id="cb25">
 <h3 class="code-label">GROOVY<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
@@ -1382,7 +1382,7 @@ input. 3. Replace <code>params.transcriptome</code> in the
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution3" aria-expanded="false" aria-controls="collapseSolution3">
   <h4 class="accordion-header" id="headingSolution3">Show me the solution</h4>
 </button>
-<div id="collapseSolution3" class="accordion-collapse collapse" data-bs-parent="#accordionSolution3" aria-labelledby="headingSolution3">
+<div id="collapseSolution3" class="accordion-collapse collapse" aria-labelledby="headingSolution3" data-bs-parent="#accordionSolution3">
 <div class="accordion-body">
 <p>## Solution</p>
 <div class="codewrapper sourceCode" id="cb46">
@@ -1595,7 +1595,7 @@ combines two input channels</p>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution4" aria-expanded="false" aria-controls="collapseSolution4">
   <h4 class="accordion-header" id="headingSolution4">Show me the solution</h4>
 </button>
-<div id="collapseSolution4" class="accordion-collapse collapse" data-bs-parent="#accordionSolution4" aria-labelledby="headingSolution4">
+<div id="collapseSolution4" class="accordion-collapse collapse" aria-labelledby="headingSolution4" data-bs-parent="#accordionSolution4">
 <div class="accordion-body">
 <p>## Solution</p>
 <div class="codewrapper sourceCode" id="cb59">
@@ -1627,9 +1627,8 @@ combines two input channels</p>
 </div>
 </div>
 </div>
-</div>
-<div class="section level1">
-<h1 id="input-repeaters">Input repeaters<a class="anchor" aria-label="anchor" href="#input-repeaters"></a></h1>
+<div class="section level2">
+<h2 id="input-repeaters">Input repeaters<a class="anchor" aria-label="anchor" href="#input-repeaters"></a></h2>
 <p>We saw previously that by default the number of times a process runs
 is defined by the queue channel with the fewest items. However, the
 <code>each</code> qualifier allows you to repeat the execution of a
@@ -1679,74 +1678,71 @@ qualifer <code>each</code> for the letters queue channel:</p>
 1 and b
 2 and a</code></pre>
 </div>
-<div id="challenge5" class="callout challenge">
+<div id="input-repeaters-1" class="callout discussion">
 <div class="callout-square">
-<i class="callout-icon" data-feather="zap"></i>
+<i class="callout-icon" data-feather="message-circle"></i>
 </div>
-<div class="callout-inner">
-<h3 class="callout-title">Challenge<a class="anchor" aria-label="anchor" href="#challenge5"></a>
+<div id="input-repeaters-1" class="callout-inner">
+<h3 class="callout-title">Input repeaters<a class="anchor" aria-label="anchor" href="#input-repeaters-1"></a>
 </h3>
 <div class="callout-content">
-<blockquote>
-<h2 id="input-repeaters-1">Input repeaters</h2>
 <p>Extend the script <code>process_exercise_repeat.nf</code> by adding
 more values to the <code>chr</code> queue channel e.g. A to P and
 running the process for each value. ```groovy
 //process_exercise_repeat.nf nextflow.enable.dsl=2 process COMBINE {
 input: path transcriptome val chr</p>
-<p>script: ““” printf “Number of sequences for chromosome <span class="math inline">\(chr: "
-   zgrep -c "^&gt;Y\)</span>{chr}” ${transcriptome} ““” }</p>
+<div class="codewrapper sourceCode" id="cb63">
+<h3 class="code-label">SH<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="sourceCode sh" tabindex="0"><code class="sourceCode bash"><span id="cb63-1"><a href="#cb63-1" tabindex="-1"></a><span class="ex">script:</span></span>
+<span id="cb63-2"><a href="#cb63-2" tabindex="-1"></a><span class="st">"""</span></span>
+<span id="cb63-3"><a href="#cb63-3" tabindex="-1"></a><span class="st"> printf "</span><span class="ex">Number</span> of sequences for chromosome <span class="va">$chr</span>: <span class="st">"</span></span>
+<span id="cb63-4"><a href="#cb63-4" tabindex="-1"></a><span class="st">zgrep -c "</span>^<span class="op">&gt;</span>Y<span class="va">${chr}</span><span class="st">" </span><span class="va">${transcriptome}</span></span>
+<span id="cb63-5"><a href="#cb63-5" tabindex="-1"></a><span class="st">"""</span></span></code></pre>
+</div>
+<p>}</p>
 <p>transcriptome_ch =
 channel.fromPath(‘data/yeast/transcriptome/Saccharomyces_cerevisiae.R64-1-1.cdna.all.fa.gz’,
 checkIfExists: true) chr_ch = channel.of(‘A’)</p>
-<p>workflow { COMBINE(transcriptome_ch, chr_ch) } ```</p>
-<p>How many times does this process run?</p>
-</blockquote>
-</div>
-</div>
-</div>
-<div id="accordionSolution5" class="accordion challenge-accordion accordion-flush">
-<div class="accordion-item">
-<button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution5" aria-expanded="false" aria-controls="collapseSolution5">
-  <h4 class="accordion-header" id="headingSolution5">Show me the solution</h4>
-</button>
-<div id="collapseSolution5" class="accordion-collapse collapse" data-bs-parent="#accordionSolution5" aria-labelledby="headingSolution5">
-<div class="accordion-body">
-<div class="codewrapper sourceCode" id="cb63">
-<h3 class="code-label">GROOVY<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
-</h3>
-<pre class="sourceCode groovy" tabindex="0"><code class="sourceCode groovy"><span id="cb63-1"><a href="#cb63-1" tabindex="-1"></a> <span class="co">//process_exercise_repeat_answer.nf</span></span>
-<span id="cb63-2"><a href="#cb63-2" tabindex="-1"></a> nextflow<span class="op">.</span>enable<span class="op">.</span>dsl<span class="op">=</span><span class="dv">2</span></span>
-<span id="cb63-3"><a href="#cb63-3" tabindex="-1"></a></span>
-<span id="cb63-4"><a href="#cb63-4" tabindex="-1"></a> process COMBINE <span class="op">{</span></span>
-<span id="cb63-5"><a href="#cb63-5" tabindex="-1"></a>   input<span class="op">:</span></span>
-<span id="cb63-6"><a href="#cb63-6" tabindex="-1"></a>   path transcriptome</span>
-<span id="cb63-7"><a href="#cb63-7" tabindex="-1"></a>   each chr</span>
-<span id="cb63-8"><a href="#cb63-8" tabindex="-1"></a>  </span>
-<span id="cb63-9"><a href="#cb63-9" tabindex="-1"></a>   script<span class="op">:</span></span>
-<span id="cb63-10"><a href="#cb63-10" tabindex="-1"></a>   <span class="st">"""</span></span>
-<span id="cb63-11"><a href="#cb63-11" tabindex="-1"></a><span class="st">   printf "Number of sequences for chromosome </span><span class="ss">$chr</span><span class="st">: "</span></span>
-<span id="cb63-12"><a href="#cb63-12" tabindex="-1"></a><span class="st">   zgrep -c "^&gt;Y</span><span class="ss">${</span>chr<span class="ss">}</span><span class="st">" </span><span class="ss">${</span>transcriptome<span class="ss">}</span></span>
-<span id="cb63-13"><a href="#cb63-13" tabindex="-1"></a><span class="st">   """</span></span>
-<span id="cb63-14"><a href="#cb63-14" tabindex="-1"></a> <span class="op">}</span></span>
-<span id="cb63-15"><a href="#cb63-15" tabindex="-1"></a></span>
-<span id="cb63-16"><a href="#cb63-16" tabindex="-1"></a> transcriptome_ch <span class="op">=</span> channel<span class="op">.</span><span class="fu">fromPath</span><span class="op">(</span><span class="st">'data/yeast/transcriptome/Saccharomyces_cerevisiae.R64-1-1.cdna.all.fa.gz'</span><span class="op">,</span> checkIfExists<span class="op">:</span> <span class="kw">true</span><span class="op">)</span></span>
-<span id="cb63-17"><a href="#cb63-17" tabindex="-1"></a> chr_ch <span class="op">=</span> channel<span class="op">.</span><span class="fu">of</span><span class="op">(</span><span class="st">'A'</span><span class="op">..</span><span class="st">'P'</span><span class="op">)</span></span>
-<span id="cb63-18"><a href="#cb63-18" tabindex="-1"></a></span>
-<span id="cb63-19"><a href="#cb63-19" tabindex="-1"></a> workflow <span class="op">{</span></span>
-<span id="cb63-20"><a href="#cb63-20" tabindex="-1"></a>   <span class="fu">COMBINE</span><span class="op">(</span>transcriptome_ch<span class="op">,</span> chr_ch<span class="op">)</span></span>
-<span id="cb63-21"><a href="#cb63-21" tabindex="-1"></a> <span class="op">}</span></span></code></pre>
-</div>
-<div class="codewrapper sourceCode" id="cb64">
+<p>workflow { COMBINE(transcriptome_ch, chr_ch) }</p>
+<pre><code>
+How many times does this process run?
+
+:::::::::::::::  solution
+
+## Solution
+```groovy
+ //process_exercise_repeat_answer.nf
+ nextflow.enable.dsl=2
+
+ process COMBINE {
+   input:
+   path transcriptome
+   each chr
+  
+   script:
+   """
+   printf "Number of sequences for chromosome $chr: "
+   zgrep -c "^&gt;Y${chr}" ${transcriptome}
+   """
+ }
+
+ transcriptome_ch = channel.fromPath('data/yeast/transcriptome/Saccharomyces_cerevisiae.R64-1-1.cdna.all.fa.gz', checkIfExists: true)
+ chr_ch = channel.of('A'..'P')
+
+ workflow {
+   COMBINE(transcriptome_ch, chr_ch)
+ }</code></pre>
+<div class="codewrapper sourceCode" id="cb65">
 <h3 class="code-label">BASH<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode bash" tabindex="0"><code class="sourceCode bash"><span id="cb64-1"><a href="#cb64-1" tabindex="-1"></a><span class="ex">$</span> nextflow run process_exercise_repeat.nf <span class="at">-process.echo</span></span></code></pre>
+<pre class="sourceCode bash" tabindex="0"><code class="sourceCode bash"><span id="cb65-1"><a href="#cb65-1" tabindex="-1"></a><span class="ex">$</span> nextflow run process_exercise_repeat.nf <span class="at">-process.echo</span></span></code></pre>
 </div>
 <p>This process runs 16 times.</p>
 </div>
 </div>
 </div>
-</div>
+<p>::::::::::::::::::::::::::::::::::::::::::::::::::</p>
 <div id="keypoints1" class="callout keypoints">
 <div class="callout-square">
 <i class="callout-icon" data-feather="key"></i>
@@ -1765,6 +1761,7 @@ optional”</li>
 <li>“Inputs are defined in the input block with a type qualifier and a
 name.”</li>
 </ul></div>
+</div>
 </div>
 </div>
 </div>
