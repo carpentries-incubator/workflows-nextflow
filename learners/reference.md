@@ -108,6 +108,14 @@ description of Groovy semantics can be found in the [Groovy Documentation](https
 | Dataflow programming     | dataflow programming is a programming paradigm that models a program as a directed graph of the data flowing between operation                                                                                                      | 
 | Domain Specific Language | A domain-specific language (DSL) is a computer language specialized to a particular application domain. Nextflow is a language for computational workflows                                                                          | 
 | Tuple                    | An ordered, immutable list of elements. A tuple can be seen as an ordered collection of objects of different types. These objects do not necessarily relate to each other in any way, but collectively they will have some meaning. | 
+| Operators                 | In Nextflow, operators are methods that allow the transformation, filtering, and combination of data streams. They facilitate the management and manipulation of data within a workflow.                                           |
+| Nextflow                  | A domain-specific language and toolkit for parallel and scalable computational workflows. Nextflow enables the scripting of complex data analysis pipelines in a reproducible and efficient manner.                                 |
+| Process                   | A fundamental component in Nextflow representing a computational task. Each process defines a small part of the overall workflow, encapsulating the command-line tools, scripts, and computational resources required for execution.|
+| Workflow Block            | A segment of a Nextflow script defining a series of operations or processes to be executed              |
+| Channel                   | Channels are the conduits through which data flows in a Nextflow workflow. They connect processes, allowing for the movement and transformation of data from one process to the next.                                                |
+| Script Block              | A block within a Nextflow workflow that contains custom script code. Script blocks allow for the embedding of standard programming constructs and commands within the flow of a workflow.                                           |
+| Executor                  | The component responsible for managing the execution of processes in a Nextflow workflow. Executors handle task scheduling, execution, and resource allocation across different computing environments.                             |
+| Directive                 | Directives are annotations in a Nextflow script that provide execution instructions for processes. They control aspects like resource allocation, process retries, and container usage.                                             |
 
 ## External references
 
