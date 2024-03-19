@@ -386,9 +386,6 @@ smaller chunks.</li>
 <li>
 <strong>Combining</strong> operators: join channel together.</li>
 <li>
-<strong>Forking</strong> operators: split a single channel into
-multiple channels.</li>
-<li>
 <strong>Maths</strong> operators: apply simple math function on
 channels.</li>
 <li>
@@ -1050,38 +1047,6 @@ emitted.</p>
 </div>
 </div>
 <div class="section level3">
-<h3 id="forking-operators">Forking operators<a class="anchor" aria-label="anchor" href="#forking-operators"></a></h3>
-<p>Forking operators split a single channel into multiple channels.</p>
-<div class="section level4">
-<h4 id="into">into<a class="anchor" aria-label="anchor" href="#into"></a></h4>
-<p>The <code>into</code> operator connects a source channel to two or
-more target channels in such a way the values emitted by the source
-channel are copied to the target channels. Channel names are separated
-by a semi colon. For example:</p>
-<div class="codewrapper sourceCode" id="cb48">
-<h3 class="code-label">GROOVY<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
-</h3>
-<pre class="sourceCode groovy" tabindex="0"><code class="sourceCode groovy"><span id="cb48-1"><a href="#cb48-1" tabindex="-1"></a>channel</span>
-<span id="cb48-2"><a href="#cb48-2" tabindex="-1"></a>     <span class="op">.</span><span class="fu">of</span><span class="op">(</span> <span class="st">'chr1'</span><span class="op">,</span> <span class="st">'chr2'</span><span class="op">,</span> <span class="st">'chr3'</span> <span class="op">)</span></span>
-<span id="cb48-3"><a href="#cb48-3" tabindex="-1"></a>     <span class="op">.</span><span class="fu">into</span><span class="op">({</span> ch1<span class="op">;</span> ch2 <span class="op">})</span></span>
-<span id="cb48-4"><a href="#cb48-4" tabindex="-1"></a></span>
-<span id="cb48-5"><a href="#cb48-5" tabindex="-1"></a>ch1<span class="op">.</span><span class="fu">view</span><span class="op">({</span><span class="st">"ch1 emits: </span><span class="ss">$it</span><span class="st">"</span><span class="op">})</span></span>
-<span id="cb48-6"><a href="#cb48-6" tabindex="-1"></a>ch2<span class="op">.</span><span class="fu">view</span><span class="op">({</span><span class="st">"ch2 emits: </span><span class="ss">$it</span><span class="st">"</span><span class="op">})</span></span></code></pre>
-</div>
-<p>Produces.</p>
-<div class="codewrapper">
-<h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
-</h3>
-<pre class="output" tabindex="0"><code>ch1 emits: chr1
-ch1 emits: chr2
-ch2 emits: chr1
-ch1 emits: chr3
-ch2 emits: chr2
-ch2 emits: chr3</code></pre>
-</div>
-</div>
-</div>
-<div class="section level3">
 <h3 id="maths-operators">Maths operators<a class="anchor" aria-label="anchor" href="#maths-operators"></a></h3>
 <p>The maths operators allows you to apply simple math function on
 channels.</p>
@@ -1096,13 +1061,13 @@ channels.</p>
 <p>The <code>count</code> operator creates a channel that emits a single
 item: a number that represents the total number of items emitted by the
 source channel. For example:</p>
-<div class="codewrapper sourceCode" id="cb50">
+<div class="codewrapper sourceCode" id="cb48">
 <h3 class="code-label">GROOVY<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode groovy" tabindex="0"><code class="sourceCode groovy"><span id="cb50-1"><a href="#cb50-1" tabindex="-1"></a>ch <span class="op">=</span> channel</span>
-<span id="cb50-2"><a href="#cb50-2" tabindex="-1"></a>    <span class="op">.</span><span class="fu">of</span><span class="op">(</span><span class="fl">1..22</span><span class="op">,</span><span class="st">'X'</span><span class="op">,</span><span class="st">'Y'</span><span class="op">)</span></span>
-<span id="cb50-3"><a href="#cb50-3" tabindex="-1"></a>    <span class="op">.</span><span class="fu">count</span><span class="op">()</span></span>
-<span id="cb50-4"><a href="#cb50-4" tabindex="-1"></a>    <span class="op">.</span><span class="fu">view</span><span class="op">()</span></span></code></pre>
+<pre class="sourceCode groovy" tabindex="0"><code class="sourceCode groovy"><span id="cb48-1"><a href="#cb48-1" tabindex="-1"></a>ch <span class="op">=</span> channel</span>
+<span id="cb48-2"><a href="#cb48-2" tabindex="-1"></a>    <span class="op">.</span><span class="fu">of</span><span class="op">(</span><span class="fl">1..22</span><span class="op">,</span><span class="st">'X'</span><span class="op">,</span><span class="st">'Y'</span><span class="op">)</span></span>
+<span id="cb48-3"><a href="#cb48-3" tabindex="-1"></a>    <span class="op">.</span><span class="fu">count</span><span class="op">()</span></span>
+<span id="cb48-4"><a href="#cb48-4" tabindex="-1"></a>    <span class="op">.</span><span class="fu">view</span><span class="op">()</span></span></code></pre>
 </div>
 <div class="codewrapper">
 <h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
@@ -1150,10 +1115,10 @@ length. This is useful when you want to use a sample sheet.</p>
 a channel emitting a CSV formatted text files or text entries. For
 example:</p>
 <p>For the CSV file <code>samples.csv</code>.</p>
-<div class="codewrapper sourceCode" id="cb52">
+<div class="codewrapper sourceCode" id="cb50">
 <h3 class="code-label">BASH<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode bash" tabindex="0"><code class="sourceCode bash"><span id="cb52-1"><a href="#cb52-1" tabindex="-1"></a><span class="fu">cat</span> data/yeast/samples.csv</span></code></pre>
+<pre class="sourceCode bash" tabindex="0"><code class="sourceCode bash"><span id="cb50-1"><a href="#cb50-1" tabindex="-1"></a><span class="fu">cat</span> data/yeast/samples.csv</span></code></pre>
 </div>
 <div class="codewrapper">
 <h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
@@ -1164,13 +1129,13 @@ ref2,data/yeast/reads/ref2_1.fq.gz,data/yeast/reads/ref2_2.fq.gz</code></pre>
 </div>
 <p>We can use the <code>splitCsv()</code> operator to split the channel
 contaning a CSV file into three elements.</p>
-<div class="codewrapper sourceCode" id="cb54">
+<div class="codewrapper sourceCode" id="cb52">
 <h3 class="code-label">GROOVY<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode groovy" tabindex="0"><code class="sourceCode groovy"><span id="cb54-1"><a href="#cb54-1" tabindex="-1"></a>csv_ch<span class="op">=</span>channel</span>
-<span id="cb54-2"><a href="#cb54-2" tabindex="-1"></a>    <span class="op">.</span><span class="fu">fromPath</span><span class="op">(</span><span class="st">'data/yeast/samples.csv'</span><span class="op">)</span></span>
-<span id="cb54-3"><a href="#cb54-3" tabindex="-1"></a>    <span class="op">.</span><span class="fu">splitCsv</span><span class="op">()</span></span>
-<span id="cb54-4"><a href="#cb54-4" tabindex="-1"></a>csv_ch<span class="op">.</span><span class="fu">view</span><span class="op">()</span></span></code></pre>
+<pre class="sourceCode groovy" tabindex="0"><code class="sourceCode groovy"><span id="cb52-1"><a href="#cb52-1" tabindex="-1"></a>csv_ch<span class="op">=</span>channel</span>
+<span id="cb52-2"><a href="#cb52-2" tabindex="-1"></a>    <span class="op">.</span><span class="fu">fromPath</span><span class="op">(</span><span class="st">'data/yeast/samples.csv'</span><span class="op">)</span></span>
+<span id="cb52-3"><a href="#cb52-3" tabindex="-1"></a>    <span class="op">.</span><span class="fu">splitCsv</span><span class="op">()</span></span>
+<span id="cb52-4"><a href="#cb52-4" tabindex="-1"></a>csv_ch<span class="op">.</span><span class="fu">view</span><span class="op">()</span></span></code></pre>
 </div>
 <div class="codewrapper">
 <h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
@@ -1186,14 +1151,14 @@ parsed and is split into three elements.</p>
 <p>Values can be accessed by their positional indexes using the square
 brackets syntax<code>[index]</code>. So to access the first column you
 would use <code>[0]</code> as shown in the following example:</p>
-<div class="codewrapper sourceCode" id="cb56">
+<div class="codewrapper sourceCode" id="cb54">
 <h3 class="code-label">GROOVY<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode groovy" tabindex="0"><code class="sourceCode groovy"><span id="cb56-1"><a href="#cb56-1" tabindex="-1"></a>csv_ch<span class="op">=</span>channel</span>
-<span id="cb56-2"><a href="#cb56-2" tabindex="-1"></a>    <span class="op">.</span><span class="fu">fromPath</span><span class="op">(</span><span class="st">'data/yeast/samples.csv'</span><span class="op">)</span></span>
-<span id="cb56-3"><a href="#cb56-3" tabindex="-1"></a>    <span class="op">.</span><span class="fu">splitCsv</span><span class="op">()</span></span>
-<span id="cb56-4"><a href="#cb56-4" tabindex="-1"></a>csv_ch</span>
-<span id="cb56-5"><a href="#cb56-5" tabindex="-1"></a>  <span class="op">.</span><span class="fu">view</span><span class="op">({</span>it<span class="op">[</span><span class="dv">0</span><span class="op">]})</span></span></code></pre>
+<pre class="sourceCode groovy" tabindex="0"><code class="sourceCode groovy"><span id="cb54-1"><a href="#cb54-1" tabindex="-1"></a>csv_ch<span class="op">=</span>channel</span>
+<span id="cb54-2"><a href="#cb54-2" tabindex="-1"></a>    <span class="op">.</span><span class="fu">fromPath</span><span class="op">(</span><span class="st">'data/yeast/samples.csv'</span><span class="op">)</span></span>
+<span id="cb54-3"><a href="#cb54-3" tabindex="-1"></a>    <span class="op">.</span><span class="fu">splitCsv</span><span class="op">()</span></span>
+<span id="cb54-4"><a href="#cb54-4" tabindex="-1"></a>csv_ch</span>
+<span id="cb54-5"><a href="#cb54-5" tabindex="-1"></a>  <span class="op">.</span><span class="fu">view</span><span class="op">({</span>it<span class="op">[</span><span class="dv">0</span><span class="op">]})</span></span></code></pre>
 </div>
 <div class="codewrapper">
 <h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
@@ -1208,13 +1173,13 @@ would use <code>[0]</code> as shown in the following example:</p>
 <p>When the CSV begins with a header line defining the column names, you
 can specify the parameter <code>header: true</code> which allows you to
 reference each value by its name, as shown in the following example:</p>
-<div class="codewrapper sourceCode" id="cb58">
+<div class="codewrapper sourceCode" id="cb56">
 <h3 class="code-label">GROOVY<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode groovy" tabindex="0"><code class="sourceCode groovy"><span id="cb58-1"><a href="#cb58-1" tabindex="-1"></a>csv_ch<span class="op">=</span>channel</span>
-<span id="cb58-2"><a href="#cb58-2" tabindex="-1"></a>    <span class="op">.</span><span class="fu">fromPath</span><span class="op">(</span><span class="st">'data/yeast/samples.csv'</span><span class="op">)</span></span>
-<span id="cb58-3"><a href="#cb58-3" tabindex="-1"></a>    <span class="op">.</span><span class="fu">splitCsv</span><span class="op">(</span>header<span class="op">:</span><span class="kw">true</span><span class="op">)</span></span>
-<span id="cb58-4"><a href="#cb58-4" tabindex="-1"></a>csv_ch<span class="op">.</span><span class="fu">view</span><span class="op">({</span>it<span class="op">.</span>fastq_1<span class="op">})</span></span></code></pre>
+<pre class="sourceCode groovy" tabindex="0"><code class="sourceCode groovy"><span id="cb56-1"><a href="#cb56-1" tabindex="-1"></a>csv_ch<span class="op">=</span>channel</span>
+<span id="cb56-2"><a href="#cb56-2" tabindex="-1"></a>    <span class="op">.</span><span class="fu">fromPath</span><span class="op">(</span><span class="st">'data/yeast/samples.csv'</span><span class="op">)</span></span>
+<span id="cb56-3"><a href="#cb56-3" tabindex="-1"></a>    <span class="op">.</span><span class="fu">splitCsv</span><span class="op">(</span>header<span class="op">:</span><span class="kw">true</span><span class="op">)</span></span>
+<span id="cb56-4"><a href="#cb56-4" tabindex="-1"></a>csv_ch<span class="op">.</span><span class="fu">view</span><span class="op">({</span>it<span class="op">.</span>fastq_1<span class="op">})</span></span></code></pre>
 </div>
 <div class="codewrapper">
 <h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
@@ -1232,11 +1197,11 @@ reference each value by its name, as shown in the following example:</p>
 <div class="callout-content">
 <p>Modify the Nextflow script to print the first column
 <code>sample_id</code>.</p>
-<div class="codewrapper sourceCode" id="cb60">
+<div class="codewrapper sourceCode" id="cb58">
 <h3 class="code-label">GROOVY<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode groovy" tabindex="0"><code class="sourceCode groovy"><span id="cb60-1"><a href="#cb60-1" tabindex="-1"></a>csv_ch<span class="op">=</span>channel</span>
-<span id="cb60-2"><a href="#cb60-2" tabindex="-1"></a>  <span class="op">.</span><span class="fu">fromPath</span><span class="op">(</span><span class="st">'data/yeast/samples.csv'</span><span class="op">)</span></span></code></pre>
+<pre class="sourceCode groovy" tabindex="0"><code class="sourceCode groovy"><span id="cb58-1"><a href="#cb58-1" tabindex="-1"></a>csv_ch<span class="op">=</span>channel</span>
+<span id="cb58-2"><a href="#cb58-2" tabindex="-1"></a>  <span class="op">.</span><span class="fu">fromPath</span><span class="op">(</span><span class="st">'data/yeast/samples.csv'</span><span class="op">)</span></span></code></pre>
 </div>
 </div>
 </div>
@@ -1248,14 +1213,14 @@ reference each value by its name, as shown in the following example:</p>
 </button>
 <div id="collapseSolution4" class="accordion-collapse collapse" data-bs-parent="#accordionSolution4" aria-labelledby="headingSolution4">
 <div class="accordion-body">
-<div class="codewrapper sourceCode" id="cb61">
+<div class="codewrapper sourceCode" id="cb59">
 <h3 class="code-label">GROOVY<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode groovy" tabindex="0"><code class="sourceCode groovy"><span id="cb61-1"><a href="#cb61-1" tabindex="-1"></a> csv_ch<span class="op">=</span>channel</span>
-<span id="cb61-2"><a href="#cb61-2" tabindex="-1"></a>        <span class="op">.</span><span class="fu">fromPath</span><span class="op">(</span><span class="st">'data/yeast/samples.csv'</span><span class="op">)</span></span>
-<span id="cb61-3"><a href="#cb61-3" tabindex="-1"></a>        <span class="op">.</span><span class="fu">splitCsv</span><span class="op">(</span>header<span class="op">:</span><span class="kw">true</span><span class="op">)</span></span>
-<span id="cb61-4"><a href="#cb61-4" tabindex="-1"></a></span>
-<span id="cb61-5"><a href="#cb61-5" tabindex="-1"></a>csv_ch<span class="op">.</span><span class="fu">view</span><span class="op">({</span>it<span class="op">.</span>sample_id<span class="op">})</span></span></code></pre>
+<pre class="sourceCode groovy" tabindex="0"><code class="sourceCode groovy"><span id="cb59-1"><a href="#cb59-1" tabindex="-1"></a> csv_ch<span class="op">=</span>channel</span>
+<span id="cb59-2"><a href="#cb59-2" tabindex="-1"></a>        <span class="op">.</span><span class="fu">fromPath</span><span class="op">(</span><span class="st">'data/yeast/samples.csv'</span><span class="op">)</span></span>
+<span id="cb59-3"><a href="#cb59-3" tabindex="-1"></a>        <span class="op">.</span><span class="fu">splitCsv</span><span class="op">(</span>header<span class="op">:</span><span class="kw">true</span><span class="op">)</span></span>
+<span id="cb59-4"><a href="#cb59-4" tabindex="-1"></a></span>
+<span id="cb59-5"><a href="#cb59-5" tabindex="-1"></a>csv_ch<span class="op">.</span><span class="fu">view</span><span class="op">({</span>it<span class="op">.</span>sample_id<span class="op">})</span></span></code></pre>
 </div>
 </div>
 </div>
@@ -1269,12 +1234,12 @@ reference each value by its name, as shown in the following example:</p>
 separated by another character use the <code>sep</code> parameter of the
 split <code>splitCsv</code> operator.</p>
 <p>For examples,</p>
-<div class="codewrapper sourceCode" id="cb62">
+<div class="codewrapper sourceCode" id="cb60">
 <h3 class="code-label">GROOVY<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode groovy" tabindex="0"><code class="sourceCode groovy"><span id="cb62-1"><a href="#cb62-1" tabindex="-1"></a><span class="bu">Channel</span><span class="op">.</span><span class="fu">of</span><span class="op">(</span><span class="st">"val1</span><span class="sc">\t</span><span class="st">val2</span><span class="sc">\t</span><span class="st">val3</span><span class="sc">\n</span><span class="st">val4</span><span class="sc">\t</span><span class="st">val5</span><span class="sc">\t</span><span class="st">val6</span><span class="sc">\n</span><span class="st">"</span><span class="op">)</span></span>
-<span id="cb62-2"><a href="#cb62-2" tabindex="-1"></a>  <span class="op">.</span><span class="fu">splitCsv</span><span class="op">(</span>sep<span class="op">:</span> <span class="st">"</span><span class="sc">\t</span><span class="st">"</span><span class="op">)</span></span>
-<span id="cb62-3"><a href="#cb62-3" tabindex="-1"></a>  <span class="op">.</span><span class="fu">view</span><span class="op">()</span></span></code></pre>
+<pre class="sourceCode groovy" tabindex="0"><code class="sourceCode groovy"><span id="cb60-1"><a href="#cb60-1" tabindex="-1"></a><span class="bu">Channel</span><span class="op">.</span><span class="fu">of</span><span class="op">(</span><span class="st">"val1</span><span class="sc">\t</span><span class="st">val2</span><span class="sc">\t</span><span class="st">val3</span><span class="sc">\n</span><span class="st">val4</span><span class="sc">\t</span><span class="st">val5</span><span class="sc">\t</span><span class="st">val6</span><span class="sc">\n</span><span class="st">"</span><span class="op">)</span></span>
+<span id="cb60-2"><a href="#cb60-2" tabindex="-1"></a>  <span class="op">.</span><span class="fu">splitCsv</span><span class="op">(</span>sep<span class="op">:</span> <span class="st">"</span><span class="sc">\t</span><span class="st">"</span><span class="op">)</span></span>
+<span id="cb60-3"><a href="#cb60-3" tabindex="-1"></a>  <span class="op">.</span><span class="fu">view</span><span class="op">()</span></span></code></pre>
 </div>
 <div class="codewrapper">
 <h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
