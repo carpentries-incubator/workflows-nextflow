@@ -6,16 +6,16 @@ exercises: 15
 
 ::::::::::::::::::::::::::::::::::::::: objectives
 
-- "Understand how Nextflow uses processes to execute tasks."
-- "Create a Nextflow process."
-- "Define inputs to a process."
+- Understand how Nextflow uses processes to execute tasks.
+- Create a Nextflow process.
+- Define inputs to a process.
 
 ::::::::::::::::::::::::::::::::::::::::::::::::::
 
 :::::::::::::::::::::::::::::::::::::::: questions
 
-- "How do I run tasks/processes in Nextflow?"
-- "How do I get data, files and values, into a processes?"
+- How do I run tasks/processes in Nextflow?
+- How do I get data, files and values, into a processes?
 
 ::::::::::::::::::::::::::::::::::::::::::::::::::
 
