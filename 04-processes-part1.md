@@ -1038,7 +1038,7 @@ And include the command below in the script directive
 
 ::::::::::::::::::::::::::::::::::::::::::::::::::
 
-# Input repeaters
+## Input repeaters
 
 We saw previously that by default the number of times a process runs is defined by the queue channel with the fewest items. However, the `each` qualifier allows you to repeat the execution of a process for each item in a list or a queue channel, every time new data is received.
 
@@ -1086,35 +1086,32 @@ The process will run eight times.
 
 :::::::::::::::::::::::::::::::::::::::  challenge
 
-
-
-
-> ## Input repeaters
-> Extend the script `process_exercise_repeat.nf` by adding more values to the `chr` queue channel e.g. A to P and running the process for each value.
->  ```groovy
-> //process_exercise_repeat.nf
->  nextflow.enable.dsl=2
->  process COMBINE {
->    input:
->    path transcriptome
->    val chr
->   
->    script:
->    """
+## Input repeaters
+Extend the script `process_exercise_repeat.nf` by adding more values to the `chr` queue channel e.g. A to P and running the process for each value.
+  ```groovy
+ //process_exercise_repeat.nf
+  nextflow.enable.dsl=2
+  process COMBINE {
+    input:
+    path transcriptome
+    val chr
+   
+    script:
+    """
      printf "Number of sequences for chromosome $chr: "
->    zgrep -c "^>Y${chr}" ${transcriptome}
->    """
->  }
->
->  transcriptome_ch = channel.fromPath('data/yeast/transcriptome/Saccharomyces_cerevisiae.R64-1-1.cdna.all.fa.gz', checkIfExists: true)
->  chr_ch = channel.of('A')
->
->  workflow {
->    COMBINE(transcriptome_ch, chr_ch)
->  }
-> ```
->
-> How many times does this process run?
+    zgrep -c "^>Y${chr}" ${transcriptome}
+    """
+  }
+
+  transcriptome_ch = channel.fromPath('data/yeast/transcriptome/Saccharomyces_cerevisiae.R64-1-1.cdna.all.fa.gz', checkIfExists: true)
+  chr_ch = channel.of('A')
+
+  workflow {
+    COMBINE(transcriptome_ch, chr_ch)
+  }
+```
+
+How many times does this process run?
 
 :::::::::::::::  solution
 
