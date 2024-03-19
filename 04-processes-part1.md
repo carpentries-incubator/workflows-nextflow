@@ -1087,11 +1087,13 @@ The process will run eight times.
 :::::::::::::::::::::::::::::::::::::::  challenge
 
 ## Input repeaters
+
 Extend the script `process_exercise_repeat.nf` by adding more values to the `chr` queue channel e.g. A to P and running the process for each value.
-  ```groovy
- //process_exercise_repeat.nf
-  nextflow.enable.dsl=2
-  process COMBINE {
+
+```groovy
+//process_exercise_repeat.nf
+nextflow.enable.dsl=2
+process COMBINE {
     input:
     path transcriptome
     val chr
@@ -1101,14 +1103,14 @@ Extend the script `process_exercise_repeat.nf` by adding more values to the `chr
      printf "Number of sequences for chromosome $chr: "
     zgrep -c "^>Y${chr}" ${transcriptome}
     """
-  }
+}
 
-  transcriptome_ch = channel.fromPath('data/yeast/transcriptome/Saccharomyces_cerevisiae.R64-1-1.cdna.all.fa.gz', checkIfExists: true)
-  chr_ch = channel.of('A')
+transcriptome_ch = channel.fromPath('data/yeast/transcriptome/Saccharomyces_cerevisiae.R64-1-1.cdna.all.fa.gz', checkIfExists: true)
+chr_ch = channel.of('A')
 
-  workflow {
-    COMBINE(transcriptome_ch, chr_ch)
-  }
+workflow {
+  COMBINE(transcriptome_ch, chr_ch)
+}
 ```
 
 How many times does this process run?
@@ -1116,6 +1118,7 @@ How many times does this process run?
 :::::::::::::::  solution
 
 ## Solution
+
 ```groovy
  //process_exercise_repeat_answer.nf
  nextflow.enable.dsl=2
@@ -1140,11 +1143,13 @@ How many times does this process run?
  }
 ```
 
+Then run the script.
+
 ```bash
 $ nextflow run process_exercise_repeat.nf -process.echo
 ```
 
- This process runs 16 times.
+This process runs 16 times.
 
 :::::::::::::::::::::::::
 
