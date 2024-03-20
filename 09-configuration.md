@@ -814,20 +814,6 @@ profiles {
 
 ::::::::::::::::::::::::::::::::::::::::::::::::::
 
-## Inspecting the Nextflow configuration
-
-You can use the command `nextflow config` to print the resolved
-configuration of a workflow. This allows you to see what settings
-Nextflow will use to run a workflow.
-
-```bash
-$ nextflow config workflow_02.nf -profile test
-```
-
-```output
-FIXME: fill in
-```
-
 
 
 :::::::::::::::::::::::::::::::::::::::: keypoints
@@ -838,7 +824,6 @@ FIXME: fill in
 - You can assign different resources to different processes using the process selectors `withName` or `withLabel`.
 - You can define a profile for different configurations using the `profiles` scope. These profiles can be selected when launching a pipeline execution by using the `-profile` command-line option
 - Nextflow configuration settings are evaluated in the order they are read-in.
-- Workflow configuration settings can be inspected using `nextflow config <script> [options]`.
 
 ::::::::::::::::::::::::::::::::::::::::::::::::::
 
