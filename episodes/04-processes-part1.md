@@ -740,6 +740,7 @@ ref3_1.fq.gz 52592
 ref1_2.fq.gz 58708
 ```
 
+:::::::::::::::::::::::::::::::::::::::::  callout
 The input name can also be defined as a user-specified filename inside quotes.
 For example, in the script below, the name of the file is specified as `'sample.fq.gz'` in the input definition and can be referenced by that name in the script block.
 
@@ -784,6 +785,7 @@ sample.fq.gz 52592
 
 sample.fq.gz 58708
 ```
+::::::::::::::::::::::::::::::::::::::::::::::::::
 
 :::::::::::::::::::::::::::::::::::::::::  callout
 ## File Objects as inputs
