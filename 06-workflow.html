@@ -322,7 +322,7 @@
       </div>
       <hr></nav><main id="main-content" class="main-content"><div class="container lesson-content">
         <h1>Workflow</h1>
-        <p>Last updated on 2023-12-08 |
+        <p>Last updated on 2024-03-21 |
         
         <a href="https://github.com/carpentries-incubator/workflows-nextflow/edit/main/episodes/06-workflow.md" class="external-link">Edit this page <i aria-hidden="true" data-feather="edit"></i></a></p>
         
@@ -379,9 +379,13 @@ workflow body delimited by curly brackets <code>{}</code>.</p>
 <h3 class="callout-title">Implicit workflow<a class="anchor" aria-label="anchor" href="#implicit-workflow"></a>
 </h3>
 <div class="callout-content">
-<p>A workflow definition which does not declare any name is assumed to
-be the main workflow, and it is implicitly executed. Therefore it’s the
-entry point of the workflow application.</p>
+<p>In contrast to processes, the workflow definition in Nextflow does
+not require a name. In Nextflow, if you don’t give a name to a workflow,
+it’s considered the main/implicit starting point of your workflow
+program.</p>
+<p>A named workflow is a <code>subworkflow</code> that can be invoked
+from other workflows, subworkflows are not covered in this lesson, more
+information can be found in the official documentation <a href="https://www.nextflow.io/docs/latest/workflow.html" class="external-link">here</a>.</p>
 </div>
 </div>
 </div>
@@ -754,7 +758,7 @@ referencing the a named process output .</li>
   "url": "https://carpentries-incubator.github.io/workflows-nextflow/06-workflow.html",
   "identifier": "https://carpentries-incubator.github.io/workflows-nextflow/06-workflow.html",
   "dateCreated": "2021-02-01",
-  "dateModified": "2023-12-08",
+  "dateModified": "2024-03-21",
   "datePublished": "2024-03-21"
 }
 
