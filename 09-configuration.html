@@ -327,7 +327,7 @@
       </div>
       <hr></nav><main id="main-content" class="main-content"><div class="container lesson-content">
         <h1>Nextflow configuration</h1>
-        <p>Last updated on 2024-03-20 |
+        <p>Last updated on 2024-03-21 |
         
         <a href="https://github.com/carpentries-incubator/workflows-nextflow/edit/main/episodes/09-configuration.md" class="external-link">Edit this page <i aria-hidden="true" data-feather="edit"></i></a></p>
         
@@ -581,7 +581,7 @@ script <code>print_message.nf</code>:</p>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution1" aria-expanded="false" aria-controls="collapseSolution1">
   <h4 class="accordion-header" id="headingSolution1">Show me the solution</h4>
 </button>
-<div id="collapseSolution1" class="accordion-collapse collapse" data-bs-parent="#accordionSolution1" aria-labelledby="headingSolution1">
+<div id="collapseSolution1" class="accordion-collapse collapse" aria-labelledby="headingSolution1" data-bs-parent="#accordionSolution1">
 <div class="accordion-body">
 <ol style="list-style-type: decimal"><li>‘hello’ - Workflow script uses the value in
 <code>print_message.nf</code>
@@ -656,12 +656,11 @@ process or group of processes.</p>
 <div class="section level3">
 <h3 id="process-selectors">Process selectors<a class="anchor" aria-label="anchor" href="#process-selectors"></a></h3>
 <p>The resources for a specific process can be defined using
-<code>withName:</code> followed by the process name ( either the simple
-name e.g., <code>'FASTQC'</code>, or the fully qualified name e.g.,
-<code>'NFCORE_RNASEQ:RNA_SEQ:SAMTOOLS_SORT'</code>), and the directives
-within curly braces. For example, we can specify different
-<code>cpus</code> and <code>memory</code> resources for the processes
-<code>INDEX</code> and <code>FASTQC</code> as follows:</p>
+<code>withName:</code> followed by the process name e.g.,
+<code>'FASTQC'</code>, and the directives within curly braces. For
+example, we can specify different <code>cpus</code> and
+<code>memory</code> resources for the processes <code>INDEX</code> and
+<code>FASTQC</code> as follows:</p>
 <div class="codewrapper sourceCode" id="cb10">
 <h3 class="code-label">GROOVY<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
@@ -806,7 +805,7 @@ for the two processes <code>P1</code> (cpus 1 and memory 2.GB) and
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution2" aria-expanded="false" aria-controls="collapseSolution2">
   <h4 class="accordion-header" id="headingSolution2">Show me the solution</h4>
 </button>
-<div id="collapseSolution2" class="accordion-collapse collapse" data-bs-parent="#accordionSolution2" aria-labelledby="headingSolution2">
+<div id="collapseSolution2" class="accordion-collapse collapse" aria-labelledby="headingSolution2" data-bs-parent="#accordionSolution2">
 <div class="accordion-body">
 <div class="codewrapper sourceCode" id="cb14">
 <h3 class="code-label">GROOVY<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
@@ -1050,7 +1049,7 @@ configuration file using the <code>-c</code> option.</li>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution3" aria-expanded="false" aria-controls="collapseSolution3">
   <h4 class="accordion-header" id="headingSolution3">Show me the solution</h4>
 </button>
-<div id="collapseSolution3" class="accordion-collapse collapse" data-bs-parent="#accordionSolution3" aria-labelledby="headingSolution3">
+<div id="collapseSolution3" class="accordion-collapse collapse" aria-labelledby="headingSolution3" data-bs-parent="#accordionSolution3">
 <div class="accordion-body">
 <div class="codewrapper sourceCode" id="cb23">
 <h3 class="code-label">GROOVY<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
@@ -1344,7 +1343,7 @@ read-in.</li>
   "url": "https://carpentries-incubator.github.io/workflows-nextflow/09-configuration.html",
   "identifier": "https://carpentries-incubator.github.io/workflows-nextflow/09-configuration.html",
   "dateCreated": "2021-02-01",
-  "dateModified": "2024-03-20",
+  "dateModified": "2024-03-21",
   "datePublished": "2024-03-21"
 }
 
