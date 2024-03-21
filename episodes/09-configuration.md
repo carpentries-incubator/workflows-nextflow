@@ -267,9 +267,7 @@ specific process or group of processes.
 ### Process selectors
 
 The resources for a specific process can be defined using `withName:`
-followed by the process name ( either the simple name e.g., `'FASTQC'`,
-or the fully qualified name e.g., `'NFCORE_RNASEQ:RNA_SEQ:SAMTOOLS_SORT'`),
-and the directives within curly braces.
+followed by the process name e.g., `'FASTQC'`, and the directives within curly braces.
 For example, we can specify different `cpus` and `memory` resources
 for the processes `INDEX` and `FASTQC` as follows:
 
