@@ -123,6 +123,7 @@ description of Groovy semantics can be found in the [Groovy Documentation](https
 | DSL2                      | The second version of the Nextflow domain-specific language, introducing modular and reusable workflow components. DSL2 allows for more structured and maintainable pipeline development.                                         |
 | Profile                   | A set of configuration options in Nextflow that can be activated to adapt the execution environment of a workflow. Profiles enable easy switching between different computing environments, like local, cloud, or cluster execution.|
 | Cache                     | In Nextflow, caching refers to the mechanism of reusing the results of executed processes in subsequent runs. This feature reduces computation time by avoiding the re-execution of unchanged tasks.                                |
+| Nextflow workflow| In Nextflow, a workflow is a composition of processes and dataflow logic (i.e. channels and operators).|
 
 ## External references
 
