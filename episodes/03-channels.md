@@ -16,7 +16,7 @@ exercises: 10
 
 :::::::::::::::::::::::::::::::::::::::: questions
 
-- How do I get data into Nextflow?
+- How do I move data around in Nextflow?
 - How do I handle different types of input, e.g. files and parameters?
 - How do I create a Nextflow channel?
 - How can I use pattern matching to select input files?
