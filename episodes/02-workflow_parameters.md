@@ -218,7 +218,7 @@ The input file would be  `data/yeast/reads/ref1_1.fq.gz` as this is the default.
 To run all input files we could add the param
 `--input 'data/yeast/reads/*.fq.gz'` 
 ```bash
-$ nextflow run wc-params.nf --sleep 1 --input 'data/yeast/reads/\*.fq.gz' 
+$ nextflow run wc-params.nf --sleep 1 --input 'data/yeast/reads/*.fq.gz' 
 ```
 
 :::::::::::::::::::::::::
