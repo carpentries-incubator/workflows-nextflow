@@ -203,7 +203,8 @@ params.sleep=2
 ```groovy 
 script: 
 """
-sleep ${params.sleep} > printf '${read} '
+sleep ${params.sleep}
+printf '${read}\\t'
 gunzip -c ${read} | wc -l 
 """
 ```
