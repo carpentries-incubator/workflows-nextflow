@@ -168,11 +168,11 @@ GRCh38
 
 Queue (consumable) channels can be created using the following channel factory methods.
 
-- Channel.of
-- Channel.fromList
-- Channel.fromPath
-- Channel.fromFilePairs
-- Channel.fromSRA
+- `Channel.of`
+- `Channel.fromList`
+- `Channel.fromPath`
+- `Channel.fromFilePairs`
+- `Channel.fromSRA`
 
 ### The **of** Channel factory
 
