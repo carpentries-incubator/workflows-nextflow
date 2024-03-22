@@ -245,6 +245,7 @@ and `input` in JSON format.
 }
 ```
 
+Create a file called `wc-params.json` with the above contents.
 
 To run the `wc-params.nf` script using these parameters we add the
 option `-params-file` and pass the file `wc-params.json`:
