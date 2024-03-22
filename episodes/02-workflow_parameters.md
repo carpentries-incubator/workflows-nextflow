@@ -286,7 +286,8 @@ parameter file, specifying:
 {
 "sleep": 10,
 "input": "data/yeast/reads/ref3_1.fq.gz"
-
+}
+```
 ```bash
 $ nextflow run wc-params.nf -params-file params.json 
 ```
