@@ -133,7 +133,7 @@ Let's make a copy of the `word_count.nf` script as `wc-params.nf` and add a new
 input parameter.
 
 ``` bash
-$ cp wc.nf wc-params.nf
+$ cp word_count.nf wc-params.nf
 ```
 
 To add a parameter `sleep` with the default value `2` to `wc-params.nf`
