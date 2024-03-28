@@ -307,7 +307,8 @@ If you only have two lines it might mean that you did not use `collect()` operat
 
 - A Nextflow workflow is defined by invoking `processes` inside the `workflow` scope.
 - A process is invoked like a function inside the `workflow` scope passing any required input parameters as arguments. e.g. `FASTQC(reads_ch)`.
-- Process outputs can be accessed using the `out` attribute for the respective `process` object or assigning the output to a Nextflow variable. - Multiple outputs from a single process can be accessed using the list syntax `[]` and it's index or by referencing the a named process output .
+- Process outputs can be accessed using the `out` attribute for the respective `process` object or assigning the output to a Nextflow variable. 
+- Multiple outputs from a single process can be accessed using the list syntax `[]` and it's index or by referencing the a named process output .
 
 ::::::::::::::::::::::::::::::::::::::::::::::::::
 
