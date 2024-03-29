@@ -78,6 +78,9 @@ Below is a series of commands to download and unpack scripts folder.
 # get the gitrepo as a zip file
 wget https://github.com//carpentries-incubator/workflows-nextflow/archive/main.zip
 
+#or
+curl -L -o main.zip https://github.com//carpentries-incubator/workflows-nextflow/archive/main.zip
+
 # unzip the script file
 unzip main.zip 'workflows-nextflow-main/episodes/files/scripts*' -d  .
 
@@ -98,6 +101,9 @@ Inside the `nf-training` folder download the workshop dataset from Figshare, [ht
 
 ```bash
 $ wget --content-disposition https://ndownloader.figshare.com/files/28531743
+
+# or curl
+curl -L -o  data.tar.gz https://ndownloader.figshare.com/files/28531743
 ```
 
 Unpack gzipped tar file:
