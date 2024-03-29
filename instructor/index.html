@@ -588,14 +588,17 @@ folder.</p>
 <pre class="sourceCode bash" tabindex="0"><code class="sourceCode bash"><span id="cb5-1"><a href="#cb5-1" tabindex="-1"></a><span class="co"># get the gitrepo as a zip file</span></span>
 <span id="cb5-2"><a href="#cb5-2" tabindex="-1"></a><span class="fu">wget</span> https://github.com//carpentries-incubator/workflows-nextflow/archive/main.zip</span>
 <span id="cb5-3"><a href="#cb5-3" tabindex="-1"></a></span>
-<span id="cb5-4"><a href="#cb5-4" tabindex="-1"></a><span class="co"># unzip the script file</span></span>
-<span id="cb5-5"><a href="#cb5-5" tabindex="-1"></a><span class="fu">unzip</span> main.zip <span class="st">'workflows-nextflow-main/episodes/files/scripts*'</span> <span class="at">-d</span>  .</span>
+<span id="cb5-4"><a href="#cb5-4" tabindex="-1"></a><span class="co">#or</span></span>
+<span id="cb5-5"><a href="#cb5-5" tabindex="-1"></a><span class="ex">curl</span> <span class="at">-L</span> <span class="at">-o</span> main.zip https://github.com//carpentries-incubator/workflows-nextflow/archive/main.zip</span>
 <span id="cb5-6"><a href="#cb5-6" tabindex="-1"></a></span>
-<span id="cb5-7"><a href="#cb5-7" tabindex="-1"></a><span class="co"># mv the scripts folder to the nf-training folder </span></span>
-<span id="cb5-8"><a href="#cb5-8" tabindex="-1"></a><span class="fu">mv</span> workflows-nextflow-main/episodes/files/scripts .</span>
+<span id="cb5-7"><a href="#cb5-7" tabindex="-1"></a><span class="co"># unzip the script file</span></span>
+<span id="cb5-8"><a href="#cb5-8" tabindex="-1"></a><span class="fu">unzip</span> main.zip <span class="st">'workflows-nextflow-main/episodes/files/scripts*'</span> <span class="at">-d</span>  .</span>
 <span id="cb5-9"><a href="#cb5-9" tabindex="-1"></a></span>
-<span id="cb5-10"><a href="#cb5-10" tabindex="-1"></a><span class="co"># remove the zip file and the git repo</span></span>
-<span id="cb5-11"><a href="#cb5-11" tabindex="-1"></a><span class="fu">rm</span> <span class="at">-r</span> workflows-nextflow-main main.zip</span></code></pre>
+<span id="cb5-10"><a href="#cb5-10" tabindex="-1"></a><span class="co"># mv the scripts folder to the nf-training folder </span></span>
+<span id="cb5-11"><a href="#cb5-11" tabindex="-1"></a><span class="fu">mv</span> workflows-nextflow-main/episodes/files/scripts .</span>
+<span id="cb5-12"><a href="#cb5-12" tabindex="-1"></a></span>
+<span id="cb5-13"><a href="#cb5-13" tabindex="-1"></a><span class="co"># remove the zip file and the git repo</span></span>
+<span id="cb5-14"><a href="#cb5-14" tabindex="-1"></a><span class="fu">rm</span> <span class="at">-r</span> workflows-nextflow-main main.zip</span></code></pre>
 </div>
 <p>The nextflow scripts for each episode, can be found in the respective
 episode folders inside this the scripts folder.</p>
@@ -606,7 +609,10 @@ dataset from Figshare, <a href="https://figshare.com/articles/dataset/RNA-seq_tr
 <div class="codewrapper sourceCode" id="cb6">
 <h3 class="code-label">BASH<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode bash" tabindex="0"><code class="sourceCode bash"><span id="cb6-1"><a href="#cb6-1" tabindex="-1"></a><span class="ex">$</span> wget <span class="at">--content-disposition</span> https://ndownloader.figshare.com/files/28531743</span></code></pre>
+<pre class="sourceCode bash" tabindex="0"><code class="sourceCode bash"><span id="cb6-1"><a href="#cb6-1" tabindex="-1"></a><span class="ex">$</span> wget <span class="at">--content-disposition</span> https://ndownloader.figshare.com/files/28531743</span>
+<span id="cb6-2"><a href="#cb6-2" tabindex="-1"></a></span>
+<span id="cb6-3"><a href="#cb6-3" tabindex="-1"></a><span class="co"># or curl</span></span>
+<span id="cb6-4"><a href="#cb6-4" tabindex="-1"></a><span class="ex">curl</span> <span class="at">-L</span> <span class="at">-o</span>  data.tar.gz https://ndownloader.figshare.com/files/28531743</span></code></pre>
 </div>
 <p>Unpack gzipped tar file:</p>
 <div class="codewrapper sourceCode" id="cb7">
