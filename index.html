@@ -390,19 +390,28 @@ below:</p>
 <h3 id="conda">conda<a class="anchor" aria-label="anchor" href="#conda"></a></h3>
 <p>The simplest way to install the software for this course is using
 conda.</p>
-<p>An environment file is provided here [environment.yml]( <a href="https://raw.githubusercontent.com/carpentries-incubator/workflows-nextflow/main/episodes/data/environment.yml" class="external-link uri">https://raw.githubusercontent.com/carpentries-incubator/workflows-nextflow/main/episodes/data/environment.yml</a></p>
-<p>To install conda see <a href="https://carpentries-incubator.github.io/introduction-to-conda-for-data-scientists/setup/" class="external-link">here</a>.</p>
-<p>To create the training environment run:</p>
+<p>An environment file is provided here <a href="https://raw.githubusercontent.com/carpentries-incubator/workflows-nextflow/main/episodes/data/environment.yml" class="external-link">environment.yml</a></p>
 <div class="codewrapper sourceCode" id="cb2">
 <h3 class="code-label">BASH<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode bash" tabindex="0"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" tabindex="-1"></a><span class="ex">$</span> conda env create <span class="at">-n</span> nf-training <span class="at">-f</span> environment.yml</span></code></pre>
+<pre class="sourceCode bash" tabindex="0"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" tabindex="-1"></a><span class="co"># wget</span></span>
+<span id="cb2-2"><a href="#cb2-2" tabindex="-1"></a><span class="fu">wget</span> https://raw.githubusercontent.com/carpentries-incubator/workflows-nextflow/main/episodes/data/environment.yml</span>
+<span id="cb2-3"><a href="#cb2-3" tabindex="-1"></a></span>
+<span id="cb2-4"><a href="#cb2-4" tabindex="-1"></a><span class="co"># or curl </span></span>
+<span id="cb2-5"><a href="#cb2-5" tabindex="-1"></a><span class="ex">curl</span> <span class="at">-L</span> <span class="at">-o</span> environment.yml https://raw.githubusercontent.com/carpentries-incubator/workflows-nextflow/main/episodes/data/environment.yml</span></code></pre>
 </div>
-<p>Then activate the environment by running</p>
+<p>To install conda see <a href="https://carpentries-incubator.github.io/introduction-to-conda-for-data-scientists/setup/" class="external-link">here</a>.</p>
+<p>To create the training environment run:</p>
 <div class="codewrapper sourceCode" id="cb3">
 <h3 class="code-label">BASH<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode bash" tabindex="0"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" tabindex="-1"></a><span class="ex">$</span> conda activate nf-training</span></code></pre>
+<pre class="sourceCode bash" tabindex="0"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" tabindex="-1"></a><span class="ex">$</span> conda env create <span class="at">-n</span> nf-training <span class="at">-f</span> environment.yml</span></code></pre>
+</div>
+<p>Then activate the environment by running</p>
+<div class="codewrapper sourceCode" id="cb4">
+<h3 class="code-label">BASH<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="sourceCode bash" tabindex="0"><code class="sourceCode bash"><span id="cb4-1"><a href="#cb4-1" tabindex="-1"></a><span class="ex">$</span> conda activate nf-training</span></code></pre>
 </div>
 </div>
 </div>
@@ -412,20 +421,20 @@ conda.</p>
 download the scripts folder from the github repository.</p>
 <p>Below is a series of commands to download and unpack scripts
 folder.</p>
-<div class="codewrapper sourceCode" id="cb4">
+<div class="codewrapper sourceCode" id="cb5">
 <h3 class="code-label">BASH<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode bash" tabindex="0"><code class="sourceCode bash"><span id="cb4-1"><a href="#cb4-1" tabindex="-1"></a><span class="co"># get the gitrepo as a zip file</span></span>
-<span id="cb4-2"><a href="#cb4-2" tabindex="-1"></a><span class="fu">wget</span> https://github.com//carpentries-incubator/workflows-nextflow/archive/main.zip</span>
-<span id="cb4-3"><a href="#cb4-3" tabindex="-1"></a></span>
-<span id="cb4-4"><a href="#cb4-4" tabindex="-1"></a><span class="co"># unzip the script file</span></span>
-<span id="cb4-5"><a href="#cb4-5" tabindex="-1"></a><span class="fu">unzip</span> main.zip <span class="st">'workflows-nextflow-main/episodes/files/scripts*'</span> <span class="at">-d</span>  .</span>
-<span id="cb4-6"><a href="#cb4-6" tabindex="-1"></a></span>
-<span id="cb4-7"><a href="#cb4-7" tabindex="-1"></a><span class="co"># mv the scripts folder to the nf-training folder </span></span>
-<span id="cb4-8"><a href="#cb4-8" tabindex="-1"></a><span class="fu">mv</span> workflows-nextflow-main/episodes/files/scripts .</span>
-<span id="cb4-9"><a href="#cb4-9" tabindex="-1"></a></span>
-<span id="cb4-10"><a href="#cb4-10" tabindex="-1"></a><span class="co"># remove the zip file and the git repo</span></span>
-<span id="cb4-11"><a href="#cb4-11" tabindex="-1"></a><span class="fu">rm</span> <span class="at">-r</span> workflows-nextflow-main main.zip</span></code></pre>
+<pre class="sourceCode bash" tabindex="0"><code class="sourceCode bash"><span id="cb5-1"><a href="#cb5-1" tabindex="-1"></a><span class="co"># get the gitrepo as a zip file</span></span>
+<span id="cb5-2"><a href="#cb5-2" tabindex="-1"></a><span class="fu">wget</span> https://github.com//carpentries-incubator/workflows-nextflow/archive/main.zip</span>
+<span id="cb5-3"><a href="#cb5-3" tabindex="-1"></a></span>
+<span id="cb5-4"><a href="#cb5-4" tabindex="-1"></a><span class="co"># unzip the script file</span></span>
+<span id="cb5-5"><a href="#cb5-5" tabindex="-1"></a><span class="fu">unzip</span> main.zip <span class="st">'workflows-nextflow-main/episodes/files/scripts*'</span> <span class="at">-d</span>  .</span>
+<span id="cb5-6"><a href="#cb5-6" tabindex="-1"></a></span>
+<span id="cb5-7"><a href="#cb5-7" tabindex="-1"></a><span class="co"># mv the scripts folder to the nf-training folder </span></span>
+<span id="cb5-8"><a href="#cb5-8" tabindex="-1"></a><span class="fu">mv</span> workflows-nextflow-main/episodes/files/scripts .</span>
+<span id="cb5-9"><a href="#cb5-9" tabindex="-1"></a></span>
+<span id="cb5-10"><a href="#cb5-10" tabindex="-1"></a><span class="co"># remove the zip file and the git repo</span></span>
+<span id="cb5-11"><a href="#cb5-11" tabindex="-1"></a><span class="fu">rm</span> <span class="at">-r</span> workflows-nextflow-main main.zip</span></code></pre>
 </div>
 <p>The nextflow scripts for each episode, can be found in the respective
 episode folders inside this the scripts folder.</p>
@@ -433,17 +442,17 @@ episode folders inside this the scripts folder.</p>
 <h3 id="data">Data<a class="anchor" aria-label="anchor" href="#data"></a></h3>
 <p>Inside the <code>nf-training</code> folder download the workshop
 dataset from Figshare, <a href="https://figshare.com/articles/dataset/RNA-seq_training_dataset/14822481" class="external-link">https://figshare.com/articles/dataset/RNA-seq_training_dataset/14822481</a></p>
-<div class="codewrapper sourceCode" id="cb5">
-<h3 class="code-label">BASH<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
-</h3>
-<pre class="sourceCode bash" tabindex="0"><code class="sourceCode bash"><span id="cb5-1"><a href="#cb5-1" tabindex="-1"></a><span class="ex">$</span> wget <span class="at">--content-disposition</span> https://ndownloader.figshare.com/files/28531743</span></code></pre>
-</div>
-<p>Unpack gzipped tar file:</p>
 <div class="codewrapper sourceCode" id="cb6">
 <h3 class="code-label">BASH<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode bash" tabindex="0"><code class="sourceCode bash"><span id="cb6-1"><a href="#cb6-1" tabindex="-1"></a><span class="ex">$</span> tar <span class="at">-xvf</span>  data.tar.gz</span>
-<span id="cb6-2"><a href="#cb6-2" tabindex="-1"></a><span class="ex">$</span> rm data.tar.gz</span></code></pre>
+<pre class="sourceCode bash" tabindex="0"><code class="sourceCode bash"><span id="cb6-1"><a href="#cb6-1" tabindex="-1"></a><span class="ex">$</span> wget <span class="at">--content-disposition</span> https://ndownloader.figshare.com/files/28531743</span></code></pre>
+</div>
+<p>Unpack gzipped tar file:</p>
+<div class="codewrapper sourceCode" id="cb7">
+<h3 class="code-label">BASH<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="sourceCode bash" tabindex="0"><code class="sourceCode bash"><span id="cb7-1"><a href="#cb7-1" tabindex="-1"></a><span class="ex">$</span> tar <span class="at">-xvf</span>  data.tar.gz</span>
+<span id="cb7-2"><a href="#cb7-2" tabindex="-1"></a><span class="ex">$</span> rm data.tar.gz</span></code></pre>
 </div>
 </div>
 </div>
@@ -485,28 +494,28 @@ curl get.nextflow.io | bash</code></pre>
 </div>
 <div class="section level2">
 <h2 id="add-nextflow-binary-to-your-users-path">Add Nextflow binary to your user’s PATH:<a class="anchor" aria-label="anchor" href="#add-nextflow-binary-to-your-users-path"></a></h2>
-<div class="codewrapper sourceCode" id="cb8">
-<h3 class="code-label">BASH<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
-</h3>
-<pre class="sourceCode bash" tabindex="0"><code class="sourceCode bash"><span id="cb8-1"><a href="#cb8-1" tabindex="-1"></a><span class="ex">$</span> mv nextflow ~/bin/</span>
-<span id="cb8-2"><a href="#cb8-2" tabindex="-1"></a><span class="co"># OR system-wide installation:</span></span>
-<span id="cb8-3"><a href="#cb8-3" tabindex="-1"></a><span class="co"># sudo mv nextflow /usr/local/bin</span></span></code></pre>
-</div>
-<p>Check the correct installation running the following command:</p>
 <div class="codewrapper sourceCode" id="cb9">
 <h3 class="code-label">BASH<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode bash" tabindex="0"><code class="sourceCode bash"><span id="cb9-1"><a href="#cb9-1" tabindex="-1"></a><span class="ex">$</span> nextflow info</span></code></pre>
+<pre class="sourceCode bash" tabindex="0"><code class="sourceCode bash"><span id="cb9-1"><a href="#cb9-1" tabindex="-1"></a><span class="ex">$</span> mv nextflow ~/bin/</span>
+<span id="cb9-2"><a href="#cb9-2" tabindex="-1"></a><span class="co"># OR system-wide installation:</span></span>
+<span id="cb9-3"><a href="#cb9-3" tabindex="-1"></a><span class="co"># sudo mv nextflow /usr/local/bin</span></span></code></pre>
+</div>
+<p>Check the correct installation running the following command:</p>
+<div class="codewrapper sourceCode" id="cb10">
+<h3 class="code-label">BASH<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="sourceCode bash" tabindex="0"><code class="sourceCode bash"><span id="cb10-1"><a href="#cb10-1" tabindex="-1"></a><span class="ex">$</span> nextflow info</span></code></pre>
 </div>
 </div>
 <div class="section level2">
 <h2 id="nf-coretools-installation-without-conda">nf-core/tools installation without conda<a class="anchor" aria-label="anchor" href="#nf-coretools-installation-without-conda"></a></h2>
 <div class="section level3">
 <h3 id="pip">Pip<a class="anchor" aria-label="anchor" href="#pip"></a></h3>
-<div class="codewrapper sourceCode" id="cb10">
+<div class="codewrapper sourceCode" id="cb11">
 <h3 class="code-label">BASH<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode bash" tabindex="0"><code class="sourceCode bash"><span id="cb10-1"><a href="#cb10-1" tabindex="-1"></a><span class="ex">pip</span> install nf-core</span></code></pre>
+<pre class="sourceCode bash" tabindex="0"><code class="sourceCode bash"><span id="cb11-1"><a href="#cb11-1" tabindex="-1"></a><span class="ex">pip</span> install nf-core</span></code></pre>
 </div>
 </div>
 </div>
@@ -561,8 +570,8 @@ curl get.nextflow.io | bash</code></pre>
   "url": "https://carpentries-incubator.github.io/workflows-nextflow/index.html",
   "identifier": "https://carpentries-incubator.github.io/workflows-nextflow/index.html",
   "dateCreated": "2021-02-01",
-  "dateModified": "2024-03-28",
-  "datePublished": "2024-03-28"
+  "dateModified": "2024-03-29",
+  "datePublished": "2024-03-29"
 }
 
   </script><script>
