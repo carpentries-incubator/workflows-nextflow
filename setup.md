@@ -44,7 +44,15 @@ A list of software with version required for this training is listed below:
 
 The simplest way to install the software for this course is using conda.
 
-An environment file is provided here [environment.yml]( https://raw.githubusercontent.com/carpentries-incubator/workflows-nextflow/main/episodes/data/environment.yml
+An environment file is provided here [environment.yml](https://raw.githubusercontent.com/carpentries-incubator/workflows-nextflow/main/episodes/data/environment.yml)
+
+```bash
+# wget
+wget https://raw.githubusercontent.com/carpentries-incubator/workflows-nextflow/main/episodes/data/environment.yml
+
+# or curl 
+curl -L -o environment.yml https://raw.githubusercontent.com/carpentries-incubator/workflows-nextflow/main/episodes/data/environment.yml
+```
 
 To install conda see [here](https://carpentries-incubator.github.io/introduction-to-conda-for-data-scientists/setup/).
 
