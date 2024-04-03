@@ -226,7 +226,7 @@ channel
 
 ### Closures
 
-In the above example we could remove the brackets around the filter condition e.g. `filter{ it<5}`, since it specifies a closure as the operator's argument. This is language short for `filter({ it<5})`
+In the above example we have removed the brackets around the filter condition e.g. `filter{ it<5}`, since it specifies a closure as the operator's argument. This is language short for `filter({ it<5})`
 
 
 ::::::::::::::::::::::::::::::::::::::::::::::::::
