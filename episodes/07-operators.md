@@ -30,7 +30,6 @@ In the Channels episode we learnt how to create Nextflow channels to enable us t
 - **Transforming** operators: transform the value/data in a channel.
 - **Splitting** operators: split items in a channel into smaller chunks.
 - **Combining** operators: join channel together.
-- **Forking** operators: split a single channel into multiple channels.
 - **Maths** operators: apply simple math function on channels.
 - **Other**: such as the view operator.
 
@@ -561,33 +560,6 @@ The resulting channel emits:
 [mut, mut_1.fq, mut_2.fq]
 ```
 
-### Forking operators
-
-Forking operators split a single channel into multiple channels.
-
-#### into
-
-The `into` operator connects a source channel to two or more target channels in such a way the values emitted by the source channel are copied to the target channels. Channel names are separated by a semi colon. For example:
-
-```groovy 
-channel
-     .of( 'chr1', 'chr2', 'chr3' )
-     .into({ ch1; ch2 })
-
-ch1.view({"ch1 emits: $it"})
-ch2.view({"ch2 emits: $it"})
-```
-
-Produces.
-
-```output
-ch1 emits: chr1
-ch1 emits: chr2
-ch2 emits: chr1
-ch1 emits: chr3
-ch2 emits: chr2
-ch2 emits: chr3
-```
 
 ### Maths operators
 
@@ -711,14 +683,12 @@ csv_ch=channel
 
 ### Solution
 
-```
+```groovy
  csv_ch=channel
         .fromPath('data/yeast/samples.csv')
         .splitCsv(header:true)
 
 csv_ch.view({it.sample_id})
-~~~
-{: .language-groovy }
 ```
 
 :::::::::::::::::::::::::

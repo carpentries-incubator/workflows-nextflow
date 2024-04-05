@@ -3,33 +3,63 @@ title: Setup
 permalink: /setup/
 ---
 
+
+
+
 # Running the lessons on your local machine
 
-There are three items that you need to download:
+## Training directory
 
-1. The training material.
-2. The training dataset.
-3. The workshop scripts.
-
-## Training material
-
-Download the training material copy \& pasting the following command in the terminal:
+Each learner should setup a training folder e.g. `nf-training`
 
 ```bash
-$ git clone https://github.com/ggrimes/nf-training
+$ mkdir nf-training
 $ cd nf-training
 ```
 
+
+There are three items that you need to download:
+
+
+1. The training software.
+2. The training dataset.
+3. The workshop scripts.
+
+
+
 ## Training software
 
+A list of software with version required for this training is listed below:
+
+|Software|Version|
+|--------|-------|
+|Nextflow|20.10.0|
+|nf-core/tools|1.12.1|
+|salmon|1.5|
+|fastqc|0.11|
+|multiqc|1.10|
+|python|3.8|
+
+### conda
+
 The simplest way to install the software for this course is using conda.
+
+An environment file is provided here [environment.yml](https://raw.githubusercontent.com/carpentries-incubator/workflows-nextflow/main/episodes/data/environment.yml)
+
+```bash
+# wget
+wget https://raw.githubusercontent.com/carpentries-incubator/workflows-nextflow/main/episodes/data/environment.yml
+
+# or curl 
+curl -L -o environment.yml https://raw.githubusercontent.com/carpentries-incubator/workflows-nextflow/main/episodes/data/environment.yml
+```
 
 To install conda see [here](https://carpentries-incubator.github.io/introduction-to-conda-for-data-scientists/setup/).
 
 To create the training environment run:
 
 ```bash
-$ conda env create -f environment.yml
+$ conda env create -n nf-training -f environment.yml
 ```
 
 Then activate the environment by running
@@ -40,8 +70,33 @@ $ conda activate nf-training
 
 ## Training scripts
 
+
 To aid in the delivery of the lesson, the scripts mentioned in each episode, can be found in the respective episode folders in the github repository.
 [https://github.com/carpentries-incubator/workflows-nextflow/tree/main/episodes/files/scripts](https://github.com/carpentries-incubator/workflows-nextflow/tree/gh-pages/files/scripts)
+
+To get the scripts associated with each episode you will need to download the scripts folder from the github repository.
+
+Below is a series of commands to download and unpack scripts folder.
+
+```bash
+# get the gitrepo as a zip file
+wget https://github.com//carpentries-incubator/workflows-nextflow/archive/main.zip
+
+#or
+curl -L -o main.zip https://github.com//carpentries-incubator/workflows-nextflow/archive/main.zip
+
+# unzip the script file
+unzip main.zip 'workflows-nextflow-main/episodes/files/scripts*' -d  .
+
+# mv the scripts folder to the nf-training folder 
+mv workflows-nextflow-main/episodes/files/scripts .
+
+# remove the zip file and the git repo
+rm -r workflows-nextflow-main main.zip
+```
+
+The nextflow scripts for each episode, can be found in the respective episode folders inside this the scripts folder.
+
 
 ### Data
 
@@ -49,6 +104,9 @@ Inside the `nf-training` folder download the workshop dataset from Figshare, [ht
 
 ```bash
 $ wget --content-disposition https://ndownloader.figshare.com/files/28531743
+
+# or curl
+curl -L -o  data.tar.gz https://ndownloader.figshare.com/files/28531743
 ```
 
 Unpack gzipped tar file:
@@ -58,27 +116,17 @@ $ tar -xvf  data.tar.gz
 $ rm data.tar.gz
 ```
 
-## Atom text editor setup
+## Visual Studio Code editor setup
 
-Any text editor can be used to write Nextflow scripts. A recommended text editor is [Atom](https://atom.io/).
+Any text editor can be used to write Nextflow scripts. A recommended  code editor is [Visual Studio Code](https://code.visualstudio.com/).
 
-Go to [https://atom.io](https://atom.io) and you should see a download button. The button or buttons should be specific to your platform and the download package should be  installable.
+Go to [Visual Studio Code](https://code.visualstudio.com/) and you should see a download button. The button or buttons should be specific to your platform and the download package should be  installable.
 
-### MacOS
 
-Atom follows the standard Mac zip installation process. You can either press the download button from the [https://atom.io](https://atom.io) site or you can go to the Atom releases page to download the atom-mac.zip file explicitly. Once you have that file, you can click on it to extract the application and then drag the new Atom application into your "Applications" folder.
+### Nextflow language support in Visual Studio Code
 
-### Nextflow language support in Atom
+You can add Nextflow language support in Visual Studio Code by clicking the [install](https://marketplace.visualstudio.com/items?itemName=nextflow.nextflow) button on the Nextflow language extension.
 
-You can add Nextflow language support in Atom by clicking the [install](atom://settings-view/show-package?package=language-nextflow) button on the  atom package site [https://atom.io/packages/language-nextflow](https://atom.io/packages/language-nextflow).
-
-### Atom terminal package
-
-[https://atom.io/packages/atom-ide-terminal](https://atom.io/packages/atom-ide-terminal)
-
-You can enable a terminal window within Atom by installing the atom-ide-terminal package from [https://atom.io/packages/atom-ide-terminal](https://atom.io/packages/atom-ide-terminal). Click the [install](atom://settings-view/show-package?package=atom-ide-terminal) button and follow the instructions.
-
-Once installed enable the terminal window by selecting the Packages menu -> Atom IDE terminal -> Toggle menu item.
 
 ## Nextflow install without conda
 

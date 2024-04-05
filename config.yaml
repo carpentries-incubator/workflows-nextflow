@@ -27,7 +27,7 @@ life_cycle: 'beta'
 license: 'CC-BY 4.0'
 
 # Link to the source repository for this lesson
-source: 'https://github.com/fishtree-attempt/workflows-nextflow/'
+source: 'https://github.com/carpentries-incubator/workflows-nextflow/'
 
 # Default branch of your lesson
 branch: 'main'
@@ -60,21 +60,18 @@ contact: 'graeme.grimes@igmm.ed.ac.uk&quot;'
 # Order of episodes in your lesson
 episodes: 
 - 01-getting-started-with-nextflow.md
-- 02-nextflow_scripting.md
-- 03-workflow_parameters.md
-- 04-channels.md
-- 05-processes-part1.md
+- 02-workflow_parameters.md
+- 03-channels.md
+- 04-processes-part1.md
 - 05-processes-part2.md
 - 06-workflow.md
 - 07-operators.md
-- 08-configuration.md
-- 09-Simple_Rna-Seq_pipeline.md
-- 10-Modules.md
-- 11-subworkflows.md
-- 12-reporting.md
-- 13-workflow_checkpoint_caching.md
-- 14-nfcore.md
-- 15-coding_practices.md
+- 08-reporting.md
+- 09-configuration.md
+- 10-workflow_checkpoint_caching.md
+- 11-Simple_Rna-Seq_pipeline.md
+- 12-nfcore.md
+
 
 # Information for Learners
 learners: 

@@ -31,10 +31,11 @@ Analysing data involves a sequence of tasks, including gathering, cleaning, and 
 
 <br>
 <center>
-<img src="https://sateeshperi.github.io/nextflow_varcal/nextflow/images/analysis_workflow.PNG" width="200">
-<br>
-<em> An example of a simple bioinformatics RNA-Seq pipeline. </em>
+    <img src="https://sateeshperi.github.io/nextflow_varcal/nextflow/images/analysis_workflow.PNG" width="200" alt="Flowchart illustrating a simple bioinformatics RNA-Seq pipeline for transcript expression quantification. The process begins with inputs at the top: 'Fastq' files, a 'Reference sequence', and 'Grch38 Ensembl 91' annotations. The first step is 'quality control', using 'fastQC' software version 0.11.9. The second step is 'index creation' with 'Salmon' software version 1.3.0 using the '-i' option. The third step is 'quantification', again with 'Salmon' version 1.3.0, this time using the '-l A' option. There are two outputs from this process: 'Output 1' is a 'QC report' and 'Output 2' is 'Transcript expression' data.">
+    <br>
+    <em> An example of a simple bioinformatics RNA-Seq pipeline. </em>
 </center>
+
 <br>
 
 However, as workflows become larger and more complex, the management of the programming logic and software becomes difficult.
@@ -56,7 +57,7 @@ and sharing of pipelines, such as:
 
 <br>
 <center>
-<img src="https://media.springernature.com/full/springer-static/image/art%3A10.1038%2Fs41592-021-01254-9/MediaObjects/41592_2021_1254_Fig1_HTML.png?as=webp" width="600">
+<img src="https://media.springernature.com/full/springer-static/image/art%3A10.1038%2Fs41592-021-01254-9/MediaObjects/41592_2021_1254_Fig1_HTML.png?as=webp" alt="A comparison of three bioinformatics pipeline diagrams. Panel A shows an 'Analysis workflow' for transcript expression quantification with three main steps: 1) quality control using fastQC v0.11.9, 2) index creation with Salmon v.1.3.0, and 3) quantification also using Salmon v.1.3.0. Inputs include Fastq files, a Reference sequence, and Grch38 Ensembl 91, leading to outputs of a QC report and transcript expression data. Panel B illustrates a 'Traditional pipeline' emphasizing platform-specific requirements and local execution with steps leading to two outputs. Panel C depicts a 'Workflow manager', highlighting platform-independent requirements, portability, local and cloud execution options, scalability, and containerized steps for automatic resource management, leading to an output and an execution report. The color-coding indicates input data (gray), output data (yellow), and software, versions, parameters (green and blue)" width="600">
 <br>
 <em>
 An example of differences between running a specific analysis workflow using
@@ -72,7 +73,7 @@ https://doi.org/10.1038/s41592-021-01254-9
 
 <br>
 <center>
-<img src="https://training.seqera.io/img/execution_abstraction.png" width="600">
+<img src="fig/execution_abstraction.png" alt= "Infographic illustrating the components and supported platforms of a nextflow pipeline. The top section 'nextflow pipeline' is divided into three: writing code in any language (represented by R, Python, and Bash icons), orchestrating tasks with dataflow programming (represented by papers marked 'Data Flow' and 'Programming Model'), and defining software dependencies via containers (represented by Conda, Docker, and Singularity icons) and built-in version control with Git (represented by Git, GitHub, GitLab, and Bitbucket icons). Below, in the 'nextflow runtime' section, is 'Task orchestration and execution'. Arrows point downwards to the 'Supported Platforms' section, showcasing various platforms such as AWS, Google Cloud, Azure, Grid Engine, Slurm, HTCondor, Platform Computing, Kubernetes, and PBS Works." width="600">
 <br>
 <em> Overview of Nextflow core features. </em>
 </center>
@@ -129,7 +130,7 @@ channel has three elements, three independent instances (tasks) of that process
 are run in parallel. Each task generates an output, which is passed to another
 channel and used as input for the next process.
 
-<p align="center">   <img alt="Processes and channels" src="fig/channel-process_fqc.png" width="700">   <br>   <em> Nextflow process flow diagram. </em>
+<p align="center">   <img src="fig/channel-process_fqc.png" alt="Diagram depicting part of a bioinformatics data processing workflow. On the left, there is a 'channel' labeled 'samples' containing three items: Fastq1, Fastq2, and Fastq3. This channel flows into a 'process' called 'fastqc' represented by a rounded rectangle containing the command 'fastqc -o out ${reads}'. The output of this process goes into a channel named 'out_ch', which lists 'outdir' three times as its contents. This channel then flows into a channel operator 'collect' and then into  another 'process' called 'multiqc', indicated by a rounded rectangle with the command 'multiqc -o mqc_res .'. The output of 'multiqc' goes into a channel called 'mqc_ch', which also lists 'outdir' one time." width="700">   <br>   <em> Nextflow process flow diagram. </em>
 </p>
 
 ## Workflow execution
@@ -142,7 +143,7 @@ local executor is very useful for pipeline development, testing, and
 small-scale workflows, but for large-scale computational pipelines, a High
 Performance Cluster (HPC) or Cloud platform is often required.
 
-<p align="center">   <img alt="Processes and channels" src="fig/executor.png" width="350">   <br>   <em>Nextflow Executors</em>
+<p align="center">   <img  src="fig/executor.png" alt="Diagram of a computational process within a bioinformatics workflow. The image features a large, central, rounded rectangle labeled 'process' with a smaller rectangle inside it labeled 'script', indicating the code or commands that are being executed. Above the script box, there is a smaller inset labeled 'Executors' with three icons: a desktop computer labeled 'Local', a stack of servers labeled 'High Performance Compute Cluster', and a cloud symbol labeled 'Cloud Compute'. These represent the different computing environments where the script can be executed. To the left of the process box is a green left-pointing arrowhead, suggesting input into the process, and to the right is a yellow right-pointing arrowhead, indicating the direction of output from the process." width="350">   <br>   <em>Nextflow Executors</em>
 </p>
 
 Nextflow provides a separation between the pipeline's functional logic and the
@@ -161,6 +162,19 @@ We are now going to look at a sample Nextflow script that counts the number of
 lines in a file. Create the file `word_count.nf` in the current directory using
 your favourite text editor and copy-paste the following code:
 
+::::::::::::::::::::::::::::::::::::: instructor
+
+The nextflow scripts for each lesson episode are available in the `scripts` directory created
+during the course setup. You should copy the script into the current directory
+
+For example, to copy the script for this lesson episode, run the following command:
+
+```bash
+$ cp scripts/introduction/word_count.nf .
+```
+
+:::::::::::::::::::::::::::::::::::::::::::::::::
+
 ```groovy
 #!/usr/bin/env nextflow
 
@@ -173,7 +187,7 @@ nextflow.enable.dsl=2
 ========================================================================================
 */
 
-params.input = "data/untrimmed_fastq/SRR2584863_1.fastq.gz"
+params.input = "data/yeast/reads/ref1_1.fq.gz"
 
 /*
 ========================================================================================
@@ -285,86 +299,7 @@ executor >  local (1)
 
 ::::::::::::::::::::::::::::::::::::::::::::::::::
 
-## Pipeline parameters
 
-The Nextflow `word_count.nf` script defines a pipeline parameter
-`params.input`. Pipeline parameters enable you to change the input to the
-workflow at runtime, via the command line or a configuration file, so they are
-not hard-coded into the script.
-
-Pipeline parameters are declared in the workflow by prepending the prefix
-`params`, separated by dot character, to a variable name e.g., `params.input`.
-Their value can be specified on the command line by prefixing the parameter
-name with a double dash character, e.g., `--input`.
-
-We can also use wild cards to specify multiple input files. In the example
-below we use the `*` to match any sequence of characters with `.fastq.gz`. Note
-that if you use wild card characters on the command line you must enclose the
-value in quotes.
-
-Re-run the Nextflow script by entering the following command in your terminal:
-
-```bash
-nextflow run word_count.nf --input 'data/untrimmed_fastq/*.fastq.gz'
-```
-
-```output
-N E X T F L O W  ~  version 21.04.3
-Launching `word_count.nf` [desperate_agnesi] - revision: bf77afb9d7
-executor >  local (6)
-[60/584db8] process > NUM_LINES (5) [100%] 6 of 6 ✔
-SRR2589044_1.fastq.gz 4428360
-SRR2589044_2.fastq.gz 4428360
-SRR2584863_1.fastq.gz 6213036
-SRR2584863_2.fastq.gz 6213036
-SRR2584866_2.fastq.gz 11073592
-SRR2584866_1.fastq.gz 11073592
-```
-
-The pipeline executes the process 6 times; one process for each file matching
-the string. Since each process is executed in parallel, there is no guarantee
-of which output is reported first. When you run this script, you may see the
-process output in a different order.
-
-Nextflow stores intermediate files in a `work` sub-directory in your current
-directory, which might look like this:
-
-```output
-work/
-├── 13
-│   └── 46936e3927b74ea6e5555ce7b7b56a
-│       └── SRR2589044_2.fastq.gz -> nextflow_tutorial/data/untrimmed_fastq/SRR2589044_2.fastq.gz
-├── 43
-│   └── 3819a4bc046dd7dc528de8eae1c6b8
-│       └── SRR2584863_1.fastq.gz -> nextflow_tutorial/data/untrimmed_fastq/SRR2584863_1.fastq.gz
-├── 5a
-│   └── d446a792db2781ccd0c7aaafdff329
-│       └── SRR2584866_2.fastq.gz -> nextflow_tutorial/data/untrimmed_fastq/SRR2584866_2.fastq.gz
-├── 76
-│   └── b1e11f2e706b901e0c57768a2af59f
-│       └── SRR2589044_1.fastq.gz -> nextflow_tutorial/data/untrimmed_fastq/SRR2589044_1.fastq.gz
-├── 9c
-│   └── 1b1ebc2ea11a395e4e9dcf805b2c7d
-│       └── SRR2584863_2.fastq.gz -> nextflow_tutorial/data/untrimmed_fastq/SRR2584863_2.fastq.gz
-└── ce
-    └── b94ef609ee54f4b7ea79dc23eb32bb
-        └── SRR2584866_1.fastq.gz -> nextflow_tutorial/data/untrimmed_fastq/SRR2584866_1.fastq.gz
-
-12 directories, 6 files
-```
-
-Nextflow has a log command to display the logs of all previous executions. Type
-the following on the command line to display an output similar as below:
-
-```bash
-nextflow log
-```
-
-```output
-TIMESTAMP               DURATION        RUN NAME                STATUS  REVISION ID     SESSION ID                              COMMAND
-2021-11-16 07:17:23     5.9s            irreverent_leakey       OK      bf77afb9d7      17d06cd0-3bb9-4d32-9d75-48bfdf5401a9    nextflow run word_count.nf
-2021-11-16 07:23:00     11.1s           desperate_agnesi        OK      bf77afb9d7      41f78242-27d7-462a-a88d-80b6ec9dc5db    nextflow run word_count.nf --input 'data/untrimmed_fastq/*.fastq.gz'
-```
 
 ## Quick recap
 
@@ -374,9 +309,6 @@ TIMESTAMP               DURATION        RUN NAME                STATUS  REVISION
 - Nextflow scripts comprise of *channels* for controlling inputs and outputs,
   and *processes* for defining workflow tasks.
 - You run a Nextflow script using the `nextflow run` command.
-- Nextflow stores working files in the `work` directory.
-- The `nextflow log` command can be used to see information about executed
-  pipelines.
 
 
 

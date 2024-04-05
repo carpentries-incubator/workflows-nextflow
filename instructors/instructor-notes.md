@@ -26,9 +26,9 @@ nextflow run main.nf -process.echo
 
 The nextflow lesson material has been adapted from the sequera-labs training course [link here](https://seqera.io/training) there is video of this material being presented [here](https://youtu.be/8_i8Tn335X0)
 
-## Editors
+## Code Editor
 
-The [Atom editor](https://atom.io/) has [syntax highlighting](https://atom.io/packages/language-nextflow) for Nextflow.
+The preferred code editor is [Visual Studio Code](https://code.visualstudio.com).  Visual Studio Code has a [syntax highlighting](https://marketplace.visualstudio.com/items?itemName=nextflow.nextflow) extension that adds the Nextflow language support.
 
 ## Getting Help
 
@@ -49,6 +49,13 @@ See the blog post [here](https://www.nextflow.io/blog/2015/introducing-nextflow-
 ```bash
 nextflow console
 ```
+
+## Next Steps
+
+Nextflow produces a [blog post](https://www.nextflow.io/blog/2023/learn-nextflow-in-2023.html) each year with links to training materials and workshops.
+This is a good website to show learners who want to learn more.
+
+
 
 ## References
 

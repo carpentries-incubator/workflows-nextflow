@@ -31,8 +31,9 @@ The  workflow scope starts with the keyword `workflow`, followed by an optional 
 
 ## Implicit workflow
 
-A workflow definition which does not declare any name is assumed to be the main workflow, and it is implicitly executed. Therefore it's the entry point of the workflow application.
+In contrast to processes, the workflow definition in Nextflow does not require a name. In Nextflow, if you don't give a name to a workflow, it's considered the main/implicit starting point of your workflow program.
 
+A named workflow is a `subworkflow` that can be invoked from other workflows, subworkflows are not covered in this lesson, more information can be found in the official documentation [here](https://www.nextflow.io/docs/latest/workflow.html).
 
 ::::::::::::::::::::::::::::::::::::::::::::::::::
 

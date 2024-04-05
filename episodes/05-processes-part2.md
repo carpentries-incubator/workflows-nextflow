@@ -553,9 +553,14 @@ A complete list of directives is available at this [link](https://www.nextflow.i
 
 ## Adding directives
 
+
+Many software tools allow users to configure the number of CPU threads used, optimizing performance for faster and more efficient data processing in high-throughput sequencing tasks.
+
+In this exercise, we will use the bioinformatics tool [FastQC](https://www.bioinformatics.babraham.ac.uk/projects/fastqc/) to assess the quality of high-throughput sequencing read data. FastQC generates an HTML report along with a directory containing detailed analysis results. We can specify the number of CPU threads for FastQC to use with the -t option, followed by the desired number of threads.
+
 Modify the Nextflow script `process_exercise_directives.nf`
 
-1. Add a `tag` directive logging the sample\_id in the execution output.
+1. Add a `tag` directive logging the sample_id in the execution output.
 2. Add a `cpus` directive to specify the number of cpus as 2.
 3. Change the fastqc `-t` option value to `$task.cpus` in the script directive.
 
