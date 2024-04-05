@@ -70,6 +70,10 @@ $ conda activate nf-training
 
 ## Training scripts
 
+
+To aid in the delivery of the lesson, the scripts mentioned in each episode, can be found in the respective episode folders in the github repository.
+[https://github.com/carpentries-incubator/workflows-nextflow/tree/main/episodes/files/scripts](https://github.com/carpentries-incubator/workflows-nextflow/tree/gh-pages/files/scripts)
+
 To get the scripts associated with each episode you will need to download the scripts folder from the github repository.
 
 Below is a series of commands to download and unpack scripts folder.
@@ -92,7 +96,6 @@ rm -r workflows-nextflow-main main.zip
 ```
 
 The nextflow scripts for each episode, can be found in the respective episode folders inside this the scripts folder.
-
 
 
 ### Data
