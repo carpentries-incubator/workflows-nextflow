@@ -18,7 +18,7 @@ exercises: 40
 
 - How can I create a Nextflow pipeline from a series of unix commands and input data?
 - How do I log my pipelines parameters?
-- How can I manage my pipeline software requirement?
+- How can I manage my pipeline software requirements?
 - How do I know when my pipeline has finished?
 - How do I see how much resources my pipeline has used?
 
