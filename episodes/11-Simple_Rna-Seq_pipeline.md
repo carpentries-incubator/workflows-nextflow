@@ -10,7 +10,7 @@ exercises: 40
 - Use the `log.info` function to print all the pipeline parameters.
 - Print a confirmation message when the pipeline completes.
 - Use a conda `environment.yml` file to install the pipeline's software requirement.
-- Produce an execution report and generates run metrics from a pipeline run.
+- Produce an execution report and generate run metrics from a pipeline run.
 
 ::::::::::::::::::::::::::::::::::::::::::::::::::
 
