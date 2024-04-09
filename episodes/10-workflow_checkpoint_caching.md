@@ -53,7 +53,7 @@ and the parameter `--input 'data/yeast/reads/temp33*'`:
 
 ## Solution
 
-```
+```bash
 $ nextflow run wc.nf --input 'data/yeast/reads/temp33*' -resume
 ```
 
@@ -122,12 +122,11 @@ $ touch data/yeast/reads/temp33_3_2.fq.gz
 
 Run command below.
 
-```
+```bash
 $ nextflow run wc.nf --input 'data/yeast/reads/temp33*' -resume
 ```
 
 How many processes will be cached and how many will run ?
-{: .language-bash}
 
 :::::::::::::::  solution
 
