@@ -582,10 +582,6 @@ The pipeline does next-generation sequencing-based Human Leukozyte Antigen (HLA)
 
 ### Solution
 
-```
-$ nextflow run nf-core/hlatyping -r 1.2.0 -profile test,conda  --max_memory 3G
-```
-
 ```output
  N E X T F L O W  ~  version 21.04.0
 Launching `nf-core/hlatyping` [pedantic_engelbart] - revision: 6998794795 [1.2.0]
