@@ -339,7 +339,8 @@ $ nextflow clean nauseous_leavitt -f
 
 - Nextflow automatically keeps track of all the processes executed in your pipeline via checkpointing.
 - Nextflow caches intermediate data in task directories within the work directory.
-- Nextflow caching and checkpointing allows re-entrancy into a workflow after a pipeline error or using new data, skipping steps that have been successfully executed. - Re-entrancy is enabled using the `-resume` option.
+- Nextflow caching and checkpointing allows re-entrancy into a workflow after a pipeline error or using new data, skipping steps that have been successfully executed. 
+- Re-entrancy is enabled using the `-resume` option.
 
 ::::::::::::::::::::::::::::::::::::::::::::::::::
 
