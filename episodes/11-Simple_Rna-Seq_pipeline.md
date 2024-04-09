@@ -84,11 +84,9 @@ println "reads: $params.reads"
 
 Run it by using the following command:
 
-```
+```bash
 $ nextflow run script1.nf
 ```
-
-{: language-bash}
 
 We can specify a different input parameter using the `--<params>` option, for example :
 
