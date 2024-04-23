@@ -44,14 +44,17 @@ A list of software with version required for this training is listed below:
 
 The simplest way to install the software for this course is using conda.
 
+
 To install conda see [here](https://carpentries-incubator.github.io/introduction-to-conda-for-data-scientists/setup/). 
 
-An environment file is provided here [environment.yml](https://raw.githubusercontent.com/carpentries-incubator/workflows-nextflow/main/episodes/data/environment.yml).
-
-Obtain this file using `wget`:
+An environment file is provided here [environment.yml](https://raw.githubusercontent.com/carpentries-incubator/workflows-nextflow/main/episodes/data/environment.yml)
 
 ```bash
+# wget
 wget https://raw.githubusercontent.com/carpentries-incubator/workflows-nextflow/main/episodes/data/environment.yml
+
+# or curl 
+curl -L -o environment.yml https://raw.githubusercontent.com/carpentries-incubator/workflows-nextflow/main/episodes/data/environment.yml
 ```
 
 To create the training environment run:
@@ -68,6 +71,10 @@ $ conda activate nf-training
 
 ## Training scripts
 
+
+To aid in the delivery of the lesson, the scripts mentioned in each episode, can be found in the respective episode folders in the github repository.
+[https://github.com/carpentries-incubator/workflows-nextflow/tree/main/episodes/files/scripts](https://github.com/carpentries-incubator/workflows-nextflow/tree/gh-pages/files/scripts)
+
 To get the scripts associated with each episode you will need to download the scripts folder from the github repository.
 
 Below is a series of commands to download and unpack scripts folder.
@@ -75,6 +82,9 @@ Below is a series of commands to download and unpack scripts folder.
 ```bash
 # get the gitrepo as a zip file
 wget https://github.com//carpentries-incubator/workflows-nextflow/archive/main.zip
+
+#or
+curl -L -o main.zip https://github.com//carpentries-incubator/workflows-nextflow/archive/main.zip
 
 # unzip the script file
 unzip main.zip 'workflows-nextflow-main/episodes/files/scripts*' -d  .
@@ -89,13 +99,15 @@ rm -r workflows-nextflow-main main.zip
 The nextflow scripts for each episode, can be found in the respective episode folders inside this the scripts folder.
 
 
-
 ### Data
 
 Inside the `nf-training` folder download the workshop dataset from Figshare, [https://figshare.com/articles/dataset/RNA-seq\_training\_dataset/14822481](https://figshare.com/articles/dataset/RNA-seq_training_dataset/14822481)
 
 ```bash
 $ wget --content-disposition https://ndownloader.figshare.com/files/28531743
+
+# or curl
+curl -L -o  data.tar.gz https://ndownloader.figshare.com/files/28531743
 ```
 
 Unpack gzipped tar file:
