@@ -27,7 +27,7 @@ exercises: 10
 
 ## Workflows
 
-Analysing data involves a sequence of tasks, including gathering, cleaning, and processing data. These sequence of tasks are called a workflow or a pipeline. These workflows typically require executing multiple software packages, sometimes running on different computing environments, such as a desktop or a compute cluster. Traditionally these workflows have been joined together in scripts using general purpose programming languages such as Bash or Python.
+Analysing data involves a sequence of tasks, including gathering, cleaning, and processing data. This sequence of tasks is called a workflow or a pipeline. These workflows typically require executing multiple software packages, sometimes running on different computing environments, such as a desktop or a compute cluster. Traditionally these workflows have been joined together in scripts using general purpose programming languages such as Bash or Python.
 
 <br>
 <center>
@@ -244,19 +244,16 @@ This is a Nextflow script, which contains the following:
 
 1. An optional interpreter directive ("Shebang") line, specifying the location of the Nextflow interpreter.
 2. `nextflow.enable.dsl=2` to enable DSL2 syntax.
-3. A multi-line Nextflow comment, written using C style block comments, followed by a single line comment.
+3. A multi-line Nextflow comment, written using C style block comments, there are more comments later in the file.
 4. A pipeline parameter `params.input` which is given a default value, of the relative path to the location of a compressed fastq file, as a string.
-5. An unnamed `workflow` execution block, which is the default workflow to run.
-6. A Nextflow channel used to read in data to the workflow.
+5. A Nextflow channel `input_ch` used to read in data to the workflow.
+6. An unnamed `workflow` execution block, which is the default workflow to run.
 7. A call to the process `NUM_LINES`.
+8. An operation on the process output, using the channel operator `.view()`.
 8. A Nextflow process block named `NUM_LINES`, which defines what the process does.
 9. An `input` definition block that assigns the `input` to the variable `read`, and declares that it should be interpreted as a file path.
 10. An `output` definition block that uses the Linux/Unix standard output stream `stdout` from the script block.
 11. A script block that contains the bash commands `printf '${read}'` and `gunzip -c ${read} | wc -l`.
-12. A Nextflow channel `input_ch` used to read in data to the workflow.
-13. An unnamed `workflow` execution block, which is the default workflow to run.
-14. A call to the process `NUM_LINES` with input channel `input_ch`.
-15. An operation on the process output, using the channel operator `.view()`.
 
 ## Running Nextflow scripts
 

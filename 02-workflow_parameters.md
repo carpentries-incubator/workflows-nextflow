@@ -203,7 +203,8 @@ params.sleep=2
 ```groovy 
 script: 
 """
-sleep ${params.sleep} > printf '${read} '
+sleep ${params.sleep}
+printf '${read}\\t'
 gunzip -c ${read} | wc -l 
 """
 ```
@@ -217,7 +218,7 @@ The input file would be  `data/yeast/reads/ref1_1.fq.gz` as this is the default.
 To run all input files we could add the param
 `--input 'data/yeast/reads/*.fq.gz'` 
 ```bash
-$ nextflow run wc-params.nf --sleep 1 --input 'data/yeast/reads/\*.fq.gz' 
+$ nextflow run wc-params.nf --sleep 1 --input 'data/yeast/reads/*.fq.gz' 
 ```
 
 :::::::::::::::::::::::::
@@ -244,6 +245,7 @@ and `input` in JSON format.
 }
 ```
 
+Create a file called `wc-params.json` with the above contents.
 
 To run the `wc-params.nf` script using these parameters we add the
 option `-params-file` and pass the file `wc-params.json`:
@@ -284,7 +286,8 @@ parameter file, specifying:
 {
 "sleep": 10,
 "input": "data/yeast/reads/ref3_1.fq.gz"
-
+}
+```
 ```bash
 $ nextflow run wc-params.nf -params-file params.json 
 ```

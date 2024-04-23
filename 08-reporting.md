@@ -207,8 +207,6 @@ name, hash, process and status
 
 ::::::::::::::  solution
 
-## Solution
-
 Example solution using run name `elegant_descartes`.
 
 ```bash 
@@ -219,11 +217,9 @@ $ nextflow log elegant_descartes -f name,hash,process,status
 
 ## Filter pipeline run log
 
-::::::::::::::  solution
-
 Use the `-F` option and a regular expression to filter the for a specific process e.g. multiqc.
 
-## Solution
+::::::::::::::  solution
 
 ```bash 
 $ nextflow log elegant_descartes -f name,hash,process,status -F 'process =~ /multiqc/'

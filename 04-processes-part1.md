@@ -797,6 +797,7 @@ When a process declares an input file, the corresponding channel elements must b
 :::::::::::::::::::::::::::::::::::::::  challenge
 ## Add input channel
 For the script `process_exercise_input.nf`:
+
 1. Define a Channel using `fromPath` for the transcriptome `params.transcriptome`.  
 2. Add an input channel that takes the transcriptome channel as a file input.
 3. Replace `params.transcriptome` in the `script:` block with the input variable you defined in the `input:` definition.
