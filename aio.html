@@ -384,7 +384,7 @@
         
 <section id="aio-01-getting-started-with-nextflow"><p>Content from <a href="01-getting-started-with-nextflow.html">Getting Started with Nextflow</a></p>
 <hr>
-<p>Last updated on 2024-03-28 |
+<p>Last updated on 2024-04-23 |
         
         <a href="https://github.com/carpentries-incubator/workflows-nextflow/edit/main/episodes/01-getting-started-with-nextflow.md" class="external-link">Edit this page <i aria-hidden="true" data-feather="edit"></i></a></p>
 <div class="text-end">
@@ -429,7 +429,7 @@ bioinformatics workflow.</li>
 </h2>
 <hr class="half-width">
 <p>Analysing data involves a sequence of tasks, including gathering,
-cleaning, and processing data. These sequence of tasks are called a
+cleaning, and processing data. This sequence of tasks is called a
 workflow or a pipeline. These workflows typically require executing
 multiple software packages, sometimes running on different computing
 environments, such as a desktop or a compute cluster. Traditionally
@@ -628,14 +628,17 @@ location of the Nextflow interpreter.</li>
 <li>
 <code>nextflow.enable.dsl=2</code> to enable DSL2 syntax.</li>
 <li>A multi-line Nextflow comment, written using C style block comments,
-followed by a single line comment.</li>
+there are more comments later in the file.</li>
 <li>A pipeline parameter <code>params.input</code> which is given a
 default value, of the relative path to the location of a compressed
 fastq file, as a string.</li>
+<li>A Nextflow channel <code>input_ch</code> used to read in data to the
+workflow.</li>
 <li>An unnamed <code>workflow</code> execution block, which is the
 default workflow to run.</li>
-<li>A Nextflow channel used to read in data to the workflow.</li>
 <li>A call to the process <code>NUM_LINES</code>.</li>
+<li>An operation on the process output, using the channel operator
+<code>.view()</code>.</li>
 <li>A Nextflow process block named <code>NUM_LINES</code>, which defines
 what the process does.</li>
 <li>An <code>input</code> definition block that assigns the
@@ -646,14 +649,6 @@ standard output stream <code>stdout</code> from the script block.</li>
 <li>A script block that contains the bash commands
 <code>printf '${read}'</code> and
 <code>gunzip -c ${read} | wc -l</code>.</li>
-<li>A Nextflow channel <code>input_ch</code> used to read in data to the
-workflow.</li>
-<li>An unnamed <code>workflow</code> execution block, which is the
-default workflow to run.</li>
-<li>A call to the process <code>NUM_LINES</code> with input channel
-<code>input_ch</code>.</li>
-<li>An operation on the process output, using the channel operator
-<code>.view()</code>.</li>
 </ol></section><section id="running-nextflow-scripts"><h2 class="section-heading">Running Nextflow scripts<a class="anchor" aria-label="anchor" href="#running-nextflow-scripts"></a>
 </h2>
 <hr class="half-width">
@@ -682,7 +677,7 @@ terminal:</p>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution1" aria-expanded="false" aria-controls="collapseSolution1">
   <h4 class="accordion-header" id="headingSolution1">Show me the solution</h4>
 </button>
-<div id="collapseSolution1" class="accordion-collapse collapse" aria-labelledby="headingSolution1" data-bs-parent="#accordionSolution1">
+<div id="collapseSolution1" class="accordion-collapse collapse" data-bs-parent="#accordionSolution1" aria-labelledby="headingSolution1">
 <div class="accordion-body">
 <p>You should see output similar to the text shown below:</p>
 <div class="codewrapper">
@@ -751,7 +746,7 @@ command.</li>
 </div>
 </section></section><section id="aio-02-workflow_parameters"><p>Content from <a href="02-workflow_parameters.html">Workflow parameterisation</a></p>
 <hr>
-<p>Last updated on 2024-03-28 |
+<p>Last updated on 2024-04-23 |
         
         <a href="https://github.com/carpentries-incubator/workflows-nextflow/edit/main/episodes/02-workflow_parameters.md" class="external-link">Edit this page <i aria-hidden="true" data-feather="edit"></i></a></p>
 <div class="text-end">
@@ -992,9 +987,10 @@ input to 1 second?</p>
 </h3>
 <pre class="sourceCode groovy" tabindex="0"><code class="sourceCode groovy"><span id="cb13-1"><a href="#cb13-1" tabindex="-1"></a>script<span class="op">:</span> </span>
 <span id="cb13-2"><a href="#cb13-2" tabindex="-1"></a><span class="st">"""</span></span>
-<span id="cb13-3"><a href="#cb13-3" tabindex="-1"></a><span class="st">sleep </span><span class="ss">${</span>params<span class="op">.</span>sleep<span class="ss">}</span><span class="st"> &gt; printf '</span><span class="ss">${</span>read<span class="ss">}</span><span class="st"> '</span></span>
-<span id="cb13-4"><a href="#cb13-4" tabindex="-1"></a><span class="st">gunzip -c </span><span class="ss">${</span>read<span class="ss">}</span><span class="st"> | wc -l </span></span>
-<span id="cb13-5"><a href="#cb13-5" tabindex="-1"></a><span class="st">"""</span></span></code></pre>
+<span id="cb13-3"><a href="#cb13-3" tabindex="-1"></a><span class="st">sleep </span><span class="ss">${</span>params<span class="op">.</span>sleep<span class="ss">}</span></span>
+<span id="cb13-4"><a href="#cb13-4" tabindex="-1"></a><span class="st">printf '</span><span class="ss">${</span>read<span class="ss">}</span><span class="sc">\\</span><span class="st">t'</span></span>
+<span id="cb13-5"><a href="#cb13-5" tabindex="-1"></a><span class="st">gunzip -c </span><span class="ss">${</span>read<span class="ss">}</span><span class="st"> | wc -l </span></span>
+<span id="cb13-6"><a href="#cb13-6" tabindex="-1"></a><span class="st">"""</span></span></code></pre>
 </div>
 <div class="codewrapper sourceCode" id="cb14">
 <h3 class="code-label">BASH<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
@@ -1009,7 +1005,7 @@ run all input files we could add the param
 <div class="codewrapper sourceCode" id="cb15">
 <h3 class="code-label">BASH<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode bash" tabindex="0"><code class="sourceCode bash"><span id="cb15-1"><a href="#cb15-1" tabindex="-1"></a><span class="ex">$</span> nextflow run wc-params.nf <span class="at">--sleep</span> 1 <span class="at">--input</span> <span class="st">'data/yeast/reads/\*.fq.gz'</span> </span></code></pre>
+<pre class="sourceCode bash" tabindex="0"><code class="sourceCode bash"><span id="cb15-1"><a href="#cb15-1" tabindex="-1"></a><span class="ex">$</span> nextflow run wc-params.nf <span class="at">--sleep</span> 1 <span class="at">--input</span> <span class="st">'data/yeast/reads/*.fq.gz'</span> </span></code></pre>
 </div>
 </div>
 </div>
@@ -1035,6 +1031,8 @@ parameters <code>sleep</code> and <code>input</code> in JSON format.</p>
 <span id="cb16-3"><a href="#cb16-3" tabindex="-1"></a>  <span class="dt">"input"</span><span class="fu">:</span> <span class="st">"data/yeast/reads/etoh60_1*.fq.gz"</span></span>
 <span id="cb16-4"><a href="#cb16-4" tabindex="-1"></a><span class="fu">}</span></span></code></pre>
 </div>
+<p>Create a file called <code>wc-params.json</code> with the above
+contents.</p>
 <p>To run the <code>wc-params.nf</code> script using these parameters we
 add the option <code>-params-file</code> and pass the file
 <code>wc-params.json</code>:</p>
@@ -1086,9 +1084,12 @@ created parameter file, specifying:</p>
 <pre class="sourceCode json" tabindex="0"><code class="sourceCode json"><span id="cb19-1"><a href="#cb19-1" tabindex="-1"></a><span class="fu">{</span></span>
 <span id="cb19-2"><a href="#cb19-2" tabindex="-1"></a><span class="dt">"sleep"</span><span class="fu">:</span> <span class="dv">10</span><span class="fu">,</span></span>
 <span id="cb19-3"><a href="#cb19-3" tabindex="-1"></a><span class="dt">"input"</span><span class="fu">:</span> <span class="st">"data/yeast/reads/ref3_1.fq.gz"</span></span>
-<span id="cb19-4"><a href="#cb19-4" tabindex="-1"></a></span>
-<span id="cb19-5"><a href="#cb19-5" tabindex="-1"></a><span class="er">```bash</span></span>
-<span id="cb19-6"><a href="#cb19-6" tabindex="-1"></a><span class="er">$</span> <span class="er">nextflow</span> <span class="er">run</span> <span class="er">wc-params.nf</span> <span class="er">-params-file</span> <span class="er">params.json</span> </span></code></pre>
+<span id="cb19-4"><a href="#cb19-4" tabindex="-1"></a><span class="fu">}</span></span></code></pre>
+</div>
+<div class="codewrapper sourceCode" id="cb20">
+<h3 class="code-label">BASH<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="sourceCode bash" tabindex="0"><code class="sourceCode bash"><span id="cb20-1"><a href="#cb20-1" tabindex="-1"></a><span class="ex">$</span> nextflow run wc-params.nf <span class="at">-params-file</span> params.json </span></code></pre>
 </div>
 <div class="codewrapper">
 <h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
@@ -1124,7 +1125,7 @@ them to the script using option <code>-params-file</code>.”</li>
 </div>
 </section></section><section id="aio-03-channels"><p>Content from <a href="03-channels.html">Channels</a></p>
 <hr>
-<p>Last updated on 2024-03-21 |
+<p>Last updated on 2024-04-23 |
         
         <a href="https://github.com/carpentries-incubator/workflows-nextflow/edit/main/episodes/03-channels.md" class="external-link">Edit this page <i aria-hidden="true" data-feather="edit"></i></a></p>
 <div class="text-end">
@@ -1341,11 +1342,11 @@ episode.</p>
 <p>Queue (consumable) channels can be created using the following
 channel factory methods.</p>
 <ul>
-<li>Channel.of</li>
-<li>Channel.fromList</li>
-<li>Channel.fromPath</li>
-<li>Channel.fromFilePairs</li>
-<li>Channel.fromSRA</li>
+<li><code>Channel.of</code></li>
+<li><code>Channel.fromList</code></li>
+<li><code>Channel.fromPath</code></li>
+<li><code>Channel.fromFilePairs</code></li>
+<li><code>Channel.fromSRA</code></li>
 </ul>
 <div class="section level3">
 <h3 id="the-of-channel-factory">The <strong>of</strong> Channel factory<a class="anchor" aria-label="anchor" href="#the-of-channel-factory"></a>
@@ -2039,7 +2040,7 @@ behaviour of a channel.</li>
 </div>
 </section></section><section id="aio-04-processes-part1"><p>Content from <a href="04-processes-part1.html">Processes</a></p>
 <hr>
-<p>Last updated on 2024-03-21 |
+<p>Last updated on 2024-04-23 |
         
         <a href="https://github.com/carpentries-incubator/workflows-nextflow/edit/main/episodes/04-processes-part1.md" class="external-link">Edit this page <i aria-hidden="true" data-feather="edit"></i></a></p>
 <div class="text-end">
@@ -3072,13 +3073,17 @@ e.g. <code>Channel.fromPath</code> or
 <h3 class="callout-title">Add input channel<a class="anchor" aria-label="anchor" href="#add-input-channel"></a>
 </h3>
 <div class="callout-content">
-<p>For the script <code>process_exercise_input.nf</code>: 1. Define a
-Channel using <code>fromPath</code> for the transcriptome
+<p>For the script <code>process_exercise_input.nf</code>:</p>
+<ol style="list-style-type: decimal">
+<li>Define a Channel using <code>fromPath</code> for the transcriptome
 <code>params.transcriptome</code>.<br>
-2. Add an input channel that takes the transcriptome channel as a file
-input. 3. Replace <code>params.transcriptome</code> in the
+</li>
+<li>Add an input channel that takes the transcriptome channel as a file
+input.</li>
+<li>Replace <code>params.transcriptome</code> in the
 <code>script:</code> block with the input variable you defined in the
-<code>input:</code> definition.</p>
+<code>input:</code> definition.</li>
+</ol>
 <div class="codewrapper sourceCode" id="cb44">
 <h3 class="code-label">GROOVY<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
@@ -4606,7 +4611,7 @@ directive.</li>
 </div>
 </section></section><section id="aio-06-workflow"><p>Content from <a href="06-workflow.html">Workflow</a></p>
 <hr>
-<p>Last updated on 2024-03-21 |
+<p>Last updated on 2024-04-23 |
         
         <a href="https://github.com/carpentries-incubator/workflows-nextflow/edit/main/episodes/06-workflow.md" class="external-link">Edit this page <i aria-hidden="true" data-feather="edit"></i></a></p>
 <div class="text-end">
@@ -4899,7 +4904,7 @@ channel output to a single List item.</p>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution1" aria-expanded="false" aria-controls="collapseSolution1">
   <h4 class="accordion-header" id="headingSolution1">Show me the solution</h4>
 </button>
-<div id="collapseSolution1" class="accordion-collapse collapse" aria-labelledby="headingSolution1" data-bs-parent="#accordionSolution1">
+<div id="collapseSolution1" class="accordion-collapse collapse" data-bs-parent="#accordionSolution1" aria-labelledby="headingSolution1">
 <div class="accordion-body">
 <div class="codewrapper sourceCode" id="cb7">
 <h3 class="code-label">GROOVY<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
@@ -4982,9 +4987,10 @@ inside the <code>workflow</code> scope.</li>
 arguments. e.g. <code>FASTQC(reads_ch)</code>.</li>
 <li>Process outputs can be accessed using the <code>out</code> attribute
 for the respective <code>process</code> object or assigning the output
-to a Nextflow variable. - Multiple outputs from a single process can be
-accessed using the list syntax <code>[]</code> and it’s index or by
-referencing the a named process output .</li>
+to a Nextflow variable.</li>
+<li>Multiple outputs from a single process can be accessed using the
+list syntax <code>[]</code> and it’s index or by referencing the a named
+process output .</li>
 </ul>
 </div>
 </div>
@@ -4992,7 +4998,7 @@ referencing the a named process output .</li>
 </div>
 </section></section><section id="aio-07-operators"><p>Content from <a href="07-operators.html">Operators</a></p>
 <hr>
-<p>Last updated on 2024-03-19 |
+<p>Last updated on 2024-04-23 |
         
         <a href="https://github.com/carpentries-incubator/workflows-nextflow/edit/main/episodes/07-operators.md" class="external-link">Edit this page <i aria-hidden="true" data-feather="edit"></i></a></p>
 <div class="text-end">
@@ -5052,9 +5058,9 @@ a channel.</li>
 <strong>Splitting</strong> operators: split items in a channel into
 smaller chunks.</li>
 <li>
-<strong>Combining</strong> operators: join channel together.</li>
+<strong>Combining</strong> operators: join channels together.</li>
 <li>
-<strong>Maths</strong> operators: apply simple math function on
+<strong>Maths</strong> operators: apply simple math functions on
 channels.</li>
 <li>
 <strong>Other</strong>: such as the view operator.</li>
@@ -5298,7 +5304,7 @@ Boolean expression to emit numbers less than 5:</p>
 <h3 class="callout-title">Closures<a class="anchor" aria-label="anchor" href="#closures-1"></a>
 </h3>
 <div class="callout-content">
-<p>In the above example we could remove the brackets around the filter
+<p>In the above example we have removed the brackets around the filter
 condition e.g. <code>filter{ it&lt;5}</code>, since it specifies a
 closure as the operator’s argument. This is language short for
 <code>filter({ it&lt;5})</code></p>
@@ -5977,7 +5983,7 @@ using the CSV format, using the <code>splitCsv</code> operator.</li>
 </div>
 </section></section><section id="aio-08-reporting"><p>Content from <a href="08-reporting.html">Reporting</a></p>
 <hr>
-<p>Last updated on 2023-12-11 |
+<p>Last updated on 2024-04-23 |
         
         <a href="https://github.com/carpentries-incubator/workflows-nextflow/edit/main/episodes/08-reporting.md" class="external-link">Edit this page <i aria-hidden="true" data-feather="edit"></i></a></p>
 <div class="text-end">
@@ -6059,7 +6065,7 @@ in a directory.</p>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution1" aria-expanded="false" aria-controls="collapseSolution1">
   <h4 class="accordion-header" id="headingSolution1">Show me the solution</h4>
 </button>
-<div id="collapseSolution1" class="accordion-collapse collapse" aria-labelledby="headingSolution1" data-bs-parent="#accordionSolution1">
+<div id="collapseSolution1" class="accordion-collapse collapse" data-bs-parent="#accordionSolution1" aria-labelledby="headingSolution1">
 <div class="accordion-body">
 <p>The output will look similar to this:</p>
 <div class="codewrapper">
@@ -6244,7 +6250,7 @@ we would run:</p>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution2" aria-expanded="false" aria-controls="collapseSolution2">
   <h4 class="accordion-header" id="headingSolution2">Show me the solution</h4>
 </button>
-<div id="collapseSolution2" class="accordion-collapse collapse" aria-labelledby="headingSolution2" data-bs-parent="#accordionSolution2">
+<div id="collapseSolution2" class="accordion-collapse collapse" data-bs-parent="#accordionSolution2" aria-labelledby="headingSolution2">
 <div class="accordion-body">
 <p>Example solution using run name <code>elegant_descartes</code>.</p>
 <div class="codewrapper sourceCode" id="cb13">
@@ -6264,7 +6270,8 @@ we would run:</p>
 <h3 class="callout-title">Filter pipeline run log<a class="anchor" aria-label="anchor" href="#filter-pipeline-run-log"></a>
 </h3>
 <div class="callout-content">
-
+<p>Use the <code>-F</code> option and a regular expression to filter the
+for a specific process e.g. multiqc.</p>
 </div>
 </div>
 </div>
@@ -6273,18 +6280,12 @@ we would run:</p>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution3" aria-expanded="false" aria-controls="collapseSolution3">
   <h4 class="accordion-header" id="headingSolution3">Show me the solution</h4>
 </button>
-<div id="collapseSolution3" class="accordion-collapse collapse" aria-labelledby="headingSolution3" data-bs-parent="#accordionSolution3">
+<div id="collapseSolution3" class="accordion-collapse collapse" data-bs-parent="#accordionSolution3" aria-labelledby="headingSolution3">
 <div class="accordion-body">
-<p>Use the <code>-F</code> option and a regular expression to filter the
-for a specific process e.g. multiqc.</p>
-<div class="section level2">
-<h2 id="solution-2">Solution<a class="anchor" aria-label="anchor" href="#solution-2"></a>
-</h2>
 <div class="codewrapper sourceCode" id="cb14">
 <h3 class="code-label">BASH<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="sourceCode bash" tabindex="0"><code class="sourceCode bash"><span id="cb14-1"><a href="#cb14-1" tabindex="-1"></a><span class="ex">$</span> nextflow log elegant_descartes <span class="at">-f</span> name,hash,process,status <span class="at">-F</span> <span class="st">'process =~ /multiqc/'</span></span></code></pre>
-</div>
 </div>
 </div>
 </div>
@@ -6366,7 +6367,7 @@ and the template.html file.</p>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution4" aria-expanded="false" aria-controls="collapseSolution4">
   <h4 class="accordion-header" id="headingSolution4">Show me the solution</h4>
 </button>
-<div id="collapseSolution4" class="accordion-collapse collapse" aria-labelledby="headingSolution4" data-bs-parent="#accordionSolution4">
+<div id="collapseSolution4" class="accordion-collapse collapse" data-bs-parent="#accordionSolution4" aria-labelledby="headingSolution4">
 <div class="accordion-body">
 <div class="codewrapper sourceCode" id="cb19">
 <h3 class="code-label">BASH<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
@@ -6396,7 +6397,7 @@ specifying a template file.</li>
 </div>
 </section></section><section id="aio-09-configuration"><p>Content from <a href="09-configuration.html">Nextflow configuration</a></p>
 <hr>
-<p>Last updated on 2024-03-21 |
+<p>Last updated on 2024-04-23 |
         
         <a href="https://github.com/carpentries-incubator/workflows-nextflow/edit/main/episodes/09-configuration.md" class="external-link">Edit this page <i aria-hidden="true" data-feather="edit"></i></a></p>
 <div class="text-end">
@@ -6645,7 +6646,7 @@ script <code>print_message.nf</code>:</p>
 <li><code>nextflow run print_message.nf</code></li>
 <li><code>nextflow run print_message.nf --message '¿Que tal?'</code></li>
 <li><code>nextflow run print_message.nf -c print_message.config</code></li>
-<li><code>nextflow run print_message.nf -c pring_message.config --message '¿Que tal?'</code></li>
+<li><code>nextflow run print_message.nf -c print_message.config --message '¿Que tal?'</code></li>
 </ol>
 </div>
 </div>
@@ -6655,7 +6656,7 @@ script <code>print_message.nf</code>:</p>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution1" aria-expanded="false" aria-controls="collapseSolution1">
   <h4 class="accordion-header" id="headingSolution1">Show me the solution</h4>
 </button>
-<div id="collapseSolution1" class="accordion-collapse collapse" data-bs-parent="#accordionSolution1" aria-labelledby="headingSolution1">
+<div id="collapseSolution1" class="accordion-collapse collapse" aria-labelledby="headingSolution1" data-bs-parent="#accordionSolution1">
 <div class="accordion-body">
 <ol style="list-style-type: decimal">
 <li>‘hello’ - Workflow script uses the value in
@@ -6902,7 +6903,7 @@ for the two processes <code>P1</code> (cpus 1 and memory 2.GB) and
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution2" aria-expanded="false" aria-controls="collapseSolution2">
   <h4 class="accordion-header" id="headingSolution2">Show me the solution</h4>
 </button>
-<div id="collapseSolution2" class="accordion-collapse collapse" data-bs-parent="#accordionSolution2" aria-labelledby="headingSolution2">
+<div id="collapseSolution2" class="accordion-collapse collapse" aria-labelledby="headingSolution2" data-bs-parent="#accordionSolution2">
 <div class="accordion-body">
 <div class="codewrapper sourceCode" id="cb14">
 <h3 class="code-label">GROOVY<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
@@ -7158,7 +7159,7 @@ configuration file using the <code>-c</code> option.</li>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution3" aria-expanded="false" aria-controls="collapseSolution3">
   <h4 class="accordion-header" id="headingSolution3">Show me the solution</h4>
 </button>
-<div id="collapseSolution3" class="accordion-collapse collapse" data-bs-parent="#accordionSolution3" aria-labelledby="headingSolution3">
+<div id="collapseSolution3" class="accordion-collapse collapse" aria-labelledby="headingSolution3" data-bs-parent="#accordionSolution3">
 <div class="accordion-body">
 <div class="codewrapper sourceCode" id="cb23">
 <h3 class="code-label">GROOVY<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
@@ -7403,7 +7404,7 @@ read-in.</li>
 </div>
 </section></section><section id="aio-10-workflow_checkpoint_caching"><p>Content from <a href="10-workflow_checkpoint_caching.html">Workflow caching and checkpointing</a></p>
 <hr>
-<p>Last updated on 2023-12-11 |
+<p>Last updated on 2024-04-23 |
         
         <a href="https://github.com/carpentries-incubator/workflows-nextflow/edit/main/episodes/10-workflow_checkpoint_caching.md" class="external-link">Edit this page <i aria-hidden="true" data-feather="edit"></i></a></p>
 <div class="text-end">
@@ -7492,7 +7493,11 @@ command and adding the parameter <code>-resume</code> and the parameter
 </button>
 <div id="collapseSolution1" class="accordion-collapse collapse" aria-labelledby="headingSolution1" data-bs-parent="#accordionSolution1">
 <div class="accordion-body">
-<pre><code>$ nextflow run wc.nf --input 'data/yeast/reads/temp33*' -resume</code></pre>
+<div class="codewrapper sourceCode" id="cb3">
+<h3 class="code-label">BASH<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="sourceCode bash" tabindex="0"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" tabindex="-1"></a><span class="ex">$</span> nextflow run wc.nf <span class="at">--input</span> <span class="st">'data/yeast/reads/temp33*'</span> <span class="at">-resume</span></span></code></pre>
+</div>
 <p>If your previous run was successful the output will look similar to
 this:</p>
 <div class="codewrapper">
@@ -7571,9 +7576,12 @@ without having to re-execute it from scratch.</p>
 <pre class="sourceCode bash" tabindex="0"><code class="sourceCode bash"><span id="cb5-1"><a href="#cb5-1" tabindex="-1"></a><span class="ex">$</span> touch data/yeast/reads/temp33_3_2.fq.gz</span></code></pre>
 </div>
 <p>Run command below.</p>
-<pre><code>$ nextflow run wc.nf --input 'data/yeast/reads/temp33*' -resume</code></pre>
-<p>How many processes will be cached and how many will run ? {:
-.language-bash}</p>
+<div class="codewrapper sourceCode" id="cb6">
+<h3 class="code-label">BASH<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="sourceCode bash" tabindex="0"><code class="sourceCode bash"><span id="cb6-1"><a href="#cb6-1" tabindex="-1"></a><span class="ex">$</span> nextflow run wc.nf <span class="at">--input</span> <span class="st">'data/yeast/reads/temp33*'</span> <span class="at">-resume</span></span></code></pre>
+</div>
+<p>How many processes will be cached and how many will run ?</p>
 </div>
 </div>
 </div>
@@ -7827,8 +7835,8 @@ your pipeline via checkpointing.</li>
 work directory.</li>
 <li>Nextflow caching and checkpointing allows re-entrancy into a
 workflow after a pipeline error or using new data, skipping steps that
-have been successfully executed. - Re-entrancy is enabled using the
-<code>-resume</code> option.</li>
+have been successfully executed.</li>
+<li>Re-entrancy is enabled using the <code>-resume</code> option.</li>
 </ul>
 </div>
 </div>
@@ -7836,7 +7844,7 @@ have been successfully executed. - Re-entrancy is enabled using the
 </div>
 </section></section><section id="aio-11-Simple_Rna-Seq_pipeline"><p>Content from <a href="11-Simple_Rna-Seq_pipeline.html">Simple RNA-Seq pipeline</a></p>
 <hr>
-<p>Last updated on 2024-01-17 |
+<p>Last updated on 2024-04-23 |
         
         <a href="https://github.com/carpentries-incubator/workflows-nextflow/edit/main/episodes/11-Simple_Rna-Seq_pipeline.md" class="external-link">Edit this page <i aria-hidden="true" data-feather="edit"></i></a></p>
 <div class="text-end">
@@ -7853,7 +7861,7 @@ have been successfully executed. - Re-entrancy is enabled using the
 <li>How can I create a Nextflow pipeline from a series of unix commands
 and input data?</li>
 <li>How do I log my pipelines parameters?</li>
-<li>How can I manage my pipeline software requirement?</li>
+<li>How can I manage my pipeline software requirements?</li>
 <li>How do I know when my pipeline has finished?</li>
 <li>How do I see how much resources my pipeline has used?</li>
 </ul>
@@ -7871,8 +7879,8 @@ parameters.</li>
 <li>Print a confirmation message when the pipeline completes.</li>
 <li>Use a conda <code>environment.yml</code> file to install the
 pipeline’s software requirement.</li>
-<li>Produce an execution report and generates run metrics from a
-pipeline run.</li>
+<li>Produce an execution report and generate run metrics from a pipeline
+run.</li>
 </ul>
 </div>
 </div>
@@ -7967,8 +7975,11 @@ pipeline input parameters.</p>
 <span id="cb6-6"><a href="#cb6-6" tabindex="-1"></a>println <span class="st">"reads: </span><span class="ss">$params</span><span class="op">.</span><span class="ss">reads</span><span class="st">"</span></span></code></pre>
 </div>
 <p>Run it by using the following command:</p>
-<pre><code>$ nextflow run script1.nf</code></pre>
-<p>{: language-bash}</p>
+<div class="codewrapper sourceCode" id="cb7">
+<h3 class="code-label">BASH<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="sourceCode bash" tabindex="0"><code class="sourceCode bash"><span id="cb7-1"><a href="#cb7-1" tabindex="-1"></a><span class="ex">$</span> nextflow run script1.nf</span></code></pre>
+</div>
 <p>We can specify a different input parameter using the
 <code>--&lt;params&gt;</code> option, for example :</p>
 <div class="codewrapper sourceCode" id="cb8">
@@ -9027,7 +9038,7 @@ options <code>-with-report</code>, <code>-with-trace</code>,
 </div>
 </section></section><section id="aio-12-nfcore"><p>Content from <a href="12-nfcore.html">Deploying nf-core pipelines</a></p>
 <hr>
-<p>Last updated on 2024-01-08 |
+<p>Last updated on 2024-04-23 |
         
         <a href="https://github.com/carpentries-incubator/workflows-nextflow/edit/main/episodes/12-nfcore.md" class="external-link">Edit this page <i aria-hidden="true" data-feather="edit"></i></a></p>
 <div class="text-end">
@@ -9817,7 +9828,6 @@ Antigen (HLA) typing and should run quickly.</p>
 </button>
 <div id="collapseSolution5" class="accordion-collapse collapse" data-bs-parent="#accordionSolution5" aria-labelledby="headingSolution5">
 <div class="accordion-body">
-<pre><code>$ nextflow run nf-core/hlatyping -r 1.2.0 -profile test,conda  --max_memory 3G</code></pre>
 <div class="codewrapper">
 <h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>

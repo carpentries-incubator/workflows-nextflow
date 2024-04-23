@@ -330,7 +330,7 @@
       </div>
       <hr></nav><main id="main-content" class="main-content"><div class="container lesson-content">
         <h1>Reporting</h1>
-        <p>Last updated on 2023-12-11 |
+        <p>Last updated on 2024-04-23 |
         
         <a href="https://github.com/carpentries-incubator/workflows-nextflow/edit/main/episodes/08-reporting.md" class="external-link">Edit this page <i aria-hidden="true" data-feather="edit"></i></a></p>
         
@@ -415,7 +415,7 @@ in a directory.</p>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution1" aria-expanded="false" aria-controls="collapseSolution1">
   <h4 class="accordion-header" id="headingSolution1">Show me the solution</h4>
 </button>
-<div id="collapseSolution1" class="accordion-collapse collapse" aria-labelledby="headingSolution1" data-bs-parent="#accordionSolution1">
+<div id="collapseSolution1" class="accordion-collapse collapse" data-bs-parent="#accordionSolution1" aria-labelledby="headingSolution1">
 <div class="accordion-body">
 <p>The output will look similar to this:</p>
 <div class="codewrapper">
@@ -594,7 +594,7 @@ we would run:</p>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution2" aria-expanded="false" aria-controls="collapseSolution2">
   <h4 class="accordion-header" id="headingSolution2">Show me the solution</h4>
 </button>
-<div id="collapseSolution2" class="accordion-collapse collapse" aria-labelledby="headingSolution2" data-bs-parent="#accordionSolution2">
+<div id="collapseSolution2" class="accordion-collapse collapse" data-bs-parent="#accordionSolution2" aria-labelledby="headingSolution2">
 <div class="accordion-body">
 <p>Example solution using run name <code>elegant_descartes</code>.</p>
 <div class="codewrapper sourceCode" id="cb13">
@@ -614,7 +614,8 @@ we would run:</p>
 <h3 class="callout-title">Filter pipeline run log<a class="anchor" aria-label="anchor" href="#filter-pipeline-run-log"></a>
 </h3>
 <div class="callout-content">
-
+<p>Use the <code>-F</code> option and a regular expression to filter the
+for a specific process e.g. multiqc.</p>
 </div>
 </div>
 </div>
@@ -623,17 +624,12 @@ we would run:</p>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution3" aria-expanded="false" aria-controls="collapseSolution3">
   <h4 class="accordion-header" id="headingSolution3">Show me the solution</h4>
 </button>
-<div id="collapseSolution3" class="accordion-collapse collapse" aria-labelledby="headingSolution3" data-bs-parent="#accordionSolution3">
+<div id="collapseSolution3" class="accordion-collapse collapse" data-bs-parent="#accordionSolution3" aria-labelledby="headingSolution3">
 <div class="accordion-body">
-<p>Use the <code>-F</code> option and a regular expression to filter the
-for a specific process e.g. multiqc.</p>
-<div class="section level2">
-<h2 id="solution-2">Solution<a class="anchor" aria-label="anchor" href="#solution-2"></a></h2>
 <div class="codewrapper sourceCode" id="cb14">
 <h3 class="code-label">BASH<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="sourceCode bash" tabindex="0"><code class="sourceCode bash"><span id="cb14-1"><a href="#cb14-1" tabindex="-1"></a><span class="ex">$</span> nextflow log elegant_descartes <span class="at">-f</span> name,hash,process,status <span class="at">-F</span> <span class="st">'process =~ /multiqc/'</span></span></code></pre>
-</div>
 </div>
 </div>
 </div>
@@ -714,7 +710,7 @@ and the template.html file.</p>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution4" aria-expanded="false" aria-controls="collapseSolution4">
   <h4 class="accordion-header" id="headingSolution4">Show me the solution</h4>
 </button>
-<div id="collapseSolution4" class="accordion-collapse collapse" aria-labelledby="headingSolution4" data-bs-parent="#accordionSolution4">
+<div id="collapseSolution4" class="accordion-collapse collapse" data-bs-parent="#accordionSolution4" aria-labelledby="headingSolution4">
 <div class="accordion-body">
 <div class="codewrapper sourceCode" id="cb19">
 <h3 class="code-label">BASH<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
@@ -798,7 +794,7 @@ specifying a template file.</li>
   "url": "https://carpentries-incubator.github.io/workflows-nextflow/instructor/08-reporting.html",
   "identifier": "https://carpentries-incubator.github.io/workflows-nextflow/instructor/08-reporting.html",
   "dateCreated": "2021-02-01",
-  "dateModified": "2023-12-11",
+  "dateModified": "2024-04-23",
   "datePublished": "2024-04-23"
 }
 

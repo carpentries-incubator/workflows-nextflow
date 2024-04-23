@@ -329,7 +329,7 @@
       </div>
       <hr></nav><main id="main-content" class="main-content"><div class="container lesson-content">
         <h1>Workflow parameterisation</h1>
-        <p>Last updated on 2024-03-28 |
+        <p>Last updated on 2024-04-23 |
         
         <a href="https://github.com/carpentries-incubator/workflows-nextflow/edit/main/episodes/02-workflow_parameters.md" class="external-link">Edit this page <i aria-hidden="true" data-feather="edit"></i></a></p>
         
@@ -570,9 +570,10 @@ input to 1 second?</p>
 </h3>
 <pre class="sourceCode groovy" tabindex="0"><code class="sourceCode groovy"><span id="cb13-1"><a href="#cb13-1" tabindex="-1"></a>script<span class="op">:</span> </span>
 <span id="cb13-2"><a href="#cb13-2" tabindex="-1"></a><span class="st">"""</span></span>
-<span id="cb13-3"><a href="#cb13-3" tabindex="-1"></a><span class="st">sleep </span><span class="ss">${</span>params<span class="op">.</span>sleep<span class="ss">}</span><span class="st"> &gt; printf '</span><span class="ss">${</span>read<span class="ss">}</span><span class="st"> '</span></span>
-<span id="cb13-4"><a href="#cb13-4" tabindex="-1"></a><span class="st">gunzip -c </span><span class="ss">${</span>read<span class="ss">}</span><span class="st"> | wc -l </span></span>
-<span id="cb13-5"><a href="#cb13-5" tabindex="-1"></a><span class="st">"""</span></span></code></pre>
+<span id="cb13-3"><a href="#cb13-3" tabindex="-1"></a><span class="st">sleep </span><span class="ss">${</span>params<span class="op">.</span>sleep<span class="ss">}</span></span>
+<span id="cb13-4"><a href="#cb13-4" tabindex="-1"></a><span class="st">printf '</span><span class="ss">${</span>read<span class="ss">}</span><span class="sc">\\</span><span class="st">t'</span></span>
+<span id="cb13-5"><a href="#cb13-5" tabindex="-1"></a><span class="st">gunzip -c </span><span class="ss">${</span>read<span class="ss">}</span><span class="st"> | wc -l </span></span>
+<span id="cb13-6"><a href="#cb13-6" tabindex="-1"></a><span class="st">"""</span></span></code></pre>
 </div>
 <div class="codewrapper sourceCode" id="cb14">
 <h3 class="code-label">BASH<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
@@ -587,7 +588,7 @@ run all input files we could add the param
 <div class="codewrapper sourceCode" id="cb15">
 <h3 class="code-label">BASH<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode bash" tabindex="0"><code class="sourceCode bash"><span id="cb15-1"><a href="#cb15-1" tabindex="-1"></a><span class="ex">$</span> nextflow run wc-params.nf <span class="at">--sleep</span> 1 <span class="at">--input</span> <span class="st">'data/yeast/reads/\*.fq.gz'</span> </span></code></pre>
+<pre class="sourceCode bash" tabindex="0"><code class="sourceCode bash"><span id="cb15-1"><a href="#cb15-1" tabindex="-1"></a><span class="ex">$</span> nextflow run wc-params.nf <span class="at">--sleep</span> 1 <span class="at">--input</span> <span class="st">'data/yeast/reads/*.fq.gz'</span> </span></code></pre>
 </div>
 </div>
 </div>
@@ -612,6 +613,8 @@ parameters <code>sleep</code> and <code>input</code> in JSON format.</p>
 <span id="cb16-3"><a href="#cb16-3" tabindex="-1"></a>  <span class="dt">"input"</span><span class="fu">:</span> <span class="st">"data/yeast/reads/etoh60_1*.fq.gz"</span></span>
 <span id="cb16-4"><a href="#cb16-4" tabindex="-1"></a><span class="fu">}</span></span></code></pre>
 </div>
+<p>Create a file called <code>wc-params.json</code> with the above
+contents.</p>
 <p>To run the <code>wc-params.nf</code> script using these parameters we
 add the option <code>-params-file</code> and pass the file
 <code>wc-params.json</code>:</p>
@@ -661,9 +664,12 @@ created parameter file, specifying:</p>
 <pre class="sourceCode json" tabindex="0"><code class="sourceCode json"><span id="cb19-1"><a href="#cb19-1" tabindex="-1"></a><span class="fu">{</span></span>
 <span id="cb19-2"><a href="#cb19-2" tabindex="-1"></a><span class="dt">"sleep"</span><span class="fu">:</span> <span class="dv">10</span><span class="fu">,</span></span>
 <span id="cb19-3"><a href="#cb19-3" tabindex="-1"></a><span class="dt">"input"</span><span class="fu">:</span> <span class="st">"data/yeast/reads/ref3_1.fq.gz"</span></span>
-<span id="cb19-4"><a href="#cb19-4" tabindex="-1"></a></span>
-<span id="cb19-5"><a href="#cb19-5" tabindex="-1"></a><span class="er">```bash</span></span>
-<span id="cb19-6"><a href="#cb19-6" tabindex="-1"></a><span class="er">$</span> <span class="er">nextflow</span> <span class="er">run</span> <span class="er">wc-params.nf</span> <span class="er">-params-file</span> <span class="er">params.json</span> </span></code></pre>
+<span id="cb19-4"><a href="#cb19-4" tabindex="-1"></a><span class="fu">}</span></span></code></pre>
+</div>
+<div class="codewrapper sourceCode" id="cb20">
+<h3 class="code-label">BASH<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="sourceCode bash" tabindex="0"><code class="sourceCode bash"><span id="cb20-1"><a href="#cb20-1" tabindex="-1"></a><span class="ex">$</span> nextflow run wc-params.nf <span class="at">-params-file</span> params.json </span></code></pre>
 </div>
 <div class="codewrapper">
 <h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
@@ -753,7 +759,7 @@ them to the script using option <code>-params-file</code>.”</li>
   "url": "https://carpentries-incubator.github.io/workflows-nextflow/02-workflow_parameters.html",
   "identifier": "https://carpentries-incubator.github.io/workflows-nextflow/02-workflow_parameters.html",
   "dateCreated": "2021-02-01",
-  "dateModified": "2024-03-28",
+  "dateModified": "2024-04-23",
   "datePublished": "2024-04-23"
 }
 

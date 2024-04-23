@@ -456,9 +456,10 @@ inside the <code>workflow</code> scope.</li>
 arguments. e.g. <code>FASTQC(reads_ch)</code>.</li>
 <li>Process outputs can be accessed using the <code>out</code> attribute
 for the respective <code>process</code> object or assigning the output
-to a Nextflow variable. - Multiple outputs from a single process can be
-accessed using the list syntax <code>[]</code> and it’s index or by
-referencing the a named process output .</li>
+to a Nextflow variable.</li>
+<li>Multiple outputs from a single process can be accessed using the
+list syntax <code>[]</code> and it’s index or by referencing the a named
+process output .</li>
 </ul></section><section id="07-operators"><h2 class="section-heading"><a href="07-operators.html">Operators</a></h2>
 <hr class="half-width">
 <ul>
@@ -503,8 +504,8 @@ your pipeline via checkpointing.</li>
 work directory.</li>
 <li>Nextflow caching and checkpointing allows re-entrancy into a
 workflow after a pipeline error or using new data, skipping steps that
-have been successfully executed. - Re-entrancy is enabled using the
-<code>-resume</code> option.</li>
+have been successfully executed.</li>
+<li>Re-entrancy is enabled using the <code>-resume</code> option.</li>
 </ul></section><section id="11-Simple_Rna-Seq_pipeline"><h2 class="section-heading"><a href="11-Simple_Rna-Seq_pipeline.html">Simple RNA-Seq pipeline</a></h2>
 <hr class="half-width">
 <ul>

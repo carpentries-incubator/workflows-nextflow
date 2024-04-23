@@ -334,7 +334,7 @@
       </div>
       <hr></nav><main id="main-content" class="main-content"><div class="container lesson-content">
         <h1>Getting Started with Nextflow</h1>
-        <p>Last updated on 2024-03-28 |
+        <p>Last updated on 2024-04-23 |
         
         <a href="https://github.com/carpentries-incubator/workflows-nextflow/edit/main/episodes/01-getting-started-with-nextflow.md" class="external-link">Edit this page <i aria-hidden="true" data-feather="edit"></i></a></p>
         
@@ -382,7 +382,7 @@ bioinformatics workflow.</li>
 <section id="workflows"><h2 class="section-heading">Workflows<a class="anchor" aria-label="anchor" href="#workflows"></a>
 </h2>
 <hr class="half-width"><p>Analysing data involves a sequence of tasks, including gathering,
-cleaning, and processing data. These sequence of tasks are called a
+cleaning, and processing data. This sequence of tasks is called a
 workflow or a pipeline. These workflows typically require executing
 multiple software packages, sometimes running on different computing
 environments, such as a desktop or a compute cluster. Traditionally
@@ -503,7 +503,7 @@ the following code:</p>
   <h3 class="accordion-header" id="headingInstructor1">
 <div class="note-square"><i aria-hidden="true" class="callout-icon" data-feather="edit-2"></i></div>Instructor Note</h3>
 </button>
-<div id="collapseInstructor1" class="accordion-collapse collapse" aria-labelledby="headingInstructor1" data-bs-parent="#accordionInstructor1">
+<div id="collapseInstructor1" class="accordion-collapse collapse" data-bs-parent="#accordionInstructor1" aria-labelledby="headingInstructor1">
 <div class="accordion-body">
 <p>The nextflow scripts for each lesson episode are available in the
 <code>scripts</code> directory created during the course setup. You
@@ -591,14 +591,17 @@ location of the Nextflow interpreter.</li>
 <li>
 <code>nextflow.enable.dsl=2</code> to enable DSL2 syntax.</li>
 <li>A multi-line Nextflow comment, written using C style block comments,
-followed by a single line comment.</li>
+there are more comments later in the file.</li>
 <li>A pipeline parameter <code>params.input</code> which is given a
 default value, of the relative path to the location of a compressed
 fastq file, as a string.</li>
+<li>A Nextflow channel <code>input_ch</code> used to read in data to the
+workflow.</li>
 <li>An unnamed <code>workflow</code> execution block, which is the
 default workflow to run.</li>
-<li>A Nextflow channel used to read in data to the workflow.</li>
 <li>A call to the process <code>NUM_LINES</code>.</li>
+<li>An operation on the process output, using the channel operator
+<code>.view()</code>.</li>
 <li>A Nextflow process block named <code>NUM_LINES</code>, which defines
 what the process does.</li>
 <li>An <code>input</code> definition block that assigns the
@@ -609,14 +612,6 @@ standard output stream <code>stdout</code> from the script block.</li>
 <li>A script block that contains the bash commands
 <code>printf '${read}'</code> and
 <code>gunzip -c ${read} | wc -l</code>.</li>
-<li>A Nextflow channel <code>input_ch</code> used to read in data to the
-workflow.</li>
-<li>An unnamed <code>workflow</code> execution block, which is the
-default workflow to run.</li>
-<li>A call to the process <code>NUM_LINES</code> with input channel
-<code>input_ch</code>.</li>
-<li>An operation on the process output, using the channel operator
-<code>.view()</code>.</li>
 </ol></section><section id="running-nextflow-scripts"><h2 class="section-heading">Running Nextflow scripts<a class="anchor" aria-label="anchor" href="#running-nextflow-scripts"></a>
 </h2>
 <hr class="half-width"><p>To run a Nextflow script use the command
@@ -644,7 +639,7 @@ terminal:</p>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution1" aria-expanded="false" aria-controls="collapseSolution1">
   <h4 class="accordion-header" id="headingSolution1">Show me the solution</h4>
 </button>
-<div id="collapseSolution1" class="accordion-collapse collapse" aria-labelledby="headingSolution1" data-bs-parent="#accordionSolution1">
+<div id="collapseSolution1" class="accordion-collapse collapse" data-bs-parent="#accordionSolution1" aria-labelledby="headingSolution1">
 <div class="accordion-body">
 <p>You should see output similar to the text shown below:</p>
 <div class="codewrapper">
@@ -762,7 +757,7 @@ command.</li>
   "url": "https://carpentries-incubator.github.io/workflows-nextflow/instructor/01-getting-started-with-nextflow.html",
   "identifier": "https://carpentries-incubator.github.io/workflows-nextflow/instructor/01-getting-started-with-nextflow.html",
   "dateCreated": "2021-02-01",
-  "dateModified": "2024-03-28",
+  "dateModified": "2024-04-23",
   "datePublished": "2024-04-23"
 }
 

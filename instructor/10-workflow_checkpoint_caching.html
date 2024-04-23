@@ -329,7 +329,7 @@
       </div>
       <hr></nav><main id="main-content" class="main-content"><div class="container lesson-content">
         <h1>Workflow caching and checkpointing</h1>
-        <p>Last updated on 2023-12-11 |
+        <p>Last updated on 2024-04-23 |
         
         <a href="https://github.com/carpentries-incubator/workflows-nextflow/edit/main/episodes/10-workflow_checkpoint_caching.md" class="external-link">Edit this page <i aria-hidden="true" data-feather="edit"></i></a></p>
         
@@ -421,7 +421,11 @@ command and adding the parameter <code>-resume</code> and the parameter
 </button>
 <div id="collapseSolution1" class="accordion-collapse collapse" aria-labelledby="headingSolution1" data-bs-parent="#accordionSolution1">
 <div class="accordion-body">
-<pre><code>$ nextflow run wc.nf --input 'data/yeast/reads/temp33*' -resume</code></pre>
+<div class="codewrapper sourceCode" id="cb3">
+<h3 class="code-label">BASH<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="sourceCode bash" tabindex="0"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" tabindex="-1"></a><span class="ex">$</span> nextflow run wc.nf <span class="at">--input</span> <span class="st">'data/yeast/reads/temp33*'</span> <span class="at">-resume</span></span></code></pre>
+</div>
 <p>If your previous run was successful the output will look similar to
 this:</p>
 <div class="codewrapper">
@@ -495,9 +499,12 @@ without having to re-execute it from scratch.</p>
 <pre class="sourceCode bash" tabindex="0"><code class="sourceCode bash"><span id="cb5-1"><a href="#cb5-1" tabindex="-1"></a><span class="ex">$</span> touch data/yeast/reads/temp33_3_2.fq.gz</span></code></pre>
 </div>
 <p>Run command below.</p>
-<pre><code>$ nextflow run wc.nf --input 'data/yeast/reads/temp33*' -resume</code></pre>
-<p>How many processes will be cached and how many will run ? {:
-.language-bash}</p>
+<div class="codewrapper sourceCode" id="cb6">
+<h3 class="code-label">BASH<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="sourceCode bash" tabindex="0"><code class="sourceCode bash"><span id="cb6-1"><a href="#cb6-1" tabindex="-1"></a><span class="ex">$</span> nextflow run wc.nf <span class="at">--input</span> <span class="st">'data/yeast/reads/temp33*'</span> <span class="at">-resume</span></span></code></pre>
+</div>
+<p>How many processes will be cached and how many will run ?</p>
 </div>
 </div>
 </div>
@@ -744,8 +751,8 @@ your pipeline via checkpointing.</li>
 work directory.</li>
 <li>Nextflow caching and checkpointing allows re-entrancy into a
 workflow after a pipeline error or using new data, skipping steps that
-have been successfully executed. - Re-entrancy is enabled using the
-<code>-resume</code> option.</li>
+have been successfully executed.</li>
+<li>Re-entrancy is enabled using the <code>-resume</code> option.</li>
 </ul></div>
 </div>
 </div>
@@ -808,7 +815,7 @@ have been successfully executed. - Re-entrancy is enabled using the
   "url": "https://carpentries-incubator.github.io/workflows-nextflow/instructor/10-workflow_checkpoint_caching.html",
   "identifier": "https://carpentries-incubator.github.io/workflows-nextflow/instructor/10-workflow_checkpoint_caching.html",
   "dateCreated": "2021-02-01",
-  "dateModified": "2023-12-11",
+  "dateModified": "2024-04-23",
   "datePublished": "2024-04-23"
 }
 

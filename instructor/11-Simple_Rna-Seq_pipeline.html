@@ -335,7 +335,7 @@
       </div>
       <hr></nav><main id="main-content" class="main-content"><div class="container lesson-content">
         <h1>Simple RNA-Seq pipeline</h1>
-        <p>Last updated on 2024-01-17 |
+        <p>Last updated on 2024-04-23 |
         
         <a href="https://github.com/carpentries-incubator/workflows-nextflow/edit/main/episodes/11-Simple_Rna-Seq_pipeline.md" class="external-link">Edit this page <i aria-hidden="true" data-feather="edit"></i></a></p>
         
@@ -359,7 +359,7 @@
 <ul><li>How can I create a Nextflow pipeline from a series of unix commands
 and input data?</li>
 <li>How do I log my pipelines parameters?</li>
-<li>How can I manage my pipeline software requirement?</li>
+<li>How can I manage my pipeline software requirements?</li>
 <li>How do I know when my pipeline has finished?</li>
 <li>How do I see how much resources my pipeline has used?</li>
 </ul></div>
@@ -375,8 +375,8 @@ parameters.</li>
 <li>Print a confirmation message when the pipeline completes.</li>
 <li>Use a conda <code>environment.yml</code> file to install the
 pipeline’s software requirement.</li>
-<li>Produce an execution report and generates run metrics from a
-pipeline run.</li>
+<li>Produce an execution report and generate run metrics from a pipeline
+run.</li>
 </ul></div>
 </div>
 </div>
@@ -461,8 +461,11 @@ pipeline input parameters.</p>
 <span id="cb6-6"><a href="#cb6-6" tabindex="-1"></a>println <span class="st">"reads: </span><span class="ss">$params</span><span class="op">.</span><span class="ss">reads</span><span class="st">"</span></span></code></pre>
 </div>
 <p>Run it by using the following command:</p>
-<pre><code>$ nextflow run script1.nf</code></pre>
-<p>{: language-bash}</p>
+<div class="codewrapper sourceCode" id="cb7">
+<h3 class="code-label">BASH<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="sourceCode bash" tabindex="0"><code class="sourceCode bash"><span id="cb7-1"><a href="#cb7-1" tabindex="-1"></a><span class="ex">$</span> nextflow run script1.nf</span></code></pre>
+</div>
 <p>We can specify a different input parameter using the
 <code>--&lt;params&gt;</code> option, for example :</p>
 <div class="codewrapper sourceCode" id="cb8">
@@ -1529,7 +1532,7 @@ options <code>-with-report</code>, <code>-with-trace</code>,
   "url": "https://carpentries-incubator.github.io/workflows-nextflow/instructor/11-Simple_Rna-Seq_pipeline.html",
   "identifier": "https://carpentries-incubator.github.io/workflows-nextflow/instructor/11-Simple_Rna-Seq_pipeline.html",
   "dateCreated": "2021-02-01",
-  "dateModified": "2024-01-17",
+  "dateModified": "2024-04-23",
   "datePublished": "2024-04-23"
 }
 
