@@ -382,19 +382,19 @@ checkpointing.</p>
 </h2>
 <hr class="half-width"><p>To restart from the last successfully executed process we add the
 command line option <code>-resume</code> to the Nextflow command.</p>
-<p>For example, the command below would resume the <code>wc.nf</code>
-script from the last successful process.</p>
+<p>For example, the command below would resume the
+<code>word_count.nf</code> script from the last successful process.</p>
 <div class="codewrapper sourceCode" id="cb1">
 <h3 class="code-label">BASH<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode bash" tabindex="0"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a><span class="ex">$</span> nextflow run wc.nf <span class="at">--input</span> <span class="st">'data/yeast/reads/ref1*.fq.gz'</span> <span class="at">-resume</span></span></code></pre>
+<pre class="sourceCode bash" tabindex="0"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a><span class="ex">$</span> nextflow run word_count.nf <span class="at">--input</span> <span class="st">'data/yeast/reads/ref1*.fq.gz'</span> <span class="at">-resume</span></span></code></pre>
 </div>
 <p>We can see in the output that the results from the process
 <code>NUM_LINES</code> has been retrieved from the cache.</p>
 <div class="codewrapper">
 <h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="output" tabindex="0"><code>Launching `wc.nf` [condescending_dalembert] - revision: fede04a544
+<pre class="output" tabindex="0"><code>Launching `word_count.nf` [condescending_dalembert] - revision: fede04a544
 [c9/2597d5] process &gt; NUM_LINES (1) [100%] 2 of 2, cached: 2 ✔
 ref1_1.fq.gz 58708
 
@@ -408,9 +408,9 @@ ref1_2.fq.gz 58708</code></pre>
 <h3 class="callout-title">Resume a pipeline<a class="anchor" aria-label="anchor" href="#resume-a-pipeline"></a>
 </h3>
 <div class="callout-content">
-<p>Resume the Nextflow script <code>wc.nf</code> by re-running the
-command and adding the parameter <code>-resume</code> and the parameter
-<code>--input 'data/yeast/reads/temp33*'</code>:</p>
+<p>Resume the Nextflow script <code>word_count.nf</code> by re-running
+the command and adding the parameter <code>-resume</code> and the
+parameter <code>--input 'data/yeast/reads/temp33*'</code>:</p>
 </div>
 </div>
 </div>
@@ -424,7 +424,7 @@ command and adding the parameter <code>-resume</code> and the parameter
 <div class="codewrapper sourceCode" id="cb3">
 <h3 class="code-label">BASH<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode bash" tabindex="0"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" tabindex="-1"></a><span class="ex">$</span> nextflow run wc.nf <span class="at">--input</span> <span class="st">'data/yeast/reads/temp33*'</span> <span class="at">-resume</span></span></code></pre>
+<pre class="sourceCode bash" tabindex="0"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" tabindex="-1"></a><span class="ex">$</span> nextflow run word_count.nf <span class="at">--input</span> <span class="st">'data/yeast/reads/temp33*'</span> <span class="at">-resume</span></span></code></pre>
 </div>
 <p>If your previous run was successful the output will look similar to
 this:</p>
@@ -432,7 +432,7 @@ this:</p>
 <h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="output" tabindex="0"><code>N E X T F L O W  ~  version 20.10.0
-Launching `wc.nf` [nauseous_leavitt] - revision: fede04a544
+Launching `word_count.nf` [nauseous_leavitt] - revision: fede04a544
 [21/6116de] process &gt; NUM_LINES (4) [100%] 6 of 6, cached: 6 ✔
 temp33_3_2.fq.gz 88956
 
@@ -502,7 +502,7 @@ without having to re-execute it from scratch.</p>
 <div class="codewrapper sourceCode" id="cb6">
 <h3 class="code-label">BASH<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode bash" tabindex="0"><code class="sourceCode bash"><span id="cb6-1"><a href="#cb6-1" tabindex="-1"></a><span class="ex">$</span> nextflow run wc.nf <span class="at">--input</span> <span class="st">'data/yeast/reads/temp33*'</span> <span class="at">-resume</span></span></code></pre>
+<pre class="sourceCode bash" tabindex="0"><code class="sourceCode bash"><span id="cb6-1"><a href="#cb6-1" tabindex="-1"></a><span class="ex">$</span> nextflow run word_count.nf <span class="at">--input</span> <span class="st">'data/yeast/reads/temp33*'</span> <span class="at">-resume</span></span></code></pre>
 </div>
 <p>How many processes will be cached and how many will run ?</p>
 </div>
@@ -520,7 +520,7 @@ without having to re-execute it from scratch.</p>
 <h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="output" tabindex="0"><code>N E X T F L O W  ~  version 20.10.0
-Launching `wc.nf` [gigantic_minsky] - revision: fede04a544
+Launching `word_count.nf` [gigantic_minsky] - revision: fede04a544
 executor &gt;  local (1)
 [20/cda0d5] process &gt; NUM_LINES (5) [100%] 6 of 6, cached: 5 ✔
 temp33_1_2.fq.gz 82372
@@ -655,13 +655,13 @@ beginning.</p>
 <div class="codewrapper sourceCode" id="cb10">
 <h3 class="code-label">BASH<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode bash" tabindex="0"><code class="sourceCode bash"><span id="cb10-1"><a href="#cb10-1" tabindex="-1"></a><span class="ex">$</span> nextflow run wc.nf <span class="at">--input</span> <span class="st">'data/yeast/reads/temp33*'</span> <span class="at">-w</span> second_work_dir <span class="at">-resume</span></span></code></pre>
+<pre class="sourceCode bash" tabindex="0"><code class="sourceCode bash"><span id="cb10-1"><a href="#cb10-1" tabindex="-1"></a><span class="ex">$</span> nextflow run word_count.nf <span class="at">--input</span> <span class="st">'data/yeast/reads/temp33*'</span> <span class="at">-w</span> second_work_dir <span class="at">-resume</span></span></code></pre>
 </div>
 <div class="codewrapper">
 <h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="output" tabindex="0"><code>N E X T F L O W  ~  version 21.04.0
-Launching `wc.nf` [deadly_easley] - revision: fede04a544
+Launching `word_count.nf` [deadly_easley] - revision: fede04a544
 executor &gt;  local (6)
 [9d/0f5e89] process &gt; NUM_LINES (5) [100%] 6 of 6 ✔
 temp33_3_2.fq.gz 88956
