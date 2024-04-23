@@ -53,7 +53,7 @@ and the parameter `--input 'data/yeast/reads/temp33*'`:
 
 ## Solution
 
-```
+```bash
 $ nextflow run wc.nf --input 'data/yeast/reads/temp33*' -resume
 ```
 
@@ -122,12 +122,11 @@ $ touch data/yeast/reads/temp33_3_2.fq.gz
 
 Run command below.
 
-```
+```bash
 $ nextflow run wc.nf --input 'data/yeast/reads/temp33*' -resume
 ```
 
 How many processes will be cached and how many will run ?
-{: .language-bash}
 
 :::::::::::::::  solution
 
@@ -340,7 +339,8 @@ $ nextflow clean nauseous_leavitt -f
 
 - Nextflow automatically keeps track of all the processes executed in your pipeline via checkpointing.
 - Nextflow caches intermediate data in task directories within the work directory.
-- Nextflow caching and checkpointing allows re-entrancy into a workflow after a pipeline error or using new data, skipping steps that have been successfully executed. - Re-entrancy is enabled using the `-resume` option.
+- Nextflow caching and checkpointing allows re-entrancy into a workflow after a pipeline error or using new data, skipping steps that have been successfully executed. 
+- Re-entrancy is enabled using the `-resume` option.
 
 ::::::::::::::::::::::::::::::::::::::::::::::::::
 

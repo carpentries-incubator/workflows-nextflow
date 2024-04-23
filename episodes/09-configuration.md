@@ -201,7 +201,7 @@ What is the outcome of the following commands?
 1. `nextflow run print_message.nf`
 2. `nextflow run print_message.nf --message '¿Que tal?'`
 3. `nextflow run print_message.nf -c print_message.config`
-4. `nextflow run print_message.nf -c pring_message.config --message '¿Que tal?'`
+4. `nextflow run print_message.nf -c print_message.config --message '¿Que tal?'`
 
 :::::::::::::::  solution
 

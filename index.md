@@ -32,7 +32,7 @@ for building and sharing reproducible data science workflows.
 ## Prerequisites
 
 This is an intermediate lesson and assumes familiarity with the core materials covered in the
-[Software Carpentry Lessons] [swc-lessons]. In particular learners need to be familiar with
+[Software Carpentry Lessons](https://software-carpentry.org/lessons/). In particular learners need to be familiar with
 material covered in [The Unix Shell](https://swcarpentry.github.io/shell-novice).
 It is helpful to be familiar with using another programming language, to the level of
 [Plotting and Programming in Python](https://swcarpentry.github.io/python-novice-gapminder) or

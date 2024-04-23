@@ -29,8 +29,8 @@ In the Channels episode we learnt how to create Nextflow channels to enable us t
 - **Filtering** operators: reduce the number of elements in a channel.
 - **Transforming** operators: transform the value/data in a channel.
 - **Splitting** operators: split items in a channel into smaller chunks.
-- **Combining** operators: join channel together.
-- **Maths** operators: apply simple math function on channels.
+- **Combining** operators: join channels together.
+- **Maths** operators: apply simple math functions on channels.
 - **Other**: such as the view operator.
 
 In this episode you will see examples, and get to use different types of operators.
@@ -226,7 +226,7 @@ channel
 
 ### Closures
 
-In the above example we could remove the brackets around the filter condition e.g. `filter{ it<5}`, since it specifies a closure as the operator's argument. This is language short for `filter({ it<5})`
+In the above example we have removed the brackets around the filter condition e.g. `filter{ it<5}`, since it specifies a closure as the operator's argument. This is language short for `filter({ it<5})`
 
 
 ::::::::::::::::::::::::::::::::::::::::::::::::::

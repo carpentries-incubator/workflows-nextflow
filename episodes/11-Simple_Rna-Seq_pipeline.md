@@ -10,7 +10,7 @@ exercises: 40
 - Use the `log.info` function to print all the pipeline parameters.
 - Print a confirmation message when the pipeline completes.
 - Use a conda `environment.yml` file to install the pipeline's software requirement.
-- Produce an execution report and generates run metrics from a pipeline run.
+- Produce an execution report and generate run metrics from a pipeline run.
 
 ::::::::::::::::::::::::::::::::::::::::::::::::::
 
@@ -18,7 +18,7 @@ exercises: 40
 
 - How can I create a Nextflow pipeline from a series of unix commands and input data?
 - How do I log my pipelines parameters?
-- How can I manage my pipeline software requirement?
+- How can I manage my pipeline software requirements?
 - How do I know when my pipeline has finished?
 - How do I see how much resources my pipeline has used?
 
@@ -84,11 +84,9 @@ println "reads: $params.reads"
 
 Run it by using the following command:
 
-```
+```bash
 $ nextflow run script1.nf
 ```
-
-{: language-bash}
 
 We can specify a different input parameter using the `--<params>` option, for example :
 
