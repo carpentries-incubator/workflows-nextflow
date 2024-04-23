@@ -26,16 +26,16 @@ Nextflow achieves re-entrancy by automatically keeping track of all the processe
 
 To restart from the last successfully executed process we add the command line option `-resume` to the Nextflow command.
 
-For example, the command below would resume the `wc.nf` script from the last successful process.
+For example, the command below would resume the `word_count.nf` script from the last successful process.
 
 ```bash
-$ nextflow run wc.nf --input 'data/yeast/reads/ref1*.fq.gz' -resume
+$ nextflow run word_count.nf --input 'data/yeast/reads/ref1*.fq.gz' -resume
 ```
 
 We can see in the output that the results from the process `NUM_LINES` has been retrieved from the cache.
 
 ```output
-Launching `wc.nf` [condescending_dalembert] - revision: fede04a544
+Launching `word_count.nf` [condescending_dalembert] - revision: fede04a544
 [c9/2597d5] process > NUM_LINES (1) [100%] 2 of 2, cached: 2 ✔
 ref1_1.fq.gz 58708
 
@@ -46,7 +46,7 @@ ref1_2.fq.gz 58708
 
 ## Resume a pipeline
 
-Resume the Nextflow script `wc.nf` by re-running the command and adding the parameter `-resume`
+Resume the Nextflow script `word_count.nf` by re-running the command and adding the parameter `-resume`
 and the parameter `--input 'data/yeast/reads/temp33*'`:
 
 :::::::::::::::  solution
@@ -54,14 +54,14 @@ and the parameter `--input 'data/yeast/reads/temp33*'`:
 ## Solution
 
 ```bash
-$ nextflow run wc.nf --input 'data/yeast/reads/temp33*' -resume
+$ nextflow run word_count.nf --input 'data/yeast/reads/temp33*' -resume
 ```
 
 If your previous run was successful the output will look similar to this:
 
 ```output 
 N E X T F L O W  ~  version 20.10.0
-Launching `wc.nf` [nauseous_leavitt] - revision: fede04a544
+Launching `word_count.nf` [nauseous_leavitt] - revision: fede04a544
 [21/6116de] process > NUM_LINES (4) [100%] 6 of 6, cached: 6 ✔
 temp33_3_2.fq.gz 88956
 
@@ -123,7 +123,7 @@ $ touch data/yeast/reads/temp33_3_2.fq.gz
 Run command below.
 
 ```bash
-$ nextflow run wc.nf --input 'data/yeast/reads/temp33*' -resume
+$ nextflow run word_count.nf --input 'data/yeast/reads/temp33*' -resume
 ```
 
 How many processes will be cached and how many will run ?
@@ -136,7 +136,7 @@ The output will look similar to this:
 
 ```output 
 N E X T F L O W  ~  version 20.10.0
-Launching `wc.nf` [gigantic_minsky] - revision: fede04a544
+Launching `word_count.nf` [gigantic_minsky] - revision: fede04a544
 executor >  local (1)
 [20/cda0d5] process > NUM_LINES (5) [100%] 6 of 6, cached: 5 ✔
 temp33_1_2.fq.gz 82372
@@ -272,12 +272,12 @@ You can specify another work directory using the command line option `-w`.
 **Note** Using a different work directory will mean that any jobs will need to re-run from the beginning.
 
 ```bash
-$ nextflow run wc.nf --input 'data/yeast/reads/temp33*' -w second_work_dir -resume
+$ nextflow run word_count.nf --input 'data/yeast/reads/temp33*' -w second_work_dir -resume
 ```
 
 ```output
 N E X T F L O W  ~  version 21.04.0
-Launching `wc.nf` [deadly_easley] - revision: fede04a544
+Launching `word_count.nf` [deadly_easley] - revision: fede04a544
 executor >  local (6)
 [9d/0f5e89] process > NUM_LINES (5) [100%] 6 of 6 ✔
 temp33_3_2.fq.gz 88956
