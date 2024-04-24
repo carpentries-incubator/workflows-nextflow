@@ -713,6 +713,8 @@ results/
 
 In the above example, the `publishDir "results/merged_reads"`,  creates a symbolic link `->` to the output files specified by the process `merged_reads` to the directory path `results/merged_reads`.
 
+A symbolic link, often referred to as a symlink, is a type of file that serves as a reference or pointer to another file or directory, allowing multiple access paths to the same resource without duplicating its actual data
+
 ::::::::::::::::::::::::::::::::::::::::  callout
 
 ## publishDir
