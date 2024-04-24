@@ -696,19 +696,17 @@ N E X T F L O W  ~  version 21.04.0
 Launching `process_publishDir.nf` [friendly_pauling] - revision: 9b5c315893
 executor >  local (1)
 
-[d9/909ed9] process > COMBINE_READS (1) [100%] 1 of 1 ✔
+[a1/5956bd] process > COMBINE_READS (1) [100%] 1 of 1 ✔
 ```
 
-We can use the UNIX command `tree` to examine the contents of the results directory.
+We can use the UNIX command `ls -l` to examine the contents of the results directory.
 
 ```bash 
-tree results
+ls -l results/merged_reads/ref1.merged.fq.gz
 ```
 
 ```output 
-results/
-└── merged_reads
-    └── ref1.merged.fq.gz -> work/48/f97234d7185cbfbd86e2f11c1afab5/ref1.merged.fq.gz
+results/merged_reads/ref1.merged.fq.gz -> /Users/nf-user/nf-training/work/a1/5956bd9a92f13694b3ada1941f0d2d/ref1.merged.fq.gz
 ```
 
 In the above example, the `publishDir "results/merged_reads"`,  creates a symbolic link `->` to the output files specified by the process `merged_reads` to the directory path `results/merged_reads`.
@@ -786,18 +784,18 @@ executor >  local (1)
 [be/950786] process > SPLIT_FASTA (1) [100%] 1 of 1 ✔
 ```
 
-We can now use the `tree` command to examine the results directory.
+We can now use the `ls results/*` command to examine the results directory.
 
 ```bash 
-$ tree results
+$ls results/*
 ```
 
-```output 
-results/
-├── sequence
-│   └── sequence.txt
-└── ids
-    └── sequence_ids.txt
+```output
+results/ids:
+sequence_ids.txt
+
+results/sequence:
+sequence.txt
 ```
 
 :::::::::::::::::::::::::::::::::::::::  challenge
