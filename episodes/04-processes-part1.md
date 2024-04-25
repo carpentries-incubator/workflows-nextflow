@@ -290,24 +290,6 @@ workflow {
 }
 ```
 
-```groovy
-//process_rscript.nf
-nextflow.enable.dsl=2
-
-process RSTUFF {
-  script:
-  """
-  #!/usr/bin/env Rscript
-  library("ShortRead")
-  countFastq(dirPath="data/yeast/reads/ref1_1.fq.gz")
-  """
-}
-
-workflow {
-  RSTUFF()
-}
-```
-
 This allows the use of a different programming languages which may better fit a particular job. However, for large chunks of code it is suggested to save them into separate files and invoke them from the process script.
 
 ## Associated scripts
