@@ -251,8 +251,9 @@ Number of sequences for chromosome A:118
 
 ::::::::::::::::::::::::::::::::::::: instructor
 
-The following section on python and R scripts is not meant to be run by the instructor or learners. 
+The following section on python  is meant to be run by the instructor not the learners. 
 It is meant to be a demonstration of the different ways to run a process.
+This can be skipped for time.
 
 :::::::::::::::::::::::::::::::::::::::::::::::::
 
@@ -262,7 +263,7 @@ By default the process command is interpreted as a **Bash** script. However, any
 //process_python.nf
 nextflow.enable.dsl=2
 
-process PYSTUFF {
+process PROCESS_READS {
   script:
   """
   #!/usr/bin/env python
@@ -285,51 +286,75 @@ process PYSTUFF {
 }
 
 workflow {
-  PYSTUFF()
-}
-```
-
-```groovy
-//process_rscript.nf
-nextflow.enable.dsl=2
-
-process RSTUFF {
-  script:
-  """
-  #!/usr/bin/env Rscript
-  library("ShortRead")
-  countFastq(dirPath="data/yeast/reads/ref1_1.fq.gz")
-  """
-}
-
-workflow {
-  RSTUFF()
+  PROCESS_READS()
 }
 ```
 
 This allows the use of a different programming languages which may better fit a particular job. However, for large chunks of code it is suggested to save them into separate files and invoke them from the process script.
 
+## Associated scripts
+
+Scripts such as the one in the example below, `process_reads.py`, can be stored in a `bin` folder at the same directory level as the Nextflow workflow script that invokes them, and given execute permission. Nextflow will automatically add this folder to the `PATH` environment variable. To invoke the script in a Nextflow process, simply use its filename on its own rather than invoking the interpreter e.g. `process_reads.py` instead of `python process_reads.py`.
+**Note** The script `process_reads.py` must be executable to run.
+
+```bash
+mkdir bin
+mv process_reads.py bin
+chmod 755 bin/process_reads.py
+```
+
+```python
+# process_reads.py
+#!/usr/bin/env python
+import gzip
+import sys
+reads = 0
+bases = 0
+
+
+with gzip.open(sys.argv[1], 'rb') as read:
+    for id in read:
+      seq = next(read)
+      reads += 1
+      bases += len(seq.strip())
+      next(read)
+      next(read)
+
+print("reads", reads)
+print("bases", bases)
+```
+
 ```groovy
+//process_python_script.nf
 nextflow.enable.dsl=2
 
-process PYSTUFF {
+process PROCESS_READS {
 
   script:
   """
-  myscript.py
+  process_reads.py ${projectDir}/data/yeast/reads/ref1_1.fq.gz
   """
 }
 
 workflow {
-  PYSTUFF()
+  PROCESS_READS()
 }
+```
+
+```output
+N E X T F L O W  ~  version 23.10.1
+Launching `pr.nf` [kickass_legentil] DSL2 - revision: 3b9eee1d47
+executor >  local (1)
+[88/759311] process > PROCESS_READS [100%] 1 of 1 ✔
+reads 14677
+bases 1482377
 ```
 
 :::::::::::::::::::::::::::::::::::::::::  callout
 
 ## Associated scripts
 
-Scripts such as the one in the example above, `myscript.py`, can be stored in a `bin` folder at the same directory level as the Nextflow workflow script that invokes them, and given execute permission. Nextflow will automatically add this folder to the `PATH` environment variable. To invoke the script in a Nextflow process, simply use its filename on its own rather than invoking the interpreter e.g. `myscript.py` instead of `python myscript.py`.
+Scripts such as the one in the example above, `process_reads.py`, can be stored in a `bin` folder at the same directory level as the Nextflow workflow script that invokes them, and given execute permission. Nextflow will automatically add this folder to the `PATH` environment variable. To invoke the script in a Nextflow process, simply use its filename on its own rather than invoking the interpreter e.g. `process_reads.py` instead of `python process_reads.py`.
 
 ::::::::::::::::::::::::::::::::::::::::::::::::::
 
