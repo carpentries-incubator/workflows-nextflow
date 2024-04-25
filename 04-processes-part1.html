@@ -331,7 +331,7 @@
       </div>
       <hr></nav><main id="main-content" class="main-content"><div class="container lesson-content">
         <h1>Processes</h1>
-        <p>Last updated on 2024-04-23 |
+        <p>Last updated on 2024-04-25 |
         
         <a href="https://github.com/carpentries-incubator/workflows-nextflow/edit/main/episodes/04-processes-part1.md" class="external-link">Edit this page <i aria-hidden="true" data-feather="edit"></i></a></p>
         
@@ -496,8 +496,10 @@ and call the process like a function. We will learn more about the
 <div class="codewrapper sourceCode" id="cb6">
 <h3 class="code-label">BASH<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode bash" tabindex="0"><code class="sourceCode bash"><span id="cb6-1"><a href="#cb6-1" tabindex="-1"></a><span class="ex">$</span> nextflow run process_01.nf <span class="at">-process.echo</span></span></code></pre>
+<pre class="sourceCode bash" tabindex="0"><code class="sourceCode bash"><span id="cb6-1"><a href="#cb6-1" tabindex="-1"></a><span class="ex">$</span> nextflow run process_01.nf <span class="at">-process.debug</span></span></code></pre>
 </div>
+<p><strong>Note</strong> We need to add the Nextflow run option
+<code>-process.debug</code> to print the output to the terminal.</p>
 <div class="codewrapper">
 <h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
@@ -549,12 +551,10 @@ process <code>COUNT_BASES</code> that runs the command.</p>
 <span id="cb9-12"><a href="#cb9-12" tabindex="-1"></a><span class="fu">COUNT_BASES</span><span class="op">()</span></span>
 <span id="cb9-13"><a href="#cb9-13" tabindex="-1"></a><span class="op">}</span></span></code></pre>
 </div>
-<p><strong>Note</strong> We need to add the Nextflow run option
-<code>-process.echo</code> to print the output to the terminal.</p>
 <div class="codewrapper sourceCode" id="cb10">
 <h3 class="code-label">BASH<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode bash" tabindex="0"><code class="sourceCode bash"><span id="cb10-1"><a href="#cb10-1" tabindex="-1"></a><span class="ex">$</span> nextflow run simple_process.nf <span class="at">-process.echo</span></span></code></pre>
+<pre class="sourceCode bash" tabindex="0"><code class="sourceCode bash"><span id="cb10-1"><a href="#cb10-1" tabindex="-1"></a><span class="ex">$</span> nextflow run simple_process.nf <span class="at">-process.debug</span></span></code></pre>
 </div>
 <div class="codewrapper">
 <h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
@@ -662,7 +662,7 @@ in triple quotes <code>"""</code>.</p>
 <div class="codewrapper sourceCode" id="cb15">
 <h3 class="code-label">BASH<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode bash" tabindex="0"><code class="sourceCode bash"><span id="cb15-1"><a href="#cb15-1" tabindex="-1"></a><span class="ex">$</span> nextflow run process_multi_line.nf <span class="at">-process.echo</span></span></code></pre>
+<pre class="sourceCode bash" tabindex="0"><code class="sourceCode bash"><span id="cb15-1"><a href="#cb15-1" tabindex="-1"></a><span class="ex">$</span> nextflow run process_multi_line.nf <span class="at">-process.debug</span></span></code></pre>
 </div>
 <div class="codewrapper">
 <h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
@@ -894,10 +894,11 @@ command line option.</p>
 <div class="codewrapper sourceCode" id="cb24">
 <h3 class="code-label">BASH<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode bash" tabindex="0"><code class="sourceCode bash"><span id="cb24-1"><a href="#cb24-1" tabindex="-1"></a><span class="ex">$</span> nextflow run process_script_params.nf <span class="at">--base</span> <span class="op">&lt;</span>some value<span class="op">&gt;</span> -process.echo</span></code></pre>
+<pre class="sourceCode bash" tabindex="0"><code class="sourceCode bash"><span id="cb24-1"><a href="#cb24-1" tabindex="-1"></a><span class="ex">$</span> nextflow run process_script_params.nf <span class="at">--base</span> <span class="op">&lt;</span>some value<span class="op">&gt;</span> -process.debug</span></code></pre>
 </div>
-<p><strong>Note:</strong> The Nextflow option <code>-process.echo</code>
-will print the process’ stdout to the terminal.</p>
+<p><strong>Note:</strong> The Nextflow option
+<code>-process.debug</code> will print the process’ stdout to the
+terminal.</p>
 </div>
 </div>
 </div>
@@ -931,7 +932,7 @@ will print the process’ stdout to the terminal.</p>
 <div class="codewrapper sourceCode" id="cb26">
 <h3 class="code-label">BASH<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode bash" tabindex="0"><code class="sourceCode bash"><span id="cb26-1"><a href="#cb26-1" tabindex="-1"></a><span class="ex">$</span> nextflow run process_script_params.nf <span class="at">--base</span> C <span class="at">-process.echo</span></span></code></pre>
+<pre class="sourceCode bash" tabindex="0"><code class="sourceCode bash"><span id="cb26-1"><a href="#cb26-1" tabindex="-1"></a><span class="ex">$</span> nextflow run process_script_params.nf <span class="at">--base</span> C <span class="at">-process.debug</span></span></code></pre>
 </div>
 <div class="codewrapper">
 <h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
@@ -1083,7 +1084,7 @@ Nextflow variable <code>params.method</code>.</p>
 <div class="codewrapper sourceCode" id="cb32">
 <h3 class="code-label">BASH<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode bash" tabindex="0"><code class="sourceCode bash"><span id="cb32-1"><a href="#cb32-1" tabindex="-1"></a><span class="ex">$</span> nextflow run process_conditional.nf <span class="at">-process.echo</span> <span class="at">--method</span> ids</span></code></pre>
+<pre class="sourceCode bash" tabindex="0"><code class="sourceCode bash"><span id="cb32-1"><a href="#cb32-1" tabindex="-1"></a><span class="ex">$</span> nextflow run process_conditional.nf <span class="at">-process.debug</span> <span class="at">--method</span> ids</span></code></pre>
 </div>
 <div class="codewrapper">
 <h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
@@ -1176,7 +1177,7 @@ input name, as shown in the following example:</p>
 <div class="codewrapper sourceCode" id="cb36">
 <h3 class="code-label">BASH<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode bash" tabindex="0"><code class="sourceCode bash"><span id="cb36-1"><a href="#cb36-1" tabindex="-1"></a><span class="ex">$</span> nextflow run process_input_value.nf <span class="at">-process.echo</span></span></code></pre>
+<pre class="sourceCode bash" tabindex="0"><code class="sourceCode bash"><span id="cb36-1"><a href="#cb36-1" tabindex="-1"></a><span class="ex">$</span> nextflow run process_input_value.nf <span class="at">-process.debug</span></span></code></pre>
 </div>
 <div class="codewrapper">
 <h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
@@ -1249,7 +1250,7 @@ qualifier. The file is referenced using the variable substitution syntax
 <div class="codewrapper sourceCode" id="cb39">
 <h3 class="code-label">BASH<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode bash" tabindex="0"><code class="sourceCode bash"><span id="cb39-1"><a href="#cb39-1" tabindex="-1"></a><span class="ex">$</span> nextflow run process_input_file.nf <span class="at">-process.echo</span></span></code></pre>
+<pre class="sourceCode bash" tabindex="0"><code class="sourceCode bash"><span id="cb39-1"><a href="#cb39-1" tabindex="-1"></a><span class="ex">$</span> nextflow run process_input_file.nf <span class="at">-process.debug</span></span></code></pre>
 </div>
 <div class="codewrapper">
 <h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
@@ -1305,7 +1306,7 @@ be referenced by that name in the script block.</p>
 <div class="codewrapper sourceCode" id="cb42">
 <h3 class="code-label">BASH<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode bash" tabindex="0"><code class="sourceCode bash"><span id="cb42-1"><a href="#cb42-1" tabindex="-1"></a><span class="ex">$</span> nextflow run process_input_file_02.nf <span class="at">-process.echo</span></span></code></pre>
+<pre class="sourceCode bash" tabindex="0"><code class="sourceCode bash"><span id="cb42-1"><a href="#cb42-1" tabindex="-1"></a><span class="ex">$</span> nextflow run process_input_file_02.nf <span class="at">-process.debug</span></span></code></pre>
 </div>
 <div class="codewrapper">
 <h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
@@ -1383,7 +1384,7 @@ input.</li>
 <div class="codewrapper sourceCode" id="cb45">
 <h3 class="code-label">BASH<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode bash" tabindex="0"><code class="sourceCode bash"><span id="cb45-1"><a href="#cb45-1" tabindex="-1"></a><span class="ex">nextflow</span> run process_exercise_input.nf <span class="at">-process.echo</span></span></code></pre>
+<pre class="sourceCode bash" tabindex="0"><code class="sourceCode bash"><span id="cb45-1"><a href="#cb45-1" tabindex="-1"></a><span class="ex">nextflow</span> run process_exercise_input.nf <span class="at">-process.debug</span></span></code></pre>
 </div>
 </div>
 </div>
@@ -1469,7 +1470,7 @@ process.</p>
 <div class="codewrapper sourceCode" id="cb49">
 <h3 class="code-label">BASH<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode bash" tabindex="0"><code class="sourceCode bash"><span id="cb49-1"><a href="#cb49-1" tabindex="-1"></a><span class="ex">$</span> nextflow run process_combine.nf <span class="at">-process.echo</span></span></code></pre>
+<pre class="sourceCode bash" tabindex="0"><code class="sourceCode bash"><span id="cb49-1"><a href="#cb49-1" tabindex="-1"></a><span class="ex">$</span> nextflow run process_combine.nf <span class="at">-process.debug</span></span></code></pre>
 </div>
 <p>Both channels contain three elements, therefore the process is
 executed three times, each time with a different pair:</p>
@@ -1518,7 +1519,7 @@ elements?</p>
 <div class="codewrapper sourceCode" id="cb52">
 <h3 class="code-label">BASH<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode bash" tabindex="0"><code class="sourceCode bash"><span id="cb52-1"><a href="#cb52-1" tabindex="-1"></a><span class="ex">$</span> nextflow run process_combine_02.nf <span class="at">-process.echo</span></span></code></pre>
+<pre class="sourceCode bash" tabindex="0"><code class="sourceCode bash"><span id="cb52-1"><a href="#cb52-1" tabindex="-1"></a><span class="ex">$</span> nextflow run process_combine_02.nf <span class="at">-process.debug</span></span></code></pre>
 </div>
 <p>In the above example the process is executed only two times, because
 when a queue channel has no more data to be processed it stops the
@@ -1563,7 +1564,7 @@ the following one:</p>
 <div class="codewrapper sourceCode" id="cb55">
 <h3 class="code-label">BASH<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode bash" tabindex="0"><code class="sourceCode bash"><span id="cb55-1"><a href="#cb55-1" tabindex="-1"></a><span class="ex">$</span> nextflow run process_combine_03.nf <span class="at">-process.echo</span></span></code></pre>
+<pre class="sourceCode bash" tabindex="0"><code class="sourceCode bash"><span id="cb55-1"><a href="#cb55-1" tabindex="-1"></a><span class="ex">$</span> nextflow run process_combine_03.nf <span class="at">-process.debug</span></span></code></pre>
 </div>
 <p>In this example the process is run three times.</p>
 <div class="codewrapper">
@@ -1673,7 +1674,7 @@ qualifer <code>each</code> for the letters queue channel:</p>
 <div class="codewrapper sourceCode" id="cb61">
 <h3 class="code-label">BASH<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode bash" tabindex="0"><code class="sourceCode bash"><span id="cb61-1"><a href="#cb61-1" tabindex="-1"></a><span class="ex">$</span> nextflow run process_repeat.nf <span class="at">-process.echo</span></span></code></pre>
+<pre class="sourceCode bash" tabindex="0"><code class="sourceCode bash"><span id="cb61-1"><a href="#cb61-1" tabindex="-1"></a><span class="ex">$</span> nextflow run process_repeat.nf <span class="at">-process.debug</span></span></code></pre>
 </div>
 <p>The process will run eight times.</p>
 <div class="codewrapper">
@@ -1763,7 +1764,7 @@ running the process for each value.</p>
 <div class="codewrapper sourceCode" id="cb65">
 <h3 class="code-label">BASH<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode bash" tabindex="0"><code class="sourceCode bash"><span id="cb65-1"><a href="#cb65-1" tabindex="-1"></a><span class="ex">$</span> nextflow run process_exercise_repeat.nf <span class="at">-process.echo</span></span></code></pre>
+<pre class="sourceCode bash" tabindex="0"><code class="sourceCode bash"><span id="cb65-1"><a href="#cb65-1" tabindex="-1"></a><span class="ex">$</span> nextflow run process_exercise_repeat.nf <span class="at">-process.debug</span></span></code></pre>
 </div>
 <p>This process runs 16 times.</p>
 </div>
@@ -1848,8 +1849,8 @@ name.</li>
   "url": "https://carpentries-incubator.github.io/workflows-nextflow/04-processes-part1.html",
   "identifier": "https://carpentries-incubator.github.io/workflows-nextflow/04-processes-part1.html",
   "dateCreated": "2021-02-01",
-  "dateModified": "2024-04-23",
-  "datePublished": "2024-04-24"
+  "dateModified": "2024-04-25",
+  "datePublished": "2024-04-25"
 }
 
   </script><script>
