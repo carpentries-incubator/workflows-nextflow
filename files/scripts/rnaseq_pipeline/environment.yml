@@ -1,0 +1,10 @@
+# CONDA ENVIRONMENT FILE
+name: basic_rnaseq_pipeline
+channels:
+  - conda-forge
+  - bioconda
+  - defaults
+dependencies:
+  - salmon=1.5
+  - fastqc=0.11.5
+  - multiqc=1.10
