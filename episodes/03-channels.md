@@ -554,56 +554,6 @@ Launching `channels.nf` [stupefied_lumiere] - revision: a3741edde2
 
 ::::::::::::::::::::::::::::::::::::::::::::::::::
 
-### The **fromSRA** Channel factory
-
-Another useful factory method is `fromSRA`. The `fromSRA` method makes it possible to query the [NCBI SRA](https://www.ncbi.nlm.nih.gov/sra) archive and returns a queue channel emitting the FASTQ files matching the specified selection criteria.
-
-The queries can be project IDs or accession numbers supported by the [NCBI ESearch API](https://www.ncbi.nlm.nih.gov/books/NBK25499/#chapter4.ESearch).
-
-If you want to use this functionality, you will need an [NCBI API KEY](https://ncbiinsights.ncbi.nlm.nih.gov/2017/11/02/new-api-keys-for-the-e-utilities/), and to set the environment variable `NCBI_API_KEY` to its value.
-
-```groovy 
-sra_ch =Channel.fromSRA('SRP043510')
-sra_ch.view()
-```
-
-This will print a tuple for every fastq file associated with that SRA project accession.
-
-```output
-[SRR1448794, ftp://ftp.sra.ebi.ac.uk/vol1/fastq/SRR144/004/SRR1448794/SRR1448794.fastq.gz]
-[SRR1448795, ftp://ftp.sra.ebi.ac.uk/vol1/fastq/SRR144/005/SRR1448795/SRR1448795.fastq.gz]
-[SRR1448792, ftp://ftp.sra.ebi.ac.uk/vol1/fastq/SRR144/002/SRR1448792/SRR1448792.fastq.gz]
-[SRR1448793, ftp://ftp.sra.ebi.ac.uk/vol1/fastq/SRR144/003/SRR1448793/SRR1448793.fastq.gz]
-[SRR1910483, ftp://ftp.sra.ebi.ac.uk/vol1/fastq/SRR191/003/SRR1910483/SRR1910483.fastq.gz]
-[SRR1910482, ftp://ftp.sra.ebi.ac.uk/vol1/fastq/SRR191/002/SRR1910482/SRR1910482.fastq.gz]
-(remaining omitted)
-```
-
-Multiple accession IDs can be specified using a list object:
-
-```groovy 
-ids = ['ERR908507', 'ERR908506', 'ERR908505']
-sra_ch = Channel.fromSRA(ids)
-sra_ch.view()
-```
-
-```output
-[ERR908507, [ftp://ftp.sra.ebi.ac.uk/vol1/fastq/ERR908/ERR908507/ERR908507_1.fastq.gz, ftp://ftp.sra.ebi.ac.uk/vol1/fastq/ERR908/ERR908507/ERR908507_2.fastq.gz]]
-[ERR908506, [ftp://ftp.sra.ebi.ac.uk/vol1/fastq/ERR908/ERR908506/ERR908506_1.fastq.gz, ftp://ftp.sra.ebi.ac.uk/vol1/fastq/ERR908/ERR908506/ERR908506_2.fastq.gz]]
-[ERR908505, [ftp://ftp.sra.ebi.ac.uk/vol1/fastq/ERR908/ERR908505/ERR908505_1.fastq.gz, ftp://ftp.sra.ebi.ac.uk/vol1/fastq/ERR908/ERR908505/ERR908505_2.fastq.gz]]
-```
-
-:::::::::::::::::::::::::::::::::::::::::  callout
-
-## Read pairs from SRA
-
-Read pairs are implicitly managed, and are returned as a list of files.
-
-
-::::::::::::::::::::::::::::::::::::::::::::::::::
-
-
-
 :::::::::::::::::::::::::::::::::::::::: keypoints
 
 - Channels must be used to import data into Nextflow.
