@@ -105,7 +105,7 @@ workflow {
 We can now run the process:
 
 ```bash
-$ nextflow run process_01.nf -process.echo
+$ nextflow run process_01.nf -process.debug
 ```
 
 
@@ -147,9 +147,9 @@ COUNT_BASES()
 ```
 
 
- **Note** We need to add the Nextflow run option `-process.echo` to print the output to the terminal.
+ **Note** We need to add the Nextflow run option `-process.debug` to print the output to the terminal.
 ```bash
-$ nextflow run simple_process.nf -process.echo
+$ nextflow run simple_process.nf -process.debug
 ```
 
 ```output
@@ -238,7 +238,7 @@ workflow {
 ```
 
 ```bash
-$ nextflow run process_multi_line.nf -process.echo
+$ nextflow run process_multi_line.nf -process.debug
 ```
 
 ```output
@@ -427,10 +427,10 @@ Add a parameter `params.base` to the script and uses the variable `${param.base}
 Run the pipeline using a base value of `C` using the `--base` command line option.
 
 ```bash
-$ nextflow run process_script_params.nf --base <some value> -process.echo
+$ nextflow run process_script_params.nf --base <some value> -process.debug
 ```
 
-**Note:** The Nextflow option `-process.echo` will print the process' stdout to the terminal.
+**Note:** The Nextflow option `-process.debug` will print the process' stdout to the terminal.
 
 
 :::::::::::::::  solution
@@ -457,7 +457,7 @@ $ nextflow run process_script_params.nf --base <some value> -process.echo
 ```
 
 ```bash
-$ nextflow run process_script_params.nf --base C -process.echo
+$ nextflow run process_script_params.nf --base C -process.debug
 ```
 
 ```output
@@ -594,7 +594,7 @@ workflow {
 ```
 
 ```bash
-$ nextflow run process_conditional.nf -process.echo --method ids
+$ nextflow run process_conditional.nf -process.debug --method ids
 ```
 
 ```output
@@ -665,7 +665,7 @@ workflow {
 ```
 
 ```bash
-$ nextflow run process_input_value.nf -process.echo
+$ nextflow run process_input_value.nf -process.debug
 ```
 
 ```output
@@ -722,7 +722,7 @@ workflow {
 ```
 
 ```bash
-$ nextflow run process_input_file.nf -process.echo
+$ nextflow run process_input_file.nf -process.debug
 ```
 
 ```output
@@ -768,7 +768,7 @@ workflow {
 ```
 
 ```bash
-$ nextflow run process_input_file_02.nf -process.echo
+$ nextflow run process_input_file_02.nf -process.debug
 ```
 
 ```output
@@ -825,7 +825,7 @@ CHR_COUNT()
 Then run your script using
 
 ```bash
-nextflow run process_exercise_input.nf -process.echo
+nextflow run process_exercise_input.nf -process.debug
 ```
 :::::::::::::::  solution
 
@@ -898,7 +898,7 @@ workflow {
 ```
 
 ```bash
-$ nextflow run process_combine.nf -process.echo
+$ nextflow run process_combine.nf -process.debug
 ```
 
 Both channels contain three elements, therefore the process is executed three times, each time with a different pair:
@@ -943,7 +943,7 @@ workflow {
 ```
 
 ```bash
-$ nextflow run process_combine_02.nf -process.echo
+$ nextflow run process_combine_02.nf -process.debug
 ```
 
 In the above example the process is executed only two times, because when a queue channel has no more data to be processed it stops the process execution.
@@ -983,7 +983,7 @@ workflow {
 ```
 
 ```bash
-$ nextflow run process_combine_03.nf -process.echo
+$ nextflow run process_combine_03.nf -process.debug
 ```
 
 In this example the process is run three times.
@@ -1071,7 +1071,7 @@ workflow {
 ```
 
 ```bash
-$ nextflow run process_repeat.nf -process.echo
+$ nextflow run process_repeat.nf -process.debug
 ```
 
 The process will run eight times.
@@ -1149,7 +1149,7 @@ How many times does this process run?
 Then run the script.
 
 ```bash
-$ nextflow run process_exercise_repeat.nf -process.echo
+$ nextflow run process_exercise_repeat.nf -process.debug
 ```
 
 This process runs 16 times.
