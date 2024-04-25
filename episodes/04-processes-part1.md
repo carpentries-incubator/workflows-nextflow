@@ -107,7 +107,7 @@ We can now run the process:
 ```bash
 $ nextflow run process_01.nf -process.debug
 ```
-
+ **Note** We need to add the Nextflow run option `-process.debug` to print the output to the terminal.
 
 ```output
 N E X T F L O W  ~  version 21.10.6
@@ -147,7 +147,7 @@ COUNT_BASES()
 ```
 
 
- **Note** We need to add the Nextflow run option `-process.debug` to print the output to the terminal.
+
 ```bash
 $ nextflow run simple_process.nf -process.debug
 ```
