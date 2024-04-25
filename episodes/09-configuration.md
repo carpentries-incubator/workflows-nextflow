@@ -420,7 +420,7 @@ process {
 ```
 
 ```bash
-$ nextflow run process-selector.nf -c process-selector.config -process.echo
+$ nextflow run process-selector.nf -c process-selector.config -process.debug
 ```
 
 ```output
