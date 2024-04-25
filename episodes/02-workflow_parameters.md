@@ -228,8 +228,8 @@ $ nextflow run wc-params.nf --sleep 1 --input 'data/yeast/reads/*.fq.gz'
 ## Parameter File
 
 If we have many parameters to pass to a script it is best to create a
-parameters file. Parameters are stored in JSON or YAML format. JSON and
-YAML are data serialization languages, that are a way of storing data
+parameters file. Parameters can be stored in JSON format. JSON is a
+data serialization language, that is a way of storing data
 objects and structures, such as the `params` object in a file.
 
 The `-params-file` option is used to pass the parameters file to the
@@ -306,5 +306,5 @@ f5ef7b7a01 executor \> local (1) [f3/4fa480] process \> NUM_LINES
 :::::::::::::::::::::::::::::::::::::::: keypoints
 - "Pipeline parameters are specified by prepending the prefix `params` to a variable name, separated by dot character."
 - "To specify a pipeline parameter on the command line for a Nextflow run use `--variable_name` syntax."
-- "You can add parameters to a JSON or YAML formatted file and pass them to the script using option `-params-file`."
+- "You can add parameters to a JSON formatted file and pass them to the script using option `-params-file`."
 ::::::::::::::::::::::::::::::::::::::::::::::::::
