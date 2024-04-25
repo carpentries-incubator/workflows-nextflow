@@ -8,3 +8,4 @@ dependencies:
   - fastqc=0.11
   - multiqc=1.10
   - nf-core
+  - Graphviz
