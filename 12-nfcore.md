@@ -434,7 +434,7 @@ nf-core pipelines make use of Nextflow's configuration files to specify how the 
 
 Nextflow can load pipeline configurations from multiple locations.  nf-core pipelines load configuration in the following order:
 
-![](fig/nfcore_config.png){alt='config'}
+![A diagram explaining the structure and hierarchy of nextflow.config files. The diagram shows that the default 'base' config is always loaded. It also includes core profiles, such as docker, conda, and test, and server profiles from nf-core/config. Additionally, it highlights that your local config files, located in $HOME/.nextflow/config or specified with -c custom.config, are also considered.](fig/nfcore_config.png 'config')
 
 1. Pipeline: Default 'base' config
 
