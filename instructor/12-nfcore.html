@@ -891,7 +891,14 @@ specify how the pipelines runs, define custom parameters and what
 software management system to use e.g. docker, singularity or conda.</p>
 <p>Nextflow can load pipeline configurations from multiple locations.
 nf-core pipelines load configuration in the following order:</p>
-<figure><img src="../fig/nfcore_config.png" alt="config" class="figure mx-auto d-block"></figure><ol style="list-style-type: decimal"><li>Pipeline: Default ‘base’ config</li>
+<figure><img src="../fig/nfcore_config.png" title="config" alt="A diagram explaining the structure and hierarchy of nextflow.config files. The diagram shows that the default ‘base’ config is always loaded. It also includes core profiles, such as docker, conda, and test, and server profiles from nf-core/config. Additionally, it highlights that your local config files, located in $HOME/.nextflow/config or specified with -c custom.config, are also considered." class="figure mx-auto d-block"><div class="figcaption">A diagram explaining the structure and hierarchy
+of nextflow.config files. The diagram shows that the default ‘base’
+config is always loaded. It also includes core profiles, such as docker,
+conda, and test, and server profiles from nf-core/config. Additionally,
+it highlights that your local config files, located in
+$HOME/.nextflow/config or specified with -c custom.config, are also
+considered.</div>
+</figure><ol style="list-style-type: decimal"><li>Pipeline: Default ‘base’ config</li>
 </ol><ul><li>Always loaded. Contains pipeline-specific parameters and “sensible
 defaults” for things like computational requirements</li>
 <li>Does not specify any method for software packaging. If nothing else
