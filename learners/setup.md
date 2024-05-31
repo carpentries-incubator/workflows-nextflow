@@ -13,8 +13,8 @@ permalink: /setup/
 Each learner should setup a training folder e.g. `nf-training`
 
 ```bash
-$ mkdir nf-training
-$ cd nf-training
+mkdir nf-training
+cd nf-training
 ```
 
 
@@ -50,7 +50,7 @@ To install conda see [here](https://carpentries-incubator.github.io/introduction
 An environment file is provided here [environment.yml](https://raw.githubusercontent.com/carpentries-incubator/workflows-nextflow/main/episodes/data/environment.yml)
 
 ```bash
-# wget
+wget
 wget https://raw.githubusercontent.com/carpentries-incubator/workflows-nextflow/main/episodes/data/environment.yml
 
 # or curl 
@@ -60,13 +60,13 @@ curl -L -o environment.yml https://raw.githubusercontent.com/carpentries-incubat
 To create the training environment run:
 
 ```bash
-$ conda env create -n nf-training -f environment.yml
+conda env create -n nf-training -f environment.yml
 ```
 
 Then activate the environment by running
 
 ```bash
-$ conda activate nf-training
+conda activate nf-training
 ```
 
 ## Training scripts
@@ -104,7 +104,7 @@ The nextflow scripts for each episode, can be found in the respective episode fo
 Inside the `nf-training` folder download the workshop dataset from Figshare, [https://figshare.com/articles/dataset/RNA-seq\_training\_dataset/14822481](https://figshare.com/articles/dataset/RNA-seq_training_dataset/14822481)
 
 ```bash
-$ wget --content-disposition https://ndownloader.figshare.com/files/28531743
+wget --content-disposition https://ndownloader.figshare.com/files/28531743
 
 # or curl
 curl -L -o  data.tar.gz https://ndownloader.figshare.com/files/28531743
@@ -113,8 +113,8 @@ curl -L -o  data.tar.gz https://ndownloader.figshare.com/files/28531743
 Unpack gzipped tar file:
 
 ```bash
-$ tar -xvf  data.tar.gz
-$ rm data.tar.gz
+tar -xvf  data.tar.gz
+rm data.tar.gz
 ```
 
 ## Visual Studio Code editor setup
@@ -151,7 +151,7 @@ curl get.nextflow.io | bash
 ## Add Nextflow binary to your user's PATH:
 
 ```bash
-$ mv nextflow ~/bin/
+mv nextflow ~/bin/
 # OR system-wide installation:
 # sudo mv nextflow /usr/local/bin
 ```
@@ -159,7 +159,7 @@ $ mv nextflow ~/bin/
 Check the correct installation running the following command:
 
 ```bash
-$ nextflow info
+nextflow info
 ```
 
 ## nf-core/tools installation without conda
