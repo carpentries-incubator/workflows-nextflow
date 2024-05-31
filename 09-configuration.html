@@ -333,7 +333,7 @@
       </div>
       <hr></nav><main id="main-content" class="main-content"><div class="container lesson-content">
         <h1>Nextflow configuration</h1>
-        <p>Last updated on 2024-04-25 |
+        <p>Last updated on 2024-05-31 |
         
         <a href="https://github.com/carpentries-incubator/workflows-nextflow/edit/main/episodes/09-configuration.md" class="external-link">Edit this page <i aria-hidden="true" data-feather="edit"></i></a></p>
         
@@ -892,7 +892,14 @@ results to a subfolder based on the sample name.</p>
 <hr class="half-width"><p>Nextflow supports a wide range of execution platforms, from running
 locally, to running on HPC clusters or cloud infrastructures. See <a href="https://www.nextflow.io/docs/latest/executor.html" class="external-link">https://www.nextflow.io/docs/latest/executor.html</a>
 for the full list of supported executors.</p>
-<figure><img src="fig/nf-executors.png" alt="digram of different nextflow-executors" class="figure mx-auto d-block"></figure><p>The default executor configuration is defined within the
+<figure><img src="fig/nf-executors.png" title="digram of different nextflow-executors" alt="A diagram illustrating the different executors available in Nextflow. The diagram shows a configuration file feeding into Nextflow, which has both local and grid executors. The local executor connects to the Local OS and a standalone computer, while the grid executor connects to a batch scheduler and NFS, which further connects to various computing resources such as UNIVA, SLURM, Platform Computing, PBS Works, Kubernetes, and Amazon Web Services." class="figure mx-auto d-block"><div class="figcaption">A diagram illustrating the different executors
+available in Nextflow. The diagram shows a configuration file feeding
+into Nextflow, which has both local and grid executors. The local
+executor connects to the Local OS and a standalone computer, while the
+grid executor connects to a batch scheduler and NFS, which further
+connects to various computing resources such as UNIVA, SLURM, Platform
+Computing, PBS Works, Kubernetes, and Amazon Web Services.</div>
+</figure><p>The default executor configuration is defined within the
 <code>executor</code> scope (<a href="https://www.nextflow.io/docs/latest/config.html#scope-executor" class="external-link">https://www.nextflow.io/docs/latest/config.html#scope-executor</a>).
 For example, in the config below we specify the executor as Sun Grid
 Engine, <code>sge</code> and the number of tasks the executor will
@@ -1349,7 +1356,7 @@ read-in.</li>
   "url": "https://carpentries-incubator.github.io/workflows-nextflow/09-configuration.html",
   "identifier": "https://carpentries-incubator.github.io/workflows-nextflow/09-configuration.html",
   "dateCreated": "2021-02-01",
-  "dateModified": "2024-04-25",
+  "dateModified": "2024-05-31",
   "datePublished": "2024-05-31"
 }
 
