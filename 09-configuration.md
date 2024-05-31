@@ -479,7 +479,8 @@ running locally, to running on HPC clusters or cloud infrastructures.
 See [https://www.nextflow.io/docs/latest/executor.html](https://www.nextflow.io/docs/latest/executor.html) for the
 full list of supported executors.
 
-![](fig/nf-executors.png){alt='digram of different nextflow-executors'}
+![A diagram illustrating the different executors available in Nextflow. The diagram shows a configuration file feeding into Nextflow, which has both local and grid executors. The local executor connects to the Local OS and a standalone computer, while the grid executor connects to a batch scheduler and NFS, which further connects to various computing resources such as UNIVA, SLURM, Platform Computing, PBS Works, Kubernetes, and Amazon Web Services.](fig/nf-executors.png "digram of different nextflow-executors")
+
 
 The default executor configuration is defined within the `executor`
 scope ([https://www.nextflow.io/docs/latest/config.html#scope-executor](https://www.nextflow.io/docs/latest/config.html#scope-executor)).
