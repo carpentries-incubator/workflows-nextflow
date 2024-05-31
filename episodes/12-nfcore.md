@@ -27,7 +27,7 @@ exercises: 10
 nf-core is a community-led project to develop a set of best-practice pipelines built using Nextflow workflow management system.
 Pipelines are governed by a set of guidelines, enforced by community code reviews and automatic code testing.
 
-![](fig/nf-core.png){alt='nf-core'}
+![A diagram showcasing the key aspects of nf-core, a community effort to provide best-practice analysis pipelines. The diagram is divided into three sections: Deploy, Participate, and Develop. The Deploy section includes features like Stable pipelines, Centralized configs, List and update pipelines, and Download for offline use. The Participate section highlights Documentation, Slack workspace, Twitter updates, and Hackathons. The Develop section emphasizes the Starter template, Code guidelines, CI code linting and tests, and Helper tools.](fig/nf-core.png 'nf-core')
 
 In this episode we will covering finding, deploying and configuring nf-core pipelines.
 
