@@ -697,6 +697,9 @@ run software using a privileged user. This can cause issues,
 and so it is also a good idea to supply your user and group
 via the `docker.runOptions`.
 
+The Docker run option `-u $(id -u):$(id -g)` is used to specify the user and group IDs (UID and GID) that the container should use when running. 
+This option ensures that the processes inside the container run with the same UID and GID as the user executing the Docker command on the host system. 
+
 ```groovy 
 process.container = 'quay.io/biocontainers/salmon:1.5.2--h84f40af_0'
 docker.enabled = true
