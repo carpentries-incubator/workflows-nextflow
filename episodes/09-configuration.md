@@ -294,7 +294,7 @@ processes annotated with a specific label, as shown below:
 
 ```groovy
 // configuration_process_labels.nf
-nextflow.enable.dsl=2
+
 
 process P1 {
 
@@ -375,7 +375,7 @@ where `P1` and `P2` are defined as follows:
 
 ```groovy 
 // process-selector.nf
-nextflow.enable.dsl=2
+
 
 process P1 {
     echo true
