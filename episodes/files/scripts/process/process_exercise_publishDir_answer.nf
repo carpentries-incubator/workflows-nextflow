@@ -1,5 +1,5 @@
 //process_exercise_publishDir_answer.nf
-nextflow.enable.dsl=2
+
 
 params.reads= "data/yeast/reads/ref{1,2,3}*{1,2}.fq.gz"
 

@@ -1,5 +1,5 @@
 //process_input_value.nf
-nextflow.enable.dsl=2
+
 
 process PRINTCHR {
 

@@ -1,5 +1,5 @@
 //process_publishDir.nf
-nextflow.enable.dsl=2
+
 
 process COMBINE_READS {
   publishDir "results/merged_reads"

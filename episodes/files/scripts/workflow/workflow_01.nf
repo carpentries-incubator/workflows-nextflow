@@ -1,5 +1,5 @@
 //workflow_01.nf
-nextflow.enable.dsl=2
+
 
 
  process FASTQC {
