@@ -51,7 +51,7 @@ For example:
 
 ```groovy 
 //workflow_01.nf
-nextflow.enable.dsl=2
+
 
 
  process FASTQC {
@@ -127,7 +127,7 @@ For example in the script below we name the output from the `FASTQC` process as 
 
 ```groovy 
 //workflow_02.nf
-nextflow.enable.dsl=2
+
 
  process FASTQC {
     input:
@@ -196,7 +196,7 @@ Connect the output of the process `FASTQC` to `PARSEZIP` in the Nextflow script 
 
 ```groovy 
 //workflow_exercise.nf
-nextflow.enable.dsl=2
+
 params.reads = 'data/yeast/reads/*_{1,2}.fq.gz'
 
 process FASTQC {
@@ -241,7 +241,7 @@ workflow {
 ```groovy 
 //workflow_exercise.nf
 
-nextflow.enable.dsl=2
+
 
 params.reads = 'data/yeast/reads/*_{1,2}.fq.gz'
 
