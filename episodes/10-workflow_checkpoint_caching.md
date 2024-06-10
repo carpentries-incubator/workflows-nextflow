@@ -249,7 +249,7 @@ The task execution directory contains:
 
 - `.command.sh`: The command script.
 
-- `.command.run`: The command wrapped used to run the job.
+- `.command.run`: The file is a bash script that Nextflow generates to execute the .command.sh script, handling the necessary environment setup and command execution details.
 
 - `.command.out`: The complete job standard output.
 
