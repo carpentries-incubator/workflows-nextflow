@@ -51,7 +51,7 @@ Because Nextflow processes can only communicate through channels, if we want to 
 
 ```groovy 
 //process_output_value.nf
-nextflow.enable.dsl=2
+
 
 params.transcriptome="${projectDir}/data/yeast/transcriptome/Saccharomyces_cerevisiae.R64-1-1.cdna.all.fa.gz"
 
@@ -104,7 +104,7 @@ If we want to capture a file instead of a value as output we can use the
 
 ```groovy 
 //process_output_file.nf
-nextflow.enable.dsl=2
+
 
 params.transcriptome="${projectDir}/data/yeast/transcriptome/Saccharomyces_cerevisiae.R64-1-1.cdna.all.fa.gz"
 
@@ -160,7 +160,7 @@ For example, here we will capture the files `sequence_ids.txt` and  `sequence.tx
 
 ```groovy 
 //process_output_multiple.nf
-nextflow.enable.dsl=2
+
 
 params.transcriptome="${projectDir}/data/yeast/transcriptome/Saccharomyces_cerevisiae.R64-1-1.cdna.all.fa.gz"
 
@@ -215,7 +215,7 @@ Modify the nextflow script `process_exercise_output.nf` to include an output blo
 
 ```groovy 
 //process_exercise_output.nf
-nextflow.enable.dsl=2
+
 
 process EXTRACT_IDS {
   input:
@@ -245,7 +245,7 @@ workflow {
 
 ```groovy 
 //process_exercise_output_answer.nf
-nextflow.enable.dsl=2
+
 
 process EXTRACT_IDS {
   input:
@@ -289,7 +289,7 @@ When using channel containing a tuple, such a one created with `.filesFromPairs`
 
 ```groovy 
 //process_tuple_input.nf
-nextflow.enable.dsl=2
+
 
 process TUPLEINPUT{
   input:
@@ -330,7 +330,7 @@ An example can be seen in this script below.
 
 ```groovy 
 //process_tuple_io.nf
-nextflow.enable.dsl=2
+
 
 process COMBINE_FQ {
   input:
@@ -373,7 +373,7 @@ Fill in the blank \_\_\_ input and output qualifiers for `process_exercise_tuple
 
 ```groovy 
 //process_exercise_tuple.nf
-nextflow.enable.dsl=2
+
 
 process COMBINE_REPS {
   input:
@@ -403,7 +403,7 @@ workflow{
 
 ```groovy 
 //process_exercise_tuple_answer.nf
-nextflow.enable.dsl=2
+
 
 process COMBINE_REPS {
   input:
@@ -451,7 +451,7 @@ In the example below the process `CONDITIONAL` will only execute when the value 
 
 ```groovy 
 //process_when.nf
-nextflow.enable.dsl=2
+
 
 process CONDITIONAL {
   input:
@@ -499,7 +499,7 @@ For example:
 
 ```groovy 
 //process_directive.nf
-nextflow.enable.dsl=2
+
 
 process PRINTCHR {
   tag "tagging with chr$chr"
@@ -566,7 +566,7 @@ Modify the Nextflow script `process_exercise_directives.nf`
 
 ```groovy 
 //process_exercise_directives.nf
-nextflow.enable.dsl=2
+
 
 process FASTQC {
   //add tag directive
@@ -599,7 +599,7 @@ workflow {
 
 ```groovy 
 //process_directives_answer.nf
-nextflow.enable.dsl=2
+
 
 process FASTQC {
   tag "$sample_id"
@@ -661,7 +661,7 @@ need to define the files in the `output` and  specify the location of the result
 
 ```groovy 
 //process_publishDir.nf
-nextflow.enable.dsl=2
+
 
 process COMBINE_READS {
   publishDir "results/merged_reads"
@@ -740,7 +740,7 @@ In the example below we will create an output folder structure in the directory 
 
 ```groovy 
 //process_publishDir_semantic.nf
-nextflow.enable.dsl=2
+
 
 params.transcriptome="${projectDir}/data/yeast/transcriptome/Saccharomyces_cerevisiae.R64-1-1.cdna.all.fa.gz"
 
@@ -806,7 +806,7 @@ Add a `publishDir` directive to the nextflow script `process_exercise_publishDir
 
 ```groovy 
 //process_exercise_publishDir.nf
-nextflow.enable.dsl=2
+
 
 params.reads= "data/yeast/reads/ref{1,2,3}*{1,2}.fq.gz"
 
@@ -837,7 +837,7 @@ workflow {
 
 ```groovy 
 //process_exercise_publishDir_answer.nf
-nextflow.enable.dsl=2
+
 
 params.reads= "data/yeast/reads/ref{1,2,3}*{1,2}.fq.gz"
 
