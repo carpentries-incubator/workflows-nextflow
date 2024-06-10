@@ -201,7 +201,7 @@ The second example, `script2.nf` adds,
 
 ```groovy 
 //script2.nf
-nextflow.enable.dsl=2
+
 
 /*
  * pipeline input parameters
