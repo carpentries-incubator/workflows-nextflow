@@ -1,5 +1,5 @@
 //process_python_script.nf
-nextflow.enable.dsl=2
+
 
 process PROCESS_READS {
 

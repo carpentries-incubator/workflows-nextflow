@@ -85,11 +85,10 @@ A full list of implicit variables can be found [here](https://www.nextflow.io/do
 
 To add the process to a workflow add a `workflow` block, and call the process like a function. We will learn more about the `workflow` block in the workflow episode.
 
-**Note:** As we are using DSL2 we need to include `nextflow.enable.dsl=2` in the script.
 
 ```groovy
 //process_01.nf
-nextflow.enable.dsl=2
+
 
 process NUMSEQ {
   script:
@@ -131,7 +130,7 @@ zgrep -v '^>' ${projectDir}/data/yeast/transcriptome/Saccharomyces_cerevisiae.R6
 
 ## Solution
 ```groovy
-nextflow.enable.dsl=2
+
 
 process COUNT_BASES {
    
@@ -204,7 +203,7 @@ A process contains only one `script` block, and it must be the last statement wh
 The `script` block can be a simple one line string in quotes e.g.
 
 ```groovy
-nextflow.enable.dsl=2
+
 
 process NUMSEQ {
     script:
@@ -222,7 +221,7 @@ For example:
 
 ```groovy
 //process_multi_line.nf
-nextflow.enable.dsl=2
+
 
 process NUMSEQ_CHR {
     script:
@@ -261,7 +260,7 @@ By default the process command is interpreted as a **Bash** script. However, any
 
 ```groovy
 //process_python.nf
-nextflow.enable.dsl=2
+
 
 process PROCESS_READS {
   script:
@@ -326,7 +325,7 @@ print("bases", bases)
 
 ```groovy
 //process_python_script.nf
-nextflow.enable.dsl=2
+
 
 process PROCESS_READS {
 
@@ -378,7 +377,7 @@ A Nextflow variable can be used multiple times in the script block.
 
 ```groovy
 //process_script.nf
-nextflow.enable.dsl=2
+
 
 chr = "A"
 
@@ -401,7 +400,7 @@ In most cases we do not want to hard code parameter values. We saw in the parame
 In the example below we define the variable `params.chr` with a default value of `A` in the Nextflow script.
 ```groovy
 //process_script_params.nf
-nextflow.enable.dsl=2
+
 
 params.chr = "A"
 
@@ -433,7 +432,7 @@ For the Nextflow script below.
 
 ```groovy
 //process_exercise_script_params.nf
-nextflow.enable.dsl=2
+
 
 process COUNT_BASES {
 
@@ -464,7 +463,7 @@ $ nextflow run process_script_params.nf --base <some value> -process.debug
 ## Solution
 ```groovy
  //process_exercise_script_params.nf
- nextflow.enable.dsl=2
+ 
 
  params.base='A'
 
@@ -506,7 +505,7 @@ In the example below we will set a bash variable `NUMIDS` then echo the value of
 
 
 ```groovy
-nextflow.enable.dsl=2
+
 
 process NUM_IDS {
 
@@ -538,7 +537,7 @@ we reference the Nextflow variables as `!{projectDir}` , and the Bash variable a
 
 ```groovy
 //process_shell.nf
-nextflow.enable.dsl=2
+
 
 process NUM_IDS {
 
@@ -586,7 +585,7 @@ For example, the Nextflow script below will use the `if` statement to change wha
 
 ```groovy
 //process_conditional.nf
-nextflow.enable.dsl=2
+
 
 params.method = 'ids'
 params.transcriptome = "$projectDir/data/yeast/transcriptome/Saccharomyces_cerevisiae.R64-1-1.cdna.all.fa.gz"
@@ -668,7 +667,7 @@ The `val` qualifier allows you to receive value data as input. It can be accesse
 
 ```groovy
 //process_input_value.nf
-nextflow.enable.dsl=2
+
 
 process PRINTCHR {
 
@@ -725,7 +724,7 @@ For example, in the script below, we assign the variable name `read` to the inpu
 
 ```groovy
 //process_input_file.nf
-nextflow.enable.dsl=2
+
 
 process NUMLINES {
     input:
@@ -771,7 +770,7 @@ For example, in the script below, the name of the file is specified as `'sample.
 
 ```groovy
 //process_input_file_02.nf
-nextflow.enable.dsl=2
+
 
 process NUMLINES {
     input:
@@ -829,7 +828,7 @@ For the script `process_exercise_input.nf`:
 
 ```groovy
 //process_exercise_input.nf
-nextflow.enable.dsl=2
+
 
 params.chr = "A"
 params.transcriptome = "${projectDir}/data/yeast/transcriptome/Saccharomyces_cerevisiae.R64-1-1.cdna.all.fa.gz"
@@ -856,7 +855,7 @@ nextflow run process_exercise_input.nf -process.debug
 
  ## Solution
 ```groovy
- nextflow.enable.dsl=2
+ 
 
  params.chr = "A"
  params.transcriptome = "${projectDir}/data/yeast/transcriptome/Saccharomyces_cerevisiae.R64-1-1.cdna.all.fa.gz"
@@ -901,7 +900,7 @@ Consider the following example:
 
 ```groovy
 //process_combine.nf
-nextflow.enable.dsl=2
+
 
 process COMBINE {
   input:
@@ -946,7 +945,7 @@ For example:
 
 ```groovy
 //process_combine_02.nf
-nextflow.enable.dsl=2
+
 
 process COMBINE {
   input:
@@ -987,7 +986,7 @@ To better understand this behaviour compare the previous example with the follow
 
 ```groovy
 //process_combine_03.nf
-nextflow.enable.dsl=2
+
 
 process COMBINE {
   input:
@@ -1042,7 +1041,7 @@ And include the command below in the script directive
  ## Solution
 ```groovy
  // process_exercise_combine_answer.nf
- nextflow.enable.dsl=2
+ 
  process COMBINE {
   input:
   path transcriptome
@@ -1074,7 +1073,7 @@ For example if we can fix the previous example by using the input qualifer `each
 
 ```groovy
 //process_repeat.nf
-nextflow.enable.dsl=2
+
 
 process COMBINE {
   input:
@@ -1120,7 +1119,7 @@ Extend the script `process_exercise_repeat.nf` by adding more values to the `chr
 
 ```groovy
 //process_exercise_repeat.nf
-nextflow.enable.dsl=2
+
 process COMBINE {
     input:
     path transcriptome
@@ -1149,7 +1148,7 @@ How many times does this process run?
 
 ```groovy
  //process_exercise_repeat_answer.nf
- nextflow.enable.dsl=2
+ 
 
  process COMBINE {
    input:
