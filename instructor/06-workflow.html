@@ -328,7 +328,7 @@
       </div>
       <hr></nav><main id="main-content" class="main-content"><div class="container lesson-content">
         <h1>Workflow</h1>
-        <p>Last updated on 2024-04-23 |
+        <p>Last updated on 2024-06-10 |
         
         <a href="https://github.com/carpentries-incubator/workflows-nextflow/edit/main/episodes/06-workflow.md" class="external-link">Edit this page <i aria-hidden="true" data-feather="edit"></i></a></p>
         
@@ -412,7 +412,7 @@ provide them in the same order in which they are declared in the
 <h3 class="code-label">GROOVY<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="sourceCode groovy" tabindex="0"><code class="sourceCode groovy"><span id="cb2-1"><a href="#cb2-1" tabindex="-1"></a><span class="co">//workflow_01.nf</span></span>
-<span id="cb2-2"><a href="#cb2-2" tabindex="-1"></a>nextflow<span class="op">.</span>enable<span class="op">.</span>dsl<span class="op">=</span><span class="dv">2</span></span>
+<span id="cb2-2"><a href="#cb2-2" tabindex="-1"></a></span>
 <span id="cb2-3"><a href="#cb2-3" tabindex="-1"></a></span>
 <span id="cb2-4"><a href="#cb2-4" tabindex="-1"></a></span>
 <span id="cb2-5"><a href="#cb2-5" tabindex="-1"></a> process FASTQC <span class="op">{</span></span>
@@ -495,7 +495,7 @@ to reference the channel in the external scope.</p>
 <h3 class="code-label">GROOVY<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="sourceCode groovy" tabindex="0"><code class="sourceCode groovy"><span id="cb4-1"><a href="#cb4-1" tabindex="-1"></a><span class="co">//workflow_02.nf</span></span>
-<span id="cb4-2"><a href="#cb4-2" tabindex="-1"></a>nextflow<span class="op">.</span>enable<span class="op">.</span>dsl<span class="op">=</span><span class="dv">2</span></span>
+<span id="cb4-2"><a href="#cb4-2" tabindex="-1"></a></span>
 <span id="cb4-3"><a href="#cb4-3" tabindex="-1"></a></span>
 <span id="cb4-4"><a href="#cb4-4" tabindex="-1"></a> process FASTQC <span class="op">{</span></span>
 <span id="cb4-5"><a href="#cb4-5" tabindex="-1"></a>    input<span class="op">:</span></span>
@@ -574,7 +574,7 @@ channel output to a single List item.</p>
 <h3 class="code-label">GROOVY<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="sourceCode groovy" tabindex="0"><code class="sourceCode groovy"><span id="cb6-1"><a href="#cb6-1" tabindex="-1"></a><span class="co">//workflow_exercise.nf</span></span>
-<span id="cb6-2"><a href="#cb6-2" tabindex="-1"></a>nextflow<span class="op">.</span>enable<span class="op">.</span>dsl<span class="op">=</span><span class="dv">2</span></span>
+<span id="cb6-2"><a href="#cb6-2" tabindex="-1"></a></span>
 <span id="cb6-3"><a href="#cb6-3" tabindex="-1"></a>params<span class="op">.</span>reads <span class="op">=</span> <span class="st">'data/yeast/reads/*_{1,2}.fq.gz'</span></span>
 <span id="cb6-4"><a href="#cb6-4" tabindex="-1"></a></span>
 <span id="cb6-5"><a href="#cb6-5" tabindex="-1"></a>process FASTQC <span class="op">{</span></span>
@@ -626,7 +626,7 @@ channel output to a single List item.</p>
 </h3>
 <pre class="sourceCode groovy" tabindex="0"><code class="sourceCode groovy"><span id="cb7-1"><a href="#cb7-1" tabindex="-1"></a><span class="co">//workflow_exercise.nf</span></span>
 <span id="cb7-2"><a href="#cb7-2" tabindex="-1"></a></span>
-<span id="cb7-3"><a href="#cb7-3" tabindex="-1"></a>nextflow<span class="op">.</span>enable<span class="op">.</span>dsl<span class="op">=</span><span class="dv">2</span></span>
+<span id="cb7-3"><a href="#cb7-3" tabindex="-1"></a></span>
 <span id="cb7-4"><a href="#cb7-4" tabindex="-1"></a></span>
 <span id="cb7-5"><a href="#cb7-5" tabindex="-1"></a>params<span class="op">.</span>reads <span class="op">=</span> <span class="st">'data/yeast/reads/*_{1,2}.fq.gz'</span></span>
 <span id="cb7-6"><a href="#cb7-6" tabindex="-1"></a></span>
@@ -767,7 +767,7 @@ process output .</li>
   "url": "https://carpentries-incubator.github.io/workflows-nextflow/instructor/06-workflow.html",
   "identifier": "https://carpentries-incubator.github.io/workflows-nextflow/instructor/06-workflow.html",
   "dateCreated": "2021-02-01",
-  "dateModified": "2024-04-23",
+  "dateModified": "2024-06-10",
   "datePublished": "2024-06-10"
 }
 

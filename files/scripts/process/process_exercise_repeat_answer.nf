@@ -1,5 +1,5 @@
 //process_exercise_repeat_answer.nf
-nextflow.enable.dsl=2
+
 
 process COMBINE {
   input:

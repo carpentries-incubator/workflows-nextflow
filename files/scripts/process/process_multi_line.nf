@@ -1,5 +1,5 @@
 //process_multi_line.nf
-nextflow.enable.dsl=2
+
 
 process NUMSEQ_CHR {
     script:

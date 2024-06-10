@@ -1,5 +1,5 @@
 //process_script_params.nf
-nextflow.enable.dsl=2
+
 
 params.chr = "A"
 

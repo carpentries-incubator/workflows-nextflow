@@ -1,4 +1,4 @@
-nextflow.enable.dsl=2
+
 
 process NUMSEQ {
   script:

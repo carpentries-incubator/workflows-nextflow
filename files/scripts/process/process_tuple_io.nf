@@ -1,5 +1,5 @@
 //process_tuple_io.nf
-nextflow.enable.dsl=2
+
 
 process COMBINE_FQ {
   input:

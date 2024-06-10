@@ -1,5 +1,5 @@
 //process_escape_bash.nf
-nextflow.enable.dsl=2
+
 
 process NUM_IDS {
 

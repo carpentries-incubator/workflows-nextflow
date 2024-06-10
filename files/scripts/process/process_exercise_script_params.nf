@@ -1,5 +1,5 @@
 //process_exercise_script_params.nf
-nextflow.enable.dsl=2
+
 
 process COUNT_BASES {
 

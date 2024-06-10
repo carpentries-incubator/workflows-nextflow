@@ -388,7 +388,7 @@
         
 <section id="aio-01-getting-started-with-nextflow"><p>Content from <a href="01-getting-started-with-nextflow.html">Getting Started with Nextflow</a></p>
 <hr>
-<p>Last updated on 2024-04-23 |
+<p>Last updated on 2024-06-10 |
         
         <a href="https://github.com/carpentries-incubator/workflows-nextflow/edit/main/episodes/01-getting-started-with-nextflow.md" class="external-link">Edit this page <i aria-hidden="true" data-feather="edit"></i></a></p>
 <p>Estimated time: <i aria-hidden="true" data-feather="clock"></i> 40 minutes</p>
@@ -565,7 +565,7 @@ the following code:</p>
   <h3 class="accordion-header" id="headingInstructor1">
 <div class="note-square"><i aria-hidden="true" class="callout-icon" data-feather="edit-2"></i></div>Instructor Note</h3>
 </button>
-<div id="collapseInstructor1" class="accordion-collapse collapse" data-bs-parent="#accordionInstructor1" aria-labelledby="headingInstructor1">
+<div id="collapseInstructor1" class="accordion-collapse collapse" aria-labelledby="headingInstructor1" data-bs-parent="#accordionInstructor1">
 <div class="accordion-body">
 <p>The nextflow scripts for each lesson episode are available in the
 <code>scripts</code> directory created during the course setup. You
@@ -586,7 +586,7 @@ following command:</p>
 </h3>
 <pre class="sourceCode groovy" tabindex="0"><code class="sourceCode groovy"><span id="cb2-1"><a href="#cb2-1" tabindex="-1"></a>#<span class="op">!</span><span class="st">/usr/</span>bin<span class="op">/</span>env nextflow</span>
 <span id="cb2-2"><a href="#cb2-2" tabindex="-1"></a></span>
-<span id="cb2-3"><a href="#cb2-3" tabindex="-1"></a>nextflow<span class="op">.</span>enable<span class="op">.</span>dsl<span class="op">=</span><span class="dv">2</span></span>
+<span id="cb2-3"><a href="#cb2-3" tabindex="-1"></a></span>
 <span id="cb2-4"><a href="#cb2-4" tabindex="-1"></a></span>
 <span id="cb2-5"><a href="#cb2-5" tabindex="-1"></a><span class="co">/*</span></span>
 <span id="cb2-6"><a href="#cb2-6" tabindex="-1"></a><span class="co">========================================================================================</span></span>
@@ -651,8 +651,6 @@ following command:</p>
 <ol style="list-style-type: decimal">
 <li>An optional interpreter directive (“Shebang”) line, specifying the
 location of the Nextflow interpreter.</li>
-<li>
-<code>nextflow.enable.dsl=2</code> to enable DSL2 syntax.</li>
 <li>A multi-line Nextflow comment, written using C style block comments,
 there are more comments later in the file.</li>
 <li>A pipeline parameter <code>params.input</code> which is given a
@@ -703,7 +701,7 @@ terminal:</p>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution1" aria-expanded="false" aria-controls="collapseSolution1">
   <h4 class="accordion-header" id="headingSolution1">Show me the solution</h4>
 </button>
-<div id="collapseSolution1" class="accordion-collapse collapse" data-bs-parent="#accordionSolution1" aria-labelledby="headingSolution1">
+<div id="collapseSolution1" class="accordion-collapse collapse" aria-labelledby="headingSolution1" data-bs-parent="#accordionSolution1">
 <div class="accordion-body">
 <p>You should see output similar to the text shown below:</p>
 <div class="codewrapper">
@@ -891,7 +889,7 @@ with <code>.fq.gz</code>:</p>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution1" aria-expanded="false" aria-controls="collapseSolution1">
   <h4 class="accordion-header" id="headingSolution1">Show me the solution</h4>
 </button>
-<div id="collapseSolution1" class="accordion-collapse collapse" aria-labelledby="headingSolution1" data-bs-parent="#accordionSolution1">
+<div id="collapseSolution1" class="accordion-collapse collapse" data-bs-parent="#accordionSolution1" aria-labelledby="headingSolution1">
 <div class="accordion-body">
 <div class="codewrapper sourceCode" id="cb5">
 <h3 class="code-label">BASH<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
@@ -1002,7 +1000,7 @@ input to 1 second?</p>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution2" aria-expanded="false" aria-controls="collapseSolution2">
   <h4 class="accordion-header" id="headingSolution2">Show me the solution</h4>
 </button>
-<div id="collapseSolution2" class="accordion-collapse collapse" aria-labelledby="headingSolution2" data-bs-parent="#accordionSolution2">
+<div id="collapseSolution2" class="accordion-collapse collapse" data-bs-parent="#accordionSolution2" aria-labelledby="headingSolution2">
 <div class="accordion-body">
 <div class="codewrapper sourceCode" id="cb12">
 <h3 class="code-label">GROOVY<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
@@ -1102,7 +1100,7 @@ created parameter file, specifying:</p>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution3" aria-expanded="false" aria-controls="collapseSolution3">
   <h4 class="accordion-header" id="headingSolution3">Show me the solution</h4>
 </button>
-<div id="collapseSolution3" class="accordion-collapse collapse" aria-labelledby="headingSolution3" data-bs-parent="#accordionSolution3">
+<div id="collapseSolution3" class="accordion-collapse collapse" data-bs-parent="#accordionSolution3" aria-labelledby="headingSolution3">
 <div class="accordion-body">
 <div class="codewrapper sourceCode" id="cb19">
 <h3 class="code-label">JSON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
@@ -2072,7 +2070,7 @@ behaviour of a channel.</li>
 </div>
 </section></section><section id="aio-04-processes-part1"><p>Content from <a href="04-processes-part1.html">Processes</a></p>
 <hr>
-<p>Last updated on 2024-04-25 |
+<p>Last updated on 2024-06-10 |
         
         <a href="https://github.com/carpentries-incubator/workflows-nextflow/edit/main/episodes/04-processes-part1.md" class="external-link">Edit this page <i aria-hidden="true" data-feather="edit"></i></a></p>
 <p>Estimated time: <i aria-hidden="true" data-feather="clock"></i> 45 minutes</p>
@@ -2216,13 +2214,11 @@ directory. A full list of implicit variables can be found <a href="https://www.n
 <p>To add the process to a workflow add a <code>workflow</code> block,
 and call the process like a function. We will learn more about the
 <code>workflow</code> block in the workflow episode.</p>
-<p><strong>Note:</strong> As we are using DSL2 we need to include
-<code>nextflow.enable.dsl=2</code> in the script.</p>
 <div class="codewrapper sourceCode" id="cb5">
 <h3 class="code-label">GROOVY<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="sourceCode groovy" tabindex="0"><code class="sourceCode groovy"><span id="cb5-1"><a href="#cb5-1" tabindex="-1"></a><span class="co">//process_01.nf</span></span>
-<span id="cb5-2"><a href="#cb5-2" tabindex="-1"></a>nextflow<span class="op">.</span>enable<span class="op">.</span>dsl<span class="op">=</span><span class="dv">2</span></span>
+<span id="cb5-2"><a href="#cb5-2" tabindex="-1"></a></span>
 <span id="cb5-3"><a href="#cb5-3" tabindex="-1"></a></span>
 <span id="cb5-4"><a href="#cb5-4" tabindex="-1"></a>process NUMSEQ <span class="op">{</span></span>
 <span id="cb5-5"><a href="#cb5-5" tabindex="-1"></a>  script<span class="op">:</span></span>
@@ -2274,12 +2270,12 @@ process <code>COUNT_BASES</code> that runs the command.</p>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution1" aria-expanded="false" aria-controls="collapseSolution1">
   <h4 class="accordion-header" id="headingSolution1">Show me the solution</h4>
 </button>
-<div id="collapseSolution1" class="accordion-collapse collapse" aria-labelledby="headingSolution1" data-bs-parent="#accordionSolution1">
+<div id="collapseSolution1" class="accordion-collapse collapse" data-bs-parent="#accordionSolution1" aria-labelledby="headingSolution1">
 <div class="accordion-body">
 <div class="codewrapper sourceCode" id="cb9">
 <h3 class="code-label">GROOVY<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode groovy" tabindex="0"><code class="sourceCode groovy"><span id="cb9-1"><a href="#cb9-1" tabindex="-1"></a>nextflow<span class="op">.</span>enable<span class="op">.</span>dsl<span class="op">=</span><span class="dv">2</span></span>
+<pre class="sourceCode groovy" tabindex="0"><code class="sourceCode groovy"><span id="cb9-1"><a href="#cb9-1" tabindex="-1"></a></span>
 <span id="cb9-2"><a href="#cb9-2" tabindex="-1"></a></span>
 <span id="cb9-3"><a href="#cb9-3" tabindex="-1"></a>process COUNT_BASES <span class="op">{</span></span>
 <span id="cb9-4"><a href="#cb9-4" tabindex="-1"></a>   </span>
@@ -2373,7 +2369,7 @@ quotes e.g.</p>
 <div class="codewrapper sourceCode" id="cb13">
 <h3 class="code-label">GROOVY<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode groovy" tabindex="0"><code class="sourceCode groovy"><span id="cb13-1"><a href="#cb13-1" tabindex="-1"></a>nextflow<span class="op">.</span>enable<span class="op">.</span>dsl<span class="op">=</span><span class="dv">2</span></span>
+<pre class="sourceCode groovy" tabindex="0"><code class="sourceCode groovy"><span id="cb13-1"><a href="#cb13-1" tabindex="-1"></a></span>
 <span id="cb13-2"><a href="#cb13-2" tabindex="-1"></a></span>
 <span id="cb13-3"><a href="#cb13-3" tabindex="-1"></a>process NUMSEQ <span class="op">{</span></span>
 <span id="cb13-4"><a href="#cb13-4" tabindex="-1"></a>    script<span class="op">:</span></span>
@@ -2391,7 +2387,7 @@ in triple quotes <code>"""</code>.</p>
 <h3 class="code-label">GROOVY<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="sourceCode groovy" tabindex="0"><code class="sourceCode groovy"><span id="cb14-1"><a href="#cb14-1" tabindex="-1"></a><span class="co">//process_multi_line.nf</span></span>
-<span id="cb14-2"><a href="#cb14-2" tabindex="-1"></a>nextflow<span class="op">.</span>enable<span class="op">.</span>dsl<span class="op">=</span><span class="dv">2</span></span>
+<span id="cb14-2"><a href="#cb14-2" tabindex="-1"></a></span>
 <span id="cb14-3"><a href="#cb14-3" tabindex="-1"></a></span>
 <span id="cb14-4"><a href="#cb14-4" tabindex="-1"></a>process NUMSEQ_CHR <span class="op">{</span></span>
 <span id="cb14-5"><a href="#cb14-5" tabindex="-1"></a>    script<span class="op">:</span></span>
@@ -2425,7 +2421,7 @@ Number of sequences for chromosome A:118</code></pre>
   <h3 class="accordion-header" id="headingInstructor1">
 <div class="note-square"><i aria-hidden="true" class="callout-icon" data-feather="edit-2"></i></div>Instructor Note</h3>
 </button>
-<div id="collapseInstructor1" class="accordion-collapse collapse" aria-labelledby="headingInstructor1" data-bs-parent="#accordionInstructor1">
+<div id="collapseInstructor1" class="accordion-collapse collapse" data-bs-parent="#accordionInstructor1" aria-labelledby="headingInstructor1">
 <div class="accordion-body">
 <p>The following section on python is meant to be run by the instructor
 not the learners. It is meant to be a demonstration of the different
@@ -2442,7 +2438,7 @@ declaration. For example:</p>
 <h3 class="code-label">GROOVY<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="sourceCode groovy" tabindex="0"><code class="sourceCode groovy"><span id="cb17-1"><a href="#cb17-1" tabindex="-1"></a><span class="co">//process_python.nf</span></span>
-<span id="cb17-2"><a href="#cb17-2" tabindex="-1"></a>nextflow<span class="op">.</span>enable<span class="op">.</span>dsl<span class="op">=</span><span class="dv">2</span></span>
+<span id="cb17-2"><a href="#cb17-2" tabindex="-1"></a></span>
 <span id="cb17-3"><a href="#cb17-3" tabindex="-1"></a></span>
 <span id="cb17-4"><a href="#cb17-4" tabindex="-1"></a>process PROCESS_READS <span class="op">{</span></span>
 <span id="cb17-5"><a href="#cb17-5" tabindex="-1"></a>  script<span class="op">:</span></span>
@@ -2519,7 +2515,7 @@ The script <code>process_reads.py</code> must be executable to run.</p>
 <h3 class="code-label">GROOVY<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="sourceCode groovy" tabindex="0"><code class="sourceCode groovy"><span id="cb20-1"><a href="#cb20-1" tabindex="-1"></a><span class="co">//process_python_script.nf</span></span>
-<span id="cb20-2"><a href="#cb20-2" tabindex="-1"></a>nextflow<span class="op">.</span>enable<span class="op">.</span>dsl<span class="op">=</span><span class="dv">2</span></span>
+<span id="cb20-2"><a href="#cb20-2" tabindex="-1"></a></span>
 <span id="cb20-3"><a href="#cb20-3" tabindex="-1"></a></span>
 <span id="cb20-4"><a href="#cb20-4" tabindex="-1"></a>process PROCESS_READS <span class="op">{</span></span>
 <span id="cb20-5"><a href="#cb20-5" tabindex="-1"></a></span>
@@ -2600,7 +2596,7 @@ used multiple times in the script block.</p>
 <h3 class="code-label">GROOVY<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="sourceCode groovy" tabindex="0"><code class="sourceCode groovy"><span id="cb22-1"><a href="#cb22-1" tabindex="-1"></a><span class="co">//process_script.nf</span></span>
-<span id="cb22-2"><a href="#cb22-2" tabindex="-1"></a>nextflow<span class="op">.</span>enable<span class="op">.</span>dsl<span class="op">=</span><span class="dv">2</span></span>
+<span id="cb22-2"><a href="#cb22-2" tabindex="-1"></a></span>
 <span id="cb22-3"><a href="#cb22-3" tabindex="-1"></a></span>
 <span id="cb22-4"><a href="#cb22-4" tabindex="-1"></a>chr <span class="op">=</span> <span class="st">"A"</span></span>
 <span id="cb22-5"><a href="#cb22-5" tabindex="-1"></a></span>
@@ -2628,7 +2624,7 @@ with a default value of <code>A</code> in the Nextflow script.</p>
 <h3 class="code-label">GROOVY<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="sourceCode groovy" tabindex="0"><code class="sourceCode groovy"><span id="cb23-1"><a href="#cb23-1" tabindex="-1"></a><span class="co">//process_script_params.nf</span></span>
-<span id="cb23-2"><a href="#cb23-2" tabindex="-1"></a>nextflow<span class="op">.</span>enable<span class="op">.</span>dsl<span class="op">=</span><span class="dv">2</span></span>
+<span id="cb23-2"><a href="#cb23-2" tabindex="-1"></a></span>
 <span id="cb23-3"><a href="#cb23-3" tabindex="-1"></a></span>
 <span id="cb23-4"><a href="#cb23-4" tabindex="-1"></a>params<span class="op">.</span>chr <span class="op">=</span> <span class="st">"A"</span></span>
 <span id="cb23-5"><a href="#cb23-5" tabindex="-1"></a></span>
@@ -2667,7 +2663,7 @@ workflow have two hyphens <code>--</code>.</p>
 <h3 class="code-label">GROOVY<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="sourceCode groovy" tabindex="0"><code class="sourceCode groovy"><span id="cb25-1"><a href="#cb25-1" tabindex="-1"></a><span class="co">//process_exercise_script_params.nf</span></span>
-<span id="cb25-2"><a href="#cb25-2" tabindex="-1"></a>nextflow<span class="op">.</span>enable<span class="op">.</span>dsl<span class="op">=</span><span class="dv">2</span></span>
+<span id="cb25-2"><a href="#cb25-2" tabindex="-1"></a></span>
 <span id="cb25-3"><a href="#cb25-3" tabindex="-1"></a></span>
 <span id="cb25-4"><a href="#cb25-4" tabindex="-1"></a>process COUNT_BASES <span class="op">{</span></span>
 <span id="cb25-5"><a href="#cb25-5" tabindex="-1"></a></span>
@@ -2701,13 +2697,13 @@ terminal.</p>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution2" aria-expanded="false" aria-controls="collapseSolution2">
   <h4 class="accordion-header" id="headingSolution2">Show me the solution</h4>
 </button>
-<div id="collapseSolution2" class="accordion-collapse collapse" aria-labelledby="headingSolution2" data-bs-parent="#accordionSolution2">
+<div id="collapseSolution2" class="accordion-collapse collapse" data-bs-parent="#accordionSolution2" aria-labelledby="headingSolution2">
 <div class="accordion-body">
 <div class="codewrapper sourceCode" id="cb27">
 <h3 class="code-label">GROOVY<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="sourceCode groovy" tabindex="0"><code class="sourceCode groovy"><span id="cb27-1"><a href="#cb27-1" tabindex="-1"></a> <span class="co">//process_exercise_script_params.nf</span></span>
-<span id="cb27-2"><a href="#cb27-2" tabindex="-1"></a> nextflow<span class="op">.</span>enable<span class="op">.</span>dsl<span class="op">=</span><span class="dv">2</span></span>
+<span id="cb27-2"><a href="#cb27-2" tabindex="-1"></a> </span>
 <span id="cb27-3"><a href="#cb27-3" tabindex="-1"></a></span>
 <span id="cb27-4"><a href="#cb27-4" tabindex="-1"></a> params<span class="op">.</span>base<span class="op">=</span><span class="st">'A'</span></span>
 <span id="cb27-5"><a href="#cb27-5" tabindex="-1"></a></span>
@@ -2754,7 +2750,7 @@ then echo the value of <code>NUMIDS</code> in our script block.</p>
 <div class="codewrapper sourceCode" id="cb30">
 <h3 class="code-label">GROOVY<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode groovy" tabindex="0"><code class="sourceCode groovy"><span id="cb30-1"><a href="#cb30-1" tabindex="-1"></a>nextflow<span class="op">.</span>enable<span class="op">.</span>dsl<span class="op">=</span><span class="dv">2</span></span>
+<pre class="sourceCode groovy" tabindex="0"><code class="sourceCode groovy"><span id="cb30-1"><a href="#cb30-1" tabindex="-1"></a></span>
 <span id="cb30-2"><a href="#cb30-2" tabindex="-1"></a></span>
 <span id="cb30-3"><a href="#cb30-3" tabindex="-1"></a>process NUM_IDS <span class="op">{</span></span>
 <span id="cb30-4"><a href="#cb30-4" tabindex="-1"></a></span>
@@ -2793,7 +2789,7 @@ statement we reference the Nextflow variables as
 <h3 class="code-label">GROOVY<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="sourceCode groovy" tabindex="0"><code class="sourceCode groovy"><span id="cb31-1"><a href="#cb31-1" tabindex="-1"></a><span class="co">//process_shell.nf</span></span>
-<span id="cb31-2"><a href="#cb31-2" tabindex="-1"></a>nextflow<span class="op">.</span>enable<span class="op">.</span>dsl<span class="op">=</span><span class="dv">2</span></span>
+<span id="cb31-2"><a href="#cb31-2" tabindex="-1"></a></span>
 <span id="cb31-3"><a href="#cb31-3" tabindex="-1"></a></span>
 <span id="cb31-4"><a href="#cb31-4" tabindex="-1"></a>process NUM_IDS <span class="op">{</span></span>
 <span id="cb31-5"><a href="#cb31-5" tabindex="-1"></a></span>
@@ -2848,7 +2844,7 @@ Nextflow variable <code>params.method</code>.</p>
 <h3 class="code-label">GROOVY<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="sourceCode groovy" tabindex="0"><code class="sourceCode groovy"><span id="cb33-1"><a href="#cb33-1" tabindex="-1"></a><span class="co">//process_conditional.nf</span></span>
-<span id="cb33-2"><a href="#cb33-2" tabindex="-1"></a>nextflow<span class="op">.</span>enable<span class="op">.</span>dsl<span class="op">=</span><span class="dv">2</span></span>
+<span id="cb33-2"><a href="#cb33-2" tabindex="-1"></a></span>
 <span id="cb33-3"><a href="#cb33-3" tabindex="-1"></a></span>
 <span id="cb33-4"><a href="#cb33-4" tabindex="-1"></a>params<span class="op">.</span>method <span class="op">=</span> <span class="st">'ids'</span></span>
 <span id="cb33-5"><a href="#cb33-5" tabindex="-1"></a>params<span class="op">.</span>transcriptome <span class="op">=</span> <span class="st">"</span><span class="ss">$projectDir</span><span class="st">/data/yeast/transcriptome/Saccharomyces_cerevisiae.R64-1-1.cdna.all.fa.gz"</span></span>
@@ -2956,7 +2952,7 @@ input name, as shown in the following example:</p>
 <h3 class="code-label">GROOVY<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="sourceCode groovy" tabindex="0"><code class="sourceCode groovy"><span id="cb37-1"><a href="#cb37-1" tabindex="-1"></a><span class="co">//process_input_value.nf</span></span>
-<span id="cb37-2"><a href="#cb37-2" tabindex="-1"></a>nextflow<span class="op">.</span>enable<span class="op">.</span>dsl<span class="op">=</span><span class="dv">2</span></span>
+<span id="cb37-2"><a href="#cb37-2" tabindex="-1"></a></span>
 <span id="cb37-3"><a href="#cb37-3" tabindex="-1"></a></span>
 <span id="cb37-4"><a href="#cb37-4" tabindex="-1"></a>process PRINTCHR <span class="op">{</span></span>
 <span id="cb37-5"><a href="#cb37-5" tabindex="-1"></a></span>
@@ -3031,7 +3027,7 @@ qualifier. The file is referenced using the variable substitution syntax
 <h3 class="code-label">GROOVY<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="sourceCode groovy" tabindex="0"><code class="sourceCode groovy"><span id="cb40-1"><a href="#cb40-1" tabindex="-1"></a><span class="co">//process_input_file.nf</span></span>
-<span id="cb40-2"><a href="#cb40-2" tabindex="-1"></a>nextflow<span class="op">.</span>enable<span class="op">.</span>dsl<span class="op">=</span><span class="dv">2</span></span>
+<span id="cb40-2"><a href="#cb40-2" tabindex="-1"></a></span>
 <span id="cb40-3"><a href="#cb40-3" tabindex="-1"></a></span>
 <span id="cb40-4"><a href="#cb40-4" tabindex="-1"></a>process NUMLINES <span class="op">{</span></span>
 <span id="cb40-5"><a href="#cb40-5" tabindex="-1"></a>    input<span class="op">:</span></span>
@@ -3087,7 +3083,7 @@ be referenced by that name in the script block.</p>
 <h3 class="code-label">GROOVY<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="sourceCode groovy" tabindex="0"><code class="sourceCode groovy"><span id="cb43-1"><a href="#cb43-1" tabindex="-1"></a><span class="co">//process_input_file_02.nf</span></span>
-<span id="cb43-2"><a href="#cb43-2" tabindex="-1"></a>nextflow<span class="op">.</span>enable<span class="op">.</span>dsl<span class="op">=</span><span class="dv">2</span></span>
+<span id="cb43-2"><a href="#cb43-2" tabindex="-1"></a></span>
 <span id="cb43-3"><a href="#cb43-3" tabindex="-1"></a></span>
 <span id="cb43-4"><a href="#cb43-4" tabindex="-1"></a>process NUMLINES <span class="op">{</span></span>
 <span id="cb43-5"><a href="#cb43-5" tabindex="-1"></a>    input<span class="op">:</span></span>
@@ -3169,7 +3165,7 @@ input.</li>
 <h3 class="code-label">GROOVY<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="sourceCode groovy" tabindex="0"><code class="sourceCode groovy"><span id="cb46-1"><a href="#cb46-1" tabindex="-1"></a><span class="co">//process_exercise_input.nf</span></span>
-<span id="cb46-2"><a href="#cb46-2" tabindex="-1"></a>nextflow<span class="op">.</span>enable<span class="op">.</span>dsl<span class="op">=</span><span class="dv">2</span></span>
+<span id="cb46-2"><a href="#cb46-2" tabindex="-1"></a></span>
 <span id="cb46-3"><a href="#cb46-3" tabindex="-1"></a></span>
 <span id="cb46-4"><a href="#cb46-4" tabindex="-1"></a>params<span class="op">.</span>chr <span class="op">=</span> <span class="st">"A"</span></span>
 <span id="cb46-5"><a href="#cb46-5" tabindex="-1"></a>params<span class="op">.</span>transcriptome <span class="op">=</span> <span class="st">"</span><span class="ss">${</span>projectDir<span class="ss">}</span><span class="st">/data/yeast/transcriptome/Saccharomyces_cerevisiae.R64-1-1.cdna.all.fa.gz"</span></span>
@@ -3200,13 +3196,13 @@ input.</li>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution3" aria-expanded="false" aria-controls="collapseSolution3">
   <h4 class="accordion-header" id="headingSolution3">Show me the solution</h4>
 </button>
-<div id="collapseSolution3" class="accordion-collapse collapse" aria-labelledby="headingSolution3" data-bs-parent="#accordionSolution3">
+<div id="collapseSolution3" class="accordion-collapse collapse" data-bs-parent="#accordionSolution3" aria-labelledby="headingSolution3">
 <div class="accordion-body">
 <p>## Solution</p>
 <div class="codewrapper sourceCode" id="cb48">
 <h3 class="code-label">GROOVY<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode groovy" tabindex="0"><code class="sourceCode groovy"><span id="cb48-1"><a href="#cb48-1" tabindex="-1"></a> nextflow<span class="op">.</span>enable<span class="op">.</span>dsl<span class="op">=</span><span class="dv">2</span></span>
+<pre class="sourceCode groovy" tabindex="0"><code class="sourceCode groovy"><span id="cb48-1"><a href="#cb48-1" tabindex="-1"></a> </span>
 <span id="cb48-2"><a href="#cb48-2" tabindex="-1"></a></span>
 <span id="cb48-3"><a href="#cb48-3" tabindex="-1"></a> params<span class="op">.</span>chr <span class="op">=</span> <span class="st">"A"</span></span>
 <span id="cb48-4"><a href="#cb48-4" tabindex="-1"></a> params<span class="op">.</span>transcriptome <span class="op">=</span> <span class="st">"</span><span class="ss">${</span>projectDir<span class="ss">}</span><span class="st">/data/yeast/transcriptome/Saccharomyces_cerevisiae.R64-1-1.cdna.all.fa.gz"</span></span>
@@ -3254,7 +3250,7 @@ process.</p>
 <h3 class="code-label">GROOVY<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="sourceCode groovy" tabindex="0"><code class="sourceCode groovy"><span id="cb50-1"><a href="#cb50-1" tabindex="-1"></a><span class="co">//process_combine.nf</span></span>
-<span id="cb50-2"><a href="#cb50-2" tabindex="-1"></a>nextflow<span class="op">.</span>enable<span class="op">.</span>dsl<span class="op">=</span><span class="dv">2</span></span>
+<span id="cb50-2"><a href="#cb50-2" tabindex="-1"></a></span>
 <span id="cb50-3"><a href="#cb50-3" tabindex="-1"></a></span>
 <span id="cb50-4"><a href="#cb50-4" tabindex="-1"></a>process COMBINE <span class="op">{</span></span>
 <span id="cb50-5"><a href="#cb50-5" tabindex="-1"></a>  input<span class="op">:</span></span>
@@ -3303,7 +3299,7 @@ elements?</p>
 <h3 class="code-label">GROOVY<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="sourceCode groovy" tabindex="0"><code class="sourceCode groovy"><span id="cb53-1"><a href="#cb53-1" tabindex="-1"></a><span class="co">//process_combine_02.nf</span></span>
-<span id="cb53-2"><a href="#cb53-2" tabindex="-1"></a>nextflow<span class="op">.</span>enable<span class="op">.</span>dsl<span class="op">=</span><span class="dv">2</span></span>
+<span id="cb53-2"><a href="#cb53-2" tabindex="-1"></a></span>
 <span id="cb53-3"><a href="#cb53-3" tabindex="-1"></a></span>
 <span id="cb53-4"><a href="#cb53-4" tabindex="-1"></a>process COMBINE <span class="op">{</span></span>
 <span id="cb53-5"><a href="#cb53-5" tabindex="-1"></a>  input<span class="op">:</span></span>
@@ -3350,7 +3346,7 @@ the following one:</p>
 <h3 class="code-label">GROOVY<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="sourceCode groovy" tabindex="0"><code class="sourceCode groovy"><span id="cb56-1"><a href="#cb56-1" tabindex="-1"></a><span class="co">//process_combine_03.nf</span></span>
-<span id="cb56-2"><a href="#cb56-2" tabindex="-1"></a>nextflow<span class="op">.</span>enable<span class="op">.</span>dsl<span class="op">=</span><span class="dv">2</span></span>
+<span id="cb56-2"><a href="#cb56-2" tabindex="-1"></a></span>
 <span id="cb56-3"><a href="#cb56-3" tabindex="-1"></a></span>
 <span id="cb56-4"><a href="#cb56-4" tabindex="-1"></a>process COMBINE <span class="op">{</span></span>
 <span id="cb56-5"><a href="#cb56-5" tabindex="-1"></a>  input<span class="op">:</span></span>
@@ -3415,14 +3411,14 @@ combines two input channels</p>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution4" aria-expanded="false" aria-controls="collapseSolution4">
   <h4 class="accordion-header" id="headingSolution4">Show me the solution</h4>
 </button>
-<div id="collapseSolution4" class="accordion-collapse collapse" aria-labelledby="headingSolution4" data-bs-parent="#accordionSolution4">
+<div id="collapseSolution4" class="accordion-collapse collapse" data-bs-parent="#accordionSolution4" aria-labelledby="headingSolution4">
 <div class="accordion-body">
 <p>## Solution</p>
 <div class="codewrapper sourceCode" id="cb61">
 <h3 class="code-label">GROOVY<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="sourceCode groovy" tabindex="0"><code class="sourceCode groovy"><span id="cb61-1"><a href="#cb61-1" tabindex="-1"></a> <span class="co">// process_exercise_combine_answer.nf</span></span>
-<span id="cb61-2"><a href="#cb61-2" tabindex="-1"></a> nextflow<span class="op">.</span>enable<span class="op">.</span>dsl<span class="op">=</span><span class="dv">2</span></span>
+<span id="cb61-2"><a href="#cb61-2" tabindex="-1"></a> </span>
 <span id="cb61-3"><a href="#cb61-3" tabindex="-1"></a> process COMBINE <span class="op">{</span></span>
 <span id="cb61-4"><a href="#cb61-4" tabindex="-1"></a>  input<span class="op">:</span></span>
 <span id="cb61-5"><a href="#cb61-5" tabindex="-1"></a>  path transcriptome</span>
@@ -3460,7 +3456,7 @@ qualifer <code>each</code> for the letters queue channel:</p>
 <h3 class="code-label">GROOVY<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="sourceCode groovy" tabindex="0"><code class="sourceCode groovy"><span id="cb62-1"><a href="#cb62-1" tabindex="-1"></a><span class="co">//process_repeat.nf</span></span>
-<span id="cb62-2"><a href="#cb62-2" tabindex="-1"></a>nextflow<span class="op">.</span>enable<span class="op">.</span>dsl<span class="op">=</span><span class="dv">2</span></span>
+<span id="cb62-2"><a href="#cb62-2" tabindex="-1"></a></span>
 <span id="cb62-3"><a href="#cb62-3" tabindex="-1"></a></span>
 <span id="cb62-4"><a href="#cb62-4" tabindex="-1"></a>process COMBINE <span class="op">{</span></span>
 <span id="cb62-5"><a href="#cb62-5" tabindex="-1"></a>  input<span class="op">:</span></span>
@@ -3513,7 +3509,7 @@ running the process for each value.</p>
 <h3 class="code-label">GROOVY<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="sourceCode groovy" tabindex="0"><code class="sourceCode groovy"><span id="cb65-1"><a href="#cb65-1" tabindex="-1"></a><span class="co">//process_exercise_repeat.nf</span></span>
-<span id="cb65-2"><a href="#cb65-2" tabindex="-1"></a>nextflow<span class="op">.</span>enable<span class="op">.</span>dsl<span class="op">=</span><span class="dv">2</span></span>
+<span id="cb65-2"><a href="#cb65-2" tabindex="-1"></a></span>
 <span id="cb65-3"><a href="#cb65-3" tabindex="-1"></a>process COMBINE <span class="op">{</span></span>
 <span id="cb65-4"><a href="#cb65-4" tabindex="-1"></a>    input<span class="op">:</span></span>
 <span id="cb65-5"><a href="#cb65-5" tabindex="-1"></a>    path transcriptome</span>
@@ -3542,13 +3538,13 @@ running the process for each value.</p>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution5" aria-expanded="false" aria-controls="collapseSolution5">
   <h4 class="accordion-header" id="headingSolution5">Show me the solution</h4>
 </button>
-<div id="collapseSolution5" class="accordion-collapse collapse" aria-labelledby="headingSolution5" data-bs-parent="#accordionSolution5">
+<div id="collapseSolution5" class="accordion-collapse collapse" data-bs-parent="#accordionSolution5" aria-labelledby="headingSolution5">
 <div class="accordion-body">
 <div class="codewrapper sourceCode" id="cb66">
 <h3 class="code-label">GROOVY<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="sourceCode groovy" tabindex="0"><code class="sourceCode groovy"><span id="cb66-1"><a href="#cb66-1" tabindex="-1"></a> <span class="co">//process_exercise_repeat_answer.nf</span></span>
-<span id="cb66-2"><a href="#cb66-2" tabindex="-1"></a> nextflow<span class="op">.</span>enable<span class="op">.</span>dsl<span class="op">=</span><span class="dv">2</span></span>
+<span id="cb66-2"><a href="#cb66-2" tabindex="-1"></a> </span>
 <span id="cb66-3"><a href="#cb66-3" tabindex="-1"></a></span>
 <span id="cb66-4"><a href="#cb66-4" tabindex="-1"></a> process COMBINE <span class="op">{</span></span>
 <span id="cb66-5"><a href="#cb66-5" tabindex="-1"></a>   input<span class="op">:</span></span>
@@ -3604,7 +3600,7 @@ name.</li>
 </div>
 </section></section><section id="aio-05-processes-part2"><p>Content from <a href="05-processes-part2.html">Processes Part 2</a></p>
 <hr>
-<p>Last updated on 2024-04-24 |
+<p>Last updated on 2024-06-10 |
         
         <a href="https://github.com/carpentries-incubator/workflows-nextflow/edit/main/episodes/05-processes-part2.md" class="external-link">Edit this page <i aria-hidden="true" data-feather="edit"></i></a></p>
 <p>Estimated time: <i aria-hidden="true" data-feather="clock"></i> 40 minutes</p>
@@ -3682,7 +3678,7 @@ block as shown in the following example:</p>
 <h3 class="code-label">GROOVY<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="sourceCode groovy" tabindex="0"><code class="sourceCode groovy"><span id="cb2-1"><a href="#cb2-1" tabindex="-1"></a><span class="co">//process_output_value.nf</span></span>
-<span id="cb2-2"><a href="#cb2-2" tabindex="-1"></a>nextflow<span class="op">.</span>enable<span class="op">.</span>dsl<span class="op">=</span><span class="dv">2</span></span>
+<span id="cb2-2"><a href="#cb2-2" tabindex="-1"></a></span>
 <span id="cb2-3"><a href="#cb2-3" tabindex="-1"></a></span>
 <span id="cb2-4"><a href="#cb2-4" tabindex="-1"></a>params<span class="op">.</span>transcriptome<span class="op">=</span><span class="st">"</span><span class="ss">${</span>projectDir<span class="ss">}</span><span class="st">/data/yeast/transcriptome/Saccharomyces_cerevisiae.R64-1-1.cdna.all.fa.gz"</span></span>
 <span id="cb2-5"><a href="#cb2-5" tabindex="-1"></a></span>
@@ -3739,7 +3735,7 @@ produced by the process, over the specified channel.</p>
 <h3 class="code-label">GROOVY<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="sourceCode groovy" tabindex="0"><code class="sourceCode groovy"><span id="cb4-1"><a href="#cb4-1" tabindex="-1"></a><span class="co">//process_output_file.nf</span></span>
-<span id="cb4-2"><a href="#cb4-2" tabindex="-1"></a>nextflow<span class="op">.</span>enable<span class="op">.</span>dsl<span class="op">=</span><span class="dv">2</span></span>
+<span id="cb4-2"><a href="#cb4-2" tabindex="-1"></a></span>
 <span id="cb4-3"><a href="#cb4-3" tabindex="-1"></a></span>
 <span id="cb4-4"><a href="#cb4-4" tabindex="-1"></a>params<span class="op">.</span>transcriptome<span class="op">=</span><span class="st">"</span><span class="ss">${</span>projectDir<span class="ss">}</span><span class="st">/data/yeast/transcriptome/Saccharomyces_cerevisiae.R64-1-1.cdna.all.fa.gz"</span></span>
 <span id="cb4-5"><a href="#cb4-5" tabindex="-1"></a></span>
@@ -3806,7 +3802,7 @@ results from SPLIT_FASTA in the output channel.</p>
 <h3 class="code-label">GROOVY<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="sourceCode groovy" tabindex="0"><code class="sourceCode groovy"><span id="cb6-1"><a href="#cb6-1" tabindex="-1"></a><span class="co">//process_output_multiple.nf</span></span>
-<span id="cb6-2"><a href="#cb6-2" tabindex="-1"></a>nextflow<span class="op">.</span>enable<span class="op">.</span>dsl<span class="op">=</span><span class="dv">2</span></span>
+<span id="cb6-2"><a href="#cb6-2" tabindex="-1"></a></span>
 <span id="cb6-3"><a href="#cb6-3" tabindex="-1"></a></span>
 <span id="cb6-4"><a href="#cb6-4" tabindex="-1"></a>params<span class="op">.</span>transcriptome<span class="op">=</span><span class="st">"</span><span class="ss">${</span>projectDir<span class="ss">}</span><span class="st">/data/yeast/transcriptome/Saccharomyces_cerevisiae.R64-1-1.cdna.all.fa.gz"</span></span>
 <span id="cb6-5"><a href="#cb6-5" tabindex="-1"></a></span>
@@ -3872,7 +3868,7 @@ include an output block that captures the different output file
 <h3 class="code-label">GROOVY<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="sourceCode groovy" tabindex="0"><code class="sourceCode groovy"><span id="cb9-1"><a href="#cb9-1" tabindex="-1"></a><span class="co">//process_exercise_output.nf</span></span>
-<span id="cb9-2"><a href="#cb9-2" tabindex="-1"></a>nextflow<span class="op">.</span>enable<span class="op">.</span>dsl<span class="op">=</span><span class="dv">2</span></span>
+<span id="cb9-2"><a href="#cb9-2" tabindex="-1"></a></span>
 <span id="cb9-3"><a href="#cb9-3" tabindex="-1"></a></span>
 <span id="cb9-4"><a href="#cb9-4" tabindex="-1"></a>process EXTRACT_IDS <span class="op">{</span></span>
 <span id="cb9-5"><a href="#cb9-5" tabindex="-1"></a>  input<span class="op">:</span></span>
@@ -3903,13 +3899,13 @@ include an output block that captures the different output file
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution1" aria-expanded="false" aria-controls="collapseSolution1">
   <h4 class="accordion-header" id="headingSolution1">Show me the solution</h4>
 </button>
-<div id="collapseSolution1" class="accordion-collapse collapse" aria-labelledby="headingSolution1" data-bs-parent="#accordionSolution1">
+<div id="collapseSolution1" class="accordion-collapse collapse" data-bs-parent="#accordionSolution1" aria-labelledby="headingSolution1">
 <div class="accordion-body">
 <div class="codewrapper sourceCode" id="cb10">
 <h3 class="code-label">GROOVY<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="sourceCode groovy" tabindex="0"><code class="sourceCode groovy"><span id="cb10-1"><a href="#cb10-1" tabindex="-1"></a><span class="co">//process_exercise_output_answer.nf</span></span>
-<span id="cb10-2"><a href="#cb10-2" tabindex="-1"></a>nextflow<span class="op">.</span>enable<span class="op">.</span>dsl<span class="op">=</span><span class="dv">2</span></span>
+<span id="cb10-2"><a href="#cb10-2" tabindex="-1"></a></span>
 <span id="cb10-3"><a href="#cb10-3" tabindex="-1"></a></span>
 <span id="cb10-4"><a href="#cb10-4" tabindex="-1"></a>process EXTRACT_IDS <span class="op">{</span></span>
 <span id="cb10-5"><a href="#cb10-5" tabindex="-1"></a>  input<span class="op">:</span></span>
@@ -3957,7 +3953,7 @@ followed by definition of each item in the tuple.</p>
 <h3 class="code-label">GROOVY<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="sourceCode groovy" tabindex="0"><code class="sourceCode groovy"><span id="cb12-1"><a href="#cb12-1" tabindex="-1"></a><span class="co">//process_tuple_input.nf</span></span>
-<span id="cb12-2"><a href="#cb12-2" tabindex="-1"></a>nextflow<span class="op">.</span>enable<span class="op">.</span>dsl<span class="op">=</span><span class="dv">2</span></span>
+<span id="cb12-2"><a href="#cb12-2" tabindex="-1"></a></span>
 <span id="cb12-3"><a href="#cb12-3" tabindex="-1"></a></span>
 <span id="cb12-4"><a href="#cb12-4" tabindex="-1"></a>process TUPLEINPUT<span class="op">{</span></span>
 <span id="cb12-5"><a href="#cb12-5" tabindex="-1"></a>  input<span class="op">:</span></span>
@@ -4001,7 +3997,7 @@ following pattern <code>"${sample_id}.fq.gz"</code>.</p>
 <h3 class="code-label">GROOVY<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="sourceCode groovy" tabindex="0"><code class="sourceCode groovy"><span id="cb15-1"><a href="#cb15-1" tabindex="-1"></a><span class="co">//process_tuple_io.nf</span></span>
-<span id="cb15-2"><a href="#cb15-2" tabindex="-1"></a>nextflow<span class="op">.</span>enable<span class="op">.</span>dsl<span class="op">=</span><span class="dv">2</span></span>
+<span id="cb15-2"><a href="#cb15-2" tabindex="-1"></a></span>
 <span id="cb15-3"><a href="#cb15-3" tabindex="-1"></a></span>
 <span id="cb15-4"><a href="#cb15-4" tabindex="-1"></a>process COMBINE_FQ <span class="op">{</span></span>
 <span id="cb15-5"><a href="#cb15-5" tabindex="-1"></a>  input<span class="op">:</span></span>
@@ -4050,7 +4046,7 @@ output for the COMBINE_REPS process.</p>
 <h3 class="code-label">GROOVY<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="sourceCode groovy" tabindex="0"><code class="sourceCode groovy"><span id="cb18-1"><a href="#cb18-1" tabindex="-1"></a><span class="co">//process_exercise_tuple.nf</span></span>
-<span id="cb18-2"><a href="#cb18-2" tabindex="-1"></a>nextflow<span class="op">.</span>enable<span class="op">.</span>dsl<span class="op">=</span><span class="dv">2</span></span>
+<span id="cb18-2"><a href="#cb18-2" tabindex="-1"></a></span>
 <span id="cb18-3"><a href="#cb18-3" tabindex="-1"></a></span>
 <span id="cb18-4"><a href="#cb18-4" tabindex="-1"></a>process COMBINE_REPS <span class="op">{</span></span>
 <span id="cb18-5"><a href="#cb18-5" tabindex="-1"></a>  input<span class="op">:</span></span>
@@ -4081,13 +4077,13 @@ output for the COMBINE_REPS process.</p>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution2" aria-expanded="false" aria-controls="collapseSolution2">
   <h4 class="accordion-header" id="headingSolution2">Show me the solution</h4>
 </button>
-<div id="collapseSolution2" class="accordion-collapse collapse" aria-labelledby="headingSolution2" data-bs-parent="#accordionSolution2">
+<div id="collapseSolution2" class="accordion-collapse collapse" data-bs-parent="#accordionSolution2" aria-labelledby="headingSolution2">
 <div class="accordion-body">
 <div class="codewrapper sourceCode" id="cb19">
 <h3 class="code-label">GROOVY<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="sourceCode groovy" tabindex="0"><code class="sourceCode groovy"><span id="cb19-1"><a href="#cb19-1" tabindex="-1"></a><span class="co">//process_exercise_tuple_answer.nf</span></span>
-<span id="cb19-2"><a href="#cb19-2" tabindex="-1"></a>nextflow<span class="op">.</span>enable<span class="op">.</span>dsl<span class="op">=</span><span class="dv">2</span></span>
+<span id="cb19-2"><a href="#cb19-2" tabindex="-1"></a></span>
 <span id="cb19-3"><a href="#cb19-3" tabindex="-1"></a></span>
 <span id="cb19-4"><a href="#cb19-4" tabindex="-1"></a>process COMBINE_REPS <span class="op">{</span></span>
 <span id="cb19-5"><a href="#cb19-5" tabindex="-1"></a>  input<span class="op">:</span></span>
@@ -4142,7 +4138,7 @@ equal to 5:</p>
 <h3 class="code-label">GROOVY<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="sourceCode groovy" tabindex="0"><code class="sourceCode groovy"><span id="cb21-1"><a href="#cb21-1" tabindex="-1"></a><span class="co">//process_when.nf</span></span>
-<span id="cb21-2"><a href="#cb21-2" tabindex="-1"></a>nextflow<span class="op">.</span>enable<span class="op">.</span>dsl<span class="op">=</span><span class="dv">2</span></span>
+<span id="cb21-2"><a href="#cb21-2" tabindex="-1"></a></span>
 <span id="cb21-3"><a href="#cb21-3" tabindex="-1"></a></span>
 <span id="cb21-4"><a href="#cb21-4" tabindex="-1"></a>process CONDITIONAL <span class="op">{</span></span>
 <span id="cb21-5"><a href="#cb21-5" tabindex="-1"></a>  input<span class="op">:</span></span>
@@ -4196,7 +4192,7 @@ purpose.</p>
 <h3 class="code-label">GROOVY<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="sourceCode groovy" tabindex="0"><code class="sourceCode groovy"><span id="cb23-1"><a href="#cb23-1" tabindex="-1"></a><span class="co">//process_directive.nf</span></span>
-<span id="cb23-2"><a href="#cb23-2" tabindex="-1"></a>nextflow<span class="op">.</span>enable<span class="op">.</span>dsl<span class="op">=</span><span class="dv">2</span></span>
+<span id="cb23-2"><a href="#cb23-2" tabindex="-1"></a></span>
 <span id="cb23-3"><a href="#cb23-3" tabindex="-1"></a></span>
 <span id="cb23-4"><a href="#cb23-4" tabindex="-1"></a>process PRINTCHR <span class="op">{</span></span>
 <span id="cb23-5"><a href="#cb23-5" tabindex="-1"></a>  tag <span class="st">"tagging with chr</span><span class="ss">$chr</span><span class="st">"</span></span>
@@ -4279,7 +4275,7 @@ execution output.</li>
 <h3 class="code-label">GROOVY<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="sourceCode groovy" tabindex="0"><code class="sourceCode groovy"><span id="cb25-1"><a href="#cb25-1" tabindex="-1"></a><span class="co">//process_exercise_directives.nf</span></span>
-<span id="cb25-2"><a href="#cb25-2" tabindex="-1"></a>nextflow<span class="op">.</span>enable<span class="op">.</span>dsl<span class="op">=</span><span class="dv">2</span></span>
+<span id="cb25-2"><a href="#cb25-2" tabindex="-1"></a></span>
 <span id="cb25-3"><a href="#cb25-3" tabindex="-1"></a></span>
 <span id="cb25-4"><a href="#cb25-4" tabindex="-1"></a>process FASTQC <span class="op">{</span></span>
 <span id="cb25-5"><a href="#cb25-5" tabindex="-1"></a>  <span class="co">//add tag directive</span></span>
@@ -4313,13 +4309,13 @@ execution output.</li>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution3" aria-expanded="false" aria-controls="collapseSolution3">
   <h4 class="accordion-header" id="headingSolution3">solution</h4>
 </button>
-<div id="collapseSolution3" class="accordion-collapse collapse" aria-labelledby="headingSolution3" data-bs-parent="#accordionSolution3">
+<div id="collapseSolution3" class="accordion-collapse collapse" data-bs-parent="#accordionSolution3" aria-labelledby="headingSolution3">
 <div class="accordion-body">
 <div class="codewrapper sourceCode" id="cb26">
 <h3 class="code-label">GROOVY<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="sourceCode groovy" tabindex="0"><code class="sourceCode groovy"><span id="cb26-1"><a href="#cb26-1" tabindex="-1"></a><span class="co">//process_directives_answer.nf</span></span>
-<span id="cb26-2"><a href="#cb26-2" tabindex="-1"></a>nextflow<span class="op">.</span>enable<span class="op">.</span>dsl<span class="op">=</span><span class="dv">2</span></span>
+<span id="cb26-2"><a href="#cb26-2" tabindex="-1"></a></span>
 <span id="cb26-3"><a href="#cb26-3" tabindex="-1"></a></span>
 <span id="cb26-4"><a href="#cb26-4" tabindex="-1"></a>process FASTQC <span class="op">{</span></span>
 <span id="cb26-5"><a href="#cb26-5" tabindex="-1"></a>  tag <span class="st">"</span><span class="ss">$sample_id</span><span class="st">"</span></span>
@@ -4390,7 +4386,7 @@ directory in the <code>publishDir</code> directive:</p>
 <h3 class="code-label">GROOVY<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="sourceCode groovy" tabindex="0"><code class="sourceCode groovy"><span id="cb29-1"><a href="#cb29-1" tabindex="-1"></a><span class="co">//process_publishDir.nf</span></span>
-<span id="cb29-2"><a href="#cb29-2" tabindex="-1"></a>nextflow<span class="op">.</span>enable<span class="op">.</span>dsl<span class="op">=</span><span class="dv">2</span></span>
+<span id="cb29-2"><a href="#cb29-2" tabindex="-1"></a></span>
 <span id="cb29-3"><a href="#cb29-3" tabindex="-1"></a></span>
 <span id="cb29-4"><a href="#cb29-4" tabindex="-1"></a>process COMBINE_READS <span class="op">{</span></span>
 <span id="cb29-5"><a href="#cb29-5" tabindex="-1"></a>  publishDir <span class="st">"results/merged_reads"</span></span>
@@ -4500,7 +4496,7 @@ Remember, we need to specify the files we want to copy as outputs.</p>
 <h3 class="code-label">GROOVY<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="sourceCode groovy" tabindex="0"><code class="sourceCode groovy"><span id="cb35-1"><a href="#cb35-1" tabindex="-1"></a><span class="co">//process_publishDir_semantic.nf</span></span>
-<span id="cb35-2"><a href="#cb35-2" tabindex="-1"></a>nextflow<span class="op">.</span>enable<span class="op">.</span>dsl<span class="op">=</span><span class="dv">2</span></span>
+<span id="cb35-2"><a href="#cb35-2" tabindex="-1"></a></span>
 <span id="cb35-3"><a href="#cb35-3" tabindex="-1"></a></span>
 <span id="cb35-4"><a href="#cb35-4" tabindex="-1"></a>params<span class="op">.</span>transcriptome<span class="op">=</span><span class="st">"</span><span class="ss">${</span>projectDir<span class="ss">}</span><span class="st">/data/yeast/transcriptome/Saccharomyces_cerevisiae.R64-1-1.cdna.all.fa.gz"</span></span>
 <span id="cb35-5"><a href="#cb35-5" tabindex="-1"></a></span>
@@ -4576,7 +4572,7 @@ to the results folder merged_reps.</p>
 <h3 class="code-label">GROOVY<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="sourceCode groovy" tabindex="0"><code class="sourceCode groovy"><span id="cb40-1"><a href="#cb40-1" tabindex="-1"></a><span class="co">//process_exercise_publishDir.nf</span></span>
-<span id="cb40-2"><a href="#cb40-2" tabindex="-1"></a>nextflow<span class="op">.</span>enable<span class="op">.</span>dsl<span class="op">=</span><span class="dv">2</span></span>
+<span id="cb40-2"><a href="#cb40-2" tabindex="-1"></a></span>
 <span id="cb40-3"><a href="#cb40-3" tabindex="-1"></a></span>
 <span id="cb40-4"><a href="#cb40-4" tabindex="-1"></a>params<span class="op">.</span>reads<span class="op">=</span> <span class="st">"data/yeast/reads/ref{1,2,3}*{1,2}.fq.gz"</span></span>
 <span id="cb40-5"><a href="#cb40-5" tabindex="-1"></a></span>
@@ -4608,13 +4604,13 @@ to the results folder merged_reps.</p>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution4" aria-expanded="false" aria-controls="collapseSolution4">
   <h4 class="accordion-header" id="headingSolution4">Show me the solution</h4>
 </button>
-<div id="collapseSolution4" class="accordion-collapse collapse" aria-labelledby="headingSolution4" data-bs-parent="#accordionSolution4">
+<div id="collapseSolution4" class="accordion-collapse collapse" data-bs-parent="#accordionSolution4" aria-labelledby="headingSolution4">
 <div class="accordion-body">
 <div class="codewrapper sourceCode" id="cb41">
 <h3 class="code-label">GROOVY<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="sourceCode groovy" tabindex="0"><code class="sourceCode groovy"><span id="cb41-1"><a href="#cb41-1" tabindex="-1"></a><span class="co">//process_exercise_publishDir_answer.nf</span></span>
-<span id="cb41-2"><a href="#cb41-2" tabindex="-1"></a>nextflow<span class="op">.</span>enable<span class="op">.</span>dsl<span class="op">=</span><span class="dv">2</span></span>
+<span id="cb41-2"><a href="#cb41-2" tabindex="-1"></a></span>
 <span id="cb41-3"><a href="#cb41-3" tabindex="-1"></a></span>
 <span id="cb41-4"><a href="#cb41-4" tabindex="-1"></a>params<span class="op">.</span>reads<span class="op">=</span> <span class="st">"data/yeast/reads/ref{1,2,3}*{1,2}.fq.gz"</span></span>
 <span id="cb41-5"><a href="#cb41-5" tabindex="-1"></a></span>
@@ -4695,7 +4691,7 @@ directive.</li>
 </div>
 </section></section><section id="aio-06-workflow"><p>Content from <a href="06-workflow.html">Workflow</a></p>
 <hr>
-<p>Last updated on 2024-04-23 |
+<p>Last updated on 2024-06-10 |
         
         <a href="https://github.com/carpentries-incubator/workflows-nextflow/edit/main/episodes/06-workflow.md" class="external-link">Edit this page <i aria-hidden="true" data-feather="edit"></i></a></p>
 <p>Estimated time: <i aria-hidden="true" data-feather="clock"></i> 40 minutes</p>
@@ -4779,7 +4775,7 @@ provide them in the same order in which they are declared in the
 <h3 class="code-label">GROOVY<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="sourceCode groovy" tabindex="0"><code class="sourceCode groovy"><span id="cb2-1"><a href="#cb2-1" tabindex="-1"></a><span class="co">//workflow_01.nf</span></span>
-<span id="cb2-2"><a href="#cb2-2" tabindex="-1"></a>nextflow<span class="op">.</span>enable<span class="op">.</span>dsl<span class="op">=</span><span class="dv">2</span></span>
+<span id="cb2-2"><a href="#cb2-2" tabindex="-1"></a></span>
 <span id="cb2-3"><a href="#cb2-3" tabindex="-1"></a></span>
 <span id="cb2-4"><a href="#cb2-4" tabindex="-1"></a></span>
 <span id="cb2-5"><a href="#cb2-5" tabindex="-1"></a> process FASTQC <span class="op">{</span></span>
@@ -4864,7 +4860,7 @@ to reference the channel in the external scope.</p>
 <h3 class="code-label">GROOVY<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="sourceCode groovy" tabindex="0"><code class="sourceCode groovy"><span id="cb4-1"><a href="#cb4-1" tabindex="-1"></a><span class="co">//workflow_02.nf</span></span>
-<span id="cb4-2"><a href="#cb4-2" tabindex="-1"></a>nextflow<span class="op">.</span>enable<span class="op">.</span>dsl<span class="op">=</span><span class="dv">2</span></span>
+<span id="cb4-2"><a href="#cb4-2" tabindex="-1"></a></span>
 <span id="cb4-3"><a href="#cb4-3" tabindex="-1"></a></span>
 <span id="cb4-4"><a href="#cb4-4" tabindex="-1"></a> process FASTQC <span class="op">{</span></span>
 <span id="cb4-5"><a href="#cb4-5" tabindex="-1"></a>    input<span class="op">:</span></span>
@@ -4944,7 +4940,7 @@ channel output to a single List item.</p>
 <h3 class="code-label">GROOVY<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="sourceCode groovy" tabindex="0"><code class="sourceCode groovy"><span id="cb6-1"><a href="#cb6-1" tabindex="-1"></a><span class="co">//workflow_exercise.nf</span></span>
-<span id="cb6-2"><a href="#cb6-2" tabindex="-1"></a>nextflow<span class="op">.</span>enable<span class="op">.</span>dsl<span class="op">=</span><span class="dv">2</span></span>
+<span id="cb6-2"><a href="#cb6-2" tabindex="-1"></a></span>
 <span id="cb6-3"><a href="#cb6-3" tabindex="-1"></a>params<span class="op">.</span>reads <span class="op">=</span> <span class="st">'data/yeast/reads/*_{1,2}.fq.gz'</span></span>
 <span id="cb6-4"><a href="#cb6-4" tabindex="-1"></a></span>
 <span id="cb6-5"><a href="#cb6-5" tabindex="-1"></a>process FASTQC <span class="op">{</span></span>
@@ -4996,7 +4992,7 @@ channel output to a single List item.</p>
 </h3>
 <pre class="sourceCode groovy" tabindex="0"><code class="sourceCode groovy"><span id="cb7-1"><a href="#cb7-1" tabindex="-1"></a><span class="co">//workflow_exercise.nf</span></span>
 <span id="cb7-2"><a href="#cb7-2" tabindex="-1"></a></span>
-<span id="cb7-3"><a href="#cb7-3" tabindex="-1"></a>nextflow<span class="op">.</span>enable<span class="op">.</span>dsl<span class="op">=</span><span class="dv">2</span></span>
+<span id="cb7-3"><a href="#cb7-3" tabindex="-1"></a></span>
 <span id="cb7-4"><a href="#cb7-4" tabindex="-1"></a></span>
 <span id="cb7-5"><a href="#cb7-5" tabindex="-1"></a>params<span class="op">.</span>reads <span class="op">=</span> <span class="st">'data/yeast/reads/*_{1,2}.fq.gz'</span></span>
 <span id="cb7-6"><a href="#cb7-6" tabindex="-1"></a></span>
@@ -6744,7 +6740,7 @@ script <code>print_message.nf</code>:</p>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution1" aria-expanded="false" aria-controls="collapseSolution1">
   <h4 class="accordion-header" id="headingSolution1">Show me the solution</h4>
 </button>
-<div id="collapseSolution1" class="accordion-collapse collapse" aria-labelledby="headingSolution1" data-bs-parent="#accordionSolution1">
+<div id="collapseSolution1" class="accordion-collapse collapse" data-bs-parent="#accordionSolution1" aria-labelledby="headingSolution1">
 <div class="accordion-body">
 <ol style="list-style-type: decimal">
 <li>‘hello’ - Workflow script uses the value in
@@ -6868,7 +6864,7 @@ below:</p>
 <h3 class="code-label">GROOVY<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="sourceCode groovy" tabindex="0"><code class="sourceCode groovy"><span id="cb11-1"><a href="#cb11-1" tabindex="-1"></a><span class="co">// configuration_process_labels.nf</span></span>
-<span id="cb11-2"><a href="#cb11-2" tabindex="-1"></a>nextflow<span class="op">.</span>enable<span class="op">.</span>dsl<span class="op">=</span><span class="dv">2</span></span>
+<span id="cb11-2"><a href="#cb11-2" tabindex="-1"></a></span>
 <span id="cb11-3"><a href="#cb11-3" tabindex="-1"></a></span>
 <span id="cb11-4"><a href="#cb11-4" tabindex="-1"></a>process P1 <span class="op">{</span></span>
 <span id="cb11-5"><a href="#cb11-5" tabindex="-1"></a></span>
@@ -6958,7 +6954,7 @@ for the two processes <code>P1</code> (cpus 1 and memory 2.GB) and
 <h3 class="code-label">GROOVY<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="sourceCode groovy" tabindex="0"><code class="sourceCode groovy"><span id="cb13-1"><a href="#cb13-1" tabindex="-1"></a><span class="co">// process-selector.nf</span></span>
-<span id="cb13-2"><a href="#cb13-2" tabindex="-1"></a>nextflow<span class="op">.</span>enable<span class="op">.</span>dsl<span class="op">=</span><span class="dv">2</span></span>
+<span id="cb13-2"><a href="#cb13-2" tabindex="-1"></a></span>
 <span id="cb13-3"><a href="#cb13-3" tabindex="-1"></a></span>
 <span id="cb13-4"><a href="#cb13-4" tabindex="-1"></a>process P1 <span class="op">{</span></span>
 <span id="cb13-5"><a href="#cb13-5" tabindex="-1"></a>    echo <span class="kw">true</span></span>
@@ -6991,7 +6987,7 @@ for the two processes <code>P1</code> (cpus 1 and memory 2.GB) and
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution2" aria-expanded="false" aria-controls="collapseSolution2">
   <h4 class="accordion-header" id="headingSolution2">Show me the solution</h4>
 </button>
-<div id="collapseSolution2" class="accordion-collapse collapse" aria-labelledby="headingSolution2" data-bs-parent="#accordionSolution2">
+<div id="collapseSolution2" class="accordion-collapse collapse" data-bs-parent="#accordionSolution2" aria-labelledby="headingSolution2">
 <div class="accordion-body">
 <div class="codewrapper sourceCode" id="cb14">
 <h3 class="code-label">GROOVY<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
@@ -7175,7 +7171,7 @@ where the Conda environments are stored. By default this is in
   <h3 class="accordion-header" id="headingInstructor1">
 <div class="note-square"><i aria-hidden="true" class="callout-icon" data-feather="edit-2"></i></div>Instructor Note</h3>
 </button>
-<div id="collapseInstructor1" class="accordion-collapse collapse" aria-labelledby="headingInstructor1" data-bs-parent="#accordionInstructor1">
+<div id="collapseInstructor1" class="accordion-collapse collapse" data-bs-parent="#accordionInstructor1" aria-labelledby="headingInstructor1">
 <div class="accordion-body">
 <p>This following exercise necessitates the installation of conda, a
 package and environment management software, on your system for
@@ -7269,7 +7265,7 @@ configuration file using the <code>-c</code> option.</li>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution3" aria-expanded="false" aria-controls="collapseSolution3">
   <h4 class="accordion-header" id="headingSolution3">Show me the solution</h4>
 </button>
-<div id="collapseSolution3" class="accordion-collapse collapse" aria-labelledby="headingSolution3" data-bs-parent="#accordionSolution3">
+<div id="collapseSolution3" class="accordion-collapse collapse" data-bs-parent="#accordionSolution3" aria-labelledby="headingSolution3">
 <div class="accordion-body">
 <div class="codewrapper sourceCode" id="cb23">
 <h3 class="code-label">GROOVY<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
@@ -7607,7 +7603,7 @@ parameter <code>--input 'data/yeast/reads/temp33*'</code>:</p>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution1" aria-expanded="false" aria-controls="collapseSolution1">
   <h4 class="accordion-header" id="headingSolution1">Show me the solution</h4>
 </button>
-<div id="collapseSolution1" class="accordion-collapse collapse" aria-labelledby="headingSolution1" data-bs-parent="#accordionSolution1">
+<div id="collapseSolution1" class="accordion-collapse collapse" data-bs-parent="#accordionSolution1" aria-labelledby="headingSolution1">
 <div class="accordion-body">
 <div class="codewrapper sourceCode" id="cb3">
 <h3 class="code-label">BASH<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
@@ -7706,7 +7702,7 @@ without having to re-execute it from scratch.</p>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution2" aria-expanded="false" aria-controls="collapseSolution2">
   <h4 class="accordion-header" id="headingSolution2">Show me the solution</h4>
 </button>
-<div id="collapseSolution2" class="accordion-collapse collapse" aria-labelledby="headingSolution2" data-bs-parent="#accordionSolution2">
+<div id="collapseSolution2" class="accordion-collapse collapse" data-bs-parent="#accordionSolution2" aria-labelledby="headingSolution2">
 <div class="accordion-body">
 <p>The output will look similar to this:</p>
 <div class="codewrapper">
@@ -7919,7 +7915,7 @@ associated files.</p>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution3" aria-expanded="false" aria-controls="collapseSolution3">
   <h4 class="accordion-header" id="headingSolution3">Show me the solution</h4>
 </button>
-<div id="collapseSolution3" class="accordion-collapse collapse" aria-labelledby="headingSolution3" data-bs-parent="#accordionSolution3">
+<div id="collapseSolution3" class="accordion-collapse collapse" data-bs-parent="#accordionSolution3" aria-labelledby="headingSolution3">
 <div class="accordion-body">
 <p>An example nextflow clean command with <code>dry-run</code> .</p>
 <div class="codewrapper sourceCode" id="cb14">
@@ -7961,7 +7957,7 @@ have been successfully executed.</li>
 </div>
 </section></section><section id="aio-11-Simple_Rna-Seq_pipeline"><p>Content from <a href="11-Simple_Rna-Seq_pipeline.html">Simple RNA-Seq pipeline</a></p>
 <hr>
-<p>Last updated on 2024-04-23 |
+<p>Last updated on 2024-06-10 |
         
         <a href="https://github.com/carpentries-incubator/workflows-nextflow/edit/main/episodes/11-Simple_Rna-Seq_pipeline.md" class="external-link">Edit this page <i aria-hidden="true" data-feather="edit"></i></a></p>
 <p>Estimated time: <i aria-hidden="true" data-feather="clock"></i> 60 minutes</p>
@@ -8251,7 +8247,7 @@ which calls the <code>INDEX</code> process.</li>
 <h3 class="code-label">GROOVY<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="sourceCode groovy" tabindex="0"><code class="sourceCode groovy"><span id="cb16-1"><a href="#cb16-1" tabindex="-1"></a><span class="co">//script2.nf</span></span>
-<span id="cb16-2"><a href="#cb16-2" tabindex="-1"></a>nextflow<span class="op">.</span>enable<span class="op">.</span>dsl<span class="op">=</span><span class="dv">2</span></span>
+<span id="cb16-2"><a href="#cb16-2" tabindex="-1"></a></span>
 <span id="cb16-3"><a href="#cb16-3" tabindex="-1"></a></span>
 <span id="cb16-4"><a href="#cb16-4" tabindex="-1"></a><span class="co">/*</span></span>
 <span id="cb16-5"><a href="#cb16-5" tabindex="-1"></a><span class="co"> * pipeline input parameters</span></span>
@@ -9458,7 +9454,7 @@ there are?</li>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution1" aria-expanded="false" aria-controls="collapseSolution1">
   <h4 class="accordion-header" id="headingSolution1">Show me the solution</h4>
 </button>
-<div id="collapseSolution1" class="accordion-collapse collapse" aria-labelledby="headingSolution1" data-bs-parent="#accordionSolution1">
+<div id="collapseSolution1" class="accordion-collapse collapse" data-bs-parent="#accordionSolution1" aria-labelledby="headingSolution1">
 <div class="accordion-body">
 <p>Use the <code>--help</code> flag to print the list command usage.</p>
 <div class="codewrapper sourceCode" id="cb10">
@@ -9593,7 +9589,7 @@ latest version of the pipeline</p></li>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution2" aria-expanded="false" aria-controls="collapseSolution2">
   <h4 class="accordion-header" id="headingSolution2">Show me the solution</h4>
 </button>
-<div id="collapseSolution2" class="accordion-collapse collapse" aria-labelledby="headingSolution2" data-bs-parent="#accordionSolution2">
+<div id="collapseSolution2" class="accordion-collapse collapse" data-bs-parent="#accordionSolution2" aria-labelledby="headingSolution2">
 <div class="accordion-body">
 <p>Use the <code>nextflow pull</code> command to download the latest
 <code>nf-core/rnaseq</code> pipeline</p>
@@ -9710,7 +9706,7 @@ now.</li>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution3" aria-expanded="false" aria-controls="collapseSolution3">
   <h4 class="accordion-header" id="headingSolution3">Show me the solution</h4>
 </button>
-<div id="collapseSolution3" class="accordion-collapse collapse" aria-labelledby="headingSolution3" data-bs-parent="#accordionSolution3">
+<div id="collapseSolution3" class="accordion-collapse collapse" data-bs-parent="#accordionSolution3" aria-labelledby="headingSolution3">
 <div class="accordion-body">
 <div class="codewrapper sourceCode" id="cb23">
 <h3 class="code-label">BASH<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
@@ -9849,7 +9845,7 @@ configuration.</p>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution4" aria-expanded="false" aria-controls="collapseSolution4">
   <h4 class="accordion-header" id="headingSolution4">Show me the solution</h4>
 </button>
-<div id="collapseSolution4" class="accordion-collapse collapse" aria-labelledby="headingSolution4" data-bs-parent="#accordionSolution4">
+<div id="collapseSolution4" class="accordion-collapse collapse" data-bs-parent="#accordionSolution4" aria-labelledby="headingSolution4">
 <div class="accordion-body">
 <p>A line similar to one below in the file custom.config</p>
 <pre><code><span><span class="va">params.email</span> <span class="op">=</span> <span class="st">"myemail@address.com"</span></span></code></pre>
@@ -9961,7 +9957,7 @@ Antigen (HLA) typing and should run quickly.</p>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution5" aria-expanded="false" aria-controls="collapseSolution5">
   <h4 class="accordion-header" id="headingSolution5">Show me the solution</h4>
 </button>
-<div id="collapseSolution5" class="accordion-collapse collapse" aria-labelledby="headingSolution5" data-bs-parent="#accordionSolution5">
+<div id="collapseSolution5" class="accordion-collapse collapse" data-bs-parent="#accordionSolution5" aria-labelledby="headingSolution5">
 <div class="accordion-body">
 <div class="codewrapper">
 <h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>

@@ -1,4 +1,4 @@
-nextflow.enable.dsl=2
+
 
 params.chr = "A"
 params.transcriptome = "${projectDir}/data/yeast/transcriptome/Saccharomyces_cerevisiae.R64-1-1.cdna.all.fa.gz"> >
