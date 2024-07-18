@@ -131,21 +131,18 @@ You can add Nextflow language support in Visual Studio Code by clicking the [ins
 
 ## Nextflow install without conda
 
-Nextflow can be used on any [POSIX](https://en.wikipedia.org/wiki/POSIX) compatible system (Linux, OS X, etc). It requires Bash and Java 8 (or later, up to 12) to be installed.
-
-Windows systems may be supported using a POSIX compatibility layer like Cygwin (unverified) or, alternatively, installing it into a Linux VM using virtualization software like VirtualBox or VMware.
+Nextflow can be used on any POSIX-compatible system (Linux, macOS, etc), and on Windows through WSL. It requires Bash 3.2 (or later) and Java 11 (or later, up to 22) to be installed
 
 ## Nextflow installation
 
 Install the latest version of Nextflow copy \& pasting the following snippet in a terminal window:
 
-```
-# Make sure that Java v8+ is installed:
+```bash
+# Make sure that Java v11 or later is installed:
 java -version
 
 # Install Nextflow
-export NXF_VER=20.10.0
-curl get.nextflow.io | bash
+curl -s https://get.nextflow.io | bash
 ```
 
 ## Add Nextflow binary to your user's PATH:
