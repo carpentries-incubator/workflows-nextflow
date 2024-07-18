@@ -704,23 +704,23 @@ button on the Nextflow language extension.</p>
 </div>
 <div class="section level2">
 <h2 id="nextflow-install-without-conda">Nextflow install without conda<a class="anchor" aria-label="anchor" href="#nextflow-install-without-conda"></a></h2>
-<p>Nextflow can be used on any <a href="https://en.wikipedia.org/wiki/POSIX" class="external-link">POSIX</a> compatible system
-(Linux, OS X, etc). It requires Bash and Java 8 (or later, up to 12) to
-be installed.</p>
-<p>Windows systems may be supported using a POSIX compatibility layer
-like Cygwin (unverified) or, alternatively, installing it into a Linux
-VM using virtualization software like VirtualBox or VMware.</p>
+<p>Nextflow can be used on any POSIX-compatible system (Linux, macOS,
+etc), and on Windows through WSL. It requires Bash 3.2 (or later) and
+Java 11 (or later, up to 22) to be installed</p>
 </div>
 <div class="section level2">
 <h2 id="nextflow-installation">Nextflow installation<a class="anchor" aria-label="anchor" href="#nextflow-installation"></a></h2>
 <p>Install the latest version of Nextflow copy &amp; pasting the
 following snippet in a terminal window:</p>
-<pre><code># Make sure that Java v8+ is installed:
-java -version
-
-# Install Nextflow
-export NXF_VER=20.10.0
-curl get.nextflow.io | bash</code></pre>
+<div class="codewrapper sourceCode" id="cb8">
+<h3 class="code-label">BASH<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="sourceCode bash" tabindex="0"><code class="sourceCode bash"><span id="cb8-1"><a href="#cb8-1" tabindex="-1"></a><span class="co"># Make sure that Java v11 or later is installed:</span></span>
+<span id="cb8-2"><a href="#cb8-2" tabindex="-1"></a><span class="ex">java</span> <span class="at">-version</span></span>
+<span id="cb8-3"><a href="#cb8-3" tabindex="-1"></a></span>
+<span id="cb8-4"><a href="#cb8-4" tabindex="-1"></a><span class="co"># Install Nextflow</span></span>
+<span id="cb8-5"><a href="#cb8-5" tabindex="-1"></a><span class="ex">curl</span> <span class="at">-s</span> https://get.nextflow.io <span class="kw">|</span> <span class="fu">bash</span></span></code></pre>
+</div>
 </div>
 <div class="section level2">
 <h2 id="add-nextflow-binary-to-your-users-path">Add Nextflow binary to your user’s PATH:<a class="anchor" aria-label="anchor" href="#add-nextflow-binary-to-your-users-path"></a></h2>
@@ -800,8 +800,8 @@ curl get.nextflow.io | bash</code></pre>
   "url": "https://carpentries-incubator.github.io/workflows-nextflow/instructor/index.html",
   "identifier": "https://carpentries-incubator.github.io/workflows-nextflow/instructor/index.html",
   "dateCreated": "2021-02-01",
-  "dateModified": "2024-07-16",
-  "datePublished": "2024-07-16"
+  "dateModified": "2024-07-18",
+  "datePublished": "2024-07-18"
 }
 
   </script><script>
