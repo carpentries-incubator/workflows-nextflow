@@ -50,7 +50,7 @@ To install conda see [here](https://carpentries-incubator.github.io/introduction
 An environment file is provided here [environment.yml](https://raw.githubusercontent.com/carpentries-incubator/workflows-nextflow/main/episodes/data/environment.yml)
 
 ```bash
-wget
+# wget
 wget https://raw.githubusercontent.com/carpentries-incubator/workflows-nextflow/main/episodes/data/environment.yml
 
 # or curl 
