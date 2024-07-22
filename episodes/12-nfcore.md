@@ -266,7 +266,7 @@ $ nextflow pull nf-core/<PIPELINE>
 Nextflow will also automatically fetch the pipeline code when you run
 
 ```bash
-$ nextflow run nf-core/<pipeline>`.
+$ nextflow run nf-core/<pipeline> .
 ```
 
 For the best reproducibility, it is good to explicitly reference the pipeline version number that you wish to use with the `-revision`/`-r` flag.
@@ -491,7 +491,7 @@ Be clever with multiple Nextflow configuration locations. For example, use `-pro
 
 ### Exercise  create a custom config
 
-Add the `params.email` to a file called `nfcore-custom.config`
+Add the `params.email`  to a file called `nfcore-custom.config`
 
 :::::::::::::::  solution
 
@@ -566,73 +566,82 @@ INFO     MD5 checksum for nf-core-rnaseq-3.4.tar.gz: f0e0c239bdb39c613d6a080f1de
 
 :::::::::::::::::::::::::::::::::::::::  challenge
 
-### Exercise  Run a test nf-core pipeline
+### Exercise  Run a demo nf-core pipeline
 
-Run the nf-core/hlatyping pipeline release 1.2.0  with the provided test data using the profile `test` and `conda`.
-Add the parameter `--max_memory 3G` on the command line.
+Run the nf-core/demo pipeline release 1.0.0  with the provided test data using the profile `test`.
+Add the parameters `--max_memory 3G`, `--skip_trim`, and --outdir "nfcore-demo-out" on the command line.
 Include the config file, `nfcore-custom.config`, from the previous exercise using the option `-c`, to send an email when your pipeline finishes.
 
-```
-$ nextflow run nf-core/hlatyping -r 1.2.0 -profile test,conda  --max_memory 3G -c nfcore-custom.config
+```bash
+$ nextflow run nf-core/demo -r 1.0.0  -profile test --skip_trim --max_memory 3.GB -c nfcore-custom.config
 ```
 
-The pipeline does next-generation sequencing-based Human Leukozyte Antigen (HLA) typing and should run quickly.
+The `nf-core/demo` pipleine is a simple nf-core style bioinformatics pipeline for workshops and demonstrations that runs FASTQC and multiqc.
 
 :::::::::::::::  solution
 
 ### Solution
 
 ```output
- N E X T F L O W  ~  version 21.04.0
-Launching `nf-core/hlatyping` [pedantic_engelbart] - revision: 6998794795 [1.2.0]
-BAM file format detected. Initiate remapping to HLA alleles with yara mapper.
-----------------------------------------------------
-                                       ,--./,-.
-       ___     __   __   __   ___     /,-._.--~'
- |\ | |__  __ /  ` /  \ |__) |__         }  {
- | \| |       \__, \__/ |  \ |___     \`-._,-`-,
-                                       `._,._,'
-nf-core/hlatyping v1.2.0
-----------------------------------------------------
+ N E X T F L O W   ~  version 24.04.3
 
-Pipeline Release  : 1.2.0
-Run Name          : pedantic_engelbart
-File Type         : BAM
-Seq Type          : dna
-Index Location    : /home/training/.nextflow/assets/nf-core/hlatyping/data/indices/yara/hla_reference_dna
-IP Solver         : glpk
-Enumerations      : 1
-Beta              : 0.009
-Max Memory        : 3G
-Max CPUs          : 2
-Max Time          : 2d
-Input             : https://github.com/nf-core/test-datasets/raw/hlatyping/bam/example_pe.bam
-Data Type         : Paired-End
-Output Dir        : results
-Launch Dir        : /home/training
-Working Dir       : /home/training/work
-Script Dir        : /home/training/.nextflow/assets/nf-core/hlatyping
-User              : training
-Max Resources     : 3G memory, 2 cpus, 2d time per job
-Config Profile    : conda,test
-Config Profile Description: Minimal test dataset to check pipeline function
-Config Files      : /home/training/.nextflow/assets/nf-core/hlatyping/nextflow.config, /home/training/nextflow.config, /home/training/.nextflow/assets/nf-> > > >core/hlatyping/nextflow.config
-----------------------------------------------------
-BAM file format detected. Initiate remapping to HLA alleles with yara mapper.
-[-        ] process > remap_to_hla          -
-executor >  local (6)
-[05/084b41] process > remap_to_hla (1)      [100%] 1 of 1 ✔
-[5a/9bec8b] process > make_ot_config        [100%] 1 of 1 ✔
-[54/8bc5d7] process > run_optitype (1)      [100%] 1 of 1 ✔
-[a9/2cbea8] process > output_documentation  [100%] 1 of 1 ✔
-[df/d3dac5] process > get_software_versions [100%] 1 of 1 ✔
-[e1/903ed9] process > multiqc (1)           [100%] 1 of 1 ✔
--[nf-core/hlatyping] Pipeline completed successfully-
-WARN: To render the execution DAG in the required format it is required to install Graphviz -- See http://www.graphviz.org for more info.
-Completed at: 26-Oct-2021 10:07:27
-Duration    : 4m 14s
-CPU hours   : (a few seconds)
-Succeeded   : 6
+Launching `https://github.com/nf-core/demo` [silly_bohr] DSL2 - revision: 705f18e4b1 [master]
+
+WARN: Access to undefined parameter `monochromeLogs` -- Initialise it to a default value eg. `params.monochromeLogs = some_value`
+
+
+------------------------------------------------------
+                                        ,--./,-.
+        ___     __   __   __   ___     /,-._.--~'
+  |\ | |__  __ /  ` /  \ |__) |__         }  {
+  | \| |       \__, \__/ |  \ |___     \`-._,-`-,
+                                        `._,._,'
+  nf-core/demo v1.0.0-g705f18e
+------------------------------------------------------
+Core Nextflow options
+  revision                  : master
+  runName                   : silly_bohr
+  launchDir                 : /home/nf-training
+  workDir                   : /home/nf-training/work
+  projectDir                : /home/nf-training/.nextflow/assets/nf-core/demo
+  userName                  : nf-training
+  profile                   : test
+  configFiles               :
+
+Input/output options
+  input                     : https://raw.githubusercontent.com/nf-core/test-datasets/viralrecon/samplesheet/samplesheet_test_illumina_amplicon.csv
+  outdir                    : out
+  email                     : myemail@address.com
+
+Process skipping options
+  skip_trim                 : true
+
+Institutional config options
+  config_profile_name       : Test profile
+  config_profile_description: Minimal test dataset to check pipeline function
+
+Max job request options
+  max_cpus                  : 2
+  max_memory                : 3.GB
+  max_time                  : 6.h
+
+!! Only displaying parameters that differ from the pipeline defaults !!
+------------------------------------------------------
+If you use nf-core/demo for your analysis please cite:
+
+* The pipeline
+
+* The nf-core framework
+  https://doi.org/10.1038/s41587-020-0439-x
+
+* Software dependencies
+  https://github.com/nf-core/demo/blob/master/CITATIONS.md
+------------------------------------------------------
+executor >  local (4)
+[08/94286a] process > NFCORE_DEMO:DEMO:FASTQC (SAMPLE2_PE) [100%] 3 of 3 ✔
+[df/45c5c7] process > NFCORE_DEMO:DEMO:MULTIQC             [100%] 1 of 1 ✔
+-[nf-core/demo] Sent summary e-mail to graeme.grimes@ed.ac.uk (sendmail)-
+-[nf-core/demo] Pipeline completed successfully-
 ```
 
 :::::::::::::::::::::::::
