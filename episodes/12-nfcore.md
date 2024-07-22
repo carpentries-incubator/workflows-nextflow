@@ -9,7 +9,7 @@ exercises: 10
 - Understand what nf-core is and how it relates to Nextflow.
 - Use the nf-core helper tool to find nf-core pipelines.
 - Understand how to configuration nf-core pipelines.
-- Run a small nf-core pipeline using a test dataset.
+- Run a small demo nf-core pipeline using a test dataset.
 
 ::::::::::::::::::::::::::::::::::::::::::::::::::
 
@@ -40,19 +40,6 @@ nf-core pipelines are an organised collection of Nextflow scripts,  other non-ne
 nf-core provides a suite of helper tools aim to help people run and develop pipelines.
 The [nf-core tools](https://nf-co.re/tools) package is written in Python and can run from the command line or imported and used within other packages.
 
-:::::::::::::::::::::::::::::::::::::::::  callout
-
-### Automatic version check
-
-nf-core/tools automatically checks the web to see if there is a new version of nf-core/tools available. If you would
-prefer to skip this check, set the environment variable NFCORE\_NO\_VERSION\_CHECK. For example:
-
-```bash
-export NFCORE_NO_VERSION_CHECK=1
-```
-
-::::::::::::::::::::::::::::::::::::::::::::::::::
-
 #### nf-core tools sub-commands
 
 You can use the `--help` option to see the range of nf-core tools sub-commands.
@@ -60,7 +47,7 @@ In this episode we will be covering the `list`, `launch` and `download` sub-comm
 aid in the finding and deployment of the nf-core pipelines.
 
 ```bash
-$ nf-core --help
+nf-core --help
 ```
 
 ```output
@@ -70,29 +57,40 @@ $ nf-core --help
     | \| |       \__, \__/ |  \ |___     \`-._,-`-,
                                           `._,._,'
 
-    nf-core/tools version 2.1
+ nf-core/tools version 2.14.1 - https://nf-co.re
 
 
 
-Usage: nf-core [OPTIONS] COMMAND [ARGS]...
+ Usage: nf-core [OPTIONS] COMMAND [ARGS]...
 
-Options:
-  --version                  Show the version and exit.
-  -v, --verbose              Print verbose output to the console.
-  -l, --log-file <filename>  Save a verbose log to a file.
-  --help                     Show this message and exit.
+ nf-core/tools provides a set of helper tools for use with nf-core Nextflow pipelines.
+ It is designed for both end-users running pipelines and also developers creating new pipelines.
 
-Commands:
-  list          List available nf-core pipelines with local info.
-  launch        Launch a pipeline using a web GUI or command line prompts.
-  download      Download a pipeline, nf-core/configs and pipeline...
-  licences      List software licences for a given workflow.
-  create        Create a new pipeline using the nf-core template.
-  lint          Check pipeline code against nf-core guidelines.
-  modules       Tools to manage Nextflow DSL2 modules as hosted on...
-  schema        Suite of tools for developers to manage pipeline schema.
-  bump-version  Update nf-core pipeline version number.
-  sync          Sync a pipeline TEMPLATE branch with the nf-core template.
+╭─ Options ────────────────────────────────────────────────────────────────────────────────────────╮
+│ --version                        Show the version and exit.                                      │
+│ --verbose        -v              Print verbose output to the console.                            │
+│ --hide-progress                  Don't show progress bars.                                       │
+│ --log-file       -l  <filename>  Save a verbose log to a file.                                   │
+│ --help           -h              Show this message and exit.                                     │
+╰──────────────────────────────────────────────────────────────────────────────────────────────────╯
+╭─ Commands for users ─────────────────────────────────────────────────────────────────────────────╮
+│ list                  List available nf-core pipelines with local info.                          │
+│ launch                Launch a pipeline using a web GUI or command line prompts.                 │
+│ create-params-file    Build a parameter file for a pipeline.                                     │
+│ download              Download a pipeline, nf-core/configs and pipeline singularity images.      │
+│ licences              List software licences for a given workflow (DSL1 only).                   │
+│ tui                   Open Textual TUI.                                                          │
+╰──────────────────────────────────────────────────────────────────────────────────────────────────╯
+╭─ Commands for developers ────────────────────────────────────────────────────────────────────────╮
+│ create            Create a new pipeline using the nf-core template.                              │
+│ lint              Check pipeline code against nf-core guidelines.                                │
+│ modules           Commands to manage Nextflow DSL2 modules (tool wrappers).                      │
+│ subworkflows      Commands to manage Nextflow DSL2 subworkflows (tool wrappers).                 │
+│ schema            Suite of tools for developers to manage pipeline schema.                       │
+│ create-logo       Generate a logo with the nf-core logo template.                                │
+│ bump-version      Update nf-core pipeline version number.                                        │
+│ sync              Sync a pipeline TEMPLATE branch with the nf-core template.                     │
+╰──────────────────────────────────────────────────────────────────────────────────────────────────╯
 ```
 
 ### Listing available nf-core pipelines
@@ -105,7 +103,7 @@ If the pipeline has been pulled locally using Nextflow, it tells you when that w
 Run the command below.
 
 ```bash
-$ nf-core list
+nf-core list
 ```
 
 An example of the output from the command is as follows:
@@ -119,21 +117,22 @@ An example of the output from the command is as follows:
     | \| |       \__, \__/ |  \ |___     \`-._,-`-,
                                           `._,._,'
 
-    nf-core/tools version 2.1
+    nf-core/tools version 2.14.1 - https://nf-co.re
 
 
-
-    ┏━━━━━━━━━━━━━━━━━━━┳━━━━━━━┳━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━━━━━━┓
-    ┃ Pipeline Name     ┃ Stars ┃ Latest Release ┃      Released ┃ Last Pulled ┃ Have latest release? ┃
-    ┡━━━━━━━━━━━━━━━━━━━╇━━━━━━━╇━━━━━━━━━━━━━━━━╇━━━━━━━━━━━━━━━╇━━━━━━━━━━━━━╇━━━━━━━━━━━━━━━━━━━━━━┩
-    │ mhcquant          │    14 │          2.0.0 │    4 days ago │           - │ -                    │
-    │ bacass            │    28 │          2.0.0 │   2 weeks ago │           - │ -                    │
-    │ viralrecon        │    48 │            2.2 │  1 months ago │           - │ -                    │
-    │ rnaseq            │   364 │            3.3 │  1 months ago │           - │ -                    │
-    │ mag               │    63 │          2.1.0 │  1 months ago │           - │ -                    │
-    │ fetchngs          │    25 │            1.2 │  1 months ago │           - │ -                    │
-    │ bcellmagic        │    14 │          2.0.0 │  2 months ago │           - │ -                    │
-    │ ampliseq          │    67 │          2.0.0 │  2 months ago │           - │ -                    │
+┏━━━━━━━━━━━━━━━━━━━━━━━━━━━┳━━━━━━━┳━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━━━━━━┓
+┃ Pipeline Name             ┃ Stars ┃ Latest Release ┃      Released ┃ Last Pulled ┃ Have latest release? ┃
+┡━━━━━━━━━━━━━━━━━━━━━━━━━━━╇━━━━━━━╇━━━━━━━━━━━━━━━━╇━━━━━━━━━━━━━━━╇━━━━━━━━━━━━━╇━━━━━━━━━━━━━━━━━━━━━━┩
+│ mcmicro                   │     4 │            dev │    2 days ago │           - │ -                    │
+│ fastquorum                │    13 │          1.0.0 │  2 months ago │           - │ -                    │
+│ rnaseq                    │   821 │         3.14.0 │  6 months ago │           - │ -                    │
+│ crisprseq                 │    22 │          2.2.0 │  1 months ago │           - │ -                    │
+│ funcscan                  │    62 │          1.1.6 │   2 weeks ago │           - │ -                    │
+│ pairgenomealign           │     0 │            dev │    3 days ago │           - │ -                    │
+│ multiplesequencealign     │    11 │            dev │    3 days ago │           - │ -                    │
+│ denovotranscript          │     0 │            dev │    3 days ago │           - │ -                    │
+│ demo                      │     1 │          1.0.0 │  1 months ago │           - │ -                    │
+│ demultiplex               │    37 │          1.4.1 │  5 months ago │           - │ -                    │
 [..truncated..]
 ```
 
@@ -145,7 +144,7 @@ If you supply additional keywords after the `list` sub-command, the listed pipel
 Here we filter on the keywords **rna** and **rna-seq** .
 
 ```bash
-$ nf-core list rna rna-seq
+nf-core list rna rna-seq
 ```
 
 ```output
@@ -156,21 +155,26 @@ $ nf-core list rna rna-seq
     | \| |       \__, \__/ |  \ |___     \`-._,-`-,
                                           `._,._,'
 
-    nf-core/tools version 2.1
+    nf-core/tools version 2.14.1 - https://nf-co.re
 
 
-
-┏━━━━━━━━━━━━━━━┳━━━━━━━┳━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━┳━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━━━━━━┓
-┃ Pipeline Name ┃ Stars ┃ Latest Release ┃     Released ┃ Last Pulled ┃ Have latest release? ┃
-┡━━━━━━━━━━━━━━━╇━━━━━━━╇━━━━━━━━━━━━━━━━╇━━━━━━━━━━━━━━╇━━━━━━━━━━━━━╇━━━━━━━━━━━━━━━━━━━━━━┩
-│ rnaseq        │   364 │            3.3 │ 1 months ago │           - │ -                    │
-│ smrnaseq      │    26 │          1.1.0 │ 3 months ago │           - │ -                    │
-│ dualrnaseq    │     4 │          1.0.0 │ 7 months ago │           - │ -                    │
-│ rnafusion     │    60 │          1.2.0 │  1 years ago │           - │ -                    │
-│ circrna       │     8 │            dev │            - │           - │ -                    │
-│ lncpipe       │    22 │            dev │            - │           - │ -                    │
-│ scflow        │     6 │            dev │            - │           - │ -                    │
-└───────────────┴───────┴────────────────┴──────────────┴─────────────┴──────────────────────┘
+┏━━━━━━━━━━━━━━━━━━━━━━━┳━━━━━━━┳━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━┳━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━━━━━━┓
+┃ Pipeline Name         ┃ Stars ┃ Latest Release ┃     Released ┃ Last Pulled ┃ Have latest release? ┃
+┡━━━━━━━━━━━━━━━━━━━━━━━╇━━━━━━━╇━━━━━━━━━━━━━━━━╇━━━━━━━━━━━━━━╇━━━━━━━━━━━━━╇━━━━━━━━━━━━━━━━━━━━━━┩
+│ rnaseq                │   821 │         3.14.0 │ 6 months ago │           - │ -                    │
+│ denovotranscript      │     0 │            dev │   3 days ago │           - │ -                    │
+│ scnanoseq             │     5 │            dev │   4 days ago │           - │ -                    │
+│ circrna               │    43 │            dev │   6 days ago │           - │ -                    │
+│ smrnaseq              │    70 │          2.3.1 │ 3 months ago │           - │ -                    │
+│ scrnaseq              │   185 │          2.7.0 │  4 weeks ago │           - │ -                    │
+│ differentialabundance │    47 │          1.5.0 │ 2 months ago │           - │ -                    │
+│ rnafusion             │   132 │          3.0.2 │ 3 months ago │           - │ -                    │
+│ spatialvi             │    45 │            dev │ 2 months ago │           - │ -                    │
+│ rnasplice             │    35 │          1.0.4 │ 2 months ago │           - │ -                    │
+│ dualrnaseq            │    16 │          1.0.0 │  3 years ago │           - │ -                    │
+│ marsseq               │     4 │          1.0.3 │  1 years ago │           - │ -                    │
+│ lncpipe               │    30 │            dev │  2 years ago │           - │ -                    │
+└───────────────────────┴───────┴────────────────┴──────────────┴─────────────┴──────────────────────┘
 ```
 
 #### Sorting available nf-core pipelines
@@ -189,21 +193,26 @@ nf-core list rna rna-seq --sort stars
 | \| |       \__, \__/ |  \ |___     \`-._,-`-,
                                       `._,._,'
 
-nf-core/tools version 2.1
+    nf-core/tools version 2.14.1 - https://nf-co.re
 
 
-
-┏━━━━━━━━━━━━━━━┳━━━━━━━┳━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━┳━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━━━━━━┓
-┃ Pipeline Name ┃ Stars ┃ Latest Release ┃     Released ┃ Last Pulled ┃ Have latest release? ┃
-┡━━━━━━━━━━━━━━━╇━━━━━━━╇━━━━━━━━━━━━━━━━╇━━━━━━━━━━━━━━╇━━━━━━━━━━━━━╇━━━━━━━━━━━━━━━━━━━━━━┩
-│ rnaseq        │   364 │            3.3 │ 1 months ago │           - │ -                    │
-│ rnafusion     │    60 │          1.2.0 │  1 years ago │           - │ -                    │
-│ smrnaseq      │    26 │          1.1.0 │ 3 months ago │           - │ -                    │
-│ lncpipe       │    22 │            dev │            - │           - │ -                    │
-│ circrna       │     8 │            dev │            - │           - │ -                    │
-│ scflow        │     6 │            dev │            - │           - │ -                    │
-│ dualrnaseq    │     4 │          1.0.0 │ 7 months ago │           - │ -                    │
-└───────────────┴───────┴────────────────┴──────────────┴─────────────┴──────────────────────┘
+┏━━━━━━━━━━━━━━━━━━━━━━━┳━━━━━━━┳━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━┳━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━━━━━━┓
+┃ Pipeline Name         ┃ Stars ┃ Latest Release ┃     Released ┃ Last Pulled ┃ Have latest release? ┃
+┡━━━━━━━━━━━━━━━━━━━━━━━╇━━━━━━━╇━━━━━━━━━━━━━━━━╇━━━━━━━━━━━━━━╇━━━━━━━━━━━━━╇━━━━━━━━━━━━━━━━━━━━━━┩
+│ rnaseq                │   821 │         3.14.0 │ 6 months ago │           - │ -                    │
+│ scrnaseq              │   185 │          2.7.0 │  4 weeks ago │           - │ -                    │
+│ rnafusion             │   132 │          3.0.2 │ 3 months ago │           - │ -                    │
+│ smrnaseq              │    70 │          2.3.1 │ 3 months ago │           - │ -                    │
+│ differentialabundance │    47 │          1.5.0 │ 2 months ago │           - │ -                    │
+│ spatialvi             │    45 │            dev │ 2 months ago │           - │ -                    │
+│ circrna               │    43 │            dev │   6 days ago │           - │ -                    │
+│ rnasplice             │    35 │          1.0.4 │ 2 months ago │           - │ -                    │
+│ lncpipe               │    30 │            dev │  2 years ago │           - │ -                    │
+│ dualrnaseq            │    16 │          1.0.0 │  3 years ago │           - │ -                    │
+│ scnanoseq             │     5 │            dev │   4 days ago │           - │ -                    │
+│ marsseq               │     4 │          1.0.3 │  1 years ago │           - │ -                    │
+│ denovotranscript      │     0 │            dev │   3 days ago │           - │ -                    │
+└───────────────────────┴───────┴────────────────┴──────────────┴─────────────┴──────────────────────┘
 ```
 
 :::::::::::::::::::::::::::::::::::::::::  callout
@@ -263,18 +272,15 @@ Unless you are actively developing pipeline code, you should use Nextflow's [bui
 $ nextflow pull nf-core/<PIPELINE>
 ```
 
-Nextflow will also automatically fetch the pipeline code when you run
+**Note** Nextflow will also automatically fetch the pipeline code when use `nextflow run nf-core/<PIPELINE>` command.
 
-```bash
-$ nextflow run nf-core/<pipeline> .
-```
 
 For the best reproducibility, it is good to explicitly reference the pipeline version number that you wish to use with the `-revision`/`-r` flag.
 
 In the example below we are pulling the rnaseq pipeline version 3.0
 
 ```bash
-$ nextflow pull nf-core/rnaseq -revision 3.0
+nextflow pull nf-core/rnaseq -revision 3.14.0
 ```
 
 We can check the pipeline has been pulled using the `nf-core list` command.
@@ -292,14 +298,13 @@ We can see from the output we have the latest release.
 | \| |       \__, \__/ |  \ |___     \`-._,-`-,
                                       `._,._,'
 
-nf-core/tools version 2.1
+    nf-core/tools version 2.14.1 - https://nf-co.re
 
 
-
-┏━━━━━━━━━━━━━━━━━━━┳━━━━━━━┳━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━━━━━━┓
-┃ Pipeline Name     ┃ Stars ┃ Latest Release ┃      Released ┃    Last Pulled ┃ Have latest release? ┃
-┡━━━━━━━━━━━━━━━━━━━╇━━━━━━━╇━━━━━━━━━━━━━━━━╇━━━━━━━━━━━━━━━╇━━━━━━━━━━━━━━━━╇━━━━━━━━━━━━━━━━━━━━━━┩
-│ rnaseq            │   394 │            3.4 │  4 weeks ago  │ 1 minutes ago  │ Yes (v3.4)           │
+┏━━━━━━━━━━━━━━━━━━━━━━━┳━━━━━━━┳━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━━━━━━┓
+┃ Pipeline Name         ┃ Stars ┃ Latest Release ┃     Released ┃    Last Pulled ┃ Have latest release? ┃
+┡━━━━━━━━━━━━━━━━━━━━━━━╇━━━━━━━╇━━━━━━━━━━━━━━━━╇━━━━━━━━━━━━━━╇━━━━━━━━━━━━━━━━╇━━━━━━━━━━━━━━━━━━━━━━┩
+│ rnaseq                │   821 │         3.14.0 │ 6 months ago │ 59 seconds ago │ Yes (v3.14.0)        │
 [..truncated..]
 ```
 
@@ -350,7 +355,7 @@ Each pipeline has its own webpage at [https://nf-co.re/](https://nf-co.re/)\<pip
 In addition to this documentation, each pipeline comes with basic command line reference. This can be seen by running the pipeline with the parameter `--help` , for example:
 
 ```bash
-$ nextflow run -r 3.4 nf-core/rnaseq --help
+nextflow run -r 3.14.0 nf-core/rnaseq --help
 ```
 
 ```output
@@ -362,21 +367,18 @@ Launching `nf-core/rnaseq` [silly_miescher] - revision: 964425e3fd [3.4]
   |\ | |__  __ /  ` /  \ |__) |__         }  {
   | \| |       \__, \__/ |  \ |___     \`-._,-`-,
                                         `._,._,'
-  nf-core/rnaseq v3.0
+  nf-core/rnaseq v3.14.0-gb89fac3
 ------------------------------------------------------
-
 Typical pipeline command:
 
-    nextflow run nf-core/rnaseq --input samplesheet.csv --genome GRCh37 -profile docker
+  nextflow run nf-core/rnaseq --input samplesheet.csv --genome GRCh37 -profile docker
 
 Input/output options
-    --input                             [string]  Path to comma-separated file containing information about the samples in the experiment.
-    --outdir                            [string]  Path to the output directory where the results will be saved.
-    --public_data_ids                   [string]  File containing SRA/ENA/GEO identifiers one per line in order to download their associated FastQ files.
-    --email                             [string]  Email address for completion summary.
-    --multiqc_title                     [string]  MultiQC report title. Printed as page header, used for filename if not otherwise specified.
-    --skip_sra_fastq_download           [boolean] Only download metadata for public data database ids and don't download the FastQ files.
-    --save_merged_fastq                 [boolean] Save FastQ files after merging re-sequenced libraries in the results directory.
+  --input                            [string]  Path to comma-separated file containing information about the samples in the experiment.
+  --outdir                           [string]  The output directory where the results will be saved. You have to use absolute paths to storage on Cloud
+                                               infrastructure.
+  --email                            [string]  Email address for completion summary.
+  --multiqc_title                    [string]  MultiQC report title. Printed as page header, used for filename if not otherwise specified.
 ..truncated..
 ```
 
@@ -393,7 +395,7 @@ Once all prompts have been answered, non-default values are saved to a `params.j
 To use the launch feature, just specify the pipeline name:
 
 ```bash
-$ nf-core launch -r 3.0 rnaseq
+nf-core launch -r 3.14.0 rnaseq
 ```
 
 :::::::::::::::::::::::::::::::::::::::  challenge
@@ -454,13 +456,13 @@ Nextflow can load pipeline configurations from multiple locations.  nf-core pipe
 4. Local config files given to Nextflow with the `-c` flag
 
 ```bash
-$ nextflow run nf-core/rnaseq -r 3.0 -c mylocal.config
+nextflow run nf-core/rnaseq -r 3.14.0 -c mylocal.config
 ```
 
 5\. Command line configuration: pipeline parameters can be passed on the command line using the `--<parameter>` syntax.
 
 ```bash
-$ nextflow run nf-core/rnaseq -r 3.0 --email "my@email.com"`
+nextflow run nf-core/rnaseq -r 3.14.0 --email "my@email.com"`
 ```
 
 #### Config Profiles
@@ -472,8 +474,8 @@ Configuration files can contain the definition of one or more profiles. A profil
 Multiple profiles are comma-separated. When there are differing configuration settings provided by different profiles, the right-most profile takes priority.
 
 ```bash
-$ nextflow run nf-core/rnaseq -r 3.0 -profile test,conda
-$ nextflow run nf-core/rnaseq -r 3.0 -profile <institutional_config_profile>, test, conda
+nextflow run nf-core/rnaseq -r 3.14.0 -profile test,conda
+nextflow run nf-core/rnaseq -r 3.14.0 -profile <institutional_config_profile>, test, conda
 ```
 
 **Note** The order in which config profiles are specified matters. Their priority increases from left to right.
@@ -512,7 +514,7 @@ params.email = "myemail@address.com"
 The nf-core config profile `test` is special profile, which defines a minimal data set and configuration, that runs quickly and tests the workflow from beginning to end. Since the data is minimal, the output is often nonsense. Real world  example output are instead linked on the nf-core pipeline web page, where the workflow has been run with a full size data set:
 
 ```bash
-$ nextflow run nf-core/<pipeline_name> -profile test
+nextflow run nf-core/<pipeline_name> -profile test
 ```
 
 :::::::::::::::::::::::::::::::::::::::::  callout
@@ -536,12 +538,11 @@ By default, the pipeline will download the pipeline code and the institutional n
 
 If you specify the flag `--singularity`, it will also download any singularity image files that are required (this needs Singularity to be installed). All files are saved to a single directory, ready to be transferred to the cluster where the pipeline will be executed.
 
-```
-$ nf-core download nf-core/rnaseq -r 3.4
+```bash
+nf-core download nf-core/rnaseq -r 3.14.0
 ```
 
-> 
-```bash
+```output
 
                                           ,--./,-.
           ___     __   __   __   ___     /,-._.--~\
@@ -549,26 +550,31 @@ $ nf-core download nf-core/rnaseq -r 3.4
     | \| |       \__, \__/ |  \ |___     \`-._,-`-,
                                           `._,._,'
 
-    nf-core/tools version 2.1
+    nf-core/tools version 2.14.1 - https://nf-co.re
 
 
+WARNING  Could not find GitHub authentication token. Some API requests may fail.
+? Include the nf-core's default institutional configuration files into the download? No
 
-INFO     Saving nf-core/rnaseq                                                                                                                                                                                                                                         download.py:148
-          Pipeline release: '3.4'
-          Pull singularity containers: 'No'
-          Output file: 'nf-core-rnaseq-3.4.tar.gz'
-INFO     Downloading workflow files from GitHub                                                                                                                                                                                                                        download.py:151
-INFO     Downloading centralised configs from GitHub                                                                                                                                                                                                                   download.py:155
-INFO     Compressing download..                                                                                                                                                                                                                                        download.py:166
-INFO     Command to extract files: tar -xzf nf-core-rnaseq-3.4.tar.gz                                                                                                                                                                                                  download.py:653
-INFO     MD5 checksum for nf-core-rnaseq-3.4.tar.gz: f0e0c239bdb39c613d6a080f1dee88e9
+In addition to the pipeline code, this tool can download software containers.
+? Download software container images: none
+
+If transferring the downloaded files to another system, it can be convenient to have everything compressed in a single file.
+? Choose compression type: none
+INFO     Saving 'nf-core/rnaseq'
+          Pipeline revision: '3.14.0'
+          Use containers: 'none'
+          Container library: 'quay.io'
+          Output directory: 'nf-core-rnaseq_3.14.0'
+          Include default institutional configuration: 'False'
+INFO     Downloading workflow files from GitHub
 ```
 
 :::::::::::::::::::::::::::::::::::::::  challenge
 
 ### Exercise  Run a demo nf-core pipeline
 
-Run the nf-core/demo pipeline release 1.0.0  with the provided test data using the profile `test`.
+Run the `nf-core/demo` pipeline release 1.0.0  with the provided test data using the profile `test`.
 Add the parameters `--max_memory 3G`, `--skip_trim`, and --outdir "nfcore-demo-out" on the command line.
 Include the config file, `nfcore-custom.config`, from the previous exercise using the option `-c`, to send an email when your pipeline finishes.
 
