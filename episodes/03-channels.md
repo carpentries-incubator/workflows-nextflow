@@ -49,16 +49,6 @@ Queue channels are a type of channel in which data is consumed (used up) to make
 1. As the outputs of a process.
 2. Explicitly using channel factory methods such as [Channel.of](https://www.nextflow.io/docs/latest/channel.html#of) or [Channel.fromPath](https://www.nextflow.io/docs/latest/channel.html#frompath).
 
-:::::::::::::::::::::::::::::::::::::::::  callout
-
-## DSL1
-
-In Nextflow DSL1 queue channels can only be used once in a workflow, either connecting workflow input to process input, or process output to input for another process.
-In DSL2 we can use a queue channel multiple times.
-
-
-::::::::::::::::::::::::::::::::::::::::::::::::::
-
 ### Value channels
 
 The second type of Nextflow channel is a `value` channel. A **value** channel is bound to a **single** value. A value channel can be used an unlimited number times since its content is not consumed. This is also useful for processes that need to reuse input from a channel, for example, a reference genome sequence file that is required by multiple steps within a process, or by more than one process.

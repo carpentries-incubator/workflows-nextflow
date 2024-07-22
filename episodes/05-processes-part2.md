@@ -51,7 +51,7 @@ Because Nextflow processes can only communicate through channels, if we want to 
 
 ```groovy 
 //process_output_value.nf
-nextflow.enable.dsl=2
+
 
 params.transcriptome="${projectDir}/data/yeast/transcriptome/Saccharomyces_cerevisiae.R64-1-1.cdna.all.fa.gz"
 
@@ -104,7 +104,7 @@ If we want to capture a file instead of a value as output we can use the
 
 ```groovy 
 //process_output_file.nf
-nextflow.enable.dsl=2
+
 
 params.transcriptome="${projectDir}/data/yeast/transcriptome/Saccharomyces_cerevisiae.R64-1-1.cdna.all.fa.gz"
 
@@ -160,7 +160,7 @@ For example, here we will capture the files `sequence_ids.txt` and  `sequence.tx
 
 ```groovy 
 //process_output_multiple.nf
-nextflow.enable.dsl=2
+
 
 params.transcriptome="${projectDir}/data/yeast/transcriptome/Saccharomyces_cerevisiae.R64-1-1.cdna.all.fa.gz"
 
@@ -215,7 +215,7 @@ Modify the nextflow script `process_exercise_output.nf` to include an output blo
 
 ```groovy 
 //process_exercise_output.nf
-nextflow.enable.dsl=2
+
 
 process EXTRACT_IDS {
   input:
@@ -245,7 +245,7 @@ workflow {
 
 ```groovy 
 //process_exercise_output_answer.nf
-nextflow.enable.dsl=2
+
 
 process EXTRACT_IDS {
   input:
@@ -289,7 +289,7 @@ When using channel containing a tuple, such a one created with `.filesFromPairs`
 
 ```groovy 
 //process_tuple_input.nf
-nextflow.enable.dsl=2
+
 
 process TUPLEINPUT{
   input:
@@ -330,7 +330,7 @@ An example can be seen in this script below.
 
 ```groovy 
 //process_tuple_io.nf
-nextflow.enable.dsl=2
+
 
 process COMBINE_FQ {
   input:
@@ -373,7 +373,7 @@ Fill in the blank \_\_\_ input and output qualifiers for `process_exercise_tuple
 
 ```groovy 
 //process_exercise_tuple.nf
-nextflow.enable.dsl=2
+
 
 process COMBINE_REPS {
   input:
@@ -403,7 +403,7 @@ workflow{
 
 ```groovy 
 //process_exercise_tuple_answer.nf
-nextflow.enable.dsl=2
+
 
 process COMBINE_REPS {
   input:
@@ -451,7 +451,7 @@ In the example below the process `CONDITIONAL` will only execute when the value 
 
 ```groovy 
 //process_when.nf
-nextflow.enable.dsl=2
+
 
 process CONDITIONAL {
   input:
@@ -499,7 +499,7 @@ For example:
 
 ```groovy 
 //process_directive.nf
-nextflow.enable.dsl=2
+
 
 process PRINTCHR {
   tag "tagging with chr$chr"
@@ -566,7 +566,7 @@ Modify the Nextflow script `process_exercise_directives.nf`
 
 ```groovy 
 //process_exercise_directives.nf
-nextflow.enable.dsl=2
+
 
 process FASTQC {
   //add tag directive
@@ -599,7 +599,7 @@ workflow {
 
 ```groovy 
 //process_directives_answer.nf
-nextflow.enable.dsl=2
+
 
 process FASTQC {
   tag "$sample_id"
@@ -661,7 +661,7 @@ need to define the files in the `output` and  specify the location of the result
 
 ```groovy 
 //process_publishDir.nf
-nextflow.enable.dsl=2
+
 
 process COMBINE_READS {
   publishDir "results/merged_reads"
@@ -696,22 +696,22 @@ N E X T F L O W  ~  version 21.04.0
 Launching `process_publishDir.nf` [friendly_pauling] - revision: 9b5c315893
 executor >  local (1)
 
-[d9/909ed9] process > COMBINE_READS (1) [100%] 1 of 1 ✔
+[a1/5956bd] process > COMBINE_READS (1) [100%] 1 of 1 ✔
 ```
 
-We can use the UNIX command `tree` to examine the contents of the results directory.
+We can use the UNIX command `ls -l` to examine the contents of the results directory.
 
 ```bash 
-tree results
+ls -l results/merged_reads/ref1.merged.fq.gz
 ```
 
 ```output 
-results/
-└── merged_reads
-    └── ref1.merged.fq.gz -> work/48/f97234d7185cbfbd86e2f11c1afab5/ref1.merged.fq.gz
+results/merged_reads/ref1.merged.fq.gz -> /Users/nf-user/nf-training/work/a1/5956bd9a92f13694b3ada1941f0d2d/ref1.merged.fq.gz
 ```
 
 In the above example, the `publishDir "results/merged_reads"`,  creates a symbolic link `->` to the output files specified by the process `merged_reads` to the directory path `results/merged_reads`.
+
+A symbolic link, often referred to as a symlink, is a type of file that serves as a reference or pointer to another file or directory, allowing multiple access paths to the same resource without duplicating its actual data
 
 ::::::::::::::::::::::::::::::::::::::::  callout
 
@@ -740,7 +740,7 @@ In the example below we will create an output folder structure in the directory 
 
 ```groovy 
 //process_publishDir_semantic.nf
-nextflow.enable.dsl=2
+
 
 params.transcriptome="${projectDir}/data/yeast/transcriptome/Saccharomyces_cerevisiae.R64-1-1.cdna.all.fa.gz"
 
@@ -784,18 +784,18 @@ executor >  local (1)
 [be/950786] process > SPLIT_FASTA (1) [100%] 1 of 1 ✔
 ```
 
-We can now use the `tree` command to examine the results directory.
+We can now use the `ls results/*` command to examine the results directory.
 
 ```bash 
-$ tree results
+$ls results/*
 ```
 
-```output 
-results/
-├── sequence
-│   └── sequence.txt
-└── ids
-    └── sequence_ids.txt
+```output
+results/ids:
+sequence_ids.txt
+
+results/sequence:
+sequence.txt
 ```
 
 :::::::::::::::::::::::::::::::::::::::  challenge
@@ -806,7 +806,7 @@ Add a `publishDir` directive to the nextflow script `process_exercise_publishDir
 
 ```groovy 
 //process_exercise_publishDir.nf
-nextflow.enable.dsl=2
+
 
 params.reads= "data/yeast/reads/ref{1,2,3}*{1,2}.fq.gz"
 
@@ -837,7 +837,7 @@ workflow {
 
 ```groovy 
 //process_exercise_publishDir_answer.nf
-nextflow.enable.dsl=2
+
 
 params.reads= "data/yeast/reads/ref{1,2,3}*{1,2}.fq.gz"
 

@@ -1,5 +1,5 @@
 //process_tuple_io_fastp.nf
-nextflow.enable.dsl=2
+
 
 process FASTP {
   input:

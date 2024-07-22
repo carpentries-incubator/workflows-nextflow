@@ -85,11 +85,10 @@ A full list of implicit variables can be found [here](https://www.nextflow.io/do
 
 To add the process to a workflow add a `workflow` block, and call the process like a function. We will learn more about the `workflow` block in the workflow episode.
 
-**Note:** As we are using DSL2 we need to include `nextflow.enable.dsl=2` in the script.
 
 ```groovy
 //process_01.nf
-nextflow.enable.dsl=2
+
 
 process NUMSEQ {
   script:
@@ -105,9 +104,9 @@ workflow {
 We can now run the process:
 
 ```bash
-$ nextflow run process_01.nf -process.echo
+$ nextflow run process_01.nf -process.debug
 ```
-
+ **Note** We need to add the Nextflow run option `-process.debug` to print the output to the terminal.
 
 ```output
 N E X T F L O W  ~  version 21.10.6
@@ -131,7 +130,7 @@ zgrep -v '^>' ${projectDir}/data/yeast/transcriptome/Saccharomyces_cerevisiae.R6
 
 ## Solution
 ```groovy
-nextflow.enable.dsl=2
+
 
 process COUNT_BASES {
    
@@ -147,9 +146,9 @@ COUNT_BASES()
 ```
 
 
- **Note** We need to add the Nextflow run option `-process.echo` to print the output to the terminal.
+
 ```bash
-$ nextflow run simple_process.nf -process.echo
+$ nextflow run simple_process.nf -process.debug
 ```
 
 ```output
@@ -204,7 +203,7 @@ A process contains only one `script` block, and it must be the last statement wh
 The `script` block can be a simple one line string in quotes e.g.
 
 ```groovy
-nextflow.enable.dsl=2
+
 
 process NUMSEQ {
     script:
@@ -222,7 +221,7 @@ For example:
 
 ```groovy
 //process_multi_line.nf
-nextflow.enable.dsl=2
+
 
 process NUMSEQ_CHR {
     script:
@@ -238,7 +237,7 @@ workflow {
 ```
 
 ```bash
-$ nextflow run process_multi_line.nf -process.echo
+$ nextflow run process_multi_line.nf -process.debug
 ```
 
 ```output
@@ -251,8 +250,9 @@ Number of sequences for chromosome A:118
 
 ::::::::::::::::::::::::::::::::::::: instructor
 
-The following section on python and R scripts is not meant to be run by the instructor or learners. 
+The following section on python  is meant to be run by the instructor not the learners. 
 It is meant to be a demonstration of the different ways to run a process.
+This can be skipped for time.
 
 :::::::::::::::::::::::::::::::::::::::::::::::::
 
@@ -260,9 +260,9 @@ By default the process command is interpreted as a **Bash** script. However, any
 
 ```groovy
 //process_python.nf
-nextflow.enable.dsl=2
 
-process PYSTUFF {
+
+process PROCESS_READS {
   script:
   """
   #!/usr/bin/env python
@@ -285,51 +285,75 @@ process PYSTUFF {
 }
 
 workflow {
-  PYSTUFF()
-}
-```
-
-```groovy
-//process_rscript.nf
-nextflow.enable.dsl=2
-
-process RSTUFF {
-  script:
-  """
-  #!/usr/bin/env Rscript
-  library("ShortRead")
-  countFastq(dirPath="data/yeast/reads/ref1_1.fq.gz")
-  """
-}
-
-workflow {
-  RSTUFF()
+  PROCESS_READS()
 }
 ```
 
 This allows the use of a different programming languages which may better fit a particular job. However, for large chunks of code it is suggested to save them into separate files and invoke them from the process script.
 
-```groovy
-nextflow.enable.dsl=2
+## Associated scripts
 
-process PYSTUFF {
+Scripts such as the one in the example below, `process_reads.py`, can be stored in a `bin` folder at the same directory level as the Nextflow workflow script that invokes them, and given execute permission. Nextflow will automatically add this folder to the `PATH` environment variable. To invoke the script in a Nextflow process, simply use its filename on its own rather than invoking the interpreter e.g. `process_reads.py` instead of `python process_reads.py`.
+**Note** The script `process_reads.py` must be executable to run.
+
+```bash
+mkdir bin
+mv process_reads.py bin
+chmod 755 bin/process_reads.py
+```
+
+```python
+# process_reads.py
+#!/usr/bin/env python
+import gzip
+import sys
+reads = 0
+bases = 0
+
+
+with gzip.open(sys.argv[1], 'rb') as read:
+    for id in read:
+      seq = next(read)
+      reads += 1
+      bases += len(seq.strip())
+      next(read)
+      next(read)
+
+print("reads", reads)
+print("bases", bases)
+```
+
+```groovy
+//process_python_script.nf
+
+
+process PROCESS_READS {
 
   script:
   """
-  myscript.py
+  process_reads.py ${projectDir}/data/yeast/reads/ref1_1.fq.gz
   """
 }
 
 workflow {
-  PYSTUFF()
+  PROCESS_READS()
 }
+```
+
+```output
+N E X T F L O W  ~  version 23.10.1
+Launching `pr.nf` [kickass_legentil] DSL2 - revision: 3b9eee1d47
+executor >  local (1)
+[88/759311] process > PROCESS_READS [100%] 1 of 1 ✔
+reads 14677
+bases 1482377
 ```
 
 :::::::::::::::::::::::::::::::::::::::::  callout
 
 ## Associated scripts
 
-Scripts such as the one in the example above, `myscript.py`, can be stored in a `bin` folder at the same directory level as the Nextflow workflow script that invokes them, and given execute permission. Nextflow will automatically add this folder to the `PATH` environment variable. To invoke the script in a Nextflow process, simply use its filename on its own rather than invoking the interpreter e.g. `myscript.py` instead of `python myscript.py`.
+Scripts such as the one in the example above, `process_reads.py`, can be stored in a `bin` folder at the same directory level as the Nextflow workflow script that invokes them, and given execute permission. Nextflow will automatically add this folder to the `PATH` environment variable. To invoke the script in a Nextflow process, simply use its filename on its own rather than invoking the interpreter e.g. `process_reads.py` instead of `python process_reads.py`.
 
 ::::::::::::::::::::::::::::::::::::::::::::::::::
 
@@ -353,7 +377,7 @@ A Nextflow variable can be used multiple times in the script block.
 
 ```groovy
 //process_script.nf
-nextflow.enable.dsl=2
+
 
 chr = "A"
 
@@ -376,7 +400,7 @@ In most cases we do not want to hard code parameter values. We saw in the parame
 In the example below we define the variable `params.chr` with a default value of `A` in the Nextflow script.
 ```groovy
 //process_script_params.nf
-nextflow.enable.dsl=2
+
 
 params.chr = "A"
 
@@ -408,7 +432,7 @@ For the Nextflow script below.
 
 ```groovy
 //process_exercise_script_params.nf
-nextflow.enable.dsl=2
+
 
 process COUNT_BASES {
 
@@ -427,10 +451,10 @@ Add a parameter `params.base` to the script and uses the variable `${param.base}
 Run the pipeline using a base value of `C` using the `--base` command line option.
 
 ```bash
-$ nextflow run process_script_params.nf --base <some value> -process.echo
+$ nextflow run process_script_params.nf --base <some value> -process.debug
 ```
 
-**Note:** The Nextflow option `-process.echo` will print the process' stdout to the terminal.
+**Note:** The Nextflow option `-process.debug` will print the process' stdout to the terminal.
 
 
 :::::::::::::::  solution
@@ -439,7 +463,7 @@ $ nextflow run process_script_params.nf --base <some value> -process.echo
 ## Solution
 ```groovy
  //process_exercise_script_params.nf
- nextflow.enable.dsl=2
+ 
 
  params.base='A'
 
@@ -457,7 +481,7 @@ $ nextflow run process_script_params.nf --base <some value> -process.echo
 ```
 
 ```bash
-$ nextflow run process_script_params.nf --base C -process.echo
+$ nextflow run process_script_params.nf --base C -process.debug
 ```
 
 ```output
@@ -481,7 +505,7 @@ In the example below we will set a bash variable `NUMIDS` then echo the value of
 
 
 ```groovy
-nextflow.enable.dsl=2
+
 
 process NUM_IDS {
 
@@ -513,7 +537,7 @@ we reference the Nextflow variables as `!{projectDir}` , and the Bash variable a
 
 ```groovy
 //process_shell.nf
-nextflow.enable.dsl=2
+
 
 process NUM_IDS {
 
@@ -561,7 +585,7 @@ For example, the Nextflow script below will use the `if` statement to change wha
 
 ```groovy
 //process_conditional.nf
-nextflow.enable.dsl=2
+
 
 params.method = 'ids'
 params.transcriptome = "$projectDir/data/yeast/transcriptome/Saccharomyces_cerevisiae.R64-1-1.cdna.all.fa.gz"
@@ -594,7 +618,7 @@ workflow {
 ```
 
 ```bash
-$ nextflow run process_conditional.nf -process.echo --method ids
+$ nextflow run process_conditional.nf -process.debug --method ids
 ```
 
 ```output
@@ -643,7 +667,7 @@ The `val` qualifier allows you to receive value data as input. It can be accesse
 
 ```groovy
 //process_input_value.nf
-nextflow.enable.dsl=2
+
 
 process PRINTCHR {
 
@@ -665,7 +689,7 @@ workflow {
 ```
 
 ```bash
-$ nextflow run process_input_value.nf -process.echo
+$ nextflow run process_input_value.nf -process.debug
 ```
 
 ```output
@@ -700,7 +724,7 @@ For example, in the script below, we assign the variable name `read` to the inpu
 
 ```groovy
 //process_input_file.nf
-nextflow.enable.dsl=2
+
 
 process NUMLINES {
     input:
@@ -722,7 +746,7 @@ workflow {
 ```
 
 ```bash
-$ nextflow run process_input_file.nf -process.echo
+$ nextflow run process_input_file.nf -process.debug
 ```
 
 ```output
@@ -746,7 +770,7 @@ For example, in the script below, the name of the file is specified as `'sample.
 
 ```groovy
 //process_input_file_02.nf
-nextflow.enable.dsl=2
+
 
 process NUMLINES {
     input:
@@ -768,7 +792,7 @@ workflow {
 ```
 
 ```bash
-$ nextflow run process_input_file_02.nf -process.echo
+$ nextflow run process_input_file_02.nf -process.debug
 ```
 
 ```output
@@ -804,7 +828,7 @@ For the script `process_exercise_input.nf`:
 
 ```groovy
 //process_exercise_input.nf
-nextflow.enable.dsl=2
+
 
 params.chr = "A"
 params.transcriptome = "${projectDir}/data/yeast/transcriptome/Saccharomyces_cerevisiae.R64-1-1.cdna.all.fa.gz"
@@ -825,13 +849,13 @@ CHR_COUNT()
 Then run your script using
 
 ```bash
-nextflow run process_exercise_input.nf -process.echo
+nextflow run process_exercise_input.nf -process.debug
 ```
 :::::::::::::::  solution
 
  ## Solution
 ```groovy
- nextflow.enable.dsl=2
+ 
 
  params.chr = "A"
  params.transcriptome = "${projectDir}/data/yeast/transcriptome/Saccharomyces_cerevisiae.R64-1-1.cdna.all.fa.gz"
@@ -876,7 +900,7 @@ Consider the following example:
 
 ```groovy
 //process_combine.nf
-nextflow.enable.dsl=2
+
 
 process COMBINE {
   input:
@@ -898,7 +922,7 @@ workflow {
 ```
 
 ```bash
-$ nextflow run process_combine.nf -process.echo
+$ nextflow run process_combine.nf -process.debug
 ```
 
 Both channels contain three elements, therefore the process is executed three times, each time with a different pair:
@@ -921,7 +945,7 @@ For example:
 
 ```groovy
 //process_combine_02.nf
-nextflow.enable.dsl=2
+
 
 process COMBINE {
   input:
@@ -943,7 +967,7 @@ workflow {
 ```
 
 ```bash
-$ nextflow run process_combine_02.nf -process.echo
+$ nextflow run process_combine_02.nf -process.debug
 ```
 
 In the above example the process is executed only two times, because when a queue channel has no more data to be processed it stops the process execution.
@@ -962,7 +986,7 @@ To better understand this behaviour compare the previous example with the follow
 
 ```groovy
 //process_combine_03.nf
-nextflow.enable.dsl=2
+
 
 process COMBINE {
   input:
@@ -983,7 +1007,7 @@ workflow {
 ```
 
 ```bash
-$ nextflow run process_combine_03.nf -process.echo
+$ nextflow run process_combine_03.nf -process.debug
 ```
 
 In this example the process is run three times.
@@ -1017,7 +1041,7 @@ And include the command below in the script directive
  ## Solution
 ```groovy
  // process_exercise_combine_answer.nf
- nextflow.enable.dsl=2
+ 
  process COMBINE {
   input:
   path transcriptome
@@ -1049,7 +1073,7 @@ For example if we can fix the previous example by using the input qualifer `each
 
 ```groovy
 //process_repeat.nf
-nextflow.enable.dsl=2
+
 
 process COMBINE {
   input:
@@ -1071,7 +1095,7 @@ workflow {
 ```
 
 ```bash
-$ nextflow run process_repeat.nf -process.echo
+$ nextflow run process_repeat.nf -process.debug
 ```
 
 The process will run eight times.
@@ -1095,7 +1119,7 @@ Extend the script `process_exercise_repeat.nf` by adding more values to the `chr
 
 ```groovy
 //process_exercise_repeat.nf
-nextflow.enable.dsl=2
+
 process COMBINE {
     input:
     path transcriptome
@@ -1124,7 +1148,7 @@ How many times does this process run?
 
 ```groovy
  //process_exercise_repeat_answer.nf
- nextflow.enable.dsl=2
+ 
 
  process COMBINE {
    input:
@@ -1149,7 +1173,7 @@ How many times does this process run?
 Then run the script.
 
 ```bash
-$ nextflow run process_exercise_repeat.nf -process.echo
+$ nextflow run process_exercise_repeat.nf -process.debug
 ```
 
 This process runs 16 times.

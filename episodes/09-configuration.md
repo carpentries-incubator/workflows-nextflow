@@ -294,7 +294,7 @@ processes annotated with a specific label, as shown below:
 
 ```groovy
 // configuration_process_labels.nf
-nextflow.enable.dsl=2
+
 
 process P1 {
 
@@ -375,7 +375,7 @@ where `P1` and `P2` are defined as follows:
 
 ```groovy 
 // process-selector.nf
-nextflow.enable.dsl=2
+
 
 process P1 {
     echo true
@@ -420,7 +420,7 @@ process {
 ```
 
 ```bash
-$ nextflow run process-selector.nf -c process-selector.config -process.echo
+$ nextflow run process-selector.nf -c process-selector.config -process.debug
 ```
 
 ```output
@@ -479,7 +479,8 @@ running locally, to running on HPC clusters or cloud infrastructures.
 See [https://www.nextflow.io/docs/latest/executor.html](https://www.nextflow.io/docs/latest/executor.html) for the
 full list of supported executors.
 
-![](fig/nf-executors.png){alt='digram of different nextflow-executors'}
+![A diagram illustrating the different executors available in Nextflow. The diagram shows a configuration file feeding into Nextflow, which has both local and grid executors. The local executor connects to the Local OS and a standalone computer, while the grid executor connects to a batch scheduler and NFS, which further connects to various computing resources such as UNIVA, SLURM, Platform Computing, PBS Works, Kubernetes, and Amazon Web Services.](fig/nf-executors.png "digram of different nextflow-executors")
+
 
 The default executor configuration is defined within the `executor`
 scope ([https://www.nextflow.io/docs/latest/config.html#scope-executor](https://www.nextflow.io/docs/latest/config.html#scope-executor)).
@@ -695,6 +696,9 @@ By default, Docker containers
 run software using a privileged user. This can cause issues,
 and so it is also a good idea to supply your user and group
 via the `docker.runOptions`.
+
+The Docker run option `-u $(id -u):$(id -g)` is used to specify the user and group IDs (UID and GID) that the container should use when running. 
+This option ensures that the processes inside the container run with the same UID and GID as the user executing the Docker command on the host system. 
 
 ```groovy 
 process.container = 'quay.io/biocontainers/salmon:1.5.2--h84f40af_0'

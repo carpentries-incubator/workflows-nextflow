@@ -1,5 +1,5 @@
 //process_exercise_output.nf
-nextflow.enable.dsl=2
+
 
 process EXTRACT_IDS {
   input:

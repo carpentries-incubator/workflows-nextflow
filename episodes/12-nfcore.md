@@ -27,7 +27,7 @@ exercises: 10
 nf-core is a community-led project to develop a set of best-practice pipelines built using Nextflow workflow management system.
 Pipelines are governed by a set of guidelines, enforced by community code reviews and automatic code testing.
 
-![](fig/nf-core.png){alt='nf-core'}
+![A diagram showcasing the key aspects of nf-core, a community effort to provide best-practice analysis pipelines. The diagram is divided into three sections: Deploy, Participate, and Develop. The Deploy section includes features like Stable pipelines, Centralized configs, List and update pipelines, and Download for offline use. The Participate section highlights Documentation, Slack workspace, Twitter updates, and Hackathons. The Develop section emphasizes the Starter template, Code guidelines, CI code linting and tests, and Helper tools.](fig/nf-core.png 'nf-core')
 
 In this episode we will covering finding, deploying and configuring nf-core pipelines.
 
@@ -434,7 +434,7 @@ nf-core pipelines make use of Nextflow's configuration files to specify how the 
 
 Nextflow can load pipeline configurations from multiple locations.  nf-core pipelines load configuration in the following order:
 
-![](fig/nfcore_config.png){alt='config'}
+![A diagram explaining the structure and hierarchy of nextflow.config files. The diagram shows that the default 'base' config is always loaded. It also includes core profiles, such as docker, conda, and test, and server profiles from nf-core/config. Additionally, it highlights that your local config files, located in $HOME/.nextflow/config or specified with -c custom.config, are also considered.](fig/nfcore_config.png 'config')
 
 1. Pipeline: Default 'base' config
 

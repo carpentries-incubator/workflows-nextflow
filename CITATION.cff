@@ -1,0 +1,16 @@
+cff-version: 1.2.0
+message: "If you use this dataset, please cite it using the following metadata."
+authors:
+  - family-names: Grimes
+    given-names: Graeme
+title: "RNA-seq training dataset"
+version: "1.0"
+doi: 10.6084/m9.figshare.14822481
+date-released: 2021-06-22
+url: https://figshare.com/articles/dataset/RNA-seq_training_dataset/14822481
+keywords:
+  - RNA-seq
+  - Training (education)
+  - Workflow management systems
+  - Bioinformatics
+license: CC0
