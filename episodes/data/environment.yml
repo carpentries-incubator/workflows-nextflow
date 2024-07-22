@@ -3,9 +3,9 @@ channels:
   - conda-forge
   - bioconda
 dependencies:
-  - nextflow=20.10.0
+  - nextflow
   - salmon=1.5
   - fastqc=0.11
-  - multiqc=1.10
+  - multiqc
   - nf-core
-  - Graphviz
+  - graphviz
