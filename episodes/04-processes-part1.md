@@ -244,8 +244,8 @@ $ nextflow run process_multi_line.nf -process.debug
 N E X T F L O W  ~  version 21.10.6
 Launching `process_multi_line.nf` [focused_jang] - revision: e32caf0dcb
 executor >  local (1)
-[00/14ce67] process > CHR_COUNT (1) [100%] 1 of 1 ✔
-Number of sequences for chromosome A:118
+[90/6e38f4] process > NUMSEQ_CHR [100%] 1 of 1 ✔
+118
 ```
 
 ::::::::::::::::::::::::::::::::::::: instructor
