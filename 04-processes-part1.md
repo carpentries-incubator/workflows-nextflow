@@ -244,8 +244,8 @@ $ nextflow run process_multi_line.nf -process.debug
 N E X T F L O W  ~  version 21.10.6
 Launching `process_multi_line.nf` [focused_jang] - revision: e32caf0dcb
 executor >  local (1)
-[00/14ce67] process > CHR_COUNT (1) [100%] 1 of 1 ✔
-Number of sequences for chromosome A:118
+[90/6e38f4] process > NUMSEQ_CHR [100%] 1 of 1 ✔
+118
 ```
 
 ::::::::::::::::::::::::::::::::::::: instructor
@@ -340,6 +340,10 @@ workflow {
 }
 ```
 
+```bash
+nextflow run process_python_script.nf -process.debug
+```
+
 ```output
 N E X T F L O W  ~  version 23.10.1
 Launching `pr.nf` [kickass_legentil] DSL2 - revision: 3b9eee1d47
@@ -421,7 +425,17 @@ workflow {
 Remember, we can change the default value of `chr` to a different value such as `B`, by running the Nextflow script using the command below. **Note:** parameters to the workflow have two hyphens `--`.
 
 ```bash
-nextflow run process_script_params.nf --chr B
+nextflow run process_script_params.nf --chr B -process.debug
+```
+
+```output
+ N E X T F L O W   ~  version 24.04.3
+
+Launching `process_script_params.nf` [pedantic_mandelbrot] DSL2 - revision: 538e3c2b38
+
+executor >  local (1)
+[19/6d96a0] process > CHR_COUNT [100%] 1 of 1 ✔
+Number of sequences for chromosome B:456
 ```
 
 :::::::::::::::::::::::::::::::::::::::  challenge
@@ -505,7 +519,7 @@ In the example below we will set a bash variable `NUMIDS` then echo the value of
 
 
 ```groovy
-
+//process_escape_bash.nf
 
 process NUM_IDS {
 
