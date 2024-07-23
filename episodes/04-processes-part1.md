@@ -425,7 +425,17 @@ workflow {
 Remember, we can change the default value of `chr` to a different value such as `B`, by running the Nextflow script using the command below. **Note:** parameters to the workflow have two hyphens `--`.
 
 ```bash
-nextflow run process_script_params.nf --chr B
+nextflow run process_script_params.nf --chr B -process.debug
+```
+
+```output
+ N E X T F L O W   ~  version 24.04.3
+
+Launching `process_script_params.nf` [pedantic_mandelbrot] DSL2 - revision: 538e3c2b38
+
+executor >  local (1)
+[19/6d96a0] process > CHR_COUNT [100%] 1 of 1 ✔
+Number of sequences for chromosome B:456
 ```
 
 :::::::::::::::::::::::::::::::::::::::  challenge
