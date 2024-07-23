@@ -340,6 +340,10 @@ workflow {
 }
 ```
 
+```bash
+nextflow run process_python_script.nf -process.debug
+```
+
 ```output
 N E X T F L O W  ~  version 23.10.1
 Launching `pr.nf` [kickass_legentil] DSL2 - revision: 3b9eee1d47
