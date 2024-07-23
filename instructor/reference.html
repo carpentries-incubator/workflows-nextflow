@@ -369,7 +369,7 @@
       </div>
       <hr></nav><main id="main-content" class="main-content"><div class="container lesson-content">
         <h1>Groovy syntax</h1>
-        <p>Last updated on 2024-07-22 |
+        <p>Last updated on 2024-07-23 |
 
         <a href="https://github.com/carpentries-incubator/workflows-nextflow/edit/main/learners/reference.md" class="external-link">Edit this page <i aria-hidden="true" data-feather="edit"></i></a></p>
 
@@ -512,85 +512,100 @@ Documentation</a>.</p>
 <a class="anchor" aria-label="anchor" href="#glossary"></a></h2>
 <hr class="half-width"><table class="table"><colgroup><col width="9%"><col width="90%"></colgroup><thead><tr class="header"><th>Term</th>
 <th>Description</th>
-</tr></thead><tbody><tr class="odd"><td>Dataflow programming</td>
-<td>dataflow programming is a programming paradigm that models a program
-as a directed graph of the data flowing between operation</td>
-</tr><tr class="even"><td>Domain Specific Language</td>
+</tr></thead><tbody><tr class="odd"><td>Cache</td>
+<td>In Nextflow, caching refers to the mechanism of reusing the results
+of executed processes in subsequent runs. This feature reduces
+computation time by avoiding the re-execution of unchanged tasks.</td>
+</tr><tr class="even"><td>Channel</td>
+<td>Channels are the conduits through which data flows in a Nextflow
+workflow. They connect processes, allowing for the movement and
+transformation of data from one process to the next.</td>
+</tr><tr class="odd"><td>Closure</td>
+<td>In Nextflow, a closure is a block of code that can be assigned to a
+variable, passed as an argument, or executed.</td>
+</tr><tr class="even"><td>Dataflow programming</td>
+<td>Dataflow programming is a programming paradigm that models a program
+as a directed graph of the data flowing between operations.</td>
+</tr><tr class="odd"><td>Directive</td>
+<td>Directives are annotations in a Nextflow script that provide
+execution instructions for processes. They control aspects like resource
+allocation, process retries, and container usage.</td>
+</tr><tr class="even"><td>Docker</td>
+<td>Docker is an open-source platform used to automate the deployment of
+applications inside lightweight, portable containers that allow
+applications to run seamlessly in different computing environments.</td>
+</tr><tr class="odd"><td>Domain Specific Language</td>
 <td>A domain-specific language (DSL) is a computer language specialized
 to a particular application domain. Nextflow is a language for
-computational workflows</td>
+computational workflows.</td>
+</tr><tr class="even"><td>DSL2</td>
+<td>The second version of the Nextflow domain-specific language,
+introducing modular and reusable workflow components. DSL2 allows for
+more structured and maintainable pipeline development.</td>
+</tr><tr class="odd"><td>Executor</td>
+<td>The component responsible for managing the execution of processes in
+a Nextflow workflow. Executors handle task scheduling, execution, and
+resource allocation across different computing environments.</td>
+</tr><tr class="even"><td>Groovy</td>
+<td>The programming language used to write Nextflow scripts. Groovy is a
+powerful, optionally typed, and dynamic language, with static-typing and
+static compilation capabilities. It enhances Nextflow with scripting
+flexibility.</td>
+</tr><tr class="odd"><td>Module</td>
+<td>A reusable component in a Nextflow pipeline that encapsulates a
+specific function or set of functions. Modules can be combined and
+reused across different workflows, promoting modularity and code
+reusability.</td>
+</tr><tr class="even"><td>Nextflow</td>
+<td>A domain-specific language and toolkit for parallel and scalable
+computational workflows. Nextflow enables the scripting of complex data
+analysis pipelines in a reproducible and efficient manner.</td>
+</tr><tr class="odd"><td>Nextflow workflow</td>
+<td>In Nextflow, a workflow is a composition of processes and dataflow
+logic (i.e., channels and operators).</td>
+</tr><tr class="even"><td>Operators</td>
+<td>In Nextflow, operators are methods that allow the transformation,
+filtering, and combination of data streams. They facilitate the
+management and manipulation of data within a workflow.</td>
+</tr><tr class="odd"><td>Parameters</td>
+<td>Variables defined in a Nextflow script or passed at runtime to
+customize the execution of a workflow. Parameters allow for the dynamic
+configuration of workflows based on input data or user-defined
+settings.</td>
+</tr><tr class="even"><td>Pipeline</td>
+<td>A sequence of processes orchestrated by Nextflow to perform a
+complex data analysis task. Pipelines are defined in Nextflow scripts
+and can be composed of multiple workflow blocks and processes.</td>
+</tr><tr class="odd"><td>Process</td>
+<td>A fundamental component in Nextflow representing a computational
+task. Each process defines a small part of the overall workflow,
+encapsulating the command-line tools, scripts, and computational
+resources required for execution.</td>
+</tr><tr class="even"><td>Profile</td>
+<td>A set of configuration options in Nextflow that can be activated to
+adapt the execution environment of a workflow. Profiles enable easy
+switching between different computing environments, like local, cloud,
+or cluster execution.</td>
+</tr><tr class="odd"><td>PublishDir</td>
+<td>A directive in a process block that specifies a directory where the
+output files of the process should be stored. It helps in organizing and
+accessing the results of workflow executions.</td>
+</tr><tr class="even"><td>Script Block</td>
+<td>A block within a Nextflow workflow that contains custom script code.
+Script blocks allow for the embedding of standard programming constructs
+and commands within the flow of a workflow.</td>
 </tr><tr class="odd"><td>Tuple</td>
 <td>An ordered, immutable list of elements. A tuple can be seen as an
 ordered collection of objects of different types. These objects do not
 necessarily relate to each other in any way, but collectively they will
 have some meaning.</td>
-</tr><tr class="even"><td>Operators</td>
-<td>In Nextflow, operators are methods that allow the transformation,
-filtering, and combination of data streams. They facilitate the
-management and manipulation of data within a workflow.</td>
-</tr><tr class="odd"><td>Nextflow</td>
-<td>A domain-specific language and toolkit for parallel and scalable
-computational workflows. Nextflow enables the scripting of complex data
-analysis pipelines in a reproducible and efficient manner.</td>
-</tr><tr class="even"><td>Process</td>
-<td>A fundamental component in Nextflow representing a computational
-task. Each process defines a small part of the overall workflow,
-encapsulating the command-line tools, scripts, and computational
-resources required for execution.</td>
-</tr><tr class="odd"><td>Workflow Block</td>
+</tr><tr class="even"><td>Workflow Block</td>
 <td>A segment of a Nextflow script defining a series of operations or
-processes to be executed</td>
-</tr><tr class="even"><td>Channel</td>
-<td>Channels are the conduits through which data flows in a Nextflow
-workflow. They connect processes, allowing for the movement and
-transformation of data from one process to the next.</td>
-</tr><tr class="odd"><td>Script Block</td>
-<td>A block within a Nextflow workflow that contains custom script code.
-Script blocks allow for the embedding of standard programming constructs
-and commands within the flow of a workflow.</td>
-</tr><tr class="even"><td>Executor</td>
-<td>The component responsible for managing the execution of processes in
-a Nextflow workflow. Executors handle task scheduling, execution, and
-resource allocation across different computing environments.</td>
-</tr><tr class="odd"><td>Directive</td>
-<td>Directives are annotations in a Nextflow script that provide
-execution instructions for processes. They control aspects like resource
-allocation, process retries, and container usage.</td>
-</tr><tr class="even"><td>Pipeline</td>
-<td>A sequence of processes orchestrated by Nextflow to perform a
-complex data analysis task. Pipelines are defined in Nextflow scripts
-and can be composed of multiple workflow blocks and processes.</td>
-</tr><tr class="odd"><td>Singularity and Docker</td>
-<td>Containerization platforms supported by Nextflow for isolating and
-reproducing computational environments. They ensure that workflows are
-portable and can be executed consistently across different computing
-platforms.</td>
-</tr><tr class="even"><td>Parameters</td>
-<td>Variables defined in a Nextflow script or passed at runtime to
-customize the execution of a workflow. Parameters allow for the dynamic
-configuration of workflows based on input data or user-defined
-settings.</td>
-</tr><tr class="odd"><td>Groovy</td>
-<td>The programming language used to write Nextflow scripts. Groovy is a
-powerful, optionally typed, and dynamic language, with static-typing and
-static compilation capabilities. It enhances Nextflow with scripting
-flexibility.</td>
-</tr><tr class="even"><td>DSL2</td>
-<td>The second version of the Nextflow domain-specific language,
-introducing modular and reusable workflow components. DSL2 allows for
-more structured and maintainable pipeline development.</td>
-</tr><tr class="odd"><td>Profile</td>
-<td>A set of configuration options in Nextflow that can be activated to
-adapt the execution environment of a workflow. Profiles enable easy
-switching between different computing environments, like local, cloud,
-or cluster execution.</td>
-</tr><tr class="even"><td>Cache</td>
-<td>In Nextflow, caching refers to the mechanism of reusing the results
-of executed processes in subsequent runs. This feature reduces
-computation time by avoiding the re-execution of unchanged tasks.</td>
-</tr><tr class="odd"><td>Nextflow workflow</td>
-<td>In Nextflow, a workflow is a composition of processes and dataflow
-logic (i.e. channels and operators).</td>
+processes to be executed.</td>
+</tr><tr class="odd"><td>WorkDir</td>
+<td>The working directory where Nextflow stores intermediate files
+generated by processes. It ensures reproducibility and efficient
+management of temporary data.</td>
 </tr></tbody></table></section><section><h2 class="section-heading" id="external-references">External references<a class="anchor" aria-label="anchor" href="#external-references"></a>
 <a class="anchor" aria-label="anchor" href="#external-references"></a></h2>
 <hr class="half-width"><div class="section level3">
@@ -683,7 +698,7 @@ system</a></li>
   "url": "https://carpentries-incubator.github.io/workflows-nextflow/instructor/reference.html",
   "identifier": "https://carpentries-incubator.github.io/workflows-nextflow/instructor/reference.html",
   "dateCreated": "2021-02-01",
-  "dateModified": "2024-07-22",
+  "dateModified": "2024-07-23",
   "datePublished": "2024-07-23"
 }
 
