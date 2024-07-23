@@ -519,7 +519,7 @@ In the example below we will set a bash variable `NUMIDS` then echo the value of
 
 
 ```groovy
-
+//process_escape_bash.nf
 
 process NUM_IDS {
 
