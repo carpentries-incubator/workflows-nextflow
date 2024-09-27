@@ -489,7 +489,7 @@ The script `script4.nf`;
 process QUANT {
 
     input:
-    path index
+    each index
     tuple val(pair_id), path(reads)
 
     output:
@@ -731,7 +731,7 @@ ch1.collect().view()
 
 :::::::::::::::::::::::::::::::::::::::  challenge
 
-## Combing operators
+## Combining operators
 
 Which is the correct way to combined `mix` and `collect` operators so that you have a single channel with one List item?
 
