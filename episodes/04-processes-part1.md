@@ -665,7 +665,7 @@ Processes are isolated from each other but can communicate by sending values and
 The `input` block defines which channels the process is expecting to receive input from.
 The number of elements in input channels determines the process dependencies and the number of times a process executes.
 
-![Process Flow](../fig/channel-process.png)
+![Diagram showing a Nextflow channel with three value feeding into a Nextflow process which then runs 3 tasks producing 3 outputs](../fig/channel-process.png)
 
 
 You can only define one input block at a time and it must contain one or more input declarations.
