@@ -909,7 +909,7 @@ Note: runtime metrics may be incomplete for run short running tasks..
 :::::::::::::::::::::::::::::::::::::::: keypoints
 
 - Nextflow can combined tasks (processes) and manage data flows using channels into a single pipeline/workflow.
-- A Workflow can be parameterise using `params` . These value of the parameters can be captured in a log file using  `log.info`
+- A Workflow can be parameterise using `params` . These value of the parameters can be captured in a log file using  `log.info`. Rehab workflow parameters [here](episodes/02-workflow_parameters.md).
 - Nextflow can handle a workflow's software requirements using several technologies including the `conda` package and enviroment manager.
 - Workflow steps are connected via their `inputs` and `outputs` using `Channels`.
 - Intermediate pipeline results can be transformed using Channel `operators` such as `combine`.
